@@ -1,3 +1,4 @@
-﻿  pch.cpp
-  DX11_2D_GameEngine_Lib.cpp
-  DX11_2D_GameEngine_Lib.vcxproj -> C:\Users\User\Desktop\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\DX11_2D_GameEngine_Lib_Debug.lib
+﻿  DX11_2D_GameEngine_Lib.vcxproj -> C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\DX11_2D_GameEngine_Lib_Debug.lib
+  .\Project\DX11_2D_GameEngine_Lib\framework.h
+  .\Project\DX11_2D_GameEngine_Lib\func.h
+  2개 파일이 복사되었습니다.

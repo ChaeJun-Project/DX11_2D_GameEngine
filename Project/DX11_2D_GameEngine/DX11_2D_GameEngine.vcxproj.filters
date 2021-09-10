@@ -14,7 +14,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
+    <ClInclude Include="resource.h">
       <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
@@ -31,6 +31,9 @@
       <Filter>Default</Filter>
     </Image>
     <Image Include="DX11_2D_GameEngine.ico">
+      <Filter>Default</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\DirectX11 2D Portfolio\Asset\Icon\window_icon.ico">
       <Filter>Default</Filter>
     </Image>
   </ItemGroup>

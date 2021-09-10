@@ -9,6 +9,7 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="func.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX11_2D_GameEngine_Lib.cpp" />

@@ -80,21 +80,21 @@ namespace Window
 	//윈도우 창 생성
 	inline void Create(HINSTANCE instance, const unsigned int& width, const unsigned int& height, LPCWSTR class_name)
 	{
+		g_instance = instance;
 		WNDCLASSEXW wcex;
 
 		wcex.cbSize = sizeof(WNDCLASSEX);
-
 		wcex.style = CS_HREDRAW | CS_VREDRAW;
 		wcex.lpfnWndProc = WndProc;
 		wcex.cbClsExtra = 0;
 		wcex.cbWndExtra = 0;
 		wcex.hInstance = g_instance;
-		wcex.hIcon = LoadIcon(g_instance, MAKEINTRESOURCE(IDI_DX112DFRAMEWORK));
+		wcex.hIcon = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_WINDOWICON));
 		wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 		wcex.lpszMenuName = nullptr;
 		wcex.lpszClassName = class_name;
-		wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+		wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_WINDOWICON));
 
 		//CreateWindowExW 함수를 호출 할 때 사용할 창 클래스를 등록 
 		auto check = RegisterClassEx(&wcex);

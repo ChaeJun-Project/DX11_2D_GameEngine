@@ -9,7 +9,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Window::Create(hInstance, 1200, 800, L"DX11_2D_GameEngine");
     Window::Show(nCmdShow);
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_DX112DFRAMEWORK));
+    HACCEL hAccelTable = LoadAccelerators(Window::g_instance, MAKEINTRESOURCE(IDI_WINDOWICON));
 
     while (Window::Update(hAccelTable))
     {
