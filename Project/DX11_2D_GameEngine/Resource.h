@@ -4,7 +4,8 @@
 //
 
 //사용자 추가 아이콘
-#define IDI_WINDOWICON                  101
+#define IDI_WINDOWICON                  100
+#define IDI_WINDOWICON2					101
 
 #define IDC_MYICON                      2
 #define IDD_DX112DFRAMEWORK_DIALOG      102
@@ -12,9 +13,6 @@
 #define IDD_ABOUTBOX                    103
 #define IDM_ABOUT                       104
 #define IDM_EXIT                        105
-#define IDI_DX112DFRAMEWORK             107
-#define IDI_SMALL                       108
-#define IDC_DX112DFRAMEWORK             109
 #define IDR_MAINFRAME                   128
 #define IDI_ICON1                       130
 #define IDC_STATIC                      -1

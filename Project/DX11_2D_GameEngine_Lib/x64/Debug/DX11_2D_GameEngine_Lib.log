@@ -1,4 +1,15 @@
-﻿  DX11_2D_GameEngine_Lib.vcxproj -> C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\DX11_2D_GameEngine_Lib_Debug.lib
-  .\Project\DX11_2D_GameEngine_Lib\framework.h
-  .\Project\DX11_2D_GameEngine_Lib\func.h
-  2개 파일이 복사되었습니다.
+﻿  stdafx.cpp
+  Graphics.cpp
+  Program.cpp
+  코드를 생성하고 있습니다...
+  DX11_2D_GameEngine_Lib.vcxproj -> C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\DX11_2D_GameEngine_Lib_Debug.lib
+  .\Project\DX11_2D_GameEngine_Lib\Define.h
+  .\Project\DX11_2D_GameEngine_Lib\Extern.h
+  .\Project\DX11_2D_GameEngine_Lib\Global.h
+  .\Project\DX11_2D_GameEngine_Lib\Graphics.h
+  .\Project\DX11_2D_GameEngine_Lib\Settings.h
+  .\Project\DX11_2D_GameEngine_Lib\Singleton.h
+  .\Project\DX11_2D_GameEngine_Lib\stdafx.h
+  .\Project\DX11_2D_GameEngine_Lib\Struct.h
+  .\Project\DX11_2D_GameEngine_Lib\Window.h
+  9개 파일이 복사되었습니다.

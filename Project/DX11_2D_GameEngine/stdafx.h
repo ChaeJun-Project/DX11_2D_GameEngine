@@ -1,16 +1,17 @@
 #pragma once
 
-
-#include "resource.h"
 #define WIN32_LEAN_AND_MEAN             // 거의 사용되지 않는 내용을 Windows 헤더에서 제외합니다.
 
-// Windows 헤더 파일
-#include <windows.h>
-
-// C 런타임 헤더 파일입니다.
-#include <stdlib.h>
-#include <malloc.h>
-#include <memory.h>
-#include <tchar.h>
+#include "resource.h"
 
 #include <assert.h>
+
+//정적 라이브러리 헤더 연결
+#include <DX11_2D_GameEngine_Lib/stdafx.h>
+
+//정적 라이브러리 연결
+#ifdef _DEBUG //디버그 모드일 때
+#pragma comment(lib, "DX11_2D_GameEngine_Lib/Debug/DX11_2D_GameEngine_Lib_Debug.lib")
+#else //릴리즈 모드일 때
+#pragma comment(lib, "DX11_2D_GameEngine_Lib/Release/DX11_2D_GameEngine_Lib_Release.lib")
+#endif

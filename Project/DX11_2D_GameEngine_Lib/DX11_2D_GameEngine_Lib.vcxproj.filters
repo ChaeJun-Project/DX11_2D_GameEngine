@@ -1,18 +1,81 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <ClInclude Include="Define.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Extern.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Module\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Core\Graphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Core\Graphics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{daf88d62-0d14-4c63-80c5-75ec5e14de58}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="func.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="DX11_2D_GameEngine_Lib.cpp" />
-    <ClCompile Include="pch.cpp" />
+    <Filter Include="Module">
+      <UniqueIdentifier>{d8c791b5-f317-47a6-84cf-634954ed3994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Singleton">
+      <UniqueIdentifier>{e80191aa-8f03-4b23-9d9f-3da0471e16f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{395faf60-34d5-48bf-bdae-92103f2724b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{8be928f4-543d-467a-89b5-5f08bb656ddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Key">
+      <UniqueIdentifier>{285bbfeb-52a8-4e7f-9bee-3fbb323d69cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Path">
+      <UniqueIdentifier>{0aa2ce14-51d4-4b1f-a1d7-11d34057036e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Time">
+      <UniqueIdentifier>{334d27df-c074-4943-be98-7349fb071ad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Default">
+      <UniqueIdentifier>{3e75ad1e-ef90-484f-ac0b-3eb2841bdf04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window">
+      <UniqueIdentifier>{dd17f2a6-ccd0-47bc-b287-5de2d2381fc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{26862a5f-43ba-4430-a84c-160341066642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics">
+      <UniqueIdentifier>{973806fe-38f6-450f-8b67-48ef90939b9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
