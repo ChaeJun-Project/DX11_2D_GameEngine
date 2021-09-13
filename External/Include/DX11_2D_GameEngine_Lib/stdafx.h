@@ -14,6 +14,7 @@
 #include <windows.h>
 
 #include <stdlib.h>
+#include <iostream>
 
 //#include <assert.h> //C Ver.
 #include <cassert>  //C++ Ver.

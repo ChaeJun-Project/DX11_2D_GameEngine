@@ -69,7 +69,7 @@ namespace Window
 	}
 
 	//윈도우 창 생성
-	inline void Create(HINSTANCE program_instance, const uint& width, const uint& height, LPCWSTR class_name, uint window_icon, uint window_icon_sm)
+	inline void Create(HINSTANCE program_instance, const UINT& width, const UINT& height, LPCWSTR class_name, UINT window_icon, UINT window_icon_sm)
 	{
 		auto setting = Settings::GetInstance();
 
@@ -124,17 +124,17 @@ namespace Window
 		//Set Window Size
 		//================================================================================================
 		//윈도우 사이즈 저장
-		setting->SetWindowWidth(static_cast<float>(width)); //너비
-		setting->SetWindowHeight(static_cast<float>(height)); //높이
+		setting->SetWindowWidth(width); //너비
+		setting->SetWindowHeight(height); //높이
 
-		RECT rect{ 0,0,static_cast<LONG>(width),static_cast<LONG>(height) };
+		RECT rect{ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
 
 		//GetSystemMetrics : 컴퓨터 하드웨어에 따라 달라지거나 사용자에 의해서 재설정 가능한 정보들을
 		//프로그램에서 얻어서 사용하고 싶을 때 사용
 		//SM_CXSCREEN: 현재 화면 해상도의 x축 크기(pixel단위)를 얻음
 		//SM_CYSCREEN: 현재 화면 해상도의 y축 크기(pixel단위)를 얻음
-		uint x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
-		uint y = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
+		UINT x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
+		UINT y = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
 
 		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE); //윈도우의 크기를 설정하고 윈도우를 만들면 스크롤 바(오른쪽에 있는 바)가 제거된 상태의 윈도우가 만들어짐.
 

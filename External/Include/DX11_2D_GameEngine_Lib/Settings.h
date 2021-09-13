@@ -19,12 +19,16 @@ public:
 	void SetWindowHandle(HWND window_handle) { this->m_window_handle = window_handle; }
 
 	//Width Setting
-	auto GetWindowWidth() const -> const float& { return m_window_width; }
-	void SetWindowWidth(const float& window_width) { this->m_window_width = window_width; }
+	auto GetWindowWidth() const -> const UINT& { return m_window_width; }
+	void SetWindowWidth(const UINT& window_width) { this->m_window_width = window_width; }
 
 	//Height Setting
-	auto GetWindowHeight() const -> const float& { return m_window_height; }
-	void SetWindowHeight(const float& window_height) { this->m_window_height = window_height; }
+	auto GetWindowHeight() const -> const UINT& { return m_window_height; }
+	void SetWindowHeight(const UINT& window_height) { this->m_window_height = window_height; }
+
+	//전체화면 Setting
+	auto IsFullScreen() const -> const bool& { return m_is_full_screen; }
+	void SetFullScreen(const bool& m_is_full_screen) { this->m_is_full_screen = m_is_full_screen; }
 
 	//수직동기화 Setting
 	auto IsVsync() const -> const bool& { return m_is_vsync; }
@@ -40,8 +44,9 @@ private:
 	//하나의 프로그램이 많은 윈도우를 가질 수 있기 때문에 필요
 	HWND m_window_handle = nullptr;
 
-	float m_window_width = 0.0f; //윈도우 창의 너비
-	float m_window_height = 0.0f; //윈도우 창의 높이
+	UINT m_window_width = 0; //윈도우 창의 너비
+	UINT m_window_height = 0; //윈도우 창의 높이
 
-	bool m_is_vsync = false;
+	bool m_is_full_screen = false; //전체화면 여부
+	bool m_is_vsync = false; //수직 동기화 여부
 };

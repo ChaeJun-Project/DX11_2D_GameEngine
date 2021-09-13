@@ -33,6 +33,7 @@ private:
 protected:
 	Singleton()
 	{
+	    //atexit: 메인 함수(콘솔: main, 윈도우: WinMain)가 종료될 때 미리 등록한 함수를 호출
 	    atexit((PFUNC)&Singleton::Destroy);
 	}
 

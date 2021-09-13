@@ -8,23 +8,31 @@ public:
 
 	const bool Initialize();
 
-	auto GetDevice() const -> ID3D11Device* { return this->m_p_device; }
-	auto GetDeviceContext() const -> ID3D11DeviceContext* { return this->m_p_device_context; }
-
-	//void Resize(const uint& width, const uint& height);
-	//void SetViewport(const uint& width, const uint& height);
-
+	//응용 프로그램 내부에서 윈도우의 해상도를 변경할 때
+	void ResizeWindowByProgram(const UINT& width, const UINT& height);
+	//유저에 의해서 윈도우의 해상도가 변경될 때
+	void ResizeWindowByUser(const UINT& width, const UINT& height);
+	void SetFullScreen(const bool& is_full_screen);
+	void SetViewport(const float& width, const float& height);
+	
 	void BeginScene();
 	void EndScene();
 
+public:
+	//Get Method
+	//const 멤버 함수로 구현하여 멤버 변수의 수정을 방지
+	auto GetDevice() const -> ID3D11Device* { return this->m_p_device; }
+	auto GetDeviceContext() const -> ID3D11DeviceContext* { return this->m_p_device_context; }
+
 private:
-	void CreateSwapChain();
-	void CreateRenderTargetView();
-	void DeleteRenderTarget();
+    const bool CreateDeviceAndDeviceContext();
+	const bool CreateSwapChain();
+	const bool CreateRenderTargetView();
+	const bool CreateDepthStencilView();
 
 private:
 	//ID가 붙으면 com 인터페이스임
-	//DX에서 자원을 만듦(여기서 자원은 GPU의 자원임)
+	//DX에서 자원을 만듦(여기서 자원은 GPU의 자원임, 메모리 할당)
 	ID3D11Device* m_p_device = nullptr;
 	//Device에서 만든 자원을 GPU에 어떻게 사용할지 전달하는 역할
 	//명령을 전달
@@ -35,22 +43,23 @@ private:
 	//렌더링 된 데이터를 저장함(더블 버퍼링의 백버퍼 역할)
 	IDXGISwapChain* m_p_swap_chain = nullptr;
 
-	ID3D11Texture2D* m_p_RT_Tex;
-	ID3D11Texture2D* m_p_DS_Tex;
-
 	//출력을 하는 도화지 역할
 	ID3D11RenderTargetView* m_p_render_target_view = nullptr;
+	ID3D11Texture2D* m_p_render_target_texture = nullptr;
 	
-	ID3D11DepthStencilView* m_p_m_pDSV = nullptr;
+	//깊이 값을 가지고 있는 자원
+	ID3D11DepthStencilView* m_p_depth_stencil_view = nullptr;
+	ID3D11Texture2D* m_p_depth_stencil_texture = nullptr;
 
 	//보여지는 영역
 	D3D11_VIEWPORT m_viewport;
 
 	//클리어 컬러
-	float m_clear_color[4];
+	float m_clear_color[4]; //Init TODO
 
-	uint m_gpu_memory_size = 0;
-	uint m_numerator = 0;
-	uint m_denominator = 0;
+	//GPU 관련 정보
+	UINT m_gpu_memory_size = 0;
+	UINT m_numerator = 0;
+	UINT m_denominator = 0;
 	std::wstring m_gpu_description = L"";
 };

@@ -1,7 +1,6 @@
-﻿  stdafx.cpp
-  Graphics.cpp
-  Program.cpp
-  코드를 생성하고 있습니다...
+﻿  Graphics.cpp
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Graphics.cpp(174,21): warning C4244: '인수': 'const UINT'에서 'const float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Graphics.cpp(174,14): warning C4244: '인수': 'const UINT'에서 'const float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   DX11_2D_GameEngine_Lib.vcxproj -> C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\DX11_2D_GameEngine_Lib_Debug.lib
   .\Project\DX11_2D_GameEngine_Lib\Define.h
   .\Project\DX11_2D_GameEngine_Lib\Extern.h
