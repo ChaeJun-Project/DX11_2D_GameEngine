@@ -14,17 +14,6 @@
 #include <chrono>
 #include <variant>
 
-//Header
-#include "Define.h"
-#include "Struct.h"
-#include "Extern.h"
-
-//Module
-#include "Singleton.h"
-
-//Settings
-#include "Settings.h"
-
 //DirectX11 Header
 #include <d3d11.h>
 #include <d3dcompiler.h>
@@ -39,6 +28,20 @@ using namespace DirectX::PackedVector;
 #pragma comment(lib, "d3d11")
 #pragma comment(lib, "d3dcompiler")
 #pragma comment(lib, "dxguid")
+
+
+//Math
+
+//Header
+#include "Define.h"
+#include "Struct.h"
+#include "Extern.h"
+
+//Module
+#include "Singleton.h"
+
+//Settings
+#include "Settings.h"
 
 //Core
 #include "Graphics.h"

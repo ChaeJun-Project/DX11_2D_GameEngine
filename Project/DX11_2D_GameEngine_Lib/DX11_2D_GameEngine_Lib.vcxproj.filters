@@ -28,6 +28,9 @@
     <ClInclude Include="Graphics.h">
       <Filter>Core\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -77,5 +80,43 @@
     <Filter Include="Core\Graphics">
       <UniqueIdentifier>{973806fe-38f6-450f-8b67-48ef90939b9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine">
+      <UniqueIdentifier>{76594865-25b3-4a19-b6e2-73303cff7e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29">
+      <UniqueIdentifier>{1fc8edc0-65ba-47a2-8dbe-c1896f9395d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\OM%28Output Merger%29">
+      <UniqueIdentifier>{48feea5b-daf6-43c1-ae45-e3d06dced7ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\RS%28Rasterizer%29">
+      <UniqueIdentifier>{5cec68bc-0889-4cb9-81c6-7d41d430a3db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\Shaders">
+      <UniqueIdentifier>{06e3b01d-6604-47cb-bbc9-13592898939b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\Shaders\1. Vertex Shader">
+      <UniqueIdentifier>{3776ec5c-d549-4832-a4a2-963566202d88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\Shaders\2. Hull Shader">
+      <UniqueIdentifier>{d3f98068-ca7f-4193-9d6f-b22c91222325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\Shaders\3. Domain Shader">
+      <UniqueIdentifier>{98c06dad-662a-400a-b0b8-9515cdb354ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\Shaders\4. Geometry Shader">
+      <UniqueIdentifier>{e918a36f-63c6-4b10-904c-50d0a2e94e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\Shaders\5. Pixel Shader">
+      <UniqueIdentifier>{ea5dfcf6-6845-42bd-8c87-ed17208850fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{2bc8eed1-6027-4537-bd2f-4ea5b0a439b4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleMath.inl">
+      <Filter>Math</Filter>
+    </None>
   </ItemGroup>
 </Project>

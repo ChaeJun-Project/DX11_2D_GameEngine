@@ -4,6 +4,8 @@
 //namespace를 사용하는 이유: 중복때문에 생기는 충돌 방지
 namespace Window
 {
+	static std::function<void(const UINT&, const UINT&)> resize_event;
+
 	//정보 대화 상자의 메시지 처리기입니다.
 	inline INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	{
@@ -50,7 +52,16 @@ namespace Window
 		break;
 		case WM_DISPLAYCHANGE:
 		case WM_SIZE:
+			//이벤트 함수가 등록되어 있는 경우
+			if (resize_event && wParam != SIZE_MINIMIZED)
+			{
+				auto setting = Settings::GetInstance();
 
+				setting->SetWindowWidth(LOWORD(lParam));
+				setting->SetWindowHeight(HIWORD(lParam));
+
+				resize_event(LOWORD(lParam), HIWORD(lParam));
+			}
 			break;
 
 		case WM_CLOSE:
@@ -69,7 +80,7 @@ namespace Window
 	}
 
 	//윈도우 창 생성
-	inline void Create(HINSTANCE program_instance, const UINT& width, const UINT& height, LPCWSTR class_name, UINT window_icon, UINT window_icon_sm)
+	inline void Create(HINSTANCE program_instance, const UINT& width, const UINT& height, LPCWSTR class_name, UINT window_icon, UINT window_icon_sm, const bool& is_full_screen)
 	{
 		auto setting = Settings::GetInstance();
 
@@ -126,6 +137,7 @@ namespace Window
 		//윈도우 사이즈 저장
 		setting->SetWindowWidth(width); //너비
 		setting->SetWindowHeight(height); //높이
+		setting->SetFullScreen(is_full_screen); //전체화면 여부 설정
 
 		RECT rect{ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
 

@@ -44,14 +44,15 @@ private:
 	IDXGISwapChain* m_p_swap_chain = nullptr;
 
 	//출력을 하는 도화지 역할
+	//Swap Chain의 백 버퍼를 렌더타겟 뷰로 만듦
 	ID3D11RenderTargetView* m_p_render_target_view = nullptr;
-	ID3D11Texture2D* m_p_render_target_texture = nullptr;
-	
-	//깊이 값을 가지고 있는 자원
+
+	//깊이 값을 가지고 있음
 	ID3D11DepthStencilView* m_p_depth_stencil_view = nullptr;
 	ID3D11Texture2D* m_p_depth_stencil_texture = nullptr;
 
 	//보여지는 영역
+	//렌더링된 렌더 타켓의 그림을 윈도우로 옮길 때 어떤 방식으로 가져올지 설정
 	D3D11_VIEWPORT m_viewport;
 
 	//클리어 컬러

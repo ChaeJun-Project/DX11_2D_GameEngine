@@ -12,9 +12,10 @@ Graphics::~Graphics()
 	//DirectX 자원 메모리 해제
 	//Reference Count - 1
 
+	//RenderTargetView
 	SAFE_RELEASE(m_p_render_target_view);
-	SAFE_RELEASE(m_p_render_target_texture);
 
+	//DepthStencilView
 	SAFE_RELEASE(m_p_depth_stencil_view);
 	SAFE_RELEASE(m_p_depth_stencil_texture);
 
@@ -102,7 +103,7 @@ const bool Graphics::Initialize()
 	//콘솔창에 GPU정보 출력
 	std::wcout << "GPU Name: " << m_gpu_description << std::endl;
 	std::cout << "GPU Memory Size: " << m_gpu_memory_size << std::endl;
-	std::cout << "Screen Rate: " << m_numerator/ m_denominator << std::endl;
+	std::cout << "Screen Rate: " << m_numerator / m_denominator << std::endl;
 	//========================================================================================================
 
 	//Device와 DeviceContext 생성
@@ -152,7 +153,7 @@ void Graphics::ResizeWindowByProgram(const UINT& width, const UINT& height)
 void Graphics::ResizeWindowByUser(const UINT& width, const UINT& height)
 {
 	//RenderTargetView 자원 해제
-	SAFE_RELEASE(m_p_render_target_texture);
+	SAFE_RELEASE(m_p_render_target_view);
 
 	if (m_p_swap_chain)
 	{
@@ -167,11 +168,22 @@ void Graphics::ResizeWindowByUser(const UINT& width, const UINT& height)
 		assert(SUCCEEDED(hResult));
 	}
 
-	//RenderTarget관련 자원 생성
-	CreateRenderTargetView();
+	//RenderTarget 관련 자원 생성
+	auto result = CreateRenderTargetView();
+	assert(result);
+	if (!result)
+		return;
+
+	//DepthStencil 관련 자원 생성
+	result = CreateDepthStencilView();
+	assert(result);
+	if (!result)
+		return;
 
 	//Viewport 재설정
 	SetViewport(width, height);
+
+	std::cout << "Resolution: " << Settings::GetInstance()->GetWindowWidth() <<"X"<< Settings::GetInstance()->GetWindowHeight() << std::endl;
 }
 
 void Graphics::SetFullScreen(const bool& is_full_screen)
@@ -197,10 +209,10 @@ void Graphics::SetViewport(const float& width, const float& height)
 
 void Graphics::BeginScene()
 {
-	if (m_p_device_context && m_p_render_target_view)
+	if (m_p_device_context && m_p_render_target_view && m_p_depth_stencil_view)
 	{
 		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
-		m_p_device_context->OMSetRenderTargets(1, &m_p_render_target_view, nullptr);
+		m_p_device_context->OMSetRenderTargets(1, &m_p_render_target_view, m_p_depth_stencil_view);
 		//설정한 뷰포트 등록
 		m_p_device_context->RSSetViewports(1, &m_viewport);
 		//백 버퍼(render_target_view)에 그려진 내용 지우기
@@ -354,22 +366,83 @@ const bool Graphics::CreateRenderTargetView()
 {
 	if (m_p_swap_chain)
 	{
+		//Swap Chain의 백 버퍼의 정보를 받아올 포인터 변수
+		ID3D11Texture2D* p_back_buffer = nullptr;
+
+		//Swap Chain의 백 버퍼의 정보를 받아옴
 		auto hResult = m_p_swap_chain->GetBuffer
 		(
 			0,
 			__uuidof(ID3D11Texture2D),
-			reinterpret_cast<void**>(&m_p_render_target_texture)
+			reinterpret_cast<void**>(&p_back_buffer)
 		);
 		assert(SUCCEEDED(hResult));
 		if (!SUCCEEDED(hResult))
 			return false;
 
-		if(m_p_device)
-		hResult = m_p_device->CreateRenderTargetView
+		//백 버퍼를 바탕으로 렌더타겟 뷰를 생성
+		if (m_p_device)
+			hResult = m_p_device->CreateRenderTargetView
+			(
+				p_back_buffer,
+				nullptr,
+				&m_p_render_target_view
+			);
+		assert(SUCCEEDED(hResult));
+		if (!SUCCEEDED(hResult))
+			return false;
+
+		//Swap Chain의 백 버퍼를 가리키는 포인터 변수 해제
+		SAFE_RELEASE(p_back_buffer);
+
+		return true;
+	}
+
+	return false;
+}
+
+const bool Graphics::CreateDepthStencilView()
+{
+	if (m_p_device)
+	{
+		auto settings = Settings::GetInstance();
+
+		//DepthStencil 전용 텍스처 구조체 설정
+		D3D11_TEXTURE2D_DESC desc;
+		ZeroMemory(&desc, sizeof(D3D11_TEXTURE2D_DESC));
+
+		desc.Width = settings->GetWindowWidth();
+		desc.Height = settings->GetWindowHeight();
+
+		desc.MipLevels = 1;
+		desc.ArraySize = 1;
+
+		//3바이트는 Depth 값, 1바이트는 Stencil 값 저장
+		desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		desc.SampleDesc.Count = 1;
+		desc.SampleDesc.Quality = 0;
+
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+		//설정한 구조체 정보를 바탕으로 DepthStencil 전용 텍스처 생성 
+		auto hResult = m_p_device->CreateTexture2D
 		(
-			m_p_render_target_texture,
+			&desc,
+			0,
+			&m_p_depth_stencil_texture
+		);
+		assert(SUCCEEDED(hResult));
+		if (!SUCCEEDED(hResult))
+			return false;
+
+		//깊이 정보를 가지고 있는 텍스처를 바탕으로
+		//깊이 뷰를 생성
+		hResult = m_p_device->CreateDepthStencilView
+		(
+			m_p_depth_stencil_texture,
 			nullptr,
-			&m_p_render_target_view
+			&m_p_depth_stencil_view
 		);
 		assert(SUCCEEDED(hResult));
 		if (!SUCCEEDED(hResult))
@@ -380,10 +453,5 @@ const bool Graphics::CreateRenderTargetView()
 		return true;
 	}
 
-	return false;
-}
-
-const bool Graphics::CreateDepthStencilView()
-{
 	return false;
 }
