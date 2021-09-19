@@ -1,11 +1,13 @@
 #pragma once
+#include "Singleton.h"
 
-class Graphics final
+class Graphics final : public Singleton<Graphics>
 {
-public:
+    SINGLETON(Graphics);
 	Graphics();
 	~Graphics();
 
+public:
 	const bool Initialize();
 
 	//응용 프로그램 내부에서 윈도우의 해상도를 변경할 때
@@ -13,16 +15,16 @@ public:
 	//유저에 의해서 윈도우의 해상도가 변경될 때
 	void ResizeWindowByUser(const UINT& width, const UINT& height);
 	void SetFullScreen(const bool& is_full_screen);
-	void SetViewport(const float& width, const float& height);
+	void SetViewport(const UINT& width, const UINT& height);
 	
 	void BeginScene();
 	void EndScene();
 
 public:
 	//Get Method
-	//const 멤버 함수로 구현하여 멤버 변수의 수정을 방지
-	auto GetDevice() const -> ID3D11Device* { return this->m_p_device; }
-	auto GetDeviceContext() const -> ID3D11DeviceContext* { return this->m_p_device_context; }
+	//const 멤버 함수로 구현하여 함수 내에서 멤버 변수의 수정을 방지
+	ID3D11Device* GetDevice() const { return this->m_p_device? this->m_p_device : nullptr; }
+	ID3D11DeviceContext* GetDeviceContext() const { return this->m_p_device_context? this->m_p_device_context : nullptr; }
 
 private:
     const bool CreateDeviceAndDeviceContext();
@@ -40,7 +42,7 @@ private:
 
 	//DX가 가지고 있는 기본 하부구조
 	//IDXGISwapChain의 인터페이스는 화면을 출력하기 전
-	//렌더링 된 데이터를 저장함(더블 버퍼링의 백버퍼 역할)
+	//렌더링된 데이터를 저장함(더블 버퍼링의 백버퍼 역할)
 	IDXGISwapChain* m_p_swap_chain = nullptr;
 
 	//출력을 하는 도화지 역할

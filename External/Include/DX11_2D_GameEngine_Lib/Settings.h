@@ -10,28 +10,30 @@ class Settings final : public Singleton<Settings>
 	virtual ~Settings() {};
 
 public:
+	//const 멤버 함수로 구현하여 함수 내에서 멤버 변수의 수정을 방지
+
 	//Instance Setting
-	auto GetProgramInstance() const -> HINSTANCE { return m_program_instance; }
+	HINSTANCE GetProgramInstance() const { return m_program_instance; }
 	void SetProgramInstance(HINSTANCE program_instance) { this->m_program_instance = program_instance; }
 
 	//Handle Setting
-	auto GetWindowHandle() const -> HWND { return m_window_handle; }
+	HWND GetWindowHandle() const { return m_window_handle; }
 	void SetWindowHandle(HWND window_handle) { this->m_window_handle = window_handle; }
 
 	//Width Setting
-	auto GetWindowWidth() const -> const UINT& { return m_window_width; }
+	const UINT& GetWindowWidth() const { return m_window_width; }
 	void SetWindowWidth(const UINT& window_width) { this->m_window_width = window_width; }
 
 	//Height Setting
-	auto GetWindowHeight() const -> const UINT& { return m_window_height; }
+	const UINT& GetWindowHeight() const { return m_window_height; }
 	void SetWindowHeight(const UINT& window_height) { this->m_window_height = window_height; }
 
 	//전체화면 Setting
-	auto IsFullScreen() const -> const bool& { return m_is_full_screen; }
+	const bool& IsFullScreen() const { return m_is_full_screen; }
 	void SetFullScreen(const bool& m_is_full_screen) { this->m_is_full_screen = m_is_full_screen; }
 
 	//수직동기화 Setting
-	auto IsVsync() const -> const bool& { return m_is_vsync; }
+	const bool& IsVsync() const { return m_is_vsync; }
 	void SetVsync(const bool& is_vsync) { this->m_is_vsync = is_vsync; }
 
 private:

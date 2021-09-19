@@ -192,7 +192,7 @@ void Graphics::SetFullScreen(const bool& is_full_screen)
 		m_p_swap_chain->SetFullscreenState(is_full_screen, nullptr);
 }
 
-void Graphics::SetViewport(const float& width, const float& height)
+void Graphics::SetViewport(const UINT& width, const UINT& height)
 {
 	//뷰포트의 시작점 설정
 	m_viewport.TopLeftX = 0.0f;
@@ -217,6 +217,8 @@ void Graphics::BeginScene()
 		m_p_device_context->RSSetViewports(1, &m_viewport);
 		//백 버퍼(render_target_view)에 그려진 내용 지우기
 		m_p_device_context->ClearRenderTargetView(m_p_render_target_view, m_clear_color);
+		//깊이 버퍼 내용 지우기
+		m_p_device_context->ClearDepthStencilView(m_p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 }
 
@@ -435,7 +437,7 @@ const bool Graphics::CreateDepthStencilView()
 		assert(SUCCEEDED(hResult));
 		if (!SUCCEEDED(hResult))
 			return false;
-
+		
 		//깊이 정보를 가지고 있는 텍스처를 바탕으로
 		//깊이 뷰를 생성
 		hResult = m_p_device->CreateDepthStencilView
@@ -449,9 +451,8 @@ const bool Graphics::CreateDepthStencilView()
 			return false;
 
 		SAFE_RELEASE(m_p_render_target_view);
-
+	
 		return true;
 	}
-
 	return false;
 }

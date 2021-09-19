@@ -3,17 +3,26 @@
 //Unsigned typedef
 typedef unsigned long ULONG;
 
-//메모리 해제 관련 매크로 정의
-#define SAFE_DELETE(p)			{ if(p) { delete p; p = nullptr; } }
-#define SATE_DELETE_ARRAY(p)	{ if(p) { delete[] p; p = nullptr;} }
-
-//DirectX11 자원 메모리 해제 매크로 정의
-#define SAFE_RELEASE(p)         { if(p) { p->Release(); p = nullptr; } }
-
 //싱글톤 매크로 정의
 //Singleton를 상속받는 type 클래스의 모든 멤버에 접근하여 사용하기 위해 friend 사용
 #define SINGLETON(type) private:\
 						friend class Singleton<type>;\
+
+
+//메모리 해제 관련 매크로 정의
+#define SAFE_DELETE(p)			{ if(p) { delete p; p = nullptr; } }
+#define SATE_DELETE_ARRAY(p)	{ if(p) { delete[] p; p = nullptr;} }
+
+//자원 정보 받기
+#define SAFE_GET_POINT(p)       { if(p) {return p;} return nullptr; }
+
+//DirectX11 
+//자원 메모리 해제 매크로 정의
+#define SAFE_RELEASE(p)         { if(p) { p->Release(); p = nullptr; } }
+
+//Device, DeviceContext 매크로 정의
+#define GET_DEVICE Graphics::GetInstance()->GetDevice();
+#define GET_CONTEXT Graphics::GetInstance()->GetDeviceContext();
 
 //Key 상태 체크 매크로 정의 
 #define KEY_CHECK(key, state) CKeyMgr::GetInst()->GetKeyState(key) == state

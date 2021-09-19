@@ -4,13 +4,7 @@
     <ClInclude Include="Define.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Extern.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="Global.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Struct.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
@@ -28,7 +22,52 @@
     <ClInclude Include="Graphics.h">
       <Filter>Core\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleMath.h">
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
+    </ClInclude>
+    <ClInclude Include="InputLayout.h">
+      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Manager\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="IShader.h">
+      <Filter>Core\DX11_Graphics_PipeLine\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Core\DX11_Graphics_PipeLine\Shaders\1. Vertex Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FileStream.h">
+      <Filter>Manager\File</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManager.h">
+      <Filter>Manager\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Color4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Math.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Quaternion.h">
       <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,6 +80,54 @@
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
       <Filter>Core\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
+    </ClCompile>
+    <ClCompile Include="InputLayout.cpp">
+      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Manager\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="IShader.cpp">
+      <Filter>Core\DX11_Graphics_PipeLine\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Core\DX11_Graphics_PipeLine\Shaders\1. Vertex Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FileStream.cpp">
+      <Filter>Manager\File</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManager.cpp">
+      <Filter>Manager\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Color4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Math.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Matrix.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Quaternion.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,9 +148,6 @@
     </Filter>
     <Filter Include="Manager\Key">
       <UniqueIdentifier>{285bbfeb-52a8-4e7f-9bee-3fbb323d69cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager\Path">
-      <UniqueIdentifier>{0aa2ce14-51d4-4b1f-a1d7-11d34057036e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Manager\Time">
       <UniqueIdentifier>{334d27df-c074-4943-be98-7349fb071ad5}</UniqueIdentifier>
@@ -113,10 +197,31 @@
     <Filter Include="Math">
       <UniqueIdentifier>{2bc8eed1-6027-4537-bd2f-4ea5b0a439b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{d10c0201-1730-47be-968b-a3b7669e99d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Scene">
+      <UniqueIdentifier>{e8d13bcd-0557-4104-a100-7c0c5f0ae10b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderFiles">
+      <UniqueIdentifier>{992c4178-3e7f-4c87-a089-f1f7c667e8c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Shader">
+      <UniqueIdentifier>{7efe7182-4923-42ce-b549-b9ad5d711ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\File">
+      <UniqueIdentifier>{0aa2ce14-51d4-4b1f-a1d7-11d34057036e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SimpleMath.inl">
-      <Filter>Math</Filter>
-    </None>
+    <FxCompile Include="ShaderFiles\ConstantBuffer.fx">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\ObjectShader.fx">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\VertexStruct.fx">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -14,6 +14,10 @@
 #include <chrono>
 #include <variant>
 
+//ComPtr Header
+#include <wrl/client.h>
+using namespace Microsoft::WRL;
+
 //DirectX11 Header
 #include <d3d11.h>
 #include <d3dcompiler.h>
@@ -29,20 +33,35 @@ using namespace DirectX::PackedVector;
 #pragma comment(lib, "d3dcompiler")
 #pragma comment(lib, "dxguid")
 
-
-//Math
-
-//Header
-#include "Define.h"
-#include "Struct.h"
-#include "Extern.h"
-
 //Module
 #include "Singleton.h"
+
+//Math
+#include "Math/Math.h"
+#include "Math/Vector2.h"
+#include "Math/Vector3.h"
+#include "Math/Vector4.h"
+#include "Math/Color4.h"
+#include "Math/Quaternion.h"
+#include "Math/Matrix.h"
+
+//Define
+#include "Define.h"
 
 //Settings
 #include "Settings.h"
 
 //Core
 #include "Graphics.h"
+
+//Shaders
+#include "VertexShader.h"
+
+//Manager
+//FileManager
+#include "FileManager.h"
+#include "FileStream.h"
+//ShaderManager
+#include "ShaderManager.h"
+
 

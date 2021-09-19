@@ -11,7 +11,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Window::Create(hInstance, 800, 600, L"DX11_2D_GameEngine", IDI_WINDOWICON2, IDI_WINDOWICON2, false);
     Window::Show(nCmdShow);
   
-    Graphics *d = new Graphics();
+    auto d = Graphics::GetInstance();
 
     d->Initialize();
 

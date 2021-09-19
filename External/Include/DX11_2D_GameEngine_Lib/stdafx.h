@@ -15,6 +15,7 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <fstream> //파일 입출력
 
 //#include <assert.h> //C Ver.
 #include <cassert>  //C++ Ver.
