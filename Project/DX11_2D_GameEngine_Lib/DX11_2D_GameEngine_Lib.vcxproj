@@ -196,10 +196,12 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
+    <ClInclude Include="PixelShader.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="VertexStruct.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
@@ -219,6 +221,7 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
+    <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -227,7 +230,7 @@ call GameEngineCopy.bat</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="VertexStruct.cpp" />
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,9 @@
 
 #include "IShader.h"
 
+class InputLayout;
+
+//VertexShader는 InputLayout 정보를 가지고 있음
 class VertexShader final : public IShader
 {
 public:
@@ -19,7 +22,11 @@ public:
     ID3DBlob* GetBlob() const { SAFE_GET_POINT(this->m_p_blob.Get()); }
 
 private:
+    //Vertex Shader 관련
     ComPtr<ID3D11VertexShader> m_p_vertex_shader = nullptr;
     ComPtr<ID3DBlob> m_p_blob = nullptr;
+
+    //Input Layout 관련
+    ComPtr<InputLayout> m_p_input_layout_class = nullptr;
 };
 

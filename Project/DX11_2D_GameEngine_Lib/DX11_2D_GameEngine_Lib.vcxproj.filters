@@ -20,7 +20,7 @@
       <Filter>Settings</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
-      <Filter>Core\Graphics</Filter>
+      <Filter>Core\DX11_Graphics_PipeLine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
       <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
@@ -70,6 +70,12 @@
     <ClInclude Include="Math\Quaternion.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>Core\DX11_Graphics_PipeLine\Shaders\5. Pixel Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexStruct.h">
+      <Filter>Core\DX11_Graphics_PipeLine\D3D11Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -79,10 +85,7 @@
       <Filter>Default</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
-      <Filter>Core\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexBuffer.cpp">
-      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
+      <Filter>Core\DX11_Graphics_PipeLine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
@@ -129,6 +132,12 @@
     <ClCompile Include="Math\Quaternion.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>Core\DX11_Graphics_PipeLine\Shaders\5. Pixel Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexStruct.cpp">
+      <Filter>Core\DX11_Graphics_PipeLine\D3D11Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -160,9 +169,6 @@
     </Filter>
     <Filter Include="Settings">
       <UniqueIdentifier>{26862a5f-43ba-4430-a84c-160341066642}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Graphics">
-      <UniqueIdentifier>{973806fe-38f6-450f-8b67-48ef90939b9c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\DX11_Graphics_PipeLine">
       <UniqueIdentifier>{76594865-25b3-4a19-b6e2-73303cff7e14}</UniqueIdentifier>
@@ -211,6 +217,12 @@
     </Filter>
     <Filter Include="Manager\File">
       <UniqueIdentifier>{0aa2ce14-51d4-4b1f-a1d7-11d34057036e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\D3D11Resource">
+      <UniqueIdentifier>{fc650ec0-27f3-4df1-ace3-14e3668f66de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\Graphics">
+      <UniqueIdentifier>{973806fe-38f6-450f-8b67-48ef90939b9c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

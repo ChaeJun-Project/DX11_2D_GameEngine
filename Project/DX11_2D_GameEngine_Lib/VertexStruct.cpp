@@ -1,0 +1,21 @@
+#include "stdafx.h"
+#include "VertexStruct.h"
+
+//D3D11_INPUT_ELEMENT_DESC 구조체 요소 정보
+//https://blog.daum.net/tjdgmlrnsk/11
+
+#pragma region VertexColor InputLayout Element Desc
+D3D11_INPUT_ELEMENT_DESC VertexColor::descs[]
+{
+	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
+};
+#pragma endregion
+
+#pragma region VertexTexture InputLayout Element Desc
+D3D11_INPUT_ELEMENT_DESC VertexTexture::descs[]
+{
+	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
+};
+#pragma endregion

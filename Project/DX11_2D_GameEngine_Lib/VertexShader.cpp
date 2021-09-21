@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "VertexShader.h"
+#include "InputLayout.h"
 
 void VertexShader::Create(const std::string& path, const std::string& function_name, const std::string& shader_version)
 {
@@ -24,4 +25,11 @@ void VertexShader::Create(const std::string& path, const std::string& function_n
         this->m_p_vertex_shader.GetAddressOf()
     );
     assert(SUCCEEDED(hResult));
+
+    //Vertex Shader 생성에 성공 후 ID3DBlob의 데이터를 바탕으로
+    //InputLayout 생성
+    result =  m_p_input_layout_class->Create(m_p_blob.Get());
+    assert(result);
+    if (!result)
+        return;
 }
