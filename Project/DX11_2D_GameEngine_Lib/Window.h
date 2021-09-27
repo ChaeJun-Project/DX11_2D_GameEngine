@@ -4,6 +4,7 @@
 //namespace를 사용하는 이유: 중복때문에 생기는 충돌 방지
 namespace Window
 {
+	static std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> user_input_event;
 	static std::function<void(const UINT&, const UINT&)> resize_event;
 
 	//정보 대화 상자의 메시지 처리기입니다.
@@ -31,6 +32,12 @@ namespace Window
 	//  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 	inline LRESULT CALLBACK WndProc(HWND handle, unsigned int message, WPARAM wParam, LPARAM lParam)
 	{
+	    //유저 입력 이벤트 함수를 등록했다면
+		if (user_input_event != nullptr)
+		{
+			user_input_event(handle, message, wParam, lParam);
+		}
+
 		switch (message)
 		{
 		case WM_COMMAND:

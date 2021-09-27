@@ -58,6 +58,24 @@ using namespace DirectX::PackedVector;
 #include "Settings.h"
 #pragma endregion
 
+#pragma region Manager
+//FileManager
+#include "FileManager.h"
+#include "FileStream.h"
+
+//GraphicsManager
+#include "GraphicsManager.h"
+
+//ShaderManager
+#include "ShaderManager.h"
+
+//InputManager
+#include "InputManager.h"
+
+//TimeManager
+#include "TimeManager.h"
+#pragma endregion
+
 #pragma region  Core
 //D3D11Resource
 #include "VertexStruct.h"
@@ -74,18 +92,7 @@ using namespace DirectX::PackedVector;
 //Shaders
 #include "VertexShader.h"
 #include "PixelShader.h"
-
-//Graphics
-#include "Graphics.h"
 #pragma endregion
 
-#pragma region Manager
-//FileManager
-#include "FileManager.h"
-#include "FileStream.h"
-
-//ShaderManager
-#include "ShaderManager.h"
-#pragma endregion
 
 

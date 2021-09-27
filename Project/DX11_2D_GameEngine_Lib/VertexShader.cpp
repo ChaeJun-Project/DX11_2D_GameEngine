@@ -16,7 +16,7 @@ void VertexShader::Create(const std::string& path, const std::string& function_n
 
     //Vertex Shader Compile 성공한 경우
     //ID3DBlob의 데이터 값을 바탕으로 Vertex Shader 생성
-    auto device = GET_DEVICE;
+    auto device = GraphicsManager::GetInstance()->GetDevice();
     auto hResult = device->CreateVertexShader
     (
         this->m_p_blob->GetBufferPointer(),

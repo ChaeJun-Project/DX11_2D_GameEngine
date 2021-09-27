@@ -11,7 +11,7 @@
       <Filter>Module\Singleton</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>Default</Filter>
+      <Filter>Stdafx</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Window</Filter>
@@ -19,8 +19,8 @@
     <ClInclude Include="Settings.h">
       <Filter>Settings</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>Core\DX11_Graphics_PipeLine\Graphics</Filter>
+    <ClInclude Include="GraphicsManager.h">
+      <Filter>Manager\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
       <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
@@ -30,9 +30,6 @@
     </ClInclude>
     <ClInclude Include="InputLayout.h">
       <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="ShaderManager.h">
       <Filter>Manager\Shader</Filter>
@@ -76,25 +73,40 @@
     <ClInclude Include="VertexStruct.h">
       <Filter>Core\DX11_Graphics_PipeLine\D3D11Resource</Filter>
     </ClInclude>
+    <ClInclude Include="IResource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Manager\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Manager\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Core\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>Core\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSystem.h">
+      <Filter>Core\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Default</Filter>
+      <Filter>Stdafx</Filter>
     </ClCompile>
-    <ClCompile Include="Program.cpp">
-      <Filter>Default</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics.cpp">
-      <Filter>Core\DX11_Graphics_PipeLine\Graphics</Filter>
+    <ClCompile Include="GraphicsManager.cpp">
+      <Filter>Manager\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
     </ClCompile>
     <ClCompile Include="InputLayout.cpp">
       <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Manager\Shader</Filter>
@@ -138,6 +150,21 @@
     <ClCompile Include="VertexStruct.cpp">
       <Filter>Core\DX11_Graphics_PipeLine\D3D11Resource</Filter>
     </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Manager\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Manager\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -155,14 +182,8 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{8be928f4-543d-467a-89b5-5f08bb656ddd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Manager\Key">
-      <UniqueIdentifier>{285bbfeb-52a8-4e7f-9bee-3fbb323d69cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Manager\Time">
       <UniqueIdentifier>{334d27df-c074-4943-be98-7349fb071ad5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Default">
-      <UniqueIdentifier>{3e75ad1e-ef90-484f-ac0b-3eb2841bdf04}</UniqueIdentifier>
     </Filter>
     <Filter Include="Window">
       <UniqueIdentifier>{dd17f2a6-ccd0-47bc-b287-5de2d2381fc0}</UniqueIdentifier>
@@ -221,8 +242,53 @@
     <Filter Include="Core\DX11_Graphics_PipeLine\D3D11Resource">
       <UniqueIdentifier>{fc650ec0-27f3-4df1-ace3-14e3668f66de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\DX11_Graphics_PipeLine\Graphics">
+    <Filter Include="Component">
+      <UniqueIdentifier>{7d183f9b-9763-48e4-80c2-63577889c13e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{a2cddb79-19ba-4bd3-a474-2622b5767288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Mesh">
+      <UniqueIdentifier>{788f9814-fb0b-45c0-934c-8592bf96d437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Sound">
+      <UniqueIdentifier>{bcad10b5-98c9-4000-9abc-699ae6edd49c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Texture">
+      <UniqueIdentifier>{2bb8315c-6024-4be2-8209-ae8cedb26f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Resource">
+      <UniqueIdentifier>{69c4546d-9f19-4215-8aa6-fb86c50dba02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Stage">
+      <UniqueIdentifier>{197cb680-24e5-41e1-809b-aa302eb79124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Input">
+      <UniqueIdentifier>{285bbfeb-52a8-4e7f-9bee-3fbb323d69cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Systems">
+      <UniqueIdentifier>{48aa00cc-010c-4d9a-addb-1cd8807068ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components">
+      <UniqueIdentifier>{6421e76f-148d-406a-ae49-9e542ef7b9e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Object">
+      <UniqueIdentifier>{3fe073d6-332c-4f49-8fa6-bc2441c0b588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stdafx">
+      <UniqueIdentifier>{3e75ad1e-ef90-484f-ac0b-3eb2841bdf04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Sound">
+      <UniqueIdentifier>{2fd7a40e-213e-401d-ac5d-47a45b499399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\EventSystem">
+      <UniqueIdentifier>{a0cf4c18-8898-4372-843e-7b2fd8bd6d5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Graphics">
       <UniqueIdentifier>{973806fe-38f6-450f-8b67-48ef90939b9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Editor">
+      <UniqueIdentifier>{94b6ce3e-68aa-4bae-b74c-0ec3b92a22df}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -20,10 +20,6 @@ typedef unsigned long ULONG;
 //자원 메모리 해제 매크로 정의
 #define SAFE_RELEASE(p)         { if(p) { p->Release(); p = nullptr; } }
 
-//Device, DeviceContext 매크로 정의
-#define GET_DEVICE Graphics::GetInstance()->GetDevice();
-#define GET_CONTEXT Graphics::GetInstance()->GetDeviceContext();
-
 //Key 상태 체크 매크로 정의 
 #define KEY_CHECK(key, state) CKeyMgr::GetInst()->GetKeyState(key) == state
 #define KEY_HOLD(key) KEY_CHECK(key, KEY_STATE::HOLD)

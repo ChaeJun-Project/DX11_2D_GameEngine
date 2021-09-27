@@ -1,6 +1,6 @@
 #pragma once
 
-//STL(Standard Template Library)
+#pragma region STL(Standard Template Library)
 #include <string>
 #include <vector>
 #include <list>
@@ -13,12 +13,14 @@
 #include <functional>
 #include <chrono>
 #include <variant>
+#pragma endregion
 
-//ComPtr Header
+#pragma region ComPtr
 #include <wrl/client.h>
 using namespace Microsoft::WRL;
+#pragma endregion
 
-//DirectX11 Header
+#pragma region DirectX11 
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
@@ -32,11 +34,13 @@ using namespace DirectX::PackedVector;
 #pragma comment(lib, "d3d11")
 #pragma comment(lib, "d3dcompiler")
 #pragma comment(lib, "dxguid")
+#pragma endregion
 
-//Module
+#pragma region Module
 #include "Singleton.h"
+#pragma endregion
 
-//Math
+#pragma region Math
 #include "Math/Math.h"
 #include "Math/Vector2.h"
 #include "Math/Vector3.h"
@@ -44,24 +48,51 @@ using namespace DirectX::PackedVector;
 #include "Math/Color4.h"
 #include "Math/Quaternion.h"
 #include "Math/Matrix.h"
+#pragma endregion
 
-//Define
+#pragma region Define
 #include "Define.h"
+#pragma endregion
 
-//Settings
+#pragma region Settings
 #include "Settings.h"
+#pragma endregion
 
-//Core
-#include "Graphics.h"
-
-//Shaders
-#include "VertexShader.h"
-
-//Manager
+#pragma region Manager
 //FileManager
 #include "FileManager.h"
 #include "FileStream.h"
+
+//GraphicsManager
+#include "GraphicsManager.h"
+
 //ShaderManager
 #include "ShaderManager.h"
+
+//InputManager
+#include "InputManager.h"
+
+//TimeManager
+#include "TimeManager.h"
+#pragma endregion
+
+#pragma region  Core
+//D3D11Resource
+#include "VertexStruct.h"
+
+//IA
+#include "VertexBuffer.h"
+#include "InputLayout.h"
+#include "IndexBuffer.h"
+
+//RS
+
+//OM
+
+//Shaders
+#include "VertexShader.h"
+#include "PixelShader.h"
+#pragma endregion
+
 
 

@@ -30,7 +30,7 @@ const bool InputLayout::Create(ID3DBlob* blob)
 	std::vector<D3D11_INPUT_ELEMENT_DESC> input_layout_element_descs;
 
 	//Shader의 D3D11_INPUT_ELEMENT_DESC의 요소 개수만큼 실행
-	for (int i = 0; i < shader_desc.InputParameters; ++i)
+	for (UINT i = 0; i < shader_desc.InputParameters; ++i)
 	{
 		D3D11_SIGNATURE_PARAMETER_DESC shader_input_param_desc;
 		//해당 인덱스의 Shader Input Layout 구조체 정보를 받아옴
@@ -97,7 +97,7 @@ const bool InputLayout::Create(ID3DBlob* blob)
 	}
 
 	//Create Input Layout
-	auto device = GET_DEVICE;
+	auto device = GraphicsManager::GetInstance()->GetDevice();
     hResult = device->CreateInputLayout
 	(
 		input_layout_element_descs.data(),

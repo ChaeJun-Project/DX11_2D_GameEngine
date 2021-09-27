@@ -15,7 +15,7 @@ void PixelShader::Create(const std::string& path, const std::string& function_na
 
     //Pixel Shader Compile 성공한 경우
     //ID3DBlob의 데이터 값을 바탕으로 Pixel Shader 생성
-    auto device = GET_DEVICE;
+    auto device = GraphicsManager::GetInstance()->GetDevice();
     auto hResult = device->CreatePixelShader
     (
         this->m_p_blob->GetBufferPointer(),

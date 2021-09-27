@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
+#include <DX11_2D_GameEngine_Lib/InputManager.h>
 #include <DX11_2D_GameEngine_Lib/Window.h>
-#include <DX11_2D_GameEngine_Lib/Graphics.h>
+#include <DX11_2D_GameEngine_Lib/GraphicsManager.h>
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                       _In_opt_ HINSTANCE hPrevInstance,
@@ -11,10 +12,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Window::Create(hInstance, 800, 600, L"DX11_2D_GameEngine", IDI_WINDOWICON2, IDI_WINDOWICON2, false);
     Window::Show(nCmdShow);
   
-    auto d = Graphics::GetInstance();
+    auto d = GraphicsManager::GetInstance();
 
-    d->Initialize();
-
+    Window::user_input_event = InputManager::GetInstance()->MouseProc;
     Window::resize_event = [&d](const UINT& width, const UINT& height)
     {
        d->ResizeWindowByUser(width, height);

@@ -27,11 +27,9 @@ public:
 	static constexpr ShaderType GetShaderType();
 
 public:
+	//Shader 추가 후 생성
 	template<typename T>
-	std::shared_ptr<T> GetShader(const std::string& shader_name) const;
-
-	template<typename T>
-	void AddShader
+	void AddAndCreateShader
 	(
 		const std::string& shader_name,     //Shader 이름 
 		const std::string& path,			//Shader 파일 경로
@@ -39,14 +37,36 @@ public:
 		const std::string& shader_version   //사용할 Shader 버전
 	);
 
-private:
+	template<typename T>
+	std::shared_ptr<T> GetShader(const std::string& shader_name) const;
 
-	std::map<std::string, std::shared_ptr<IShader> > m_vertex_shader_map;
-	//std::map<std::string, std::shared_ptr<IShader> > m_hull_shader_map;
-	//std::map<std::string, std::shared_ptr<IShader> > m_domain_shader_map;
-	//std::map<std::string, std::shared_ptr<IShader> > m_geometry_shader_map;
-	std::map<std::string, std::shared_ptr<IShader> > m_pixel_shader_map;
+private:
+	std::map<std::pair<ShaderType, std::string>, std::shared_ptr<IShader>> m_shader_map;
 };
+
+
+template<typename T>
+inline void ShaderManager::AddAndCreateShader(const std::string& shader_name, const std::string& path, const std::string& function_name, const std::string& shader_version)
+{
+	//Class T가 IShader를 상속받는 클래스인지 확인
+	auto result = std::is_base_of<IShader, T>::value;
+	assert(result);
+	if (!result)
+	{
+		return;
+	}
+
+	auto shader_type = GetShaderType<T>();;
+	auto shader_iter = m_shader_map.insert(std::make_pair(std::make_pair(shader_type, shader_name), std::make_shared<T>()));
+
+	//해당하는 Type의 map에 성공적으로 데이터가 추가되었다면
+	if (shader_iter.second)
+	{
+		auto shader = std::static_pointer_cast<T>(shader_iter.first->second);
+
+		shader->Create(path, function_name, shader_version);
+	}
+}
 
 template<typename T>
 inline std::shared_ptr<T> ShaderManager::GetShader(const std::string& shader_name) const
@@ -60,44 +80,13 @@ inline std::shared_ptr<T> ShaderManager::GetShader(const std::string& shader_nam
 	}
 
 	auto shader_type = GetShaderType<T>();
-	
-	switch (shader_type)
+	auto shader_iter = this->m_shader_map.find(std::make_pair(shader_type, shader_name));
+
+	if (shader_iter->second != nullptr)
 	{
-	case ShaderType::VS:
-		if (this->m_vertex_shader_map.find(shader_name) != this->m_vertex_shader_map.end())
-			return dynamic_cast<T>(this->m_vertex_shader_map[shader_name]);
-		break;
-	case ShaderType::HS:
-
-		break;
-	case ShaderType::DS:
-
-		break;
-	case ShaderType::GS:
-
-		break;
-	case ShaderType::PS:
-		if (this->m_pixel_shader_map.find(shader_name) != this->m_pixel_shader_map.end())
-			return dynamic_cast<T>(this->m_pixel_shader_map[shader_name]);
-		break;
+		return std::dynamic_pointer_cast<T>(shader_iter->second);
 	}
 
 	//해당 key값에 대한 Shader가 없는 경우
 	return nullptr;
-}
-
-template<typename T>
-inline void ShaderManager::AddShader(const std::string& shader_name, const std::string& path, const std::string& function_name, const std::string& shader_version)
-{
-	//Class T가 IShader를 상속받는 클래스인지 확인
-	auto result = std::is_base_of<IShader, T>::value;
-	assert(result);
-	if (!result)
-	{
-		return;
-	}
-
-	auto shader_type = GetShaderType<T>();
-	//TODO
-	
 }

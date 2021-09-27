@@ -6,10 +6,8 @@ class Graphics final : public Singleton<Graphics>
     SINGLETON(Graphics);
 	Graphics();
 	~Graphics();
-
+	
 public:
-	const bool Initialize();
-
 	//응용 프로그램 내부에서 윈도우의 해상도를 변경할 때
 	void ResizeWindowByProgram(const UINT& width, const UINT& height);
 	//유저에 의해서 윈도우의 해상도가 변경될 때
@@ -27,6 +25,7 @@ public:
 	ID3D11DeviceContext* GetDeviceContext() const { return this->m_p_device_context? this->m_p_device_context : nullptr; }
 
 private:
+	const bool Initialize();
     const bool CreateDeviceAndDeviceContext();
 	const bool CreateSwapChain();
 	const bool CreateRenderTargetView();
