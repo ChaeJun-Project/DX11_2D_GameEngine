@@ -37,7 +37,7 @@ protected:
 	    atexit((PFUNC)&Singleton::Destroy);
 	}
 
-	virtual ~Singleton() {}
+	virtual ~Singleton() = default;
 };
 
 //g_instance √ ±‚»≠

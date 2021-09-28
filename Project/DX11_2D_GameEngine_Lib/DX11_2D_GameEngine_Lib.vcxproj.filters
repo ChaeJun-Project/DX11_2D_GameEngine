@@ -22,18 +22,6 @@
     <ClInclude Include="GraphicsManager.h">
       <Filter>Manager\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="VertexBuffer.h">
-      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexBuffer.h">
-      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
-    </ClInclude>
-    <ClInclude Include="InputLayout.h">
-      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderManager.h">
-      <Filter>Manager\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="IShader.h">
       <Filter>Core\DX11_Graphics_PipeLine\Shaders</Filter>
     </ClInclude>
@@ -71,7 +59,7 @@
       <Filter>Core\DX11_Graphics_PipeLine\Shaders\5. Pixel Shader</Filter>
     </ClInclude>
     <ClInclude Include="VertexStruct.h">
-      <Filter>Core\DX11_Graphics_PipeLine\D3D11Resource</Filter>
+      <Filter>Core\DX11_Graphics_PipeLine\D3D11BufferStruct</Filter>
     </ClInclude>
     <ClInclude Include="IResource.h">
       <Filter>Resource</Filter>
@@ -94,6 +82,33 @@
     <ClInclude Include="Engine.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29\IndexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="InputLayout.h">
+      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29\InputLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29\VertexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>Core\DX11_Graphics_PipeLine\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantStruct.h">
+      <Filter>Core\DX11_Graphics_PipeLine\D3D11BufferStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Manager\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Resource\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="DX11Object.h">
+      <Filter>DX11ObjectID</Filter>
+    </ClInclude>
+    <ClInclude Include="GUID.h">
+      <Filter>DX11ObjectID</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -101,15 +116,6 @@
     </ClCompile>
     <ClCompile Include="GraphicsManager.cpp">
       <Filter>Manager\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="IndexBuffer.cpp">
-      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
-    </ClCompile>
-    <ClCompile Include="InputLayout.cpp">
-      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
-      <Filter>Manager\Shader</Filter>
     </ClCompile>
     <ClCompile Include="IShader.cpp">
       <Filter>Core\DX11_Graphics_PipeLine\Shaders</Filter>
@@ -148,7 +154,7 @@
       <Filter>Core\DX11_Graphics_PipeLine\Shaders\5. Pixel Shader</Filter>
     </ClCompile>
     <ClCompile Include="VertexStruct.cpp">
-      <Filter>Core\DX11_Graphics_PipeLine\D3D11Resource</Filter>
+      <Filter>Core\DX11_Graphics_PipeLine\D3D11BufferStruct</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
       <Filter>Manager\Time</Filter>
@@ -164,6 +170,21 @@
     </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29\IndexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="InputLayout.cpp">
+      <Filter>Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29\InputLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>Core\DX11_Graphics_PipeLine\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Manager\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Resource\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -233,14 +254,8 @@
     <Filter Include="ShaderFiles">
       <UniqueIdentifier>{992c4178-3e7f-4c87-a089-f1f7c667e8c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Manager\Shader">
-      <UniqueIdentifier>{7efe7182-4923-42ce-b549-b9ad5d711ee9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Manager\File">
       <UniqueIdentifier>{0aa2ce14-51d4-4b1f-a1d7-11d34057036e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_PipeLine\D3D11Resource">
-      <UniqueIdentifier>{fc650ec0-27f3-4df1-ace3-14e3668f66de}</UniqueIdentifier>
     </Filter>
     <Filter Include="Component">
       <UniqueIdentifier>{7d183f9b-9763-48e4-80c2-63577889c13e}</UniqueIdentifier>
@@ -290,15 +305,42 @@
     <Filter Include="Core\Editor">
       <UniqueIdentifier>{94b6ce3e-68aa-4bae-b74c-0ec3b92a22df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\ConstantBuffer">
+      <UniqueIdentifier>{dace081f-04e0-48d0-b937-981aea3f8650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29\IndexBuffer">
+      <UniqueIdentifier>{f07021e9-740c-4f40-9813-ac8f3df8212d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29\InputLayout">
+      <UniqueIdentifier>{dfb67a5f-2ac6-4ff8-9304-74fdf001970e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\IA%28Input Assembler%29\VertexBuffer">
+      <UniqueIdentifier>{fa61f8dd-df8a-4432-ad48-0030c9ee62e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_PipeLine\D3D11BufferStruct">
+      <UniqueIdentifier>{fc650ec0-27f3-4df1-ace3-14e3668f66de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Shader">
+      <UniqueIdentifier>{76d107d7-d48f-4a0b-b5f5-c74df46a4f8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Shader">
+      <UniqueIdentifier>{fd56c473-1490-4fd0-90c3-5a64e55c4952}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX11ObjectID">
+      <UniqueIdentifier>{d8061835-c11d-4b53-8038-6de0687fc734}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ShaderFiles\ConstantBuffer.fx">
       <Filter>ShaderFiles</Filter>
     </FxCompile>
-    <FxCompile Include="ShaderFiles\ObjectShader.fx">
+    <FxCompile Include="ShaderFiles\DrawLineShader.fx">
       <Filter>ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="ShaderFiles\VertexStruct.fx">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\TextureShader.fx">
       <Filter>ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

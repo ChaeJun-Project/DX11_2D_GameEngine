@@ -1,5 +1,16 @@
-﻿  stdafx.cpp
+﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\DrawLineShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\TextureShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\VertexStruct.cso
+  stdafx.cpp
+  ConstantBuffer.cpp
   Editor.cpp
+  Engine.cpp
   FileManager.cpp
   FileStream.cpp
   GraphicsManager.cpp
@@ -17,22 +28,28 @@ C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib
   Vector4.cpp
   PixelShader.cpp
   Render.cpp
-  ShaderManager.cpp
-  TimeManager.cpp
-  VertexStruct.cpp
+  Shader.cpp
   코드를 생성하고 있습니다...
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\FileManager.cpp(544): warning C4172: 지역 변수 또는 임시: buf의 주소를 반환하고 있습니다.
   컴파일하고 있습니다...
+  ShaderManager.cpp
+  TimeManager.cpp
+  VertexStruct.cpp
   VertexShader.cpp
   코드를 생성하고 있습니다...
   DX11_2D_GameEngine_Lib.vcxproj -> C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\DX11_2D_GameEngine_Lib_Debug.lib
+  .\Project\DX11_2D_GameEngine_Lib\ConstantBuffer.h
+  .\Project\DX11_2D_GameEngine_Lib\ConstantStruct.h
   .\Project\DX11_2D_GameEngine_Lib\Define.h
+  .\Project\DX11_2D_GameEngine_Lib\DX11Object.h
   .\Project\DX11_2D_GameEngine_Lib\Editor.h
+  .\Project\DX11_2D_GameEngine_Lib\Engine.h
   .\Project\DX11_2D_GameEngine_Lib\EventSystem.h
   .\Project\DX11_2D_GameEngine_Lib\FileManager.h
   .\Project\DX11_2D_GameEngine_Lib\FileStream.h
   .\Project\DX11_2D_GameEngine_Lib\Global.h
   .\Project\DX11_2D_GameEngine_Lib\GraphicsManager.h
+  .\Project\DX11_2D_GameEngine_Lib\GUID.h
   .\Project\DX11_2D_GameEngine_Lib\IndexBuffer.h
   .\Project\DX11_2D_GameEngine_Lib\InputLayout.h
   .\Project\DX11_2D_GameEngine_Lib\InputManager.h
@@ -41,6 +58,7 @@ C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib
   .\Project\DX11_2D_GameEngine_Lib\PixelShader.h
   .\Project\DX11_2D_GameEngine_Lib\Render.h
   .\Project\DX11_2D_GameEngine_Lib\Settings.h
+  .\Project\DX11_2D_GameEngine_Lib\Shader.h
   .\Project\DX11_2D_GameEngine_Lib\ShaderManager.h
   .\Project\DX11_2D_GameEngine_Lib\Singleton.h
   .\Project\DX11_2D_GameEngine_Lib\stdafx.h
@@ -56,7 +74,7 @@ C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib
   .\Project\DX11_2D_GameEngine_Lib\Math\Vector2.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Vector3.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Vector4.h
-  30개 파일이 복사되었습니다.
+  36개 파일이 복사되었습니다.
   .\Project\DX11_2D_GameEngine_Lib\Math\Color4.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Math.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Matrix.h
@@ -66,6 +84,7 @@ C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib
   .\Project\DX11_2D_GameEngine_Lib\Math\Vector4.h
   7개 파일이 복사되었습니다.
   .\Project\DX11_2D_GameEngine_Lib\ShaderFiles\ConstantBuffer.fx
-  .\Project\DX11_2D_GameEngine_Lib\ShaderFiles\ObjectShader.fx
+  .\Project\DX11_2D_GameEngine_Lib\ShaderFiles\DrawLineShader.fx
+  .\Project\DX11_2D_GameEngine_Lib\ShaderFiles\TextureShader.fx
   .\Project\DX11_2D_GameEngine_Lib\ShaderFiles\VertexStruct.fx
-  3개 파일이 복사되었습니다.
+  4개 파일이 복사되었습니다.

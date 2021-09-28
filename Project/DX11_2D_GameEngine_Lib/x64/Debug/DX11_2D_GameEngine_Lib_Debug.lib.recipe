@@ -6,7 +6,10 @@
       <FullPath>C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\ConstantBuffer.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\ObjectShader.cso</FullPath>
+      <FullPath>C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\DrawLineShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\TextureShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
       <FullPath>C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\VertexStruct.cso</FullPath>

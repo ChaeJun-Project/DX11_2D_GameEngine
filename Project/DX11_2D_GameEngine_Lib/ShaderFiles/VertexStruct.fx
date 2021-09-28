@@ -5,14 +5,14 @@
 //====================================================
 struct VertexColor
 {
-    float3 position : POSITION;
+    float4 position : POSITION;
     float4 color : COLOR;
 };
 
 //Vertex Shader 반환형(VertexColor)
 struct VertexColorOuputType
 {
-    float3 position : SV_Position;
+    float4 position : SV_Position;
     float4 color : COLOR;
 };
 //====================================================
@@ -21,14 +21,14 @@ struct VertexColorOuputType
 //====================================================
 struct VertexTexture
 {
-    float3 position : POSITION;
+    float4 position : POSITION;
     float2 uv : TEXCOORD;
 };
 
 //Vertex Shader 반환형(VertexTexture)
 struct VertexTextureOutputType
 {
-    float3 position : SV_Position;
+    float4 position : SV_Position;
     float2 uv : TEXCOORD;
 };
 //====================================================

@@ -11,7 +11,6 @@
 #include <thread>
 #include <mutex>
 #include <functional>
-#include <chrono>
 #include <variant>
 #pragma endregion
 
@@ -76,9 +75,15 @@ using namespace DirectX::PackedVector;
 #include "TimeManager.h"
 #pragma endregion
 
+#pragma region DX11ObjectID
+#include "GUID.h"
+#include "DX11Object.h"
+#pragma endregion
+
 #pragma region  Core
-//D3D11Resource
+//D3D11BufferStruct
 #include "VertexStruct.h"
+#include "ConstantStruct.h"
 
 //IA
 #include "VertexBuffer.h"
@@ -92,6 +97,9 @@ using namespace DirectX::PackedVector;
 //Shaders
 #include "VertexShader.h"
 #include "PixelShader.h"
+
+//ConstantBuffer
+#include "ConstantBuffer.h"
 #pragma endregion
 
 

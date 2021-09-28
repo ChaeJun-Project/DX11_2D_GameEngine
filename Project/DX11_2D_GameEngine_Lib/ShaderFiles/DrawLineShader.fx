@@ -11,7 +11,7 @@ VertexColorOuputType VS(VertexColor vs_input)
 }
 
 //Pixel Shader
-float4 PS(VertexColorOuputType ps_input)
+float4 PS(VertexColorOuputType ps_input) : SV_Target
 {
     return ps_input.color;
 }

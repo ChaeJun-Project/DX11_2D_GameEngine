@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 
-class VertexBuffer
+class VertexBuffer final : public DX11Obejct
 {
 public:
 	VertexBuffer() = default;
@@ -11,7 +11,7 @@ public:
 	//Vertex Buffer 생성
 	//정점 구조체는 여러가지가 사용될 수 있으므로 template 멤버 함수로 정의
 	template<typename T>
-	void Create(const std::vector<T>& vertex_vector, const D3D11_USAGE& usage);
+	void Create(const std::vector<T>& vertex_vector, const D3D11_USAGE& usage = D3D11_USAGE_DEFAULT);
 
 public:
 	ID3D11Buffer* GetResource() const { SAFE_GET_POINT(this->m_p_buffer.Get()); }
@@ -77,7 +77,7 @@ inline void VertexBuffer::Create(const std::vector<T>& vertex_vector, const D3D1
 
 	//Vertex Buffer 생성
 	auto device = GraphicsManager::GetInstance()->GetDevice();
-	auto hResult = device->CreateBuffer(&desc, &sub_data, m_p_buffer.GetAddressOf());
+	auto hResult = device->CreateBuffer(&desc, &sub_data, this->m_p_buffer.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return;

@@ -1,6 +1,6 @@
 #pragma once
 
-class IndexBuffer final
+class IndexBuffer final : public DX11Obejct
 {
 public:
     IndexBuffer() = default;
@@ -9,7 +9,7 @@ public:
 	//Index Buffer 생성
 	//Index Buffer의 데이터 타입은 보통 int 또는 unsigned int 타입으로 고정되어 있으므로
 	//Vertex Buffer처럼 template 멤버 함수로 정의하지 않음
-	void Create(const std::vector<UINT>& index_vector, const D3D11_USAGE& usage);
+	void Create(const std::vector<UINT>& index_vector, const D3D11_USAGE& usage = D3D11_USAGE_IMMUTABLE);
 
 public:
 	ID3D11Buffer* GetResource() const { SAFE_GET_POINT(this->m_p_buffer.Get()); }
