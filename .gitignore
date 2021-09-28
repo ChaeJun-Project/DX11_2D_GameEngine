@@ -1,0 +1,7 @@
+ExeFile/Debug/
+
+ExeFile/Release/*.{exe, pdb}
+ExeFile/Release/Content/Sound/
+ExeFile/Release/Content/Texture/
+
+External/Library/
