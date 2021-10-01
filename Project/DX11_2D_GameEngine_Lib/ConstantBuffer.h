@@ -19,6 +19,9 @@ public:
 	T* Map();
 	void Unmap();
 
+public:
+    const UINT& GetBufferBindSlot() { return this->buffer_bind_slot; }
+
 private:
 	ComPtr<ID3D11Buffer> m_p_buffer = nullptr;
 	UINT buffer_bind_slot;

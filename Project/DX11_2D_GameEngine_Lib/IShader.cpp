@@ -31,7 +31,7 @@ const bool IShader::CompileShader(const std::string& path, const std::string& fu
 	//D3DCompileFromFileÀ» »ç¿ë
 	auto hResult = D3DCompileFromFile
 	(
-		FileManager::ToWString(path).c_str(),
+		FileManager::ConvertStringToWString(path).c_str(),
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		function_name.c_str(),

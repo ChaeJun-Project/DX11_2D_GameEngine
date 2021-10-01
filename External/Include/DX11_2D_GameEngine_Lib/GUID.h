@@ -22,5 +22,5 @@ static const UINT CreateID()
 	
 	std::hash<std::string> hasher;
 
-	return static_cast<UINT>(hasher(FileManager::ToString(guid_wstr)));
+	return static_cast<UINT>(hasher(FileManager::ConvertWStringToString(guid_wstr)));
 }

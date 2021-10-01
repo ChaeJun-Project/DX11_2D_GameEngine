@@ -25,25 +25,28 @@ struct VertexColor final
 };
 #pragma endregion
 
-#pragma region VertexTexture
-struct VertexTexture final
+#pragma region VertexColorTexture
+struct VertexColorTexture final
 {
-	VertexTexture()
+	VertexColorTexture()
 	{
 		this->position = Vector3(0.0f, 0.0f, 0.0f);
+		this->color = Color4::White;
 		this->uv = Vector2(0.0f, 0.0f);
 	}
 
-	VertexTexture(const Vector3& position, const Vector2& uv)
+	VertexColorTexture(const Vector3& position, const Color4& color, const Vector2& uv)
 	{
 		this->position = position;
+		this->color = color;
 		this->uv = uv;
 	}
 
 	Vector3 position;
+	Color4 color;
 	Vector2 uv;
 
 	static D3D11_INPUT_ELEMENT_DESC descs[];
-	static const UINT element_count = 2;
+	static const UINT element_count = 3;
 };
 #pragma endregion

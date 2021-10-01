@@ -11,6 +11,6 @@ public:
 
 	const UINT& GetObjectID() { return this->m_id; }
 
-private:
+protected:
 	UINT m_id;
 };

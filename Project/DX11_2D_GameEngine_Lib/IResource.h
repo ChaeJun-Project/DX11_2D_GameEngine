@@ -1,6 +1,27 @@
 #pragma once
 
-class IResource
-{
+#include "stdafx.h"
 
+class IResource : public DX11Obejct
+{
+public:
+    IResource(const ResourceType& resource_type, const std::string& resource_name)
+    :m_resource_type(resource_type), m_resource_name(resource_name)
+    {  
+    }
+
+    virtual ~IResource() = default;
+
+    virtual const bool& LoadFromFile(const std::string& path) {}
+    virtual void BindPipeline() {}
+
+public:
+    const ResourceType& GetResourceType() const { return this->m_resource_type; }
+
+    const std::string& GetResourceName() const { return this->m_resource_name; }
+    void SetResourceName(const std::string& resource_name) { this->m_resource_name = m_resource_name; }
+
+protected:
+    const ResourceType m_resource_type;
+    std::string m_resource_name;
 };

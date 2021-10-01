@@ -2,14 +2,6 @@
 
 #include "Singleton.h"
 
-//Editor의 상태를 정의
-enum EditorState : UINT
-{
-    EditorState_Edit  = 0U,      //0000 편집 모드
-    EditorState_Play  = 1U << 0, //0001 재생 모드
-    EditorState_Pause = 1U << 1, //0010 정지 모드(재생 모드에서만 유효)
-};
-
 class Editor final : public Singleton<Editor>
 {
    SINGLETON(Editor);

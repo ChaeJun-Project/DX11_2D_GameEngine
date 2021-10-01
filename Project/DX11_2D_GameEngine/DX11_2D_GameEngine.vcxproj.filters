@@ -30,13 +30,10 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="DX11_2D_GameEngine.ico">
+    <Image Include="Zero_icon.ico">
       <Filter>Default</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\Desktop\DirectX11 2D Portfolio\Asset\Icon\window_icon.ico">
-      <Filter>Default</Filter>
-    </Image>
-    <Image Include="window_icon2.ico">
+    <Image Include="window_icon.ico">
       <Filter>Default</Filter>
     </Image>
   </ItemGroup>

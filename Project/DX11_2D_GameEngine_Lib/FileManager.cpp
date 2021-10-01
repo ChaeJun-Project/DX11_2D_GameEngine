@@ -231,6 +231,24 @@ void FileManager::OpenDirectoryWindow(const std::string& directory)
 //	}
 //}
 
+
+
+const std::vector<std::string> FileManager::GetFileNameVectorFromDirectory(const std::string& path)
+{
+	std::vector<std::string> file_name_vector;
+
+	//해당 디렉토리의 각 파일들의 절대 경로 값을 받음
+	for(auto& file_absolute_path : directory_iterator(path))
+	{ 
+	   //절대 경로 값으로 부터 파일의 이름(확장자 포함)을 구함
+	   //u8string: convert path to string
+	   std::string file_name = GetFileNameFromPath(file_absolute_path.path().u8string());
+	   file_name_vector.emplace_back(file_name);
+	}
+
+	return file_name_vector;
+}
+
 const std::string FileManager::GetFileNameFromPath(const std::string& path)
 {
 	auto last_index = path.find_last_of("\\/");
@@ -267,6 +285,19 @@ const std::string FileManager::GetExtensionFromPath(const std::string& path)
 		return path.substr(last_index, path.length());
 
 	return "NONE";
+}
+
+const std::wstring FileManager::GetExtensionFromPath(const std::wstring& path)
+{
+	if (path.empty())
+		return L"NONE";
+
+	auto last_index = path.find_last_of('.');
+
+	if (last_index != std::string::npos)
+		return path.substr(last_index, path.length());
+
+	return L"NONE";
 }
 
 const std::string FileManager::GetPathWithoutExtension(const std::string& path)
@@ -503,7 +534,7 @@ const std::string FileManager::ToLowercase(const std::string& upper)
 	return lower;
 }
 
-const std::string FileManager::ToString(const std::wstring& wstr)
+const std::string FileManager::ConvertWStringToString(const std::wstring& wstr)
 {
 	int len;
 	//WideCharToMultiByte은 유니코드를 멀티바이트 코드로 바꿔줌
@@ -527,7 +558,7 @@ const std::string FileManager::ToString(const std::wstring& wstr)
 	return result;
 }
 
-const std::wstring FileManager::ToWString(const std::string& str)
+const std::wstring FileManager::ConvertStringToWString(const std::string& str)
 {
 	std::wstring result;
 	result.assign(str.begin(), str.end());

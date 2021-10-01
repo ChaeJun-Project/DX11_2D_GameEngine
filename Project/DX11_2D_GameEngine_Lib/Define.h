@@ -14,7 +14,7 @@ typedef unsigned long ULONG;
 #define SATE_DELETE_ARRAY(p)	{ if(p) { delete[] p; p = nullptr;} }
 
 //자원 정보 받기
-#define SAFE_GET_POINT(p)       { if(p) {return p;} return nullptr; }
+#define SAFE_GET_POINTER(p)       { if(p) {return p;} return nullptr; }
 
 //DirectX11 
 //자원 메모리 해제 매크로 정의
@@ -32,3 +32,4 @@ typedef unsigned long ULONG;
 
 //클래스 복사 생성 매크로 정의(깊은 복사, 기존 클래스와 클론 클래스가 같은 메모리를 참조하지 않음)
 #define CLONE(type) type* Clone() {return new type(*this);}
+

@@ -30,6 +30,7 @@ protected:
 		const std::string& shader_version,
 		ID3DBlob** blob
 	);
+
 protected:
 	std::string m_path;
 	std::string m_function_name;

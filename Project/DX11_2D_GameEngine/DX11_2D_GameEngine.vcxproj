@@ -170,9 +170,8 @@
     <ResourceCompile Include="DX11_2D_GameEngine.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Desktop\DirectX11 2D Portfolio\Asset\Icon\window_icon.ico" />
-    <Image Include="DX11_2D_GameEngine.ico" />
-    <Image Include="window_icon2.ico" />
+    <Image Include="window_icon.ico" />
+    <Image Include="Zero_icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

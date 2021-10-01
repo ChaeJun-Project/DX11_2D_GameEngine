@@ -49,7 +49,8 @@ using namespace DirectX::PackedVector;
 #include "Math/Matrix.h"
 #pragma endregion
 
-#pragma region Define
+#pragma region Enum & Define
+#include "Enum.h"
 #include "Define.h"
 #pragma endregion
 

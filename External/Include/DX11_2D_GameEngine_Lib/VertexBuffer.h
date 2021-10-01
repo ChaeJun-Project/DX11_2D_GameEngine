@@ -14,7 +14,7 @@ public:
 	void Create(const std::vector<T>& vertex_vector, const D3D11_USAGE& usage = D3D11_USAGE_DEFAULT);
 
 public:
-	ID3D11Buffer* GetResource() const { SAFE_GET_POINT(this->m_p_buffer.Get()); }
+	ID3D11Buffer* GetResource() const { SAFE_GET_POINTER(this->m_p_buffer.Get()); }
 	const UINT& GetStride() const { return this->stride; }
 	const UINT& GetOffset() const { return this->offset; }
 	const UINT& GetCount() const { return this->count; }

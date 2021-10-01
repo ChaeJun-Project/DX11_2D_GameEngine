@@ -1,20 +1,11 @@
 #pragma once
 
+#include "IResource.h"
 #include "IShader.h"
-
-enum class ShaderType : UINT
-{
-	NONE = 0,
-	VS = 1, //VertexShader
-	HS = 2, //Hull Shader
-	DS = 3, //Domain Shader
-	GS = 4, //Geometry Shader
-	PS = 5, //Pixel Shader
-};
 
 //하나의 그래픽스 파이프라인의 과정을 Shader로 정의
 //여러 Shader(VS, HS, DS, GS, PS)들을 조합하여 사용할 수 있기 때문
-class Shader
+class Shader final : public IResource
 {
 public:
 	Shader() = default;

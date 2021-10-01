@@ -49,7 +49,8 @@ using namespace DirectX::PackedVector;
 #include "Math/Matrix.h"
 #pragma endregion
 
-#pragma region Define
+#pragma region Enum & Define
+#include "Enum.h"
 #include "Define.h"
 #pragma endregion
 
@@ -65,11 +66,14 @@ using namespace DirectX::PackedVector;
 //GraphicsManager
 #include "GraphicsManager.h"
 
-//ShaderManager
-#include "ShaderManager.h"
-
 //InputManager
 #include "InputManager.h"
+
+//ResourceManager
+#include "ResourceManager.h"
+
+//ShaderManager
+#include "ShaderManager.h"
 
 //TimeManager
 #include "TimeManager.h"
@@ -97,10 +101,27 @@ using namespace DirectX::PackedVector;
 //Shaders
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "SamplerState.h"
 
 //ConstantBuffer
 #include "ConstantBuffer.h"
 #pragma endregion
 
+#pragma region Resource
+//Mesh
+#include "Mesh.h"
 
+//Material
+
+//Shader
+#include "Shader.h"
+
+//Sound
+
+//Texture
+#include "Texture.h"
+
+//Animation
+#include "Animation.h"
+#pragma endregion
 

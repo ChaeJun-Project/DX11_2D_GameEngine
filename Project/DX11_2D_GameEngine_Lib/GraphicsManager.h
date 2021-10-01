@@ -21,8 +21,8 @@ public:
 public:
 	//Get Method
 	//const 멤버 함수로 구현하여 함수 내에서 멤버 변수의 수정을 방지
-	ID3D11Device* GetDevice() const { return this->m_p_device? this->m_p_device : nullptr; }
-	ID3D11DeviceContext* GetDeviceContext() const { return this->m_p_device_context? this->m_p_device_context : nullptr; }
+	ID3D11Device* GetDevice() const { SAFE_GET_POINTER(this->m_p_device);}
+	ID3D11DeviceContext* GetDeviceContext() const { SAFE_GET_POINTER(this->m_p_device_context); }
 
 private:
 	const bool Initialize();

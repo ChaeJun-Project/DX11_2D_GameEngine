@@ -87,7 +87,7 @@ namespace Window
 	}
 
 	//윈도우 창 생성
-	inline void Create(HINSTANCE program_instance, const UINT& width, const UINT& height, LPCWSTR class_name, UINT window_icon, UINT window_icon_sm, const bool& is_full_screen)
+	inline void Create(HINSTANCE program_instance, const UINT& width, const UINT& height, LPCWSTR class_name, UINT window_icon, const bool& is_full_screen)
 	{
 		auto setting = Settings::GetInstance();
 
@@ -103,12 +103,12 @@ namespace Window
 		wcex.cbClsExtra = 0;
 		wcex.cbWndExtra = 0;
 		wcex.hInstance = program_instance;
-		wcex.hIcon = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(window_icon)); //IDI_WINDOWICON2
+		wcex.hIcon = LoadIcon(program_instance, MAKEINTRESOURCE(window_icon)); //IDI_ZERO
 		wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 		wcex.lpszMenuName = nullptr;
 		wcex.lpszClassName = class_name;
-		wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(window_icon_sm));
+		wcex.hIconSm = LoadIcon(program_instance, MAKEINTRESOURCE(window_icon));
 
 		//CreateWindowExW 함수를 호출 할 때 사용할 창 클래스를 등록 
 		auto check = RegisterClassEx(&wcex);

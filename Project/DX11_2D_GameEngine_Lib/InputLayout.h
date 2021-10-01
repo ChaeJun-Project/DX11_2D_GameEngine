@@ -14,7 +14,7 @@ public:
     const bool Create(ID3DBlob* blob);
 
 public:
-    ID3D11InputLayout* GetInputLayout() const { SAFE_GET_POINT(this->m_p_input_layout.Get()); }
+    ID3D11InputLayout* GetInputLayout() const { SAFE_GET_POINTER(this->m_p_input_layout.Get()); }
 
 private:
     ComPtr<ID3D11InputLayout> m_p_input_layout = nullptr;

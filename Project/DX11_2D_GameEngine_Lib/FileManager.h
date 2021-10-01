@@ -14,11 +14,13 @@ public:
 	//static const bool IsDirectory(const std::string& path); //특정 경로가 폴더인지 확인
 	//static const bool IsExistDirectory(const std::string& path); //특정 경로에 폴더가 존재하는지 확인
 	//static const bool IsExistFile(const std::string& path); //특정 폴더에 파일이 존재하는지 확인
+	static const std::vector<std::string> GetFileNameVectorFromDirectory(const std::string& path); //특정 경로의 디렉토리 내부의 모든 파일의 이름을 벡터로 저장하여 반환
 
 	static const std::string GetFileNameFromPath(const std::string& path); //특정 경로에 있는 파일의 이름을 반환(확장자 포함)
 	static const std::string GetIntactFileNameFromPath(const std::string& path); //특정 경로에 있는 파일의 이름만을 반환(확장자 미포함)
 	static const std::string GetDirectoryFromPath(const std::string& path); //특정 경로에 있는 폴더의 이름을 반환
-	static const std::string GetExtensionFromPath(const std::string& path); //특정 경로에 있는 파일의 확장자를 반환
+	static const std::string GetExtensionFromPath(const std::string& path); //특정 경로에 있는 파일의 확장자를 반환(string)
+	static const std::wstring GetExtensionFromPath(const std::wstring& path); //특정 경로에 있는 파일의 확장자를 반환(wstring)
 	static const std::string GetPathWithoutExtension(const std::string& path); //특정 경로에서 특정 파일의 확장자만 제외한 나머지 경로를 반환
 	static const std::string GetRelativeFromPath(const std::string& absolute_path); //경로->상대경로로 변환
 	static const std::string GetParentDirectory(const std::string& path); //특정 경로의 부모폴더(가장 최상단에 있는 폴더)의 경로를 구함
@@ -42,8 +44,8 @@ public:
 
 	static const std::string ToUppercase(const std::string& lower); //소문자 -> 대문자
 	static const std::string ToLowercase(const std::string& upper); //대문자 -> 소문자
-	static const std::string ToString(const std::wstring& wstr); //유니코드 -> 멀티바이트
-	static const std::wstring ToWString(const std::string& str); //멀티바이트 -> 유니코드
+	static const std::string ConvertWStringToString(const std::wstring& wstr); //유니코드 -> 멀티바이트
+	static const std::wstring ConvertStringToWString(const std::string& str); //멀티바이트 -> 유니코드
 	static const char* ConvertStringToChar(const std::string& message); //String -> Char 변환
 	static const std::string ConvertCharToString(const char* message); //Char -> String 변환
 

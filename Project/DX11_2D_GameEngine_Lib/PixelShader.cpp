@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "PixelShader.h"
 
+PixelShader::PixelShader()
+    : IShader(ShaderType::PS)
+{
+
+}
+
 void PixelShader::Create(const std::string& path, const std::string& function_name, const std::string& shader_version)
 {
     this->m_path = path;

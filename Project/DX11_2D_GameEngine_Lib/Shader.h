@@ -1,25 +1,19 @@
 #pragma once
 
+#include "IResource.h"
 #include "IShader.h"
-
-enum class ShaderType : UINT
-{
-	NONE = 0,
-	VS = 1, //VertexShader
-	HS = 2, //Hull Shader
-	DS = 3, //Domain Shader
-	GS = 4, //Geometry Shader
-	PS = 5, //Pixel Shader
-};
 
 //하나의 그래픽스 파이프라인의 과정을 Shader로 정의
 //여러 Shader(VS, HS, DS, GS, PS)들을 조합하여 사용할 수 있기 때문
-class Shader
+class Shader final : public IResource
 {
 public:
-	Shader() = default;
+	Shader(const std::string resource_name);
 	~Shader();
 
+	void BindPipeline() override;
+
+private:
 	template<typename T>
 	static constexpr ShaderType GetShaderType();
 
@@ -28,21 +22,24 @@ public:
 	template<typename T>
 	void AddAndCreateShader
 	(
-		const std::string& shader_name,     //Shader 이름 
 		const std::string& path,			//Shader 파일 경로
 		const std::string& function_name,	//Shader 파일에서 사용되는 함수이름
 		const std::string& shader_version   //사용할 Shader 버전
 	);
 
 	template<typename T>
-	std::shared_ptr<T> GetShader(const std::string& shader_name) const;
+	std::shared_ptr<T> GetShader() const;
+
+	const D3D11_PRIMITIVE_TOPOLOGY& GetPrimitiveTopology() const { return this->m_primitive_topology; }
+	void SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY primitive_topology) { this->m_primitive_topology = primitive_topology; }
 
 private:
     std::unordered_map<ShaderType, std::shared_ptr<IShader>> m_shader_un_map;
+	D3D11_PRIMITIVE_TOPOLOGY m_primitive_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 };
 
 template<typename T>
-inline void Shader::AddAndCreateShader(const std::string& shader_name, const std::string& path, const std::string& function_name, const std::string& shader_version)
+inline void Shader::AddAndCreateShader(const std::string& path, const std::string& function_name, const std::string& shader_version)
 {
 	//Class T가 IShader를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IShader, T>::value;
@@ -71,7 +68,7 @@ inline void Shader::AddAndCreateShader(const std::string& shader_name, const std
 }
 
 template<typename T>
-inline std::shared_ptr<T> Shader::GetShader(const std::string& shader_name) const
+inline std::shared_ptr<T> Shader::GetShader() const
 {
 	//Class T가 IShader를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IShader, T>::value;

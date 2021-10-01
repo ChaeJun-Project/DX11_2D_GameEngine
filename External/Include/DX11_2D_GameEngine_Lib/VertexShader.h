@@ -18,10 +18,10 @@ public:
     ) override;
 
 public:
-    ID3D11VertexShader* GetVertexShader() const { SAFE_GET_POINT(this->m_p_vertex_shader.Get()); }
-    ID3DBlob* GetBlob() const { SAFE_GET_POINT(this->m_p_blob.Get()); }
+    ID3D11VertexShader* GetVertexShader() const { SAFE_GET_POINTER(this->m_p_vertex_shader.Get()); }
+    ID3DBlob* GetBlob() const { SAFE_GET_POINTER(this->m_p_blob.Get()); }
 
-    InputLayout* GetInputLayoutClass() const { SAFE_GET_POINT(this->m_p_input_layout_class.Get()); }
+    InputLayout* GetInputLayoutClass() const { SAFE_GET_POINTER(this->m_p_input_layout_class.Get()); }
 
 private:
     //Vertex Shader ฐüทร

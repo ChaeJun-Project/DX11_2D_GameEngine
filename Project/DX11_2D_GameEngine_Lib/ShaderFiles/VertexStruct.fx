@@ -1,4 +1,3 @@
-
 //Vertex 정보에 관한 구조체 정의
 
 //VertexColor
@@ -17,18 +16,20 @@ struct VertexColorOuputType
 };
 //====================================================
 
-//VertexTexture
+//VertexColorTexture
 //====================================================
-struct VertexTexture
+struct VertexColorTexture
 {
     float4 position : POSITION;
+    float4 color : COLOR;
     float2 uv : TEXCOORD;
 };
 
-//Vertex Shader 반환형(VertexTexture)
-struct VertexTextureOutputType
+//Vertex Shader 반환형(VertexColorTexture)
+struct VertexColorTextureOutputType
 {
     float4 position : SV_Position;
+    float4 color : COLOR;
     float2 uv : TEXCOORD;
 };
 //====================================================

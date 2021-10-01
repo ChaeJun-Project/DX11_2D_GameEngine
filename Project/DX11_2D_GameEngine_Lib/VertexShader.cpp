@@ -2,6 +2,12 @@
 #include "VertexShader.h"
 #include "InputLayout.h"
 
+VertexShader::VertexShader()
+: IShader(ShaderType::VS)
+{
+
+}
+
 void VertexShader::Create(const std::string& path, const std::string& function_name, const std::string& shader_version)
 {
      this->m_path = path;
