@@ -101,7 +101,7 @@ const bool InputLayout::Create(ID3DBlob* blob)
     hResult = device->CreateInputLayout
 	(
 		input_layout_element_descs.data(),
-		input_layout_element_descs.size(),
+		static_cast<UINT>(input_layout_element_descs.size()),
 		blob->GetBufferPointer(),
 		blob->GetBufferSize(),
 		m_p_input_layout.GetAddressOf()

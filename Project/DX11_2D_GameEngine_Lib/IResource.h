@@ -2,6 +2,8 @@
 
 #include "stdafx.h"
 
+#include "DX11Object.h"
+
 class IResource : public DX11Obejct
 {
 public:
@@ -12,7 +14,9 @@ public:
 
     virtual ~IResource() = default;
 
-    virtual const bool& LoadFromFile(const std::string& path) {}
+    virtual const bool& LoadFromFile(const std::string& path) = 0;
+    virtual void SaveFile(const std::string& path) = 0;
+
     virtual void BindPipeline() {}
 
 public:

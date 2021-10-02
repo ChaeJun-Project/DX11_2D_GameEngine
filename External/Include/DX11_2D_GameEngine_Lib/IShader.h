@@ -8,7 +8,11 @@
 class IShader : public DX11Obejct
 {
 public:
-	IShader() = default;
+	IShader(const ShaderType& shader_type)
+	:m_shader_type(shader_type)
+	{
+	}
+
 	virtual ~IShader() = default;
 
 	//순수 가상함수
@@ -31,7 +35,12 @@ protected:
 		ID3DBlob** blob
 	);
 
+public:
+	const ShaderType& GetShaderType() const { return this->m_shader_type; }
+
 protected:
+    const ShaderType m_shader_type;
+
 	std::string m_path;
 	std::string m_function_name;
 	std::string m_shader_version;

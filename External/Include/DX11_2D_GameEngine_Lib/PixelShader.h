@@ -5,7 +5,7 @@
 class PixelShader final : public IShader
 {
 public:
-    PixelShader() = default;
+    PixelShader();
     ~PixelShader() = default;
 
     void Create(

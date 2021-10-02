@@ -11,6 +11,9 @@ public:
 
     void Create(const MeshType& mesh_type, const Vector2& mesh_size);
 
+    const bool& LoadFromFile(const std::string& mesh_path) override;
+    void SaveFile(const std::string& mesh_path) override;
+
     void BindPipeline() override;
 
     void Render();
@@ -31,10 +34,10 @@ public:
 
 private:
     std::vector<T> m_vertex_vector;
-    ComPtr<VertexBuffer> m_p_vertex_buffer = nullptr;
+    VertexBuffer* m_p_vertex_buffer = nullptr;
 
     std::vector<UINT> m_index_vector;
-    ComPtr<IndexBuffer> m_p_index_buffer = nullptr;
+    IndexBuffer* m_p_index_buffer = nullptr;
 
     MeshType m_mesh_type;
     Vector2 m_mesh_size;

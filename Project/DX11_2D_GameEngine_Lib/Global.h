@@ -80,7 +80,6 @@ using namespace DirectX::PackedVector;
 #pragma endregion
 
 #pragma region DX11ObjectID
-#include "GUID.h"
 #include "DX11Object.h"
 #pragma endregion
 

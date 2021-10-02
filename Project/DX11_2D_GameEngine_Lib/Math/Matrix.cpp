@@ -136,7 +136,7 @@ const Matrix Matrix::Translation(const Vector3 & translation)
 
 const Matrix Matrix::LookAtLH(const Vector3 & eye, const Vector3 & at, const Vector3 & up)
 {
-    auto z_axis = Vector3::Normalize(at - eye);
+    auto z_axis = Vector3::Normalize(at);
     auto x_axis = Vector3::Normalize(Vector3::Cross(up, z_axis));
     auto y_axis = Vector3::Normalize(Vector3::Cross(z_axis, x_axis));
 

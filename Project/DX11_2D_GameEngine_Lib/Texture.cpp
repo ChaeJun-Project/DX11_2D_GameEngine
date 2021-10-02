@@ -61,6 +61,10 @@ const bool& Texture::LoadFromFile(const std::string& texture_path)
 	return true;
 }
 
+void Texture::SaveFile(const std::string& texture_path)
+{
+}
+
 void Texture::BindPipeline()
 {
 	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();

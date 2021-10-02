@@ -43,47 +43,99 @@ const bool& Animation::LoadFromFile(const std::string& animation_path)
 	this->m_p_mesh = new Mesh<VertexColorTexture>(FileManager::GetIntactFileNameFromPath(animation_path));
 	this->m_p_mesh->Create(MeshType::Rectangle, m_texture_vector[0].GetTextureSize());
 
+	//애니메이션 프레임당 유지 시간 설정
+	this->m_animation_frame_duration = static_cast<float>(this->m_animation_time / this->m_texture_vector.size());
+
+
 	return true;
+}
+
+void Animation::SaveFile(const std::string& animation_path)
+{
 }
 
 void Animation::Update()
 {
-	if (!this->m_is_playing || this->m_animation_frame == 0.0f || this->m_animation_speed == 0.0f)
+	if (!this->m_is_playing || this->m_animation_frame_duration == 0.0f)
 		return;
 
-    //애니메이션 프레임 전환 다시 생각해보기
-    auto frame_update_time = static_cast<double>(this->m_animation_time/ this->m_texture_vector.size());
+	if (this->m_is_end)
+		this->m_is_end = false;
 
-	if (this->m_is_loop)
+	//시간 누적
+	this->m_accumulate_time += TimeManager::GetInstance()->GetDeltaTime_float();
+
+	//해당 프레임의 유지 시간이 경과한 경우
+	if (this->m_animation_frame_duration <= this->m_accumulate_time)
 	{
+		this->m_accumulate_time = 0.0f;
 
+		//애니메이션 역재생인 경우
+		if (this->m_is_play_reverse)
+		{
+			--this->m_current_frame_id;
+			//애니메이션 역재생이 끝났을 때
+			if (this->m_current_frame_id < 0)
+			{
+				this->m_current_frame_id = static_cast<int>(this->m_texture_vector.size());
+
+				//반복 재생이 아닌 경우
+				if (!this->m_is_loop)
+					this->m_is_playing = false; //재생 종료
+
+				//해당 애니메이션이 끝까지 1회 재생되었음을 알려줌
+				this->m_is_end = true;
+			}
+		}
+
+		//애니메이션이 정방향 재생인 경우
+		else
+		{
+			++this->m_current_frame_id;
+			//애니메이션 재생이 끝났을 때
+			if (this->m_current_frame_id > this->m_texture_vector.size())
+			{
+				this->m_current_frame_id = 0;
+
+				//반복 재생이 아닌 경우
+				if (!this->m_is_loop)
+					this->m_is_playing = false;//재생 종료
+
+				//해당 애니메이션이 끝까지 1회 재생되었음을 알려줌
+				this->m_is_end = true;
+			}
+		}
 	}
 }
 
 void Animation::Render()
 {
-	if (this->m_is_playing)
-	{
-		this->m_texture_vector[this->m_current_clip_id].BindPipeline();
-		this->m_p_mesh->BindPipeline();
-	}
+	this->m_texture_vector[this->m_current_frame_id].BindPipeline();
+	this->m_p_mesh->BindPipeline();
 }
 
 void Animation::Play()
 {
 	this->m_is_playing = true;
+	this->m_is_end = false;
+	this->m_current_frame_id = 0;
+}
+
+void Animation::PlayReverse()
+{
+	this->m_is_play_reverse = true;
+	this->m_is_end = false;
+	this->m_current_frame_id = static_cast<int>(this->m_texture_vector.size());
 }
 
 void Animation::Stop()
 {
 	this->m_is_playing = false;
-	this->m_current_clip_id = 0;
-}
-
-void Animation::PlayReverse()
-{
+	this->m_is_end = false;
+	this->m_current_frame_id = 0;
 }
 
 void Animation::SetAnimationEvent(const UINT& motion_index, std::function<void(void)> event_func)
 {
+	//TODO
 }

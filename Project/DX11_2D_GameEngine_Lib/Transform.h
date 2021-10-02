@@ -5,12 +5,104 @@
 class Transform final : public IComponent
 {
 public:
-    Transform();
-    ~Transform() = default;
+	Transform(IObject* p_game_object);
+	~Transform();
 
+	//DirectX는 행우선 방식으로 GPU에서 연산하기 때문에
+	//World Matrix를 계산할 때 Scale -> Rotation -> Translation (SRT) 순서로 연산을 해서 구함
+	void UpdateWorldMatrix();
+	void Translate(const Vector3& move);
+
+public:
+	//=====================================================================
+	// [Local]
+	//=====================================================================
+	//Translation
+	const Vector3& GetLocalTranslation() const { return this->m_local_translation; }
+
+	//Rotation
+	const Quaternion& GetLocalRotation() const { return this->m_local_rotation; }
+
+	//Scale
+	const Vector3& GetLocalScale() const { return this->m_local_scale; }
+
+	//=====================================================================
+	// [World]
+	//=====================================================================
+	//Translation
+	const Vector3 GetTranslation() { return this->m_world_matrix.GetTranslation(); }
+	void SetTranslation(const Vector3& translation);
+
+	//Rotation
+	const Quaternion GetRotation() { return this->m_world_matrix.GetRotation(); }
+	void SetRotation(const Quaternion& rotation);
+
+	//Scale
+	const Vector3 GetScale() { return this->m_world_matrix.GetScale(); }
+	void SetScale(const Vector3& scale);
+
+	//Direction
+	const Vector3 GetRightVector() const { return Vector3::Right * this->m_local_translation; }
+	const Vector3 GetUpVector() const { return Vector3::Up * this->m_local_translation; }
+	const Vector3 GetForwardVector() const { return Vector3::Forward * this->m_local_translation; }
+
+	//World Matrix
+	const Matrix& GetWorldMatrix() const { return this->m_world_matrix; }
+
+	//=====================================================================
+	// [Hierarchy]
+	//=====================================================================
+	//재귀적인 방법으로 최상위 오브젝트 찾기
+	Transform* GetRoot() { return HasParent() ? m_p_parent_transform->GetRoot() : this; }
+	const bool& GetIsRoot() { return !HasParent(); }
+
+	Transform* GetParent() { return this->m_p_parent_transform; }
+	void SetParent(Transform* p_parent_transform);
+
+	const std::vector<Transform*>& GetChilds() { return this->m_child_transform_vector; }
+	Transform* GetChildFromIndex(const UINT& index);
+	Transform* GetChildFromObjectName(const std::string& object_name);
+	const UINT& GetChildCount() const { return static_cast<UINT>(this->m_child_transform_vector.size()); }
+
+	void AddChild(Transform* child);
+	void DetachChild();
+	void TachChild();
+
+	const bool& HasParent() { return this->m_p_parent_transform ? true : false; }
+	const bool& HasChilds() { return !m_child_transform_vector.empty(); }
+
+	//=====================================================================
+	// [Constant Buffer]
+	//=====================================================================
+	void UpdateConstantBuffer(const Matrix& view_proj, const Matrix& projection_matrix);
+	auto GetConstantBuffer() const -> const std::shared_ptr<class ConstantBuffer>& { return this->m_p_gpu_buffer; }
 
 private:
+	//=====================================================================
+	// [Local]
+	//=====================================================================
+	//Translation
+	void SetLocalTranslation(const Vector3& local_translation) { this->m_local_translation = local_translation; }
 
-   //TODO
+	//Rotation
+	void SetLocalRotation(const Quaternion& local_rotation) { this->m_local_rotation = local_rotation; }
+
+	//Scale
+	void SetLocalScale(const Vector3& local_scale) { this->m_local_scale = local_scale; }
+
+private:
+	Vector3 m_local_translation = Vector3::Zero; //xyz 모두 0.0f로 초기화
+	Quaternion m_local_rotation = Quaternion::Identity;
+	Vector3 m_local_scale = Vector3::One; //xyz 모두 1.0f로 초기화
+
+	Matrix m_world_matrix = Matrix::Identity;
+
+	Transform* m_p_parent_transform = nullptr;
+	std::vector<Transform*> m_child_transform_vector;
+
+	//=====================================================================
+	// [Constant Buffer]
+	//=====================================================================
+	std::shared_ptr<ConstantBuffer> m_p_gpu_buffer;
 };
 

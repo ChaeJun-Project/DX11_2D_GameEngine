@@ -19,6 +19,7 @@ public:
 	~Texture() = default;
 
 	const bool& LoadFromFile(const std::string& texture_path) override;
+	void SaveFile(const std::string& texture_path) override;
 
 	void BindPipeline() override;
 

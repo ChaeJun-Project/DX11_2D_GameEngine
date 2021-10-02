@@ -2,20 +2,30 @@
 
 #include "stdafx.h"
 
+#include "DX11Object.h"
+
 class IResource : public DX11Obejct
 {
 public:
-    IResource() = default;
+    IResource(const ResourceType& resource_type, const std::string& resource_name)
+    :m_resource_type(resource_type), m_resource_name(resource_name)
+    {  
+    }
+
     virtual ~IResource() = default;
 
-public:
-    const ResourceType& GetResourceType() { return this->m_resource_type; }
-    void SetResourceType(const ResourceType& resource_type) { this->m_resource_type = resource_type; }
+    virtual const bool& LoadFromFile(const std::string& path) = 0;
+    virtual void SaveFile(const std::string& path) = 0;
 
-    const std::string& GetResourceName() { return this->m_resource_name; }
+    virtual void BindPipeline() {}
+
+public:
+    const ResourceType& GetResourceType() const { return this->m_resource_type; }
+
+    const std::string& GetResourceName() const { return this->m_resource_name; }
     void SetResourceName(const std::string& resource_name) { this->m_resource_name = m_resource_name; }
 
 protected:
-    ResourceType m_resource_type;
+    const ResourceType m_resource_type;
     std::string m_resource_name;
 };

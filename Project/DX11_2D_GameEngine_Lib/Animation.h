@@ -8,6 +8,7 @@ public:
 	~Animation();
 
 	const bool& LoadFromFile(const std::string& animation_path) override;
+	void SaveFile(const std::string& animation_path) override;
 
 	void Update();
 	void Render();
@@ -15,42 +16,51 @@ public:
 public:
 	//애니메이션 재생
 	void Play();
-	//애니메이션 정지
-	void Stop();
 	//애니메이션 역재생
 	void PlayReverse();
+	//애니메이션 정지
+	void Stop();
 
 public:
 	const std::vector<Texture> GetTextureVector() const { return this->m_texture_vector; }
-	const Mesh<VertexColorTexture>* GetMesh() const { SAFE_GET_POINTER(this->m_p_mesh.Get()); }
+	const Mesh<VertexColorTexture>* GetMesh() const { SAFE_GET_POINTER(this->m_p_mesh); }
 
 	void SetAnimationEvent(const UINT& clip_index, std::function<void(void)> event_func);
 	
+	//애니메이션 1회 수행에 걸리는 시간 설정
 	const bool& GetAnimationTime() const { return this->m_animation_time; }
 	void SetAnimationTime(const float& animation_time) { this->m_animation_time = m_animation_time; }
-	const bool& GetAnimationFrame() const { return this->m_animation_frame; }
-	void SetAnimationFrame(const float& animation_frame) { this->m_animation_frame = animation_frame; }
+	
+	//애니메이션 프레임당 유지 시간
+	const bool& GetAnimationFrameDuration() const { return this->m_animation_frame_duration; }
+	
+	//애니메이션 재생 속도
 	const bool& GetAnimationSpeed() const { return this->m_animation_speed; }
 	void SetAnimationSpeed(const float& animation_speed) { this->m_animation_speed = animation_speed; }
-	const UINT& GetCurrentClipID() const { return this->m_current_clip_id; }
+	
+	//현재 애니메이션 프레임 Index
+	const int& GetCurrentFrameID() const { return this->m_current_frame_id; }
 
 	const bool& GetIsPlaying() const { return this->m_is_playing; }
+	const bool& GetIsPlayReverse() const { return this->m_is_play_reverse; }
 	const bool& GetIsEnd() const { return this->m_is_end; }
 	const bool& GetIsLoop() const { return this->m_is_loop; }
 	void SetIsLoop(const bool* is_loop) { this->m_is_loop = m_is_loop; }
 
 private:
 	std::vector<Texture> m_texture_vector;
-	ComPtr<Mesh<VertexColorTexture>> m_p_mesh = nullptr;
+	Mesh<VertexColorTexture>* m_p_mesh = nullptr;
 
 	std::map<UINT, std::function<void(void)>> m_animation_event_func_map;
 
-	double m_animation_time = 0.0;
-	float m_animation_frame = 0.0f;
+	float m_animation_time = 0.0;
+	float m_animation_frame_duration = 0.0f;
+	float m_accumulate_time = 0.0f;
 	float m_animation_speed = 1.0f;
-	UINT m_current_clip_id = 0;
+	int m_current_frame_id = 0;
 
 	bool m_is_playing = false;
+	bool m_is_play_reverse = false;
 	bool m_is_end = false;
 	bool m_is_loop = false;
 };

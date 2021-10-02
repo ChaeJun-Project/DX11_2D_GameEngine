@@ -16,6 +16,15 @@ Shader::~Shader()
 	m_shader_un_map.clear();
 }
 
+const bool& Shader::LoadFromFile(const std::string& shader_path)
+{
+	return true;
+}
+
+void Shader::SaveFile(const std::string& shader_path)
+{
+}
+
 void Shader::BindPipeline()
 {
     auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();

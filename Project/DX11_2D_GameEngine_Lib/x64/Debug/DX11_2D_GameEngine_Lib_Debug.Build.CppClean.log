@@ -1,7 +1,5 @@
-c:\users\user\documents\github\dx11_2d_gameengine\project\dx11_2d_gameengine_lib\x64\debug\dx11_2d_gameengine_lib_debug.pch
 c:\users\user\documents\github\dx11_2d_gameengine\external\library\dx11_2d_gameengine_lib\debug\dx11_2d_gameengine_lib_debug.pdb
 c:\users\user\documents\github\dx11_2d_gameengine\external\library\dx11_2d_gameengine_lib\debug\dx11_2d_gameengine_lib_debug.idb
-c:\users\user\documents\github\dx11_2d_gameengine\project\dx11_2d_gameengine_lib\x64\debug\stdafx.obj
 c:\users\user\documents\github\dx11_2d_gameengine\project\dx11_2d_gameengine_lib\x64\debug\pixelshader.obj
 c:\users\user\documents\github\dx11_2d_gameengine\project\dx11_2d_gameengine_lib\x64\debug\gameobject.obj
 c:\users\user\documents\github\dx11_2d_gameengine\project\dx11_2d_gameengine_lib\x64\debug\mesh.obj
@@ -31,6 +29,7 @@ c:\users\user\documents\github\dx11_2d_gameengine\project\dx11_2d_gameengine_lib
 c:\users\user\documents\github\dx11_2d_gameengine\project\dx11_2d_gameengine_lib\x64\debug\shader.obj
 c:\users\user\documents\github\dx11_2d_gameengine\project\dx11_2d_gameengine_lib\x64\debug\resourcemanager.obj
 c:\users\user\documents\github\dx11_2d_gameengine\project\dx11_2d_gameengine_lib\x64\debug\render.obj
+c:\users\user\documents\github\dx11_2d_gameengine\project\dx11_2d_gameengine_lib\x64\debug\samplerstate.obj
 c:\users\user\documents\github\dx11_2d_gameengine\external\library\dx11_2d_gameengine_lib\debug\constantbuffer.cso
 c:\users\user\documents\github\dx11_2d_gameengine\external\library\dx11_2d_gameengine_lib\debug\drawlineshader.cso
 c:\users\user\documents\github\dx11_2d_gameengine\external\library\dx11_2d_gameengine_lib\debug\textureshader.cso

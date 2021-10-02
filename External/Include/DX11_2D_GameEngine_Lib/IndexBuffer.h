@@ -12,7 +12,7 @@ public:
 	void Create(const std::vector<UINT>& index_vector, const D3D11_USAGE& usage = D3D11_USAGE_IMMUTABLE);
 
 public:
-	ID3D11Buffer* GetResource() const { SAFE_GET_POINTER(this->m_p_buffer.Get()); }
+	ID3D11Buffer* GetBuffer() const { SAFE_GET_POINTER(this->m_p_buffer.Get()); }
 	const UINT& GetStride() const { return this->stride; }
 	const UINT& GetOffset() const { return this->offset; }
 	const UINT& GetCount() const { return this->count; }

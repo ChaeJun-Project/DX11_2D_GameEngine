@@ -184,6 +184,7 @@ call GameEngineCopy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantStruct.h" />
     <ClInclude Include="Define.h" />
@@ -195,7 +196,6 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GraphicsManager.h" />
-    <ClInclude Include="GUID.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputLayout.h" />
@@ -231,6 +231,7 @@ call GameEngineCopy.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="Engine.cpp" />

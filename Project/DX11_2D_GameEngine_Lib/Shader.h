@@ -11,6 +11,9 @@ public:
 	Shader(const std::string resource_name);
 	~Shader();
 
+	const bool& LoadFromFile(const std::string& shader_path) override;
+	void SaveFile(const std::string& shader_path) override;
+
 	void BindPipeline() override;
 
 private:
@@ -75,14 +78,14 @@ inline std::shared_ptr<T> Shader::GetShader() const
 	assert(result);
 	if (!result)
 	{
-		return;
+		return nullptr;
 	}
 
 	//타입 T에 해당하는 Shader Type 반환
 	auto shader_type = GetShaderType<T>();
 	auto shader_iter = this->m_shader_un_map.find(shader_type);
 
-	assert(shader_iter);
+	assert(shader_iter != this->m_shader_un_map.end());
 	//타입 T에 해당하는 Shader가 존재하는 경우
 	if (shader_iter->second != nullptr)
 	{

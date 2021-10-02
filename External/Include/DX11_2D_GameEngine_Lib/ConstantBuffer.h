@@ -19,6 +19,9 @@ public:
 	T* Map();
 	void Unmap();
 
+public:
+    const UINT& GetBufferBindSlot() { return this->buffer_bind_slot; }
+
 private:
 	ComPtr<ID3D11Buffer> m_p_buffer = nullptr;
 	UINT buffer_bind_slot;
@@ -68,7 +71,7 @@ inline void ConstantBuffer::Create(const UINT& buffer_bind_slot, const D3D11_USA
 	//Constant Buffer는 다른 buffer들과 다르게 D3D11_SUBRESOURCE_DATA가 필요하지않음
 	//고정되어 있는 실제 데이터가 아니고 계속 변경되는 값이기 때문
 	auto device = GraphicsManager::GetInstance()->GetDevice();
-	auto hResult = device->CreateBuffer(&desc, nullptr, &this->m_p_buffer.GetAddressOf());
+	auto hResult = device->CreateBuffer(&desc, nullptr, this->m_p_buffer.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return;
