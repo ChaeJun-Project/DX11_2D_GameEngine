@@ -72,6 +72,9 @@ using namespace DirectX::PackedVector;
 //ResourceManager
 #include "ResourceManager.h"
 
+//SceneManager
+#include "SceneManager.h"
+
 //ShaderManager
 #include "ShaderManager.h"
 
@@ -122,5 +125,22 @@ using namespace DirectX::PackedVector;
 
 //Animation
 #include "Animation.h"
+#pragma endregion
+
+#pragma region  Component
+//Transform
+#include "Transform.h"
+
+//Camera
+#include "Camera.h"
+
+//Animator
+#include "Animator.h"
+#pragma endregion
+
+#pragma region GameObject
+#include "MainCamera.h"
+
+#include "RockManZ.h"
 #pragma endregion
 

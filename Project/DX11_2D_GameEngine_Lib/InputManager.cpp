@@ -16,6 +16,8 @@ InputManager::InputManager()
 		std::placeholders::_3,
 		std::placeholders::_4
 	);
+
+	Initialize();
 }
 
 void InputManager::Initialize()

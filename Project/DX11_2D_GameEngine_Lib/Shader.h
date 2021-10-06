@@ -42,7 +42,7 @@ private:
 };
 
 template<typename T>
-inline void Shader::AddAndCreateShader(const std::string& path, const std::string& function_name, const std::string& shader_version)
+void Shader::AddAndCreateShader(const std::string& path, const std::string& function_name, const std::string& shader_version)
 {
 	//Class T가 IShader를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IShader, T>::value;
@@ -71,7 +71,7 @@ inline void Shader::AddAndCreateShader(const std::string& path, const std::strin
 }
 
 template<typename T>
-inline std::shared_ptr<T> Shader::GetShader() const
+std::shared_ptr<T> Shader::GetShader() const
 {
 	//Class T가 IShader를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IShader, T>::value;
@@ -85,6 +85,7 @@ inline std::shared_ptr<T> Shader::GetShader() const
 	auto shader_type = GetShaderType<T>();
 	auto shader_iter = this->m_shader_un_map.find(shader_type);
 
+	//해당 Shader Type의 Shader 데이터가 존재하는 경우
 	assert(shader_iter != this->m_shader_un_map.end());
 	//타입 T에 해당하는 Shader가 존재하는 경우
 	if (shader_iter->second != nullptr)

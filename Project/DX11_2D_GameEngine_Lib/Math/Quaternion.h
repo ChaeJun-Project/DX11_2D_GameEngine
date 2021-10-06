@@ -28,9 +28,9 @@ public:
     void QuaternionFromAxis(const class Vector3& x_axis, const class Vector3& y_axis, const class Vector3& z_axis);
 
     const class Vector3 ToEulerAngle() const;
-    const float Yaw() const;
-    const float Pitch() const;
-    const float Roll() const;
+    const float Yaw() const; //z
+    const float Pitch() const; //y
+    const float Roll() const; //x
 
     const Quaternion Conjugate()  const { return Quaternion(w, -x, -y, -z); }
     const float LengthSq() const { return x * x + y * y + z * z + w * w; }

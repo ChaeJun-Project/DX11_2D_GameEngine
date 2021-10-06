@@ -8,6 +8,7 @@ public:
     ~Camera() = default;
 
     void Update() override;
+    void FinalUpdate() override;
 
 private:
     //뷰 행렬(메트릭스) 업데이트
@@ -33,7 +34,7 @@ public:
 
 private:
     //카메라 투영 타입
-    ProjectionType m_projection_type;
+    ProjectionType m_projection_type = ProjectionType::Orthographic;
     
     //Field of View
     float m_fov = Math::ToRadian(47); //47은 표준 렌즈의 시야각 값

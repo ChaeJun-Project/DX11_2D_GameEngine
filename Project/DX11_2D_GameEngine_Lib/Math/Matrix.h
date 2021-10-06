@@ -59,10 +59,12 @@ public:
     const bool operator!=(const Matrix& rhs) const { return !(*this == rhs); }
 
 public:
-    float _11, _21, _31, _41;
-    float _12, _22, _32, _42;
-    float _13, _23, _33, _43;
-    float _14, _24, _34, _44;
+    //행렬의 값이 행 순서대로 연속적인 메모리에 갑이 저장되도록
+    //행 우선 방식으로 순서대로 선언
+    float _11, _12, _13, _14;
+    float _21, _22, _23, _24;
+    float _31, _32, _33, _34;
+    float _41, _42, _43, _44;
 };
 
 inline Vector3 operator*(const Vector3& lhs, const Matrix& rhs) { return rhs*lhs; }

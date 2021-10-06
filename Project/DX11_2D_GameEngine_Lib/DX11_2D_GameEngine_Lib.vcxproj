@@ -184,12 +184,12 @@ call GameEngineCopy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantStruct.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DX11Object.h" />
-    <ClInclude Include="Editor.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="FileManager.h" />
@@ -203,6 +203,8 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="IObject.h" />
     <ClInclude Include="IResource.h" />
     <ClInclude Include="IShader.h" />
+    <ClInclude Include="Layer.h" />
+    <ClInclude Include="MainCamera.h" />
     <ClInclude Include="Math\Color4.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Math\Matrix.h" />
@@ -215,9 +217,14 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="RockManZ.h" />
     <ClInclude Include="SamplerState.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="StageManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Singleton.h" />
@@ -231,9 +238,9 @@ call GameEngineCopy.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
-    <ClCompile Include="Editor.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="FileStream.cpp" />
@@ -241,7 +248,10 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputLayout.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="IObject.cpp" />
     <ClCompile Include="IShader.cpp" />
+    <ClCompile Include="Layer.cpp" />
+    <ClCompile Include="MainCamera.cpp" />
     <ClCompile Include="Math\Color4.cpp" />
     <ClCompile Include="Math\Math.cpp" />
     <ClCompile Include="Math\Matrix.cpp" />
@@ -252,9 +262,14 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="RockManZ.cpp" />
     <ClCompile Include="SamplerState.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

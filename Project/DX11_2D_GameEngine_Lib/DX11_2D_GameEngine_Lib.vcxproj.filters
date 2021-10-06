@@ -70,12 +70,6 @@
     <ClInclude Include="InputManager.h">
       <Filter>Manager\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.h">
-      <Filter>Core\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Render.h">
-      <Filter>Core\Editor</Filter>
-    </ClInclude>
     <ClInclude Include="Engine.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -136,6 +130,33 @@
     <ClInclude Include="Camera.h">
       <Filter>Scene\Components\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Manager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="StageManager.h">
+      <Filter>Manager\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Scene\GameStage</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Scene\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Scene\Components\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="MainCamera.h">
+      <Filter>Scene\GameObject\MainCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="RockManZ.h">
+      <Filter>Scene\GameObject\RockManZ</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -189,12 +210,6 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Manager\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.cpp">
-      <Filter>Core\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Render.cpp">
-      <Filter>Core\Editor</Filter>
-    </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -230,6 +245,36 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Scene\Components\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Manager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="StageManager.cpp">
+      <Filter>Manager\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>Scene\GameStage</Filter>
+    </ClCompile>
+    <ClCompile Include="Layer.cpp">
+      <Filter>Scene\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="IObject.cpp">
+      <Filter>Scene\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Scene\Components\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="RockManZ.cpp">
+      <Filter>Scene\GameObject\RockManZ</Filter>
+    </ClCompile>
+    <ClCompile Include="MainCamera.cpp">
+      <Filter>Scene\GameObject\MainCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -323,12 +368,6 @@
     <Filter Include="DX11ObjectID">
       <UniqueIdentifier>{d8061835-c11d-4b53-8038-6de0687fc734}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\GameScene">
-      <UniqueIdentifier>{41ed8a87-bc38-423a-86c3-ce248e00335b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\EditorScene">
-      <UniqueIdentifier>{7cc4e096-302b-4edd-bb67-60b829c49dc2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource\Material">
       <UniqueIdentifier>{164e4f82-07b4-4037-a4c1-ced9cff22988}</UniqueIdentifier>
     </Filter>
@@ -400,6 +439,18 @@
     </Filter>
     <Filter Include="Core\DX11_Graphics_Pipeline\D3D11BufferStruct">
       <UniqueIdentifier>{fc650ec0-27f3-4df1-ace3-14e3668f66de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameStage">
+      <UniqueIdentifier>{c6f3a3f5-7761-4aeb-9189-b3844b0801b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Layer">
+      <UniqueIdentifier>{562d4610-3b24-4194-8640-6c05e295a2d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameObject\RockManZ">
+      <UniqueIdentifier>{39e1fa67-fdee-48bf-b44a-b2f3546544b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameObject\MainCamera">
+      <UniqueIdentifier>{80e0ea8f-6213-4b19-8b14-d301b9330018}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

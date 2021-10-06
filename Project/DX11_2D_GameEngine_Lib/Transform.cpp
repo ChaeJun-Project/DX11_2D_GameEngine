@@ -4,13 +4,18 @@
 Transform::Transform(IObject* p_game_object)
 	:IComponent(ComponentType::Transform, p_game_object)
 {
-	
+
 }
 
 Transform::~Transform()
 {
 	m_child_transform_vector.clear();
 	m_child_transform_vector.shrink_to_fit();
+}
+
+void Transform::FinalUpdate()
+{
+	UpdateWorldMatrix();
 }
 
 void Transform::UpdateWorldMatrix()
@@ -30,6 +35,33 @@ void Transform::UpdateWorldMatrix()
 	//자식 오브젝트의 월드 행렬 업데이트
 	for (const auto& child_transform : this->m_child_transform_vector)
 		child_transform->UpdateWorldMatrix();
+}
+
+void Transform::SetLocalTranslation(const Vector3& local_translation)
+{
+	if (this->m_local_translation == local_translation)
+		return;
+
+	this->m_local_translation = local_translation;
+	UpdateWorldMatrix();
+}
+
+void Transform::SetLocalRotation(const Quaternion& local_rotation)
+{
+	if (this->m_local_rotation == local_rotation)
+		return;
+
+	this->m_local_rotation = local_rotation;
+	UpdateWorldMatrix();
+}
+
+void Transform::SetLocalScale(const Vector3& local_scale)
+{
+	if (this->m_local_scale == local_scale)
+		return;
+
+	this->m_local_scale = local_scale;
+	UpdateWorldMatrix();
 }
 
 void Transform::Translate(const Vector3& move)
@@ -69,7 +101,7 @@ void Transform::SetScale(const Vector3& scale)
 
 void Transform::SetParent(Transform* new_parent)
 {
-   //TODO
+	//TODO
 }
 
 Transform* Transform::GetChildFromIndex(const UINT& index)

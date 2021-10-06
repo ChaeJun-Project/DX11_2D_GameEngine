@@ -28,9 +28,9 @@ const bool& Animation::LoadFromFile(const std::string& animation_path)
 	for (auto& file_name : file_name_vector)
 	{
 		//확장자가 포함된 파일 이름에서 확장자 부분을 뺀 string을 해당 텍스처의 이름으로 설정
-		Texture texture(FileManager::GetIntactFileNameFromPath(file_name));
-		texture.SetPipelineStage(TexturePipelineStage::PS, 0);
-		auto result = texture.LoadFromFile(animation_path + file_name);
+		auto texture = std::make_shared<Texture>(FileManager::GetIntactFileNameFromPath(file_name));
+		texture->SetPipelineStage(TexturePipelineStage::PS, 0);
+		auto result = texture->LoadFromFile(animation_path + file_name);
 		assert(result);
 		if (!result)
 			return false;
@@ -41,7 +41,7 @@ const bool& Animation::LoadFromFile(const std::string& animation_path)
 	//Create Mesh
 	//애니메이션의 이름을 Mesh 이름으로 설정
 	this->m_p_mesh = new Mesh<VertexColorTexture>(FileManager::GetIntactFileNameFromPath(animation_path));
-	this->m_p_mesh->Create(MeshType::Rectangle, m_texture_vector[0].GetTextureSize());
+	this->m_p_mesh->Create(MeshType::Rectangle, m_texture_vector[0]->GetTextureSize());
 
 	//애니메이션 프레임당 유지 시간 설정
 	this->m_animation_frame_duration = static_cast<float>(this->m_animation_time / this->m_texture_vector.size());
@@ -63,7 +63,7 @@ void Animation::Update()
 		this->m_is_end = false;
 
 	//시간 누적
-	this->m_accumulate_time += TimeManager::GetInstance()->GetDeltaTime_float();
+	this->m_accumulate_time += (TimeManager::GetInstance()->GetDeltaTime_float() * this->m_animation_speed);
 
 	//해당 프레임의 유지 시간이 경과한 경우
 	if (this->m_animation_frame_duration <= this->m_accumulate_time)
@@ -106,12 +106,17 @@ void Animation::Update()
 			}
 		}
 	}
+
+	//해당 애니메이션 프레임에 이벤트 함수가 등록되어 있다면 이벤트 함수 수행
+	auto component_iter = this->m_animation_event_func_map.find(this->m_current_frame_id);
+	if(component_iter != this->m_animation_event_func_map.end())
+		component_iter->second;
 }
 
 void Animation::Render()
 {
-	this->m_texture_vector[this->m_current_frame_id].BindPipeline();
-	this->m_p_mesh->BindPipeline();
+	this->m_texture_vector[this->m_current_frame_id]->BindPipeline();
+	this->m_p_mesh->Render();
 }
 
 void Animation::Play()

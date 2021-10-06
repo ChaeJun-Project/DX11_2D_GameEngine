@@ -22,7 +22,7 @@ public:
 	void Stop();
 
 public:
-	const std::vector<Texture> GetTextureVector() const { return this->m_texture_vector; }
+	const std::vector<std::shared_ptr<Texture>> GetTextureVector() const { return this->m_texture_vector; }
 	const Mesh<VertexColorTexture>* GetMesh() const { SAFE_GET_POINTER(this->m_p_mesh); }
 
 	void SetAnimationEvent(const UINT& clip_index, std::function<void(void)> event_func);
@@ -45,13 +45,14 @@ public:
 	const bool& GetIsPlayReverse() const { return this->m_is_play_reverse; }
 	const bool& GetIsEnd() const { return this->m_is_end; }
 	const bool& GetIsLoop() const { return this->m_is_loop; }
-	void SetIsLoop(const bool* is_loop) { this->m_is_loop = m_is_loop; }
+
+	void SetIsLoop(const bool& is_loop) { this->m_is_loop = m_is_loop; }
 
 private:
-	std::vector<Texture> m_texture_vector;
+	std::vector<std::shared_ptr<Texture>> m_texture_vector;
 	Mesh<VertexColorTexture>* m_p_mesh = nullptr;
 
-	std::map<UINT, std::function<void(void)>> m_animation_event_func_map;
+	std::map<int, std::function<void(void)>> m_animation_event_func_map;
 
 	float m_animation_time = 0.0;
 	float m_animation_frame_duration = 0.0f;

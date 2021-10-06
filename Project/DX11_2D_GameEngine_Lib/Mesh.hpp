@@ -37,18 +37,18 @@ void Mesh<T>::Create(const MeshType& mesh_type, const Vector2& mesh_size)
 }
 
 template<typename T>
-inline const bool& Mesh<T>::LoadFromFile(const std::string& mesh_path)
+const bool& Mesh<T>::LoadFromFile(const std::string& mesh_path)
 {
 	return true;
 }
 
 template<typename T>
-inline void Mesh<T>::SaveFile(const std::string& mesh_path)
+void Mesh<T>::SaveFile(const std::string& mesh_path)
 {
 }
 
 template<typename T>
-inline void Mesh<T>::BindPipeline()
+void Mesh<T>::BindPipeline()
 {
     auto vertex_buffer = this->m_p_vertex_buffer->GetBuffer();
     auto stride = this->m_p_vertex_buffer->GetStride();
@@ -69,9 +69,9 @@ inline void Mesh<T>::BindPipeline()
 }
 
 template<typename T>
-inline void Mesh<T>::Render()
+void Mesh<T>::Render()
 {
-	Mesh<T>::BindPipeLine();
+	this->BindPipeLine();
 
 	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
 	device_context->DrawIndexed(this->m_index_vector.size(), 0, 0);

@@ -145,7 +145,7 @@ const Matrix Matrix::LookAtLH(const Vector3 & eye, const Vector3 & at, const Vec
         x_axis.x, y_axis.x, z_axis.x, 0,
         x_axis.y, y_axis.y, z_axis.y, 0,
         x_axis.z, y_axis.z, z_axis.z, 0,
-        -x_axis.Dot(eye), -y_axis.Dot(eye), -z_axis.Dot(eye), 1
+        x_axis.Dot(eye), y_axis.Dot(eye), z_axis.Dot(eye), 1
     );
 }
 

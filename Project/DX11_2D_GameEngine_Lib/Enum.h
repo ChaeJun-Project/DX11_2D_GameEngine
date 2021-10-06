@@ -56,10 +56,10 @@ enum TexturePipelineStage : UINT
 //Component Type(IComponent 사용)
 enum class ComponentType : UINT
 {
-	Transform = 0,
-	Camera = 1,
-	Image = 2,
-	Sprite = 3,
+	NONE = 0,
+	Transform = 1,
+	Camera = 2,
+	Image = 3,
 	Animator = 4,
 	RigidBody2D = 5,
 	BoxCollider2D = 6,
@@ -72,10 +72,18 @@ enum class ProjectionType : UINT
 	Perspective = 1, //원근투영
 };
 
-//Object Type(IObject 사용)
-enum class ObjectType : UINT
+//GameObject Type(IObject 사용)
+enum class GameObjectType : UINT
 {
-	Background = 0,
-	RockManX = 1,
-	RockManZ = 2,
+    MainCamera = 0, //임시
+	Background = 1,
+	RockManX = 2,
+	RockManZ = 3,
+};
+
+//GameObject SideType(IObject 사용)
+enum class GameObjectSideState : UINT
+{
+	Right = 0,
+	Left = 1,
 };

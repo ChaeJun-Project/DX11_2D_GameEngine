@@ -24,6 +24,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     while (Window::Update(hAccelTable))
     {
         d->BeginScene();
+
         d->EndScene();
     }
 

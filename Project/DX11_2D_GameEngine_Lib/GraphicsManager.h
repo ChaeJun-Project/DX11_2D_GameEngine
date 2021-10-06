@@ -1,5 +1,4 @@
 #pragma once
-#include "Singleton.h"
 
 class GraphicsManager final : public Singleton<GraphicsManager>
 {
