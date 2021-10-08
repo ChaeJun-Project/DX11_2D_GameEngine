@@ -173,7 +173,7 @@ const Matrix Matrix::OrthoOffCenterLH(const float & l, const float & r, const fl
 
 const Matrix Matrix::PerspectiveFovLH(const float & fov, const float & aspect, const float & zn, const float & zf)
 {
-    auto sy = cosf(fov / 2) / sinf(fov / 2);
+    auto sy = cosf(fov / 2) / sinf(fov / 2); // =1/tanf(fov/2), tanf = sinf/cosf
     auto sx = sy / aspect;
 
     return Matrix

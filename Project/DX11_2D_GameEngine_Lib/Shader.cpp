@@ -8,12 +8,12 @@ Shader::Shader(const std::string resource_name)
 
 Shader::~Shader()
 {
-	for (auto& shader : m_shader_un_map)
+	for (auto& shader : m_shader_map)
 	{
 		shader.second.reset();
 	}
 
-	m_shader_un_map.clear();
+	m_shader_map.clear();
 }
 
 const bool& Shader::LoadFromFile(const std::string& shader_path)

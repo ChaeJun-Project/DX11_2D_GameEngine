@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Transform.h"
 
-Transform::Transform(IObject* p_game_object)
+Transform::Transform(GameObject* p_game_object)
 	:IComponent(ComponentType::Transform, p_game_object)
 {
 
@@ -131,19 +131,12 @@ void Transform::TachChild()
 	//TODO
 }
 
-void Transform::UpdateConstantBuffer(const Matrix& view_matrix, const Matrix& projection_matrix)
+void Transform::UpdateConstantBuffer()
 {
-	if (m_p_gpu_buffer == nullptr)
-	{
-		m_p_gpu_buffer = std::make_shared<ConstantBuffer>();
-		m_p_gpu_buffer->Create<CBuffer_WVPMatrix>(CBuffer_BindSlot::WVPMatrix);
-	}
+	g_cbuffer_wvpmatrix.world = this->m_world_matrix;
 
-	auto constant_buffer_data = m_p_gpu_buffer->Map<CBuffer_WVPMatrix>();
-
-	constant_buffer_data->world = this->m_world_matrix;
-	constant_buffer_data->view = view_matrix;
-	constant_buffer_data->projection = projection_matrix;
-
-	m_p_gpu_buffer->Unmap();
+	static auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);
+	constant_buffer->SetConstantBufferData(&g_cbuffer_wvpmatrix, sizeof(CBuffer_WVPMatrix));
+	constant_buffer->SetBufferBindStage(PipelineStage::VS);
+	constant_buffer->BindPipeline();
 }

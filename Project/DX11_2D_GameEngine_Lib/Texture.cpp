@@ -70,31 +70,31 @@ void Texture::BindPipeline()
 	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
 	
 	//Vertex Shader Stage
-	if (m_texture_bind_stage & TexturePipelineStage::VS)
+	if (m_texture_bind_stage & PipelineStage::VS)
 	{
 		device_context->VSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
 	}
 
 	//Hull Shader Stage
-	if (m_texture_bind_stage & TexturePipelineStage::HS)
+	if (m_texture_bind_stage & PipelineStage::HS)
 	{
 		device_context->HSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
 	}
 
 	//Domain Shader Stage
-	if (m_texture_bind_stage & TexturePipelineStage::DS)
+	if (m_texture_bind_stage & PipelineStage::DS)
 	{
 		device_context->DSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
 	}
 
 	//Geometry Shader Stage
-	if (m_texture_bind_stage & TexturePipelineStage::GS)
+	if (m_texture_bind_stage & PipelineStage::GS)
 	{
 		device_context->GSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
 	}
 
 	//Pixel Shader Stage
-	if (m_texture_bind_stage & TexturePipelineStage::PS)
+	if (m_texture_bind_stage & PipelineStage::PS)
 	{
 		device_context->PSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
 	}

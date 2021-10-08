@@ -1,5 +1,7 @@
 #pragma once
 
+class ConstantBuffer;
+
 class GraphicsManager final : public Singleton<GraphicsManager>
 {
     SINGLETON(GraphicsManager);
@@ -23,12 +25,16 @@ public:
 	ID3D11Device* GetDevice() const { SAFE_GET_POINTER(this->m_p_device);}
 	ID3D11DeviceContext* GetDeviceContext() const { SAFE_GET_POINTER(this->m_p_device_context); }
 
+	std::shared_ptr<ConstantBuffer> GetConstantBuffer(const CBuffer_BindSlot& bind_slot);
+
 private:
 	const bool Initialize();
     const bool CreateDeviceAndDeviceContext();
 	const bool CreateSwapChain();
 	const bool CreateRenderTargetView();
 	const bool CreateDepthStencilView();
+
+	void CreateConstantBuffers();
 
 private:
 	//ID가 붙으면 com 인터페이스임
@@ -54,6 +60,9 @@ private:
 	//보여지는 영역
 	//렌더링된 렌더 타켓의 그림을 윈도우로 옮길 때 어떤 방식으로 가져올지 설정
 	D3D11_VIEWPORT m_viewport;
+
+	//ConstantBuffer를 저장할 map
+	std::map<CBuffer_BindSlot, std::shared_ptr<ConstantBuffer>> m_p_constant_buffer_map;
 
 	//클리어 컬러
 	float m_clear_color[4]; //Init TODO

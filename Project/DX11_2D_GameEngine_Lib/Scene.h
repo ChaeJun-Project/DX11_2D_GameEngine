@@ -1,6 +1,6 @@
 #pragma once
 
-class IObejct;
+class GameObject;
 
 class Scene final
 {
@@ -16,6 +16,6 @@ public:
    void Render();
 
 private:
-   std::list<std::shared_ptr<IObject>> m_object_list;
+   std::list<std::shared_ptr<GameObject>> m_object_list;
 };
 

@@ -123,6 +123,8 @@ const bool GraphicsManager::Initialize()
 	auto settings = Settings::GetInstance();
 	ResizeWindowByUser(settings->GetWindowWidth(), settings->GetWindowHeight());
 
+	CreateConstantBuffers();
+
 	return true;
 }
 
@@ -185,7 +187,7 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 	//Viewport 재설정
 	SetViewport(width, height);
 
-	std::cout << "Resolution: " << Settings::GetInstance()->GetWindowWidth() <<"X"<< Settings::GetInstance()->GetWindowHeight() << std::endl;
+	std::cout << "Resolution: " << Settings::GetInstance()->GetWindowWidth() << "X" << Settings::GetInstance()->GetWindowHeight() << std::endl;
 }
 
 void GraphicsManager::SetFullScreen(const bool& is_full_screen)
@@ -439,7 +441,7 @@ const bool GraphicsManager::CreateDepthStencilView()
 		assert(SUCCEEDED(hResult));
 		if (!SUCCEEDED(hResult))
 			return false;
-		
+
 		//깊이 정보를 가지고 있는 텍스처를 바탕으로
 		//깊이 뷰를 생성
 		hResult = m_p_device->CreateDepthStencilView
@@ -453,8 +455,41 @@ const bool GraphicsManager::CreateDepthStencilView()
 			return false;
 
 		SAFE_RELEASE(m_p_render_target_view);
-	
+
 		return true;
 	}
 	return false;
 }
+
+void GraphicsManager::CreateConstantBuffers()
+{
+    //WVPMatrix
+	auto pair_iter = this->m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::WVPMatrix, std::make_shared<ConstantBuffer>()));
+	assert(pair_iter.second);
+	if (pair_iter.second)
+	{
+		pair_iter.first->second->Create<CBuffer_WVPMatrix>(CBuffer_BindSlot::WVPMatrix);
+	}
+
+	//Material
+	pair_iter = this->m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Material, std::make_shared<ConstantBuffer>()));
+	assert(pair_iter.second);
+	if (pair_iter.second)
+	{
+		pair_iter.first->second->Create<CBuffer_Material>(CBuffer_BindSlot::Material);
+	}
+}
+
+std::shared_ptr<ConstantBuffer> GraphicsManager::GetConstantBuffer(const CBuffer_BindSlot& bind_slot)
+{
+	auto map_iter = this->m_p_constant_buffer_map.find(bind_slot);
+	auto result = (map_iter != this->m_p_constant_buffer_map.end());
+	assert(result);
+	if (result)
+	{
+		return map_iter->second;
+	}
+
+	return nullptr;
+}
+

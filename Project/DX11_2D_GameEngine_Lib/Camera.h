@@ -4,7 +4,7 @@
 class Camera : public IComponent
 {
 public:
-    Camera(IObject* p_game_object);
+    Camera(GameObject* p_game_object);
     ~Camera() = default;
 
     void Update() override;

@@ -2,12 +2,10 @@
 #include "Animator.h"
 #include "Shader.h"
 
-Animator::Animator(IObject* p_game_object)
+Animator::Animator(GameObject* p_game_object)
 	:IComponent(ComponentType::Animator, p_game_object)
 {
-	m_p_shader = std::make_shared<Shader>("Standard_Shader");
-	m_p_shader->AddAndCreateShader<VertexShader>("Shader/TextureShader.fx","VS", "vs_5_0");
-	m_p_shader->AddAndCreateShader<PixelShader>("Shader/TextureShader.fx","PS", "ps_5_0");
+	
 }
 
 void Animator::Update()
@@ -20,26 +18,27 @@ void Animator::Update()
 
 void Animator::FinalUpdate()
 {
-	Update();
+	if (this->m_p_current_animation == nullptr)
+		return;
+
+	auto renderer = m_p_game_object->GetComponent<Renderer>();
+	renderer->SetMesh(this->m_p_current_animation->GetMesh());
+	renderer->SetMaterial();
 }
 
 void Animator::Render()
 {
 	if (this->m_p_current_animation == nullptr)
 		return;
-	this->m_p_shader->BindPipeline();
-	this->m_p_current_animation->Render();
+
 }
 
-void Animator::AddAnimation(const std::string& animation_name, std::shared_ptr<Animation>& p_animation, const bool& is_default_animation)
+void Animator::AddAnimation(const std::string& animation_name, std::shared_ptr<Animation>& p_animation)
 {
 	auto map_pair = this->m_animation_map.insert(std::make_pair(animation_name, p_animation));
 	assert(map_pair.second);
 	if (!map_pair.second)
 		return;
-
-	if (is_default_animation)
-		this->m_p_default_animation = map_pair.first->second;
 }
 
 void Animator::SetCurrentAnimation(const std::string& animation_name)

@@ -11,7 +11,6 @@ public:
 	void SaveFile(const std::string& animation_path) override;
 
 	void Update();
-	void Render();
 
 public:
 	//애니메이션 재생
@@ -23,7 +22,7 @@ public:
 
 public:
 	const std::vector<std::shared_ptr<Texture>> GetTextureVector() const { return this->m_texture_vector; }
-	const Mesh<VertexColorTexture>* GetMesh() const { SAFE_GET_POINTER(this->m_p_mesh); }
+	const std::shared_ptr<Mesh> GetMesh() const { SAFE_GET_POINTER(this->m_p_mesh); }
 
 	void SetAnimationEvent(const UINT& clip_index, std::function<void(void)> event_func);
 	
@@ -50,7 +49,7 @@ public:
 
 private:
 	std::vector<std::shared_ptr<Texture>> m_texture_vector;
-	Mesh<VertexColorTexture>* m_p_mesh = nullptr;
+	std::shared_ptr<Mesh> m_p_mesh = nullptr;
 
 	std::map<int, std::function<void(void)>> m_animation_event_func_map;
 

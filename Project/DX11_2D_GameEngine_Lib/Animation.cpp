@@ -20,6 +20,8 @@ Animation::~Animation()
 
 const bool& Animation::LoadFromFile(const std::string& animation_path)
 {
+    auto resource_manager = ResourceManager::GetInstance();
+
 	auto file_name_vector = FileManager::GetFileNameVectorFromDirectory(animation_path);
 
 	this->m_texture_vector.reserve(file_name_vector.size());
@@ -27,25 +29,14 @@ const bool& Animation::LoadFromFile(const std::string& animation_path)
 	//Create Texture & Push Vector
 	for (auto& file_name : file_name_vector)
 	{
-		//확장자가 포함된 파일 이름에서 확장자 부분을 뺀 string을 해당 텍스처의 이름으로 설정
-		auto texture = std::make_shared<Texture>(FileManager::GetIntactFileNameFromPath(file_name));
-		texture->SetPipelineStage(TexturePipelineStage::PS, 0);
-		auto result = texture->LoadFromFile(animation_path + file_name);
-		assert(result);
-		if (!result)
-			return false;
-
-		this->m_texture_vector.emplace_back(texture);
+		this->m_texture_vector.emplace_back(resource_manager->CreateTexture(animation_path + file_name));
 	}
 
 	//Create Mesh
-	//애니메이션의 이름을 Mesh 이름으로 설정
-	this->m_p_mesh = new Mesh<VertexColorTexture>(FileManager::GetIntactFileNameFromPath(animation_path));
-	this->m_p_mesh->Create(MeshType::Rectangle, m_texture_vector[0]->GetTextureSize());
+	this->m_p_mesh = resource_manager->CreateMesh(m_texture_vector[0]->GetTextureSize());
 
 	//애니메이션 프레임당 유지 시간 설정
 	this->m_animation_frame_duration = static_cast<float>(this->m_animation_time / this->m_texture_vector.size());
-
 
 	return true;
 }
@@ -111,12 +102,6 @@ void Animation::Update()
 	auto component_iter = this->m_animation_event_func_map.find(this->m_current_frame_id);
 	if(component_iter != this->m_animation_event_func_map.end())
 		component_iter->second;
-}
-
-void Animation::Render()
-{
-	this->m_texture_vector[this->m_current_frame_id]->BindPipeline();
-	this->m_p_mesh->Render();
 }
 
 void Animation::Play()

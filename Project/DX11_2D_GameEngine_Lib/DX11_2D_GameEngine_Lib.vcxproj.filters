@@ -109,7 +109,7 @@
     <ClInclude Include="Transform.h">
       <Filter>Scene\Components\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="IObject.h">
+    <ClInclude Include="GameObject.h">
       <Filter>Scene\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Enum.h">
@@ -121,7 +121,7 @@
     <ClInclude Include="SamplerState.h">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.hpp">
+    <ClInclude Include="Mesh.cpp">
       <Filter>Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
@@ -151,11 +151,17 @@
     <ClInclude Include="Animator.h">
       <Filter>Scene\Components\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="MainCamera.h">
-      <Filter>Scene\GameObject\MainCamera</Filter>
+    <ClInclude Include="IScript.h">
+      <Filter>Scene\Components\Script</Filter>
     </ClInclude>
-    <ClInclude Include="RockManZ.h">
-      <Filter>Scene\GameObject\RockManZ</Filter>
+    <ClInclude Include="RockManZ_Script.h">
+      <Filter>Scene\Components\Script\RockManZ</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Resource\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Scene\Components\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -261,7 +267,7 @@
     <ClCompile Include="Layer.cpp">
       <Filter>Scene\Layer</Filter>
     </ClCompile>
-    <ClCompile Include="IObject.cpp">
+    <ClCompile Include="GameObject.cpp">
       <Filter>Scene\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Render.cpp">
@@ -270,11 +276,17 @@
     <ClCompile Include="Animator.cpp">
       <Filter>Scene\Components\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="RockManZ.cpp">
-      <Filter>Scene\GameObject\RockManZ</Filter>
+    <ClCompile Include="IScript.cpp">
+      <Filter>Scene\Components\Script</Filter>
     </ClCompile>
-    <ClCompile Include="MainCamera.cpp">
-      <Filter>Scene\GameObject\MainCamera</Filter>
+    <ClCompile Include="RockManZ_Script.cpp">
+      <Filter>Scene\Components\Script\RockManZ</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Scene\Components\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -389,9 +401,6 @@
     <Filter Include="Scene\Components\Animator">
       <UniqueIdentifier>{7defdf6b-a0f1-4cf9-a2f8-a9511e904d01}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Components\Image">
-      <UniqueIdentifier>{1dc9f8af-39f8-407b-b22e-a8e4daacf29f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Components\Renderer">
       <UniqueIdentifier>{964d467a-c2ac-4b30-bade-9303fcfa8d86}</UniqueIdentifier>
     </Filter>
@@ -446,11 +455,11 @@
     <Filter Include="Scene\Layer">
       <UniqueIdentifier>{562d4610-3b24-4194-8640-6c05e295a2d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\GameObject\RockManZ">
-      <UniqueIdentifier>{39e1fa67-fdee-48bf-b44a-b2f3546544b5}</UniqueIdentifier>
+    <Filter Include="Scene\Components\Script">
+      <UniqueIdentifier>{45b73adf-3a03-4022-97d9-4cd397f02347}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\GameObject\MainCamera">
-      <UniqueIdentifier>{80e0ea8f-6213-4b19-8b14-d301b9330018}</UniqueIdentifier>
+    <Filter Include="Scene\Components\Script\RockManZ">
+      <UniqueIdentifier>{1059a6e4-27b6-422c-b93e-095e805be973}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 #include "Camera.h"
 #include "Transform.h"
 
-Camera::Camera(IObject* p_game_object)
+Camera::Camera(GameObject* p_game_object)
 	:IComponent(ComponentType::Camera, p_game_object)
 {
 }
@@ -27,11 +27,15 @@ void Camera::FinalUpdate()
 	UpdateViewMatrix();
 	//투영 행렬(메트릭스) 업데이트
 	UpdateProjectionMatrix();
+
+	g_cbuffer_wvpmatrix.view = this->m_view_matrix;
+	g_cbuffer_wvpmatrix.projection = this->m_projection_matrix;
+
 }
 
 void Camera::UpdateViewMatrix()
 {
-	auto transform = m_p_game_object->GetComponent<Transform>();
+	auto transform = this->m_p_game_object->GetComponent<Transform>();
 	auto position = transform->GetTranslation(); //월드에서의 카메라 위치값
 	auto up_vector = transform->GetUpVector(); //카메라의 업 벡터
 	auto forward_vector = transform->GetForwardVector(); //카메라의 바라보는 방향 벡터(전면 벡터)

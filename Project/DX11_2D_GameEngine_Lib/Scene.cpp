@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Scene.h"
 #include "MainCamera.h"
-#include "RockManZ.h"
+#include "GameObject.h"
 
 Scene::Scene()
 {
@@ -17,8 +17,7 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	m_object_list.push_back(std::make_shared<MainCamera>());
-	m_object_list.push_back(std::make_shared<RockManZ>());
+	//TODO
 }
 
 void Scene::Update()

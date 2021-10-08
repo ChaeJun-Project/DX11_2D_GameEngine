@@ -5,12 +5,18 @@
 class Transform final : public IComponent
 {
 public:
-	Transform(IObject* p_game_object);
+	Transform(GameObject* p_game_object);
 	~Transform();
 
 	void FinalUpdate() override;
 
 	void Translate(const Vector3& move);
+
+	//=====================================================================
+	// [Constant Buffer]
+	//=====================================================================
+	void UpdateConstantBuffer();
+
 private:
 	//=====================================================================
 	// [Local]
@@ -86,12 +92,6 @@ public:
 	const bool& HasParent() { return this->m_p_parent_transform ? true : false; }
 	const bool& HasChilds() { return !m_child_transform_vector.empty(); }
 
-	//=====================================================================
-	// [Constant Buffer]
-	//=====================================================================
-	void UpdateConstantBuffer(const Matrix& view_proj, const Matrix& projection_matrix);
-	auto GetConstantBuffer() const -> const std::shared_ptr<class ConstantBuffer>& { return this->m_p_gpu_buffer; }
-
 private:
 	Vector3 m_local_translation = Vector3::Zero; //xyz 모두 0.0f로 초기화
 	Quaternion m_local_rotation = Quaternion::Identity;
@@ -101,10 +101,5 @@ private:
 
 	Transform* m_p_parent_transform = nullptr;
 	std::vector<Transform*> m_child_transform_vector;
-
-	//=====================================================================
-	// [Constant Buffer]
-	//=====================================================================
-	std::shared_ptr<ConstantBuffer> m_p_gpu_buffer;
 };
 

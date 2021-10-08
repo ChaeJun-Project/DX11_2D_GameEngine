@@ -11,12 +11,13 @@ enum EditorState : UINT
 //Resource Type(IResource 사용)
 enum class ResourceType : UINT
 {
+    NONE = -1,
 	Mesh = 0,
 	Material = 1,
 	Shader = 2,
 	Texture = 3,
-	Sound = 4,
-	Animation = 5,
+	Animation = 4,
+	Sound = 5,
 };
 
 //Mesh Type(Mesh 사용)
@@ -30,37 +31,40 @@ enum class MeshType : UINT
 //Shader Type(Shader 사용)
 enum class ShaderType : UINT
 {
-	NONE = 0,
-	VS = 1, //VertexShader
-	HS = 2, //Hull Shader
-	DS = 3, //Domain Shader
-	GS = 4, //Geometry Shader
-	PS = 5, //Pixel Shader
+	NONE = -1,
+	VS = 0, //VertexShader
+	HS = 1, //Hull Shader
+	DS = 2, //Domain Shader
+	GS = 3, //Geometry Shader
+	PS = 4, //Pixel Shader
 };
 
 //Shader Resource Type(ShaderManager 사용)
 enum class ShaderResourceType : UINT
 {
-	//TODO
+	Standard = 0,
 };
 
-enum TexturePipelineStage : UINT
+enum PipelineStage : UINT
 {
 	VS = 0U,      //0000, VertexShader
 	HS = 1U << 0, //0001, Hull Shader
 	DS = 1U << 1, //0010, Domain Shader
 	GS = 1U << 2, //0100, Geometry Shader
-	PS = 1U << 3  //1000, Pixel Shader
+	PS = 1U << 3,  //1000, Pixel Shader
+
+	ALL = VS | HS | DS | GS | PS, 
 };
 
 //Component Type(IComponent 사용)
 enum class ComponentType : UINT
 {
-	NONE = 0,
-	Transform = 1,
-	Camera = 2,
-	Image = 3,
-	Animator = 4,
+	NONE = -1,
+	Transform = 0,
+	Camera = 1,
+	Renderer = 2,
+	Animator = 3,
+	Script = 4,
 	RigidBody2D = 5,
 	BoxCollider2D = 6,
 };
