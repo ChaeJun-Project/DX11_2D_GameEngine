@@ -5,7 +5,7 @@ void ConstantBuffer::SetConstantBufferData(const void* buffer_data, const UINT& 
 {
     //생성 시 정해진 버퍼 사이즈보다 입력할 버퍼 사이즈가 큰 경우
     auto result = this->m_buffer_size >= buffer_size? true : false;
-	assert(!result);
+	assert(result);
 	if (!result)
 		return;
 
@@ -34,27 +34,27 @@ void ConstantBuffer::SetConstantBufferData(const void* buffer_data, const UINT& 
 void ConstantBuffer::BindPipeline()
 {
 	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
-	if (this->m_buffer_bind_slot & PipelineStage::VS)
+	if (this->m_buffer_bind_stage & PipelineStage::VS)
 	{
 		device_context->VSSetConstantBuffers(this->m_buffer_bind_slot, 1, this->m_p_buffer.GetAddressOf()); // b0 레지스터에 상수버퍼 바인딩(vertex shader 실행 시)	
 	}
 
-	if (this->m_buffer_bind_slot & PipelineStage::HS)
+	if (this->m_buffer_bind_stage & PipelineStage::HS)
 	{
 		device_context->HSSetConstantBuffers(this->m_buffer_bind_slot, 1, this->m_p_buffer.GetAddressOf());
 	}
 
-	if (this->m_buffer_bind_slot & PipelineStage::DS)
+	if (this->m_buffer_bind_stage & PipelineStage::DS)
 	{
 		device_context->DSSetConstantBuffers(this->m_buffer_bind_slot, 1, this->m_p_buffer.GetAddressOf());
 	}
 
-	if (this->m_buffer_bind_slot & PipelineStage::GS)
+	if (this->m_buffer_bind_stage & PipelineStage::GS)
 	{
 		device_context->GSSetConstantBuffers(this->m_buffer_bind_slot, 1, this->m_p_buffer.GetAddressOf());
 	}
 
-	if (this->m_buffer_bind_slot & PipelineStage::PS)
+	if (this->m_buffer_bind_stage & PipelineStage::PS)
 	{
 		device_context->PSSetConstantBuffers(this->m_buffer_bind_slot, 1, this->m_p_buffer.GetAddressOf());
 	}

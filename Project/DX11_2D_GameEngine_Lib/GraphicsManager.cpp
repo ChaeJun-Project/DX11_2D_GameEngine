@@ -5,8 +5,6 @@ GraphicsManager::GraphicsManager()
 {
 	//뷰 포트 구조체 0으로 초기화
 	ZeroMemory(&m_viewport, sizeof(D3D11_VIEWPORT));
-
-	assert(Initialize());
 }
 
 GraphicsManager::~GraphicsManager()
@@ -123,8 +121,6 @@ const bool GraphicsManager::Initialize()
 	auto settings = Settings::GetInstance();
 	ResizeWindowByUser(settings->GetWindowWidth(), settings->GetWindowHeight());
 
-	CreateConstantBuffers();
-
 	return true;
 }
 
@@ -213,7 +209,7 @@ void GraphicsManager::SetViewport(const UINT& width, const UINT& height)
 
 void GraphicsManager::BeginScene()
 {
-	if (m_p_device_context && m_p_render_target_view && m_p_depth_stencil_view)
+	if (m_p_device_context && m_p_render_target_view &&m_p_depth_stencil_view)
 	{
 		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
 		m_p_device_context->OMSetRenderTargets(1, &m_p_render_target_view, m_p_depth_stencil_view);
@@ -454,8 +450,6 @@ const bool GraphicsManager::CreateDepthStencilView()
 		if (!SUCCEEDED(hResult))
 			return false;
 
-		SAFE_RELEASE(m_p_render_target_view);
-
 		return true;
 	}
 	return false;
@@ -468,7 +462,7 @@ void GraphicsManager::CreateConstantBuffers()
 	assert(pair_iter.second);
 	if (pair_iter.second)
 	{
-		pair_iter.first->second->Create<CBuffer_WVPMatrix>(CBuffer_BindSlot::WVPMatrix);
+		pair_iter.first->second->Create<CBuffer_WVPMatrix>(static_cast<UINT>(CBuffer_BindSlot::WVPMatrix));
 	}
 
 	//Material
@@ -476,8 +470,35 @@ void GraphicsManager::CreateConstantBuffers()
 	assert(pair_iter.second);
 	if (pair_iter.second)
 	{
-		pair_iter.first->second->Create<CBuffer_Material>(CBuffer_BindSlot::Material);
+		pair_iter.first->second->Create<CBuffer_Material>(static_cast<UINT>(CBuffer_BindSlot::Material));
 	}
+}
+
+void GraphicsManager::CreateSampler()
+{
+	D3D11_SAMPLER_DESC desc = {};
+
+	desc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	desc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	desc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	desc.Filter = D3D11_FILTER::D3D11_FILTER_ANISOTROPIC;
+	this->m_p_device->CreateSamplerState(&desc, m_arrSampler[0].GetAddressOf());
+
+
+	desc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	desc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	desc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	desc.Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT;
+	this->m_p_device->CreateSamplerState(&desc, m_arrSampler[1].GetAddressOf());
+
+	ID3D11SamplerState* sam[2] = { m_arrSampler[0].Get(), m_arrSampler[1].Get() };
+
+	this->m_p_device_context->VSSetSamplers(0, 2, sam);
+	this->m_p_device_context->HSSetSamplers(0, 2, sam);
+	this->m_p_device_context->DSSetSamplers(0, 2, sam);
+	this->m_p_device_context->GSSetSamplers(0, 2, sam);
+	this->m_p_device_context->PSSetSamplers(0, 2, sam);
+	this->m_p_device_context->CSSetSamplers(0, 2, sam);
 }
 
 std::shared_ptr<ConstantBuffer> GraphicsManager::GetConstantBuffer(const CBuffer_BindSlot& bind_slot)

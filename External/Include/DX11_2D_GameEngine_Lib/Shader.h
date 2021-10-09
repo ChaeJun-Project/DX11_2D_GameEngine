@@ -11,9 +11,6 @@ public:
 	Shader(const std::string resource_name);
 	~Shader();
 
-	const bool& LoadFromFile(const std::string& shader_path) override;
-	void SaveFile(const std::string& shader_path) override;
-
 	void BindPipeline() override;
 
 private:
@@ -37,12 +34,12 @@ public:
 	void SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY primitive_topology) { this->m_primitive_topology = primitive_topology; }
 
 private:
-    std::unordered_map<ShaderType, std::shared_ptr<IShader>> m_shader_un_map;
+    std::map<ShaderType, std::shared_ptr<IShader>> m_shader_map;
 	D3D11_PRIMITIVE_TOPOLOGY m_primitive_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 };
 
 template<typename T>
-inline void Shader::AddAndCreateShader(const std::string& path, const std::string& function_name, const std::string& shader_version)
+void Shader::AddAndCreateShader(const std::string& path, const std::string& function_name, const std::string& shader_version)
 {
 	//Class T가 IShader를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IShader, T>::value;
@@ -57,7 +54,7 @@ inline void Shader::AddAndCreateShader(const std::string& path, const std::strin
 	//un_map에 새로운 Shader 추가
 	//insert에 성공하면 pair_ib<iterator, bool> 반환
 	//iterator는 map 데이터를 참조하는 반복자, bool은 map에 데이터 삽입 성공여부
-	auto shader_iter = m_shader_un_map.insert(std::make_pair(shader_type, std::make_shared<T>()));
+	auto shader_iter = m_shader_map.insert(std::make_pair(shader_type, std::make_shared<T>()));
 
 	//해당하는 Type의 map에 성공적으로 데이터가 추가되었다면
 	assert(shader_iter.second);
@@ -71,7 +68,7 @@ inline void Shader::AddAndCreateShader(const std::string& path, const std::strin
 }
 
 template<typename T>
-inline std::shared_ptr<T> Shader::GetShader() const
+std::shared_ptr<T> Shader::GetShader() const
 {
 	//Class T가 IShader를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IShader, T>::value;
@@ -83,9 +80,10 @@ inline std::shared_ptr<T> Shader::GetShader() const
 
 	//타입 T에 해당하는 Shader Type 반환
 	auto shader_type = GetShaderType<T>();
-	auto shader_iter = this->m_shader_un_map.find(shader_type);
+	auto shader_iter = this->m_shader_map.find(shader_type);
 
-	assert(shader_iter != this->m_shader_un_map.end());
+	//해당 Shader Type의 Shader 데이터가 존재하는 경우
+	assert(shader_iter != this->m_shader_map.end());
 	//타입 T에 해당하는 Shader가 존재하는 경우
 	if (shader_iter->second != nullptr)
 	{

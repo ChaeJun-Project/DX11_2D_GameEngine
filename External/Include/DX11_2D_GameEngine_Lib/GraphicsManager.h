@@ -1,5 +1,6 @@
 #pragma once
-#include "Singleton.h"
+
+class ConstantBuffer;
 
 class GraphicsManager final : public Singleton<GraphicsManager>
 {
@@ -8,6 +9,10 @@ class GraphicsManager final : public Singleton<GraphicsManager>
 	~GraphicsManager();
 	
 public:
+	const bool Initialize();
+	void CreateConstantBuffers(); //TODO 위치 바꾸기
+	void CreateSampler();
+
 	//응용 프로그램 내부에서 윈도우의 해상도를 변경할 때
 	void ResizeWindowByProgram(const UINT& width, const UINT& height);
 	//유저에 의해서 윈도우의 해상도가 변경될 때
@@ -24,8 +29,9 @@ public:
 	ID3D11Device* GetDevice() const { SAFE_GET_POINTER(this->m_p_device);}
 	ID3D11DeviceContext* GetDeviceContext() const { SAFE_GET_POINTER(this->m_p_device_context); }
 
+	std::shared_ptr<ConstantBuffer> GetConstantBuffer(const CBuffer_BindSlot& bind_slot);
+
 private:
-	const bool Initialize();
     const bool CreateDeviceAndDeviceContext();
 	const bool CreateSwapChain();
 	const bool CreateRenderTargetView();
@@ -55,6 +61,11 @@ private:
 	//보여지는 영역
 	//렌더링된 렌더 타켓의 그림을 윈도우로 옮길 때 어떤 방식으로 가져올지 설정
 	D3D11_VIEWPORT m_viewport;
+
+	//ConstantBuffer를 저장할 map
+	std::map<CBuffer_BindSlot, std::shared_ptr<ConstantBuffer>> m_p_constant_buffer_map;
+
+	ComPtr<ID3D11SamplerState>		m_arrSampler[2]; //임시
 
 	//클리어 컬러
 	float m_clear_color[4]; //Init TODO

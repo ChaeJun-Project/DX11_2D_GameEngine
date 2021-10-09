@@ -11,14 +11,13 @@
 #pragma comment(lib, "DirectXTex/Release/DirectXTex_Release.lib")
 #endif
 
-
 class Texture : public IResource
 {
 public:
 	Texture(const std::string resource_name);
 	~Texture() = default;
 
-	const bool& LoadFromFile(const std::string& texture_path) override;
+	void LoadFromFile(const std::string& texture_path) override;
 	void SaveFile(const std::string& texture_path) override;
 
 	void BindPipeline() override;

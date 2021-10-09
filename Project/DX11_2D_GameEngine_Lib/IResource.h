@@ -14,7 +14,7 @@ public:
 
     virtual ~IResource() = default;
 
-    virtual const bool& LoadFromFile(const std::string& path) {}
+    virtual void LoadFromFile(const std::string& path) {}
     virtual void SaveFile(const std::string& path) {}
 
     virtual void BindPipeline() {}

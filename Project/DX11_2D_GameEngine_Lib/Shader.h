@@ -11,9 +11,6 @@ public:
 	Shader(const std::string resource_name);
 	~Shader();
 
-	const bool& LoadFromFile(const std::string& shader_path) override;
-	void SaveFile(const std::string& shader_path) override;
-
 	void BindPipeline() override;
 
 private:

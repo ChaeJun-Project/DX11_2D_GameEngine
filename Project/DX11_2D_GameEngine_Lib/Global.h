@@ -74,9 +74,6 @@ using namespace DirectX::PackedVector;
 //InputManager
 #include "InputManager.h"
 
-//ResourceManager
-#include "ResourceManager.h"
-
 //SceneManager
 #include "SceneManager.h"
 
@@ -128,6 +125,9 @@ using namespace DirectX::PackedVector;
 //Animation
 #include "Animation.h"
 #pragma endregion
+
+//ResourceManager
+#include "ResourceManager.h"
 
 #pragma region  Component
 //Transform

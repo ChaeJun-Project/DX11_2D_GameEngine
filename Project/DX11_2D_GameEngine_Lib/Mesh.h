@@ -5,13 +5,10 @@
 class Mesh final : public IResource
 {
 public:
-	Mesh(const std::string resource_name);
+	Mesh(const std::string& resource_name);
 	~Mesh();
 
 	void Create(const MeshType& mesh_type, const Vector2& mesh_size);
-
-	const bool& LoadFromFile(const std::string& mesh_path) override;
-	void SaveFile(const std::string& mesh_path) override;
 
 	void BindPipeline() override;
 
@@ -38,7 +35,6 @@ private:
 	std::vector<UINT> m_index_vector;
 	std::shared_ptr<IndexBuffer> m_p_index_buffer = nullptr;
 
-	MeshType m_mesh_type;
-	Vector2 m_mesh_size;
+	MeshType m_mesh_type = MeshType::Rectangle;
+	Vector2 m_mesh_size = Vector2::Zero;
 };
-

@@ -11,7 +11,6 @@ class ShaderManager final : public Singleton<ShaderManager>
 	~ShaderManager();
 
 
-
 public:
 	
 

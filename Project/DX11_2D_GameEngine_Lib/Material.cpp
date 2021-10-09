@@ -7,13 +7,16 @@ Material::Material(const std::string resource_name)
 	ZeroMemory(&m_material_data, sizeof(CBuffer_Material));
 
 	//텍스처는 총 4장까지만 들어가므로
-	//Vector의 size 및 capacity를 4로 초기화 
+	//Vector의 capacity를 4로 초기화 
 	m_p_texture_vector.reserve(4);
+	m_p_texture_vector.resize(4);
 }
 
 void Material::BindPipeline()
 {
-	static auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Material);
+	m_p_shader->BindPipeline();
+
+	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Material);
 	constant_buffer->SetConstantBufferData(&this->m_material_data, sizeof(CBuffer_Material));
 	constant_buffer->SetBufferBindStage(PipelineStage::ALL);
 	constant_buffer->BindPipeline();

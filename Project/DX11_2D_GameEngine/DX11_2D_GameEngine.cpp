@@ -2,6 +2,7 @@
 #include <DX11_2D_GameEngine_Lib/InputManager.h>
 #include <DX11_2D_GameEngine_Lib/Window.h>
 #include <DX11_2D_GameEngine_Lib/GraphicsManager.h>
+#include <DX11_2D_GameEngine_Lib/SceneManager.h>
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                       _In_opt_ HINSTANCE hPrevInstance,
@@ -19,13 +20,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
        d->ResizeWindowByUser(width, height);
     };
 
+    d->Initialize();
+    d->CreateConstantBuffers();
+    d->CreateSampler();
+
+    auto s = SceneManager::GetInstance();
+
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDI_ZERO));
 
     while (Window::Update(hAccelTable))
     {
-        d->BeginScene();
-
-        d->EndScene();
+        s->Progress();
     }
 
     return 0;

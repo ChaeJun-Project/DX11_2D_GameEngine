@@ -7,18 +7,49 @@ Camera::Camera(GameObject* p_game_object)
 {
 }
 
+Camera::~Camera()
+{
+
+}
+
 void Camera::Update()
 {
 	auto transform = m_p_game_object->GetComponent<Transform>();
 
 	//편집일 때
+	auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
+	rotation.z = 0.0f;
+
+	auto right = transform->GetRightVector(); //카메라의 오른 방향 벡터
+	auto up = transform->GetUpVector(); //카메라의 위쪽 방향 벡터
+	auto forward = transform->GetForwardVector(); //카메라의 정면 방향 벡터
+
+	Vector3 movement_speed;
+
+	auto input = InputManager::GetInstance();
+	auto timer = TimeManager::GetInstance();
 
 
-	//게임 플레이일 때
+	if (input->KeyPress(KeyCode::KEY_W))
+		movement_speed += forward * timer->GetDeltaTime_float();
 
-	//transform->Translate();
+	else if (input->KeyPress(KeyCode::KEY_S))
+		movement_speed -= forward * timer->GetDeltaTime_float();
 
+	if (input->KeyPress(KeyCode::KEY_D))
+		movement_speed += right * timer->GetDeltaTime_float();
 
+	else if (input->KeyPress(KeyCode::KEY_A))
+		movement_speed -= right * timer->GetDeltaTime_float();
+
+	if (input->KeyPress(KeyCode::KEY_E))
+		movement_speed += up * timer->GetDeltaTime_float();
+
+	else if (input->KeyPress(KeyCode::KEY_Q))
+		movement_speed -= up * timer->GetDeltaTime_float();
+
+	//카메라 위치 변경
+	transform->Translate(movement_speed);
 }
 
 void Camera::FinalUpdate()

@@ -4,7 +4,7 @@
 //====================================================
 struct VertexColor
 {
-    float4 position : POSITION;
+    float3 position : POSITION;
     float4 color : COLOR;
 };
 
@@ -20,7 +20,7 @@ struct VertexColorOuputType
 //====================================================
 struct VertexColorTexture
 {
-    float4 position : POSITION;
+    float3 position : POSITION;
     float4 color : COLOR;
     float2 uv : TEXCOORD;
 };

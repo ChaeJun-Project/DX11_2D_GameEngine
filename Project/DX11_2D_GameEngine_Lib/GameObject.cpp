@@ -13,7 +13,8 @@ REGISTER_COMPONENT_TYPE(Transform, ComponentType::Transform);
 REGISTER_COMPONENT_TYPE(Camera, ComponentType::Camera);
 REGISTER_COMPONENT_TYPE(Renderer, ComponentType::Renderer);
 REGISTER_COMPONENT_TYPE(Animator, ComponentType::Animator);
-REGISTER_COMPONENT_TYPE(IScript, ComponentType::Script);
+//REGISTER_COMPONENT_TYPE(IScript, ComponentType::Script);
+REGISTER_COMPONENT_TYPE(RockManZ_Script, ComponentType::Script);
 //TODO: 추후에 다른 Component들도 추가 예정
 
 GameObject::GameObject(const GameObjectType& game_object_type)

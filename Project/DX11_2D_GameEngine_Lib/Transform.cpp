@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Transform.h"
 
+
 Transform::Transform(GameObject* p_game_object)
 	:IComponent(ComponentType::Transform, p_game_object)
 {
@@ -9,6 +10,7 @@ Transform::Transform(GameObject* p_game_object)
 
 Transform::~Transform()
 {
+	m_p_game_object.reset();
 	m_child_transform_vector.clear();
 	m_child_transform_vector.shrink_to_fit();
 }

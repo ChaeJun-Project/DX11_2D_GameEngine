@@ -9,6 +9,10 @@ class GraphicsManager final : public Singleton<GraphicsManager>
 	~GraphicsManager();
 	
 public:
+	const bool Initialize();
+	void CreateConstantBuffers(); //TODO 위치 바꾸기
+	void CreateSampler();
+
 	//응용 프로그램 내부에서 윈도우의 해상도를 변경할 때
 	void ResizeWindowByProgram(const UINT& width, const UINT& height);
 	//유저에 의해서 윈도우의 해상도가 변경될 때
@@ -28,13 +32,10 @@ public:
 	std::shared_ptr<ConstantBuffer> GetConstantBuffer(const CBuffer_BindSlot& bind_slot);
 
 private:
-	const bool Initialize();
     const bool CreateDeviceAndDeviceContext();
 	const bool CreateSwapChain();
 	const bool CreateRenderTargetView();
 	const bool CreateDepthStencilView();
-
-	void CreateConstantBuffers();
 
 private:
 	//ID가 붙으면 com 인터페이스임
@@ -63,6 +64,8 @@ private:
 
 	//ConstantBuffer를 저장할 map
 	std::map<CBuffer_BindSlot, std::shared_ptr<ConstantBuffer>> m_p_constant_buffer_map;
+
+	ComPtr<ID3D11SamplerState>		m_arrSampler[2]; //임시
 
 	//클리어 컬러
 	float m_clear_color[4]; //Init TODO

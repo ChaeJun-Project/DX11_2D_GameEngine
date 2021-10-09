@@ -63,9 +63,9 @@ public:
 	void SetScale(const Vector3& scale);
 
 	//Direction
-	const Vector3 GetRightVector() const { return Vector3::Right * this->m_local_translation; }
-	const Vector3 GetUpVector() const { return Vector3::Up * this->m_local_translation; }
-	const Vector3 GetForwardVector() const { return Vector3::Forward * this->m_local_translation; }
+	const Vector3 GetRightVector() const { return Vector3::Right * this->m_local_rotation; }
+	const Vector3 GetUpVector() const { return Vector3::Up * this->m_local_rotation; }
+	const Vector3 GetForwardVector() const { return Vector3::Forward * this->m_local_rotation; }
 
 	//World Matrix
 	const Matrix& GetWorldMatrix() const { return this->m_world_matrix; }

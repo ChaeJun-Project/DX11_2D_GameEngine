@@ -11,37 +11,33 @@ Animation::Animation(const std::string resource_name)
 Animation::~Animation()
 {
 	//Delete All Texture Vector
-	this->m_texture_vector.clear();
-	this->m_texture_vector.shrink_to_fit();
+	this->m_p_texture_vector.clear();
+	this->m_p_texture_vector.shrink_to_fit();
 
 	//Delete All Animation Event Function Map
 	this->m_animation_event_func_map.clear();
 }
 
-const bool& Animation::LoadFromFile(const std::string& animation_path)
+//Texture/objectname/~~/
+void Animation::LoadFromFile(const std::string& animation_directory_path)
 {
     auto resource_manager = ResourceManager::GetInstance();
 
-	auto file_name_vector = FileManager::GetFileNameVectorFromDirectory(animation_path);
+	auto file_name_vector = FileManager::GetFileNameVectorFromDirectory(animation_directory_path);
 
-	this->m_texture_vector.reserve(file_name_vector.size());
+	this->m_p_texture_vector.reserve(file_name_vector.size());
 
 	//Create Texture & Push Vector
 	for (auto& file_name : file_name_vector)
 	{
-		this->m_texture_vector.emplace_back(resource_manager->CreateTexture(animation_path + file_name));
+		this->m_p_texture_vector.emplace_back(resource_manager->LoadTexture(animation_directory_path + file_name));
 	}
 
 	//Create Mesh
-	this->m_p_mesh = resource_manager->CreateMesh(m_texture_vector[0]->GetTextureSize());
-
-	//애니메이션 프레임당 유지 시간 설정
-	this->m_animation_frame_duration = static_cast<float>(this->m_animation_time / this->m_texture_vector.size());
-
-	return true;
+	this->m_p_mesh = resource_manager->CreateMesh(m_p_texture_vector[0]->GetTextureSize());
 }
 
-void Animation::SaveFile(const std::string& animation_path)
+void Animation::SaveFile(const std::string& animation_directory_path)
 {
 }
 
@@ -66,9 +62,9 @@ void Animation::Update()
 		{
 			--this->m_current_frame_id;
 			//애니메이션 역재생이 끝났을 때
-			if (this->m_current_frame_id < 0)
+			if (this->m_current_frame_id <= 0)
 			{
-				this->m_current_frame_id = static_cast<int>(this->m_texture_vector.size());
+				this->m_current_frame_id = static_cast<int>(this->m_p_texture_vector.size());
 
 				//반복 재생이 아닌 경우
 				if (!this->m_is_loop)
@@ -84,7 +80,7 @@ void Animation::Update()
 		{
 			++this->m_current_frame_id;
 			//애니메이션 재생이 끝났을 때
-			if (this->m_current_frame_id > this->m_texture_vector.size())
+			if (this->m_current_frame_id >= this->m_p_texture_vector.size())
 			{
 				this->m_current_frame_id = 0;
 
@@ -106,6 +102,8 @@ void Animation::Update()
 
 void Animation::Play()
 {
+	//애니메이션 프레임당 유지 시간 설정
+	this->m_animation_frame_duration = static_cast<float>(this->m_animation_time / this->m_p_texture_vector.size());
 	this->m_is_playing = true;
 	this->m_is_end = false;
 	this->m_current_frame_id = 0;
@@ -113,9 +111,11 @@ void Animation::Play()
 
 void Animation::PlayReverse()
 {
+	//애니메이션 프레임당 유지 시간 설정
+	this->m_animation_frame_duration = static_cast<float>(this->m_animation_time / this->m_p_texture_vector.size());
 	this->m_is_play_reverse = true;
 	this->m_is_end = false;
-	this->m_current_frame_id = static_cast<int>(this->m_texture_vector.size());
+	this->m_current_frame_id = static_cast<int>(this->m_p_texture_vector.size());
 }
 
 void Animation::Stop()

@@ -14,24 +14,28 @@ public:
 		const D3D11_USAGE& usage = D3D11_USAGE_DYNAMIC
 	);
 
-	//Constant Buffer는 여러 종류가 있기 때문에 멤버함수 템플릿 사용
-	template<typename T>
-	T* Map();
-	void Unmap();
+	void SetConstantBufferData(const void* buffer_data, const UINT& buffer_size);
+
+	void BindPipeline();
 
 public:
-    const UINT& GetBufferBindSlot() { return this->buffer_bind_slot; }
+    const UINT& GetBufferBindSlot() { return this->m_buffer_bind_slot; }
+
+	const UINT& GetBufferBindStage() { return this->m_buffer_bind_stage; }
+	void SetBufferBindStage(const PipelineStage& buffer_bind_stage) { this->m_buffer_bind_stage = buffer_bind_stage; }
 
 private:
 	ComPtr<ID3D11Buffer> m_p_buffer = nullptr;
-	UINT buffer_bind_slot;
+	UINT m_buffer_bind_stage;
+	UINT m_buffer_bind_slot;
+	UINT m_buffer_size;
 };
 
 template<typename T>
 inline void ConstantBuffer::Create(const UINT& buffer_bind_slot, const D3D11_USAGE& usage)
 {
     //Constant Buffer 바인드 슬롯 설정
-    this->buffer_bind_slot = buffer_bind_slot;
+    this->m_buffer_bind_slot = buffer_bind_slot;
 
     //Constant Buffer 정의
 	D3D11_BUFFER_DESC desc;
@@ -65,7 +69,7 @@ inline void ConstantBuffer::Create(const UINT& buffer_bind_slot, const D3D11_USA
 		break;
 	}
 	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER; //해당 Buffer를 Constant Buffer로 사용
-	desc.ByteWidth = sizeof(T); //Constant Buffer의 총 크기
+	desc.ByteWidth = this->m_buffer_size = sizeof(T); //Constant Buffer의 총 크기
 
 	//Constant Buffer 생성
 	//Constant Buffer는 다른 buffer들과 다르게 D3D11_SUBRESOURCE_DATA가 필요하지않음
@@ -75,26 +79,4 @@ inline void ConstantBuffer::Create(const UINT& buffer_bind_slot, const D3D11_USA
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return;
-}
-
-template<typename T>
-inline T* ConstantBuffer::Map()
-{
-    D3D11_MAPPED_SUBRESOURCE mapped_sub_data;
-	ZeroMemory(&mapped_sub_data, sizeof(D3D11_MAPPED_SUBRESOURCE));
-
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
-	auto hResult = device_context->Map
-	(
-		m_p_buffer.Get(),
-		0,
-		D3D11_MAP_WRITE_DISCARD,
-		0,
-		&mapped_sub_data
-	);
-	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return nullptr;
-
-	return reinterpret_cast<T*>(mapped_sub_data.pData);
 }

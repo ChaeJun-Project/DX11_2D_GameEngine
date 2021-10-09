@@ -9,29 +9,17 @@ RockManZ_Script::RockManZ_Script(GameObject* p_game_object)
 
 RockManZ_Script::~RockManZ_Script()
 {
+	m_p_game_object.reset();
 }
 
 void RockManZ_Script::Initialize()
 {
 	auto animator = m_p_game_object->GetComponent<Animator>();
-	auto animation_idle = std::make_shared<Animation>("RockManZ_Idle");
-	auto result = animation_idle->LoadFromFile("Texture/RockManZ/Animation/Z03_Idle/");
-	assert(result);
-	if (result)
-	{
-		animation_idle->SetAnimationTime(3.0f);
-		animation_idle->SetIsLoop(true);
-		animator->AddAnimation(animation_idle->GetResourceName(), animation_idle);
-	}
-
+	animator->CreateAnimation("RockManZ_Idle", "Texture/RockManZ/Animation/Z03_Idle/", 3.0f);
 	animator->SetCurrentAnimation("RockManZ_Idle");
 }
 
 void RockManZ_Script::Update()
-{
-}
-
-void RockManZ_Script::FinalUpdate()
 {
 }
 

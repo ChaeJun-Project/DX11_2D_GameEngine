@@ -58,6 +58,11 @@ using namespace DirectX::PackedVector;
 #include "Settings.h"
 #pragma endregion
 
+#pragma region D3D11BufferStruct
+#include "VertexStruct.h"
+#include "ConstantStruct.h"
+#pragma endregion
+
 #pragma region Manager
 //FileManager
 #include "FileManager.h"
@@ -69,8 +74,8 @@ using namespace DirectX::PackedVector;
 //InputManager
 #include "InputManager.h"
 
-//ResourceManager
-#include "ResourceManager.h"
+//SceneManager
+#include "SceneManager.h"
 
 //ShaderManager
 #include "ShaderManager.h"
@@ -84,10 +89,6 @@ using namespace DirectX::PackedVector;
 #pragma endregion
 
 #pragma region  Core
-//D3D11BufferStruct
-#include "VertexStruct.h"
-#include "ConstantStruct.h"
-
 //IA
 #include "VertexBuffer.h"
 #include "InputLayout.h"
@@ -111,6 +112,7 @@ using namespace DirectX::PackedVector;
 #include "Mesh.h"
 
 //Material
+#include "Material.h"
 
 //Shader
 #include "Shader.h"
@@ -122,5 +124,29 @@ using namespace DirectX::PackedVector;
 
 //Animation
 #include "Animation.h"
+#pragma endregion
+
+//ResourceManager
+#include "ResourceManager.h"
+
+#pragma region  Component
+//Transform
+#include "Transform.h"
+
+//Camera
+#include "Camera.h"
+
+//Renderer
+#include "Renderer.h"
+
+//Animator
+#include "Animator.h"
+
+//Script
+#include "RockManZ_Script.h"
+#pragma endregion
+
+#pragma region GameObject
+#include "GameObject.h"
 #pragma endregion
 

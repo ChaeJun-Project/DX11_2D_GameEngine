@@ -100,9 +100,6 @@
     <ClInclude Include="IComponent.h">
       <Filter>Scene\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Resource\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Resource\Texture</Filter>
     </ClInclude>
@@ -120,9 +117,6 @@
     </ClInclude>
     <ClInclude Include="SamplerState.h">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.cpp">
-      <Filter>Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Resource\Animation</Filter>
@@ -162,6 +156,9 @@
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Scene\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Resource\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +284,12 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Scene\Components\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantStruct.cpp">
+      <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Resource\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

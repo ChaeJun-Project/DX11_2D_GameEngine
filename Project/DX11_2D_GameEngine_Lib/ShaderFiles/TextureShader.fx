@@ -70,9 +70,5 @@ VertexColorTextureOutputType VS(VertexColorTexture vs_input)
 //Pixel Shader
 float4 PS(VertexColorTextureOutputType ps_input) : SV_Target
 {
-    float ps_output_color = ps_input.color;
-    
-    ps_output_color = g_Texture_0.Sample(Sampler1, ps_input.uv);
-    
-    return ps_output_color;
+    return g_Texture_0.Sample(Sampler1, ps_input.uv);
 }

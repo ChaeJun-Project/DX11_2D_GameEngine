@@ -145,7 +145,6 @@ LRESULT InputManager::MsgProc(HWND handle, const UINT& message, const WPARAM& wP
 	{
 		mousePosition.x = static_cast<float>(LOWORD(lParam));
 		mousePosition.y = static_cast<float>(HIWORD(lParam));
-		std::cout<< "마우스 위치: (" << mousePosition.x << ", " << mousePosition.y<< ")" << std::endl;
 	}
 
 	if (message == WM_MOUSEWHEEL)

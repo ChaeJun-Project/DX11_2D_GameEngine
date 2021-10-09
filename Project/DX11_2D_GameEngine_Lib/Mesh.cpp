@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Mesh.h"
 
-Mesh::Mesh(const std::string resource_name)
+Mesh::Mesh(const std::string& resource_name)
 	:IResource(ResourceType::Mesh, resource_name)
 {
 }
@@ -19,7 +19,7 @@ Mesh::~Mesh()
 
 void Mesh::Create(const MeshType& mesh_type, const Vector2& mesh_size)
 {
-    this->m_mesh_type = mesh_type;
+	this->m_mesh_type = mesh_type;
 	this->m_mesh_size = mesh_size;
 
 	switch (mesh_type)
@@ -36,19 +36,10 @@ void Mesh::Create(const MeshType& mesh_type, const Vector2& mesh_size)
 	}
 }
 
-const bool& Mesh::LoadFromFile(const std::string& mesh_path)
-{
-	return true;
-}
-
-void Mesh::SaveFile(const std::string& mesh_path)
-{
-}
-
 void Mesh::BindPipeline()
 {
-    auto vertex_buffer = this->m_p_vertex_buffer->GetBuffer();
-    auto stride = this->m_p_vertex_buffer->GetStride();
+	auto vertex_buffer = this->m_p_vertex_buffer->GetBuffer();
+	auto stride = this->m_p_vertex_buffer->GetStride();
 	auto offset = this->m_p_vertex_buffer->GetOffset();
 
 	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
@@ -67,7 +58,7 @@ void Mesh::BindPipeline()
 
 void Mesh::Render()
 {
-	this->BindPipeline();
+	BindPipeline();
 
 	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
 	device_context->DrawIndexed(static_cast<UINT>(this->m_index_vector.size()), 0, 0);
@@ -142,4 +133,3 @@ void Mesh::CreateCircleMesh()
 {
 	//TODO
 }
-
