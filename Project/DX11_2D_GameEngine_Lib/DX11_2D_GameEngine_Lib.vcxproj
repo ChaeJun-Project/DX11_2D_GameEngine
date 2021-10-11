@@ -185,10 +185,12 @@ call GameEngineCopy.bat</Command>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="BlendState.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantStruct.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="DepthStencilState.h" />
     <ClInclude Include="DX11Object.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Enum.h" />
@@ -240,9 +242,11 @@ call GameEngineCopy.bat</Command>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="BlendState.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="ConstantStruct.cpp" />
+    <ClCompile Include="DepthStencilState.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="FileStream.cpp" />

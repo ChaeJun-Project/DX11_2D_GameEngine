@@ -11,7 +11,7 @@ public:
 	    const UINT& sampler_bind_slot,
 		const D3D11_FILTER& filter,
 		const D3D11_TEXTURE_ADDRESS_MODE& address_mode,
-		const D3D11_COMPARISON_FUNC& comparison_func
+		const D3D11_COMPARISON_FUNC& comparison_func = D3D11_COMPARISON_NEVER
 	);
 
 public:

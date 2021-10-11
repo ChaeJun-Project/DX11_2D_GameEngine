@@ -160,6 +160,12 @@
     <ClInclude Include="Mesh.h">
       <Filter>Resource\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="DepthStencilState.h">
+      <Filter>Core\DX11_Graphics_Pipeline\OM%28Output Merger%29</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendState.h">
+      <Filter>Core\DX11_Graphics_Pipeline\OM%28Output Merger%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -290,6 +296,12 @@
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthStencilState.cpp">
+      <Filter>Core\DX11_Graphics_Pipeline\OM%28Output Merger%29</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendState.cpp">
+      <Filter>Core\DX11_Graphics_Pipeline\OM%28Output Merger%29</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

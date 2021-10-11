@@ -97,6 +97,8 @@ using namespace DirectX::PackedVector;
 //RS
 
 //OM
+#include "BlendState.h"
+#include "DepthStencilState.h"
 
 //Shaders
 #include "VertexShader.h"

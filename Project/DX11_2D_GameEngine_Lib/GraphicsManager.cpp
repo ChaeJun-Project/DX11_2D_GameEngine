@@ -29,6 +29,27 @@ GraphicsManager::~GraphicsManager()
 
 	SAFE_RELEASE(m_p_device_context);
 	SAFE_RELEASE(m_p_device);
+
+	//Constant Buffer Map 초기화
+	for (auto& constant_buffer : this->m_p_constant_buffer_map)
+	{
+		constant_buffer.second.reset();
+	}
+	this->m_p_constant_buffer_map.clear();
+
+	//Sampler Vector 초기화
+	for (auto& sampler : this->m_p_sampler_map)
+	{
+		sampler.second.reset();
+	}
+	this->m_p_sampler_map.clear();
+
+	//Blender Map 초기화
+	for (auto& blender : this->m_p_blender_map)
+	{
+		blender.second.reset();
+	}
+	this->m_p_blender_map.clear();
 }
 
 const bool GraphicsManager::Initialize()
@@ -209,7 +230,7 @@ void GraphicsManager::SetViewport(const UINT& width, const UINT& height)
 
 void GraphicsManager::BeginScene()
 {
-	if (m_p_device_context && m_p_render_target_view &&m_p_depth_stencil_view)
+	if (m_p_device_context && m_p_render_target_view && m_p_depth_stencil_view)
 	{
 		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
 		m_p_device_context->OMSetRenderTargets(1, &m_p_render_target_view, m_p_depth_stencil_view);
@@ -219,6 +240,8 @@ void GraphicsManager::BeginScene()
 		m_p_device_context->ClearRenderTargetView(m_p_render_target_view, m_clear_color);
 		//깊이 버퍼 내용 지우기
 		m_p_device_context->ClearDepthStencilView(m_p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		//블랜더 설정
+		m_p_device_context->OMSetBlendState(this->m_p_blender_map["Start_Blender"]->GetBlendState(), nullptr, 0xFF);
 	}
 }
 
@@ -229,6 +252,8 @@ void GraphicsManager::EndScene()
 		//백 버퍼에 그린 내용을 전면 버퍼로 스왑
 		auto hResult = m_p_swap_chain->Present(Settings::GetInstance()->IsVsync() ? 1 : 0, 0);
 		assert(SUCCEEDED(hResult));
+		//블랜더 설정
+		m_p_device_context->OMSetBlendState(this->m_p_blender_map["End_Blender"]->GetBlendState(), nullptr, 0xFF);
 	}
 }
 
@@ -457,18 +482,20 @@ const bool GraphicsManager::CreateDepthStencilView()
 
 void GraphicsManager::CreateConstantBuffers()
 {
-    //WVPMatrix
+	//WVPMatrix
 	auto pair_iter = this->m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::WVPMatrix, std::make_shared<ConstantBuffer>()));
-	assert(pair_iter.second);
-	if (pair_iter.second)
+	auto result = pair_iter.second;
+	assert(result);
+	if (result)
 	{
 		pair_iter.first->second->Create<CBuffer_WVPMatrix>(static_cast<UINT>(CBuffer_BindSlot::WVPMatrix));
 	}
 
 	//Material
 	pair_iter = this->m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Material, std::make_shared<ConstantBuffer>()));
-	assert(pair_iter.second);
-	if (pair_iter.second)
+	result = pair_iter.second;
+	assert(result);
+	if (result)
 	{
 		pair_iter.first->second->Create<CBuffer_Material>(static_cast<UINT>(CBuffer_BindSlot::Material));
 	}
@@ -476,29 +503,68 @@ void GraphicsManager::CreateConstantBuffers()
 
 void GraphicsManager::CreateSampler()
 {
-	D3D11_SAMPLER_DESC desc = {};
+	//Sampler1
+	auto pair_iter = this->m_p_sampler_map.insert(std::make_pair("Sampler1" , std::make_shared<SamplerState>()));
+	auto result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create
+		(
+			0,
+			D3D11_FILTER::D3D11_FILTER_ANISOTROPIC,
+			D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
+		);
+	}
 
-	desc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
-	desc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
-	desc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
-	desc.Filter = D3D11_FILTER::D3D11_FILTER_ANISOTROPIC;
-	this->m_p_device->CreateSamplerState(&desc, m_arrSampler[0].GetAddressOf());
+	//Sampler2
+	pair_iter = this->m_p_sampler_map.insert(std::make_pair("Sampler2", std::make_shared<SamplerState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create
+		(
+			0,
+			D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT,
+			D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
+		);
+	}
 
+	//Set Sampler
+	ID3D11SamplerState* sampler_array[2]
+	{
+	   this->m_p_sampler_map["Sampler1"]->GetSamplerState(),
+	   this->m_p_sampler_map["Sampler2"]->GetSamplerState()
+	};
 
-	desc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
-	desc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
-	desc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
-	desc.Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT;
-	this->m_p_device->CreateSamplerState(&desc, m_arrSampler[1].GetAddressOf());
+	this->m_p_device_context->VSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
+	this->m_p_device_context->HSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
+	this->m_p_device_context->DSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
+	this->m_p_device_context->GSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
+	this->m_p_device_context->PSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
+	this->m_p_device_context->CSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
+}
 
-	ID3D11SamplerState* sam[2] = { m_arrSampler[0].Get(), m_arrSampler[1].Get() };
+void GraphicsManager::CreateBlender()
+{
+	//Start Blender
+	auto pair_iter = this->m_p_blender_map.insert(std::make_pair("Start_Blender", std::make_shared<BlendState>()));
+	auto result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create(true);
+	}
 
-	this->m_p_device_context->VSSetSamplers(0, 2, sam);
-	this->m_p_device_context->HSSetSamplers(0, 2, sam);
-	this->m_p_device_context->DSSetSamplers(0, 2, sam);
-	this->m_p_device_context->GSSetSamplers(0, 2, sam);
-	this->m_p_device_context->PSSetSamplers(0, 2, sam);
-	this->m_p_device_context->CSSetSamplers(0, 2, sam);
+	//End Blender
+	pair_iter = this->m_p_blender_map.insert(std::make_pair("End_Blender", std::make_shared<BlendState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create(false);
+	}
 }
 
 std::shared_ptr<ConstantBuffer> GraphicsManager::GetConstantBuffer(const CBuffer_BindSlot& bind_slot)

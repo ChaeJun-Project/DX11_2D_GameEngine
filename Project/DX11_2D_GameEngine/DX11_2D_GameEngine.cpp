@@ -23,6 +23,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     d->Initialize();
     d->CreateConstantBuffers();
     d->CreateSampler();
+    d->CreateBlender();
 
     auto s = SceneManager::GetInstance();
 

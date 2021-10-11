@@ -1,6 +1,8 @@
 #pragma once
 
 class ConstantBuffer;
+class SamplerState;
+class BlendState;
 
 class GraphicsManager final : public Singleton<GraphicsManager>
 {
@@ -10,8 +12,10 @@ class GraphicsManager final : public Singleton<GraphicsManager>
 	
 public:
 	const bool Initialize();
-	void CreateConstantBuffers(); //TODO 위치 바꾸기
+	//TODO 위치 바꾸기(Constant, Sampler, Blend)
+	void CreateConstantBuffers(); 
 	void CreateSampler();
+	void CreateBlender();
 
 	//응용 프로그램 내부에서 윈도우의 해상도를 변경할 때
 	void ResizeWindowByProgram(const UINT& width, const UINT& height);
@@ -65,7 +69,11 @@ private:
 	//ConstantBuffer를 저장할 map
 	std::map<CBuffer_BindSlot, std::shared_ptr<ConstantBuffer>> m_p_constant_buffer_map;
 
-	ComPtr<ID3D11SamplerState>		m_arrSampler[2]; //임시
+	//Sampler를 저장할 map
+	std::map<std::string, std::shared_ptr<SamplerState>> m_p_sampler_map;
+
+	//Blender를 저장할 map
+	std::map<std::string, std::shared_ptr<BlendState>> m_p_blender_map;
 
 	//클리어 컬러
 	float m_clear_color[4]; //Init TODO

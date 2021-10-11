@@ -1,18 +1,19 @@
 ﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\TextureShader.cso
-  Animation.cpp
-C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\TimeManager.h(19): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+  GraphicsManager.cpp
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\DX11Object.h(22): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\DX11Object.h(29): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\DX11Object.h(35): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
   DX11_2D_GameEngine_Lib.vcxproj -> C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\DX11_2D_GameEngine_Lib_Debug.lib
   .\Project\DX11_2D_GameEngine_Lib\Animation.h
   .\Project\DX11_2D_GameEngine_Lib\Animator.h
+  .\Project\DX11_2D_GameEngine_Lib\BlendState.h
   .\Project\DX11_2D_GameEngine_Lib\Camera.h
   .\Project\DX11_2D_GameEngine_Lib\ConstantBuffer.h
   .\Project\DX11_2D_GameEngine_Lib\ConstantStruct.h
   .\Project\DX11_2D_GameEngine_Lib\Define.h
+  .\Project\DX11_2D_GameEngine_Lib\DepthStencilState.h
   .\Project\DX11_2D_GameEngine_Lib\DX11Object.h
   .\Project\DX11_2D_GameEngine_Lib\Engine.h
   .\Project\DX11_2D_GameEngine_Lib\Enum.h
@@ -62,7 +63,7 @@ C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib
   .\Project\DX11_2D_GameEngine_Lib\Math\Vector2.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Vector3.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Vector4.h
-  55개 파일이 복사되었습니다.
+  57개 파일이 복사되었습니다.
   .\Project\DX11_2D_GameEngine_Lib\Math\Color4.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Math.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Matrix.h

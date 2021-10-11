@@ -35,7 +35,8 @@ void Scene::Initialize()
 	rockmanZ->AddAndCreateComponent<Animator>();
 	rockmanZ->AddAndCreateComponent<RockManZ_Script>();
 
-	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, 0.0f, 10.0f));
+	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, 0.0f, 0.0f));
+	rockmanZ->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 0.0f));
 
 	rockmanZ->GetComponent<Animator>()->Play();
 
