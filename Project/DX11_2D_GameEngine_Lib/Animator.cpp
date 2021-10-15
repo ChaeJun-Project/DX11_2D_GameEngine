@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Animator.h"
 
-Animator::Animator(GameObject* p_game_object)
-	:IComponent(ComponentType::Animator, p_game_object)
+Animator::Animator()
+	:IComponent(ComponentType::Animator)
 {
 	
 }
@@ -20,7 +20,7 @@ void Animator::FinalUpdate()
 	if (this->m_p_current_animation == nullptr)
 		return;
 
-	auto renderer = m_p_game_object->GetComponent<Renderer>();
+	auto renderer = m_p_owner_game_object.lock()->GetComponent<Renderer>();
 	renderer->SetMesh(this->m_p_current_animation->GetMesh());
 	auto material = renderer->GetMaterial();
 	material->SetShader(ResourceManager::GetInstance()->GetShaderResource(ShaderResourceType::Standard));
@@ -75,7 +75,7 @@ void Animator::SetCurrentAnimation(const std::string& animation_name)
 	this->m_p_current_animation = animation_iter->second;
 }
 
-void Animator::SetAnimationEvent(const std::string& animation_name, std::function<void(void)>)
+void Animator::SetAnimationEvent(const std::string& animation_name, std::function<void(void)> func)
 {
 	//TODO
 }

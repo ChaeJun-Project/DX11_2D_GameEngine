@@ -7,7 +7,7 @@ class Animation;
 class Animator : public IComponent
 {
 public:
-	Animator(GameObject* p_game_object);
+	Animator();
 	~Animator() = default;
 
 	void Update() override;
@@ -30,7 +30,10 @@ public:
 	const std::shared_ptr<Animation> GetCurrentAnimation() { SAFE_GET_POINTER(this->m_p_current_animation); }
 	void SetCurrentAnimation(const std::string& animation_name);
 
-	void SetAnimationEvent(const std::string& animation_name, std::function<void(void)>);
+	void SetAnimationEvent(const std::string& animation_name, std::function<void(void)> func);
+
+public:
+    CLONE(Animator);
 
 private:
 	std::shared_ptr<Animation> m_p_current_animation = nullptr;

@@ -1,79 +1,24 @@
-﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\TextureShader.cso
-  GraphicsManager.cpp
-C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\DX11Object.h(22): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
-C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\DX11Object.h(29): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
-C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\DX11Object.h(35): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
-  DX11_2D_GameEngine_Lib.vcxproj -> C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\External\Library\DX11_2D_GameEngine_Lib\Debug\DX11_2D_GameEngine_Lib_Debug.lib
-  .\Project\DX11_2D_GameEngine_Lib\Animation.h
-  .\Project\DX11_2D_GameEngine_Lib\Animator.h
-  .\Project\DX11_2D_GameEngine_Lib\BlendState.h
-  .\Project\DX11_2D_GameEngine_Lib\Camera.h
-  .\Project\DX11_2D_GameEngine_Lib\ConstantBuffer.h
-  .\Project\DX11_2D_GameEngine_Lib\ConstantStruct.h
-  .\Project\DX11_2D_GameEngine_Lib\Define.h
-  .\Project\DX11_2D_GameEngine_Lib\DepthStencilState.h
-  .\Project\DX11_2D_GameEngine_Lib\DX11Object.h
-  .\Project\DX11_2D_GameEngine_Lib\Engine.h
-  .\Project\DX11_2D_GameEngine_Lib\Enum.h
-  .\Project\DX11_2D_GameEngine_Lib\FileManager.h
-  .\Project\DX11_2D_GameEngine_Lib\FileStream.h
-  .\Project\DX11_2D_GameEngine_Lib\GameObject.h
-  .\Project\DX11_2D_GameEngine_Lib\Global.h
-  .\Project\DX11_2D_GameEngine_Lib\GraphicsManager.h
-  .\Project\DX11_2D_GameEngine_Lib\IComponent.h
-  .\Project\DX11_2D_GameEngine_Lib\IndexBuffer.h
-  .\Project\DX11_2D_GameEngine_Lib\InputLayout.h
-  .\Project\DX11_2D_GameEngine_Lib\InputManager.h
-  .\Project\DX11_2D_GameEngine_Lib\IResource.h
-  .\Project\DX11_2D_GameEngine_Lib\IScript.h
-  .\Project\DX11_2D_GameEngine_Lib\IShader.h
-  .\Project\DX11_2D_GameEngine_Lib\Layer.h
-  .\Project\DX11_2D_GameEngine_Lib\MainCamera.h
-  .\Project\DX11_2D_GameEngine_Lib\Material.h
-  .\Project\DX11_2D_GameEngine_Lib\Mesh.h
-  .\Project\DX11_2D_GameEngine_Lib\Motion.h
-  .\Project\DX11_2D_GameEngine_Lib\PixelShader.h
-  .\Project\DX11_2D_GameEngine_Lib\Render.h
-  .\Project\DX11_2D_GameEngine_Lib\Renderer.h
-  .\Project\DX11_2D_GameEngine_Lib\ResourceManager.h
-  .\Project\DX11_2D_GameEngine_Lib\RockManZ_Script.h
-  .\Project\DX11_2D_GameEngine_Lib\SamplerState.h
-  .\Project\DX11_2D_GameEngine_Lib\Scene.h
-  .\Project\DX11_2D_GameEngine_Lib\SceneManager.h
-  .\Project\DX11_2D_GameEngine_Lib\Settings.h
-  .\Project\DX11_2D_GameEngine_Lib\Shader.h
-  .\Project\DX11_2D_GameEngine_Lib\ShaderManager.h
-  .\Project\DX11_2D_GameEngine_Lib\Singleton.h
-  .\Project\DX11_2D_GameEngine_Lib\Stage.h
-  .\Project\DX11_2D_GameEngine_Lib\StageManager.h
-  .\Project\DX11_2D_GameEngine_Lib\stdafx.h
-  .\Project\DX11_2D_GameEngine_Lib\Texture.h
-  .\Project\DX11_2D_GameEngine_Lib\TimeManager.h
-  .\Project\DX11_2D_GameEngine_Lib\Transform.h
-  .\Project\DX11_2D_GameEngine_Lib\VertexBuffer.h
-  .\Project\DX11_2D_GameEngine_Lib\VertexShader.h
-  .\Project\DX11_2D_GameEngine_Lib\VertexStruct.h
-  .\Project\DX11_2D_GameEngine_Lib\Window.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Color4.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Math.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Matrix.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Quaternion.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Vector2.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Vector3.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Vector4.h
-  57개 파일이 복사되었습니다.
-  .\Project\DX11_2D_GameEngine_Lib\Math\Color4.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Math.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Matrix.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Quaternion.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Vector2.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Vector3.h
-  .\Project\DX11_2D_GameEngine_Lib\Math\Vector4.h
-  7개 파일이 복사되었습니다.
-  .\Project\DX11_2D_GameEngine_Lib\ShaderFiles\ConstantBuffer.fx
-  .\Project\DX11_2D_GameEngine_Lib\ShaderFiles\DrawLineShader.fx
-  .\Project\DX11_2D_GameEngine_Lib\ShaderFiles\TextureShader.fx
-  .\Project\DX11_2D_GameEngine_Lib\ShaderFiles\VertexStruct.fx
-  4개 파일이 복사되었습니다.
+﻿  EventManager.cpp
+  GameObject.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1895,9): error C2259: 'IComponent': 추상 클래스를 인스턴스화할 수 없습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(5): message : 'IComponent' 선언을 참조하십시오.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1895,9): message : 다음 멤버가 원인입니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1895,9): message : 'IComponent *IComponent::Clone(void)': abstract입니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\IComponent.h(25): message : 'IComponent::Clone' 선언을 참조하십시오.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1895,9): message : 'void IComponent::FinalUpdate(void)': abstract입니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\IComponent.h(22): message : 'IComponent::FinalUpdate' 선언을 참조하십시오.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2042): message : 컴파일되는 클래스 템플릿 인스턴스화 'std::_Wrap<_Ty>'에 대한 참조를 확인하세요.
+          with
+          [
+              _Ty=IComponent
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2747): message : 컴파일되는 클래스 템플릿 인스턴스화 'std::_Ref_count_obj2<_Ty>'에 대한 참조를 확인하세요.
+          with
+          [
+              _Ty=IComponent
+          ]
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.cpp(13): message : 컴파일되는 함수 템플릿 인스턴스화 'std::shared_ptr<IComponent> std::make_shared<IComponent,IComponent*>(IComponent *&&)'에 대한 참조를 확인하세요.
+  IShader.cpp
+  VertexShader.cpp
+  코드를 생성하고 있습니다...
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\SceneManager.h(16): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.

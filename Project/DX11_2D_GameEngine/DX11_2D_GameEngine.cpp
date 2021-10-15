@@ -5,34 +5,37 @@
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                      _In_opt_ HINSTANCE hPrevInstance,
-                      _In_ LPWSTR    lpCmdLine,
-                      _In_ int       nCmdShow)
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ int       nCmdShow)
 {
-    Window::Create(hInstance, 800, 600, L"DX11_2D_GameEngine", IDI_ZERO, false);
-    Window::Show(nCmdShow);
-  
-    auto d = GraphicsManager::GetInstance();
+	//메모리 누수 체크
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-    Window::user_input_event = InputManager::GetInstance()->MouseProc;
-    Window::resize_event = [&d](const UINT& width, const UINT& height)
-    {
-       d->ResizeWindowByUser(width, height);
-    };
+	Window::Create(hInstance, 800, 600, L"DX11_2D_GameEngine", IDI_ZERO, false);
+	Window::Show(nCmdShow);
 
-    d->Initialize();
-    d->CreateConstantBuffers();
-    d->CreateSampler();
-    d->CreateBlender();
+	auto d = GraphicsManager::GetInstance();
 
-    auto s = SceneManager::GetInstance();
+	Window::user_input_event = InputManager::GetInstance()->MouseProc;
+	Window::resize_event = [&d](const UINT& width, const UINT& height)
+	{
+		d->ResizeWindowByUser(width, height);
+	};
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDI_ZERO));
+	d->Initialize();
+	d->CreateConstantBuffers();
+	d->CreateSampler();
+	d->CreateBlender();
 
-    while (Window::Update(hAccelTable))
-    {
-        s->Progress();
-    }
+	auto s = SceneManager::GetInstance();
 
-    return 0;
+	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDI_ZERO));
+
+	while (Window::Update(hAccelTable))
+	{
+		s->Progress();
+	}
+
+	return 0;
 }

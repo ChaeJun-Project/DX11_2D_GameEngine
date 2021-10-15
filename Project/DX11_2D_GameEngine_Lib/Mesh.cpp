@@ -135,5 +135,62 @@ void Mesh::CreateRectangleMesh()
 
 void Mesh::CreateCircleMesh()
 {
-	//TODO
+	//Vertex
+	//mesh 사이즈(x와 y 값) 중 작은 사이즈를 반지름으로 결정
+	float radius = this->m_mesh_size.x <= this->m_mesh_size.y ? this->m_mesh_size.x : this->m_mesh_size.y;
+	UINT slice_count = 100; //원을 나눌 조각 수
+	float step_theta = XM_2PI / static_cast<float>(slice_count); //2PI = 360도, 조각당 각도
+		
+	//Vertex
+	auto vertex_count = slice_count + 1;
+	this->m_vertex_vector.reserve(static_cast<size_t>(vertex_count));
+	{
+		VertexColorTexture vertex;
+
+		//Center Vertex(중앙 정점)
+		vertex.position = Vector3(0.0f, 0.0f, 0.0f);
+		vertex.color = Color4::White;
+		vertex.color.a = 0.0f;
+		vertex.uv = Vector2(0.5f, 0.5f);
+		this->m_vertex_vector.emplace_back(vertex);
+
+		//Circle Vertex(반 시계 방향으로)
+		float theta = 0.0f;
+		for (UINT i = 0; i <= slice_count; ++i)
+		{
+			vertex.position = Vector3(radius * cosf(theta), radius * sinf(theta), 0.0f);
+			vertex.color = Color4::White;
+			vertex.color.a = 0.0f;
+			vertex.uv = Vector2(0.5f + (vertex.position.x / (2.0f * radius)) , 0.5f - (vertex.position.y / (2.0f * radius)));
+
+			this->m_vertex_vector.emplace_back(vertex);
+			
+			theta += step_theta;
+		}
+	}
+
+	//Create Vertex Buffer
+	if (this->m_p_vertex_buffer == nullptr)
+		this->m_p_vertex_buffer = std::make_shared<VertexBuffer>();
+
+	this->m_p_vertex_buffer->Create(this->m_vertex_vector);
+
+	//Index
+	auto index_count = slice_count * 3;
+	this->m_index_vector.reserve(6);
+	{
+		for (UINT i = 0; i < slice_count; ++i)
+		{
+			//각 삼각형을 시계방향으로 그림
+			this->m_index_vector.emplace_back(0);
+			this->m_index_vector.emplace_back(i + 2);
+			this->m_index_vector.emplace_back(i + 1);
+		}
+	}
+
+	//Create Index Buffer
+	if (this->m_p_index_buffer == nullptr)
+		this->m_p_index_buffer = std::make_shared<IndexBuffer>();
+
+	this->m_p_index_buffer->Create(this->m_index_vector);
 }

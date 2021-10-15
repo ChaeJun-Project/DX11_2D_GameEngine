@@ -2,17 +2,10 @@
 #include "Transform.h"
 
 
-Transform::Transform(GameObject* p_game_object)
-	:IComponent(ComponentType::Transform, p_game_object)
+Transform::Transform()
+	:IComponent(ComponentType::Transform)
 {
 
-}
-
-Transform::~Transform()
-{
-	m_p_game_object.reset();
-	m_child_transform_vector.clear();
-	m_child_transform_vector.shrink_to_fit();
 }
 
 void Transform::FinalUpdate()
@@ -27,16 +20,18 @@ void Transform::UpdateWorldMatrix()
 	auto translation = Matrix::Translation(this->m_local_translation);
 
 	//SRT 연산
+	//해당 transform을 소유한 오브젝트가 부모 오브젝트가 있다면
+	//해당 월드 행렬은 부모 오브젝트 기준의 월드 행렬
 	this->m_world_matrix = scale * rotation * translation;
 
 	//부모 오브젝트의 transform이 있다면
 	//현재 오브젝트의 월드 행렬에 부모 오브젝트의 월드 행렬을 곱함
-	if (HasParent())
-		this->m_world_matrix = this->m_world_matrix * this->m_p_parent_transform->GetWorldMatrix();
-
-	//자식 오브젝트의 월드 행렬 업데이트
-	for (const auto& child_transform : this->m_child_transform_vector)
-		child_transform->UpdateWorldMatrix();
+	//부모 오브젝트 기준의 월드 행렬에 부모 오브젝트의 월드 행렬을 곱함
+	if (m_p_owner_game_object.lock()->HasParent())
+	{
+	    auto parent_world_matrix = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
+		this->m_world_matrix = this->m_world_matrix * parent_world_matrix;
+	}
 }
 
 void Transform::SetLocalTranslation(const Vector3& local_translation)
@@ -68,10 +63,13 @@ void Transform::SetLocalScale(const Vector3& local_scale)
 
 void Transform::Translate(const Vector3& move)
 {
-	//부모 오브젝트의 transform이 있다면
+	//해당 오브젝트가 부모 오브젝트를 가지고 있다면
 	//부모 오브젝트의 월드 행렬의 역행렬을 곱한 값을 더함
-	if (HasParent())
-		SetLocalTranslation(this->m_local_translation + (move * this->m_p_parent_transform->GetWorldMatrix().Inverse()));
+	if (m_p_owner_game_object.lock()->HasParent())
+	{ 
+		auto parent_world_matrix = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
+		SetLocalTranslation(this->m_local_translation + (move * parent_world_matrix.Inverse()));
+	}
 
 	else
 		SetLocalTranslation(this->m_local_translation + move);
@@ -82,7 +80,8 @@ void Transform::SetTranslation(const Vector3& translation)
 	if (GetTranslation() == translation)
 		return;
 
-	SetLocalTranslation(HasParent() ? translation * this->m_p_parent_transform->GetWorldMatrix().Inverse() : translation);
+	auto parent_world_matrix = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
+	SetLocalTranslation(m_p_owner_game_object.lock()->HasParent() ? translation * parent_world_matrix.Inverse() : translation);
 }
 
 void Transform::SetRotation(const Quaternion& rotation)
@@ -90,7 +89,8 @@ void Transform::SetRotation(const Quaternion& rotation)
 	if (GetRotation() == rotation)
 		return;
 
-	SetLocalRotation(HasParent() ? rotation * this->m_p_parent_transform->GetRotation().Inverse() : rotation);
+	auto parent_rotation = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetRotation();
+	SetLocalRotation(m_p_owner_game_object.lock()->HasParent() ? rotation * parent_rotation.Inverse() : rotation);
 }
 
 void Transform::SetScale(const Vector3& scale)
@@ -98,41 +98,10 @@ void Transform::SetScale(const Vector3& scale)
 	if (GetScale() == scale)
 		return;
 
-	SetLocalScale(HasParent() ? scale / this->m_p_parent_transform->GetScale() : scale);
+	auto parent_scale = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetScale();
+	SetLocalScale(m_p_owner_game_object.lock()->HasParent() ? scale / parent_scale : scale);
 }
-
-void Transform::SetParent(Transform* new_parent)
-{
-	//TODO
-}
-
-Transform* Transform::GetChildFromIndex(const UINT& index)
-{
-	//TODO
-	return nullptr;
-}
-
-Transform* Transform::GetChildFromObjectName(const std::string& object_name)
-{
-	//TODO
-	return nullptr;
-}
-
-void Transform::AddChild(Transform* child)
-{
-	//TODO
-}
-
-void Transform::DetachChild()
-{
-	//TODO
-}
-
-void Transform::TachChild()
-{
-	//TODO
-}
-
+ 
 void Transform::UpdateConstantBuffer()
 {
 	g_cbuffer_wvpmatrix.world = this->m_world_matrix;

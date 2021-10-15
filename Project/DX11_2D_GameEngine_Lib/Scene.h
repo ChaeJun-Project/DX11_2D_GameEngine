@@ -1,11 +1,11 @@
 #pragma once
 
-class GameObject;
+class Layer;
 
 class Scene final
 {
 public:
-   Scene();
+   Scene() = default;
    ~Scene();
 
    void Initialize();
@@ -15,7 +15,13 @@ public:
    void FinalUpdate();
    void Render();
 
+public:
+   void AddGameObject(const std::shared_ptr<GameObject>& p_game_object, UINT layer_index, bool is_move);
+
+public:
+   const std::shared_ptr<Layer>& GetLayer(const UINT& layer_index);
+
 private:
-   std::list<std::shared_ptr<GameObject>> m_object_list;
+   std::map<UINT, std::shared_ptr<Layer>> m_layer_map;
 };
 

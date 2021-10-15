@@ -4,14 +4,11 @@
 
 class IComponent;
 
-class GameObject : public DX11Obejct
+class GameObject : public DX11Obejct, public std::enable_shared_from_this<GameObject>
 {
-private:
-	template<typename T>
-	static constexpr ComponentType GetComponentType();
-
 public:
-	GameObject(const GameObjectType& game_object_type);
+	GameObject() = default;
+	GameObject(const GameObject& origin_game_object); //복사생성자
 	~GameObject();
 
 	void Update();
@@ -19,67 +16,101 @@ public:
 	void FinalUpdate();
 
 	void Render();
-public:
-	template<typename T>
-	void AddAndCreateComponent();
 
+private:
 	template<typename T>
-	std::shared_ptr<T> GetComponent();
-
-	template<typename T>
-	void RemoveComponent();
+	static constexpr ComponentType GetComponentType();
 
 public:
-	//Object Type
-	const GameObjectType& GetGameObjectType() const { return this->m_game_object_type; }
-	//Object Tag
-	const std::string& GetObjectTag() const { return this->m_object_tag; }
-	void SetObjectTag(const std::string& object_tag) { this->m_object_tag = object_tag; }
+	void AddComponent(const std::shared_ptr<IComponent>& p_component);
+
+	template<typename T>
+	const std::shared_ptr<T>& GetComponent();
+	const std::shared_ptr<IComponent>& GetComponent(const ComponentType& component_type) const;
+
+	void RemoveComponent(const ComponentType& component_type);
+
+public:
 	//Object name
 	const std::string& GetObjectName() const { return this->m_object_name; }
 	void SetObjectName(const std::string& object_name) { this->m_object_name = object_name; }
-	//Object Side
-	const GameObjectSideState& GetObjectSideState() const { return this->m_game_object_side_state; }
-	void SetObjectSideState(const GameObjectSideState& object_side_state) { this->m_game_object_side_state = object_side_state; }
 
-protected:
-	//GameObject Type
-	const GameObjectType m_game_object_type;
 	//Object Tag
-	std::string m_object_tag;
+	const std::string& GetObjectTag() const { return this->m_object_tag; }
+	void SetObjectTag(const std::string& object_tag) { this->m_object_tag = object_tag; }
+	
+	//Object Layer
+	const int& GetObjectLayer() const { return this->m_object_layer_index; }
+
+	//Dead Check
+	const bool IsDead() { return this->m_dead_check; }
+
+public:
+	//=====================================================================
+	// [Hierarchy]
+	//=====================================================================
+	//재귀적인 방법으로 최상위 오브젝트 찾기
+	const std::shared_ptr<GameObject>& GetRoot();
+	const bool& GetIsRoot() { return !HasParent(); }
+
+	const std::shared_ptr<GameObject>& GetParent() const { return this->m_p_parent.lock(); }
+	void SetParent(const std::shared_ptr<GameObject>& p_parent_game_object);
+	
+	const std::vector<std::weak_ptr<GameObject>>& GetChilds() const { return this->m_p_child_vector; }
+	const std::shared_ptr<GameObject>& GetChildFromIndex(const UINT& index);
+	const std::shared_ptr<GameObject>& GetChildFromObjectName(const std::string& object_name);
+	const UINT& GetChildCount() const { return static_cast<UINT>(this->m_p_child_vector.size()); }
+
+	void AddChild(const std::shared_ptr<GameObject>& p_child_game_object);
+	void DetachChild();
+	void TachChild();
+
+	const bool& HasParent() { return !(this->m_p_parent.expired()); }
+	const bool& HasChilds() { return !(this->m_p_child_vector.empty()); }
+
+private:
+    void SetDead() { this->m_dead_check = true; }
+
+public:
+    CLONE(GameObject);
+
+private:
 	//Object name
 	std::string m_object_name;
-	//Object Side
-	GameObjectSideState m_game_object_side_state = GameObjectSideState::Right;
-	//Component Unordered Map
-	std::unordered_map<ComponentType, std::shared_ptr<IComponent>> m_component_un_map;
+	//Object Tag
+	std::string m_object_tag;
+	//Object Layer
+	int m_object_layer_index = -1;
+	//Component list
+	std::list<std::pair<ComponentType, std::shared_ptr<IComponent>>> m_component_list;
+	
+	//Hierarchy
+	//Parent Object
+	std::weak_ptr<GameObject> m_p_parent;
+	//Child Object
+	std::vector<std::weak_ptr<GameObject>> m_p_child_vector;
+
+	bool m_dead_check = false;
+
+	friend class Layer;
+	friend class EventManager;
 };
 
-
 template<typename T>
-void GameObject::AddAndCreateComponent()
+constexpr ComponentType GameObject::GetComponentType()
 {
-	//Class T가 IComponent를 상속받는 클래스인지 확인
-	auto result = std::is_base_of<IComponent, T>::value;
-	assert(result);
-	if (!result)
-	{
-		return;
-	}
-
-	//타입 T에 해당하는 Component Type 반환
-	auto component_type = GetComponentType<T>();
-	//un_map에 새로운 Component 추가
-	//insert에 성공하면 pair_ib<iterator, bool> 반환
-	//iterator는 map 데이터를 참조하는 반복자, bool은 map에 데이터 삽입 성공여부
-	auto component_iter = this->m_component_un_map.insert(std::make_pair(component_type, std::make_shared<T>(this)));
-
-	//해당하는 Type의 map에 성공적으로 데이터가 추가가 되었는지 확인
-	assert(component_iter.second);
+	return ComponentType::NONE;
 }
 
+#define REGISTER_COMPONENT_TYPE(T, component_type) template<> ComponentType GameObject::GetComponentType<T>() { return component_type; }
+REGISTER_COMPONENT_TYPE(Transform, ComponentType::Transform);
+REGISTER_COMPONENT_TYPE(Camera, ComponentType::Camera);
+REGISTER_COMPONENT_TYPE(Renderer, ComponentType::Transform);
+REGISTER_COMPONENT_TYPE(Animator, ComponentType::Animator);
+REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
+
 template<typename T>
-std::shared_ptr<T> GameObject::GetComponent()
+inline const std::shared_ptr<T>& GameObject::GetComponent()
 {
 	//Class T가 IComponent를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IComponent, T>::value;
@@ -88,28 +119,15 @@ std::shared_ptr<T> GameObject::GetComponent()
 	{
 		return nullptr;
 	}
-	//타입 T에 해당하는 Component Type 반환
-	auto component_type = GetComponentType<T>();
-	auto component_iter = this->m_component_un_map.find(component_type);
 
-	//해당 Component Type의 Component 데이터가 존재하는 경우
-	if (component_iter != this->m_component_un_map.end())
-		return std::dynamic_pointer_cast<T>(component_iter->second);
+	//타입 T에 해당하는 Shader Type 반환
+	auto component_type = GetComponentType<T>();
+	auto component = GetComponent(component_type);
+
+	if (component != nullptr)
+	{
+		return std::dynamic_pointer_cast<T>(component);
+	}
 
 	return nullptr;
-}
-
-template<typename T>
-void GameObject::RemoveComponent()
-{
-	//Class T가 IComponent를 상속받는 클래스인지 확인
-	auto result = std::is_base_of<IComponent, T>::value;
-	assert(result);
-	if (!result)
-	{
-		return;
-	}
-	//타입 T에 해당하는 Component Type 반환
-	auto component_type = GetComponentType<T>();
-	this->m_component_un_map.erase(component_type);
 }

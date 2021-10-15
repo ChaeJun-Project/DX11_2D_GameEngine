@@ -2,19 +2,14 @@
 #include "Camera.h"
 #include "Transform.h"
 
-Camera::Camera(GameObject* p_game_object)
-	:IComponent(ComponentType::Camera, p_game_object)
+Camera::Camera()
+	:IComponent(ComponentType::Camera)
 {
-}
-
-Camera::~Camera()
-{
-
 }
 
 void Camera::Update()
 {
-	auto transform = m_p_game_object->GetComponent<Transform>();
+	auto transform = m_p_owner_game_object.lock()->GetComponent<Transform>();
 
 	//편집일 때
 	auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
@@ -29,24 +24,23 @@ void Camera::Update()
 	auto input = InputManager::GetInstance();
 	auto timer = TimeManager::GetInstance();
 
-
 	if (input->KeyPress(KeyCode::KEY_W))
-		movement_speed += forward * timer->GetDeltaTime_float();
+		movement_speed += forward * m_speed* timer->GetDeltaTime_float();
 
 	else if (input->KeyPress(KeyCode::KEY_S))
-		movement_speed -= forward * timer->GetDeltaTime_float();
+		movement_speed -= forward * m_speed *timer->GetDeltaTime_float();
 
 	if (input->KeyPress(KeyCode::KEY_D))
-		movement_speed += right * timer->GetDeltaTime_float();
+		movement_speed += right * m_speed * timer->GetDeltaTime_float();
 
 	else if (input->KeyPress(KeyCode::KEY_A))
-		movement_speed -= right * timer->GetDeltaTime_float();
+		movement_speed -= right * m_speed * timer->GetDeltaTime_float();
 
 	if (input->KeyPress(KeyCode::KEY_E))
-		movement_speed += up * timer->GetDeltaTime_float();
+		movement_speed += up * m_speed * timer->GetDeltaTime_float();
 
 	else if (input->KeyPress(KeyCode::KEY_Q))
-		movement_speed -= up * timer->GetDeltaTime_float();
+		movement_speed -= up * m_speed * timer->GetDeltaTime_float();
 
 	//카메라 위치 변경
 	transform->Translate(movement_speed);
@@ -66,7 +60,7 @@ void Camera::FinalUpdate()
 
 void Camera::UpdateViewMatrix()
 {
-	auto transform = this->m_p_game_object->GetComponent<Transform>();
+	auto transform = m_p_owner_game_object.lock()->GetComponent<Transform>();
 	auto position = transform->GetTranslation(); //월드에서의 카메라 위치값
 	auto up_vector = transform->GetUpVector(); //카메라의 업 벡터
 	auto forward_vector = transform->GetForwardVector(); //카메라의 바라보는 방향 벡터(전면 벡터)

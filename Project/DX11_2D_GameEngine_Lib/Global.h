@@ -68,20 +68,23 @@ using namespace DirectX::PackedVector;
 #include "FileManager.h"
 #include "FileStream.h"
 
-//GraphicsManager
-#include "GraphicsManager.h"
-
 //InputManager
 #include "InputManager.h"
-
-//SceneManager
-#include "SceneManager.h"
 
 //ShaderManager
 #include "ShaderManager.h"
 
 //TimeManager
 #include "TimeManager.h"
+
+//GraphicsManager
+#include "GraphicsManager.h"
+
+//SceneManager
+#include "SceneManager.h"
+
+//EventManager
+#include "EventManager.h"
 #pragma endregion
 
 #pragma region DX11ObjectID
@@ -145,7 +148,7 @@ using namespace DirectX::PackedVector;
 #include "Animator.h"
 
 //Script
-#include "RockManZ_Script.h"
+#include "Script.h"
 #pragma endregion
 
 #pragma region GameObject

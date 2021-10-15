@@ -4,8 +4,8 @@
 class Camera : public IComponent
 {
 public:
-    Camera(GameObject* p_game_object);
-    ~Camera();
+    Camera();
+    ~Camera() = default;
 
     void Update() override;
     void FinalUpdate() override;
@@ -32,6 +32,9 @@ public:
     const Matrix& GetViewMatrix() const { return this->m_view_matrix; }
     const Matrix& GetProjectionMatrix() const { return this->m_projection_matrix; }
 
+public:
+    CLONE(Camera);
+
 private:
     //카메라 투영 타입
     ProjectionType m_projection_type = ProjectionType::Orthographic;
@@ -40,6 +43,7 @@ private:
     float m_fov = Math::ToRadian(47); //47은 표준 렌즈의 시야각 값
     float m_near_z = 0.3f;
     float m_far_z = 1000.0f;
+    float m_speed = 3.0f;
 
     Matrix m_view_matrix = Matrix::Identity;
     Matrix m_projection_matrix = Matrix::Identity;

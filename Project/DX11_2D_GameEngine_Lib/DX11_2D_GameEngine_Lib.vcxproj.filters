@@ -70,9 +70,6 @@
     <ClInclude Include="InputManager.h">
       <Filter>Manager\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Engine.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="IndexBuffer.h">
       <Filter>Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\IndexBuffer</Filter>
     </ClInclude>
@@ -139,13 +136,10 @@
     <ClInclude Include="Layer.h">
       <Filter>Scene\Layer</Filter>
     </ClInclude>
-    <ClInclude Include="Render.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Animator.h">
       <Filter>Scene\Components\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="IScript.h">
+    <ClInclude Include="Script.h">
       <Filter>Scene\Components\Script</Filter>
     </ClInclude>
     <ClInclude Include="RockManZ_Script.h">
@@ -165,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="BlendState.h">
       <Filter>Core\DX11_Graphics_Pipeline\OM%28Output Merger%29</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Manager\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -219,9 +216,6 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Manager\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\IndexBuffer</Filter>
     </ClCompile>
@@ -273,13 +267,10 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Scene\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Render.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>Scene\Components\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="IScript.cpp">
+    <ClCompile Include="Script.cpp">
       <Filter>Scene\Components\Script</Filter>
     </ClCompile>
     <ClCompile Include="RockManZ_Script.cpp">
@@ -302,6 +293,9 @@
     </ClCompile>
     <ClCompile Include="BlendState.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\OM%28Output Merger%29</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Manager\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,9 +338,6 @@
     <Filter Include="Manager\File">
       <UniqueIdentifier>{0aa2ce14-51d4-4b1f-a1d7-11d34057036e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component">
-      <UniqueIdentifier>{7d183f9b-9763-48e4-80c2-63577889c13e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{a2cddb79-19ba-4bd3-a474-2622b5767288}</UniqueIdentifier>
     </Filter>
@@ -368,23 +359,14 @@
     <Filter Include="Manager\Input">
       <UniqueIdentifier>{285bbfeb-52a8-4e7f-9bee-3fbb323d69cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Systems">
-      <UniqueIdentifier>{48aa00cc-010c-4d9a-addb-1cd8807068ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Stdafx">
       <UniqueIdentifier>{3e75ad1e-ef90-484f-ac0b-3eb2841bdf04}</UniqueIdentifier>
     </Filter>
     <Filter Include="Manager\Sound">
       <UniqueIdentifier>{2fd7a40e-213e-401d-ac5d-47a45b499399}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\EventSystem">
-      <UniqueIdentifier>{a0cf4c18-8898-4372-843e-7b2fd8bd6d5a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Manager\Graphics">
       <UniqueIdentifier>{973806fe-38f6-450f-8b67-48ef90939b9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Editor">
-      <UniqueIdentifier>{94b6ce3e-68aa-4bae-b74c-0ec3b92a22df}</UniqueIdentifier>
     </Filter>
     <Filter Include="Manager\Shader">
       <UniqueIdentifier>{76d107d7-d48f-4a0b-b5f5-c74df46a4f8b}</UniqueIdentifier>
@@ -475,6 +457,9 @@
     </Filter>
     <Filter Include="Scene\Components\Script\RockManZ">
       <UniqueIdentifier>{1059a6e4-27b6-422c-b93e-095e805be973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Event">
+      <UniqueIdentifier>{012aebee-9273-4255-baa7-194d2932c15c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

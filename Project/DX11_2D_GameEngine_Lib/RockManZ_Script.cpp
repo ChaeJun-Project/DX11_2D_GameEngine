@@ -1,22 +1,21 @@
 #include "stdafx.h"
 #include "RockManZ_Script.h"
 
-RockManZ_Script::RockManZ_Script(GameObject* p_game_object)
-	:IScript(p_game_object)
+RockManZ_Script::RockManZ_Script()
 {
 	Initialize();
 }
 
 RockManZ_Script::~RockManZ_Script()
 {
-	m_p_game_object.reset();
+	
 }
 
 void RockManZ_Script::Initialize()
 {
-	auto animator = m_p_game_object->GetComponent<Animator>();
-	animator->CreateAnimation("RockManZ_Idle", "Texture/RockManZ/Animation/Z03_Idle/", 3.0f);
-	animator->SetCurrentAnimation("RockManZ_Idle");
+	auto animator = m_p_owner_game_object.lock()->GetComponent<Animator>();
+	animator->CreateAnimation("RockManZ_Attack", "Texture/RockManZ/Animation/Z04_Attack/Attack_1/", 0.5f);
+	animator->SetCurrentAnimation("RockManZ_Attack");
 }
 
 void RockManZ_Script::Update()

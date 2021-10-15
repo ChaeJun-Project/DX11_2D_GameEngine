@@ -1,6 +1,6 @@
 #pragma once
 
-class BlendState final : public DX11Obejct
+class BlendState final
 {
 public:
 	BlendState() = default;

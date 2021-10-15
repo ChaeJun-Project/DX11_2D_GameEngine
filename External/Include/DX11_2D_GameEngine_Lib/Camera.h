@@ -40,6 +40,7 @@ private:
     float m_fov = Math::ToRadian(47); //47은 표준 렌즈의 시야각 값
     float m_near_z = 0.3f;
     float m_far_z = 1000.0f;
+    float m_speed = 3.0f;
 
     Matrix m_view_matrix = Matrix::Identity;
     Matrix m_projection_matrix = Matrix::Identity;
