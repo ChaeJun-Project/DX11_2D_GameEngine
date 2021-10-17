@@ -4,6 +4,8 @@
 #include <DX11_2D_GameEngine_Lib/GraphicsManager.h>
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 
+void D3D11Debug();
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPWSTR    lpCmdLine,
@@ -37,5 +39,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		s->Progress();
 	}
 
+#ifdef _DEBUG //디버그 모드일 때
+	D3D11Debug();
+#endif
 	return 0;
+}
+
+void D3D11Debug()
+{
+     HMODULE dxgidebugdll = GetModuleHandleW(L"dxgidebug.dll");
+	 decltype(&DXGIGetDebugInterface) GetDebugInterface = reinterpret_cast<decltype(&DXGIGetDebugInterface)>(GetProcAddress(dxgidebugdll, "DXGIGetDebugInterface"));
+
+	 IDXGIDebug* debug;
+
+	 GetDebugInterface(IID_PPV_ARGS(&debug));
+
+	 OutputDebugStringW(L"ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ\r\n");
+	 debug->ReportLiveObjects(DXGI_DEBUG_D3D11, DXGI_DEBUG_RLO_DETAIL);
+	 OutputDebugStringW(L"ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ\r\n");
+
+	 debug->Release();
 }

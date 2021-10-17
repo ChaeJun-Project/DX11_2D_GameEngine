@@ -8,7 +8,8 @@ class Animator : public IComponent
 {
 public:
 	Animator();
-	~Animator() = default;
+	explicit Animator(const Animator& origin);
+	~Animator();
 
 	void Update() override;
 	void FinalUpdate() override;
@@ -21,7 +22,8 @@ public:
 	(
 		const std::string& animation_name,
 		const std::string& animation_directory_path,
-		const float& animation_loop_time
+		const float& animation_playtime,
+		const bool& is_loop
 	);
 	void LoadAnimation(const std::string& animation_file_path);
 	void GetAnimation(const std::string& animation_name);
@@ -31,9 +33,6 @@ public:
 	void SetCurrentAnimation(const std::string& animation_name);
 
 	void SetAnimationEvent(const std::string& animation_name, std::function<void(void)> func);
-
-public:
-    CLONE(Animator);
 
 private:
 	std::shared_ptr<Animation> m_p_current_animation = nullptr;

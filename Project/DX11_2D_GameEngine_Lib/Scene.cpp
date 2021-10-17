@@ -29,6 +29,7 @@ void Scene::Initialize()
 
 	AddGameObject(camera, 0, false);
 
+	//RockManZ
 	auto rockmanZ = std::make_shared<GameObject>();
 	rockmanZ->SetObjectName("RockManZ");
 	rockmanZ->SetObjectTag("Player");
@@ -39,11 +40,31 @@ void Scene::Initialize()
 
 	rockmanZ->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 0.0f));
 	auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
-	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(scale.x, -(scale.y * 36.0f), scale.z));
+	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, -(scale.y * 36.0f), 0.0f));
 
+	rockmanZ->GetComponent<Script>()->Initialize();
 	rockmanZ->GetComponent<Animator>()->Play();
 
 	AddGameObject(rockmanZ, 1, false);
+
+	//RockManZ
+	auto rockmanX = std::make_shared<GameObject>();
+	rockmanX->SetObjectName("RockManX");
+	rockmanX->SetObjectTag("Player");
+	rockmanX->AddComponent(std::make_shared<Transform>());
+	rockmanX->AddComponent(std::make_shared<Renderer>());
+	rockmanX->AddComponent(std::make_shared<Animator>());
+	rockmanX->AddComponent(std::make_shared<RockManZ_Script>());
+
+	rockmanX->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 0.0f));
+    scale = rockmanX->GetComponent<Transform>()->GetScale();
+	rockmanX->GetComponent<Transform>()->SetTranslation(Vector3(300.0f, -(scale.y * 36.0f), 0.0f));
+
+	rockmanX->GetComponent<Script>()->Initialize();
+	rockmanX->GetComponent<Animator>()->Play();
+
+	AddGameObject(rockmanX, 2, false);
+
 }
 
 void Scene::Update()

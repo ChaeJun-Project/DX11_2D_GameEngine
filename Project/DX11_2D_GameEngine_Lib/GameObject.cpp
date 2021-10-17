@@ -1,21 +1,39 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
-#include "Layer.h"
-
 #include "SceneManager.h"
 #include "Scene.h"
+#include "Layer.h"
 
-GameObject::GameObject(const GameObject& origin_game_object)
+#include "Transform.h"
+#include "Camera.h"
+#include "Renderer.h"
+#include "Animator.h"
+#include "Script.h"
+
+template<typename T>
+constexpr ComponentType GameObject::GetComponentType()
 {
-	for (auto& origin_component : origin_game_object.m_component_list)
+	return ComponentType::NONE;
+}
+
+#define REGISTER_COMPONENT_TYPE(T, component_type) template<> ComponentType GameObject::GetComponentType<T>() { return component_type; }
+REGISTER_COMPONENT_TYPE(Transform, ComponentType::Transform);
+REGISTER_COMPONENT_TYPE(Camera, ComponentType::Camera);
+REGISTER_COMPONENT_TYPE(Renderer, ComponentType::Renderer);
+REGISTER_COMPONENT_TYPE(Animator, ComponentType::Animator);
+REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
+
+GameObject::GameObject(const GameObject& origin)
+{
+	for (auto& origin_component : origin.m_component_list)
 	{
-		AddComponent(origin_component.second->Clone());
+		CreateSharedFromRaw(origin_component.second.get());
 	}
 
-	for (auto& child : origin_game_object.m_p_child_vector)
+	for (auto& child : origin.m_p_child_vector)
 	{
-		AddChild(std::make_shared<GameObject>(child.lock()->Clone()));
+		AddChild(std::make_shared<GameObject>(*(child.lock().get())));
 	}
 }
 
@@ -41,7 +59,7 @@ void GameObject::Update()
 	for (auto& component : this->m_component_list)
 		component.second->Update();
 
-    //자식 오브젝트 업데이트
+	//자식 오브젝트 업데이트
 	for (auto& child : this->m_p_child_vector)
 		child.lock()->Update();
 }
@@ -66,7 +84,7 @@ void GameObject::FinalUpdate()
 	//Layer에 등록
 	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
 	auto layer = current_scene->GetLayer(static_cast<UINT>(this->m_object_layer_index));
-	layer->RegisterObject(std::make_shared<GameObject>(this));
+	layer->RegisterObject(shared_from_this());
 }
 
 void GameObject::Render()
@@ -79,16 +97,63 @@ void GameObject::Render()
 	renderer->Render();
 }
 
+const std::shared_ptr<GameObject>& GameObject::operator=(const GameObject& origin)
+{
+	for (auto& origin_component : origin.m_component_list)
+	{
+		CreateSharedFromRaw(origin_component.second.get());
+	}
+
+	for (auto& child : origin.m_p_child_vector)
+	{
+		AddChild(std::make_shared<GameObject>(*(child.lock().get())));
+	}
+
+	return shared_from_this();
+}
+
+const std::shared_ptr<IComponent>& GameObject::CreateSharedFromRaw(IComponent* p_component_raw)
+{
+	if (p_component_raw == nullptr)
+		return nullptr;
+
+	std::shared_ptr<IComponent> p_component = nullptr;
+
+	switch (p_component_raw->GetComponentType())
+	{
+	case ComponentType::Transform:
+	   
+		p_component = std::make_shared<Transform>(*(dynamic_cast<Transform*>(p_component_raw)));
+		break;
+	case ComponentType::Camera:
+		p_component = std::make_shared<Camera>(*(dynamic_cast<Camera*>(p_component_raw)));
+		break;
+	case ComponentType::Renderer:
+		p_component = std::make_shared<Renderer>(*(dynamic_cast<Renderer*>(p_component_raw)));
+		break;
+	case ComponentType::Animator:
+		p_component = std::make_shared<Animator>(*(dynamic_cast<Animator*>(p_component_raw)));
+		break;
+	/*case ComponentType::Script:
+		p_component = std::make_shared<Script>(*p_component_raw);
+		break;*/
+	//case ComponentType::RigidBody2D:
+	//	break;
+	//case ComponentType::BoxCollider2D:
+	//	break;
+	}
+
+	AddComponent(p_component);
+}
+
 //들어오는 데이터는 사전에 미리 소유하고 있는 게임 오브젝트를 설정해야 함
 void GameObject::AddComponent(const std::shared_ptr<IComponent>& p_component)
 {
-	auto this_game_object = std::make_shared<GameObject>(this);
-	p_component->SetGameObject(this_game_object);
+	p_component->SetGameObject(shared_from_this());
 	this->m_component_list.push_back
 	(
 		std::make_pair(p_component->GetComponentType(), p_component)
 	);
-	std::cout << m_object_name <<"공유 횟수" << this_game_object.use_count() << std::endl;
 }
 
 const std::shared_ptr<IComponent>& GameObject::GetComponent(const ComponentType& component_type) const
@@ -123,11 +188,10 @@ const std::shared_ptr<GameObject>& GameObject::GetRoot()
 {
 	if (HasParent())
 	{
-		return this->m_p_parent.lock()->GetRoot();
+		return this->m_p_parent->GetRoot();
 	}
 
-	auto this_game_object = std::make_shared<GameObject>(this);
-	return this_game_object;
+	return shared_from_this();
 }
 
 void GameObject::SetParent(const std::shared_ptr<GameObject>& p_parent_game_object)
@@ -144,18 +208,18 @@ void GameObject::SetParent(const std::shared_ptr<GameObject>& p_parent_game_obje
 	if (HasParent())
 	{
 		//현재 등록된 부모와 인자로 들어온 부모가 서로 같은 컴퍼넌트 ID를 소유한 경우(똑같은 부모인 경우)
-		if (this->m_p_parent.lock()->GetObjectID() == p_parent_game_object->GetObjectID())
+		if (this->m_p_parent->GetObjectID() == p_parent_game_object->GetObjectID())
 			return;
 	}
 
-	auto old_parenet = this->m_p_parent.lock();
+	auto old_parenet = this->m_p_parent;
 	this->m_p_parent = p_parent_game_object;
 
 	if (old_parenet != nullptr)
 		old_parenet->TachChild();
 
 	if (HasParent())
-		this->m_p_parent.lock()->TachChild();
+		this->m_p_parent->TachChild();
 }
 
 const std::shared_ptr<GameObject>& GameObject::GetChildFromIndex(const UINT& index)
@@ -189,8 +253,7 @@ void GameObject::AddChild(const std::shared_ptr<GameObject>& p_child_game_object
 
 	this->m_p_child_vector.emplace_back(p_child_game_object);
 
-	auto this_game_object = std::make_shared<GameObject>(this);
-	p_child_game_object->m_p_parent = this_game_object;
+	p_child_game_object->m_p_parent = shared_from_this();
 }
 
 void GameObject::DetachChild()

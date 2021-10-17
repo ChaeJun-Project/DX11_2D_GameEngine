@@ -8,7 +8,7 @@ class GameObject : public DX11Obejct, public std::enable_shared_from_this<GameOb
 {
 public:
 	GameObject() = default;
-	GameObject(const GameObject& origin_game_object); //복사생성자
+	explicit GameObject(const GameObject& origin); //복사생성자, 형변환 허용X
 	~GameObject();
 
 	void Update();
@@ -22,6 +22,10 @@ private:
 	static constexpr ComponentType GetComponentType();
 
 public:
+	const std::shared_ptr<GameObject>& operator=(const GameObject& origin);
+
+	const std::shared_ptr<IComponent>& CreateSharedFromRaw(IComponent* p_component_raw);
+
 	void AddComponent(const std::shared_ptr<IComponent>& p_component);
 
 	template<typename T>
@@ -53,7 +57,7 @@ public:
 	const std::shared_ptr<GameObject>& GetRoot();
 	const bool& GetIsRoot() { return !HasParent(); }
 
-	const std::shared_ptr<GameObject>& GetParent() const { return this->m_p_parent.lock(); }
+	const std::shared_ptr<GameObject>& GetParent() const { if(m_p_parent != nullptr) return this->m_p_parent; return nullptr;}
 	void SetParent(const std::shared_ptr<GameObject>& p_parent_game_object);
 	
 	const std::vector<std::weak_ptr<GameObject>>& GetChilds() const { return this->m_p_child_vector; }
@@ -65,14 +69,11 @@ public:
 	void DetachChild();
 	void TachChild();
 
-	const bool& HasParent() { return !(this->m_p_parent.expired()); }
-	const bool& HasChilds() { return !(this->m_p_child_vector.empty()); }
+	const bool HasParent() { if(m_p_parent) return true; return false; }
+	const bool HasChilds() { return !(this->m_p_child_vector.empty()); }
 
 private:
     void SetDead() { this->m_dead_check = true; }
-
-public:
-    CLONE(GameObject);
 
 private:
 	//Object name
@@ -86,7 +87,7 @@ private:
 	
 	//Hierarchy
 	//Parent Object
-	std::weak_ptr<GameObject> m_p_parent;
+	std::shared_ptr<GameObject> m_p_parent = nullptr;
 	//Child Object
 	std::vector<std::weak_ptr<GameObject>> m_p_child_vector;
 
@@ -95,19 +96,6 @@ private:
 	friend class Layer;
 	friend class EventManager;
 };
-
-template<typename T>
-constexpr ComponentType GameObject::GetComponentType()
-{
-	return ComponentType::NONE;
-}
-
-#define REGISTER_COMPONENT_TYPE(T, component_type) template<> ComponentType GameObject::GetComponentType<T>() { return component_type; }
-REGISTER_COMPONENT_TYPE(Transform, ComponentType::Transform);
-REGISTER_COMPONENT_TYPE(Camera, ComponentType::Camera);
-REGISTER_COMPONENT_TYPE(Renderer, ComponentType::Transform);
-REGISTER_COMPONENT_TYPE(Animator, ComponentType::Animator);
-REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
 
 template<typename T>
 inline const std::shared_ptr<T>& GameObject::GetComponent()

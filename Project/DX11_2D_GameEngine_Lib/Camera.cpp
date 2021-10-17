@@ -7,6 +7,20 @@ Camera::Camera()
 {
 }
 
+Camera::Camera(const Camera& origin)
+	: IComponent(ComponentType::Camera)
+{
+	this->m_projection_type = origin.m_projection_type;
+
+	this->m_fov = origin.m_fov;
+	this->m_near_z = origin.m_near_z;
+	this->m_far_z = origin.m_far_z;
+	this->m_speed = origin.m_speed;
+
+	this->m_view_matrix = origin.m_view_matrix;
+	this->m_projection_matrix = origin.m_projection_matrix;
+}
+
 void Camera::Update()
 {
 	auto transform = m_p_owner_game_object.lock()->GetComponent<Transform>();

@@ -5,6 +5,7 @@ class Camera : public IComponent
 {
 public:
     Camera();
+    explicit Camera(const Camera& origin);
     ~Camera() = default;
 
     void Update() override;
@@ -31,9 +32,6 @@ public:
 
     const Matrix& GetViewMatrix() const { return this->m_view_matrix; }
     const Matrix& GetProjectionMatrix() const { return this->m_projection_matrix; }
-
-public:
-    CLONE(Camera);
 
 private:
     //카메라 투영 타입

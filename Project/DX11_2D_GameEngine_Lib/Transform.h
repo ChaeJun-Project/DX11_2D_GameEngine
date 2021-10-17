@@ -6,6 +6,7 @@ class Transform final : public IComponent
 {
 public:
 	Transform();
+	explicit Transform(const Transform& origin);
 	~Transform() = default;
 
 	void FinalUpdate() override;
@@ -71,7 +72,9 @@ public:
 	const Matrix& GetWorldMatrix() const { return this->m_world_matrix; }
 
 public:
-    CLONE(Transform);
+	//Object Side
+	const GameObjectSideState& GetObjectSideState() const { return this->m_game_object_side_state; }
+	void SetObjectSideState(const GameObjectSideState& object_side_state) { this->m_game_object_side_state = object_side_state; }
 
 private:
 	Vector3 m_local_translation = Vector3::Zero; //xyz 모두 0.0f로 초기화
@@ -79,5 +82,8 @@ private:
 	Vector3 m_local_scale = Vector3::One; //xyz 모두 1.0f로 초기화
 
 	Matrix m_world_matrix = Matrix::Identity;
+
+	//Game Object Side
+	GameObjectSideState m_game_object_side_state = GameObjectSideState::Right;
 };
 

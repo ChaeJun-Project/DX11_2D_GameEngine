@@ -3,7 +3,7 @@
 
 RockManZ_Script::RockManZ_Script()
 {
-	Initialize();
+
 }
 
 RockManZ_Script::~RockManZ_Script()
@@ -14,7 +14,7 @@ RockManZ_Script::~RockManZ_Script()
 void RockManZ_Script::Initialize()
 {
 	auto animator = m_p_owner_game_object.lock()->GetComponent<Animator>();
-	animator->CreateAnimation("RockManZ_Attack", "Texture/RockManZ/Animation/Z04_Attack/Attack_1/", 0.5f);
+	animator->CreateAnimation("RockManZ_Attack", "Texture/RockManZ/Animation/Z04_Attack/Attack_1/", 0.5f, true);
 	animator->SetCurrentAnimation("RockManZ_Attack");
 }
 

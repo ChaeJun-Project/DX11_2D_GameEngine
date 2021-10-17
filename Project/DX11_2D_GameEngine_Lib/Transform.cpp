@@ -8,6 +8,16 @@ Transform::Transform()
 
 }
 
+Transform::Transform(const Transform& origin)
+	: IComponent(ComponentType::Transform)
+{
+	this->m_local_translation = origin.m_local_translation;
+	this->m_local_rotation = origin.m_local_rotation;
+	this->m_local_scale = origin.m_local_scale;
+	this->m_world_matrix = origin.m_world_matrix;
+	this->m_game_object_side_state = origin.m_game_object_side_state;
+}
+
 void Transform::FinalUpdate()
 {
 	UpdateWorldMatrix();
@@ -15,6 +25,16 @@ void Transform::FinalUpdate()
 
 void Transform::UpdateWorldMatrix()
 {
+	switch (this->m_game_object_side_state)
+	{
+	case GameObjectSideState::Right:
+		SetRotation(Quaternion::Identity);
+		break;
+	case GameObjectSideState::Left:
+		SetRotation(Quaternion(0.0f, 180.0f, 0.0f, 1.0f));
+		break;
+	}
+
 	auto scale = Matrix::Scaling(this->m_local_scale);
 	auto rotation = Matrix::RotationQuaternion(this->m_local_rotation);
 	auto translation = Matrix::Translation(this->m_local_translation);
@@ -29,7 +49,7 @@ void Transform::UpdateWorldMatrix()
 	//부모 오브젝트 기준의 월드 행렬에 부모 오브젝트의 월드 행렬을 곱함
 	if (m_p_owner_game_object.lock()->HasParent())
 	{
-	    auto parent_world_matrix = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
+		auto parent_world_matrix = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
 		this->m_world_matrix = this->m_world_matrix * parent_world_matrix;
 	}
 }
@@ -66,7 +86,7 @@ void Transform::Translate(const Vector3& move)
 	//해당 오브젝트가 부모 오브젝트를 가지고 있다면
 	//부모 오브젝트의 월드 행렬의 역행렬을 곱한 값을 더함
 	if (m_p_owner_game_object.lock()->HasParent())
-	{ 
+	{
 		auto parent_world_matrix = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
 		SetLocalTranslation(this->m_local_translation + (move * parent_world_matrix.Inverse()));
 	}
@@ -80,8 +100,14 @@ void Transform::SetTranslation(const Vector3& translation)
 	if (GetTranslation() == translation)
 		return;
 
-	auto parent_world_matrix = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
-	SetLocalTranslation(m_p_owner_game_object.lock()->HasParent() ? translation * parent_world_matrix.Inverse() : translation);
+	if (m_p_owner_game_object.lock()->HasParent())
+	{
+		auto parent_world_matrix = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
+		SetLocalTranslation(translation * parent_world_matrix.Inverse());
+	}
+
+	else
+		SetLocalTranslation(translation);
 }
 
 void Transform::SetRotation(const Quaternion& rotation)
@@ -89,8 +115,14 @@ void Transform::SetRotation(const Quaternion& rotation)
 	if (GetRotation() == rotation)
 		return;
 
-	auto parent_rotation = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetRotation();
-	SetLocalRotation(m_p_owner_game_object.lock()->HasParent() ? rotation * parent_rotation.Inverse() : rotation);
+	if (m_p_owner_game_object.lock()->HasParent())
+	{
+		auto parent_rotation = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetRotation();
+		SetLocalRotation(rotation * parent_rotation.Inverse());
+	}
+
+	else
+		SetLocalRotation(rotation);
 }
 
 void Transform::SetScale(const Vector3& scale)
@@ -98,10 +130,16 @@ void Transform::SetScale(const Vector3& scale)
 	if (GetScale() == scale)
 		return;
 
-	auto parent_scale = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetScale();
-	SetLocalScale(m_p_owner_game_object.lock()->HasParent() ? scale / parent_scale : scale);
+	if (m_p_owner_game_object.lock()->HasParent())
+	{
+		auto parent_scale = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetScale();
+		SetLocalScale(scale / parent_scale);
+	}
+
+	else
+		SetLocalScale(scale);
 }
- 
+
 void Transform::UpdateConstantBuffer()
 {
 	g_cbuffer_wvpmatrix.world = this->m_world_matrix;

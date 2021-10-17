@@ -10,14 +10,11 @@ public:
 	virtual ~DX11Obejct() = default;
 
 public:
-	virtual DX11Obejct* Clone() { return nullptr; }
-
-public:
 	const UINT& GetObjectID() const { return this->m_id; }
 
 private:
 	//DX11 Object의 고유 ID를 생성해서 반환
-	static const UINT& CreateID()
+	static const UINT CreateID()
 	{
 		GUID guid;
 		auto hResult = CoCreateGuid(&guid);

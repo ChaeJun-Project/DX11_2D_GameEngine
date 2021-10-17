@@ -25,7 +25,11 @@ public:
     const std::string& GetResourceName() const { return this->m_resource_name; }
     void SetResourceName(const std::string& resource_name) { this->m_resource_name = m_resource_name; }
 
+    const std::string& GetResourcePath() const { return this->m_resource_path; }
+    void SetResourcePath(const std::string& resource_path) { this->m_resource_path = resource_path; }
+
 protected:
     const ResourceType m_resource_type;
     std::string m_resource_name;
+    std::string m_resource_path;
 };

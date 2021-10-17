@@ -1,6 +1,6 @@
 #pragma once
 
-class IndexBuffer final : public DX11Obejct
+class IndexBuffer final
 {
 public:
     IndexBuffer() = default;

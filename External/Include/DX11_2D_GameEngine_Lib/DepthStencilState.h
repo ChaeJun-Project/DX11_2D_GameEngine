@@ -1,6 +1,6 @@
 #pragma once
 
-class DepthStencilState final : public DX11Obejct
+class DepthStencilState final
 {
 public:
 	DepthStencilState() = default;

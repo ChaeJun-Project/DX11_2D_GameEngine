@@ -1,6 +1,6 @@
 #pragma once
 
-class ConstantBuffer final : public DX11Obejct
+class ConstantBuffer final
 {
 public:
 	ConstantBuffer() = default;

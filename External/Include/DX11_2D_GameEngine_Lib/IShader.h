@@ -5,7 +5,7 @@
 
 //각종 Shader 생성에 필요한 공통적인 멤버 함수를 포함하고
 //생성에 관한 멤버 함수의 정의는 자식 클래스에서 정의(다형성 사용)
-class IShader : public DX11Obejct
+class IShader
 {
 public:
 	IShader(const ShaderType& shader_type)

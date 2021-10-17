@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 
-class VertexBuffer final : public DX11Obejct
+class VertexBuffer final
 {
 public:
 	VertexBuffer() = default;

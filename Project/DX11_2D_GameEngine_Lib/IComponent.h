@@ -22,9 +22,6 @@ public:
 	virtual void FinalUpdate() = 0; //최종 업데이트 => 오브젝트가 움직이면 안됨
 
 public:
-	virtual IComponent* Clone() = 0;
-
-public:
 	const ComponentType& GetComponentType() const { return this->m_component_type; }
 
 	const std::shared_ptr<GameObject>& GetGameObject() { SAFE_GET_POINTER(this->m_p_owner_game_object.lock()); }

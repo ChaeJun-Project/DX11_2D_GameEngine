@@ -8,6 +8,35 @@ Animation::Animation(const std::string resource_name)
 {
 }
 
+Animation::Animation(const Animation& origin)
+	: IResource(ResourceType::Animation, origin.GetResourceName())
+{
+    //Path
+	m_resource_path = origin.GetResourcePath();
+	//Copy Texture Vector
+	std::copy
+	(
+		origin.m_p_texture_vector.begin(),
+		origin.m_p_texture_vector.end(),
+		std::inserter(this->m_p_texture_vector, this->m_p_texture_vector.end())
+	);
+	//Mesh
+	this->m_p_mesh = origin.m_p_mesh;
+	//Copy Animation Event Vector
+	std::copy
+	(
+		origin.m_animation_event_func_map.begin(),
+		origin.m_animation_event_func_map.end(),
+		std::inserter(this->m_animation_event_func_map, this->m_animation_event_func_map.end())
+	);
+
+	this->m_animation_speed = origin.m_animation_speed;
+	this->m_animation_time = origin.m_animation_time;
+	this->m_animation_speed = origin.m_animation_speed;
+	this->m_is_play_reverse = origin.m_is_play_reverse;
+	this->m_is_loop = origin.m_is_loop;
+}
+
 Animation::~Animation()
 {
 	//Delete All Texture Vector
@@ -21,7 +50,9 @@ Animation::~Animation()
 //Texture/objectname/~~/
 void Animation::LoadFromFile(const std::string& animation_directory_path)
 {
-    auto resource_manager = ResourceManager::GetInstance();
+	m_resource_path = animation_directory_path;
+
+	auto resource_manager = ResourceManager::GetInstance();
 
 	auto file_name_vector = FileManager::GetFileNameVectorFromDirectory(animation_directory_path);
 
@@ -96,7 +127,7 @@ void Animation::Update()
 
 	//해당 애니메이션 프레임에 이벤트 함수가 등록되어 있다면 이벤트 함수 수행
 	auto component_iter = this->m_animation_event_func_map.find(this->m_current_frame_id);
-	if(component_iter != this->m_animation_event_func_map.end())
+	if (component_iter != this->m_animation_event_func_map.end())
 		component_iter->second;
 }
 

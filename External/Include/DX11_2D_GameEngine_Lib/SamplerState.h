@@ -1,6 +1,6 @@
 #pragma once
 
-class SamplerState : public DX11Obejct
+class SamplerState
 {
 public:
 	SamplerState() = default;

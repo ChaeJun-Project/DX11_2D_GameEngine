@@ -7,8 +7,9 @@ class Animation;
 class Animator : public IComponent
 {
 public:
-	Animator(GameObject* p_game_object);
-	~Animator() = default;
+	Animator();
+	explicit Animator(const Animator& origin);
+	~Animator();
 
 	void Update() override;
 	void FinalUpdate() override;
@@ -21,7 +22,8 @@ public:
 	(
 		const std::string& animation_name,
 		const std::string& animation_directory_path,
-		const float& animation_loop_time
+		const float& animation_playtime,
+		const bool& is_loop
 	);
 	void LoadAnimation(const std::string& animation_file_path);
 	void GetAnimation(const std::string& animation_name);
@@ -30,7 +32,7 @@ public:
 	const std::shared_ptr<Animation> GetCurrentAnimation() { SAFE_GET_POINTER(this->m_p_current_animation); }
 	void SetCurrentAnimation(const std::string& animation_name);
 
-	void SetAnimationEvent(const std::string& animation_name, std::function<void(void)>);
+	void SetAnimationEvent(const std::string& animation_name, std::function<void(void)> func);
 
 private:
 	std::shared_ptr<Animation> m_p_current_animation = nullptr;

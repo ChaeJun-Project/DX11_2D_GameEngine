@@ -7,7 +7,8 @@ class Material;
 class Renderer : public IComponent
 {
 public:
-    Renderer(GameObject* p_game_object);
+    Renderer();
+    explicit Renderer(const Renderer& origin);
     ~Renderer();
 
     void FinalUpdate() override;
@@ -23,6 +24,5 @@ public:
 private:
     std::shared_ptr<Mesh> m_p_mesh;
     std::shared_ptr<Material> m_p_material;
-
 };
 

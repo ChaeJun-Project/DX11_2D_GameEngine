@@ -4,7 +4,33 @@
 Animator::Animator()
 	:IComponent(ComponentType::Animator)
 {
-	
+
+}
+
+Animator::Animator(const Animator& origin)
+	: IComponent(ComponentType::Animator)
+{
+    //동일한 애니메이션의 정보를 바탕으로 새로 애니메이션 생성 및 추가
+	for (auto& animation_iter : origin.m_p_animation_map)
+	{
+		auto animation = animation_iter.second;
+
+		auto copy_animation = std::make_shared<Animation>(*animation.get());
+		auto copy_animation_iter = this->m_p_animation_map.insert(std::make_pair(copy_animation->GetResourceName(), copy_animation));
+		auto result = copy_animation_iter.second;
+		assert(result);	
+	}
+}
+
+Animator::~Animator()
+{
+	m_p_current_animation.reset();
+
+	for (auto& animation_iter : this->m_p_animation_map)
+	{
+		animation_iter.second.reset();
+	}
+	this->m_p_animation_map.clear();
 }
 
 void Animator::Update()
@@ -30,10 +56,10 @@ void Animator::FinalUpdate()
 void Animator::Play(const bool& is_play_reverse)
 {
 	if (this->m_p_current_animation == nullptr)
-	  return;
-	
+		return;
+
 	//정방향 재생
-	if(!is_play_reverse)
+	if (!is_play_reverse)
 		this->m_p_current_animation->Play();
 
 	//역재생
@@ -41,11 +67,11 @@ void Animator::Play(const bool& is_play_reverse)
 		this->m_p_current_animation->PlayReverse();
 }
 
-void Animator::CreateAnimation(const std::string& animation_name, const std::string& animation_directory_path, const float& animation_loop_time)
+void Animator::CreateAnimation(const std::string& animation_name, const std::string& animation_directory_path, const float& animation_playtime, const bool& is_loop)
 {
-    auto animation = std::make_shared<Animation>(animation_name);
-	animation->SetAnimationTime(animation_loop_time);
-	animation->SetIsLoop(true);
+	auto animation = std::make_shared<Animation>(animation_name);
+	animation->SetAnimationTime(animation_playtime);
+	animation->SetIsLoop(is_loop);
 	animation->LoadFromFile(animation_directory_path);
 
 	auto animation_iter = this->m_p_animation_map.insert(std::make_pair(animation_name, animation));

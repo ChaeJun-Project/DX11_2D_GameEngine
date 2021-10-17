@@ -5,6 +5,7 @@ class Animation : public IResource
 {
 public:
 	Animation(const std::string resource_name);
+	explicit Animation(const Animation& origin);
 	~Animation();
 
 	void LoadFromFile(const std::string& animation_directory_path) override;
@@ -55,17 +56,15 @@ public:
 
 	void SetIsLoop(const bool& is_loop) { this->m_is_loop = is_loop; }
 
-public:
-	float m_animation_time = 0.0f;
 private:
 	std::vector<std::shared_ptr<Texture>> m_p_texture_vector;
 	std::shared_ptr<Mesh> m_p_mesh = nullptr;
 
 	std::map<int, std::function<void(void)>> m_animation_event_func_map;
 
-	
 	float m_animation_frame_duration = 0.0f;
 	float m_accumulate_time = 0.0f;
+	float m_animation_time = 0.0f;
 	float m_animation_speed = 1.0f;
 	int m_current_frame_id = 0;
 
@@ -73,5 +72,7 @@ private:
 	bool m_is_play_reverse = false;
 	bool m_is_end = false;
 	bool m_is_loop = false;
+
+	friend class Animator;
 };
 

@@ -1,6 +1,8 @@
 #pragma once
-#include "IScript.h"
-class RockManZ_Script : public IScript
+
+#include "Script.h"
+
+class RockManZ_Script : public Script
 {
 private:
 	//TODO 상태를 비트값으로 대체하는 방법 생각하기
@@ -47,10 +49,10 @@ private:
 
 
 public:
-	RockManZ_Script(GameObject* p_game_object);
+	RockManZ_Script();
 	~RockManZ_Script();
 
-	void Initialize();
+	void Initialize() override;
 
 	void Update() override;
 

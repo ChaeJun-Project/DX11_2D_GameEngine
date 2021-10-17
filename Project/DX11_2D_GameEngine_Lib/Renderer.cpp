@@ -10,6 +10,13 @@ Renderer::Renderer()
 	m_p_material = std::make_shared<Material>("_Material");
 }
 
+Renderer::Renderer(const Renderer& origin)
+	: IComponent(ComponentType::Renderer)
+{
+	m_p_mesh = origin.m_p_mesh;
+	m_p_material = origin.m_p_material;
+}
+
 Renderer::~Renderer()
 {
 	if (this->m_p_mesh != nullptr)

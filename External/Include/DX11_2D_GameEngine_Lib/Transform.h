@@ -5,8 +5,9 @@
 class Transform final : public IComponent
 {
 public:
-	Transform(GameObject* p_game_object);
-	~Transform();
+	Transform();
+	explicit Transform(const Transform& origin);
+	~Transform() = default;
 
 	void FinalUpdate() override;
 
@@ -70,27 +71,10 @@ public:
 	//World Matrix
 	const Matrix& GetWorldMatrix() const { return this->m_world_matrix; }
 
-	//=====================================================================
-	// [Hierarchy]
-	//=====================================================================
-	//재귀적인 방법으로 최상위 오브젝트 찾기
-	Transform* GetRoot() { return HasParent() ? m_p_parent_transform->GetRoot() : this; }
-	const bool& GetIsRoot() { return !HasParent(); }
-
-	Transform* GetParent() { return this->m_p_parent_transform; }
-	void SetParent(Transform* p_parent_transform);
-
-	const std::vector<Transform*>& GetChilds() { return this->m_child_transform_vector; }
-	Transform* GetChildFromIndex(const UINT& index);
-	Transform* GetChildFromObjectName(const std::string& object_name);
-	const UINT& GetChildCount() const { return static_cast<UINT>(this->m_child_transform_vector.size()); }
-
-	void AddChild(Transform* child);
-	void DetachChild();
-	void TachChild();
-
-	const bool& HasParent() { return this->m_p_parent_transform ? true : false; }
-	const bool& HasChilds() { return !m_child_transform_vector.empty(); }
+public:
+	//Object Side
+	const GameObjectSideState& GetObjectSideState() const { return this->m_game_object_side_state; }
+	void SetObjectSideState(const GameObjectSideState& object_side_state) { this->m_game_object_side_state = object_side_state; }
 
 private:
 	Vector3 m_local_translation = Vector3::Zero; //xyz 모두 0.0f로 초기화
@@ -99,7 +83,7 @@ private:
 
 	Matrix m_world_matrix = Matrix::Identity;
 
-	Transform* m_p_parent_transform = nullptr;
-	std::vector<Transform*> m_child_transform_vector;
+	//Game Object Side
+	GameObjectSideState m_game_object_side_state = GameObjectSideState::Right;
 };
 

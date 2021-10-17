@@ -8,6 +8,13 @@ enum EditorState : UINT
 	EditorState_Pause = 1U << 2, //0100 정지 모드(재생 모드에서만 유효)
 };
 
+//Event Type(EventManager 사용)
+enum class EventType : UINT
+{
+	Create_Object = 0,
+	Delete_Object = 1,
+};
+
 //Resource Type(IResource 사용)
 enum class ResourceType : UINT
 {
@@ -74,15 +81,6 @@ enum class ProjectionType : UINT
 {
 	Orthographic = 0,//직교투영
 	Perspective = 1, //원근투영
-};
-
-//GameObject Type(IObject 사용)
-enum class GameObjectType : UINT
-{
-    MainCamera = 0, //임시
-	Background = 1,
-	RockManX = 2,
-	RockManZ = 3,
 };
 
 //GameObject SideType(IObject 사용)

@@ -52,13 +52,10 @@ public:
 	RockManZ_Script();
 	~RockManZ_Script();
 
-	void Initialize();
+	void Initialize() override;
 
 	void Update() override;
 
 	void Render();
-
-public:
-    CLONE(RockManZ_Script);
 };
 
