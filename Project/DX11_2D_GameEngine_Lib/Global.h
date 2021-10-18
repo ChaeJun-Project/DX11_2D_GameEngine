@@ -98,6 +98,7 @@ using namespace DirectX::PackedVector;
 #include "IndexBuffer.h"
 
 //RS
+#include "RasterizerState.h"
 
 //OM
 #include "BlendState.h"

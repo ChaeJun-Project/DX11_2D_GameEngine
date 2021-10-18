@@ -9,26 +9,12 @@ GraphicsManager::GraphicsManager()
 
 GraphicsManager::~GraphicsManager()
 {
-	//DirectX 자원 메모리 해제
-	//Reference Count - 1
-
-	//RenderTargetView
-	SAFE_RELEASE(m_p_render_target_view);
-
-	//DepthStencilView
-	SAFE_RELEASE(m_p_depth_stencil_view);
-	SAFE_RELEASE(m_p_depth_stencil_texture);
-
 	//전체모드인 경우
 	if (m_p_swap_chain && Settings::GetInstance()->IsFullScreen())
 	{
 		//스왑체인 메모리 해제 전에 윈도우 모드로 변경해야 예외가 발생하지 않음
 		m_p_swap_chain->SetFullscreenState(false, nullptr);
 	}
-	SAFE_RELEASE(m_p_swap_chain);
-
-	SAFE_RELEASE(m_p_device_context);
-	SAFE_RELEASE(m_p_device);
 
 	//Constant Buffer Map 초기화
 	for (auto& constant_buffer : this->m_p_constant_buffer_map)
@@ -56,24 +42,24 @@ const bool GraphicsManager::Initialize()
 {
 	//지원하는 해상도 찾기(참고: https://copynull.tistory.com/240)
 	//========================================================================================================
-	IDXGIFactory* p_DXGI_factory = nullptr;
+	ComPtr<IDXGIFactory> p_DXGI_factory = nullptr;
 	auto hResult = CreateDXGIFactory
 	(
 		__uuidof(IDXGIFactory),
-		reinterpret_cast<void**>(&p_DXGI_factory)
+		reinterpret_cast<void**>(p_DXGI_factory.GetAddressOf())
 	);
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return false;
 
-	IDXGIAdapter* p_DXGI_adapter = nullptr;
-	hResult = p_DXGI_factory->EnumAdapters(0, &p_DXGI_adapter);
+	ComPtr<IDXGIAdapter> p_DXGI_adapter = nullptr;
+	hResult = p_DXGI_factory->EnumAdapters(0, p_DXGI_adapter.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return false;
 
-	IDXGIOutput* p_DXGI_adapter_output = nullptr;
-	hResult = p_DXGI_adapter->EnumOutputs(0, &p_DXGI_adapter_output);
+	ComPtr<IDXGIOutput> p_DXGI_adapter_output = nullptr;
+	hResult = p_DXGI_adapter->EnumOutputs(0, p_DXGI_adapter_output.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return false;
@@ -125,6 +111,8 @@ const bool GraphicsManager::Initialize()
 	std::wcout << "GPU Name: " << m_gpu_description << std::endl;
 	std::cout << "GPU Memory Size: " << m_gpu_memory_size << std::endl;
 	std::cout << "Screen Rate: " << m_numerator / m_denominator << std::endl;
+
+	SATE_DELETE_ARRAY(display_mode_list);
 	//========================================================================================================
 
 	//Device와 DeviceContext 생성
@@ -176,7 +164,7 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 	//RenderTargetView 자원 해제
 	SAFE_RELEASE(m_p_render_target_view);
 
-	if (m_p_swap_chain)
+	if (m_p_swap_chain != nullptr)
 	{
 		auto hResult = m_p_swap_chain->ResizeBuffers
 		(
@@ -233,15 +221,15 @@ void GraphicsManager::BeginScene()
 	if (m_p_device_context && m_p_render_target_view && m_p_depth_stencil_view)
 	{
 		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
-		m_p_device_context->OMSetRenderTargets(1, &m_p_render_target_view, m_p_depth_stencil_view);
+		m_p_device_context->OMSetRenderTargets(1, m_p_render_target_view.GetAddressOf(), m_p_depth_stencil_view.Get());
 		//설정한 뷰포트 등록
 		m_p_device_context->RSSetViewports(1, &m_viewport);
 		//백 버퍼(render_target_view)에 그려진 내용 지우기
-		m_p_device_context->ClearRenderTargetView(m_p_render_target_view, m_clear_color);
+		m_p_device_context->ClearRenderTargetView(m_p_render_target_view.Get(), m_clear_color);
 		//깊이 버퍼 내용 지우기
-		m_p_device_context->ClearDepthStencilView(m_p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		m_p_device_context->ClearDepthStencilView(m_p_depth_stencil_view.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 		//블랜더 설정
-		m_p_device_context->OMSetBlendState(this->m_p_blender_map["Start_Blender"]->GetBlendState(), nullptr, 0xFF);
+		m_p_device_context->OMSetBlendState(this->m_p_blender_map[BlendType::Alpha_Blend]->GetBlendState(), nullptr, 0xFF);
 	}
 }
 
@@ -252,8 +240,6 @@ void GraphicsManager::EndScene()
 		//백 버퍼에 그린 내용을 전면 버퍼로 스왑
 		auto hResult = m_p_swap_chain->Present(Settings::GetInstance()->IsVsync() ? 1 : 0, 0);
 		assert(SUCCEEDED(hResult));
-		//블랜더 설정
-		m_p_device_context->OMSetBlendState(this->m_p_blender_map["End_Blender"]->GetBlendState(), nullptr, 0xFF);
 	}
 }
 
@@ -330,7 +316,7 @@ const bool GraphicsManager::CreateSwapChain()
 		return false;
 
 	//Create Swap Chain
-	p_DXGI_factory->CreateSwapChain(m_p_device, &desc, &m_p_swap_chain);
+	p_DXGI_factory->CreateSwapChain(m_p_device.Get(), &desc, &m_p_swap_chain);
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return false;
@@ -368,9 +354,9 @@ const bool GraphicsManager::CreateDeviceAndDeviceContext()
 		0,
 		0,
 		D3D11_SDK_VERSION,
-		&m_p_device,
+		m_p_device.GetAddressOf(),
 		&feature_levels[1],
-		&m_p_device_context
+		m_p_device_context.GetAddressOf()
 	);
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
@@ -391,36 +377,41 @@ const bool GraphicsManager::CreateDeviceAndDeviceContext()
 
 const bool GraphicsManager::CreateRenderTargetView()
 {
-	if (m_p_swap_chain)
+	if (m_p_swap_chain != nullptr)
 	{
 		//Swap Chain의 백 버퍼의 정보를 받아올 포인터 변수
-		ID3D11Texture2D* p_back_buffer = nullptr;
+		//함수 종료 시 자동으로 자원 해제
+		ComPtr<ID3D11Texture2D> p_back_buffer = nullptr;
 
 		//Swap Chain의 백 버퍼의 정보를 받아옴
 		auto hResult = m_p_swap_chain->GetBuffer
 		(
 			0,
 			__uuidof(ID3D11Texture2D),
-			reinterpret_cast<void**>(&p_back_buffer)
+			reinterpret_cast<void**>(p_back_buffer.GetAddressOf())
 		);
 		assert(SUCCEEDED(hResult));
 		if (!SUCCEEDED(hResult))
 			return false;
 
+		p_back_buffer->SetPrivateData
+		(
+			WKPDID_D3DDebugObjectName,
+			sizeof("CreateRenderTargetView!!!!!!!!!!!!!!!!!!!!") - 1,
+			"CreateRenderTargetView!!!!!!!!!!!!!!!!!!!!"
+		);
+
 		//백 버퍼를 바탕으로 렌더타겟 뷰를 생성
 		if (m_p_device)
 			hResult = m_p_device->CreateRenderTargetView
 			(
-				p_back_buffer,
+				p_back_buffer.Get(),
 				nullptr,
-				&m_p_render_target_view
+				m_p_render_target_view.GetAddressOf()
 			);
 		assert(SUCCEEDED(hResult));
 		if (!SUCCEEDED(hResult))
 			return false;
-
-		//Swap Chain의 백 버퍼를 가리키는 포인터 변수 해제
-		SAFE_RELEASE(p_back_buffer);
 
 		return true;
 	}
@@ -430,9 +421,13 @@ const bool GraphicsManager::CreateRenderTargetView()
 
 const bool GraphicsManager::CreateDepthStencilView()
 {
-	if (m_p_device)
+	if (m_p_device != nullptr)
 	{
 		auto settings = Settings::GetInstance();
+
+		//Swap Chain의 백 버퍼의 정보를 받아올 포인터 변수
+		//함수 종료 시 자동으로 자원 해제
+		ComPtr<ID3D11Texture2D> p_depth_stencil_texture = nullptr;
 
 		//DepthStencil 전용 텍스처 구조체 설정
 		D3D11_TEXTURE2D_DESC desc;
@@ -457,7 +452,7 @@ const bool GraphicsManager::CreateDepthStencilView()
 		(
 			&desc,
 			0,
-			&m_p_depth_stencil_texture
+			p_depth_stencil_texture.GetAddressOf()
 		);
 		assert(SUCCEEDED(hResult));
 		if (!SUCCEEDED(hResult))
@@ -467,9 +462,9 @@ const bool GraphicsManager::CreateDepthStencilView()
 		//깊이 뷰를 생성
 		hResult = m_p_device->CreateDepthStencilView
 		(
-			m_p_depth_stencil_texture,
+			p_depth_stencil_texture.Get(),
 			nullptr,
-			&m_p_depth_stencil_view
+			m_p_depth_stencil_view.GetAddressOf()
 		);
 		assert(SUCCEEDED(hResult));
 		if (!SUCCEEDED(hResult))
@@ -501,10 +496,65 @@ void GraphicsManager::CreateConstantBuffers()
 	}
 }
 
+void GraphicsManager::CreateRasterizer()
+{
+	//Cull Back Solid
+	auto pair_iter = this->m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_Back_Solid, std::make_shared<RasterizerState>()));
+	auto result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create
+		(
+			D3D11_CULL_BACK,
+			D3D11_FILL_SOLID
+		);
+	}
+
+	//Cull Front Solid
+	pair_iter = this->m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_Front_Solid, std::make_shared<RasterizerState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create
+		(
+			D3D11_CULL_FRONT,
+			D3D11_FILL_SOLID
+		);
+	}
+
+	//Cull None Solid
+	pair_iter = this->m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_None_Solid, std::make_shared<RasterizerState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create
+		(
+			D3D11_CULL_NONE,
+			D3D11_FILL_SOLID
+		);
+	}
+
+	//Cull None WireFrame
+	pair_iter = this->m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_None_WireFrame, std::make_shared<RasterizerState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create
+		(
+			D3D11_CULL_NONE,
+			D3D11_FILL_WIREFRAME
+		);
+	}
+}
+
 void GraphicsManager::CreateSampler()
 {
 	//Sampler1
-	auto pair_iter = this->m_p_sampler_map.insert(std::make_pair("Sampler1" , std::make_shared<SamplerState>()));
+	auto pair_iter = this->m_p_sampler_map.insert(std::make_pair("Sampler1", std::make_shared<SamplerState>()));
 	auto result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -548,26 +598,35 @@ void GraphicsManager::CreateSampler()
 
 void GraphicsManager::CreateBlender()
 {
-	//Start Blender
-	auto pair_iter = this->m_p_blender_map.insert(std::make_pair("Start_Blender", std::make_shared<BlendState>()));
+	//Default Blender
+	auto pair_iter = this->m_p_blender_map.insert(std::make_pair(BlendType::Default, std::make_shared<BlendState>()));
 	auto result = pair_iter.second;
-	assert(result);
-	if (result)
-	{
-		pair_iter.first->second->Create(true);
-	}
-
-	//End Blender
-	pair_iter = this->m_p_blender_map.insert(std::make_pair("End_Blender", std::make_shared<BlendState>()));
-	result = pair_iter.second;
 	assert(result);
 	if (result)
 	{
 		pair_iter.first->second->Create(false);
 	}
+
+	//Alpha Blender
+	pair_iter = this->m_p_blender_map.insert(std::make_pair(BlendType::Alpha_Blend, std::make_shared<BlendState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create(true, D3D11_BLEND_OP_ADD, D3D11_BLEND_SRC_ALPHA, D3D11_BLEND_INV_SRC_ALPHA);
+	}
+
+	//End Blender
+	pair_iter = this->m_p_blender_map.insert(std::make_pair(BlendType::One_One, std::make_shared<BlendState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create(true, D3D11_BLEND_OP_ADD, D3D11_BLEND_ONE, D3D11_BLEND_ONE);
+	}
 }
 
-std::shared_ptr<ConstantBuffer> GraphicsManager::GetConstantBuffer(const CBuffer_BindSlot& bind_slot)
+const std::shared_ptr<ConstantBuffer>& GraphicsManager::GetConstantBuffer(const CBuffer_BindSlot& bind_slot)
 {
 	auto map_iter = this->m_p_constant_buffer_map.find(bind_slot);
 	auto result = (map_iter != this->m_p_constant_buffer_map.end());

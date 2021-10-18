@@ -87,7 +87,7 @@ void Scene::FinalUpdate()
 
 void Scene::Render()
 {
-	static auto graphis_manager = GraphicsManager::GetInstance();
+	auto graphis_manager = GraphicsManager::GetInstance();
 
 	graphis_manager->BeginScene();
 

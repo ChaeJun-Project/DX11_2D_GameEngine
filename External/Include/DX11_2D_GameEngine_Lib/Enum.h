@@ -46,6 +46,25 @@ enum class ShaderType : UINT
 	PS = 5, //Pixel Shader
 };
 
+//Rasterizer State Type(Shader 사용)
+enum class RasterizerType : UINT
+{
+
+};
+
+//Blend State Type(Shader 사용)
+enum class BlendType : UINT
+{
+	Default = 0,
+};
+
+//Depth Stencil Type(Shader 사용)
+enum class DepthStencilType : UINT
+{
+   Less = 0,
+   Less_Equal = 1,
+};
+
 //Shader Resource Type(ShaderManager 사용)
 enum class ShaderResourceType : UINT
 {

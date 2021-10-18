@@ -163,6 +163,9 @@
     <ClInclude Include="EventManager.h">
       <Filter>Manager\Event</Filter>
     </ClInclude>
+    <ClInclude Include="RasterizerState.h">
+      <Filter>Core\DX11_Graphics_Pipeline\RS%28Rasterizer%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -296,6 +299,9 @@
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Manager\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="RasterizerState.cpp">
+      <Filter>Core\DX11_Graphics_Pipeline\RS%28Rasterizer%29</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

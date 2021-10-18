@@ -18,13 +18,13 @@ enum class EventType : UINT
 //Resource Type(IResource 사용)
 enum class ResourceType : UINT
 {
-    NONE		= 0,
-	Mesh		= 1,
-	Material	= 2,
-	Shader		= 3,
-	Texture		= 4,
-	Animation	= 5,
-	Sound		= 6,
+	NONE = 0,
+	Mesh = 1,
+	Material = 2,
+	Shader = 3,
+	Texture = 4,
+	Animation = 5,
+	Sound = 6,
 };
 
 //Mesh Type(Mesh 사용)
@@ -46,6 +46,35 @@ enum class ShaderType : UINT
 	PS = 5, //Pixel Shader
 };
 
+//Rasterizer State Type(Shader 사용)
+enum class RasterizerType : UINT
+{
+	Cull_Back_Solid = 0, //기본 옵션
+	Cull_Front_Solid = 1,
+	Cull_None_Solid = 2, //2D 엔진에서 기본 옵션
+	Cull_None_WireFrame = 3
+};
+
+//Blend State Type(Shader 사용)
+enum class BlendType : UINT
+{
+	Default = 0,
+	Alpha_Blend = 1,
+	One_One = 2,
+};
+
+//Depth Stencil Type(Shader 사용)
+enum class DepthStencilType : UINT
+{
+	Less = 0,
+	Less_Equal = 1,
+	Grater = 2,
+	Grater_Equal = 3,
+	No_Test = 4,
+	No_Wire = 5,
+	No_Test_No_Wire = 6,
+};
+
 //Shader Resource Type(ShaderManager 사용)
 enum class ShaderResourceType : UINT
 {
@@ -60,19 +89,19 @@ enum PipelineStage : UINT
 	GS = 1U << 3, //1000, Geometry Shader
 	PS = 1U << 4, //1 0000, Pixel Shader
 
-	ALL = VS | HS | DS | GS | PS, 
+	ALL = VS | HS | DS | GS | PS,
 };
 
 //Component Type(IComponent 사용)
 enum class ComponentType : UINT
 {
-	NONE		  = 0,
-	Transform	  = 1,
-	Camera		  = 2,
-	Renderer	  = 3,
-	Animator	  = 4,
-	Script		  = 5,
-	RigidBody2D	  = 6,
+	NONE = 0,
+	Transform = 1,
+	Camera = 2,
+	Renderer = 3,
+	Animator = 4,
+	Script = 5,
+	RigidBody2D = 6,
 	BoxCollider2D = 7,
 };
 

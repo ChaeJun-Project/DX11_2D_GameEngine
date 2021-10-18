@@ -3,14 +3,14 @@
 class BlendState final
 {
 public:
-	BlendState() = default;
-	~BlendState() = default;
+	BlendState(ID3D11Device* device);
+	~BlendState();
 
 	void Create
 	(
 		const bool& is_blend_enable,
-		const D3D11_BLEND& src_blend = D3D11_BLEND_SRC_ALPHA,
-		const D3D11_BLEND& dst_blend = D3D11_BLEND_INV_SRC_ALPHA,
+		const D3D11_BLEND& src_blend = D3D11_BLEND_SRC_ALPHA,	  //기존 텍스처의 알파값 사용
+		const D3D11_BLEND& dst_blend = D3D11_BLEND_INV_SRC_ALPHA, //기존 텍스처의 1 - 알파값 사용
 		const D3D11_BLEND_OP& blend_op = D3D11_BLEND_OP_ADD,
 		const D3D11_BLEND& src_blend_alpha = D3D11_BLEND_ONE,
 		const D3D11_BLEND& dst_blend_alpha = D3D11_BLEND_ZERO,
@@ -22,6 +22,7 @@ public:
 	ID3D11BlendState* GetBlendState() const { SAFE_GET_POINTER(this->m_p_blend_state.Get()); }
 
 private:
+	ID3D11Device* device;
 	ComPtr<ID3D11BlendState> m_p_blend_state = nullptr;
 };
 

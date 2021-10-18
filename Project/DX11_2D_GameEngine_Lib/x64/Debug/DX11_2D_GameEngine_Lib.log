@@ -1,4 +1,92 @@
-﻿  Scene.cpp
+﻿  stdafx.cpp
+  Animation.cpp
+  Animator.cpp
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Animator.cpp(108,1): warning C4506: 'ComponentType GameObject::GetComponentType<T>(void)' 인라인 함수에 대한 정의가 없습니다.
+          with
+          [
+              T=Renderer
+          ]
+  BlendState.cpp
+  Camera.cpp
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Camera.cpp(106,1): warning C4506: 'ComponentType GameObject::GetComponentType<T>(void)' 인라인 함수에 대한 정의가 없습니다.
+          with
+          [
+              T=Transform
+          ]
+  ConstantBuffer.cpp
+  ConstantStruct.cpp
+  DepthStencilState.cpp
+  EventManager.cpp
+  FileManager.cpp
+  FileStream.cpp
+  GraphicsManager.cpp
+  IndexBuffer.cpp
+  InputLayout.cpp
+  InputManager.cpp
+  GameObject.cpp
+  IShader.cpp
+  Layer.cpp
+  Material.cpp
+  Color4.cpp
+  Math.cpp
+  코드를 생성하고 있습니다...
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.cpp(112): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.cpp(167): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.cpp(147): warning C4715: 'GameObject::CreateSharedFromRaw': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.cpp(118): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.cpp(228): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.cpp(230): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.cpp(194): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.cpp(238): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.cpp(241): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\SceneManager.h(16): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GraphicsManager.cpp(577): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\FileManager.cpp(575): warning C4172: 지역 변수 또는 임시: buf의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\SceneManager.h(16): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(108): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(117): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(120): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\TimeManager.h(19): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(108): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(117): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(120): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Animation.h(29): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Animation.h(31): warning C4172: 지역 변수 또는 임시: current_texture의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\TimeManager.h(19): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+  컴파일하고 있습니다...
+  Matrix.cpp
+  Quaternion.cpp
+  Vector2.cpp
+  Vector3.cpp
+  Vector4.cpp
+  Mesh.cpp
+  PixelShader.cpp
+  RasterizerState.cpp
+  Renderer.cpp
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Renderer.cpp(44,1): warning C4506: 'ComponentType GameObject::GetComponentType<T>(void)' 인라인 함수에 대한 정의가 없습니다.
+          with
+          [
+              T=Transform
+          ]
+  ResourceManager.cpp
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(120,1): warning C4506: 'ShaderType Shader::GetShaderType<T>(void)' 인라인 함수에 대한 정의가 없습니다.
+          with
+          [
+              T=PixelShader
+          ]
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(120,1): warning C4506: 'ShaderType Shader::GetShaderType<T>(void)' 인라인 함수에 대한 정의가 없습니다.
+          with
+          [
+              T=VertexShader
+          ]
+  RockManZ_Script.cpp
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\RockManZ_Script.cpp(28,1): warning C4506: 'ComponentType GameObject::GetComponentType<T>(void)' 인라인 함수에 대한 정의가 없습니다.
+          with
+          [
+              T=Animator
+          ]
+  SamplerState.cpp
+  Scene.cpp
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Scene.cpp(117,1): warning C4506: 'ComponentType GameObject::GetComponentType<T>(void)' 인라인 함수에 대한 정의가 없습니다.
           with
           [
@@ -14,13 +102,60 @@ C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib
           [
               T=Transform
           ]
+  SceneManager.cpp
+  Script.cpp
+  Shader.cpp
+  ShaderManager.cpp
+  Stage.cpp
+  StageManager.cpp
+  Texture.cpp
+  코드를 생성하고 있습니다...
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Texture.cpp(103): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Texture.cpp(109): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Texture.cpp(115): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Texture.cpp(118): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\VertexShader.h(22): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Scene.cpp(115): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(108): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(117): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(120): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(108): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(108): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(117): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(120): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(117): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(120): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(108): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(117): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(120): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(41): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(43): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(56): warning C4172: 지역 변수 또는 임시: texture의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(67): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(69): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(78): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(80): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(89): warning C4172: 지역 변수 또는 임시: mesh의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(103): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(105): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(116): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ResourceManager.cpp(118): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Material.h(20): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(108): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(117): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(120): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+  컴파일하고 있습니다...
+  TimeManager.cpp
+  Transform.cpp
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Transform.cpp(152,1): warning C4506: 'ComponentType GameObject::GetComponentType<T>(void)' 인라인 함수에 대한 정의가 없습니다.
+          with
+          [
+              T=Transform
+          ]
+  VertexStruct.cpp
+  VertexShader.cpp
+  코드를 생성하고 있습니다...
+C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(60): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(108): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(117): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
 C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\GameObject.h(120): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
@@ -53,6 +188,7 @@ C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib
   .\Project\DX11_2D_GameEngine_Lib\Mesh.h
   .\Project\DX11_2D_GameEngine_Lib\Motion.h
   .\Project\DX11_2D_GameEngine_Lib\PixelShader.h
+  .\Project\DX11_2D_GameEngine_Lib\RasterizerState.h
   .\Project\DX11_2D_GameEngine_Lib\Renderer.h
   .\Project\DX11_2D_GameEngine_Lib\ResourceManager.h
   .\Project\DX11_2D_GameEngine_Lib\RockManZ_Script.h
@@ -81,7 +217,7 @@ C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib
   .\Project\DX11_2D_GameEngine_Lib\Math\Vector2.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Vector3.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Vector4.h
-  56개 파일이 복사되었습니다.
+  57개 파일이 복사되었습니다.
   .\Project\DX11_2D_GameEngine_Lib\Math\Color4.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Math.h
   .\Project\DX11_2D_GameEngine_Lib\Math\Matrix.h

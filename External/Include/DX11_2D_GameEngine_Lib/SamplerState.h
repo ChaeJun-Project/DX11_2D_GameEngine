@@ -1,6 +1,6 @@
 #pragma once
 
-class SamplerState
+class SamplerState final
 {
 public:
 	SamplerState() = default;
