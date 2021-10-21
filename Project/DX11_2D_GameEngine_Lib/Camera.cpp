@@ -8,7 +8,7 @@ Camera::Camera()
 }
 
 Camera::Camera(const Camera& origin)
-	: IComponent(ComponentType::Camera)
+	: IComponent(origin.GetComponentType())
 {
 	this->m_projection_type = origin.m_projection_type;
 
@@ -23,7 +23,7 @@ Camera::Camera(const Camera& origin)
 
 void Camera::Update()
 {
-	auto transform = m_p_owner_game_object.lock()->GetComponent<Transform>();
+	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 
 	//편집일 때
 	auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
@@ -74,7 +74,7 @@ void Camera::FinalUpdate()
 
 void Camera::UpdateViewMatrix()
 {
-	auto transform = m_p_owner_game_object.lock()->GetComponent<Transform>();
+	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 	auto position = transform->GetTranslation(); //월드에서의 카메라 위치값
 	auto up_vector = transform->GetUpVector(); //카메라의 업 벡터
 	auto forward_vector = transform->GetForwardVector(); //카메라의 바라보는 방향 벡터(전면 벡터)

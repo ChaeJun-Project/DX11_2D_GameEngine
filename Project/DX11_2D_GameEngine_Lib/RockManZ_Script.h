@@ -57,5 +57,13 @@ public:
 	void Update() override;
 
 	void Render();
+
+public:
+	virtual void OnCollisionEnter(GameObject* other_game_object) override;
+	virtual void OnCollisionExit(GameObject* other_game_object) override;
+	virtual void OnCollision(GameObject* other_game_object) override;
+
+private:
+    float m_speed = 200.f;
 };
 

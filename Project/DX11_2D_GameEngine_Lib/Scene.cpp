@@ -6,6 +6,9 @@
 
 #include "Transform.h"
 #include "Camera.h"
+#include "Renderer.h"
+#include "Animation.h"
+#include "Collider2D.h"
 #include "RockManZ_Script.h"
 
 Scene::~Scene()
@@ -18,8 +21,8 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-    //Camera
-	auto camera = std::make_shared<GameObject>();
+	//Camera
+	auto camera = new GameObject();
 	camera->SetObjectName("Main Camera");
 	camera->SetObjectTag("Camera");
 	camera->AddComponent(std::make_shared<Transform>());
@@ -30,41 +33,26 @@ void Scene::Initialize()
 	AddGameObject(camera, 0, false);
 
 	//RockManZ
-	auto rockmanZ = std::make_shared<GameObject>();
+	auto rockmanZ = new GameObject();
 	rockmanZ->SetObjectName("RockManZ");
 	rockmanZ->SetObjectTag("Player");
 	rockmanZ->AddComponent(std::make_shared<Transform>());
 	rockmanZ->AddComponent(std::make_shared<Renderer>());
 	rockmanZ->AddComponent(std::make_shared<Animator>());
+	rockmanZ->AddComponent(std::make_shared<Collider2D>());
 	rockmanZ->AddComponent(std::make_shared<RockManZ_Script>());
 
-	rockmanZ->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 0.0f));
-	auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
-	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, -(scale.y * 36.0f), 0.0f));
+	auto collider2D = rockmanZ->GetComponent<Collider2D>();
+	collider2D->SetOffsetPos(Vector3(0.0f, -10.0f, 0.0f));
+	collider2D->SetOffsetScale(Vector3(0.4f, 0.5f, 1.0f));
+	//rockmanZ->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 0.0f));
+	//auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
+	//rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, -(scale.y * 36.0f), 0.0f));
 
 	rockmanZ->GetComponent<Script>()->Initialize();
 	rockmanZ->GetComponent<Animator>()->Play();
 
 	AddGameObject(rockmanZ, 1, false);
-
-	//RockManZ
-	auto rockmanX = std::make_shared<GameObject>();
-	rockmanX->SetObjectName("RockManX");
-	rockmanX->SetObjectTag("Player");
-	rockmanX->AddComponent(std::make_shared<Transform>());
-	rockmanX->AddComponent(std::make_shared<Renderer>());
-	rockmanX->AddComponent(std::make_shared<Animator>());
-	rockmanX->AddComponent(std::make_shared<RockManZ_Script>());
-
-	rockmanX->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 0.0f));
-    scale = rockmanX->GetComponent<Transform>()->GetScale();
-	rockmanX->GetComponent<Transform>()->SetTranslation(Vector3(300.0f, -(scale.y * 36.0f), 0.0f));
-
-	rockmanX->GetComponent<Script>()->Initialize();
-	rockmanX->GetComponent<Animator>()->Play();
-
-	AddGameObject(rockmanX, 2, false);
-
 }
 
 void Scene::Update()
@@ -97,7 +85,7 @@ void Scene::Render()
 	graphis_manager->EndScene();
 }
 
-void Scene::AddGameObject(const std::shared_ptr<GameObject>& p_game_object, UINT layer_index, bool is_move)
+void Scene::AddGameObject(GameObject* p_game_object, UINT layer_index, bool is_move)
 {
 	auto pair_iter = this->m_layer_map.insert(std::make_pair(layer_index, std::make_shared<Layer>(layer_index)));
 
@@ -109,8 +97,8 @@ const std::shared_ptr<Layer>& Scene::GetLayer(const UINT& layer_index)
 {
 	auto layer_iter = this->m_layer_map.find(layer_index);
 
-	if(layer_iter != this->m_layer_map.end())
-	  return layer_iter->second;
+	if (layer_iter != this->m_layer_map.end())
+		return layer_iter->second;
 
 	return nullptr;
 }

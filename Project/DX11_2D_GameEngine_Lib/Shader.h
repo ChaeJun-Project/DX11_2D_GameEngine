@@ -7,15 +7,15 @@
 //여러 Shader(VS, HS, DS, GS, PS)들을 조합하여 사용할 수 있기 때문
 class Shader final : public IResource
 {
+private:
+	template<typename T>
+	static constexpr ShaderType GetShaderType();
+
 public:
 	Shader(const std::string resource_name);
 	~Shader();
 
 	void BindPipeline() override;
-
-private:
-	template<typename T>
-	static constexpr ShaderType GetShaderType();
 
 public:
 	//Shader 추가 후 생성
@@ -31,11 +31,25 @@ public:
 	std::shared_ptr<T> GetShader() const;
 
 	const D3D11_PRIMITIVE_TOPOLOGY& GetPrimitiveTopology() const { return this->m_primitive_topology; }
-	void SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY primitive_topology) { this->m_primitive_topology = primitive_topology; }
+	void SetPrimitiveTopology(const D3D11_PRIMITIVE_TOPOLOGY& primitive_topology) { this->m_primitive_topology = primitive_topology; }
+
+	const RasterizerType& GetRasterizerType() const { return this->m_rasterizer_type; }
+	void SetRasterizerType(const RasterizerType& rasterizer_type) { this->m_rasterizer_type = rasterizer_type; }
+
+	const BlendType& GetBlendType() const { return this->m_blend_type; }
+	void SetBlendType(const BlendType& blend_type) { this->m_blend_type = blend_type; }
+
+	const DepthStencilType& GetDepthStencilType() const { return this->m_depth_stencil_type; }
+	void SetDepthStencilType(const DepthStencilType& depth_stencil_type) { this->m_depth_stencil_type = depth_stencil_type; }
 
 private:
     std::map<ShaderType, std::shared_ptr<IShader>> m_shader_map;
+
 	D3D11_PRIMITIVE_TOPOLOGY m_primitive_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+	RasterizerType m_rasterizer_type;
+	BlendType m_blend_type;
+	DepthStencilType m_depth_stencil_type;
 };
 
 template<typename T>

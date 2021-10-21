@@ -162,7 +162,8 @@ void GraphicsManager::ResizeWindowByProgram(const UINT& width, const UINT& heigh
 void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 {
 	//RenderTargetView 자원 해제
-	SAFE_RELEASE(m_p_render_target_view);
+	auto p_render_target_view = m_p_render_target_view.Get();
+	SAFE_RELEASE(p_render_target_view);
 
 	if (m_p_swap_chain != nullptr)
 	{
@@ -228,8 +229,6 @@ void GraphicsManager::BeginScene()
 		m_p_device_context->ClearRenderTargetView(m_p_render_target_view.Get(), m_clear_color);
 		//깊이 버퍼 내용 지우기
 		m_p_device_context->ClearDepthStencilView(m_p_depth_stencil_view.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-		//블랜더 설정
-		m_p_device_context->OMSetBlendState(this->m_p_blender_map[BlendType::Alpha_Blend]->GetBlendState(), nullptr, 0xFF);
 	}
 }
 
@@ -596,6 +595,63 @@ void GraphicsManager::CreateSampler()
 	this->m_p_device_context->CSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
 }
 
+void GraphicsManager::CreateDepthStencil()
+{
+	//Less DepthStencilState(default)
+	auto pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::Less, std::make_shared<DepthStencilState>()));
+	auto result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create(true, D3D11_COMPARISON_LESS);
+	}
+
+	//Less_Equal DepthStencilState
+	pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::Less_Equal, std::make_shared<DepthStencilState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create(true, D3D11_COMPARISON_LESS_EQUAL);
+	}
+
+	//Grater DepthStencilState
+	pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::Grater, std::make_shared<DepthStencilState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create(true, D3D11_COMPARISON_GREATER);
+	}
+
+	//No Test DepthStencilState
+	pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::No_Test, std::make_shared<DepthStencilState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create(false, D3D11_COMPARISON_LESS);
+	}
+
+	//No Write DepthStencilState
+	pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::No_Write, std::make_shared<DepthStencilState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create(true, D3D11_COMPARISON_LESS, D3D11_DEPTH_WRITE_MASK_ZERO);
+	}
+
+	//No Test No Write DepthStencilState
+	pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::No_Test_No_Write, std::make_shared<DepthStencilState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create(false, D3D11_COMPARISON_LESS, D3D11_DEPTH_WRITE_MASK_ZERO);
+	}
+}
+
 void GraphicsManager::CreateBlender()
 {
 	//Default Blender
@@ -616,7 +672,7 @@ void GraphicsManager::CreateBlender()
 		pair_iter.first->second->Create(true, D3D11_BLEND_OP_ADD, D3D11_BLEND_SRC_ALPHA, D3D11_BLEND_INV_SRC_ALPHA);
 	}
 
-	//End Blender
+	//One One Blender
 	pair_iter = this->m_p_blender_map.insert(std::make_pair(BlendType::One_One, std::make_shared<BlendState>()));
 	result = pair_iter.second;
 	assert(result);
@@ -630,6 +686,45 @@ const std::shared_ptr<ConstantBuffer>& GraphicsManager::GetConstantBuffer(const 
 {
 	auto map_iter = this->m_p_constant_buffer_map.find(bind_slot);
 	auto result = (map_iter != this->m_p_constant_buffer_map.end());
+	assert(result);
+	if (result)
+	{
+		return map_iter->second;
+	}
+
+	return nullptr;
+}
+
+const std::shared_ptr<RasterizerState>& GraphicsManager::GetRasterizer(const RasterizerType& rasterizer_type)
+{
+	auto map_iter = this->m_p_rasterizer_map.find(rasterizer_type);
+	auto result = (map_iter != this->m_p_rasterizer_map.end());
+	assert(result);
+	if (result)
+	{
+		return map_iter->second;
+	}
+
+	return nullptr;
+}
+
+const std::shared_ptr<DepthStencilState>& GraphicsManager::GetDepthStencilState(const DepthStencilType& depth_stencil_type)
+{
+	auto map_iter = this->m_p_depth_stecil_map.find(depth_stencil_type);
+	auto result = (map_iter != this->m_p_depth_stecil_map.end());
+	assert(result);
+	if (result)
+	{
+		return map_iter->second;
+	}
+
+	return nullptr;
+}
+
+const std::shared_ptr<BlendState>& GraphicsManager::GetBlender(const BlendType& blend_type)
+{
+	auto map_iter = this->m_p_blender_map.find(blend_type);
+	auto result = (map_iter != this->m_p_blender_map.end());
 	assert(result);
 	if (result)
 	{

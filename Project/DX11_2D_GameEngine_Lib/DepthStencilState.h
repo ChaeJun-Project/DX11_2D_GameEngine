@@ -8,8 +8,9 @@ public:
 
 	void Create
 	(
-       const bool& is_depth_enable,
-	   const D3D11_COMPARISON_FUNC& comparison_func = D3D11_COMPARISON_LESS
+       const bool& is_depth_enable = true,
+	   const D3D11_COMPARISON_FUNC& comparison_func = D3D11_COMPARISON_LESS,
+	   const D3D11_DEPTH_WRITE_MASK& depth_write_mask = D3D11_DEPTH_WRITE_MASK_ALL
 	);
 
 public:

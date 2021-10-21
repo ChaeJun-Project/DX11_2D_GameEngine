@@ -4,7 +4,7 @@
 
 class IComponent;
 
-class GameObject : public DX11Obejct, public std::enable_shared_from_this<GameObject>
+class GameObject : public DX11Obejct
 {
 public:
 	GameObject() = default;
@@ -22,8 +22,6 @@ private:
 	static constexpr ComponentType GetComponentType();
 
 public:
-	const std::shared_ptr<GameObject>& operator=(const GameObject& origin);
-
 	const std::shared_ptr<IComponent>& CreateSharedFromRaw(IComponent* p_component_raw);
 
 	void AddComponent(const std::shared_ptr<IComponent>& p_component);
@@ -54,18 +52,18 @@ public:
 	// [Hierarchy]
 	//=====================================================================
 	//재귀적인 방법으로 최상위 오브젝트 찾기
-	const std::shared_ptr<GameObject>& GetRoot();
+	GameObject* GetRoot();
 	const bool& GetIsRoot() { return !HasParent(); }
 
-	const std::shared_ptr<GameObject>& GetParent() const { if(m_p_parent != nullptr) return this->m_p_parent; return nullptr;}
-	void SetParent(const std::shared_ptr<GameObject>& p_parent_game_object);
+	GameObject* GetParent() const { if(m_p_parent != nullptr) return this->m_p_parent; return nullptr;}
+	void SetParent(GameObject* p_parent_game_object);
 	
-	const std::vector<std::weak_ptr<GameObject>>& GetChilds() const { return this->m_p_child_vector; }
-	const std::shared_ptr<GameObject>& GetChildFromIndex(const UINT& index);
-	const std::shared_ptr<GameObject>& GetChildFromObjectName(const std::string& object_name);
+	const std::vector<GameObject*>& GetChilds() const { return this->m_p_child_vector; }
+	GameObject* GetChildFromIndex(const UINT& index) const;
+	GameObject* GetChildFromObjectName(const std::string& object_name) const;
 	const UINT& GetChildCount() const { return static_cast<UINT>(this->m_p_child_vector.size()); }
 
-	void AddChild(const std::shared_ptr<GameObject>& p_child_game_object);
+	void AddChild(GameObject* p_child_game_object);
 	void DetachChild();
 	void TachChild();
 
@@ -74,6 +72,9 @@ public:
 
 private:
     void SetDead() { this->m_dead_check = true; }
+
+public:
+    CLONE(GameObject);
 
 private:
 	//Object name
@@ -87,9 +88,9 @@ private:
 	
 	//Hierarchy
 	//Parent Object
-	std::shared_ptr<GameObject> m_p_parent = nullptr;
+	GameObject* m_p_parent = nullptr;
 	//Child Object
-	std::vector<std::weak_ptr<GameObject>> m_p_child_vector;
+	std::vector<GameObject*> m_p_child_vector;
 
 	bool m_dead_check = false;
 

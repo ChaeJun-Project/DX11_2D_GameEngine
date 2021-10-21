@@ -16,7 +16,7 @@ public:
    void Render();
 
 public:
-   void AddGameObject(const std::shared_ptr<GameObject>& p_game_object, UINT layer_index, bool is_move);
+   void AddGameObject(GameObject* p_game_object, UINT layer_index, bool is_move);
 
 public:
    const std::shared_ptr<Layer>& GetLayer(const UINT& layer_index);

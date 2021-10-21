@@ -37,7 +37,7 @@ void EventManager::Excute(const EventStruct& event_struct)
 		GameObject* p_new_game_object = (GameObject*)(event_struct.object_address);
 		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject
 		(
-			std::make_shared<GameObject>(*p_new_game_object),
+			p_new_game_object,
 			static_cast<UINT>(event_struct.layer_index),
 			false
 		);

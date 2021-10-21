@@ -9,7 +9,8 @@ public:
 	void Create
 	(
 		const D3D11_CULL_MODE& cull_mode,
-		const D3D11_FILL_MODE& fill_mode
+		const D3D11_FILL_MODE& fill_mode,
+		const bool& is_front_counter_clockwise = false
 	);
 
 public:

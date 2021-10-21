@@ -27,7 +27,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	d->Initialize();
 	d->CreateConstantBuffers();
+	d->CreateRasterizer();
 	d->CreateSampler();
+	d->CreateDepthStencil();
 	d->CreateBlender();
 
 	auto s = SceneManager::GetInstance();

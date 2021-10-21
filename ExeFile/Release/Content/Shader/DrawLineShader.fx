@@ -1,6 +1,7 @@
 #include "VertexStruct.fx"
 #include "ConstantBuffer.fx"
 
+//RS State에서 WireFrame 사용
 //Vertex Shader
 VertexColorOuputType VS(VertexColor vs_input)
 {
@@ -11,8 +12,8 @@ VertexColorOuputType VS(VertexColor vs_input)
     vs_output.position = mul(vs_output.position, view);
     vs_output.position = mul(vs_output.position, projection);
     
-    //UV값 복사
-    vs_output.color = vs_input.color;
+    //Color값 복사
+    vs_output.color = float4(0.0f, 1.0f, 0.0f, 1.0f);
     
     return vs_output;
 }
@@ -20,5 +21,9 @@ VertexColorOuputType VS(VertexColor vs_input)
 //Pixel Shader
 float4 PS(VertexColorOuputType ps_input) : SV_Target
 {
+    if (g_int_0 == 1)
+    {
+        ps_input.color = float4(1.0f, 1.0f, 1.0f, 1.0f);
+    }
     return ps_input.color;
 }

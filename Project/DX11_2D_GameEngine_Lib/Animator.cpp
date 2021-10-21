@@ -8,7 +8,7 @@ Animator::Animator()
 }
 
 Animator::Animator(const Animator& origin)
-	: IComponent(ComponentType::Animator)
+	: IComponent(origin.GetComponentType())
 {
     //동일한 애니메이션의 정보를 바탕으로 새로 애니메이션 생성 및 추가
 	for (auto& animation_iter : origin.m_p_animation_map)
@@ -46,11 +46,14 @@ void Animator::FinalUpdate()
 	if (this->m_p_current_animation == nullptr)
 		return;
 
-	auto renderer = m_p_owner_game_object.lock()->GetComponent<Renderer>();
+	auto renderer = m_p_owner_game_object->GetComponent<Renderer>();
 	renderer->SetMesh(this->m_p_current_animation->GetMesh());
 	auto material = renderer->GetMaterial();
 	material->SetShader(ResourceManager::GetInstance()->GetShaderResource(ShaderResourceType::Standard));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, this->m_p_current_animation->GetCurrentTexture());
+
+	auto collider2D = m_p_owner_game_object->GetComponent<Renderer>();
+	collider2D->SetMesh(this->m_p_current_animation->GetMesh());
 }
 
 void Animator::Play(const bool& is_play_reverse)

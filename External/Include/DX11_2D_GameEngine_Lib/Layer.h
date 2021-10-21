@@ -15,15 +15,17 @@ public:
 	void Render();
 
 public:
-    void AddGameObject(const std::shared_ptr<GameObject>& p_game_object, bool is_move);
-	void RegisterObject(const std::shared_ptr<GameObject>& p_game_object) { this->m_p_game_object_list.push_back(p_game_object);}
+    void AddGameObject(GameObject* p_game_object, bool is_move);
+	void RegisterObject(GameObject* p_game_object) { this->m_p_game_object_vector.emplace_back(p_game_object);}
+
+	std::vector<GameObject*>& GetGameObjects() { return m_p_game_object_vector; }
 
 private:
     //해당 layer에 속한 최상위 부모 오브젝트들
-	std::list<std::shared_ptr<GameObject>> m_p_parent_game_object_list;
+	std::vector<GameObject*> m_p_parent_game_object_vector;
 
 	//부모 자식 관계없이 해당 layer에 속한 모든 오브젝트들
-	std::list<std::weak_ptr<GameObject>> m_p_game_object_list;
+	std::vector<GameObject*> m_p_game_object_vector;
 
 	int m_layer_index = -1;
 };

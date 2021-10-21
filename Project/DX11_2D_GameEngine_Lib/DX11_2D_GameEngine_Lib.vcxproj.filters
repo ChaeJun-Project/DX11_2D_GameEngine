@@ -166,6 +166,12 @@
     <ClInclude Include="RasterizerState.h">
       <Filter>Core\DX11_Graphics_Pipeline\RS%28Rasterizer%29</Filter>
     </ClInclude>
+    <ClInclude Include="Collider2D.h">
+      <Filter>Scene\Components\Collider2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Manager\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -303,6 +309,12 @@
     <ClCompile Include="RasterizerState.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\RS%28Rasterizer%29</Filter>
     </ClCompile>
+    <ClCompile Include="Collider2D.cpp">
+      <Filter>Scene\Components\Collider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Manager\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -331,9 +343,6 @@
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{2bc8eed1-6027-4537-bd2f-4ea5b0a439b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{d10c0201-1730-47be-968b-a3b7669e99d0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Manager\Scene">
       <UniqueIdentifier>{e8d13bcd-0557-4104-a100-7c0c5f0ae10b}</UniqueIdentifier>
@@ -386,26 +395,8 @@
     <Filter Include="Resource\Material">
       <UniqueIdentifier>{164e4f82-07b4-4037-a4c1-ced9cff22988}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\GameObject">
-      <UniqueIdentifier>{3fe073d6-332c-4f49-8fa6-bc2441c0b588}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource\Animation">
       <UniqueIdentifier>{faa04c74-5769-41a7-a2e0-5bcbd46d9d56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components">
-      <UniqueIdentifier>{6421e76f-148d-406a-ae49-9e542ef7b9e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Camera">
-      <UniqueIdentifier>{5010c158-ab20-4dff-a899-f82268185cb5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Transform">
-      <UniqueIdentifier>{32df9ce1-9516-42d1-be20-592ddad9c92e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Animator">
-      <UniqueIdentifier>{7defdf6b-a0f1-4cf9-a2f8-a9511e904d01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Renderer">
-      <UniqueIdentifier>{964d467a-c2ac-4b30-bade-9303fcfa8d86}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\DX11_Graphics_Pipeline">
       <UniqueIdentifier>{76594865-25b3-4a19-b6e2-73303cff7e14}</UniqueIdentifier>
@@ -452,11 +443,32 @@
     <Filter Include="Core\DX11_Graphics_Pipeline\D3D11BufferStruct">
       <UniqueIdentifier>{fc650ec0-27f3-4df1-ace3-14e3668f66de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\GameStage">
-      <UniqueIdentifier>{c6f3a3f5-7761-4aeb-9189-b3844b0801b8}</UniqueIdentifier>
+    <Filter Include="Manager\Event">
+      <UniqueIdentifier>{012aebee-9273-4255-baa7-194d2932c15c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Layer">
-      <UniqueIdentifier>{562d4610-3b24-4194-8640-6c05e295a2d9}</UniqueIdentifier>
+    <Filter Include="Manager\Collision">
+      <UniqueIdentifier>{ecca7948-40ea-4672-8b19-de69f671bc21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{d10c0201-1730-47be-968b-a3b7669e99d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameObject">
+      <UniqueIdentifier>{3fe073d6-332c-4f49-8fa6-bc2441c0b588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components">
+      <UniqueIdentifier>{6421e76f-148d-406a-ae49-9e542ef7b9e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Camera">
+      <UniqueIdentifier>{5010c158-ab20-4dff-a899-f82268185cb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Transform">
+      <UniqueIdentifier>{32df9ce1-9516-42d1-be20-592ddad9c92e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Animator">
+      <UniqueIdentifier>{7defdf6b-a0f1-4cf9-a2f8-a9511e904d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Renderer">
+      <UniqueIdentifier>{964d467a-c2ac-4b30-bade-9303fcfa8d86}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scene\Components\Script">
       <UniqueIdentifier>{45b73adf-3a03-4022-97d9-4cd397f02347}</UniqueIdentifier>
@@ -464,8 +476,14 @@
     <Filter Include="Scene\Components\Script\RockManZ">
       <UniqueIdentifier>{1059a6e4-27b6-422c-b93e-095e805be973}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Manager\Event">
-      <UniqueIdentifier>{012aebee-9273-4255-baa7-194d2932c15c}</UniqueIdentifier>
+    <Filter Include="Scene\Components\Collider2D">
+      <UniqueIdentifier>{14e46d7e-1d3f-411e-9839-aa5f81ebc0e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameStage">
+      <UniqueIdentifier>{c6f3a3f5-7761-4aeb-9189-b3844b0801b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Layer">
+      <UniqueIdentifier>{562d4610-3b24-4194-8640-6c05e295a2d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

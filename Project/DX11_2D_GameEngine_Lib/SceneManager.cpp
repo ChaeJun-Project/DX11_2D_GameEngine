@@ -27,5 +27,8 @@ void SceneManager::Progress()
     m_p_current_scene->LateUpdate();
     m_p_current_scene->FinalUpdate();
 
+    //충돌검사
+    CollisionManager::GetInstance()->Update();
+
     m_p_current_scene->Render();
 }

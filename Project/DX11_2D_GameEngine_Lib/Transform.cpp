@@ -9,7 +9,7 @@ Transform::Transform()
 }
 
 Transform::Transform(const Transform& origin)
-	: IComponent(ComponentType::Transform)
+	: IComponent(origin.GetComponentType())
 {
 	this->m_local_translation = origin.m_local_translation;
 	this->m_local_rotation = origin.m_local_rotation;
@@ -31,10 +31,10 @@ void Transform::UpdateWorldMatrix()
 		SetRotation(Quaternion::Identity);
 		break;
 	case GameObjectSideState::Left:
-		SetRotation(Quaternion(0.0f, 180.0f, 0.0f, 1.0f));
+		SetRotation(Quaternion::QuaternionFromEulerAngle(Vector3(0.0f, 180.0f, 0.0f)));
 		break;
 	}
-
+	
 	auto scale = Matrix::Scaling(this->m_local_scale);
 	auto rotation = Matrix::RotationQuaternion(this->m_local_rotation);
 	auto translation = Matrix::Translation(this->m_local_translation);
@@ -47,9 +47,9 @@ void Transform::UpdateWorldMatrix()
 	//부모 오브젝트의 transform이 있다면
 	//현재 오브젝트의 월드 행렬에 부모 오브젝트의 월드 행렬을 곱함
 	//부모 오브젝트 기준의 월드 행렬에 부모 오브젝트의 월드 행렬을 곱함
-	if (m_p_owner_game_object.lock()->HasParent())
+	if (m_p_owner_game_object->HasParent())
 	{
-		auto parent_world_matrix = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
+		auto parent_world_matrix = m_p_owner_game_object->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
 		this->m_world_matrix = this->m_world_matrix * parent_world_matrix;
 	}
 }
@@ -60,7 +60,6 @@ void Transform::SetLocalTranslation(const Vector3& local_translation)
 		return;
 
 	this->m_local_translation = local_translation;
-	UpdateWorldMatrix();
 }
 
 void Transform::SetLocalRotation(const Quaternion& local_rotation)
@@ -69,7 +68,6 @@ void Transform::SetLocalRotation(const Quaternion& local_rotation)
 		return;
 
 	this->m_local_rotation = local_rotation;
-	UpdateWorldMatrix();
 }
 
 void Transform::SetLocalScale(const Vector3& local_scale)
@@ -78,16 +76,15 @@ void Transform::SetLocalScale(const Vector3& local_scale)
 		return;
 
 	this->m_local_scale = local_scale;
-	UpdateWorldMatrix();
 }
 
 void Transform::Translate(const Vector3& move)
 {
 	//해당 오브젝트가 부모 오브젝트를 가지고 있다면
 	//부모 오브젝트의 월드 행렬의 역행렬을 곱한 값을 더함
-	if (m_p_owner_game_object.lock()->HasParent())
+	if (m_p_owner_game_object->HasParent())
 	{
-		auto parent_world_matrix = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
+		auto parent_world_matrix = m_p_owner_game_object->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
 		SetLocalTranslation(this->m_local_translation + (move * parent_world_matrix.Inverse()));
 	}
 
@@ -100,9 +97,9 @@ void Transform::SetTranslation(const Vector3& translation)
 	if (GetTranslation() == translation)
 		return;
 
-	if (m_p_owner_game_object.lock()->HasParent())
+	if (m_p_owner_game_object->HasParent())
 	{
-		auto parent_world_matrix = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
+		auto parent_world_matrix = m_p_owner_game_object->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
 		SetLocalTranslation(translation * parent_world_matrix.Inverse());
 	}
 
@@ -115,9 +112,9 @@ void Transform::SetRotation(const Quaternion& rotation)
 	if (GetRotation() == rotation)
 		return;
 
-	if (m_p_owner_game_object.lock()->HasParent())
+	if (m_p_owner_game_object->HasParent())
 	{
-		auto parent_rotation = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetRotation();
+		auto parent_rotation = m_p_owner_game_object->GetParent()->GetComponent<Transform>()->GetRotation();
 		SetLocalRotation(rotation * parent_rotation.Inverse());
 	}
 
@@ -130,9 +127,9 @@ void Transform::SetScale(const Vector3& scale)
 	if (GetScale() == scale)
 		return;
 
-	if (m_p_owner_game_object.lock()->HasParent())
+	if (m_p_owner_game_object->HasParent())
 	{
-		auto parent_scale = m_p_owner_game_object.lock()->GetParent()->GetComponent<Transform>()->GetScale();
+		auto parent_scale = m_p_owner_game_object->GetParent()->GetComponent<Transform>()->GetScale();
 		SetLocalScale(scale / parent_scale);
 	}
 

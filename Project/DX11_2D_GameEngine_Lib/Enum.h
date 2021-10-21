@@ -69,16 +69,16 @@ enum class DepthStencilType : UINT
 	Less = 0,
 	Less_Equal = 1,
 	Grater = 2,
-	Grater_Equal = 3,
-	No_Test = 4,
-	No_Wire = 5,
-	No_Test_No_Wire = 6,
+	No_Test = 3,
+	No_Write = 4,
+	No_Test_No_Write = 5,
 };
 
 //Shader Resource Type(ShaderManager 사용)
 enum class ShaderResourceType : UINT
 {
-	Standard = 0,
+	Standard = 0,    //Draw Texture
+	Collider2D = 1,  //Draw Line
 };
 
 enum PipelineStage : UINT
@@ -101,8 +101,8 @@ enum class ComponentType : UINT
 	Renderer = 3,
 	Animator = 4,
 	Script = 5,
-	RigidBody2D = 6,
-	BoxCollider2D = 7,
+	Collider2D = 6,
+	RigidBody2D = 7,
 };
 
 //Projection Type(Camera 사용)

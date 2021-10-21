@@ -11,9 +11,9 @@ enum KeyCode : unsigned long
 	CLICK_RIGHT = 0x01,
 
 	KEY_ARROW_LEFT = 0x25,
-	KEY_ARROW_UP = 0x27,
-	KEY_ARROW_RIGHT = 0x28,
-	KEY_ARROW_DOWN = 0x29,
+	KEY_ARROW_UP = 0x26,
+	KEY_ARROW_RIGHT = 0x27,
+	KEY_ARROW_DOWN = 0x28,
 
 	KEY_0 = 0x30,
 	KEY_1 = 0x31,

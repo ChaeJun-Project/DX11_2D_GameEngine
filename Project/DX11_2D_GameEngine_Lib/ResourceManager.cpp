@@ -17,6 +17,8 @@ ResourceManager::~ResourceManager()
 void ResourceManager::Initialize()
 {
 	CreateShader();
+	//Collider2D 전용 Mesh 생성
+	CreateMesh(Vector2(100.0f, 100.0f));
 }
 
 void ResourceManager::CreateShader()
@@ -26,8 +28,28 @@ void ResourceManager::CreateShader()
 	shader->AddAndCreateShader<VertexShader>("Shader/TextureShader.fx", "VS", "vs_5_0");
 	shader->AddAndCreateShader<PixelShader>("Shader/TextureShader.fx", "PS", "ps_5_0");
 
+	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
+	shader->SetBlendType(BlendType::Alpha_Blend);
+
 	auto shader_iter = this->m_p_shader_map.insert(std::make_pair(ShaderResourceType::Standard, shader));
 	auto result = shader_iter.second;
+	assert(result);
+	if (!result)
+		return;
+
+	//Create Collider2D Shader
+	shader = std::make_shared<Shader>("Collider2D_Shader");
+	shader->AddAndCreateShader<VertexShader>("Shader/DrawLineShader.fx", "VS", "vs_5_0");
+	shader->AddAndCreateShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
+
+	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write); //깊이 비교를 하지않고 기록도 하지 않음
+	shader->SetBlendType(BlendType::Default);
+	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP); //선으로 그리기
+
+	shader_iter = this->m_p_shader_map.insert(std::make_pair(ShaderResourceType::Collider2D, shader));
+	result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;

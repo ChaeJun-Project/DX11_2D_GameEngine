@@ -24,5 +24,6 @@ public:
 private:
     std::shared_ptr<Mesh> m_p_mesh;
     std::shared_ptr<Material> m_p_material;
+    std::shared_ptr<Material> m_p_material1; //юс╫ц©К
 };
 

@@ -1,8 +1,10 @@
 #pragma once
 
 class ConstantBuffer;
+class RasterizerState;
 class SamplerState;
 class BlendState;
+class DepthStencilState;
 
 class GraphicsManager final : public Singleton<GraphicsManager>
 {
@@ -12,9 +14,11 @@ class GraphicsManager final : public Singleton<GraphicsManager>
 
 public:
 	const bool Initialize();
-	//TODO 위치 바꾸기(Constant, Sampler, Blend)
+	//TODO 위치 바꾸기(Constant, Rasterizer, Sampler, Blend)
 	void CreateConstantBuffers();
+	void CreateRasterizer();
 	void CreateSampler();
+	void CreateDepthStencil();
 	void CreateBlender();
 
 	//응용 프로그램 내부에서 윈도우의 해상도를 변경할 때
@@ -34,6 +38,10 @@ public:
 	ID3D11DeviceContext* GetDeviceContext() const { SAFE_GET_POINTER(this->m_p_device_context.Get()); }
 
 	const std::shared_ptr<ConstantBuffer>& GetConstantBuffer(const CBuffer_BindSlot& bind_slot);
+	const std::shared_ptr<RasterizerState>& GetRasterizer(const RasterizerType& rasterizer_type);
+	//const std::shared_ptr<SamplerState>& GetSampler(const RasterizerType& rasterizer_type);
+	const std::shared_ptr<DepthStencilState>& GetDepthStencilState(const DepthStencilType& depth_stencil_type);
+	const std::shared_ptr<BlendState>& GetBlender(const BlendType& blend_type);
 
 private:
 	const bool CreateDeviceAndDeviceContext();
@@ -68,11 +76,18 @@ private:
 	//ConstantBuffer를 저장할 map
 	std::map<CBuffer_BindSlot, std::shared_ptr<ConstantBuffer>> m_p_constant_buffer_map;
 
+	//Rasterizer를 저장할 map
+	std::map<RasterizerType, std::shared_ptr<RasterizerState>> m_p_rasterizer_map;
+
 	//Sampler를 저장할 map
 	std::map<std::string, std::shared_ptr<SamplerState>> m_p_sampler_map;
 
+	//DepthStencil을 저장할 map
+	std::map<DepthStencilType, std::shared_ptr<DepthStencilState>> m_p_depth_stecil_map;
+
 	//Blender를 저장할 map
-	std::map<std::string, std::shared_ptr<BlendState>> m_p_blender_map;
+	std::map<BlendType, std::shared_ptr<BlendState>> m_p_blender_map;
+
 
 	//클리어 컬러
 	float m_clear_color[4]; //Init TODO

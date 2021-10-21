@@ -85,6 +85,9 @@ using namespace DirectX::PackedVector;
 
 //EventManager
 #include "EventManager.h"
+
+//CollisionManager
+#include "CollisionManager.h"
 #pragma endregion
 
 #pragma region DX11ObjectID
@@ -92,24 +95,25 @@ using namespace DirectX::PackedVector;
 #pragma endregion
 
 #pragma region  Core
+//ConstantBuffer
+#include "ConstantBuffer.h"
+
 //IA
 #include "VertexBuffer.h"
 #include "InputLayout.h"
 #include "IndexBuffer.h"
 
 //RS
+#include "RasterizerState.h"
 
 //OM
-#include "BlendState.h"
 #include "DepthStencilState.h"
+#include "BlendState.h"
 
 //Shaders
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "SamplerState.h"
-
-//ConstantBuffer
-#include "ConstantBuffer.h"
 #pragma endregion
 
 #pragma region Resource
@@ -144,11 +148,14 @@ using namespace DirectX::PackedVector;
 //Renderer
 #include "Renderer.h"
 
-//Animator
-#include "Animator.h"
-
 //Script
 #include "Script.h"
+
+//Collider2D
+#include "Collider2D.h"
+
+//Animator
+#include "Animator.h"
 #pragma endregion
 
 #pragma region GameObject

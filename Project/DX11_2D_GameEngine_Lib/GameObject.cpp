@@ -10,6 +10,7 @@
 #include "Renderer.h"
 #include "Animator.h"
 #include "Script.h"
+#include "Collider2D.h"
 
 template<typename T>
 constexpr ComponentType GameObject::GetComponentType()
@@ -23,6 +24,7 @@ REGISTER_COMPONENT_TYPE(Camera, ComponentType::Camera);
 REGISTER_COMPONENT_TYPE(Renderer, ComponentType::Renderer);
 REGISTER_COMPONENT_TYPE(Animator, ComponentType::Animator);
 REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
+REGISTER_COMPONENT_TYPE(Collider2D, ComponentType::Collider2D);
 
 GameObject::GameObject(const GameObject& origin)
 {
@@ -33,7 +35,7 @@ GameObject::GameObject(const GameObject& origin)
 
 	for (auto& child : origin.m_p_child_vector)
 	{
-		AddChild(std::make_shared<GameObject>(*(child.lock().get())));
+		AddChild(child->Clone());
 	}
 }
 
@@ -42,12 +44,10 @@ GameObject::~GameObject()
 	for (auto& component : this->m_component_list)
 		component.second.reset();
 
-	m_component_list.clear();
+	this->m_component_list.clear();
 
-	m_p_parent.reset();
-
-	for (auto& child : this->m_p_child_vector)
-		child.reset();
+	this->m_p_child_vector.clear();
+	this->m_p_child_vector.shrink_to_fit();
 }
 
 void GameObject::Update()
@@ -61,7 +61,7 @@ void GameObject::Update()
 
 	//자식 오브젝트 업데이트
 	for (auto& child : this->m_p_child_vector)
-		child.lock()->Update();
+		child->Update();
 }
 
 void GameObject::LateUpdate()
@@ -79,37 +79,25 @@ void GameObject::FinalUpdate()
 
 	//자식 오브젝트 최종 업데이트(transform)
 	for (auto& child : this->m_p_child_vector)
-		child.lock()->FinalUpdate();
+		child->FinalUpdate();
 
 	//Layer에 등록
 	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
 	auto layer = current_scene->GetLayer(static_cast<UINT>(this->m_object_layer_index));
-	layer->RegisterObject(shared_from_this());
+	layer->RegisterObject(this);
 }
 
 void GameObject::Render()
 {
-	auto renderer = std::dynamic_pointer_cast<Renderer>(GetComponent(ComponentType::Renderer));
+	//Renderer
+	auto renderer = GetComponent<Renderer>();
+	if (renderer != nullptr)
+		renderer->Render();
 
-	if (renderer == nullptr)
-		return;
-
-	renderer->Render();
-}
-
-const std::shared_ptr<GameObject>& GameObject::operator=(const GameObject& origin)
-{
-	for (auto& origin_component : origin.m_component_list)
-	{
-		CreateSharedFromRaw(origin_component.second.get());
-	}
-
-	for (auto& child : origin.m_p_child_vector)
-	{
-		AddChild(std::make_shared<GameObject>(*(child.lock().get())));
-	}
-
-	return shared_from_this();
+	//Collider
+	auto collider2D = GetComponent<Collider2D>();
+	if (collider2D != nullptr)
+		collider2D->Render();
 }
 
 const std::shared_ptr<IComponent>& GameObject::CreateSharedFromRaw(IComponent* p_component_raw)
@@ -122,7 +110,7 @@ const std::shared_ptr<IComponent>& GameObject::CreateSharedFromRaw(IComponent* p
 	switch (p_component_raw->GetComponentType())
 	{
 	case ComponentType::Transform:
-	   
+
 		p_component = std::make_shared<Transform>(*(dynamic_cast<Transform*>(p_component_raw)));
 		break;
 	case ComponentType::Camera:
@@ -134,13 +122,13 @@ const std::shared_ptr<IComponent>& GameObject::CreateSharedFromRaw(IComponent* p
 	case ComponentType::Animator:
 		p_component = std::make_shared<Animator>(*(dynamic_cast<Animator*>(p_component_raw)));
 		break;
-	/*case ComponentType::Script:
-		p_component = std::make_shared<Script>(*p_component_raw);
-		break;*/
-	//case ComponentType::RigidBody2D:
-	//	break;
-	//case ComponentType::BoxCollider2D:
-	//	break;
+		/*case ComponentType::Script:
+			p_component = std::make_shared<Script>(*p_component_raw);
+			break;*/
+			//case ComponentType::RigidBody2D:
+			//	break;
+			//case ComponentType::BoxCollider2D:
+			//	break;
 	}
 
 	AddComponent(p_component);
@@ -149,7 +137,7 @@ const std::shared_ptr<IComponent>& GameObject::CreateSharedFromRaw(IComponent* p
 //들어오는 데이터는 사전에 미리 소유하고 있는 게임 오브젝트를 설정해야 함
 void GameObject::AddComponent(const std::shared_ptr<IComponent>& p_component)
 {
-	p_component->SetGameObject(shared_from_this());
+	p_component->SetGameObject(this);
 	this->m_component_list.push_back
 	(
 		std::make_pair(p_component->GetComponentType(), p_component)
@@ -184,17 +172,17 @@ void GameObject::RemoveComponent(const ComponentType& component_type)
 	}
 }
 
-const std::shared_ptr<GameObject>& GameObject::GetRoot()
+GameObject* GameObject::GetRoot()
 {
 	if (HasParent())
 	{
 		return this->m_p_parent->GetRoot();
 	}
 
-	return shared_from_this();
+	return this;
 }
 
-void GameObject::SetParent(const std::shared_ptr<GameObject>& p_parent_game_object)
+void GameObject::SetParent(GameObject* p_parent_game_object)
 {
 	if (p_parent_game_object == nullptr)
 	{
@@ -222,26 +210,26 @@ void GameObject::SetParent(const std::shared_ptr<GameObject>& p_parent_game_obje
 		this->m_p_parent->TachChild();
 }
 
-const std::shared_ptr<GameObject>& GameObject::GetChildFromIndex(const UINT& index)
+GameObject* GameObject::GetChildFromIndex(const UINT& index) const
 {
-	if (this->m_p_child_vector[index].lock() != nullptr)
-		return this->m_p_child_vector[index].lock();
+	if (this->m_p_child_vector[index] != nullptr)
+		return this->m_p_child_vector[index];
 
 	return nullptr;
 }
 
-const std::shared_ptr<GameObject>& GameObject::GetChildFromObjectName(const std::string& object_name)
+GameObject* GameObject::GetChildFromObjectName(const std::string& object_name) const
 {
 	for (auto& child : this->m_p_child_vector)
 	{
-		if (child.lock()->m_object_name == object_name)
-			return child.lock();
+		if (child->m_object_name == object_name)
+			return child;
 	}
 
 	return nullptr;
 }
 
-void GameObject::AddChild(const std::shared_ptr<GameObject>& p_child_game_object)
+void GameObject::AddChild(GameObject* p_child_game_object)
 {
 	//유효한 값이 아닌 경우
 	if (p_child_game_object == nullptr)
@@ -253,7 +241,7 @@ void GameObject::AddChild(const std::shared_ptr<GameObject>& p_child_game_object
 
 	this->m_p_child_vector.emplace_back(p_child_game_object);
 
-	p_child_game_object->m_p_parent = shared_from_this();
+	p_child_game_object->m_p_parent = this;
 }
 
 void GameObject::DetachChild()
@@ -273,7 +261,7 @@ void GameObject::TachChild()
 	{
 		for (auto& child : this->m_p_child_vector)
 		{
-			child.reset();
+			SAFE_DELETE(child);
 		}
 		this->m_p_child_vector.clear();
 		this->m_p_child_vector.shrink_to_fit();
