@@ -76,6 +76,9 @@ public:
 	const GameObjectSideState& GetObjectSideState() const { return this->m_game_object_side_state; }
 	void SetObjectSideState(const GameObjectSideState& object_side_state) { this->m_game_object_side_state = object_side_state; }
 
+public:
+	CLONE(Transform);
+
 private:
 	Vector3 m_local_translation = Vector3::Zero; //xyz 모두 0.0f로 초기화
 	Quaternion m_local_rotation = Quaternion::Identity;

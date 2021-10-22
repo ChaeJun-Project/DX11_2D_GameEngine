@@ -20,15 +20,18 @@ private:
 	void UpdateColliderWorldMatrix();
 
 public:
-    void OnCollisionEnter(std::shared_ptr<Collider2D>& other_collider);
-	void OnCollisionExit(std::shared_ptr<Collider2D>& other_collider);
-	void OnCollision(std::shared_ptr<Collider2D>& other_collider);
+    void OnCollisionEnter(Collider2D* other_collider);
+	void OnCollisionExit(Collider2D* other_collider);
+	void OnCollision(Collider2D* other_collider);
 
 public:
     void SetOffsetPos(const Vector3& offset_position) { this->m_offset_position = offset_position; }
 	void SetOffsetScale(const Vector3& offset_scale) { this->m_offset_scale = offset_scale; }
 
 	const Matrix& GetColliderWorldMatrix() { return this->m_collider_world_matrix; }
+
+public:
+	CLONE(Collider2D);
 
 private:
     Vector3 m_offset_position = Vector3::Zero;

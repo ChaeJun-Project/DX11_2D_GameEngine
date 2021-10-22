@@ -17,6 +17,7 @@ ResourceManager::~ResourceManager()
 void ResourceManager::Initialize()
 {
 	CreateShader();
+	CreateMaterial();
 	//Collider2D 전용 Mesh 생성
 	CreateMesh(Vector2(100.0f, 100.0f));
 }
@@ -63,6 +64,58 @@ const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderRe
 		return nullptr;
 
 	return std::dynamic_pointer_cast<Shader>(shader_iter->second);
+}
+
+void ResourceManager::CreateMaterial()
+{
+	//Collider2D Material White
+	std::string material_name = "Collider2D_White";
+	auto material = std::make_shared<Material>(material_name);
+	material->SetShader(GetShaderResource(ShaderResourceType::Collider2D));
+
+	auto material_iter = this->m_p_material_map.insert(std::make_pair(material_name, material));
+	auto result = material_iter.second;
+	assert(result);
+	if (!result)
+		return;
+
+    //Collider2D Material Green
+	material_name = "Collider2D_Green";
+	material = std::make_shared<Material>(material_name);
+	material->SetShader(GetShaderResource(ShaderResourceType::Collider2D));
+
+	int a = 1;
+	material->SetConstantBufferData(Material_Parameter::INT_0, &a, nullptr);
+
+	material_iter = this->m_p_material_map.insert(std::make_pair(material_name, material));
+	result = material_iter.second;
+	assert(result);
+	if (!result)
+		return;
+
+	//Collider2D Material Red
+	material_name = "Collider2D_Red";
+	material = std::make_shared<Material>(material_name);
+	material->SetShader(GetShaderResource(ShaderResourceType::Collider2D));
+
+	a = 1;
+	material->SetConstantBufferData(Material_Parameter::INT_1, &a, nullptr);
+
+	material_iter = this->m_p_material_map.insert(std::make_pair(material_name, material));
+	result = material_iter.second;
+	assert(result);
+	if (!result)
+		return;
+}
+
+const std::shared_ptr<Material>& ResourceManager::GetMaterialResource(const std::string& material_name)
+{
+	auto material_iter = this->m_p_material_map.find(material_name);
+
+	if (material_iter == this->m_p_material_map.end())
+		return nullptr;
+
+	return std::dynamic_pointer_cast<Material>(material_iter->second);
 }
 
 //Texture/objectname/~~/textureName.확장자

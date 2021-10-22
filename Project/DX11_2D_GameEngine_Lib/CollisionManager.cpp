@@ -8,6 +8,14 @@
 #include "GameObject.h"
 #include "Collider2D.h"
 
+CollisionManager::CollisionManager()
+{
+	this->m_check_vector.reserve(32);
+	this->m_check_vector.resize(32);
+
+	ResetCheckVector();
+}
+
 CollisionManager::~CollisionManager()
 {
 	this->m_check_vector.clear();
@@ -115,12 +123,12 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 
 }
 
-const bool CollisionManager::IsCollision(const std::shared_ptr<Collider2D>& p_left_collider2D, const std::shared_ptr<Collider2D>& p_right_collider2D)
+const bool CollisionManager::IsCollision(Collider2D* p_left_collider2D, Collider2D* p_right_collider2D)
 {
 	static Vector3 local_pos_array[4]
 	{
 		Vector3(-50.0f, 50.0f, 0.0f),
-		Vector3(50.0f,50.0f, 0.0f),
+		Vector3(50.0f, 50.0f, 0.0f),
 		Vector3(50.0f, -50.0f, 0.0f),
 		Vector3(-50.0f, -50.0f, 0.0f),
 	};
@@ -168,12 +176,16 @@ const bool CollisionManager::IsCollision(const std::shared_ptr<Collider2D>& p_le
 
 void CollisionManager::CheckLayer(const UINT& left_layer, const UINT& right_layer)
 {
-	UINT row; //행
-	UINT column; //열
+	UINT row = left_layer; //행
+	UINT column = right_layer; //열
 
 	//더 작은 값의 Layer을 행으로, 더 큰 값의 Layer는 열로 사용
-	left_layer < right_layer ? row = left_layer, column = right_layer : row = right_layer, column = left_layer;
-
+	if (row > column)
+	{
+		row = right_layer;
+		column = left_layer;
+	}
+	
 	//이미 체크가 된 경우
 	if (m_check_vector[row] & (1 << column))
 	{

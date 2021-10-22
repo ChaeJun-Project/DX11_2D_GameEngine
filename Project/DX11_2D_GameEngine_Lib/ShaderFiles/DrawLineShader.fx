@@ -13,7 +13,7 @@ VertexColorOuputType VS(VertexColor vs_input)
     vs_output.position = mul(vs_output.position, projection);
     
     //Color°ª º¹»ç
-    vs_output.color = float4(0.0f, 1.0f, 0.0f, 1.0f);
+    vs_output.color = vs_input.color;
     
     return vs_output;
 }
@@ -21,9 +21,17 @@ VertexColorOuputType VS(VertexColor vs_input)
 //Pixel Shader
 float4 PS(VertexColorOuputType ps_input) : SV_Target
 {
-    if (g_int_0 == 1)
+    //Collider2D Green Line
+    if (g_int_0)
     {
-        ps_input.color = float4(1.0f, 1.0f, 1.0f, 1.0f);
+        ps_input.color = float4(0.0f, 1.0f, 0.0f, 1.0f);
     }
+    
+    //Collider2D Red Line
+    if (g_int_1)
+    {
+        ps_input.color = float4(1.0f, 0.0f, 0.0f, 1.0f);
+    }
+    
     return ps_input.color;
 }

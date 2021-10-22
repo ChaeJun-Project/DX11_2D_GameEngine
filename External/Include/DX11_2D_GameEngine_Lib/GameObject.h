@@ -22,13 +22,11 @@ private:
 	static constexpr ComponentType GetComponentType();
 
 public:
-	const std::shared_ptr<IComponent>& CreateSharedFromRaw(IComponent* p_component_raw);
-
-	void AddComponent(const std::shared_ptr<IComponent>& p_component);
+	void AddComponent(IComponent* p_component);
 
 	template<typename T>
-	const std::shared_ptr<T>& GetComponent();
-	const std::shared_ptr<IComponent>& GetComponent(const ComponentType& component_type) const;
+	T* GetComponent();
+	IComponent* GetComponent(const ComponentType& component_type) const;
 
 	void RemoveComponent(const ComponentType& component_type);
 
@@ -84,7 +82,7 @@ private:
 	//Object Layer
 	int m_object_layer_index = -1;
 	//Component list
-	std::list<std::pair<ComponentType, std::shared_ptr<IComponent>>> m_component_list;
+	std::list<std::pair<ComponentType, IComponent*>> m_component_list;
 	
 	//Hierarchy
 	//Parent Object
@@ -99,7 +97,7 @@ private:
 };
 
 template<typename T>
-inline const std::shared_ptr<T>& GameObject::GetComponent()
+T* GameObject::GetComponent()
 {
 	//Class T가 IComponent를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IComponent, T>::value;
@@ -115,7 +113,7 @@ inline const std::shared_ptr<T>& GameObject::GetComponent()
 
 	if (component != nullptr)
 	{
-		return std::dynamic_pointer_cast<T>(component);
+		return dynamic_cast<T*>(component);
 	}
 
 	return nullptr;

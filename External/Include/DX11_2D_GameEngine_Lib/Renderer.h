@@ -21,9 +21,13 @@ public:
     
     std::shared_ptr<Material> GetMaterial() { SAFE_GET_POINTER(this->m_p_material); }
 
+public:
+    CLONE(Renderer);
+
 private:
     std::shared_ptr<Mesh> m_p_mesh;
     std::shared_ptr<Material> m_p_material;
-    std::shared_ptr<Material> m_p_material1; //임시용
+
+    std::shared_ptr<Material> m_p_border; //오브젝트 테두리
 };
 

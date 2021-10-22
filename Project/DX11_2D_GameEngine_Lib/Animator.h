@@ -34,6 +34,9 @@ public:
 
 	void SetAnimationEvent(const std::string& animation_name, std::function<void(void)> func);
 
+public:
+    CLONE(Animator);
+
 private:
 	std::shared_ptr<Animation> m_p_current_animation = nullptr;
 	std::map<std::string, std::shared_ptr<Animation>> m_p_animation_map;

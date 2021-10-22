@@ -15,7 +15,7 @@ class Collider2D;
 class CollisionManager final : public Singleton<CollisionManager>
 {
 	SINGLETON(CollisionManager);
-	CollisionManager() = default;
+	CollisionManager();
 	~CollisionManager();
 
 public:
@@ -23,7 +23,7 @@ public:
 
 private:
     void CollisionLayerUpdate(const UINT& left_layer, const UINT& right_layer);
-	const bool IsCollision(const std::shared_ptr<Collider2D>& p_left_collider2D, const std::shared_ptr<Collider2D>& p_right_collider2D);
+	const bool IsCollision(Collider2D* p_left_collider2D, Collider2D* p_right_collider2D);
 
 public:
 	void CheckLayer(const UINT& left_layer, const UINT& right_layer);

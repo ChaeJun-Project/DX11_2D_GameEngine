@@ -63,6 +63,9 @@ public:
 	virtual void OnCollisionExit(GameObject* other_game_object) override;
 	virtual void OnCollision(GameObject* other_game_object) override;
 
+public:
+	CLONE(RockManZ_Script);
+
 private:
     float m_speed = 200.f;
 };

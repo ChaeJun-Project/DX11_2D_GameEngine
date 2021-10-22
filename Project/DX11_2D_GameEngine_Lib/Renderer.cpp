@@ -7,25 +7,23 @@
 Renderer::Renderer()
 	:IComponent(ComponentType::Renderer)
 {
-	m_p_material = std::make_shared<Material>("GameObject_Material");
-	m_p_material1 = std::make_shared<Material>("Collider2D_Material");
-	m_p_material1->SetShader(ResourceManager::GetInstance()->GetShaderResource(ShaderResourceType::Collider2D));
+	this->m_p_material = std::make_shared<Material>("GameObject_Material");
+	this->m_p_border = ResourceManager::GetInstance()->GetMaterialResource("Collider2D_White");
 }
 
 Renderer::Renderer(const Renderer& origin)
 	: IComponent(origin.GetComponentType())
 {
-	m_p_mesh = origin.m_p_mesh;
-	m_p_material = origin.m_p_material;
+	this->m_p_mesh = origin.m_p_mesh;
+	this->m_p_material = origin.m_p_material;
+	this->m_p_border = origin.m_p_border;
 }
 
 Renderer::~Renderer()
 {
-	if (this->m_p_mesh != nullptr)
-		this->m_p_mesh.reset();
-
-	if (this->m_p_material != nullptr)
-		this->m_p_material.reset();
+	this->m_p_mesh.reset();
+	this->m_p_material.reset();
+	this->m_p_border.reset();
 }
 
 void Renderer::FinalUpdate()
@@ -43,9 +41,7 @@ void Renderer::Render()
 
 	this->m_p_mesh->Render();
 
-	int a = 1;
-	this->m_p_material1->SetConstantBufferData(Material_Parameter::INT_0, &a, nullptr);
-	this->m_p_material1->BindPipeline();
+	this->m_p_border->BindPipeline();
 
 	this->m_p_mesh->Render();
 }

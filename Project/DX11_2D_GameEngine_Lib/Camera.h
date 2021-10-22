@@ -33,6 +33,9 @@ public:
     const Matrix& GetViewMatrix() const { return this->m_view_matrix; }
     const Matrix& GetProjectionMatrix() const { return this->m_projection_matrix; }
 
+public:
+    CLONE(Camera);
+
 private:
     //카메라 투영 타입
     ProjectionType m_projection_type = ProjectionType::Orthographic;

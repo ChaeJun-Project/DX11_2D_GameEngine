@@ -30,7 +30,7 @@ GameObject::GameObject(const GameObject& origin)
 {
 	for (auto& origin_component : origin.m_component_list)
 	{
-		CreateSharedFromRaw(origin_component.second.get());
+		AddComponent(origin_component.second->Clone());
 	}
 
 	for (auto& child : origin.m_p_child_vector)
@@ -42,9 +42,14 @@ GameObject::GameObject(const GameObject& origin)
 GameObject::~GameObject()
 {
 	for (auto& component : this->m_component_list)
-		component.second.reset();
+		SAFE_DELETE(component.second);
 
 	this->m_component_list.clear();
+
+	this->m_p_parent = nullptr;
+
+	for (auto& child : this->m_p_child_vector)
+		SAFE_DELETE(child);
 
 	this->m_p_child_vector.clear();
 	this->m_p_child_vector.shrink_to_fit();
@@ -100,42 +105,8 @@ void GameObject::Render()
 		collider2D->Render();
 }
 
-const std::shared_ptr<IComponent>& GameObject::CreateSharedFromRaw(IComponent* p_component_raw)
-{
-	if (p_component_raw == nullptr)
-		return nullptr;
-
-	std::shared_ptr<IComponent> p_component = nullptr;
-
-	switch (p_component_raw->GetComponentType())
-	{
-	case ComponentType::Transform:
-
-		p_component = std::make_shared<Transform>(*(dynamic_cast<Transform*>(p_component_raw)));
-		break;
-	case ComponentType::Camera:
-		p_component = std::make_shared<Camera>(*(dynamic_cast<Camera*>(p_component_raw)));
-		break;
-	case ComponentType::Renderer:
-		p_component = std::make_shared<Renderer>(*(dynamic_cast<Renderer*>(p_component_raw)));
-		break;
-	case ComponentType::Animator:
-		p_component = std::make_shared<Animator>(*(dynamic_cast<Animator*>(p_component_raw)));
-		break;
-		/*case ComponentType::Script:
-			p_component = std::make_shared<Script>(*p_component_raw);
-			break;*/
-			//case ComponentType::RigidBody2D:
-			//	break;
-			//case ComponentType::BoxCollider2D:
-			//	break;
-	}
-
-	AddComponent(p_component);
-}
-
 //들어오는 데이터는 사전에 미리 소유하고 있는 게임 오브젝트를 설정해야 함
-void GameObject::AddComponent(const std::shared_ptr<IComponent>& p_component)
+void GameObject::AddComponent(IComponent* p_component)
 {
 	p_component->SetGameObject(this);
 	this->m_component_list.push_back
@@ -144,7 +115,7 @@ void GameObject::AddComponent(const std::shared_ptr<IComponent>& p_component)
 	);
 }
 
-const std::shared_ptr<IComponent>& GameObject::GetComponent(const ComponentType& component_type) const
+IComponent* GameObject::GetComponent(const ComponentType& component_type) const
 {
 	for (auto& component : this->m_component_list)
 	{
@@ -158,7 +129,7 @@ const std::shared_ptr<IComponent>& GameObject::GetComponent(const ComponentType&
 //TODO: 스크립트가 두 개 이상 존재할 경우 삭제를 어떻게 할지 고민
 void GameObject::RemoveComponent(const ComponentType& component_type)
 {
-	std::list<std::pair<ComponentType, std::shared_ptr<IComponent>>>::iterator list_iter;
+	std::list<std::pair<ComponentType, IComponent*>>::iterator list_iter;
 
 	for (list_iter = this->m_component_list.begin(); list_iter != this->m_component_list.end();)
 	{
