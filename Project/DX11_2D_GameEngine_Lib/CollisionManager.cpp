@@ -164,7 +164,7 @@ const bool CollisionManager::IsCollision(Collider2D* p_left_collider2D, Collider
 			half += Math::Abs(axis_vector.Dot(projection_axis_array[j])) * 0.5f; //두 벡터의 내적 결과는 무조건 양수가 나와야 함
 		}
 
-		auto center_dist = Math::Abs(center.Dot(center));
+		auto center_dist = Math::Abs(axis_vector.Dot(center));
 
 		if (half < center_dist)
 		{

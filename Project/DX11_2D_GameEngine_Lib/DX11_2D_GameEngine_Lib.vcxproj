@@ -218,6 +218,7 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="PixelShader.h" />
+    <ClInclude Include="Prefab.h" />
     <ClInclude Include="RasterizerState.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -239,6 +240,8 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="VertexStruct.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="WalkCannon_Script.h" />
+    <ClInclude Include="WalkCannon_Bullet_Script.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +274,7 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="PixelShader.cpp" />
+    <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="RasterizerState.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -294,6 +298,8 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexStruct.cpp" />
     <ClCompile Include="VertexShader.cpp" />
+    <ClCompile Include="WalkCannon_Script.cpp" />
+    <ClCompile Include="WalkCannon_Bullet_Script.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ShaderFiles\ConstantBuffer.fx">

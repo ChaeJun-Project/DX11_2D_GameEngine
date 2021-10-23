@@ -74,6 +74,8 @@ private:
 public:
     CLONE(GameObject);
 
+	void RegisterPrefab();
+
 private:
 	//Object name
 	std::string m_object_name;
@@ -91,6 +93,9 @@ private:
 	std::vector<GameObject*> m_p_child_vector;
 
 	bool m_dead_check = false;
+
+	//해당 오브젝트로 프리팹을 만든 횟수
+	UINT m_prefab_count = 0;
 
 	friend class Layer;
 	friend class EventManager;

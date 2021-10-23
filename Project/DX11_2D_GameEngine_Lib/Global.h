@@ -133,6 +133,9 @@ using namespace DirectX::PackedVector;
 
 //Animation
 #include "Animation.h"
+
+//Prefab
+#include "Prefab.h"
 #pragma endregion
 
 //ResourceManager

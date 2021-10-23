@@ -24,8 +24,8 @@ Collider2D::Collider2D(const Collider2D& origin)
 
 Collider2D::~Collider2D()
 {
-	m_p_mesh.reset();
-	m_p_material.reset();
+	this->m_p_mesh.reset();
+	this->m_p_material.reset();
 }
 
 void Collider2D::FinalUpdate()

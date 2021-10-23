@@ -24,7 +24,8 @@ enum class ResourceType : UINT
 	Shader = 3,
 	Texture = 4,
 	Animation = 5,
-	Sound = 6,
+	Prefab = 6,
+	Sound = 7,
 };
 
 //Mesh Type(Mesh »ç¿ë)

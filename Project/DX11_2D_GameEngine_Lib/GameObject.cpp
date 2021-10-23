@@ -245,3 +245,22 @@ void GameObject::TachChild()
 		//TODO
 	}
 }
+
+#include "Prefab.h"
+
+void GameObject::RegisterPrefab()
+{
+     auto resource_manager = ResourceManager::GetInstance();
+
+	 std::string prefab_name = this->m_object_name;
+	 assert(!prefab_name.empty());
+
+	 //이미 해당 이름으로 프리팹 오브젝트가 존재하는 경우
+	 if (resource_manager->GetPrefab(prefab_name) != nullptr)
+	 {
+		prefab_name += std::to_string(m_prefab_count);
+	 }
+
+	 resource_manager->AddPrefab(prefab_name, this);
+	 ++this->m_prefab_count;
+}

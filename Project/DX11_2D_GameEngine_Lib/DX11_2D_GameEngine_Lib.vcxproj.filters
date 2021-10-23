@@ -143,7 +143,7 @@
       <Filter>Scene\Components\Script</Filter>
     </ClInclude>
     <ClInclude Include="RockManZ_Script.h">
-      <Filter>Scene\Components\Script\RockManZ</Filter>
+      <Filter>Scene\Components\Script\Player\RockManZ</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Resource\Material</Filter>
@@ -171,6 +171,15 @@
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>Manager\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Prefab.h">
+      <Filter>Resource\Prefab</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkCannon_Script.h">
+      <Filter>Scene\Components\Script\Enemy\WalkCannon</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkCannon_Bullet_Script.h">
+      <Filter>Scene\Components\Script\Enemy\WalkCannon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,7 +292,7 @@
       <Filter>Scene\Components\Script</Filter>
     </ClCompile>
     <ClCompile Include="RockManZ_Script.cpp">
-      <Filter>Scene\Components\Script\RockManZ</Filter>
+      <Filter>Scene\Components\Script\Player\RockManZ</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Resource\Material</Filter>
@@ -314,6 +323,15 @@
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Manager\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Prefab.cpp">
+      <Filter>Resource\Prefab</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkCannon_Script.cpp">
+      <Filter>Scene\Components\Script\Enemy\WalkCannon</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkCannon_Bullet_Script.cpp">
+      <Filter>Scene\Components\Script\Enemy\WalkCannon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -473,9 +491,6 @@
     <Filter Include="Scene\Components\Script">
       <UniqueIdentifier>{45b73adf-3a03-4022-97d9-4cd397f02347}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Components\Script\RockManZ">
-      <UniqueIdentifier>{1059a6e4-27b6-422c-b93e-095e805be973}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Components\Collider2D">
       <UniqueIdentifier>{14e46d7e-1d3f-411e-9839-aa5f81ebc0e5}</UniqueIdentifier>
     </Filter>
@@ -484,6 +499,21 @@
     </Filter>
     <Filter Include="Scene\Layer">
       <UniqueIdentifier>{562d4610-3b24-4194-8640-6c05e295a2d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Prefab">
+      <UniqueIdentifier>{a14a227f-488a-4c0a-9743-b57f2207ab74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Script\Enemy">
+      <UniqueIdentifier>{27876332-0b17-4f54-badf-9e964659e75c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Script\Player">
+      <UniqueIdentifier>{0ef02b3c-a1f1-420f-becd-2fdf0f3c1d0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Script\Player\RockManZ">
+      <UniqueIdentifier>{1059a6e4-27b6-422c-b93e-095e805be973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Script\Enemy\WalkCannon">
+      <UniqueIdentifier>{5149de55-85c1-4516-a402-693ecbcd560e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,9 @@ Layer::~Layer()
 	this->m_p_parent_game_object_vector.clear();
 	this->m_p_parent_game_object_vector.shrink_to_fit();
 
+	for(auto& game_object : this->m_p_game_object_vector)
+	   SAFE_DELETE(game_object);
+
 	this->m_p_game_object_vector.clear();
 	this->m_p_game_object_vector.shrink_to_fit();
 }

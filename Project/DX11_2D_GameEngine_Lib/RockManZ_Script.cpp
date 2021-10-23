@@ -16,20 +16,20 @@ void RockManZ_Script::Initialize()
 	auto animator = m_p_owner_game_object->GetComponent<Animator>();
 
 	//Idle
-	animator->CreateAnimation("RockManZ_Idle", "Texture/RockManZ/Animation/Z03_Idle/", 0.5f, true);
+	animator->CreateAnimation("RockManZ_Idle", "Texture/Player/RockManZ/Animation/Z03_Idle/", 0.5f, true);
 	animator->SetCurrentAnimation("RockManZ_Idle");
 
 	//Walk_Begin
-	animator->CreateAnimation("RockManZ_Walk_Begin", "Texture/RockManZ/Animation/Z06_Walk/Walk_Begin/", 0.5f, false);
+	animator->CreateAnimation("RockManZ_Walk_Begin", "Texture/Player/RockManZ/Animation/Z06_Walk/Walk_Begin/", 0.5f, false);
 
 	//Walk_Run
-	animator->CreateAnimation("RockManZ_Walk_Run", "Texture/RockManZ/Animation/Z06_Walk/Walk_Run/", 0.5f, true);
+	animator->CreateAnimation("RockManZ_Walk_Run", "Texture/Player/RockManZ/Animation/Z06_Walk/Walk_Run/", 0.5f, true);
 
 	//Crouch
-	animator->CreateAnimation("RockManZ_Crouch", "Texture/RockManZ/Animation/Z10_Crouch/Crouch/", 0.1f, false);
+	animator->CreateAnimation("RockManZ_Crouch", "Texture/Player/RockManZ/Animation/Z10_Crouch/Crouch/", 0.1f, false);
 
 	//Attack
-	animator->CreateAnimation("RockManZ_Attack", "Texture/RockManZ/Animation/Z04_Attack/Attack_1/", 0.5f, false);
+	animator->CreateAnimation("RockManZ_Attack", "Texture/Player/RockManZ/Animation/Z04_Attack/Attack_1/", 0.5f, false);
 }
 
 void RockManZ_Script::Update()

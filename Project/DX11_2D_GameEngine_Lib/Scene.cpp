@@ -19,65 +19,6 @@ Scene::~Scene()
 	this->m_layer_map.clear();
 }
 
-void Scene::Initialize()
-{
-	//Camera
-	auto camera = new GameObject();
-	camera->SetObjectName("Main Camera");
-	camera->SetObjectTag("Camera");
-	camera->AddComponent(new Transform());
-	camera->AddComponent(new Camera());
-
-	camera->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, 0.0f, -5.0f));
-
-	AddGameObject(camera, 0, false);
-
-	//RockManZ
-	auto rockmanZ = new GameObject();
-	rockmanZ->SetObjectName("RockManZ");
-	rockmanZ->SetObjectTag("Player");
-	rockmanZ->AddComponent(new Transform());
-	rockmanZ->AddComponent(new Renderer());
-	rockmanZ->AddComponent(new Animator());
-	rockmanZ->AddComponent(new Collider2D());
-	rockmanZ->AddComponent(new RockManZ_Script());
-
-	//auto collider2D = rockmanZ->GetComponent<Collider2D>();
-	//collider2D->SetOffsetPos(Vector3(0.0f, -10.0f, 0.0f));
-	//collider2D->SetOffsetScale(Vector3(0.4f, 0.5f, 1.0f));
-	//rockmanZ->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 0.0f));
-	//auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
-	//rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, -(scale.y * 36.0f), 0.0f));
-
-	rockmanZ->GetComponent<Script>()->Initialize();
-	rockmanZ->GetComponent<Animator>()->Play();
-
-	AddGameObject(rockmanZ, 1, false);
-
-	//RockManX
-	auto rockmanX = new GameObject();
-	rockmanX->SetObjectName("RockManX");
-	rockmanX->SetObjectTag("Player");
-	rockmanX->AddComponent(new Transform());
-	rockmanX->AddComponent(new Renderer());
-	rockmanX->AddComponent(new Animator());
-	rockmanX->AddComponent(new Collider2D());
-	rockmanX->AddComponent(new RockManZ_Script());
-
-	//collider2D = rockmanX->GetComponent<Collider2D>();
-	//collider2D->SetOffsetPos(Vector3(0.0f, -10.0f, 0.0f));
-	//collider2D->SetOffsetScale(Vector3(0.4f, 0.5f, 1.0f));
-	//rockmanZ->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 0.0f));
-	rockmanX->GetComponent<Transform>()->SetTranslation(Vector3(200.0f, 0.0f, 0.0f));
-
-	rockmanX->GetComponent<Script>()->Initialize();
-	rockmanX->GetComponent<Animator>()->Play();
-
-	AddGameObject(rockmanX, 2, false);
-
-	CollisionManager::GetInstance()->CheckLayer(1, 2);
-}
-
 void Scene::Update()
 {
 	for (auto& layer : this->m_layer_map)

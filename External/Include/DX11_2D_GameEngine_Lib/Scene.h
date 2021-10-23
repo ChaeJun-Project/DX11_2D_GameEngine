@@ -8,8 +8,6 @@ public:
    Scene() = default;
    ~Scene();
 
-   void Initialize();
-
    void Update();
    void LateUpdate();
    void FinalUpdate();

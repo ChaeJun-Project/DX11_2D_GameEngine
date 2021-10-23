@@ -2,8 +2,10 @@
 #include "ResourceManager.h"
 
 #include "Shader.h"
+#include "Material.h"
 #include "Texture.h"
 #include "Mesh.h"
+#include "Prefab.h"
 
 ResourceManager::ResourceManager()
 {
@@ -12,6 +14,35 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
+	//Shader
+	for (auto& shader : this->m_p_shader_map)
+		shader.second.reset();
+	
+	this->m_p_shader_map.clear();
+
+	//Material
+	for (auto& material : this->m_p_material_map)
+		material.second.reset();
+
+	this->m_p_material_map.clear();
+
+	//Texture
+	for (auto& texture : this->m_p_textrue_map)
+		texture.second.reset();
+
+	this->m_p_textrue_map.clear();
+
+	//Mesh
+	for (auto& mesh : this->m_p_mesh_map)
+		mesh.second.reset();
+
+	this->m_p_mesh_map.clear();
+
+	//Prefab
+	for (auto& prefab : this->m_p_prefab_map)
+		prefab.second.reset();
+
+	this->m_p_prefab_map.clear();
 }
 
 void ResourceManager::Initialize()
@@ -79,7 +110,7 @@ void ResourceManager::CreateMaterial()
 	if (!result)
 		return;
 
-    //Collider2D Material Green
+	//Collider2D Material Green
 	material_name = "Collider2D_Green";
 	material = std::make_shared<Material>(material_name);
 	material->SetShader(GetShaderResource(ShaderResourceType::Collider2D));
@@ -121,7 +152,7 @@ const std::shared_ptr<Material>& ResourceManager::GetMaterialResource(const std:
 //Texture/objectname/~~/textureName.확장자
 const std::shared_ptr<Texture>& ResourceManager::LoadTexture(const std::string& texture_path)
 {
-    //텍스처의 순수 이름(확장자를 뺀)을 구함
+	//텍스처의 순수 이름(확장자를 뺀)을 구함
 	auto file_name = FileManager::GetIntactFileNameFromPath(texture_path);
 
 	auto texture = GetTexture(file_name);
@@ -149,19 +180,19 @@ const std::shared_ptr<Texture>& ResourceManager::GetTexture(const std::string& t
 	auto texture_iter = this->m_p_textrue_map.find(texture_name);
 
 	//해당 텍스처를 찾지 못했을 경우
-	if(texture_iter == this->m_p_textrue_map.end())
-	  return nullptr;
+	if (texture_iter == this->m_p_textrue_map.end())
+		return nullptr;
 
 	return std::dynamic_pointer_cast<Texture>(texture_iter->second);
 }
 
 const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const Vector2& mesh_size)
-{ 
-    auto mesh = GetMesh(mesh_size);
+{
+	auto mesh = GetMesh(mesh_size);
 
 	//해당 사이즈의 mesh가 존재하는 경우
-	if(mesh != nullptr)
-	   return mesh;
+	if (mesh != nullptr)
+		return mesh;
 
 	auto width = static_cast<UINT>(mesh_size.x);
 	auto height = static_cast<UINT>(mesh_size.y);
@@ -191,4 +222,27 @@ const std::shared_ptr<Mesh>& ResourceManager::GetMesh(const Vector2& mesh_size)
 		return nullptr;
 
 	return std::dynamic_pointer_cast<Mesh>(mesh_iter->second);
+}
+
+void ResourceManager::AddPrefab(const std::string& prefab_object_name, GameObject* p_game_object)
+{
+	if (p_game_object == nullptr)
+		return;
+
+	//프리팹 오브젝트 생성(복사생성자 호출)
+	Prefab* p_prefab = new Prefab(p_game_object);
+	auto prefab_iter = this->m_p_prefab_map.insert(std::make_pair(prefab_object_name, p_prefab));
+	auto result = prefab_iter.second;
+	assert(result);
+}
+
+const std::shared_ptr<Prefab>& ResourceManager::GetPrefab(const std::string& game_object_name)
+{
+	auto prefab_iter = this->m_p_prefab_map.find(game_object_name);
+
+	//해당 프리팹 오브젝트를 찾지 못했을 경우
+	if (prefab_iter == this->m_p_prefab_map.end())
+		return nullptr;
+
+	return std::dynamic_pointer_cast<Prefab>(prefab_iter->second);
 }
