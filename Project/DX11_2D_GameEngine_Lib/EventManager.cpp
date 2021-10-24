@@ -38,7 +38,7 @@ void EventManager::Excute(const EventStruct& event_struct)
 		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject
 		(
 			p_new_game_object,
-			static_cast<UINT>(event_struct.layer_index),
+			event_struct.layer_index,
 			false
 		);
 	}

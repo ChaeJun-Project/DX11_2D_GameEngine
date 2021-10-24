@@ -1,28 +1,32 @@
 #pragma once
 #include "IComponent.h"
 
+class Prefab;
 class GameObject;
 
 class Script : public IComponent
 {
 public:
-    Script();
-    ~Script() = default;
+	Script();
+	~Script() = default;
 
-    virtual void Initialize() = 0;
+	virtual void Initialize() = 0;
 
-    void Update() override;
-    virtual void FinalUpdate() final;
-
-public:
-    void CreateGameObject(GameObject* p_new_game_object, const int& layer_index);
-    void CreateGameObject(GameObject* p_new_game_object, const Vector3& position, const int& layer_index);
-    void DeleteGameObject(GameObject* p_delete_game_object);
+	void Update() override {}
+	virtual void FinalUpdate() final {}
 
 protected:
-    virtual void OnCollisionEnter(GameObject* other_game_object) {}
-    virtual void OnCollisionExit(GameObject* other_game_object) {}
-    virtual void OnCollision(GameObject* other_game_object) {}
- 
+	void Instantiate(std::shared_ptr<Prefab>& p_game_object_prefab, const Vector3& position, const UINT& layer_index);
+	void Destroy(GameObject* p_delete_game_object);
+
+private:
+	//GameObject
+	void CreateGameObject(GameObject* p_new_game_object, const UINT& layer_index);
+
+protected:
+	//Collision
+	virtual void OnCollisionEnter(GameObject* other_game_object) {}
+	virtual void OnCollisionExit(GameObject* other_game_object) {}
+	virtual void OnCollision(GameObject* other_game_object) {}
 };
 
