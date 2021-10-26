@@ -2,6 +2,9 @@
 #include "Camera.h"
 #include "Transform.h"
 
+#include "Core.h"
+#include "Settings.h"
+
 Camera::Camera()
 	:IComponent(ComponentType::Camera)
 {
@@ -87,8 +90,9 @@ void Camera::UpdateViewMatrix()
 
 void Camera::UpdateProjectionMatrix()
 {
-	auto resolution_x = static_cast<float>(Settings::GetInstance()->GetWindowWidth());
-	auto resolution_y = static_cast<float>(Settings::GetInstance()->GetWindowHeight());
+    auto settings = Core::GetInstance()->GetSettings();
+	auto resolution_x = static_cast<float>(settings->GetWindowWidth());
+	auto resolution_y = static_cast<float>(settings->GetWindowHeight());
 
 	switch (this->m_projection_type)
 	{

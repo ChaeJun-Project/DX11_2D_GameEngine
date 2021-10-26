@@ -104,6 +104,8 @@ enum class ComponentType : UINT
 	Script = 5,
 	Collider2D = 6,
 	RigidBody2D = 7,
+	Light2D = 8,
+	Light3D = 9,
 };
 
 //Projection Type(Camera 사용)
@@ -113,9 +115,17 @@ enum class ProjectionType : UINT
 	Perspective = 1, //원근투영
 };
 
-//GameObject SideType(IObject 사용)
+//GameObject SideType(Transform 사용)
 enum class GameObjectSideState : UINT
 {
 	Right = 0,
 	Left = 1,
+};
+
+//Light Type(Light2D, Light3D 사용)
+enum class LightType : UINT
+{
+	Directional = 0,
+	Point = 1,
+	Spot = 2,
 };

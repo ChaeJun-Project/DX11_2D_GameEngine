@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "GraphicsManager.h"
 
+#include "Core.h"
+#include "Settings.h"
+
 GraphicsManager::GraphicsManager()
 {
 	//뷰 포트 구조체 0으로 초기화
@@ -9,8 +12,9 @@ GraphicsManager::GraphicsManager()
 
 GraphicsManager::~GraphicsManager()
 {
+	auto p_settings = Core::GetInstance()->GetSettings();
 	//전체모드인 경우
-	if (m_p_swap_chain && Settings::GetInstance()->IsFullScreen())
+	if (m_p_swap_chain && p_settings->IsFullScreen())
 	{
 		//스왑체인 메모리 해제 전에 윈도우 모드로 변경해야 예외가 발생하지 않음
 		m_p_swap_chain->SetFullscreenState(false, nullptr);
@@ -38,7 +42,7 @@ GraphicsManager::~GraphicsManager()
 	this->m_p_blender_map.clear();
 }
 
-const bool GraphicsManager::Initialize()
+void GraphicsManager::Initialize()
 {
 	//지원하는 해상도 찾기(참고: https://copynull.tistory.com/240)
 	//========================================================================================================
@@ -49,20 +53,14 @@ const bool GraphicsManager::Initialize()
 		reinterpret_cast<void**>(p_DXGI_factory.GetAddressOf())
 	);
 	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return false;
 
 	ComPtr<IDXGIAdapter> p_DXGI_adapter = nullptr;
 	hResult = p_DXGI_factory->EnumAdapters(0, p_DXGI_adapter.GetAddressOf());
 	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return false;
 
 	ComPtr<IDXGIOutput> p_DXGI_adapter_output = nullptr;
 	hResult = p_DXGI_adapter->EnumOutputs(0, p_DXGI_adapter_output.GetAddressOf());
 	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return false;
 
 	UINT display_mode_count = 0;
 	hResult = p_DXGI_adapter_output->GetDisplayModeList
@@ -73,8 +71,6 @@ const bool GraphicsManager::Initialize()
 		nullptr
 	);
 	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return false;
 
 	auto display_mode_list = new DXGI_MODE_DESC[display_mode_count];
 	hResult = p_DXGI_adapter_output->GetDisplayModeList
@@ -85,14 +81,16 @@ const bool GraphicsManager::Initialize()
 		display_mode_list
 	);
 	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return false;
+
+	auto settings = Core::GetInstance()->GetSettings();
+	auto current_window_width = settings->GetWindowWidth();
+	auto current_window_height = settings->GetWindowHeight();
 
 	for (UINT i = 0; i < display_mode_count; i++)
 	{
 		bool is_check = true;
-		is_check &= display_mode_list[i].Width == static_cast<UINT>(Settings::GetInstance()->GetWindowWidth());
-		is_check &= display_mode_list[i].Height == static_cast<UINT>(Settings::GetInstance()->GetWindowHeight());
+		is_check &= display_mode_list[i].Width == static_cast<UINT>(current_window_width);
+		is_check &= display_mode_list[i].Height == static_cast<UINT>(current_window_height);
 
 		if (is_check)
 		{
@@ -116,27 +114,30 @@ const bool GraphicsManager::Initialize()
 	//========================================================================================================
 
 	//Device와 DeviceContext 생성
-	auto result = CreateDeviceAndDeviceContext();
-	assert(result);
-	if (!result)
-		return false;
-
+	CreateDeviceAndDeviceContext();
 	//Swap Chain 생성
-	result = CreateSwapChain();
-	assert(result);
-	if (!result)
-		return false;
+	CreateSwapChain();
+	//Constant Buffer 생성
+	CreateConstantBuffers();
+	//Rasterizer 생성
+	CreateRasterizer();
+	//Sampler 생성
+	CreateSampler();
+	//DepthStencil 생성
+	CreateDepthStencil();
+	//Blender 생성
+	CreateBlender();
 
-	auto settings = Settings::GetInstance();
+
 	ResizeWindowByUser(settings->GetWindowWidth(), settings->GetWindowHeight());
-
-	return true;
 }
 
 void GraphicsManager::ResizeWindowByProgram(const UINT& width, const UINT& height)
 {
 	if (m_p_swap_chain)
 	{
+		auto settings = Core::GetInstance()->GetSettings();
+
 		DXGI_MODE_DESC desc;
 
 		//해상도 설정
@@ -144,8 +145,8 @@ void GraphicsManager::ResizeWindowByProgram(const UINT& width, const UINT& heigh
 		desc.Height = height;
 
 		//주사율 설정
-		desc.RefreshRate.Numerator = Settings::GetInstance()->IsVsync() ? m_numerator : 0;
-		desc.RefreshRate.Denominator = Settings::GetInstance()->IsVsync() ? m_denominator : 0;
+		desc.RefreshRate.Numerator = settings->IsVsync() ? m_numerator : 0;
+		desc.RefreshRate.Denominator = settings->IsVsync() ? m_denominator : 0;
 
 		//픽셀 포멧 설정
 		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -179,21 +180,16 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 	}
 
 	//RenderTarget 관련 자원 생성
-	auto result = CreateRenderTargetView();
-	assert(result);
-	if (!result)
-		return;
+	CreateRenderTargetView();
 
 	//DepthStencil 관련 자원 생성
-	result = CreateDepthStencilView();
-	assert(result);
-	if (!result)
-		return;
-
+	CreateDepthStencilView();
+	
 	//Viewport 재설정
 	SetViewport(width, height);
 
-	std::cout << "Resolution: " << Settings::GetInstance()->GetWindowWidth() << "X" << Settings::GetInstance()->GetWindowHeight() << std::endl;
+	auto settings = Core::GetInstance()->GetSettings();
+	std::cout << "Resolution: " << settings->GetWindowWidth() << "X" << settings->GetWindowHeight() << std::endl;
 }
 
 void GraphicsManager::SetFullScreen(const bool& is_full_screen)
@@ -236,15 +232,61 @@ void GraphicsManager::EndScene()
 {
 	if (m_p_swap_chain)
 	{
+		auto settings = Core::GetInstance()->GetSettings();
+
 		//백 버퍼에 그린 내용을 전면 버퍼로 스왑
-		auto hResult = m_p_swap_chain->Present(Settings::GetInstance()->IsVsync() ? 1 : 0, 0);
+		auto hResult = m_p_swap_chain->Present(settings->IsVsync() ? 1 : 0, 0);
 		assert(SUCCEEDED(hResult));
 	}
 }
 
-const bool GraphicsManager::CreateSwapChain()
+void GraphicsManager::CreateDeviceAndDeviceContext()
 {
-	auto settings = Settings::GetInstance();
+	UINT iFlag = 0;
+
+	//플래그 값 참고: https://docs.microsoft.com/ko-kr/windows/win32/api/d3d11/ne-d3d11-d3d11_create_device_flag?redirectedfrom=MSDN
+#ifdef _DEBUG
+	iFlag = D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+	//DirectX 버전 설정
+	std::vector<D3D_FEATURE_LEVEL> feature_levels
+	{
+		D3D_FEATURE_LEVEL_11_1,
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,
+		D3D_FEATURE_LEVEL_9_2,
+		D3D_FEATURE_LEVEL_9_1,
+	};
+
+	auto hResult = D3D11CreateDevice
+	(
+		nullptr,
+		D3D_DRIVER_TYPE_HARDWARE, //컴퓨터에 내장된 그래픽카드를 그대로 사용한다는 뜻
+		nullptr,
+		iFlag,
+		0,
+		0,
+		D3D11_SDK_VERSION,
+		m_p_device.GetAddressOf(),
+		&feature_levels[1],
+		m_p_device_context.GetAddressOf()
+	);
+	assert(SUCCEEDED(hResult));
+
+	//어댑터가 지원하는 품질 수준 제공
+	UINT iMultiSampleLevel = 0;
+
+	m_p_device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &iMultiSampleLevel);
+	assert(iMultiSampleLevel > 0);
+}
+
+
+void GraphicsManager::CreateSwapChain()
+{
+	auto settings = Core::GetInstance()->GetSettings();
 
 	//Swap Chain 구조체 설정
 	//========================================================================================================
@@ -299,82 +341,21 @@ const bool GraphicsManager::CreateSwapChain()
 	//Get IDXGIDevice
 	auto hResult = m_p_device->QueryInterface(__uuidof(IDXGIDevice), (void**)&p_DXGI_device);
 	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return false;
 
 	//Get IDXGIAdapter
 	p_DXGI_device->GetParent(__uuidof(IDXGIAdapter), (void**)&p_DXGI_adapter);
 	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return false;
 
 	//Get IDXGIFactory
 	p_DXGI_adapter->GetParent(__uuidof(IDXGIFactory), (void**)&p_DXGI_factory);
 	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return false;
 
 	//Create Swap Chain
 	p_DXGI_factory->CreateSwapChain(m_p_device.Get(), &desc, &m_p_swap_chain);
 	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return false;
-
-	return true;
 }
 
-const bool GraphicsManager::CreateDeviceAndDeviceContext()
-{
-	UINT iFlag = 0;
-
-	//플래그 값 참고: https://docs.microsoft.com/ko-kr/windows/win32/api/d3d11/ne-d3d11-d3d11_create_device_flag?redirectedfrom=MSDN
-#ifdef _DEBUG
-	iFlag = D3D11_CREATE_DEVICE_DEBUG;
-#endif
-
-	//DirectX 버전 설정
-	std::vector<D3D_FEATURE_LEVEL> feature_levels
-	{
-		D3D_FEATURE_LEVEL_11_1,
-		D3D_FEATURE_LEVEL_11_0,
-		D3D_FEATURE_LEVEL_10_1,
-		D3D_FEATURE_LEVEL_10_0,
-		D3D_FEATURE_LEVEL_9_3,
-		D3D_FEATURE_LEVEL_9_2,
-		D3D_FEATURE_LEVEL_9_1,
-	};
-
-	auto hResult = D3D11CreateDevice
-	(
-		nullptr,
-		D3D_DRIVER_TYPE_HARDWARE, //컴퓨터에 내장된 그래픽카드를 그대로 사용한다는 뜻
-		nullptr,
-		iFlag,
-		0,
-		0,
-		D3D11_SDK_VERSION,
-		m_p_device.GetAddressOf(),
-		&feature_levels[1],
-		m_p_device_context.GetAddressOf()
-	);
-	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return false;
-
-	//어댑터가 지원하는 품질 수준 제공
-	UINT iMultiSampleLevel = 0;
-
-	m_p_device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &iMultiSampleLevel);
-	assert(iMultiSampleLevel > 0);
-	if (iMultiSampleLevel < 0)
-	{
-		return false;
-	}
-
-	return true;
-}
-
-const bool GraphicsManager::CreateRenderTargetView()
+void GraphicsManager::CreateRenderTargetView()
 {
 	if (m_p_swap_chain != nullptr)
 	{
@@ -390,8 +371,6 @@ const bool GraphicsManager::CreateRenderTargetView()
 			reinterpret_cast<void**>(p_back_buffer.GetAddressOf())
 		);
 		assert(SUCCEEDED(hResult));
-		if (!SUCCEEDED(hResult))
-			return false;
 
 		p_back_buffer->SetPrivateData
 		(
@@ -409,20 +388,14 @@ const bool GraphicsManager::CreateRenderTargetView()
 				m_p_render_target_view.GetAddressOf()
 			);
 		assert(SUCCEEDED(hResult));
-		if (!SUCCEEDED(hResult))
-			return false;
-
-		return true;
 	}
-
-	return false;
 }
 
-const bool GraphicsManager::CreateDepthStencilView()
+void GraphicsManager::CreateDepthStencilView()
 {
 	if (m_p_device != nullptr)
 	{
-		auto settings = Settings::GetInstance();
+		auto settings = Core::GetInstance()->GetSettings();
 
 		//Swap Chain의 백 버퍼의 정보를 받아올 포인터 변수
 		//함수 종료 시 자동으로 자원 해제
@@ -454,8 +427,6 @@ const bool GraphicsManager::CreateDepthStencilView()
 			p_depth_stencil_texture.GetAddressOf()
 		);
 		assert(SUCCEEDED(hResult));
-		if (!SUCCEEDED(hResult))
-			return false;
 
 		//깊이 정보를 가지고 있는 텍스처를 바탕으로
 		//깊이 뷰를 생성
@@ -466,12 +437,7 @@ const bool GraphicsManager::CreateDepthStencilView()
 			m_p_depth_stencil_view.GetAddressOf()
 		);
 		assert(SUCCEEDED(hResult));
-		if (!SUCCEEDED(hResult))
-			return false;
-
-		return true;
 	}
-	return false;
 }
 
 void GraphicsManager::CreateConstantBuffers()
@@ -492,6 +458,15 @@ void GraphicsManager::CreateConstantBuffers()
 	if (result)
 	{
 		pair_iter.first->second->Create<CBuffer_Material>(static_cast<UINT>(CBuffer_BindSlot::Material));
+	}
+
+	//Light2D
+	pair_iter = this->m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Light2D, std::make_shared<ConstantBuffer>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create<CBuffer_Light2D>(static_cast<UINT>(CBuffer_BindSlot::Light2D));
 	}
 }
 

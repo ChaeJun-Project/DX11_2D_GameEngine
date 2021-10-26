@@ -13,24 +13,20 @@ class GraphicsManager final : public Singleton<GraphicsManager>
 	~GraphicsManager();
 
 public:
-	const bool Initialize();
-	//TODO 위치 바꾸기(Constant, Rasterizer, Sampler, Blend)
-	void CreateConstantBuffers();
-	void CreateRasterizer();
-	void CreateSampler();
-	void CreateDepthStencil();
-	void CreateBlender();
-
+    //DirectX11 자원 초기화
+	void Initialize();
+	//백버퍼에 그려진 내용 초기화
+	void BeginScene();
+	//백버퍼에 그려진 내용을 현재 보여주고 있는 전면 버퍼와 교체
+	void EndScene();
+	
 	//응용 프로그램 내부에서 윈도우의 해상도를 변경할 때
 	void ResizeWindowByProgram(const UINT& width, const UINT& height);
 	//유저에 의해서 윈도우의 해상도가 변경될 때
 	void ResizeWindowByUser(const UINT& width, const UINT& height);
+	//전체화면으로 변경
 	void SetFullScreen(const bool& is_full_screen);
-	void SetViewport(const UINT& width, const UINT& height);
-
-	void BeginScene();
-	void EndScene();
-
+	
 public:
 	//Get Method
 	//const 멤버 함수로 구현하여 함수 내에서 멤버 변수의 수정을 방지
@@ -44,10 +40,17 @@ public:
 	const std::shared_ptr<BlendState>& GetBlender(const BlendType& blend_type);
 
 private:
-	const bool CreateDeviceAndDeviceContext();
-	const bool CreateSwapChain();
-	const bool CreateRenderTargetView();
-	const bool CreateDepthStencilView();
+	void CreateDeviceAndDeviceContext();
+	void CreateSwapChain();
+	void CreateRenderTargetView();
+	void CreateDepthStencilView();
+	void CreateConstantBuffers();
+	void CreateRasterizer();
+	void CreateSampler();
+	void CreateDepthStencil();
+	void CreateBlender();
+
+	void SetViewport(const UINT& width, const UINT& height);
 
 private:
 	//ID가 붙으면 com 인터페이스임
@@ -88,9 +91,8 @@ private:
 	//Blender를 저장할 map
 	std::map<BlendType, std::shared_ptr<BlendState>> m_p_blender_map;
 
-
-	//클리어 컬러
-	float m_clear_color[4]; //Init TODO
+	//클리어 컬러(검은색)
+	Color4 m_clear_color = Color4::Black;
 
 	//GPU 관련 정보
 	UINT m_gpu_memory_size = 0;

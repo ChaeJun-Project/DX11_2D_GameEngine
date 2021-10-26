@@ -2,6 +2,8 @@
 
 #include "Script.h"
 
+class Animator;
+
 class RockManZ_Script : public Script
 {
 private:
@@ -56,8 +58,6 @@ public:
 
 	void Update() override;
 
-	void Render();
-
 public:
 	virtual void OnCollisionEnter(GameObject* other_game_object) override;
 	virtual void OnCollisionExit(GameObject* other_game_object) override;
@@ -68,5 +68,9 @@ public:
 
 private:
     float m_speed = 200.f;
+
+	Animator* m_p_animator = nullptr;
+
+	AnimationState m_current_state = AnimationState::Idle;
 };
 

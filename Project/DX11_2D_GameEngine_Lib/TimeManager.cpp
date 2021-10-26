@@ -1,11 +1,6 @@
 #include "stdafx.h"
 #include "TimeManager.h"
 
-TimeManager::TimeManager()
-{
-	Initialize();
-}
-
 void TimeManager::Initialize()
 {
 	//초당 카운트 횟수 받아오기

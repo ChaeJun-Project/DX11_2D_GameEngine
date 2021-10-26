@@ -72,7 +72,7 @@ private:
     void SetDead() { this->m_dead_check = true; }
 
 public:
-    CLONE(GameObject);
+	GameObject* Clone() { return new GameObject(*this); }
 
 	void RegisterPrefab();
 

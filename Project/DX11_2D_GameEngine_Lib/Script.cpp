@@ -6,17 +6,29 @@ Script::Script()
 {
 }
 
-void Script::Instantiate(std::shared_ptr<Prefab>& p_game_object_prefab, const Vector3& position, const UINT& layer_index)
+Script::Script(const Script& origin)
+    : IComponent(origin.GetComponentType())
+{
+}
+
+GameObject* Script::Instantiate(std::shared_ptr<Prefab>& p_game_object_prefab, const Vector3& position, const UINT& layer_index, const bool& use_event)
 {
 	GameObject* p_game_object = p_game_object_prefab->Instantiate();
 
 	auto transform = p_game_object->GetComponent<Transform>();
 
 	if (transform == nullptr)
+	{
 		assert(false);
+		return nullptr;
+	}
 
 	transform->SetTranslation(position);
-	CreateGameObject(p_game_object, layer_index);
+
+	if (use_event)
+		CreateGameObject(p_game_object, layer_index);
+
+	return p_game_object;
 }
 
 void Script::Destroy(GameObject* p_delete_game_object)

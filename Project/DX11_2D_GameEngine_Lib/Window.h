@@ -1,6 +1,9 @@
 #pragma once
 #include "stdafx.h"
 
+#include "Core.h"
+#include "Settings.h"
+
 //namespace를 사용하는 이유: 중복때문에 생기는 충돌 방지
 namespace Window
 {
@@ -62,10 +65,10 @@ namespace Window
 			//이벤트 함수가 등록되어 있는 경우
 			if (resize_event && wParam != SIZE_MINIMIZED)
 			{
-				auto setting = Settings::GetInstance();
+				auto settings = Core::GetInstance()->GetSettings();
 
-				setting->SetWindowWidth(LOWORD(lParam));
-				setting->SetWindowHeight(HIWORD(lParam));
+				settings->SetWindowWidth(LOWORD(lParam));
+				settings->SetWindowHeight(HIWORD(lParam));
 
 				resize_event(LOWORD(lParam), HIWORD(lParam));
 			}
@@ -89,10 +92,10 @@ namespace Window
 	//윈도우 창 생성
 	inline void Create(HINSTANCE program_instance, const UINT& width, const UINT& height, LPCWSTR class_name, UINT window_icon, const bool& is_full_screen)
 	{
-		auto setting = Settings::GetInstance();
+		auto settings = Core::GetInstance()->GetSettings();
 
 		//프로그램 주소 저장
-		setting->SetProgramInstance(program_instance);
+		settings->SetProgramInstance(program_instance);
 
 		//Create Window Class
 		//================================================================================================
@@ -129,7 +132,7 @@ namespace Window
 			CW_USEDEFAULT,
 			nullptr,
 			nullptr,
-			setting->GetProgramInstance(),
+			settings->GetProgramInstance(),
 			nullptr
 		);
 
@@ -137,14 +140,14 @@ namespace Window
 		//================================================================================================
 
 		//윈도우 핸들 저장
-		setting->SetWindowHandle(window_handle);
+		settings->SetWindowHandle(window_handle);
 
 		//Set Window Size
 		//================================================================================================
 		//윈도우 사이즈 저장
-		setting->SetWindowWidth(width); //너비
-		setting->SetWindowHeight(height); //높이
-		setting->SetFullScreen(is_full_screen); //전체화면 여부 설정
+		settings->SetWindowWidth(width); //너비
+		settings->SetWindowHeight(height); //높이
+		settings->SetFullScreen(is_full_screen); //전체화면 여부 설정
 
 		RECT rect{ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
 
@@ -157,12 +160,12 @@ namespace Window
 
 		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE); //윈도우의 크기를 설정하고 윈도우를 만들면 스크롤 바(오른쪽에 있는 바)가 제거된 상태의 윈도우가 만들어짐.
 
-		MoveWindow(setting->GetWindowHandle(), x, y, rect.right - rect.left, rect.bottom - rect.top, FALSE); //마지막 인자가 FALSE이면 윈도우를 다시 그리지 않음.
+		MoveWindow(settings->GetWindowHandle(), x, y, rect.right - rect.left, rect.bottom - rect.top, FALSE); //마지막 인자가 FALSE이면 윈도우를 다시 그리지 않음.
 	}
 
 	inline void Show(int nCmdShow)
 	{
-		auto window_handle = Settings::GetInstance()->GetWindowHandle();
+		auto window_handle = Core::GetInstance()->GetSettings()->GetWindowHandle();
 
 		//띄운 창을 맨 앞으로 띄움
 		SetForegroundWindow(window_handle);
@@ -198,8 +201,8 @@ namespace Window
 
 	inline void Destroy(LPCWSTR class_name)
 	{
-		auto setting = Settings::GetInstance();
-		DestroyWindow(setting->GetWindowHandle());
-		UnregisterClass(class_name, setting->GetProgramInstance());
+		auto settings = Core::GetInstance()->GetSettings();
+		DestroyWindow(settings->GetWindowHandle());
+		UnregisterClass(class_name, settings->GetProgramInstance());
 	}
 }

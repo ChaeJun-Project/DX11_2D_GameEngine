@@ -6,12 +6,12 @@ class GameObject;
 class SceneManager final : public Singleton<SceneManager>
 {
 	SINGLETON(SceneManager);
-	SceneManager();
+	SceneManager() = default;
 	~SceneManager();
 
 public:
     void Initialize();
-    void Progress();
+    void Update();
 
     //юс╫ц
     void CreatePrefab(GameObject* p_game_object);

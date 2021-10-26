@@ -11,7 +11,7 @@ Animation::Animation(const std::string resource_name)
 Animation::Animation(const Animation& origin)
 	: IResource(ResourceType::Animation, origin.GetResourceName())
 {
-    //Path
+	//Path
 	m_resource_path = origin.GetResourcePath();
 	//Copy Texture Vector
 	std::copy
@@ -123,12 +123,9 @@ void Animation::Update()
 				this->m_is_end = true;
 			}
 		}
-	}
 
-	//해당 애니메이션 프레임에 이벤트 함수가 등록되어 있다면 이벤트 함수 수행
-	auto component_iter = this->m_animation_event_func_map.find(this->m_current_frame_id);
-	if (component_iter != this->m_animation_event_func_map.end())
-		component_iter->second;
+		DoAnimationEvent(static_cast<UINT>(this->m_current_frame_id));
+	}
 }
 
 void Animation::Play()
@@ -154,9 +151,37 @@ void Animation::Stop()
 	this->m_is_playing = false;
 	this->m_is_end = false;
 	this->m_current_frame_id = 0;
+	ResetAnimationEventFlag();
 }
 
-void Animation::SetAnimationEvent(const UINT& motion_index, std::function<void(void)> event_func)
+void Animation::SetAnimationEvent(const UINT& clip_index, std::function<void(void)> event_func)
 {
-	//TODO
+	auto map_iter = this->m_animation_event_func_map.insert(std::make_pair(clip_index, std::make_pair(false, event_func)));
+	auto result = map_iter.second;
+	if (!result)
+		return;
 }
+
+void Animation::DoAnimationEvent(const UINT& clip_index)
+{
+	auto animation_event_iter = this->m_animation_event_func_map.find(clip_index);
+	if (animation_event_iter != this->m_animation_event_func_map.end())
+	{
+		auto animation_event = animation_event_iter->second;
+		//이미 수행한 경우
+		if (animation_event.first)
+			return;
+
+		animation_event.first = true;
+		animation_event.second();
+	}
+}
+
+void Animation::ResetAnimationEventFlag()
+{
+	for (auto& animation_event : this->m_animation_event_func_map)
+	{
+		animation_event.second.first = false;
+	}
+}
+

@@ -4,13 +4,6 @@
 #include "Layer.h"
 #include "GameObject.h"
 
-#include "Transform.h"
-#include "Camera.h"
-#include "Renderer.h"
-#include "Animation.h"
-#include "Collider2D.h"
-#include "RockManZ_Script.h"
-
 Scene::~Scene()
 {
 	for (auto& layer : this->m_layer_map)
@@ -39,14 +32,8 @@ void Scene::FinalUpdate()
 
 void Scene::Render()
 {
-	auto graphis_manager = GraphicsManager::GetInstance();
-
-	graphis_manager->BeginScene();
-
 	for (auto& layer : this->m_layer_map)
 		layer.second->Render();
-
-	graphis_manager->EndScene();
 }
 
 void Scene::AddGameObject(GameObject* p_game_object, UINT layer_index, bool is_move)

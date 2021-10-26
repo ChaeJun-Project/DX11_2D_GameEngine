@@ -191,6 +191,7 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantStruct.h" />
+    <ClInclude Include="Core.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DepthStencilState.h" />
     <ClInclude Include="DX11Object.h" />
@@ -198,6 +199,8 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="FileStream.h" />
+    <ClInclude Include="GameLogic_Script.h" />
+    <ClInclude Include="Geometry_script.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GraphicsManager.h" />
     <ClInclude Include="IComponent.h" />
@@ -208,11 +211,13 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="IResource.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="Layer.h" />
+    <ClInclude Include="Light2D.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Math\Color4.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Math\Matrix.h" />
     <ClInclude Include="Math\Quaternion.h" />
+    <ClInclude Include="Math\SimpleMath.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
@@ -221,6 +226,7 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="Prefab.h" />
     <ClInclude Include="RasterizerState.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RenderManager.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RockManZ_Script.h" />
     <ClInclude Include="SamplerState.h" />
@@ -228,9 +234,7 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="Stage.h" />
-    <ClInclude Include="StageManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Singleton.h" />
@@ -253,10 +257,13 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="ConstantStruct.cpp" />
+    <ClCompile Include="Core.cpp" />
     <ClCompile Include="DepthStencilState.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="FileStream.cpp" />
+    <ClCompile Include="GameLogic_Script.cpp" />
+    <ClCompile Include="Geometry_script.cpp" />
     <ClCompile Include="GraphicsManager.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputLayout.cpp" />
@@ -264,6 +271,7 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IShader.cpp" />
     <ClCompile Include="Layer.cpp" />
+    <ClCompile Include="Light2D.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Math\Color4.cpp" />
     <ClCompile Include="Math\Math.cpp" />
@@ -277,6 +285,7 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="RasterizerState.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="RockManZ_Script.cpp" />
     <ClCompile Include="SamplerState.cpp" />
@@ -284,9 +293,7 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -314,6 +321,9 @@ call GameEngineCopy.bat</Command>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="ShaderFiles\LightStruct.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+    </FxCompile>
     <FxCompile Include="ShaderFiles\TextureShader.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
@@ -324,6 +334,9 @@ call GameEngineCopy.bat</Command>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Math\SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

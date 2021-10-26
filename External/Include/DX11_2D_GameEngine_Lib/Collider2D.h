@@ -25,7 +25,7 @@ public:
 	void OnCollision(Collider2D* other_collider);
 
 public:
-    void SetOffsetPos(const Vector3& offset_position) { this->m_offset_position = offset_position; }
+    void SetOffsetPos(const Vector3& offset_position) { this->m_offset_position = offset_position * 100.0f; }
 	void SetOffsetScale(const Vector3& offset_scale) { this->m_offset_scale = offset_scale; }
 
 	const Matrix& GetColliderWorldMatrix() { return this->m_collider_world_matrix; }

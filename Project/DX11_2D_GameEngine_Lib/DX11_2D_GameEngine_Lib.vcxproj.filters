@@ -14,10 +14,10 @@
       <Filter>Stdafx</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
-      <Filter>Window</Filter>
+      <Filter>Core\Window</Filter>
     </ClInclude>
     <ClInclude Include="Settings.h">
-      <Filter>Settings</Filter>
+      <Filter>Core\Settings</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsManager.h">
       <Filter>Manager\Graphics</Filter>
@@ -85,14 +85,8 @@
     <ClInclude Include="ConstantStruct.h">
       <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderManager.h">
-      <Filter>Manager\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Resource\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="DX11Object.h">
-      <Filter>DX11ObjectID</Filter>
     </ClInclude>
     <ClInclude Include="IComponent.h">
       <Filter>Scene\Components</Filter>
@@ -126,9 +120,6 @@
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="StageManager.h">
-      <Filter>Manager\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>Scene\GameStage</Filter>
@@ -180,6 +171,27 @@
     </ClInclude>
     <ClInclude Include="WalkCannon_Bullet_Script.h">
       <Filter>Scene\Components\Script\Enemy\WalkCannon</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic_Script.h">
+      <Filter>Scene\Components\Script\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry_script.h">
+      <Filter>Scene\Components\Script\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="DX11Object.h">
+      <Filter>DX11ObjectID</Filter>
+    </ClInclude>
+    <ClInclude Include="Light2D.h">
+      <Filter>Scene\Components\Light2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Manager\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\SimpleMath.h">
+      <Filter>Math\SimpleMath</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -243,9 +255,6 @@
     <ClCompile Include="ConstantBuffer.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\ConstantBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
-      <Filter>Manager\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Resource\Shader</Filter>
     </ClCompile>
@@ -272,9 +281,6 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="StageManager.cpp">
-      <Filter>Manager\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>Scene\GameStage</Filter>
@@ -333,6 +339,21 @@
     <ClCompile Include="WalkCannon_Bullet_Script.cpp">
       <Filter>Scene\Components\Script\Enemy\WalkCannon</Filter>
     </ClCompile>
+    <ClCompile Include="GameLogic_Script.cpp">
+      <Filter>Scene\Components\Script\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry_script.cpp">
+      <Filter>Scene\Components\Script\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Light2D.cpp">
+      <Filter>Scene\Components\Light2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Manager\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -352,12 +373,6 @@
     </Filter>
     <Filter Include="Manager\Time">
       <UniqueIdentifier>{334d27df-c074-4943-be98-7349fb071ad5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Window">
-      <UniqueIdentifier>{dd17f2a6-ccd0-47bc-b287-5de2d2381fc0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Settings">
-      <UniqueIdentifier>{26862a5f-43ba-4430-a84c-160341066642}</UniqueIdentifier>
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{2bc8eed1-6027-4537-bd2f-4ea5b0a439b4}</UniqueIdentifier>
@@ -400,9 +415,6 @@
     </Filter>
     <Filter Include="Manager\Graphics">
       <UniqueIdentifier>{973806fe-38f6-450f-8b67-48ef90939b9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager\Shader">
-      <UniqueIdentifier>{76d107d7-d48f-4a0b-b5f5-c74df46a4f8b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource\Shader">
       <UniqueIdentifier>{fd56c473-1490-4fd0-90c3-5a64e55c4952}</UniqueIdentifier>
@@ -515,6 +527,33 @@
     <Filter Include="Scene\Components\Script\Enemy\WalkCannon">
       <UniqueIdentifier>{5149de55-85c1-4516-a402-693ecbcd560e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\Components\Script\GameLogic">
+      <UniqueIdentifier>{15436bf0-a034-4139-aade-4762881e2255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Script\Geometry">
+      <UniqueIdentifier>{b00526e5-1da4-43f6-a7a8-942fbdb4f8a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Light2D">
+      <UniqueIdentifier>{770b0f97-b957-4c96-99c2-3917a381147d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Light3D">
+      <UniqueIdentifier>{310fde24-0805-4a40-aa0e-c1be899d491a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\Collider3D">
+      <UniqueIdentifier>{1a990695-91b7-4a97-bc43-c16bfae2e311}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Render">
+      <UniqueIdentifier>{c67424bc-2d93-44cb-8149-dbadb43bdcb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\SimpleMath">
+      <UniqueIdentifier>{4109ffeb-74d4-4b92-b9cd-42fed8c4592e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Window">
+      <UniqueIdentifier>{dd17f2a6-ccd0-47bc-b287-5de2d2381fc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Settings">
+      <UniqueIdentifier>{26862a5f-43ba-4430-a84c-160341066642}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ShaderFiles\ConstantBuffer.fx">
@@ -529,5 +568,13 @@
     <FxCompile Include="ShaderFiles\TextureShader.fx">
       <Filter>ShaderFiles</Filter>
     </FxCompile>
+    <FxCompile Include="ShaderFiles\LightStruct.fx">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Math\SimpleMath.inl">
+      <Filter>Math\SimpleMath</Filter>
+    </None>
   </ItemGroup>
 </Project>

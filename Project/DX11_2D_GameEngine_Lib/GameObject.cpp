@@ -28,6 +28,18 @@ REGISTER_COMPONENT_TYPE(Collider2D, ComponentType::Collider2D);
 
 GameObject::GameObject(const GameObject& origin)
 {
+	//Object name
+	m_object_name = origin.m_object_name;
+	//Object Tag
+	m_object_tag = origin.m_object_tag;
+	//Object Layer
+	this->m_object_layer_index = origin.m_object_layer_index;
+	
+	this->m_dead_check = false;
+
+	//해당 오브젝트로 프리팹을 만든 횟수
+	this->m_prefab_count = origin.m_prefab_count;
+
 	for (auto& origin_component : origin.m_component_list)
 	{
 		AddComponent(origin_component.second->Clone());
@@ -47,9 +59,6 @@ GameObject::~GameObject()
 	this->m_component_list.clear();
 
 	this->m_p_parent = nullptr;
-
-	for (auto& child : this->m_p_child_vector)
-		SAFE_DELETE(child);
 
 	this->m_p_child_vector.clear();
 	this->m_p_child_vector.shrink_to_fit();

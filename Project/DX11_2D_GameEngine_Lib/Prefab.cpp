@@ -16,7 +16,7 @@ Prefab::Prefab(GameObject* p_prototype_game_object)
 
 Prefab::~Prefab()
 {
-    //SAFE_DELETE(m_p_prototype_game_object);
+    SAFE_DELETE(m_p_prototype_game_object);
 }
 
 GameObject* Prefab::Instantiate()

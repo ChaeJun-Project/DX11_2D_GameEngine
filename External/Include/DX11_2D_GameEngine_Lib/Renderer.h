@@ -18,16 +18,22 @@ public:
 public:
     std::shared_ptr<Mesh> GetMesh() { SAFE_GET_POINTER(this->m_p_mesh); }
     void SetMesh(const std::shared_ptr<Mesh>& p_mesh) { this->m_p_mesh= p_mesh; }
-    
-    std::shared_ptr<Material> GetMaterial() { SAFE_GET_POINTER(this->m_p_material); }
+
+    void SetMaterial(const std::shared_ptr<Material>& p_current_material);
+    std::shared_ptr<Material> GetMaterial() { SAFE_GET_POINTER(this->m_p_current_material); }
+    std::shared_ptr<Material> GetSharedMaterial();
+    std::shared_ptr<Material> GetClonedMaterial();
 
 public:
     CLONE(Renderer);
 
 private:
-    std::shared_ptr<Mesh> m_p_mesh;
-    std::shared_ptr<Material> m_p_material;
+    std::shared_ptr<Mesh> m_p_mesh = nullptr;
 
-    std::shared_ptr<Material> m_p_border; //오브젝트 테두리
+    std::shared_ptr<Material> m_p_current_material = nullptr;//현재 사용할 Material
+    std::shared_ptr<Material> m_p_shared_material= nullptr; //공유 Material
+    std::shared_ptr<Material> m_p_cloned_material= nullptr; //공유 Material 복사본
+
+    std::shared_ptr<Material> m_p_border = nullptr; //오브젝트 테두리
 };
 

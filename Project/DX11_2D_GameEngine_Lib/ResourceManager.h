@@ -13,12 +13,12 @@ class ResourceManager final : public Singleton<ResourceManager>
 {
 	SINGLETON(ResourceManager);
 
-	ResourceManager();
+	ResourceManager() = default;
 	~ResourceManager();
 
+public:
 	void Initialize();
 
-public:
     //Shader
 	void CreateShader();
 	const std::shared_ptr<Shader>& GetShaderResource(const ShaderResourceType& shader_type);

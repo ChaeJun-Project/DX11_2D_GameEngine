@@ -6,6 +6,8 @@ enum class CBuffer_BindSlot : UINT
 {
 	WVPMatrix = 0,
 	Material = 1,
+
+	Light2D = 3,
 };
 
 //======================================
@@ -64,4 +66,36 @@ struct CBuffer_Material
 	Vector4 v4_array[4];
 	Matrix mx_array[4];
 };
+
+//======================================
+//Light2D
+//======================================
+struct LightColor
+{
+	Color4 color;
+	Color4 specular;
+	Color4 ambient;
+};
+
+struct LightInfo
+{
+	LightColor ligth_color;
+
+	LightType light_type;
+	Vector3 light_direction;
+	Vector3 light_position;
+
+	float light_range;
+	float light_angle;
+	Vector3 padding;
+};
+
+struct CBuffer_Light2D
+{
+	LightInfo light2D_array[50];
+	UINT light_count;
+	Vector3 padding;
+};
+
+
 

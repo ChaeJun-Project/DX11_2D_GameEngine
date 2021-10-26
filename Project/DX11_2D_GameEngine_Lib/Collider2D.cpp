@@ -18,7 +18,7 @@ Collider2D::Collider2D(const Collider2D& origin)
 
 	this->m_collision_count = origin.m_collision_count;
 
-	this->m_p_mesh = m_p_mesh;
+	this->m_p_mesh = origin.m_p_mesh;
 	this->m_p_material = origin.m_p_material;
 }
 
@@ -67,16 +67,27 @@ void Collider2D::OnCollisionEnter(Collider2D* other_collider)
 	++this->m_collision_count;
 
 	this->m_p_material = ResourceManager::GetInstance()->GetMaterialResource("Collider2D_Red");
+
+	auto script = m_p_owner_game_object->GetComponent<Script>();
+	if (script != nullptr)
+		script->OnCollisionEnter(other_collider->GetGameObject());
 }
 
 void Collider2D::OnCollisionExit(Collider2D* other_collider)
 {
 	--this->m_collision_count;
 
-	if(this->m_collision_count == 0)
+	if (this->m_collision_count == 0)
 		this->m_p_material = ResourceManager::GetInstance()->GetMaterialResource("Collider2D_Green");
+
+	auto script = m_p_owner_game_object->GetComponent<Script>();
+	if (script != nullptr)
+		script->OnCollisionEnter(other_collider->GetGameObject());
 }
 
 void Collider2D::OnCollision(Collider2D* other_collider)
 {
+	auto script = m_p_owner_game_object->GetComponent<Script>();
+	if (script != nullptr)
+		script->OnCollisionEnter(other_collider->GetGameObject());
 }

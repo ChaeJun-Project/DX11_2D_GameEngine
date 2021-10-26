@@ -6,7 +6,7 @@ class TimeManager final : public Singleton<TimeManager>
 {
 	SINGLETON(TimeManager);
 
-	TimeManager();
+	TimeManager() = default;
 	~TimeManager() = default;
 
 public:

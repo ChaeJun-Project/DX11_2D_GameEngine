@@ -47,6 +47,8 @@ using namespace DirectX::PackedVector;
 #include "Math/Color4.h"
 #include "Math/Quaternion.h"
 #include "Math/Matrix.h"
+//#include "Math/SimpleMath.h"
+//using namespace SimpleMath;
 #pragma endregion
 
 #pragma region Enum & Define
@@ -71,9 +73,6 @@ using namespace DirectX::PackedVector;
 //InputManager
 #include "InputManager.h"
 
-//ShaderManager
-#include "ShaderManager.h"
-
 //TimeManager
 #include "TimeManager.h"
 
@@ -85,6 +84,12 @@ using namespace DirectX::PackedVector;
 
 //EventManager
 #include "EventManager.h"
+
+//ResourceManager
+#include "ResourceManager.h"
+
+//RenderManger
+#include "RenderManager.h"
 
 //CollisionManager
 #include "CollisionManager.h"
@@ -126,8 +131,6 @@ using namespace DirectX::PackedVector;
 //Shader
 #include "Shader.h"
 
-//Sound
-
 //Texture
 #include "Texture.h"
 
@@ -137,9 +140,6 @@ using namespace DirectX::PackedVector;
 //Prefab
 #include "Prefab.h"
 #pragma endregion
-
-//ResourceManager
-#include "ResourceManager.h"
 
 #pragma region  Component
 //Transform
@@ -159,6 +159,10 @@ using namespace DirectX::PackedVector;
 
 //Animator
 #include "Animator.h"
+#pragma endregion
+
+//Light2D
+#include "Light2D.h"
 #pragma endregion
 
 #pragma region GameObject

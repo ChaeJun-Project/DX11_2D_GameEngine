@@ -2,16 +2,13 @@
 #include "stdafx.h"
 
 //윈도우 속성 값 저장 용도 클래스
-class Settings final : public Singleton<Settings>
+class Settings final
 {
-	//싱글톤 매크로
-	SINGLETON(Settings);
-	Settings() {};
-	virtual ~Settings() {};
+public:
+	Settings() = default;
+	~Settings() = default;
 
 public:
-	//const 멤버 함수로 구현하여 함수 내에서 멤버 변수의 수정을 방지
-
 	//Instance Setting
 	HINSTANCE GetProgramInstance() const { return m_program_instance; }
 	void SetProgramInstance(HINSTANCE program_instance) { this->m_program_instance = program_instance; }

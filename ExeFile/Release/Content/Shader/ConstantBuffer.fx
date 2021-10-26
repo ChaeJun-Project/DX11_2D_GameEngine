@@ -41,3 +41,14 @@ cbuffer Material : register(b1)
     row_major matrix g_matrix_3;
 }
 
+//b2는 나중에 다른 버퍼를 만들 예정
+
+#include "LightStruct.fx"
+
+cbuffer Light : register(b3)
+{
+    LightInfo g_light2D_array[50];
+    uint g_light2D_count;
+    uint3 padding;
+}
+

@@ -4,7 +4,7 @@ struct EventStruct
 {
 	EventType event_type;
 	DWORD_PTR object_address;
-	DWORD_PTR layer_index;
+	UINT layer_index;
 };
 
 class GameObject;

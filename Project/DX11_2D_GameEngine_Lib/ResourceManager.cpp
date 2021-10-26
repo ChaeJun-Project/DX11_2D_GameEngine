@@ -1,16 +1,18 @@
 #include "stdafx.h"
 #include "ResourceManager.h"
 
-#include "Shader.h"
-#include "Material.h"
-#include "Texture.h"
+//Mesh
 #include "Mesh.h"
+//Material
+#include "Material.h"
+//Shader
+#include "Shader.h"
+//Texture
+#include "Texture.h"
+//Animation
+#include "Animation.h"
+//Prefab
 #include "Prefab.h"
-
-ResourceManager::ResourceManager()
-{
-	Initialize();
-}
 
 ResourceManager::~ResourceManager()
 {

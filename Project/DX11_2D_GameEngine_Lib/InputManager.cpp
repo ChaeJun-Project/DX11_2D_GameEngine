@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "InputManager.h"
 
+#include "Core.h"
+
 InputManager::InputManager()
 	: mousePosition(0, 0)
 	, wheelStatus(0, 0, 0)
@@ -16,8 +18,6 @@ InputManager::InputManager()
 		std::placeholders::_3,
 		std::placeholders::_4
 	);
-
-	Initialize();
 }
 
 void InputManager::Initialize()
@@ -60,10 +60,13 @@ void InputManager::Update()
 
 		if (oldState == 0 && state == 1)
 			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_DOWN); //이전 0, 현재 1 - KeyDown
+		
 		else if (oldState == 1 && state == 0)
 			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_UP); //이전 1, 현재 0 - KeyUp
+		
 		else if (oldState == 1 && state == 1)
 			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_PRESS); //이전 1, 현재 1 - KeyPress
+		
 		else
 			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_NONE);
 	}
@@ -94,7 +97,8 @@ void InputManager::Update()
 
 	POINT point = { 0, 0 };
 	GetCursorPos(&point);
-	ScreenToClient(Settings::GetInstance()->GetWindowHandle(), &point);
+	auto settings = Core::GetInstance()->GetSettings();
+	ScreenToClient(settings->GetWindowHandle(), &point);
 
 	wheelOldStatus.x = wheelStatus.x;
 	wheelOldStatus.y = wheelStatus.y;

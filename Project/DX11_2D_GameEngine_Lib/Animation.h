@@ -32,12 +32,14 @@ public:
 	}
 	const std::shared_ptr<Mesh> GetMesh() const { SAFE_GET_POINTER(this->m_p_mesh); }
 
+	//Animation Event
 	void SetAnimationEvent(const UINT& clip_index, std::function<void(void)> event_func);
+	void DoAnimationEvent(const UINT& clip_index);
+	void ResetAnimationEventFlag();
 
 	//애니메이션 1회 수행에 걸리는 시간 설정
 	const float& GetAnimationTime() const { return this->m_animation_time; }
 	void SetAnimationTime(const float& animation_time) { this->m_animation_time = animation_time; }
-
 
 	//애니메이션 프레임당 유지 시간
 	const float& GetAnimationFrameDuration() const { return this->m_animation_frame_duration; }
@@ -60,7 +62,7 @@ private:
 	std::vector<std::shared_ptr<Texture>> m_p_texture_vector;
 	std::shared_ptr<Mesh> m_p_mesh = nullptr;
 
-	std::map<int, std::function<void(void)>> m_animation_event_func_map;
+	std::map<UINT, std::pair<bool,std::function<void(void)>>> m_animation_event_func_map;
 
 	float m_animation_frame_duration = 0.0f;
 	float m_accumulate_time = 0.0f;

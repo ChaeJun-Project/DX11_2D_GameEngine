@@ -39,6 +39,6 @@ private:
 		return static_cast<UINT>(hasher(FileManager::ConvertWStringToString(guid_wstr)));
 	}
 
-protected:
-	UINT m_id;
+private:
+	UINT m_id = 0;
 };
