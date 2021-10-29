@@ -1,3 +1,6 @@
+#include "LightStruct.fx"
+
+#define PI 3.14159265f
 //GPU에서 사용할 Constant Buffer(cbuffer) 구조체 정의
 //CPU에서 사용하는 Constant Buffer 구조체와 변수의 크기 및 위치가 동일해야 
 //정확한 결과 값이 출력됨
@@ -42,13 +45,24 @@ cbuffer Material : register(b1)
 }
 
 //b2는 나중에 다른 버퍼를 만들 예정
-
-#include "LightStruct.fx"
-
 cbuffer Light : register(b3)
 {
     LightInfo g_light2D_array[50];
     uint g_light2D_count;
     uint3 padding;
 }
+
+//Texture2D: 텍스처 자원
+Texture2D g_Texture_0 : register(t0);
+Texture2D g_Texture_1 : register(t1);
+Texture2D g_Texture_2 : register(t2);
+Texture2D g_Texture_3 : register(t3);
+
+
+//SamplerState: 도형에 셰이딩 작업이 이루어질 때 
+//어떻게 텍스처의 픽셀이 사용되는 지를 수정할 수 있게 해줌
+//ex) 물체가 너무 멀리 있어 8픽셀만큼의 영역을 차지하는 경우 
+//이 객체를 사용하여 원래 텍스처의 어떤 픽셀 혹은 어떤 픽셀 조합을 사용해야 할지 결정
+SamplerState Sampler1 : register(s0);
+SamplerState Sampler2 : register(s1);
 

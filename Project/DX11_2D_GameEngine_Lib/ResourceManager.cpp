@@ -87,6 +87,21 @@ void ResourceManager::CreateShader()
 	assert(result);
 	if (!result)
 		return;
+
+	//Create Light2D Shader
+	shader = std::make_shared<Shader>("Standard_Light2D_Shader");
+	shader->AddAndCreateShader<VertexShader>("Shader/LightTextureShader.fx", "VS", "vs_5_0");
+	shader->AddAndCreateShader<PixelShader>("Shader/LightTextureShader.fx", "PS", "ps_5_0");
+
+	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
+	shader->SetBlendType(BlendType::Alpha_Blend);
+
+	shader_iter = this->m_p_shader_map.insert(std::make_pair(ShaderResourceType::Standard_Light2D, shader));
+	result = shader_iter.second;
+	assert(result);
+	if (!result)
+		return;
 }
 
 const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderResourceType& shader_type)

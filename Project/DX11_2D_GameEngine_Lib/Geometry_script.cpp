@@ -27,7 +27,7 @@ void Geometry_script::Initialize()
 
 	auto renderer = background->GetComponent<Renderer>();
 	auto material = renderer->GetMaterial();
-	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Standard));
+	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Standard_Light2D));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, resource_manager->LoadTexture("Texture/Geometry/Forest.gif"));
 	renderer->SetMesh(resource_manager->CreateMesh(resource_manager->GetTexture("Forest")->GetTextureSize()));
 
@@ -45,7 +45,7 @@ void Geometry_script::Initialize()
 
 	renderer = ground->GetComponent<Renderer>();
 	material = renderer->GetMaterial();
-	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Standard));
+	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Standard_Light2D));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, ResourceManager::GetInstance()->LoadTexture("Texture/Geometry/Ground.gif"));
 	renderer->SetMesh(resource_manager->CreateMesh(resource_manager->GetTexture("Ground")->GetTextureSize()));
 	

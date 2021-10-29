@@ -11,6 +11,7 @@
 #include "Animator.h"
 #include "Script.h"
 #include "Collider2D.h"
+#include "Light2D.h"
 
 template<typename T>
 constexpr ComponentType GameObject::GetComponentType()
@@ -25,6 +26,7 @@ REGISTER_COMPONENT_TYPE(Renderer, ComponentType::Renderer);
 REGISTER_COMPONENT_TYPE(Animator, ComponentType::Animator);
 REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
 REGISTER_COMPONENT_TYPE(Collider2D, ComponentType::Collider2D);
+REGISTER_COMPONENT_TYPE(Light2D, ComponentType::Light2D);
 
 GameObject::GameObject(const GameObject& origin)
 {

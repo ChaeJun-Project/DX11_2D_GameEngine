@@ -80,6 +80,7 @@ enum class ShaderResourceType : UINT
 {
 	Standard = 0,    //Draw Texture
 	Collider2D = 1,  //Draw Line
+	Standard_Light2D = 2, //Draw Texture & Light2D
 };
 
 enum PipelineStage : UINT

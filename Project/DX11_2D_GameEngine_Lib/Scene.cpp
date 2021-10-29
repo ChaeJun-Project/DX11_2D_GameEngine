@@ -30,12 +30,6 @@ void Scene::FinalUpdate()
 		layer.second->FinalUpdate();
 }
 
-void Scene::Render()
-{
-	for (auto& layer : this->m_layer_map)
-		layer.second->Render();
-}
-
 void Scene::AddGameObject(GameObject* p_game_object, UINT layer_index, bool is_move)
 {
 	auto pair_iter = this->m_layer_map.insert(std::make_pair(layer_index, std::make_shared<Layer>(layer_index)));

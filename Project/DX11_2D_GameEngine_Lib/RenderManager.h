@@ -14,7 +14,17 @@ public:
     void Render();
 
 public:
-    void RegisterCamera(Camera* p_camera, int camera_index);
+    //Camera
+    void RegisterCamera(Camera* p_camera, int& camera_index);
+
+	Camera* GetMainCamera();
+
+public:
+	//Light2D
+	void RegisterLight2D(Light2D* p_light2D, int& light2D_index);
+
+	//Scene에 사용되는 모든 Light2D 데이터 상수 버퍼에 업데이트
+	void UpdateConstantBuffer();
 
 private:
     //Scene에 있는 Camera

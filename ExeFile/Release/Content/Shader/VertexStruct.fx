@@ -33,3 +33,15 @@ struct VertexColorTextureOutputType
     float2 uv : TEXCOORD;
 };
 //====================================================
+
+//VertexColorTexture
+//====================================================
+//Vertex Shader ¹ÝÈ¯Çü(VertexColorTexture)
+struct VertexColorTextureLightOutputType
+{
+    float4 position : SV_Position;
+    float4 color : COLOR;
+    float3 world_position : POSITION;
+    float2 uv : TEXCOORD;
+};
+//====================================================

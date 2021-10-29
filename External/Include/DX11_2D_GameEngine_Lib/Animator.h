@@ -4,7 +4,7 @@
 
 class Animation;
 
-class Animator : public IComponent
+class Animator final : public IComponent
 {
 public:
 	Animator();

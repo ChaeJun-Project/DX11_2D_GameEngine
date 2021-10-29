@@ -33,6 +33,21 @@ void RockManZ_Script::Initialize()
 
 	//Damaged
 	this->m_p_animator->CreateAnimation("RockManZ_Damaged", "Texture/Player/RockManZ/Animation/Z09_Damaged/Damaged/", 0.5f, true);
+
+
+	//Light2D
+	auto point_light2D = new GameObject();
+	point_light2D->SetObjectName("Light2D_Point");
+	point_light2D->SetObjectTag("Light2D_Point");
+	point_light2D->AddComponent(new Transform());
+	point_light2D->AddComponent(new Light2D());
+
+	auto point_light = point_light2D->GetComponent<Light2D>();
+	point_light->SetLightType(LightType::Point);
+	point_light->SetLightRange(300.0f);
+	point_light->SetLightColor(Color4::White);
+
+	m_p_owner_game_object->AddChild(point_light2D);
 }
 
 void RockManZ_Script::Update()

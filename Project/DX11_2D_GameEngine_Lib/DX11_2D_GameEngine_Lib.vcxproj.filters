@@ -425,9 +425,6 @@
     <Filter Include="Resource\Material">
       <UniqueIdentifier>{164e4f82-07b4-4037-a4c1-ced9cff22988}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource\Animation">
-      <UniqueIdentifier>{faa04c74-5769-41a7-a2e0-5bcbd46d9d56}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\DX11_Graphics_Pipeline">
       <UniqueIdentifier>{76594865-25b3-4a19-b6e2-73303cff7e14}</UniqueIdentifier>
     </Filter>
@@ -554,6 +551,9 @@
     <Filter Include="Core\Settings">
       <UniqueIdentifier>{26862a5f-43ba-4430-a84c-160341066642}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource\Animation">
+      <UniqueIdentifier>{faa04c74-5769-41a7-a2e0-5bcbd46d9d56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ShaderFiles\ConstantBuffer.fx">
@@ -569,6 +569,12 @@
       <Filter>ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="ShaderFiles\LightStruct.fx">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\LightTextureShader.fx">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\ShaderFunc.fx">
       <Filter>ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

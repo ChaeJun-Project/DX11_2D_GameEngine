@@ -25,17 +25,6 @@ void GameLogic_Script::Initialize()
 	auto scene_manager = SceneManager::GetInstance();
 	auto current_scene = scene_manager->GetCurrentScene();
 
-	//Camera(1)
-	auto camera = new GameObject();
-	camera->SetObjectName("Main Camera");
-	camera->SetObjectTag("Camera");
-	camera->AddComponent(new Transform());
-	camera->AddComponent(new Camera());
-
-	camera->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, 0.0f, -5.0f));
-
-	current_scene->AddGameObject(camera, 1, true);
-
 	//Geometry(2)
 	auto geometry = new GameObject();
 	geometry->SetObjectName("Geometry");
@@ -64,8 +53,7 @@ void GameLogic_Script::Initialize()
 	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 33.0f - 321.5f), 0.0f));
 
 	rockmanZ->GetComponent<Script>()->Initialize();
-	
-	current_scene->AddGameObject(rockmanZ, 3, false);
+	current_scene->AddGameObject(rockmanZ, 3, true);
 
 	//Enemy(4)
 	auto walkconnon = new GameObject();
@@ -87,6 +75,7 @@ void GameLogic_Script::Initialize()
 
 	walkconnon->GetComponent<Script>()->Initialize();
 	current_scene->AddGameObject(walkconnon, 4, false);
+	
 	//scene_manager->CreatePrefab(walkconnon);
 	//this->m_p_walkman_prefab = ResourceManager::GetInstance()->GetPrefab("WalkCannon");
 

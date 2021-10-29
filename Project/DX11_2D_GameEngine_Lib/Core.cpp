@@ -18,6 +18,9 @@
 
 //SceneManager
 #include "SceneManager.h"
+
+//RenderManager
+#include "RenderManager.h"
 #pragma endregion
 
 Core::Core()
@@ -53,4 +56,8 @@ void Core::Progress()
 	InputManager::GetInstance()->Update();
 	//Update Scene Manager
 	SceneManager::GetInstance()->Update();
+	//Render Render Manager 
+	RenderManager::GetInstance()->Render();
+	//Update Event Manager
+	EventManager::GetInstance()->Update();
 }

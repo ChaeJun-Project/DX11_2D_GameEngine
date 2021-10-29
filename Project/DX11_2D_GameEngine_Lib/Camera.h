@@ -11,6 +11,8 @@ public:
     void Update() override;
     void FinalUpdate() override;
 
+    void Render();
+
 private:
     //뷰 행렬(메트릭스) 업데이트
     void UpdateViewMatrix();
@@ -18,6 +20,8 @@ private:
     void UpdateProjectionMatrix();
 
 public:
+    void SetMainCamera() { this->m_camera_index = 0; }
+
     const ProjectionType& GetProjectionType() const { return this->m_projection_type; }
     void SetProjectionType(const ProjectionType& projection_type) { this->m_projection_type = projection_type; }
 
@@ -34,9 +38,18 @@ public:
     const Matrix& GetProjectionMatrix() const { return this->m_projection_matrix; }
 
 public:
+     void CullingLayer(UINT layer_index); //토글 방식으로 구현(On/Off)
+     void CullingEverything() { this->m_culling_layer = 0xffffffff; } //32비트를 모두 1로 채움
+     void CullingNothing() { this->m_culling_layer = 1 << 0; } //32비트를 모두 0으로 채움
+
+public:
     CLONE(Camera);
 
 private:
+    //RenderManager에 등록될 카메라 인덱스 값
+    //메인 카메라의 index는 항상 0으로 고정
+    int m_camera_index = -1; 
+
     //카메라 투영 타입
     ProjectionType m_projection_type = ProjectionType::Orthographic;
     
@@ -48,5 +61,7 @@ private:
 
     Matrix m_view_matrix = Matrix::Identity;
     Matrix m_projection_matrix = Matrix::Identity;
+
+    UINT m_culling_layer = 1 << 0;
 };
 
