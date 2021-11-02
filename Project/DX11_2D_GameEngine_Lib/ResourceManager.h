@@ -27,10 +27,12 @@ public:
 	const std::shared_ptr<Material>& GetMaterialResource(const std::string& material_name);
 	//Texture
 	const std::shared_ptr<Texture>& LoadTexture(const std::string& texture_path);
+	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
+	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D);
 	const std::shared_ptr<Texture>& GetTexture(const std::string& texture_name);
 	//Mesh
-	const std::shared_ptr<Mesh>& CreateMesh(const Vector2& mesh_size);
-	const std::shared_ptr<Mesh>& GetMesh(const Vector2& mesh_size);
+	const std::shared_ptr<Mesh>& CreateMesh(const MeshType& mesh_type, const UINT& width, const UINT& height);
+	const std::shared_ptr<Mesh>& GetMesh(const UINT& width, const UINT& height);
 	//Prefab
 	void AddPrefab(const std::string& prefab_object_name, GameObject* p_game_object);
 	const std::shared_ptr<Prefab>& GetPrefab(const std::string& game_object_name);

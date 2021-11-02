@@ -17,34 +17,34 @@
 ResourceManager::~ResourceManager()
 {
 	//Shader
-	for (auto& shader : this->m_p_shader_map)
+	for (auto& shader : m_p_shader_map)
 		shader.second.reset();
 	
-	this->m_p_shader_map.clear();
+	m_p_shader_map.clear();
 
 	//Material
-	for (auto& material : this->m_p_material_map)
+	for (auto& material : m_p_material_map)
 		material.second.reset();
 
-	this->m_p_material_map.clear();
+	m_p_material_map.clear();
 
 	//Texture
-	for (auto& texture : this->m_p_textrue_map)
+	for (auto& texture : m_p_textrue_map)
 		texture.second.reset();
 
-	this->m_p_textrue_map.clear();
+	m_p_textrue_map.clear();
 
 	//Mesh
-	for (auto& mesh : this->m_p_mesh_map)
+	for (auto& mesh : m_p_mesh_map)
 		mesh.second.reset();
 
-	this->m_p_mesh_map.clear();
+	m_p_mesh_map.clear();
 
 	//Prefab
-	for (auto& prefab : this->m_p_prefab_map)
+	for (auto& prefab : m_p_prefab_map)
 		prefab.second.reset();
 
-	this->m_p_prefab_map.clear();
+	m_p_prefab_map.clear();
 }
 
 void ResourceManager::Initialize()
@@ -52,7 +52,7 @@ void ResourceManager::Initialize()
 	CreateShader();
 	CreateMaterial();
 	//Collider2D 전용 Mesh 생성
-	CreateMesh(Vector2(100.0f, 100.0f));
+	CreateMesh(MeshType::Rectangle, 100, 100);
 }
 
 void ResourceManager::CreateShader()
@@ -66,7 +66,7 @@ void ResourceManager::CreateShader()
 	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
 	shader->SetBlendType(BlendType::Alpha_Blend);
 
-	auto shader_iter = this->m_p_shader_map.insert(std::make_pair(ShaderResourceType::Standard, shader));
+	auto shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Standard, shader));
 	auto result = shader_iter.second;
 	assert(result);
 	if (!result)
@@ -82,7 +82,7 @@ void ResourceManager::CreateShader()
 	shader->SetBlendType(BlendType::Default);
 	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP); //선으로 그리기
 
-	shader_iter = this->m_p_shader_map.insert(std::make_pair(ShaderResourceType::Collider2D, shader));
+	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Collider2D, shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
@@ -97,7 +97,7 @@ void ResourceManager::CreateShader()
 	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
 	shader->SetBlendType(BlendType::Alpha_Blend);
 
-	shader_iter = this->m_p_shader_map.insert(std::make_pair(ShaderResourceType::Standard_Light2D, shader));
+	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Standard_Light2D, shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
@@ -106,9 +106,9 @@ void ResourceManager::CreateShader()
 
 const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderResourceType& shader_type)
 {
-	auto shader_iter = this->m_p_shader_map.find(shader_type);
+	auto shader_iter = m_p_shader_map.find(shader_type);
 
-	if (shader_iter == this->m_p_shader_map.end())
+	if (shader_iter == m_p_shader_map.end())
 		return nullptr;
 
 	return std::dynamic_pointer_cast<Shader>(shader_iter->second);
@@ -121,7 +121,7 @@ void ResourceManager::CreateMaterial()
 	auto material = std::make_shared<Material>(material_name);
 	material->SetShader(GetShaderResource(ShaderResourceType::Collider2D));
 
-	auto material_iter = this->m_p_material_map.insert(std::make_pair(material_name, material));
+	auto material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
 	auto result = material_iter.second;
 	assert(result);
 	if (!result)
@@ -135,7 +135,7 @@ void ResourceManager::CreateMaterial()
 	int a = 1;
 	material->SetConstantBufferData(Material_Parameter::INT_0, &a, nullptr);
 
-	material_iter = this->m_p_material_map.insert(std::make_pair(material_name, material));
+	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
 	result = material_iter.second;
 	assert(result);
 	if (!result)
@@ -149,7 +149,7 @@ void ResourceManager::CreateMaterial()
 	a = 1;
 	material->SetConstantBufferData(Material_Parameter::INT_1, &a, nullptr);
 
-	material_iter = this->m_p_material_map.insert(std::make_pair(material_name, material));
+	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
 	result = material_iter.second;
 	assert(result);
 	if (!result)
@@ -158,9 +158,9 @@ void ResourceManager::CreateMaterial()
 
 const std::shared_ptr<Material>& ResourceManager::GetMaterialResource(const std::string& material_name)
 {
-	auto material_iter = this->m_p_material_map.find(material_name);
+	auto material_iter = m_p_material_map.find(material_name);
 
-	if (material_iter == this->m_p_material_map.end())
+	if (material_iter == m_p_material_map.end())
 		return nullptr;
 
 	return std::dynamic_pointer_cast<Material>(material_iter->second);
@@ -183,7 +183,49 @@ const std::shared_ptr<Texture>& ResourceManager::LoadTexture(const std::string& 
 
 	//해당 이름의 texture가 없는 경우 => 새로 생성
 	//확장자가 포함된 파일 이름에서 확장자 부분을 뺀 string을 해당 텍스처의 리소스 이름으로 설정
-	auto texture_iter = this->m_p_textrue_map.insert(std::make_pair(file_name, new_texture));
+	auto texture_iter = m_p_textrue_map.insert(std::make_pair(file_name, new_texture));
+	auto result = texture_iter.second;
+	assert(result);
+	if (!result)
+		return nullptr;
+
+	return std::dynamic_pointer_cast<Texture>(texture_iter.first->second);
+}
+
+const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage)
+{
+	auto texture = GetTexture(texture_name);
+
+	//해당 이름의 texture가 존재하는 경우
+	if (texture != nullptr)
+		return texture;
+
+	auto new_texture = std::make_shared<Texture>(texture_name);
+	new_texture->Create(width, height, texture_format, bind_flage);
+
+	//해당 이름의 texture가 없는 경우 => 새로 생성
+	auto texture_iter = m_p_textrue_map.insert(std::make_pair(texture_name, new_texture));
+	auto result = texture_iter.second;
+	assert(result);
+	if (!result)
+		return nullptr;
+
+	return std::dynamic_pointer_cast<Texture>(texture_iter.first->second);
+}
+
+const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D)
+{
+	auto texture = GetTexture(texture_name);
+
+	//해당 이름의 texture가 존재하는 경우
+	if (texture != nullptr)
+		return texture;
+
+	auto new_texture = std::make_shared<Texture>(texture_name);
+	new_texture->Create(texture2D);
+
+	//해당 이름의 texture가 없는 경우 => 새로 생성
+	auto texture_iter = m_p_textrue_map.insert(std::make_pair(texture_name, new_texture));
 	auto result = texture_iter.second;
 	assert(result);
 	if (!result)
@@ -194,32 +236,30 @@ const std::shared_ptr<Texture>& ResourceManager::LoadTexture(const std::string& 
 
 const std::shared_ptr<Texture>& ResourceManager::GetTexture(const std::string& texture_name)
 {
-	auto texture_iter = this->m_p_textrue_map.find(texture_name);
+	auto texture_iter = m_p_textrue_map.find(texture_name);
 
 	//해당 텍스처를 찾지 못했을 경우
-	if (texture_iter == this->m_p_textrue_map.end())
+	if (texture_iter == m_p_textrue_map.end())
 		return nullptr;
 
 	return std::dynamic_pointer_cast<Texture>(texture_iter->second);
 }
 
-const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const Vector2& mesh_size)
+const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const MeshType& mesh_type, const UINT& width, const UINT& height)
 {
-	auto mesh = GetMesh(mesh_size);
+	auto mesh = GetMesh(width, height);
 
 	//해당 사이즈의 mesh가 존재하는 경우
 	if (mesh != nullptr)
 		return mesh;
 
-	auto width = static_cast<UINT>(mesh_size.x);
-	auto height = static_cast<UINT>(mesh_size.y);
 	//해당 사이즈의 mesh가 없는 경우 => 새로 생성
 	//Create Standard Shader
 	//매쉬의 크기값으로 저장하고 리소스 이름으로 설정
 	auto new_mesh = std::make_shared<Mesh>(std::to_string(width) + "x" + std::to_string(height) + "_Mesh");
-	new_mesh->Create(MeshType::Rectangle, mesh_size);
+	new_mesh->Create(mesh_type, width, height);
 
-	auto mesh_iter = this->m_p_mesh_map.insert(std::make_pair(std::make_pair(width, height), new_mesh));
+	auto mesh_iter = m_p_mesh_map.insert(std::make_pair(std::make_pair(width, height), new_mesh));
 	auto result = mesh_iter.second;
 	assert(result);
 	if (!result)
@@ -228,14 +268,12 @@ const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const Vector2& mesh_siz
 	return std::dynamic_pointer_cast<Mesh>(mesh_iter.first->second);
 }
 
-const std::shared_ptr<Mesh>& ResourceManager::GetMesh(const Vector2& mesh_size)
+const std::shared_ptr<Mesh>& ResourceManager::GetMesh(const UINT& width, const UINT& height)
 {
-	auto width = static_cast<UINT>(mesh_size.x);
-	auto height = static_cast<UINT>(mesh_size.y);
-	auto mesh_iter = this->m_p_mesh_map.find(std::pair(width, height));
+	auto mesh_iter = m_p_mesh_map.find(std::pair(width, height));
 
 	//해당 사이즈의 메쉬를 찾지 못했을 경우
-	if (mesh_iter == this->m_p_mesh_map.end())
+	if (mesh_iter == m_p_mesh_map.end())
 		return nullptr;
 
 	return std::dynamic_pointer_cast<Mesh>(mesh_iter->second);
@@ -248,17 +286,17 @@ void ResourceManager::AddPrefab(const std::string& prefab_object_name, GameObjec
 
 	//프리팹 오브젝트 생성(복사생성자 호출)
 	Prefab* p_prefab = new Prefab(p_game_object);
-	auto prefab_iter = this->m_p_prefab_map.insert(std::make_pair(prefab_object_name, p_prefab));
+	auto prefab_iter = m_p_prefab_map.insert(std::make_pair(prefab_object_name, p_prefab));
 	auto result = prefab_iter.second;
 	assert(result);
 }
 
 const std::shared_ptr<Prefab>& ResourceManager::GetPrefab(const std::string& game_object_name)
 {
-	auto prefab_iter = this->m_p_prefab_map.find(game_object_name);
+	auto prefab_iter = m_p_prefab_map.find(game_object_name);
 
 	//해당 프리팹 오브젝트를 찾지 못했을 경우
-	if (prefab_iter == this->m_p_prefab_map.end())
+	if (prefab_iter == m_p_prefab_map.end())
 		return nullptr;
 
 	return std::dynamic_pointer_cast<Prefab>(prefab_iter->second);

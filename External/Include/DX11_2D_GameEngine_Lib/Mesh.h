@@ -8,7 +8,7 @@ public:
 	Mesh(const std::string& resource_name);
 	~Mesh();
 
-	void Create(const MeshType& mesh_type, const Vector2& mesh_size);
+	void Create(const MeshType& mesh_type, const UINT& width, const UINT& height);
 
 	void BindPipeline() override;
 
@@ -36,5 +36,6 @@ private:
 	std::shared_ptr<IndexBuffer> m_p_index_buffer = nullptr;
 
 	MeshType m_mesh_type = MeshType::Rectangle;
-	Vector2 m_mesh_size = Vector2::Zero;
+	UINT m_width = 0;
+	UINT m_height = 0;
 };

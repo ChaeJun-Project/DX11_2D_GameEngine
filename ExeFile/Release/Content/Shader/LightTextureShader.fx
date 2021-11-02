@@ -1,4 +1,8 @@
+#ifndef LightTextureShader
+#define LightTextureShader
+
 #include "VertexStruct.fx"
+#include "ConstantBuffer.fx"
 #include "ShaderFunc.fx"
 
 //RS State에서 Solid 사용
@@ -38,7 +42,10 @@ float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
     
     ps_output_color = g_Texture_0.Sample(Sampler1, ps_input.uv);
     
+    //각 색상 성분에 맞는 rgb값을 곱함
     ps_output_color.rgb *= light_color.color.rgb;
  
     return ps_output_color;
 }
+
+#endif

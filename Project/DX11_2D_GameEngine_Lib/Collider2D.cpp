@@ -4,7 +4,7 @@
 Collider2D::Collider2D()
 	:IComponent(ComponentType::Collider2D)
 {
-	this->m_p_mesh = ResourceManager::GetInstance()->GetMesh(Vector2(100.0f, 100.0f));
+	this->m_p_mesh = ResourceManager::GetInstance()->GetMesh(100, 100);
 	this->m_p_material = ResourceManager::GetInstance()->GetMaterialResource("Collider2D_Green");
 }
 

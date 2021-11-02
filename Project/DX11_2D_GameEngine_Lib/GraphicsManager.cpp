@@ -4,6 +4,8 @@
 #include "Core.h"
 #include "Settings.h"
 
+#include "ResourceManager.h"
+
 GraphicsManager::GraphicsManager()
 {
 	//뷰 포트 구조체 0으로 초기화
@@ -20,26 +22,29 @@ GraphicsManager::~GraphicsManager()
 		m_p_swap_chain->SetFullscreenState(false, nullptr);
 	}
 
+	m_p_render_target_view.reset();
+	m_p_depth_stencil_view.reset();
+
 	//Constant Buffer Map 초기화
-	for (auto& constant_buffer : this->m_p_constant_buffer_map)
+	for (auto& constant_buffer : m_p_constant_buffer_map)
 	{
 		constant_buffer.second.reset();
 	}
-	this->m_p_constant_buffer_map.clear();
+	m_p_constant_buffer_map.clear();
 
 	//Sampler Vector 초기화
-	for (auto& sampler : this->m_p_sampler_map)
+	for (auto& sampler : m_p_sampler_map)
 	{
 		sampler.second.reset();
 	}
-	this->m_p_sampler_map.clear();
+	m_p_sampler_map.clear();
 
 	//Blender Map 초기화
-	for (auto& blender : this->m_p_blender_map)
+	for (auto& blender : m_p_blender_map)
 	{
 		blender.second.reset();
 	}
-	this->m_p_blender_map.clear();
+	m_p_blender_map.clear();
 }
 
 void GraphicsManager::Initialize()
@@ -162,9 +167,11 @@ void GraphicsManager::ResizeWindowByProgram(const UINT& width, const UINT& heigh
 
 void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 {
-	//RenderTargetView 자원 해제
-	auto p_render_target_view = m_p_render_target_view.Get();
-	SAFE_RELEASE(p_render_target_view);
+	if (m_p_render_target_view != nullptr)
+	{
+		auto p_render_target_view = m_p_render_target_view->GetRenderTargetView();
+		SAFE_RELEASE(p_render_target_view);
+	}
 
 	if (m_p_swap_chain != nullptr)
 	{
@@ -184,7 +191,7 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 
 	//DepthStencil 관련 자원 생성
 	CreateDepthStencilView();
-	
+
 	//Viewport 재설정
 	SetViewport(width, height);
 
@@ -217,14 +224,17 @@ void GraphicsManager::BeginScene()
 {
 	if (m_p_device_context && m_p_render_target_view && m_p_depth_stencil_view)
 	{
+		auto p_render_target_view = m_p_render_target_view->GetRenderTargetView();
+		auto p_depth_stencil_view = m_p_depth_stencil_view->GetDepthStencilView();
+
 		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
-		m_p_device_context->OMSetRenderTargets(1, m_p_render_target_view.GetAddressOf(), m_p_depth_stencil_view.Get());
+		m_p_device_context->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
 		//설정한 뷰포트 등록
 		m_p_device_context->RSSetViewports(1, &m_viewport);
 		//백 버퍼(render_target_view)에 그려진 내용 지우기
-		m_p_device_context->ClearRenderTargetView(m_p_render_target_view.Get(), m_clear_color);
+		m_p_device_context->ClearRenderTargetView(p_render_target_view, m_clear_color);
 		//깊이 버퍼 내용 지우기
-		m_p_device_context->ClearDepthStencilView(m_p_depth_stencil_view.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		m_p_device_context->ClearDepthStencilView(p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 }
 
@@ -380,14 +390,11 @@ void GraphicsManager::CreateRenderTargetView()
 		);
 
 		//백 버퍼를 바탕으로 렌더타겟 뷰를 생성
-		if (m_p_device)
-			hResult = m_p_device->CreateRenderTargetView
-			(
-				p_back_buffer.Get(),
-				nullptr,
-				m_p_render_target_view.GetAddressOf()
-			);
-		assert(SUCCEEDED(hResult));
+		m_p_render_target_view = ResourceManager::GetInstance()->CreateTexture
+		(
+			"RenderTargetView",
+			p_back_buffer
+		);
 	}
 }
 
@@ -397,53 +404,21 @@ void GraphicsManager::CreateDepthStencilView()
 	{
 		auto settings = Core::GetInstance()->GetSettings();
 
-		//Swap Chain의 백 버퍼의 정보를 받아올 포인터 변수
-		//함수 종료 시 자동으로 자원 해제
-		ComPtr<ID3D11Texture2D> p_depth_stencil_texture = nullptr;
-
-		//DepthStencil 전용 텍스처 구조체 설정
-		D3D11_TEXTURE2D_DESC desc;
-		ZeroMemory(&desc, sizeof(D3D11_TEXTURE2D_DESC));
-
-		desc.Width = settings->GetWindowWidth();
-		desc.Height = settings->GetWindowHeight();
-
-		desc.MipLevels = 1;
-		desc.ArraySize = 1;
-
-		//3바이트는 Depth 값, 1바이트는 Stencil 값 저장
-		desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-		desc.SampleDesc.Count = 1;
-		desc.SampleDesc.Quality = 0;
-
-		desc.Usage = D3D11_USAGE_DEFAULT;
-		desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-
-		//설정한 구조체 정보를 바탕으로 DepthStencil 전용 텍스처 생성 
-		auto hResult = m_p_device->CreateTexture2D
+		m_p_depth_stencil_view = ResourceManager::GetInstance()->CreateTexture
 		(
-			&desc,
-			0,
-			p_depth_stencil_texture.GetAddressOf()
+			"DepthStencilView",
+			settings->GetWindowWidth(),
+			settings->GetWindowHeight(),
+			DXGI_FORMAT_D24_UNORM_S8_UINT,
+			D3D11_BIND_DEPTH_STENCIL
 		);
-		assert(SUCCEEDED(hResult));
-
-		//깊이 정보를 가지고 있는 텍스처를 바탕으로
-		//깊이 뷰를 생성
-		hResult = m_p_device->CreateDepthStencilView
-		(
-			p_depth_stencil_texture.Get(),
-			nullptr,
-			m_p_depth_stencil_view.GetAddressOf()
-		);
-		assert(SUCCEEDED(hResult));
 	}
 }
 
 void GraphicsManager::CreateConstantBuffers()
 {
 	//WVPMatrix
-	auto pair_iter = this->m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::WVPMatrix, std::make_shared<ConstantBuffer>()));
+	auto pair_iter = m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::WVPMatrix, std::make_shared<ConstantBuffer>()));
 	auto result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -452,7 +427,7 @@ void GraphicsManager::CreateConstantBuffers()
 	}
 
 	//Material
-	pair_iter = this->m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Material, std::make_shared<ConstantBuffer>()));
+	pair_iter = m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Material, std::make_shared<ConstantBuffer>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -461,7 +436,7 @@ void GraphicsManager::CreateConstantBuffers()
 	}
 
 	//Light2D
-	pair_iter = this->m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Light2D, std::make_shared<ConstantBuffer>()));
+	pair_iter = m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Light2D, std::make_shared<ConstantBuffer>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -473,7 +448,7 @@ void GraphicsManager::CreateConstantBuffers()
 void GraphicsManager::CreateRasterizer()
 {
 	//Cull Back Solid
-	auto pair_iter = this->m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_Back_Solid, std::make_shared<RasterizerState>()));
+	auto pair_iter = m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_Back_Solid, std::make_shared<RasterizerState>()));
 	auto result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -486,7 +461,7 @@ void GraphicsManager::CreateRasterizer()
 	}
 
 	//Cull Front Solid
-	pair_iter = this->m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_Front_Solid, std::make_shared<RasterizerState>()));
+	pair_iter = m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_Front_Solid, std::make_shared<RasterizerState>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -499,7 +474,7 @@ void GraphicsManager::CreateRasterizer()
 	}
 
 	//Cull None Solid
-	pair_iter = this->m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_None_Solid, std::make_shared<RasterizerState>()));
+	pair_iter = m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_None_Solid, std::make_shared<RasterizerState>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -512,7 +487,7 @@ void GraphicsManager::CreateRasterizer()
 	}
 
 	//Cull None WireFrame
-	pair_iter = this->m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_None_WireFrame, std::make_shared<RasterizerState>()));
+	pair_iter = m_p_rasterizer_map.insert(std::make_pair(RasterizerType::Cull_None_WireFrame, std::make_shared<RasterizerState>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -528,7 +503,7 @@ void GraphicsManager::CreateRasterizer()
 void GraphicsManager::CreateSampler()
 {
 	//Sampler1
-	auto pair_iter = this->m_p_sampler_map.insert(std::make_pair("Sampler1", std::make_shared<SamplerState>()));
+	auto pair_iter = m_p_sampler_map.insert(std::make_pair("Sampler1", std::make_shared<SamplerState>()));
 	auto result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -542,7 +517,7 @@ void GraphicsManager::CreateSampler()
 	}
 
 	//Sampler2
-	pair_iter = this->m_p_sampler_map.insert(std::make_pair("Sampler2", std::make_shared<SamplerState>()));
+	pair_iter = m_p_sampler_map.insert(std::make_pair("Sampler2", std::make_shared<SamplerState>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -558,22 +533,22 @@ void GraphicsManager::CreateSampler()
 	//Set Sampler
 	ID3D11SamplerState* sampler_array[2]
 	{
-	   this->m_p_sampler_map["Sampler1"]->GetSamplerState(),
-	   this->m_p_sampler_map["Sampler2"]->GetSamplerState()
+	   m_p_sampler_map["Sampler1"]->GetSamplerState(),
+	   m_p_sampler_map["Sampler2"]->GetSamplerState()
 	};
 
-	this->m_p_device_context->VSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
-	this->m_p_device_context->HSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
-	this->m_p_device_context->DSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
-	this->m_p_device_context->GSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
-	this->m_p_device_context->PSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
-	this->m_p_device_context->CSSetSamplers(0, static_cast<UINT>(this->m_p_sampler_map.size()), sampler_array);
+	m_p_device_context->VSSetSamplers(0, static_cast<UINT>(m_p_sampler_map.size()), sampler_array);
+	m_p_device_context->HSSetSamplers(0, static_cast<UINT>(m_p_sampler_map.size()), sampler_array);
+	m_p_device_context->DSSetSamplers(0, static_cast<UINT>(m_p_sampler_map.size()), sampler_array);
+	m_p_device_context->GSSetSamplers(0, static_cast<UINT>(m_p_sampler_map.size()), sampler_array);
+	m_p_device_context->PSSetSamplers(0, static_cast<UINT>(m_p_sampler_map.size()), sampler_array);
+	m_p_device_context->CSSetSamplers(0, static_cast<UINT>(m_p_sampler_map.size()), sampler_array);
 }
 
 void GraphicsManager::CreateDepthStencil()
 {
 	//Less DepthStencilState(default)
-	auto pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::Less, std::make_shared<DepthStencilState>()));
+	auto pair_iter = m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::Less, std::make_shared<DepthStencilState>()));
 	auto result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -582,7 +557,7 @@ void GraphicsManager::CreateDepthStencil()
 	}
 
 	//Less_Equal DepthStencilState
-	pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::Less_Equal, std::make_shared<DepthStencilState>()));
+	pair_iter = m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::Less_Equal, std::make_shared<DepthStencilState>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -591,7 +566,7 @@ void GraphicsManager::CreateDepthStencil()
 	}
 
 	//Grater DepthStencilState
-	pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::Grater, std::make_shared<DepthStencilState>()));
+	pair_iter = m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::Grater, std::make_shared<DepthStencilState>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -600,7 +575,7 @@ void GraphicsManager::CreateDepthStencil()
 	}
 
 	//No Test DepthStencilState
-	pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::No_Test, std::make_shared<DepthStencilState>()));
+	pair_iter = m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::No_Test, std::make_shared<DepthStencilState>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -609,7 +584,7 @@ void GraphicsManager::CreateDepthStencil()
 	}
 
 	//No Write DepthStencilState
-	pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::No_Write, std::make_shared<DepthStencilState>()));
+	pair_iter = m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::No_Write, std::make_shared<DepthStencilState>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -618,7 +593,7 @@ void GraphicsManager::CreateDepthStencil()
 	}
 
 	//No Test No Write DepthStencilState
-	pair_iter = this->m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::No_Test_No_Write, std::make_shared<DepthStencilState>()));
+	pair_iter = m_p_depth_stecil_map.insert(std::make_pair(DepthStencilType::No_Test_No_Write, std::make_shared<DepthStencilState>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -630,7 +605,7 @@ void GraphicsManager::CreateDepthStencil()
 void GraphicsManager::CreateBlender()
 {
 	//Default Blender
-	auto pair_iter = this->m_p_blender_map.insert(std::make_pair(BlendType::Default, std::make_shared<BlendState>()));
+	auto pair_iter = m_p_blender_map.insert(std::make_pair(BlendType::Default, std::make_shared<BlendState>()));
 	auto result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -639,7 +614,7 @@ void GraphicsManager::CreateBlender()
 	}
 
 	//Alpha Blender
-	pair_iter = this->m_p_blender_map.insert(std::make_pair(BlendType::Alpha_Blend, std::make_shared<BlendState>()));
+	pair_iter = m_p_blender_map.insert(std::make_pair(BlendType::Alpha_Blend, std::make_shared<BlendState>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -648,7 +623,7 @@ void GraphicsManager::CreateBlender()
 	}
 
 	//One One Blender
-	pair_iter = this->m_p_blender_map.insert(std::make_pair(BlendType::One_One, std::make_shared<BlendState>()));
+	pair_iter = m_p_blender_map.insert(std::make_pair(BlendType::One_One, std::make_shared<BlendState>()));
 	result = pair_iter.second;
 	assert(result);
 	if (result)
@@ -659,8 +634,8 @@ void GraphicsManager::CreateBlender()
 
 const std::shared_ptr<ConstantBuffer>& GraphicsManager::GetConstantBuffer(const CBuffer_BindSlot& bind_slot)
 {
-	auto map_iter = this->m_p_constant_buffer_map.find(bind_slot);
-	auto result = (map_iter != this->m_p_constant_buffer_map.end());
+	auto map_iter = m_p_constant_buffer_map.find(bind_slot);
+	auto result = (map_iter != m_p_constant_buffer_map.end());
 	assert(result);
 	if (result)
 	{
@@ -672,8 +647,8 @@ const std::shared_ptr<ConstantBuffer>& GraphicsManager::GetConstantBuffer(const 
 
 const std::shared_ptr<RasterizerState>& GraphicsManager::GetRasterizer(const RasterizerType& rasterizer_type)
 {
-	auto map_iter = this->m_p_rasterizer_map.find(rasterizer_type);
-	auto result = (map_iter != this->m_p_rasterizer_map.end());
+	auto map_iter = m_p_rasterizer_map.find(rasterizer_type);
+	auto result = (map_iter != m_p_rasterizer_map.end());
 	assert(result);
 	if (result)
 	{
@@ -685,8 +660,8 @@ const std::shared_ptr<RasterizerState>& GraphicsManager::GetRasterizer(const Ras
 
 const std::shared_ptr<DepthStencilState>& GraphicsManager::GetDepthStencilState(const DepthStencilType& depth_stencil_type)
 {
-	auto map_iter = this->m_p_depth_stecil_map.find(depth_stencil_type);
-	auto result = (map_iter != this->m_p_depth_stecil_map.end());
+	auto map_iter = m_p_depth_stecil_map.find(depth_stencil_type);
+	auto result = (map_iter != m_p_depth_stecil_map.end());
 	assert(result);
 	if (result)
 	{
@@ -698,8 +673,8 @@ const std::shared_ptr<DepthStencilState>& GraphicsManager::GetDepthStencilState(
 
 const std::shared_ptr<BlendState>& GraphicsManager::GetBlender(const BlendType& blend_type)
 {
-	auto map_iter = this->m_p_blender_map.find(blend_type);
-	auto result = (map_iter != this->m_p_blender_map.end());
+	auto map_iter = m_p_blender_map.find(blend_type);
+	auto result = (map_iter != m_p_blender_map.end());
 	assert(result);
 	if (result)
 	{

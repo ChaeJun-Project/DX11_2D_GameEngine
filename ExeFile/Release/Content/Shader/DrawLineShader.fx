@@ -1,3 +1,6 @@
+#ifndef DrawLineShader
+#define DrawLineShader
+
 #include "VertexStruct.fx"
 #include "ConstantBuffer.fx"
 
@@ -35,3 +38,5 @@ float4 PS(VertexColorOuputType ps_input) : SV_Target
     
     return ps_input.color;
 }
+
+#endif

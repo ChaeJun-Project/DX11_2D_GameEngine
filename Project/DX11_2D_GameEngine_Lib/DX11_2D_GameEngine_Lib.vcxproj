@@ -52,6 +52,9 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <EnableUnitySupport>true</EnableUnitySupport>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -134,6 +137,10 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>.\;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinFilesInUnityFile>8</MinFilesInUnityFile>
+      <UnityFilesDirectory>$(ProjectDir)\UnityBuild\</UnityFilesDirectory>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <IncludeInUnityFile>true</IncludeInUnityFile>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -189,6 +196,7 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider2D.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="ComputeShader.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantStruct.h" />
     <ClInclude Include="Core.h" />
@@ -255,6 +263,7 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider2D.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="ComputeShader.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="ConstantStruct.cpp" />
     <ClCompile Include="Core.cpp" />

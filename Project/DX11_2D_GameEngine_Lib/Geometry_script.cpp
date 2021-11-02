@@ -3,6 +3,8 @@
 
 #include "Scene.h"
 
+#include "ResourceManager.h"
+
 Geometry_script::Geometry_script()
 {
 }
@@ -29,7 +31,8 @@ void Geometry_script::Initialize()
 	auto material = renderer->GetMaterial();
 	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Standard_Light2D));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, resource_manager->LoadTexture("Texture/Geometry/Forest.gif"));
-	renderer->SetMesh(resource_manager->CreateMesh(resource_manager->GetTexture("Forest")->GetTextureSize()));
+	auto texture = resource_manager->GetTexture("Forest");
+	renderer->SetMesh(resource_manager->CreateMesh(MeshType::Rectangle, texture->GetWidth(), texture->GetHeight()));
 
 	background->GetComponent<Transform>()->SetScale(Vector3(6.0f, 6.0f, 1.0f));
 
@@ -47,7 +50,8 @@ void Geometry_script::Initialize()
 	material = renderer->GetMaterial();
 	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Standard_Light2D));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, ResourceManager::GetInstance()->LoadTexture("Texture/Geometry/Ground.gif"));
-	renderer->SetMesh(resource_manager->CreateMesh(resource_manager->GetTexture("Ground")->GetTextureSize()));
+	texture = resource_manager->GetTexture("Ground");
+	renderer->SetMesh(resource_manager->CreateMesh(MeshType::Rectangle, texture->GetWidth(), texture->GetHeight()));
 	
 	auto collider2D = ground->GetComponent<Collider2D>();
 	collider2D->SetOffsetPos(Vector3(0.0f, -0.16f, 0.0f));

@@ -45,6 +45,7 @@ enum class ShaderType : UINT
 	DS = 3, //Domain Shader
 	GS = 4, //Geometry Shader
 	PS = 5, //Pixel Shader
+	CS = 6, //Compute Shader
 };
 
 //Rasterizer State Type(Shader 사용)
@@ -104,9 +105,9 @@ enum class ComponentType : UINT
 	Animator = 4,
 	Script = 5,
 	Collider2D = 6,
-	RigidBody2D = 7,
-	Light2D = 8,
-	Light3D = 9,
+	Light2D = 7,
+	ParticleSystem = 8,
+	RigidBody2D = 9,
 };
 
 //Projection Type(Camera 사용)

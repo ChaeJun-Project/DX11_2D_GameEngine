@@ -95,7 +95,7 @@
       <Filter>Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>Scene\Components\Transform</Filter>
+      <Filter>Scene\Components\1. Transform</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Scene\GameObject</Filter>
@@ -113,7 +113,7 @@
       <Filter>Resource\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Scene\Components\Camera</Filter>
+      <Filter>Scene\Components\2. Camera</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Manager\Scene</Filter>
@@ -128,19 +128,19 @@
       <Filter>Scene\Layer</Filter>
     </ClInclude>
     <ClInclude Include="Animator.h">
-      <Filter>Scene\Components\Animator</Filter>
+      <Filter>Scene\Components\4. Animator</Filter>
     </ClInclude>
     <ClInclude Include="Script.h">
-      <Filter>Scene\Components\Script</Filter>
+      <Filter>Scene\Components\5. Script</Filter>
     </ClInclude>
     <ClInclude Include="RockManZ_Script.h">
-      <Filter>Scene\Components\Script\Player\RockManZ</Filter>
+      <Filter>Scene\Components\5. Script\Player\RockManZ</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Resource\Material</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Scene\Components\Renderer</Filter>
+      <Filter>Scene\Components\3. Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Resource\Mesh</Filter>
@@ -158,7 +158,7 @@
       <Filter>Core\DX11_Graphics_Pipeline\RS%28Rasterizer%29</Filter>
     </ClInclude>
     <ClInclude Include="Collider2D.h">
-      <Filter>Scene\Components\Collider2D</Filter>
+      <Filter>Scene\Components\6. Collider2D</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>Manager\Collision</Filter>
@@ -167,22 +167,22 @@
       <Filter>Resource\Prefab</Filter>
     </ClInclude>
     <ClInclude Include="WalkCannon_Script.h">
-      <Filter>Scene\Components\Script\Enemy\WalkCannon</Filter>
+      <Filter>Scene\Components\5. Script\Enemy\WalkCannon</Filter>
     </ClInclude>
     <ClInclude Include="WalkCannon_Bullet_Script.h">
-      <Filter>Scene\Components\Script\Enemy\WalkCannon</Filter>
+      <Filter>Scene\Components\5. Script\Enemy\WalkCannon</Filter>
     </ClInclude>
     <ClInclude Include="GameLogic_Script.h">
-      <Filter>Scene\Components\Script\GameLogic</Filter>
+      <Filter>Scene\Components\5. Script\GameLogic</Filter>
     </ClInclude>
     <ClInclude Include="Geometry_script.h">
-      <Filter>Scene\Components\Script\Geometry</Filter>
+      <Filter>Scene\Components\5. Script\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="DX11Object.h">
       <Filter>DX11ObjectID</Filter>
     </ClInclude>
     <ClInclude Include="Light2D.h">
-      <Filter>Scene\Components\Light2D</Filter>
+      <Filter>Scene\Components\7. Light2D</Filter>
     </ClInclude>
     <ClInclude Include="RenderManager.h">
       <Filter>Manager\Render</Filter>
@@ -192,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="Math\SimpleMath.h">
       <Filter>Math\SimpleMath</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputeShader.h">
+      <Filter>Core\DX11_Graphics_Pipeline\Shaders\6. Compute Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -262,7 +265,7 @@
       <Filter>Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>Scene\Components\Transform</Filter>
+      <Filter>Scene\Components\1. Transform</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Manager\Resource</Filter>
@@ -274,7 +277,7 @@
       <Filter>Resource\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Scene\Components\Camera</Filter>
+      <Filter>Scene\Components\2. Camera</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Manager\Scene</Filter>
@@ -292,19 +295,19 @@
       <Filter>Scene\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Animator.cpp">
-      <Filter>Scene\Components\Animator</Filter>
+      <Filter>Scene\Components\4. Animator</Filter>
     </ClCompile>
     <ClCompile Include="Script.cpp">
-      <Filter>Scene\Components\Script</Filter>
+      <Filter>Scene\Components\5. Script</Filter>
     </ClCompile>
     <ClCompile Include="RockManZ_Script.cpp">
-      <Filter>Scene\Components\Script\Player\RockManZ</Filter>
+      <Filter>Scene\Components\5. Script\Player\RockManZ</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Resource\Material</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Scene\Components\Renderer</Filter>
+      <Filter>Scene\Components\3. Renderer</Filter>
     </ClCompile>
     <ClCompile Include="ConstantStruct.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
@@ -325,7 +328,7 @@
       <Filter>Core\DX11_Graphics_Pipeline\RS%28Rasterizer%29</Filter>
     </ClCompile>
     <ClCompile Include="Collider2D.cpp">
-      <Filter>Scene\Components\Collider2D</Filter>
+      <Filter>Scene\Components\6. Collider2D</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Manager\Collision</Filter>
@@ -334,25 +337,28 @@
       <Filter>Resource\Prefab</Filter>
     </ClCompile>
     <ClCompile Include="WalkCannon_Script.cpp">
-      <Filter>Scene\Components\Script\Enemy\WalkCannon</Filter>
+      <Filter>Scene\Components\5. Script\Enemy\WalkCannon</Filter>
     </ClCompile>
     <ClCompile Include="WalkCannon_Bullet_Script.cpp">
-      <Filter>Scene\Components\Script\Enemy\WalkCannon</Filter>
+      <Filter>Scene\Components\5. Script\Enemy\WalkCannon</Filter>
     </ClCompile>
     <ClCompile Include="GameLogic_Script.cpp">
-      <Filter>Scene\Components\Script\GameLogic</Filter>
+      <Filter>Scene\Components\5. Script\GameLogic</Filter>
     </ClCompile>
     <ClCompile Include="Geometry_script.cpp">
-      <Filter>Scene\Components\Script\Geometry</Filter>
+      <Filter>Scene\Components\5. Script\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Light2D.cpp">
-      <Filter>Scene\Components\Light2D</Filter>
+      <Filter>Scene\Components\7. Light2D</Filter>
     </ClCompile>
     <ClCompile Include="RenderManager.cpp">
       <Filter>Manager\Render</Filter>
     </ClCompile>
     <ClCompile Include="Core.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputeShader.cpp">
+      <Filter>Core\DX11_Graphics_Pipeline\Shaders\6. Compute Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -485,24 +491,6 @@
     <Filter Include="Scene\Components">
       <UniqueIdentifier>{6421e76f-148d-406a-ae49-9e542ef7b9e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Components\Camera">
-      <UniqueIdentifier>{5010c158-ab20-4dff-a899-f82268185cb5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Transform">
-      <UniqueIdentifier>{32df9ce1-9516-42d1-be20-592ddad9c92e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Animator">
-      <UniqueIdentifier>{7defdf6b-a0f1-4cf9-a2f8-a9511e904d01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Renderer">
-      <UniqueIdentifier>{964d467a-c2ac-4b30-bade-9303fcfa8d86}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script">
-      <UniqueIdentifier>{45b73adf-3a03-4022-97d9-4cd397f02347}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Collider2D">
-      <UniqueIdentifier>{14e46d7e-1d3f-411e-9839-aa5f81ebc0e5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\GameStage">
       <UniqueIdentifier>{c6f3a3f5-7761-4aeb-9189-b3844b0801b8}</UniqueIdentifier>
     </Filter>
@@ -511,33 +499,6 @@
     </Filter>
     <Filter Include="Resource\Prefab">
       <UniqueIdentifier>{a14a227f-488a-4c0a-9743-b57f2207ab74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\Enemy">
-      <UniqueIdentifier>{27876332-0b17-4f54-badf-9e964659e75c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\Player">
-      <UniqueIdentifier>{0ef02b3c-a1f1-420f-becd-2fdf0f3c1d0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\Player\RockManZ">
-      <UniqueIdentifier>{1059a6e4-27b6-422c-b93e-095e805be973}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\Enemy\WalkCannon">
-      <UniqueIdentifier>{5149de55-85c1-4516-a402-693ecbcd560e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\GameLogic">
-      <UniqueIdentifier>{15436bf0-a034-4139-aade-4762881e2255}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\Geometry">
-      <UniqueIdentifier>{b00526e5-1da4-43f6-a7a8-942fbdb4f8a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Light2D">
-      <UniqueIdentifier>{770b0f97-b957-4c96-99c2-3917a381147d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Light3D">
-      <UniqueIdentifier>{310fde24-0805-4a40-aa0e-c1be899d491a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Collider3D">
-      <UniqueIdentifier>{1a990695-91b7-4a97-bc43-c16bfae2e311}</UniqueIdentifier>
     </Filter>
     <Filter Include="Manager\Render">
       <UniqueIdentifier>{c67424bc-2d93-44cb-8149-dbadb43bdcb6}</UniqueIdentifier>
@@ -554,28 +515,88 @@
     <Filter Include="Resource\Animation">
       <UniqueIdentifier>{faa04c74-5769-41a7-a2e0-5bcbd46d9d56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ShaderFiles\ConstantBuffer">
+      <UniqueIdentifier>{f1f0f4df-29e4-4036-b5b8-bae155d7a046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderFiles\Shader">
+      <UniqueIdentifier>{df104664-263c-4969-bb22-3feadb8a215d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderFiles\Struct">
+      <UniqueIdentifier>{03513415-be9f-4860-903e-f276293c4ba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderFiles\Func">
+      <UniqueIdentifier>{b85421d1-5534-4e73-b5bb-ba666d8b2d67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\1. Transform">
+      <UniqueIdentifier>{32df9ce1-9516-42d1-be20-592ddad9c92e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\2. Camera">
+      <UniqueIdentifier>{5010c158-ab20-4dff-a899-f82268185cb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\3. Renderer">
+      <UniqueIdentifier>{964d467a-c2ac-4b30-bade-9303fcfa8d86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\4. Animator">
+      <UniqueIdentifier>{7defdf6b-a0f1-4cf9-a2f8-a9511e904d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\5. Script">
+      <UniqueIdentifier>{45b73adf-3a03-4022-97d9-4cd397f02347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\5. Script\Enemy">
+      <UniqueIdentifier>{27876332-0b17-4f54-badf-9e964659e75c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\5. Script\Enemy\WalkCannon">
+      <UniqueIdentifier>{5149de55-85c1-4516-a402-693ecbcd560e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\5. Script\Player">
+      <UniqueIdentifier>{0ef02b3c-a1f1-420f-becd-2fdf0f3c1d0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\5. Script\Player\RockManZ">
+      <UniqueIdentifier>{1059a6e4-27b6-422c-b93e-095e805be973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\5. Script\GameLogic">
+      <UniqueIdentifier>{15436bf0-a034-4139-aade-4762881e2255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\5. Script\Geometry">
+      <UniqueIdentifier>{b00526e5-1da4-43f6-a7a8-942fbdb4f8a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\6. Collider2D">
+      <UniqueIdentifier>{14e46d7e-1d3f-411e-9839-aa5f81ebc0e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\7. Light2D">
+      <UniqueIdentifier>{770b0f97-b957-4c96-99c2-3917a381147d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\8. ParticleSystem">
+      <UniqueIdentifier>{40af64c4-72d9-41b2-910c-26d40443fc6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\9. RigidBody2D">
+      <UniqueIdentifier>{d2d07f09-99cb-4b37-87e9-883f49dd265f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\6. Compute Shader">
+      <UniqueIdentifier>{601a225d-b77c-4cb1-ba7e-ddf0efa8bc7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ShaderFiles\ConstantBuffer.fx">
-      <Filter>ShaderFiles</Filter>
+      <Filter>ShaderFiles\ConstantBuffer</Filter>
     </FxCompile>
     <FxCompile Include="ShaderFiles\DrawLineShader.fx">
-      <Filter>ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="ShaderFiles\VertexStruct.fx">
-      <Filter>ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="ShaderFiles\TextureShader.fx">
-      <Filter>ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="ShaderFiles\LightStruct.fx">
-      <Filter>ShaderFiles</Filter>
+      <Filter>ShaderFiles\Shader</Filter>
     </FxCompile>
     <FxCompile Include="ShaderFiles\LightTextureShader.fx">
-      <Filter>ShaderFiles</Filter>
+      <Filter>ShaderFiles\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\TextureShader.fx">
+      <Filter>ShaderFiles\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\LightStruct.fx">
+      <Filter>ShaderFiles\Struct</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\VertexStruct.fx">
+      <Filter>ShaderFiles\Struct</Filter>
     </FxCompile>
     <FxCompile Include="ShaderFiles\ShaderFunc.fx">
-      <Filter>ShaderFiles</Filter>
+      <Filter>ShaderFiles\Func</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

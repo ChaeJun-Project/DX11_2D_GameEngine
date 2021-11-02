@@ -1,3 +1,5 @@
+#ifndef VertexStruct
+#define VertexStruct
 //Vertex 정보에 관한 구조체 정의
 
 //VertexColor
@@ -45,3 +47,5 @@ struct VertexColorTextureLightOutputType
     float2 uv : TEXCOORD;
 };
 //====================================================
+
+#endif

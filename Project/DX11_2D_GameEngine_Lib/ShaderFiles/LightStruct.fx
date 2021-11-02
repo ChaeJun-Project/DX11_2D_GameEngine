@@ -1,3 +1,6 @@
+#ifndef LightStruct
+#define LightStruct
+
 struct LightColor
 {
     float4 color;
@@ -17,3 +20,6 @@ struct LightInfo
     float light_angle;
     float3 padding;
 };
+
+#endif
+

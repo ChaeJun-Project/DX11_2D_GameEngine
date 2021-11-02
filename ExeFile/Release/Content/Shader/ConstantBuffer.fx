@@ -1,4 +1,5 @@
-#include "LightStruct.fx"
+#ifndef ConstantBuffer
+#define ConstantBuffer
 
 #define PI 3.14159265f
 //GPU에서 사용할 Constant Buffer(cbuffer) 구조체 정의
@@ -44,6 +45,8 @@ cbuffer Material : register(b1)
     row_major matrix g_matrix_3;
 }
 
+#include "LightStruct.fx"
+
 //b2는 나중에 다른 버퍼를 만들 예정
 cbuffer Light : register(b3)
 {
@@ -66,3 +69,4 @@ Texture2D g_Texture_3 : register(t3);
 SamplerState Sampler1 : register(s0);
 SamplerState Sampler2 : register(s1);
 
+#endif

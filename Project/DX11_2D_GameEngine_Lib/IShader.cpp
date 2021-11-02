@@ -8,8 +8,35 @@ const bool IShader::GetShaderError(const HRESULT& hResult, ID3DBlob* shader_erro
 		if (shader_error)
 		{
 		   std::string error_str = static_cast<const char*>(shader_error->GetBufferPointer());
+
+		   std::string shader_type;
+
+		   switch (this->m_shader_type)
+		   {
+		   case ShaderType::VS:
+			   shader_type = "Vertex Shader";
+			   break;
+		   case ShaderType::HS:
+			   shader_type = "Hull Shader";
+			   break;
+		   case ShaderType::DS:
+			   shader_type = "Domain Shader";
+			   break;
+		   case ShaderType::GS:
+			   shader_type = "Geometry Shader";
+			   break;
+		   case ShaderType::PS:
+			   shader_type = "Pixel Shader";
+			   break;
+		   case ShaderType::CS:
+			   shader_type = "Compute Shader";
+			   break;
+		   }
+
+		   shader_type += " Error!";
+
 		   //Shader 컴파일 시 오류 메시지를 띄움
-		   MessageBoxA(nullptr, error_str.c_str(), "Shader Error!", MB_OK);
+		   MessageBoxA(nullptr, error_str.c_str(), shader_type.c_str() , MB_OK);
 		}
 		return false;
 	}

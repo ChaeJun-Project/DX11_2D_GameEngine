@@ -1,3 +1,6 @@
+#ifndef TextureShader
+#define TextureShader
+
 #include "VertexStruct.fx"
 #include "ConstantBuffer.fx"
 
@@ -33,3 +36,5 @@ float4 PS(VertexColorTextureOutputType ps_input) : SV_Target
  
     return ps_output_color;
 }
+
+#endif

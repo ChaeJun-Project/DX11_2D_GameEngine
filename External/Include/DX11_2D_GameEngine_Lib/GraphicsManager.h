@@ -6,6 +6,8 @@ class SamplerState;
 class BlendState;
 class DepthStencilState;
 
+class Texture;
+
 class GraphicsManager final : public Singleton<GraphicsManager>
 {
 	SINGLETON(GraphicsManager);
@@ -67,10 +69,10 @@ private:
 
 	//출력을 하는 도화지 역할
 	//Swap Chain의 백 버퍼를 렌더타겟 뷰로 만듦
-	ComPtr<ID3D11RenderTargetView> m_p_render_target_view = nullptr;
+	std::shared_ptr<Texture> m_p_render_target_view;
 
 	//깊이 값을 가지고 있음
-	ComPtr<ID3D11DepthStencilView> m_p_depth_stencil_view = nullptr;
+	std::shared_ptr<Texture> m_p_depth_stencil_view;
 
 	//보여지는 영역
 	//렌더링된 렌더 타켓의 그림을 윈도우로 옮길 때 어떤 방식으로 가져올지 설정

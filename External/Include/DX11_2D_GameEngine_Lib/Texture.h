@@ -19,8 +19,12 @@ public:
 
 	void LoadFromFile(const std::string& texture_path) override;
 	void SaveFile(const std::string& texture_path) override;
-
+	
 	void BindPipeline() override;
+
+public:
+    void Create(const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
+	void Create(const ComPtr<ID3D11Texture2D>& texture2D);
 
 private:
 	const HRESULT& GetScratchImage(const std::wstring& texture_path, ScratchImage& image);
@@ -32,18 +36,31 @@ public:
 		this->m_texture_bind_slot = texture_bind_slot;
 	}
 
-	ID3D11Texture2D* GetTexture2D() const { SAFE_GET_POINTER(this->m_p_texture.Get()); }
+	ID3D11Texture2D* GetTexture2D() const { SAFE_GET_POINTER(this->m_p_texture2D.Get()); }
+
+	ID3D11RenderTargetView* GetRenderTargetView() const { SAFE_GET_POINTER(this->m_p_render_target_view.Get()); }
+	ID3D11DepthStencilView* GetDepthStencilView() const { SAFE_GET_POINTER(this->m_p_depth_stencil_view.Get()); }
 	ID3D11ShaderResourceView* GetShaderResourceView() const { SAFE_GET_POINTER(this->m_p_shader_resource_view.Get()); }
-	const UINT& GetTextureBindStage() const { return this->m_texture_bind_stage; }
-	const UINT& GetTextureBindSlot() const { return this->m_texture_bind_slot; }
-	const Vector2& GetTextureSize() const { return this->m_texture_size; }
+	ID3D11UnorderedAccessView* GetUnorderedAccessView() const { SAFE_GET_POINTER(this->m_p_unordered_access_view.Get()); }
+	
+	//Texture Bind Stage
+	const UINT& GetTextureBindStage() const { return static_cast<UINT>(this->m_texture_bind_stage); }
+	//Texture Bind Slot 
+	const UINT& GetTextureBindSlot() const { return static_cast<UINT>(this->m_texture_bind_slot); }
+	//Texture Size
+	const UINT& GetWidth() const { return this->m_texture_desc.Width; }
+	const UINT& GetHeight() const { return this->m_texture_desc.Height; }
 
 private:
-	ComPtr<ID3D11Texture2D> m_p_texture = nullptr;
-	ComPtr<ID3D11ShaderResourceView> m_p_shader_resource_view = nullptr;
+	ComPtr<ID3D11Texture2D> m_p_texture2D = nullptr;
+	D3D11_TEXTURE2D_DESC m_texture_desc;
 
-	UINT m_texture_bind_stage; //텍스처 바인드 단계
-	UINT m_texture_bind_slot; //텍스처 바인드 슬롯 번호
-	Vector2 m_texture_size; //x: 텍스처 너비, y: 텍스처 높이
+	ComPtr<ID3D11RenderTargetView> m_p_render_target_view = nullptr;
+	ComPtr<ID3D11DepthStencilView> m_p_depth_stencil_view = nullptr;
+	ComPtr<ID3D11ShaderResourceView> m_p_shader_resource_view = nullptr;
+	ComPtr<ID3D11UnorderedAccessView> m_p_unordered_access_view = nullptr;
+
+	int m_texture_bind_stage = -1; //텍스처 바인드 단계
+	int m_texture_bind_slot = -1; //텍스처 바인드 슬롯 번호
 };
 

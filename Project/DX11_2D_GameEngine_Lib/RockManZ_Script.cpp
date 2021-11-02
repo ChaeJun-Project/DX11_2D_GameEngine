@@ -44,7 +44,7 @@ void RockManZ_Script::Initialize()
 
 	auto point_light = point_light2D->GetComponent<Light2D>();
 	point_light->SetLightType(LightType::Point);
-	point_light->SetLightRange(300.0f);
+	point_light->SetLightRange(500.0f);
 	point_light->SetLightColor(Color4::White);
 
 	m_p_owner_game_object->AddChild(point_light2D);
