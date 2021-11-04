@@ -25,7 +25,8 @@ void Material::BindPipeline()
 	{
 		if (this->m_p_texture_vector[i] != nullptr)
 		{
-			this->m_p_texture_vector[i]->SetPipelineStage(PipelineStage::ALL, i);
+			this->m_p_texture_vector[i]->SetPipelineStage(PipelineStage::ALL);
+			this->m_p_texture_vector[i]->SetBindSlot(i);
 			this->m_p_texture_vector[i]->BindPipeline();
 		}
 	}

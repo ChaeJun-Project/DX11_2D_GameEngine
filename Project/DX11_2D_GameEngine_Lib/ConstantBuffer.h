@@ -19,10 +19,10 @@ public:
 	void BindPipeline();
 
 public:
-    const UINT& GetBufferBindSlot() { return this->m_buffer_bind_slot; }
+    const UINT& GetBufferBindSlot() { return m_buffer_bind_slot; }
 
-	const UINT& GetBufferBindStage() { return this->m_buffer_bind_stage; }
-	void SetBufferBindStage(const PipelineStage& buffer_bind_stage) { this->m_buffer_bind_stage = buffer_bind_stage; }
+	const UINT& GetBufferBindStage() { return m_buffer_bind_stage; }
+	void SetBufferBindStage(const PipelineStage& buffer_bind_stage) { m_buffer_bind_stage = static_cast<UINT>(buffer_bind_stage); }
 
 private:
 	ComPtr<ID3D11Buffer> m_p_buffer = nullptr;
@@ -35,7 +35,7 @@ template<typename T>
 inline void ConstantBuffer::Create(const UINT& buffer_bind_slot, const D3D11_USAGE& usage)
 {
     //Constant Buffer 바인드 슬롯 설정
-    this->m_buffer_bind_slot = buffer_bind_slot;
+    m_buffer_bind_slot = buffer_bind_slot;
 
     //Constant Buffer 정의
 	D3D11_BUFFER_DESC desc;
@@ -69,13 +69,13 @@ inline void ConstantBuffer::Create(const UINT& buffer_bind_slot, const D3D11_USA
 		break;
 	}
 	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER; //해당 Buffer를 Constant Buffer로 사용
-	desc.ByteWidth = this->m_buffer_size = sizeof(T); //Constant Buffer의 총 크기
+	desc.ByteWidth = m_buffer_size = sizeof(T); //Constant Buffer의 총 크기
 
 	//Constant Buffer 생성
 	//Constant Buffer는 다른 buffer들과 다르게 D3D11_SUBRESOURCE_DATA가 필요하지않음
 	//고정되어 있는 실제 데이터가 아니고 계속 변경되는 값이기 때문
 	auto device = GraphicsManager::GetInstance()->GetDevice();
-	auto hResult = device->CreateBuffer(&desc, nullptr, this->m_p_buffer.GetAddressOf());
+	auto hResult = device->CreateBuffer(&desc, nullptr, m_p_buffer.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return;

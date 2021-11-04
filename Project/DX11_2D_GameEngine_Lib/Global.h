@@ -63,6 +63,7 @@ using namespace DirectX::PackedVector;
 #pragma region D3D11BufferStruct
 #include "VertexStruct.h"
 #include "ConstantStruct.h"
+#include "StructuredStruct.h"
 #pragma endregion
 
 #pragma region Manager

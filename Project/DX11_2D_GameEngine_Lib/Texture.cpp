@@ -82,41 +82,6 @@ void Texture::SaveFile(const std::string& texture_path)
 {
 }
 
-void Texture::BindPipeline()
-{
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
-
-	//Vertex Shader Stage
-	if (m_texture_bind_stage & PipelineStage::VS)
-	{
-		device_context->VSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
-	}
-
-	//Hull Shader Stage
-	if (m_texture_bind_stage & PipelineStage::HS)
-	{
-		device_context->HSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
-	}
-
-	//Domain Shader Stage
-	if (m_texture_bind_stage & PipelineStage::DS)
-	{
-		device_context->DSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
-	}
-
-	//Geometry Shader Stage
-	if (m_texture_bind_stage & PipelineStage::GS)
-	{
-		device_context->GSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
-	}
-
-	//Pixel Shader Stage
-	if (m_texture_bind_stage & PipelineStage::PS)
-	{
-		device_context->PSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
-	}
-}
-
 void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage)
 {
 	m_texture_desc.Width = width;
@@ -256,4 +221,105 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 			assert(SUCCEEDED(hResult));
 		}
 	}
+}
+
+void Texture::BindPipeline()
+{
+	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+
+	//Vertex Shader Stage
+	if (m_texture_bind_stage & PipelineStage::VS)
+	{
+		device_context->VSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
+	}
+
+	//Hull Shader Stage
+	if (m_texture_bind_stage & PipelineStage::HS)
+	{
+		device_context->HSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
+	}
+
+	//Domain Shader Stage
+	if (m_texture_bind_stage & PipelineStage::DS)
+	{
+		device_context->DSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
+	}
+
+	//Geometry Shader Stage
+	if (m_texture_bind_stage & PipelineStage::GS)
+	{
+		device_context->GSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
+	}
+
+	//Pixel Shader Stage
+	if (m_texture_bind_stage & PipelineStage::PS)
+	{
+		device_context->PSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
+	}
+
+	//Compute Shader Stage
+	if (m_texture_bind_stage & PipelineStage::CS)
+	{
+		device_context->CSSetShaderResources(m_texture_bind_slot, 1, m_p_shader_resource_view.GetAddressOf());
+	}
+}
+
+void Texture::BindPipelineRW(const UINT& unordered_bind_slot)
+{
+	m_unordered_bind_slot = unordered_bind_slot;
+
+	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+
+	//Compute Shader Stage
+	ID3D11UnorderedAccessView* p_unordered_access_view = nullptr;
+	UINT i = -1;
+	device_context->CSSetUnorderedAccessViews(m_unordered_bind_slot, 1, &p_unordered_access_view, &i);
+}
+
+void Texture::Clear()
+{
+	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+
+	//Clear Shader Resource View
+	ID3D11ShaderResourceView* p_shader_resource_view = nullptr;
+	//Vertex Shader Stage
+	if (m_texture_bind_stage & PipelineStage::VS)
+	{
+		device_context->VSSetShaderResources(m_texture_bind_slot, 1, &p_shader_resource_view);
+	}
+
+	//Hull Shader Stage
+	if (m_texture_bind_stage & PipelineStage::HS)
+	{
+		device_context->HSSetShaderResources(m_texture_bind_slot, 1, &p_shader_resource_view);
+	}
+
+	//Domain Shader Stage
+	if (m_texture_bind_stage & PipelineStage::DS)
+	{
+		device_context->DSSetShaderResources(m_texture_bind_slot, 1, &p_shader_resource_view);
+	}
+
+	//Geometry Shader Stage
+	if (m_texture_bind_stage & PipelineStage::GS)
+	{
+		device_context->GSSetShaderResources(m_texture_bind_slot, 1, &p_shader_resource_view);
+	}
+
+	//Pixel Shader Stage
+	if (m_texture_bind_stage & PipelineStage::PS)
+	{
+		device_context->PSSetShaderResources(m_texture_bind_slot, 1, &p_shader_resource_view);
+	}
+
+	//Compute Shader Stage
+	if (m_texture_bind_stage & PipelineStage::CS)
+	{
+		device_context->PSSetShaderResources(m_texture_bind_slot, 1, &p_shader_resource_view);
+	}
+
+	//Clear Unordered Access View
+	ID3D11UnorderedAccessView* p_unordered_access_view = nullptr;
+	UINT i = -1;
+	device_context->CSSetUnorderedAccessViews(m_unordered_bind_slot, 1, &p_unordered_access_view, &i);
 }

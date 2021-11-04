@@ -10,27 +10,27 @@
 
 CollisionManager::CollisionManager()
 {
-	this->m_check_vector.reserve(32);
-	this->m_check_vector.resize(32);
+	m_check_vector.reserve(32);
+	m_check_vector.resize(32);
 
 	ResetCheckVector();
 }
 
 CollisionManager::~CollisionManager()
 {
-	this->m_check_vector.clear();
-	this->m_check_vector.shrink_to_fit();
+	m_check_vector.clear();
+	m_check_vector.shrink_to_fit();
 
-	this->m_collision_check_map.clear();
+	m_collision_check_map.clear();
 }
 
 void CollisionManager::Update()
 {
 	//행 개수만큼 반복
-	for (UINT row = 0; row < static_cast<UINT>(this->m_check_vector.size()); ++row)
+	for (UINT row = 0; row < static_cast<UINT>(m_check_vector.size()); ++row)
 	{
 		//중복되는 경우를 뺀 열의 개수만큼 반복
-		for (UINT column = row; column < static_cast<UINT>(this->m_check_vector.size()); ++column)
+		for (UINT column = row; column < static_cast<UINT>(m_check_vector.size()); ++column)
 		{
 			//이미 체크가 된 경우
 			if (m_check_vector[row] & (1 << column))
@@ -68,26 +68,32 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 			colider_id.left_id = left_collider->GetObjectID();
 			colider_id.right_id = right_collider->GetObjectID();
 
-			iter = this->m_collision_check_map.find(colider_id.ID);
+			iter = m_collision_check_map.find(colider_id.ID);
 
-			if (iter == this->m_collision_check_map.end())
+			//해당하는 Colider ID를 찾지 못했다면
+			if (iter == m_collision_check_map.end())
 			{
-				this->m_collision_check_map.insert(std::make_pair(colider_id.ID, false));
-				iter = this->m_collision_check_map.find(colider_id.ID);
+				m_collision_check_map.insert(std::make_pair(colider_id.ID, false));
+				iter = m_collision_check_map.find(colider_id.ID);
 			}
 
+			//현재 충돌한 경우
 			if (IsCollision(left_collider, right_collider))
 			{
+				//이전에도 충돌하고 있었던 경우
 				if (iter->second)
 				{
-					// 이전에도 충돌 하고 있었다.
+					//둘중 하나 또는 모두 삭제 예정인 경우
 					if (left_layer_game_objects[i]->IsDead() || right_layer_game_objects[j]->IsDead())
 					{
-						// 근데 둘중 하나가 삭제 예정이라면, 충돌 해제시켜준다.
+					    //충돌처리 해제
 						left_collider->OnCollisionExit(right_collider);
 						right_collider->OnCollisionExit(left_collider);
 						iter->second = false;
 					}
+
+					//둘중 하나 또는 모두 삭제 예정이 아닌 경우
+					//계속 충돌하고 있음
 					else
 					{
 						left_collider->OnCollision(right_collider);
@@ -95,24 +101,27 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 					}
 				}
 
+				//이전에는 충돌하지 않았던 경우(처음 충돌하는 경우)
 				else
 				{
-					// 이전에는 충돌하지 않았다.
-					// 근데 둘중 하나가 삭제 예정이라면, 충돌하지 않은것으로 취급
+					//둘 다 삭제 예정이 아닌 경우
 					if (!left_layer_game_objects[i]->IsDead() && !right_layer_game_objects[j]->IsDead())
 					{
+					    //충돌처리
 						left_collider->OnCollisionEnter(right_collider);
 						right_collider->OnCollisionEnter(left_collider);
 						iter->second = true;
 					}
 				}
 			}
+
+			//현재 충돌하지 않은 경우
 			else
 			{
-				// 현재 충돌하고 있지 않다.
+				//과거에 충돌했었던 경우
 				if (iter->second)
 				{
-					// 이전에는 충돌하고 있었다.
+					//충돌처리 해제
 					left_collider->OnCollisionExit(right_collider);
 					right_collider->OnCollisionExit(left_collider);
 					iter->second = false;

@@ -4,7 +4,7 @@
 void ConstantBuffer::SetConstantBufferData(const void* buffer_data, const UINT& buffer_size)
 {
     //생성 시 정해진 버퍼 사이즈보다 입력할 버퍼 사이즈가 큰 경우
-    auto result = this->m_buffer_size >= buffer_size? true : false;
+    auto result = m_buffer_size >= buffer_size? true : false;
 	assert(result);
 	if (!result)
 		return;
@@ -34,28 +34,28 @@ void ConstantBuffer::SetConstantBufferData(const void* buffer_data, const UINT& 
 void ConstantBuffer::BindPipeline()
 {
 	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
-	if (this->m_buffer_bind_stage & PipelineStage::VS)
+	if (m_buffer_bind_stage & PipelineStage::VS)
 	{
-		device_context->VSSetConstantBuffers(this->m_buffer_bind_slot, 1, this->m_p_buffer.GetAddressOf()); // b0 레지스터에 상수버퍼 바인딩(vertex shader 실행 시)	
+		device_context->VSSetConstantBuffers(m_buffer_bind_slot, 1, m_p_buffer.GetAddressOf()); // b0 레지스터에 상수버퍼 바인딩(vertex shader 실행 시)	
 	}
 
-	if (this->m_buffer_bind_stage & PipelineStage::HS)
+	if (m_buffer_bind_stage & PipelineStage::HS)
 	{
-		device_context->HSSetConstantBuffers(this->m_buffer_bind_slot, 1, this->m_p_buffer.GetAddressOf());
+		device_context->HSSetConstantBuffers(m_buffer_bind_slot, 1, m_p_buffer.GetAddressOf());
 	}
 
-	if (this->m_buffer_bind_stage & PipelineStage::DS)
+	if (m_buffer_bind_stage & PipelineStage::DS)
 	{
-		device_context->DSSetConstantBuffers(this->m_buffer_bind_slot, 1, this->m_p_buffer.GetAddressOf());
+		device_context->DSSetConstantBuffers(m_buffer_bind_slot, 1, m_p_buffer.GetAddressOf());
 	}
 
-	if (this->m_buffer_bind_stage & PipelineStage::GS)
+	if (m_buffer_bind_stage & PipelineStage::GS)
 	{
-		device_context->GSSetConstantBuffers(this->m_buffer_bind_slot, 1, this->m_p_buffer.GetAddressOf());
+		device_context->GSSetConstantBuffers(m_buffer_bind_slot, 1, m_p_buffer.GetAddressOf());
 	}
 
-	if (this->m_buffer_bind_stage & PipelineStage::PS)
+	if (m_buffer_bind_stage & PipelineStage::PS)
 	{
-		device_context->PSSetConstantBuffers(this->m_buffer_bind_slot, 1, this->m_p_buffer.GetAddressOf());
+		device_context->PSSetConstantBuffers(m_buffer_bind_slot, 1, m_p_buffer.GetAddressOf());
 	}
 }

@@ -139,7 +139,7 @@ void Mesh::CreateCircleMesh()
 {
 	//Vertex
 	//mesh 사이즈(x와 y 값) 중 작은 사이즈를 반지름으로 결정
-	float radius = m_width <= m_height ? m_width : m_height;
+	float radius = m_width <= m_height ? static_cast<float>(m_width) : static_cast<float>(m_height);
 	UINT slice_count = 100; //원을 나눌 조각 수
 	float step_theta = XM_2PI / static_cast<float>(slice_count); //2PI = 360도, 조각당 각도
 		

@@ -91,6 +91,7 @@ enum PipelineStage : UINT
 	DS = 1U << 2, //0100, Domain Shader
 	GS = 1U << 3, //1000, Geometry Shader
 	PS = 1U << 4, //1 0000, Pixel Shader
+	CS = 1U << 5, //11 0000, Compute Shader
 
 	ALL = VS | HS | DS | GS | PS,
 };

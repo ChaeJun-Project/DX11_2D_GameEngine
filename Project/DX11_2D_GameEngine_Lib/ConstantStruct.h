@@ -1,13 +1,12 @@
 #pragma once
 
-#include "stdafx.h"
-
 enum class CBuffer_BindSlot : UINT
 {
 	WVPMatrix = 0,
 	Material = 1,
 
 	Light2D = 3,
+	Particle = 4,
 };
 
 //======================================
@@ -97,5 +96,17 @@ struct CBuffer_Light2D
 	Vector3 padding;
 };
 
+//======================================
+//Light2D
+//======================================
+struct CBuffer_Particle
+{
+	Vector3 particle_position;
+	Vector4 particle_color;
+	Vector3 particle_scale;
+
+	float particle_current_time;
+	float particle_life_time;
+};
 
 
