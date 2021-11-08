@@ -22,7 +22,7 @@ public:
     const UINT& GetBufferBindSlot() { return m_buffer_bind_slot; }
 
 	const UINT& GetBufferBindStage() { return m_buffer_bind_stage; }
-	void SetBufferBindStage(const PipelineStage& buffer_bind_stage) { m_buffer_bind_stage = static_cast<UINT>(buffer_bind_stage); }
+	void SetBufferBindStage(UINT buffer_bind_stage) { m_buffer_bind_stage = buffer_bind_stage; }
 
 private:
 	ComPtr<ID3D11Buffer> m_p_buffer = nullptr;

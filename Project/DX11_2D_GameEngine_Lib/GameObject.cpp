@@ -12,6 +12,7 @@
 #include "Script.h"
 #include "Collider2D.h"
 #include "Light2D.h"
+#include "ParticleSystem.h"
 
 template<typename T>
 constexpr ComponentType GameObject::GetComponentType()
@@ -27,6 +28,7 @@ REGISTER_COMPONENT_TYPE(Animator, ComponentType::Animator);
 REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
 REGISTER_COMPONENT_TYPE(Collider2D, ComponentType::Collider2D);
 REGISTER_COMPONENT_TYPE(Light2D, ComponentType::Light2D);
+REGISTER_COMPONENT_TYPE(ParticleSystem, ComponentType::ParticleSystem);
 
 GameObject::GameObject(const GameObject& origin)
 {
@@ -109,6 +111,11 @@ void GameObject::Render()
 	auto renderer = GetComponent<Renderer>();
 	if (renderer != nullptr)
 		renderer->Render();
+
+	//Particle System
+	auto particle_system = GetComponent<ParticleSystem>();
+	if(particle_system != nullptr)
+		particle_system->Render();
 
 	//Collider
 	auto collider2D = GetComponent<Collider2D>();

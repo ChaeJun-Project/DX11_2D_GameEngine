@@ -89,7 +89,7 @@ void ResourceManager::CreateShader()
 		return;
 
 	//Create Light2D Shader
-	shader = std::make_shared<Shader>("Standard_Light2D_Shader");
+	shader = std::make_shared<Shader>("Light2D_Shader");
 	shader->AddAndCreateShader<VertexShader>("Shader/LightTextureShader.fx", "VS", "vs_5_0");
 	shader->AddAndCreateShader<PixelShader>("Shader/LightTextureShader.fx", "PS", "ps_5_0");
 
@@ -97,11 +97,29 @@ void ResourceManager::CreateShader()
 	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
 	shader->SetBlendType(BlendType::Alpha_Blend);
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Standard_Light2D, shader));
+	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Light2D, shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;
+
+	//Create Particle Shader
+	shader = std::make_shared<Shader>("Particle_Shader");
+	shader->AddAndCreateShader<VertexShader>("Shader/ParticleShader.fx", "VS", "vs_5_0");
+	shader->AddAndCreateShader<GeometryShader>("Shader/ParticleShader.fx", "GS", "gs_5_0");
+	shader->AddAndCreateShader<PixelShader>("Shader/ParticleShader.fx", "PS", "ps_5_0");
+	shader->AddAndCreateShader<ComputeShader>("Shader/ParticleUpdate.fx", "CS", "cs_5_0");
+
+	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
+	shader->SetBlendType(BlendType::Alpha_Blend);
+
+	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Particle, shader));
+	result = shader_iter.second;
+	assert(result);
+	if (!result)
+		return;
+
 }
 
 const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderResourceType& shader_type)
@@ -116,6 +134,9 @@ const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderRe
 
 void ResourceManager::CreateMaterial()
 {
+    //=============================================
+    //Collider2D
+	//=============================================
 	//Collider2D Material White
 	std::string material_name = "Collider2D_White";
 	auto material = std::make_shared<Material>(material_name);
@@ -154,9 +175,22 @@ void ResourceManager::CreateMaterial()
 	assert(result);
 	if (!result)
 		return;
+
+	//=============================================
+	//Particle
+	//=============================================
+	material_name = "Particle";
+	material = std::make_shared<Material>(material_name);
+	material->SetShader(GetShaderResource(ShaderResourceType::Particle));
+
+	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
+	result = material_iter.second;
+	assert(result);
+	if (!result)
+		return;
 }
 
-const std::shared_ptr<Material>& ResourceManager::GetMaterialResource(const std::string& material_name)
+const std::shared_ptr<Material>& ResourceManager::GetMaterial(const std::string& material_name)
 {
 	auto material_iter = m_p_material_map.find(material_name);
 

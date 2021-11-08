@@ -26,7 +26,7 @@
       <Filter>Core\DX11_Graphics_Pipeline\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\1. Vertex Shader</Filter>
+      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\1. Vertex Shader</Filter>
     </ClInclude>
     <ClInclude Include="FileStream.h">
       <Filter>Manager\File</Filter>
@@ -56,7 +56,7 @@
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\5. Pixel Shader</Filter>
+      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\5. Pixel Shader</Filter>
     </ClInclude>
     <ClInclude Include="VertexStruct.h">
       <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
@@ -194,7 +194,7 @@
       <Filter>Math\SimpleMath</Filter>
     </ClInclude>
     <ClInclude Include="ComputeShader.h">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\6. Compute Shader</Filter>
+      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Compute\Compute Shader</Filter>
     </ClInclude>
     <ClInclude Include="Factory_Script.h">
       <Filter>Scene\Components\5. Script\3. Factory</Filter>
@@ -211,6 +211,9 @@
     <ClInclude Include="ParticleUpdateShader.h">
       <Filter>Scene\Components\8. ParticleSystem\ParticleUpdateShader</Filter>
     </ClInclude>
+    <ClInclude Include="GeometryShader.h">
+      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -223,7 +226,7 @@
       <Filter>Core\DX11_Graphics_Pipeline\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\1. Vertex Shader</Filter>
+      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\1. Vertex Shader</Filter>
     </ClCompile>
     <ClCompile Include="FileStream.cpp">
       <Filter>Manager\File</Filter>
@@ -253,7 +256,7 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="PixelShader.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\5. Pixel Shader</Filter>
+      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\5. Pixel Shader</Filter>
     </ClCompile>
     <ClCompile Include="VertexStruct.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
@@ -373,7 +376,7 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="ComputeShader.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\6. Compute Shader</Filter>
+      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Compute\Compute Shader</Filter>
     </ClCompile>
     <ClCompile Include="Factory_Script.cpp">
       <Filter>Scene\Components\5. Script\3. Factory</Filter>
@@ -389,6 +392,9 @@
     </ClCompile>
     <ClCompile Include="ParticleUpdateShader.cpp">
       <Filter>Scene\Components\8. ParticleSystem\ParticleUpdateShader</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryShader.cpp">
+      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -485,21 +491,6 @@
     <Filter Include="Core\DX11_Graphics_Pipeline\Shaders">
       <UniqueIdentifier>{06e3b01d-6604-47cb-bbc9-13592898939b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\1. Vertex Shader">
-      <UniqueIdentifier>{3776ec5c-d549-4832-a4a2-963566202d88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\2. Hull Shader">
-      <UniqueIdentifier>{d3f98068-ca7f-4193-9d6f-b22c91222325}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\3. Domain Shader">
-      <UniqueIdentifier>{98c06dad-662a-400a-b0b8-9515cdb354ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\4. Geometry Shader">
-      <UniqueIdentifier>{e918a36f-63c6-4b10-904c-50d0a2e94e67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\5. Pixel Shader">
-      <UniqueIdentifier>{ea5dfcf6-6845-42bd-8c87-ed17208850fa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\DX11_Graphics_Pipeline\ConstantBuffer">
       <UniqueIdentifier>{dace081f-04e0-48d0-b937-981aea3f8650}</UniqueIdentifier>
     </Filter>
@@ -584,9 +575,6 @@
     <Filter Include="Scene\Components\9. RigidBody2D">
       <UniqueIdentifier>{d2d07f09-99cb-4b37-87e9-883f49dd265f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\6. Compute Shader">
-      <UniqueIdentifier>{601a225d-b77c-4cb1-ba7e-ddf0efa8bc7e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Components\5. Script\1. GameLogic">
       <UniqueIdentifier>{15436bf0-a034-4139-aade-4762881e2255}</UniqueIdentifier>
     </Filter>
@@ -616,6 +604,30 @@
     </Filter>
     <Filter Include="Scene\Components\8. ParticleSystem\ParticleUpdateShader">
       <UniqueIdentifier>{57283146-6d7c-4513-9fde-3df2dd509368}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics">
+      <UniqueIdentifier>{5b137a67-6267-4e25-a16b-8d0bc48bf945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Compute">
+      <UniqueIdentifier>{6ede576f-de4c-4160-89ea-e2a61fe6df60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics\1. Vertex Shader">
+      <UniqueIdentifier>{3776ec5c-d549-4832-a4a2-963566202d88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics\2. Hull Shader">
+      <UniqueIdentifier>{d3f98068-ca7f-4193-9d6f-b22c91222325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics\3. Domain Shader">
+      <UniqueIdentifier>{98c06dad-662a-400a-b0b8-9515cdb354ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader">
+      <UniqueIdentifier>{e918a36f-63c6-4b10-904c-50d0a2e94e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics\5. Pixel Shader">
+      <UniqueIdentifier>{ea5dfcf6-6845-42bd-8c87-ed17208850fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Compute\Compute Shader">
+      <UniqueIdentifier>{601a225d-b77c-4cb1-ba7e-ddf0efa8bc7e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

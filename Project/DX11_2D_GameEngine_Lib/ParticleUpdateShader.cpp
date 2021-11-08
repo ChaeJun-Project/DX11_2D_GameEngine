@@ -1,23 +1,34 @@
 #include "stdafx.h"
 #include "ParticleUpdateShader.h"
 
-ParticleUpdate::ParticleUpdate()
-	:ComputeShader(32, 1, 1)
+#include "StructuredBuffer.h"
+#include "ComputeShader.h"
+
+ParticleUpdateShader::ParticleUpdateShader()
 {
 }
 
-ParticleUpdate::~ParticleUpdate()
+ParticleUpdateShader::~ParticleUpdateShader()
 {
+	m_p_structured_buffer.reset();
+	m_p_compute_shader.reset();
 }
 
-void ParticleUpdate::Excute()
+void ParticleUpdateShader::Excute()
 {
+	BindPipeline();
+
+	m_p_compute_shader->Dispatch(32, 1, 1);
+
+	Clear();
 }
 
-void ParticleUpdate::BindPipeline()
+void ParticleUpdateShader::BindPipeline()
 {
+	m_p_structured_buffer->BindPipelineRW(0);
 }
 
-void ParticleUpdate::Clear()
+void ParticleUpdateShader::Clear()
 {
+	m_p_structured_buffer->Clear();
 }

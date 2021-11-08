@@ -6,8 +6,8 @@
 
 RWStructuredBuffer<ParticleInfo> g_particle : register(u0);
 
-[numthread(32, 1, 1)]
-void CS()
+[numthreads(32, 1, 1)]
+void CS(int thread_id : SV_DispatchThreadID)
 {
     
 }

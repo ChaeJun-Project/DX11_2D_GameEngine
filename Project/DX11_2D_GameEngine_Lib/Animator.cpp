@@ -53,7 +53,7 @@ void Animator::FinalUpdate()
 	auto renderer = m_p_owner_game_object->GetComponent<Renderer>();
 	renderer->SetMesh(this->m_p_current_animation->GetMesh());
 	auto material = renderer->GetMaterial();
-	material->SetShader(ResourceManager::GetInstance()->GetShaderResource(ShaderResourceType::Standard_Light2D));
+	material->SetShader(ResourceManager::GetInstance()->GetShaderResource(ShaderResourceType::Light2D));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, this->m_p_current_animation->GetCurrentTexture());
 
 	auto collider2D = m_p_owner_game_object->GetComponent<Renderer>();

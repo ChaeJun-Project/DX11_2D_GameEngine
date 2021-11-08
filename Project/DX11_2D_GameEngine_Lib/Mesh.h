@@ -13,8 +13,10 @@ public:
 	void BindPipeline() override;
 
 	void Render();
+	void RenderInstance(const UINT& render_count);
 
 private:
+    void CreatePointMesh();
 	void CreateTriangleMesh();
 	void CreateRectangleMesh();
 	void CreateCircleMesh();

@@ -11,6 +11,7 @@ constexpr ShaderType Shader::GetShaderType()
 
 REGISTER_SHADER_TYPE(VertexShader, ShaderType::VS);
 REGISTER_SHADER_TYPE(PixelShader, ShaderType::PS);
+REGISTER_SHADER_TYPE(ComputeShader, ShaderType::CS);
 //TODO: 추후에 다른 Shader들도 추가 예정
 
 Shader::Shader(const std::string resource_name)
@@ -30,7 +31,7 @@ Shader::~Shader()
 
 void Shader::BindPipeline()
 {
-    static auto graphics_manager = GraphicsManager::GetInstance();
+    auto graphics_manager = GraphicsManager::GetInstance();
 
 	auto device_context = graphics_manager->GetDeviceContext();
 	auto vertex_shader = GetShader<VertexShader>();
@@ -54,4 +55,9 @@ void Shader::BindPipeline()
 	//Blender 적용
 	auto blender = graphics_manager->GetBlender(this->m_blend_type);
 	device_context->OMSetBlendState(blender->GetBlendState(), nullptr, 0xFF);
+}
+
+void Shader::BindPipeline_CS()
+{   
+
 }

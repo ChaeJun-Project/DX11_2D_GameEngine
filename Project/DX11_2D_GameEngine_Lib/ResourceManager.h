@@ -24,7 +24,7 @@ public:
 	const std::shared_ptr<Shader>& GetShaderResource(const ShaderResourceType& shader_type);
 	//Material
 	void CreateMaterial();
-	const std::shared_ptr<Material>& GetMaterialResource(const std::string& material_name);
+	const std::shared_ptr<Material>& GetMaterial(const std::string& material_name);
 	//Texture
 	const std::shared_ptr<Texture>& LoadTexture(const std::string& texture_path);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);

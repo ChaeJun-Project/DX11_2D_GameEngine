@@ -16,6 +16,7 @@ public:
 	~Shader();
 
 	void BindPipeline() override;
+	void BindPipeline_CS();
 
 public:
 	//Shader 추가 후 생성

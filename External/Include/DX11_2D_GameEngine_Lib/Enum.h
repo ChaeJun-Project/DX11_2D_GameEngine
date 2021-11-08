@@ -31,9 +31,10 @@ enum class ResourceType : UINT
 //Mesh Type(Mesh 사용)
 enum class MeshType : UINT
 {
-	Triangle = 0,  //삼각형
-	Rectangle = 1, //사각형
-	Circle = 2,    //원
+    Point = 0,     //점
+	Triangle = 1,  //삼각형
+	Rectangle = 2, //사각형
+	Circle = 3,    //원
 };
 
 //Shader Type(Shader 사용)
@@ -79,9 +80,10 @@ enum class DepthStencilType : UINT
 //Shader Resource Type(ShaderManager 사용)
 enum class ShaderResourceType : UINT
 {
-	Standard = 0,    //Draw Texture
-	Collider2D = 1,  //Draw Line
-	Standard_Light2D = 2, //Draw Texture & Light2D
+	Standard = 0,		  //Draw Texture
+	Collider2D = 1,		  //Draw Line
+	Light2D = 2, //Draw Texture & Light2D
+	Particle = 3		  //Draw Particle
 };
 
 enum PipelineStage : UINT

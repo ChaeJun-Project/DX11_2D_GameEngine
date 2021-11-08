@@ -10,7 +10,7 @@ Renderer::Renderer()
 	
 	this->m_p_current_material = std::make_shared<Material>("GameObject_Material");
 
-	this->m_p_border = ResourceManager::GetInstance()->GetMaterialResource("Collider2D_White");
+	this->m_p_border = ResourceManager::GetInstance()->GetMaterial("Collider2D_White");
 }
 
 Renderer::Renderer(const Renderer& origin)

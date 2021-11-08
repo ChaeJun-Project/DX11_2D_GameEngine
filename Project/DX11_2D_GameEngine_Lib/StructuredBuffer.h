@@ -27,7 +27,7 @@ public:
 	const UINT& GetBufferBindSlot() { return m_buffer_bind_slot; }
 	const UINT& GetBufferBindStage() { return m_buffer_bind_stage; }
 
-	void SetBufferBindStage(const PipelineStage & buffer_bind_stage) { m_buffer_bind_stage = static_cast<UINT>(buffer_bind_stage); }
+	void SetBufferBindStage(const UINT& buffer_bind_stage) { m_buffer_bind_stage = buffer_bind_stage; }
 	void SetBufferBindSlot(const UINT& buffer_bind_slot) { m_buffer_bind_slot = buffer_bind_slot; }
 
 private:

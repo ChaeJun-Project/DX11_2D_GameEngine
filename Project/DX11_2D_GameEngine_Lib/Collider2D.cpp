@@ -5,7 +5,7 @@ Collider2D::Collider2D()
 	:IComponent(ComponentType::Collider2D)
 {
 	this->m_p_mesh = ResourceManager::GetInstance()->GetMesh(100, 100);
-	this->m_p_material = ResourceManager::GetInstance()->GetMaterialResource("Collider2D_Green");
+	this->m_p_material = ResourceManager::GetInstance()->GetMaterial("Collider2D_Green");
 }
 
 Collider2D::Collider2D(const Collider2D& origin)
@@ -66,7 +66,7 @@ void Collider2D::OnCollisionEnter(Collider2D* other_collider)
 {
 	++this->m_collision_count;
 
-	this->m_p_material = ResourceManager::GetInstance()->GetMaterialResource("Collider2D_Red");
+	this->m_p_material = ResourceManager::GetInstance()->GetMaterial("Collider2D_Red");
 
 	auto script = m_p_owner_game_object->GetComponent<Script>();
 	if (script != nullptr)
@@ -78,7 +78,7 @@ void Collider2D::OnCollisionExit(Collider2D* other_collider)
 	--this->m_collision_count;
 
 	if (this->m_collision_count == 0)
-		this->m_p_material = ResourceManager::GetInstance()->GetMaterialResource("Collider2D_Green");
+		this->m_p_material = ResourceManager::GetInstance()->GetMaterial("Collider2D_Green");
 
 	auto script = m_p_owner_game_object->GetComponent<Script>();
 	if (script != nullptr)

@@ -101,12 +101,15 @@ struct CBuffer_Light2D
 //======================================
 struct CBuffer_Particle
 {
-	Vector3 particle_position;
+	Vector3 particle_world_position; //월드 좌표계 기준
+	Vector3 particle_scale; //뷰 좌표계 기준
+	Vector3 particle_rotation; //뷰 좌표계 기준
+
 	Vector4 particle_color;
-	Vector3 particle_scale;
 
 	float particle_current_time;
 	float particle_life_time;
+	int particle_active;
 };
 
 

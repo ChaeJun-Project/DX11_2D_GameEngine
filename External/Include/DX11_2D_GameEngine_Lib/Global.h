@@ -118,7 +118,9 @@ using namespace DirectX::PackedVector;
 
 //Shaders
 #include "VertexShader.h"
+#include "GeometryShader.h"
 #include "PixelShader.h"
+#include "ComputeShader.h"
 #include "SamplerState.h"
 #pragma endregion
 

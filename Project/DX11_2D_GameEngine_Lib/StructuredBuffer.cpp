@@ -15,10 +15,10 @@ void StructuredBuffer::Create(const UINT& element_size, const UINT& element_coun
 	switch (m_sbuffer_type)
 	{
 	case SBufferType::Read: //읽기 전용
-		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE; //SRV 자원 뷰를 통해 파이프 라인에 연결
 		break;
 	case SBufferType::Read_Write: //읽고 쓰기 전용
-		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS; //SRV, UAV 자원 뷰를 통해 파이프 라인에 연결
 		break;
 	case SBufferType::Cpu_Access:
 		break;
@@ -41,15 +41,16 @@ void StructuredBuffer::Create(const UINT& element_size, const UINT& element_coun
 
 		sub_data.pSysMem = p_data;
 
+		//초기 데이터로 초기화한 상태로 구조적 버퍼 생성
 		hResult = device->CreateBuffer(&desc, &sub_data, m_p_buffer.GetAddressOf());
 		assert(SUCCEEDED(hResult));
 		if (!SUCCEEDED(hResult))
 			return;
 	}
-
 	//초기 데이터가 없다면
 	else
 	{
+	    //초기 데이터가 없는 상태로 구조적 버퍼 생성
 		hResult = device->CreateBuffer(&desc, nullptr, m_p_buffer.GetAddressOf());
 		assert(SUCCEEDED(hResult));
 		if (!SUCCEEDED(hResult))
@@ -71,7 +72,10 @@ void StructuredBuffer::CreateSRV()
 	D3D11_SHADER_RESOURCE_VIEW_DESC srv_desc;
 	ZeroMemory(&srv_desc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
 
-	srv_desc.ViewDimension = D3D_SRV_DIMENSION_BUFFER;
+	//구조적 버퍼로 SRV를 사용하는 경우에 Format은 DXGI_FORMAT_UNKNOWN으로 설정해야 함
+	//이는 구조적 버퍼의 원소가 사용자 정의 구조체이므로 DXGI가 모든 가능한 형식을 미리 정희해서 두는 것이 불가능하기 때문
+	srv_desc.Format = DXGI_FORMAT_UNKNOWN;
+	srv_desc.ViewDimension = D3D_SRV_DIMENSION_BUFFEREX;
 	srv_desc.BufferEx.NumElements = m_element_count;
 
 	auto device = GraphicsManager::GetInstance()->GetDevice();
@@ -86,6 +90,9 @@ void StructuredBuffer::CreateUAV()
 	D3D11_UNORDERED_ACCESS_VIEW_DESC uav_desc;
 	ZeroMemory(&uav_desc, sizeof(D3D11_UNORDERED_ACCESS_VIEW_DESC));
 
+	//구조적 버퍼로 SRV를 사용하는 경우에 Format은 DXGI_FORMAT_UNKNOWN으로 설정해야 함
+	//이는 구조적 버퍼의 원소가 사용자 정의 구조체이므로 DXGI가 모든 가능한 형식을 미리 정희해서 두는 것이 불가능하기 때문
+	uav_desc.Format = DXGI_FORMAT_UNKNOWN;
 	uav_desc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 	uav_desc.Buffer.NumElements = m_element_count;
 	
@@ -139,13 +146,13 @@ void StructuredBuffer::BindPipeline()
 
 void StructuredBuffer::BindPipelineRW(const UINT& unordered_bind_slot)
 {
-	m_unordered_bind_slot = unordered_bind_slot;
-
 	//u레지스터 바인딩이 불가능한 구조화버퍼인 경우
 	if (m_sbuffer_type == SBufferType::Read)
 	{
 		return;
 	}
+
+	m_unordered_bind_slot = unordered_bind_slot;
 
 	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
 	UINT i = -1;

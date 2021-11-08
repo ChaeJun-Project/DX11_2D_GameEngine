@@ -25,6 +25,9 @@ void Mesh::Create(const MeshType& mesh_type, const UINT& width, const UINT& heig
 
 	switch (mesh_type)
 	{
+	case MeshType::Point:
+	    CreatePointMesh();
+		break;
 	case MeshType::Triangle:
 		CreateTriangleMesh();
 		break;
@@ -63,6 +66,49 @@ void Mesh::Render()
 
 	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
 	device_context->DrawIndexed(static_cast<UINT>(m_index_vector.size()), 0, 0);
+}
+
+void Mesh::RenderInstance(const UINT& render_count)
+{
+	BindPipeline();
+
+	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	device_context->DrawIndexedInstanced(static_cast<UINT>(m_index_vector.size()), render_count, 0, 0, 0);
+}
+
+void Mesh::CreatePointMesh()
+{
+	//Vertex
+	m_vertex_vector.reserve(1);
+	{
+		VertexColorTexture vertex;
+
+		//월드 좌표계를 중점으로 한 점
+		vertex.position = Vector3(0.0f, 0.0f, 0.0f);
+		vertex.color = Color4::White;
+		vertex.color.a = 0.0f;
+		vertex.uv = Vector2(0.0f, 0.0f);
+		m_vertex_vector.emplace_back(vertex);
+	}
+
+	//Create Vertex Buffer
+	if (m_p_vertex_buffer == nullptr)
+		m_p_vertex_buffer = std::make_shared<VertexBuffer>();
+
+	m_p_vertex_buffer->Create(m_vertex_vector);
+
+	//Index
+	m_index_vector.reserve(1);
+	{
+		//Point
+		m_index_vector.emplace_back(0);
+	}
+
+	//Create Index Buffer
+	if (m_p_index_buffer == nullptr)
+		m_p_index_buffer = std::make_shared<IndexBuffer>();
+
+	m_p_index_buffer->Create(m_index_vector);
 }
 
 void Mesh::CreateTriangleMesh()

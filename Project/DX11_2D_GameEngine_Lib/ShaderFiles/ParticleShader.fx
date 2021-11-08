@@ -1,37 +1,110 @@
 #ifndef ParticleShader
 #define ParticleShader
 
-#include "VertexStruct.fx"
 #include "ConstantBuffer.fx"
+#include "ParticleStruct.fx"
+
+StructuredBuffer<ParticleInfo> g_particle : register(t13);
+
+struct VS_IN
+{
+    float3 position : POSITION;
+    uint instanceID : SV_InstanceID; //인스턴스 인덱스
+};
+
+struct VS_OUT // = GS_IN
+{
+    float3 position : POSITION;
+    uint instanceID : SV_InstanceID; //인스턴스 인덱스
+};
+
+struct GS_OUT // = PS_IN
+{
+    float4 position : SV_Position;
+    float2 uv : TEXCOORD;
+};
 
 //Vertex Shader
-VertexColorTextureOutputType VS(VertexColorTexture vs_input)
+VS_OUT VS(VS_IN vs_input)
 {
-    VertexColorTextureOutputType vs_output;
+    VS_IN vs_output;
     
-    //World -> View -> Projection 순서대로 곱해줘야 정상적인 위치 값이 나옴
-    //mul(x, y)
-    //x가 vector 값이면 행 벡터(Row-Vector)로 처리
-    //y가 vector 값이면 열 벡터(Column-Vector)로 처리
-    vs_output.position = mul(float4(vs_input.position, 1.0f), world);
-    vs_output.position = mul(vs_output.position, view);
-    vs_output.position = mul(vs_output.position, projection);
+    //Position 복사
+    vs_output.position = vs_input.position;
     
-    //Color값 복사
-    vs_output.color = vs_input.color;
-    
-    //UV값 복사
-    vs_output.uv = vs_input.uv;
+    //Instance ID 복사
+    vs_input.instanceID = vs_input.instanceID;
     
     return vs_output;
 }
 
+[maxvertexcount(4)]
+//Geometry Shader
+void GS(point VS_OUT gs_input[1], inout TriangleStream<GS_OUT> output_stream)
+{
+    //파티클이 활성화 상태가 아니라면 GS 종료
+    //GS에서 반환되는 정점의 정보가 없으므로 RS -> PS 단계가 진행이 되지 않아 해당 정점은 화면에 그려지지 않음
+    if (!g_particle[gs_input[1].instanceID].particle_active)
+    {
+        return;
+    }
+    
+    //출력시킬 4개의 정점
+    GS_OUT gs_output[4];
+    
+    //월드 좌표계에서의 파티클 위치
+    float3 particle_world_position = g_particle[gs_input[1].instanceID].particle_world_position;
+    //Rotation은 추후 처리
+    float3 particle_scale = g_particle[gs_input[1].instanceID].particle_scale;
+  
+    //View 좌표계에서의 파티클 위치
+    float4 particle_view_position = mul(float4(particle_world_position, 1.0f), view);
+   
+    //점을 중심으로 4개의 정점 생성
+    // 0 -- 1
+    // | \  |
+    // 3 -- 2
+    //0
+    gs_output[0].position = float4(particle_view_position.x - (particle_scale.x * 0.5f), particle_view_position.y + (particle_scale.y * 0.5f), particle_view_position.z, 1.0f);
+    gs_output[0].position = mul(gs_output[0].position, projection);
+    gs_output[0].uv = float2(0.0f, 0.0f);
+    
+    //1
+    gs_output[1].position = float4(particle_view_position.x + (particle_scale.x * 0.5f), particle_view_position.y + (particle_scale.y * 0.5f), particle_view_position.z, 1.0f);
+    gs_output[1].position = mul(gs_output[1].position, projection);
+    gs_output[1].uv = float2(1.0f, 0.0f);
+    
+    //2
+    gs_output[2].position = float4(particle_view_position.x + (particle_scale.x * 0.5f), particle_view_position.y - (particle_scale.y * 0.5f), particle_view_position.z, 1.0f);
+    gs_output[2].position = mul(gs_output[2].position, projection);
+    gs_output[2].uv = float2(1.0f, 1.0f);
+    
+    //3
+    gs_output[3].position = float4(particle_view_position.x - (particle_scale.x * 0.5f), particle_view_position.y - (particle_scale.y * 0.5f), particle_view_position.z, 1.0f);
+    gs_output[3].position = mul(gs_output[3].position, projection);
+    gs_output[3].uv = float2(0.0f, 1.0f);
+
+    //Triangle1
+    output_stream.Append(gs_output[0]);
+    output_stream.Append(gs_output[1]);
+    output_stream.Append(gs_output[2]);
+    output_stream.RestartStrip();
+    
+    //Triangle2
+    output_stream.Append(gs_output[0]);
+    output_stream.Append(gs_output[2]);
+    output_stream.Append(gs_output[3]);
+    output_stream.RestartStrip();
+}
+
 //Pixel Shader
-float4 PS(VertexColorTextureOutputType ps_input) : SV_Target
+float4 PS(GS_OUT ps_input) : SV_Target
 {
     float4 ps_output_color;
     
-    ps_output_color = g_Texture_0.Sample(Sampler1, ps_input.uv);
+    //ps_output_color = g_Texture_0.Sample(Sampler1, ps_input.uv);
+    
+    ps_output_color = float4(1.f, 0.f, 0.f, 1.f);
  
     return ps_output_color;
 }

@@ -60,6 +60,10 @@ Texture2D g_Texture_0 : register(t0);
 Texture2D g_Texture_1 : register(t1);
 Texture2D g_Texture_2 : register(t2);
 Texture2D g_Texture_3 : register(t3);
+Texture2D g_Texture_4 : register(t4);
+Texture2D g_Texture_5 : register(t5);
+Texture2D g_Texture_6 : register(t6);
+Texture2D g_Texture_7 : register(t7);
 
 
 //SamplerState: 도형에 셰이딩 작업이 이루어질 때 

@@ -53,7 +53,7 @@ const bool IShader::CompileShader(const std::string& path, const std::string& fu
 #endif
 
 	ComPtr<ID3DBlob> p_error_blob = nullptr;
-
+	
 	//D3D11ComplieFromFile은 Windows 8 이후 버전부터는 지원햐지 않으므로
 	//D3DCompileFromFile을 사용
 	auto hResult = D3DCompileFromFile
@@ -68,12 +68,10 @@ const bool IShader::CompileShader(const std::string& path, const std::string& fu
 		blob,
 		p_error_blob.GetAddressOf()
 	);
-	assert(SUCCEEDED(hResult));
-	if (!SUCCEEDED(hResult))
-		return false;
 
 	//Error Check
 	auto result = GetShaderError(hResult, p_error_blob.Get());
+	assert(result);
 
 	return result;
 }
