@@ -237,7 +237,7 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Prefab.h" />
     <ClInclude Include="RasterizerState.h" />
-    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RockManZ_Script.h" />
@@ -303,7 +303,7 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="RasterizerState.cpp" />
-    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="RockManZ_Script.cpp" />
@@ -378,7 +378,7 @@ call GameEngineCopy.bat</Command>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="ShaderFiles\ParticleUpdate.fx">
+    <FxCompile Include="ShaderFiles\RainUpdate.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ObjectFileOutput>
@@ -390,6 +390,13 @@ call GameEngineCopy.bat</Command>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\SmokeUpdate.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="ShaderFiles\TextureShader.fx">

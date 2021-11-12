@@ -29,6 +29,9 @@ public:
 
 private:
     std::shared_ptr<Mesh> m_p_mesh = nullptr;
+    
+    UINT texture_width = 0;
+    UINT texture_height = 0;
 
     std::shared_ptr<Material> m_p_current_material = nullptr;//현재 사용할 Material
     std::shared_ptr<Material> m_p_shared_material= nullptr; //공유 Material

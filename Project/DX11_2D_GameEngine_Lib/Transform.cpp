@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Transform.h"
 
+#include "SpriteRenderer.h"
 
 Transform::Transform()
 	:IComponent(ComponentType::Transform)
@@ -11,11 +12,11 @@ Transform::Transform()
 Transform::Transform(const Transform& origin)
 	: IComponent(origin.GetComponentType())
 {
-	this->m_local_translation = origin.m_local_translation;
-	this->m_local_rotation = origin.m_local_rotation;
-	this->m_local_scale = origin.m_local_scale;
-	this->m_world_matrix = origin.m_world_matrix;
-	this->m_game_object_side_state = origin.m_game_object_side_state;
+	m_local_translation = origin.m_local_translation;
+	m_local_rotation = origin.m_local_rotation;
+	m_local_scale = origin.m_local_scale;
+	m_world_matrix = origin.m_world_matrix;
+	m_game_object_side_state = origin.m_game_object_side_state;
 }
 
 void Transform::FinalUpdate()
@@ -25,7 +26,7 @@ void Transform::FinalUpdate()
 
 void Transform::UpdateWorldMatrix()
 {
-	switch (this->m_game_object_side_state)
+	switch (m_game_object_side_state)
 	{
 	case GameObjectSideState::Right:
 		SetRotation(Quaternion::Identity);
@@ -34,15 +35,15 @@ void Transform::UpdateWorldMatrix()
 		SetRotation(Quaternion::QuaternionFromEulerAngle(Vector3(0.0f, 180.0f, 0.0f)));
 		break;
 	}
-	
-	auto scale = Matrix::Scaling(this->m_local_scale);
-	auto rotation = Matrix::RotationQuaternion(this->m_local_rotation);
-	auto translation = Matrix::Translation(this->m_local_translation);
+
+	auto scale = Matrix::Scaling(m_local_scale * m_mesh_scale);
+	auto rotation = Matrix::RotationQuaternion(m_local_rotation);
+	auto translation = Matrix::Translation(m_local_translation);
 
 	//SRT 연산
 	//해당 transform을 소유한 오브젝트가 부모 오브젝트가 있다면
 	//해당 월드 행렬은 부모 오브젝트 기준의 월드 행렬
-	this->m_world_matrix = scale * rotation * translation;
+	m_world_matrix = scale * rotation * translation;
 
 	//부모 오브젝트의 transform이 있다면
 	//현재 오브젝트의 월드 행렬에 부모 오브젝트의 월드 행렬을 곱함
@@ -50,32 +51,32 @@ void Transform::UpdateWorldMatrix()
 	if (m_p_owner_game_object->HasParent())
 	{
 		auto parent_world_matrix = m_p_owner_game_object->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
-		this->m_world_matrix = this->m_world_matrix * parent_world_matrix;
+		m_world_matrix = m_world_matrix * parent_world_matrix;
 	}
 }
 
 void Transform::SetLocalTranslation(const Vector3& local_translation)
 {
-	if (this->m_local_translation == local_translation)
+	if (m_local_translation == local_translation)
 		return;
 
-	this->m_local_translation = local_translation;
+	m_local_translation = local_translation;
 }
 
 void Transform::SetLocalRotation(const Quaternion& local_rotation)
 {
-	if (this->m_local_rotation == local_rotation)
+	if (m_local_rotation == local_rotation)
 		return;
 
-	this->m_local_rotation = local_rotation;
+	m_local_rotation = local_rotation;
 }
 
 void Transform::SetLocalScale(const Vector3& local_scale)
 {
-	if (this->m_local_scale == local_scale)
+	if (m_local_scale == local_scale)
 		return;
 
-	this->m_local_scale = local_scale;
+	m_local_scale = local_scale;
 }
 
 void Transform::Translate(const Vector3& move)
@@ -85,11 +86,11 @@ void Transform::Translate(const Vector3& move)
 	if (m_p_owner_game_object->HasParent())
 	{
 		auto parent_world_matrix = m_p_owner_game_object->GetParent()->GetComponent<Transform>()->GetWorldMatrix();
-		SetLocalTranslation(this->m_local_translation + (move * parent_world_matrix.Inverse()));
+		SetLocalTranslation(m_local_translation + (move * parent_world_matrix.Inverse()));
 	}
 
 	else
-		SetLocalTranslation(this->m_local_translation + move);
+		SetLocalTranslation(m_local_translation + move);
 }
 
 void Transform::SetTranslation(const Vector3& translation)
@@ -137,9 +138,21 @@ void Transform::SetScale(const Vector3& scale)
 		SetLocalScale(scale);
 }
 
+const Vector3& Transform::GetWorldScale()
+{
+	auto world_scale = m_local_scale;
+	
+	if (m_p_owner_game_object->HasParent())
+	{
+
+	}
+
+	return world_scale;
+}
+
 void Transform::UpdateConstantBuffer()
 {
-	g_cbuffer_wvpmatrix.world = this->m_world_matrix;
+	g_cbuffer_wvpmatrix.world = m_world_matrix;
 
 	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);
 	constant_buffer->SetConstantBufferData(&g_cbuffer_wvpmatrix, sizeof(CBuffer_WVPMatrix));

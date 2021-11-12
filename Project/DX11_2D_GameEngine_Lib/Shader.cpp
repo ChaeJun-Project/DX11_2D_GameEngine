@@ -1,6 +1,16 @@
 #include "stdafx.h"
 #include "Shader.h"
 
+#include "GraphicsManager.h"
+
+#include "InputLayout.h"
+
+#include "VertexShader.h"
+#include "GeometryShader.h"
+#include "PixelShader.h"
+
+#include "ComputeShader.h"
+
 template<typename T>
 constexpr ShaderType Shader::GetShaderType()
 {
@@ -34,15 +44,52 @@ void Shader::BindPipeline()
     auto graphics_manager = GraphicsManager::GetInstance();
 
 	auto device_context = graphics_manager->GetDeviceContext();
-	auto vertex_shader = GetShader<VertexShader>();
-	auto pixel_shader = GetShader<PixelShader>();
-	
-	device_context->VSSetShader(vertex_shader->GetVertexShader(), 0, 0);
-	device_context->PSSetShader(pixel_shader->GetPixelShader(), 0, 0);
 
-	auto input_layout = vertex_shader->GetInputLayoutClass()->GetInputLayout();
-	device_context->IASetInputLayout(input_layout);
-	device_context->IASetPrimitiveTopology(m_primitive_topology);
+	//Vertex Shader Stage
+	if (m_shader_bind_stage & PipelineStage::VS)
+	{
+		auto vertex_shader = GetShader<VertexShader>();
+		device_context->VSSetShader(vertex_shader->GetVertexShader(), 0, 0);
+
+		auto input_layout = vertex_shader->GetInputLayoutClass()->GetInputLayout();
+		device_context->IASetInputLayout(input_layout);
+		device_context->IASetPrimitiveTopology(m_primitive_topology);
+
+	}
+
+	//Hull Shader Stage
+	if (m_shader_bind_stage & PipelineStage::HS)
+	{
+		//TODO
+	}
+
+	//Domain Shader Stage
+	if (m_shader_bind_stage & PipelineStage::DS)
+	{
+		//TODO
+	}
+
+	//Geometry Shader Stage
+	if (m_shader_bind_stage & PipelineStage::GS)
+	{
+		auto geometry_shader = GetShader<GeometryShader>();
+		device_context->GSSetShader(geometry_shader->GetGeometryShader(), 0, 0);
+	}
+
+	//Pixel Shader Stage
+	if (m_shader_bind_stage & PipelineStage::PS)
+	{
+		auto pixel_shader = GetShader<PixelShader>();
+		device_context->PSSetShader(pixel_shader->GetPixelShader(), 0, 0);
+	}
+
+	//Compute Shader Stage
+	if (m_shader_bind_stage & PipelineStage::CS)
+	{
+	    auto compute_shader = GetShader<ComputeShader>();
+		device_context->CSSetShader(compute_shader->GetComputeShader(), 0, 0);
+		device_context->Dispatch(compute_shader->GetGroupThreadXCount(), compute_shader->GetGroupThreadYCount(), compute_shader->GetGroupThreadZCount());
+	}
 
 	//Rasterizer 적용
 	auto rasterizer = graphics_manager->GetRasterizer(this->m_rasterizer_type);
@@ -55,9 +102,4 @@ void Shader::BindPipeline()
 	//Blender 적용
 	auto blender = graphics_manager->GetBlender(this->m_blend_type);
 	device_context->OMSetBlendState(blender->GetBlendState(), nullptr, 0xFF);
-}
-
-void Shader::BindPipeline_CS()
-{   
-
 }

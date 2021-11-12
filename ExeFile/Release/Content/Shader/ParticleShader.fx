@@ -21,6 +21,7 @@ struct VS_OUT // = GS_IN
 struct GS_OUT // = PS_IN
 {
     float4 position : SV_Position;
+    float4 color : COLOR;
     float2 uv : TEXCOORD;
 };
 
@@ -44,7 +45,7 @@ void GS(point VS_OUT gs_input[1], inout TriangleStream<GS_OUT> output_stream)
 {
     //파티클이 활성화 상태가 아니라면 GS 종료
     //GS에서 반환되는 정점의 정보가 없으므로 RS -> PS 단계가 진행이 되지 않아 해당 정점은 화면에 그려지지 않음
-    if (!g_particle[gs_input[1].instanceID].particle_active)
+    if (!g_particle[gs_input[0].instanceID].is_active)
     {
         return;
     }
@@ -53,9 +54,9 @@ void GS(point VS_OUT gs_input[1], inout TriangleStream<GS_OUT> output_stream)
     GS_OUT gs_output[4];
     
     //월드 좌표계에서의 파티클 위치
-    float3 particle_world_position = g_particle[gs_input[1].instanceID].particle_world_position;
+    float3 particle_world_position = g_particle[gs_input[0].instanceID].world_position;
     //Rotation은 추후 처리
-    float3 particle_scale = g_particle[gs_input[1].instanceID].particle_scale;
+    float3 particle_scale = g_particle[gs_input[0].instanceID].view_scale;
   
     //View 좌표계에서의 파티클 위치
     float4 particle_view_position = mul(float4(particle_world_position, 1.0f), view);
@@ -67,21 +68,25 @@ void GS(point VS_OUT gs_input[1], inout TriangleStream<GS_OUT> output_stream)
     //0
     gs_output[0].position = float4(particle_view_position.x - (particle_scale.x * 0.5f), particle_view_position.y + (particle_scale.y * 0.5f), particle_view_position.z, 1.0f);
     gs_output[0].position = mul(gs_output[0].position, projection);
+    gs_output[0].color = g_particle[gs_input[0].instanceID].color;
     gs_output[0].uv = float2(0.0f, 0.0f);
     
     //1
     gs_output[1].position = float4(particle_view_position.x + (particle_scale.x * 0.5f), particle_view_position.y + (particle_scale.y * 0.5f), particle_view_position.z, 1.0f);
     gs_output[1].position = mul(gs_output[1].position, projection);
+    gs_output[1].color = g_particle[gs_input[0].instanceID].color;
     gs_output[1].uv = float2(1.0f, 0.0f);
     
     //2
     gs_output[2].position = float4(particle_view_position.x + (particle_scale.x * 0.5f), particle_view_position.y - (particle_scale.y * 0.5f), particle_view_position.z, 1.0f);
     gs_output[2].position = mul(gs_output[2].position, projection);
+    gs_output[2].color = g_particle[gs_input[0].instanceID].color;
     gs_output[2].uv = float2(1.0f, 1.0f);
     
     //3
     gs_output[3].position = float4(particle_view_position.x - (particle_scale.x * 0.5f), particle_view_position.y - (particle_scale.y * 0.5f), particle_view_position.z, 1.0f);
     gs_output[3].position = mul(gs_output[3].position, projection);
+    gs_output[3].color = g_particle[gs_input[0].instanceID].color;
     gs_output[3].uv = float2(0.0f, 1.0f);
 
     //Triangle1
@@ -102,9 +107,14 @@ float4 PS(GS_OUT ps_input) : SV_Target
 {
     float4 ps_output_color;
     
-    //ps_output_color = g_Texture_0.Sample(Sampler1, ps_input.uv);
+    //UV좌표에 대응하는 텍스처의 알파값 추출
+    float texture_alpha = g_texture_0.Sample(g_sampler1, ps_input.uv).a;
+   
+    //색상 정보 전달
+    ps_output_color = ps_input.color;
     
-    ps_output_color = float4(1.f, 0.f, 0.f, 1.f);
+    //알파값 정보 전달
+    ps_output_color.a = texture_alpha;
  
     return ps_output_color;
 }

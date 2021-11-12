@@ -23,16 +23,16 @@ void Geometry_script::Initialize()
 	background->SetObjectName("Forest_Background");
 	background->SetObjectTag("Background");
 	background->AddComponent(new Transform());
-	background->AddComponent(new Renderer());
+	background->AddComponent(new SpriteRenderer());
 
 	auto resource_manager = ResourceManager::GetInstance();
 
-	auto renderer = background->GetComponent<Renderer>();
+	auto renderer = background->GetComponent<SpriteRenderer>();
 	auto material = renderer->GetMaterial();
 	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, resource_manager->LoadTexture("Texture/Geometry/Forest.gif"));
 	auto texture = resource_manager->GetTexture("Forest");
-	renderer->SetMesh(resource_manager->CreateMesh(MeshType::Rectangle, texture->GetWidth(), texture->GetHeight()));
+	renderer->SetMesh(resource_manager->CreateMesh(MeshType::Rectangle));
 
 	background->GetComponent<Transform>()->SetScale(Vector3(6.0f, 6.0f, 1.0f));
 
@@ -43,19 +43,19 @@ void Geometry_script::Initialize()
 	ground->SetObjectName("Forest_Ground");
 	ground->SetObjectTag("Ground");
 	ground->AddComponent(new Transform());
-	ground->AddComponent(new Renderer());
+	ground->AddComponent(new SpriteRenderer());
 	ground->AddComponent(new Collider2D());
 
-	renderer = ground->GetComponent<Renderer>();
+	renderer = ground->GetComponent<SpriteRenderer>();
 	material = renderer->GetMaterial();
 	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, ResourceManager::GetInstance()->LoadTexture("Texture/Geometry/Ground.gif"));
 	texture = resource_manager->GetTexture("Ground");
-	renderer->SetMesh(resource_manager->CreateMesh(MeshType::Rectangle, texture->GetWidth(), texture->GetHeight()));
+	renderer->SetMesh(resource_manager->CreateMesh(MeshType::Rectangle));
 	
 	auto collider2D = ground->GetComponent<Collider2D>();
-	collider2D->SetOffsetPos(Vector3(0.0f, -0.16f, 0.0f));
-	collider2D->SetOffsetScale(Vector3(2.6f, 0.31f, 1.0f));
+	collider2D->SetOffsetPos(Vector3(0.0f, 0.0f, 0.0f));
+	collider2D->SetOffsetScale(Vector3(1.0f, 1.0f, 1.0f));
 	ground->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 	scene_manager->CreatePrefab(ground);
 	

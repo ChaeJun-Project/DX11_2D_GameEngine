@@ -6,10 +6,10 @@ Material::Material(const std::string resource_name)
 {
 	ZeroMemory(&m_material_data, sizeof(CBuffer_Material));
 
-	//텍스처는 총 4장까지만 들어가므로
-	//Vector의 capacity를 4로 초기화 
-	m_p_texture_vector.reserve(4);
-	m_p_texture_vector.resize(4);
+	//텍스처는 총 8장까지만 들어가므로
+	//Vector의 capacity를 8로 초기화 
+	m_p_texture_vector.reserve(8);
+	m_p_texture_vector.resize(8);
 }
 
 void Material::BindPipeline()
@@ -18,14 +18,14 @@ void Material::BindPipeline()
 
 	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Material);
 	constant_buffer->SetConstantBufferData(&this->m_material_data, sizeof(CBuffer_Material));
-	constant_buffer->SetBufferBindStage(PipelineStage::ALL);
+	constant_buffer->SetBufferBindStage(PipelineStage::Graphics_ALL);
 	constant_buffer->BindPipeline();
 
 	for (UINT i = 0; i < this->m_p_texture_vector.size(); ++i)
 	{
 		if (this->m_p_texture_vector[i] != nullptr)
 		{
-			this->m_p_texture_vector[i]->SetPipelineStage(PipelineStage::ALL);
+			this->m_p_texture_vector[i]->SetPipelineStage(PipelineStage::Graphics_ALL);
 			this->m_p_texture_vector[i]->SetBindSlot(i);
 			this->m_p_texture_vector[i]->BindPipeline();
 		}

@@ -17,7 +17,7 @@ void Texture::LoadFromFile(const std::string& texture_path)
 	//스크래치 이미지 생성
 	auto hResult = GetScratchImage(FileManager::ConvertStringToWString(texture_path), image);
 	assert(SUCCEEDED(hResult));
-
+	
 	//텍스처 생성
 	auto device = GraphicsManager::GetInstance()->GetDevice();
 	hResult = CreateTexture
@@ -26,7 +26,7 @@ void Texture::LoadFromFile(const std::string& texture_path)
 		image.GetImages(),
 		image.GetImageCount(),
 		image.GetMetadata(),
-		(ID3D11Resource**)m_p_texture2D.GetAddressOf()
+		(ID3D11Resource**)m_p_texture.GetAddressOf()
 	);
 	assert(SUCCEEDED(hResult));
 
@@ -37,14 +37,14 @@ void Texture::LoadFromFile(const std::string& texture_path)
 	srv_desc.Texture2D.MostDetailedMip = 0;
 	srv_desc.Texture2D.MipLevels = 1;
 
-	//Texture2D 구조체 정의
-	m_p_texture2D->GetDesc(&m_texture_desc);
+	//Texture 구조체 정의
+	m_p_texture->GetDesc(&m_texture_desc);
 	srv_desc.Format = m_texture_desc.Format;
 
 	//Shader Resource View 생성
 	hResult = device->CreateShaderResourceView
 	(
-		m_p_texture2D.Get(),
+		m_p_texture.Get(),
 		&srv_desc,
 		m_p_shader_resource_view.GetAddressOf()
 	);
@@ -105,7 +105,7 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 	(
 		&m_texture_desc,
 		0,
-		m_p_texture2D.GetAddressOf()
+		m_p_texture.GetAddressOf()
 	);
 	assert(SUCCEEDED(hResult));
 
@@ -115,7 +115,7 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 	{
 		hResult = device->CreateDepthStencilView
 		(
-			m_p_texture2D.Get(),
+			m_p_texture.Get(),
 			nullptr,
 			m_p_depth_stencil_view.GetAddressOf()
 		);
@@ -129,7 +129,7 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 		{
 			hResult = device->CreateRenderTargetView
 			(
-				m_p_texture2D.Get(),
+				m_p_texture.Get(),
 				nullptr,
 				m_p_render_target_view.GetAddressOf()
 			);
@@ -141,7 +141,7 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 		{
 			hResult = device->CreateShaderResourceView
 			(
-				m_p_texture2D.Get(),
+				m_p_texture.Get(),
 				nullptr,
 				m_p_shader_resource_view.GetAddressOf()
 			);
@@ -153,7 +153,7 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 		{
 			hResult = device->CreateUnorderedAccessView
 			(
-				m_p_texture2D.Get(),
+				m_p_texture.Get(),
 				nullptr,
 				m_p_unordered_access_view.GetAddressOf()
 			);
@@ -164,8 +164,8 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 
 void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 {
-	m_p_texture2D = texture2D;
-	m_p_texture2D->GetDesc(&m_texture_desc);
+	m_p_texture = texture2D;
+	m_p_texture->GetDesc(&m_texture_desc);
 
 	auto device = GraphicsManager::GetInstance()->GetDevice();
 	HRESULT hResult;
@@ -176,7 +176,7 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 	{
 		hResult = device->CreateDepthStencilView
 		(
-			m_p_texture2D.Get(),
+			m_p_texture.Get(),
 			nullptr,
 			m_p_depth_stencil_view.GetAddressOf()
 		);
@@ -190,7 +190,7 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 		{
 			hResult = device->CreateRenderTargetView
 			(
-				m_p_texture2D.Get(),
+				m_p_texture.Get(),
 				nullptr,
 				m_p_render_target_view.GetAddressOf()
 			);
@@ -202,7 +202,7 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 		{
 			hResult = device->CreateShaderResourceView
 			(
-				m_p_texture2D.Get(),
+				m_p_texture.Get(),
 				nullptr,
 				m_p_shader_resource_view.GetAddressOf()
 			);
@@ -214,7 +214,7 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 		{
 			hResult = device->CreateUnorderedAccessView
 			(
-				m_p_texture2D.Get(),
+				m_p_texture.Get(),
 				nullptr,
 				m_p_unordered_access_view.GetAddressOf()
 			);
@@ -323,3 +323,16 @@ void Texture::Clear()
 	UINT i = -1;
 	device_context->CSSetUnorderedAccessViews(m_unordered_bind_slot, 1, &p_unordered_access_view, &i);
 }
+
+void Texture::ReleaseRenderTargetView()
+{
+	m_p_texture.Reset();
+	m_p_render_target_view.Reset();
+}
+
+void Texture::ReleaseDepthStencilView()
+{
+	m_p_texture.Reset();
+	m_p_depth_stencil_view.Reset();
+}
+

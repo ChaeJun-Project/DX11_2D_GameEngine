@@ -45,14 +45,13 @@ inline void ConstantBuffer::Create(const UINT& buffer_bind_slot, const D3D11_USA
 	switch (desc.Usage)
 	{
 		//GPU에 의해서 읽고 쓰기 접근이 가능
-		//CPU 접근 불가
 	case D3D11_USAGE_DEFAULT:
 
 		//GPU에 의해서 읽기 가능
 		//CPU 접근 불가
 		//해당 옵션에서는 자원 수정이 불가능
 	case D3D11_USAGE_IMMUTABLE:
-		desc.CPUAccessFlags = 0;
+		desc.CPUAccessFlags = 0; //CPU 접근 불가
 		break;
 
 		//GPU에 의해서 읽기 가능

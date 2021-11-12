@@ -58,4 +58,9 @@ void ConstantBuffer::BindPipeline()
 	{
 		device_context->PSSetConstantBuffers(m_buffer_bind_slot, 1, m_p_buffer.GetAddressOf());
 	}
+
+	if (m_buffer_bind_stage & PipelineStage::CS)
+	{
+		device_context->CSSetConstantBuffers(m_buffer_bind_slot, 1, m_p_buffer.GetAddressOf());
+	}
 }

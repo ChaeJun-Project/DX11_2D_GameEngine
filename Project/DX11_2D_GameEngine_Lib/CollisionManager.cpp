@@ -136,11 +136,16 @@ const bool CollisionManager::IsCollision(Collider2D* p_left_collider2D, Collider
 {
 	static Vector3 local_pos_array[4]
 	{
-		Vector3(-50.0f, 50.0f, 0.0f),
-		Vector3(50.0f, 50.0f, 0.0f),
-		Vector3(50.0f, -50.0f, 0.0f),
-		Vector3(-50.0f, -50.0f, 0.0f),
+		Vector3(-0.5f, 0.5f, 0.0f),
+		Vector3(0.5f, 0.5f, 0.0f),
+		Vector3(0.5f, -0.5f, 0.0f),
+		Vector3(-0.5f, -0.5f, 0.0f),
 	};
+
+	for (UINT i = 0; i < 4; ++i)
+	{
+		local_pos_array[i] * p_left_collider2D->GetDefaultSize();
+	}
 
 	const auto& left_collider_world = p_left_collider2D->GetColliderWorldMatrix();
 	const auto& right_collider_world = p_right_collider2D->GetColliderWorldMatrix();

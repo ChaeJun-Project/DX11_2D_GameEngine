@@ -24,7 +24,7 @@ RenderManager::~RenderManager()
 
 void RenderManager::Render()
 {
-	//Light2D 데이터 업데이트
+	//Program, Light2D 데이터 업데이트
 	UpdateConstantBuffer();
 
 	//Graphics Manager
@@ -86,7 +86,7 @@ void RenderManager::RegisterCamera(Camera* p_camera, int& camera_index)
 			//해당 카메라 인덱스에 이미 카메라가 등록되어 있는 경우
 			if (this->m_camera_vector[camera_index] != nullptr)
 			{
-			    //이미 메인 카메라가 등록되어 있는데 새로운 메인 카메라를 넣을 경우
+				//이미 메인 카메라가 등록되어 있는데 새로운 메인 카메라를 넣을 경우
 				if (camera_index == 0)
 				{
 					assert(false); //오류체크
@@ -120,6 +120,17 @@ void RenderManager::RegisterLight2D(Light2D* p_light2D, int& light2D_index)
 
 void RenderManager::UpdateConstantBuffer()
 {
+	//=============================================
+	//Program
+	//=============================================
+	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Program);
+	constant_buffer->SetConstantBufferData(&g_cbuffer_program, sizeof(CBuffer_Program));
+	constant_buffer->SetBufferBindStage(PipelineStage::Graphics_ALL | PipelineStage::CS);
+	constant_buffer->BindPipeline();
+	
+	//=============================================
+	//Light2D
+	//=============================================
 	CBuffer_Light2D m_light2Ds_data;
 	ZeroMemory(&m_light2Ds_data, sizeof(CBuffer_Light2D));
 
@@ -131,8 +142,8 @@ void RenderManager::UpdateConstantBuffer()
 	//Light2D 개수 업데이트
 	m_light2Ds_data.light_count = static_cast<UINT>(this->m_light2D_vector.size());
 
-	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Light2D);
+	constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Light2D);
 	constant_buffer->SetConstantBufferData(&m_light2Ds_data, sizeof(CBuffer_Light2D));
-	constant_buffer->SetBufferBindStage(PipelineStage::ALL);
+	constant_buffer->SetBufferBindStage(PipelineStage::Graphics_ALL);
 	constant_buffer->BindPipeline();
 }

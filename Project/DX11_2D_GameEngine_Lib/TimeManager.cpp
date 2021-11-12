@@ -25,6 +25,11 @@ void TimeManager::Update()
     if(m_delta_time > (1.0 / 60.0))
 		m_delta_time = 1.0 / 60.0;
 #endif
+
+	Render();
+
+	g_cbuffer_program.delta_time = static_cast<float>(m_delta_time);
+	g_cbuffer_program.accumulate_time += static_cast<float>(m_delta_time);
 }
 
 void TimeManager::Render()
@@ -32,7 +37,7 @@ void TimeManager::Render()
      ++m_func_call_count;
 	 m_accumulate_time += m_delta_time; //시간 누적
 
-	 if (m_accumulate_time > 1.0)
+	 if (m_accumulate_time >= 1.0)
 	 {
 		 m_fps = m_func_call_count;
 		 m_func_call_count = 0;

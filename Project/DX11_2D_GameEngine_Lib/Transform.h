@@ -40,46 +40,53 @@ public:
 	// [Local]
 	//=====================================================================
 	//Translation
-	const Vector3& GetLocalTranslation() const { return this->m_local_translation; }
+	const Vector3& GetLocalTranslation() const { return m_local_translation; }
 
 	//Rotation
-	const Quaternion& GetLocalRotation() const { return this->m_local_rotation; }
+	const Quaternion& GetLocalRotation() const { return m_local_rotation; }
 
 	//Scale
-	const Vector3& GetLocalScale() const { return this->m_local_scale; }
+	const Vector3& GetLocalScale() const { return m_local_scale; }
 
 	//=====================================================================
 	// [World]
 	//=====================================================================
 	//Translation
-	const Vector3 GetTranslation() { return this->m_world_matrix.GetTranslation(); }
+	const Vector3 GetTranslation() { return m_world_matrix.GetTranslation(); }
 	void SetTranslation(const Vector3& translation);
 
 	//Rotation
-	const Quaternion GetRotation() { return this->m_world_matrix.GetRotation(); }
+	const Quaternion GetRotation() { return m_world_matrix.GetRotation(); }
 	void SetRotation(const Quaternion& rotation);
 
 	//Scale
-	const Vector3 GetScale() { return this->m_world_matrix.GetScale(); }
+	const Vector3 GetScale() { return m_world_matrix.GetScale(); }
 	void SetScale(const Vector3& scale);
 
 	//Direction
-	const Vector3 GetRightVector() const { return Vector3::Right * this->m_local_rotation; }
-	const Vector3 GetUpVector() const { return Vector3::Up * this->m_local_rotation; }
-	const Vector3 GetForwardVector() const { return Vector3::Forward * this->m_local_rotation; }
+	const Vector3 GetRightVector() const { return Vector3::Right * m_local_rotation; }
+	const Vector3 GetUpVector() const { return Vector3::Up * m_local_rotation; }
+	const Vector3 GetForwardVector() const { return Vector3::Forward * m_local_rotation; }
 
 	//World Matrix
-	const Matrix& GetWorldMatrix() const { return this->m_world_matrix; }
+	const Matrix& GetWorldMatrix() const { return m_world_matrix; }
+	const Vector3& GetWorldScale();
 
 public:
 	//Object Side
-	const GameObjectSideState& GetObjectSideState() const { return this->m_game_object_side_state; }
-	void SetObjectSideState(const GameObjectSideState& object_side_state) { this->m_game_object_side_state = object_side_state; }
+	const GameObjectSideState& GetObjectSideState() const { return m_game_object_side_state; }
+	void SetObjectSideState(const GameObjectSideState& object_side_state) { m_game_object_side_state = object_side_state; }
+
+	//Mesh Scale
+	void SetMeshScale(const UINT& width, const UINT& height) { m_mesh_scale = Vector3(static_cast<float>(width), static_cast<float>(height), 1.0f); }
+	const Vector3& GetMeshScale() const { return m_mesh_scale; }
 
 public:
 	CLONE(Transform);
 
 private:
+    Vector3 m_mesh_scale = Vector3::One;
+
 	Vector3 m_local_translation = Vector3::Zero; //xyz 모두 0.0f로 초기화
 	Quaternion m_local_rotation = Quaternion::Identity;
 	Vector3 m_local_scale = Vector3::One; //xyz 모두 1.0f로 초기화

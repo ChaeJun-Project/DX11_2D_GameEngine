@@ -151,8 +151,8 @@ using namespace DirectX::PackedVector;
 //Camera
 #include "Camera.h"
 
-//Renderer
-#include "Renderer.h"
+//SpriteRenderer
+#include "SpriteRenderer.h"
 
 //Script
 #include "Script.h"
@@ -166,6 +166,9 @@ using namespace DirectX::PackedVector;
 
 //Light2D
 #include "Light2D.h"
+
+//Particle
+#include "ParticleSystem.h"
 #pragma endregion
 
 #pragma region GameObject

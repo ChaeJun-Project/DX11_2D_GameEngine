@@ -10,7 +10,7 @@
 //따라서 DirectX -> Shader 프로그램으로 데이터를 보낼 때 방법이 2가지임
 //1. DirectX에서 행렬을 전치시켜 Shader 프로그램으로 보내고 열 우선 방식으로 데이터를 채움 => 역전치 => DirectX의 행렬 데이터 값이 그대로 보존
 //2. DirectX에서 행렬을 그대로 Shader 프로그램으로 보내고 행 우선 방식으로 데이터를 채움 => DirectX의 행렬 데이터 값이 그대로 보존
-cbuffer VS_WVPMatrix : register(b0)
+cbuffer WVPMatrix : register(b0)
 {
     row_major matrix world;
     row_major matrix view;
@@ -45,32 +45,65 @@ cbuffer Material : register(b1)
     row_major matrix g_matrix_3;
 }
 
+cbuffer Program : register(b2)
+{
+    float2 g_resolution;      //렌더타겟 해상도
+    float2 g_noise_resolution;//노이즈 텍스처 해상도 크기
+    
+    float g_delta_time;       //프레임 당 시간
+    float g_accumulate_time;  //누적시간     
+    float2 g_program_padding;
+}
+
 #include "LightStruct.fx"
 
-//b2는 나중에 다른 버퍼를 만들 예정
-cbuffer Light : register(b3)
+cbuffer Light2D : register(b3)
 {
     LightInfo g_light2D_array[50];
     uint g_light2D_count;
-    uint3 padding;
+    float3 g_light2D_padding;
+}
+
+cbuffer ParticleParameter : register(b4)
+{
+    uint max_count;
+    
+    float3 world_position;
+
+    float3 spawn_range;
+
+    float3 start_scale;
+    float3 end_scale;
+    
+    float4 start_color;
+    float4 end_color;
+    
+    float speed;
+    
+    float min_life;
+    float max_life;
 }
 
 //Texture2D: 텍스처 자원
-Texture2D g_Texture_0 : register(t0);
-Texture2D g_Texture_1 : register(t1);
-Texture2D g_Texture_2 : register(t2);
-Texture2D g_Texture_3 : register(t3);
-Texture2D g_Texture_4 : register(t4);
-Texture2D g_Texture_5 : register(t5);
-Texture2D g_Texture_6 : register(t6);
-Texture2D g_Texture_7 : register(t7);
+Texture2D g_texture_0 : register(t0);
+Texture2D g_texture_1 : register(t1);
+Texture2D g_texture_2 : register(t2);
+Texture2D g_texture_3 : register(t3);
+Texture2D g_texture_4 : register(t4);
+Texture2D g_texture_5 : register(t5);
+Texture2D g_texture_6 : register(t6);
+Texture2D g_texture_7 : register(t7);
 
+//Noise Texture
+Texture2D g_noise_texture : register(t13);
 
 //SamplerState: 도형에 셰이딩 작업이 이루어질 때 
 //어떻게 텍스처의 픽셀이 사용되는 지를 수정할 수 있게 해줌
 //ex) 물체가 너무 멀리 있어 8픽셀만큼의 영역을 차지하는 경우 
 //이 객체를 사용하여 원래 텍스처의 어떤 픽셀 혹은 어떤 픽셀 조합을 사용해야 할지 결정
-SamplerState Sampler1 : register(s0);
-SamplerState Sampler2 : register(s1);
+SamplerState g_sampler1 : register(s0);
+SamplerState g_sampler2 : register(s1);
+
+
 
 #endif

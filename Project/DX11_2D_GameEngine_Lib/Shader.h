@@ -3,8 +3,8 @@
 #include "IResource.h"
 #include "IShader.h"
 
-//하나의 그래픽스 파이프라인의 과정을 Shader로 정의
-//여러 Shader(VS, HS, DS, GS, PS)들을 조합하여 사용할 수 있기 때문
+//하나의 그래픽스 파이프라인과 Compute Shader의 과정을 Shader Class로 정의
+//여러 Shader(VS, HS, DS, GS, PS, CS)들을 조합하여 사용할 수 있기 때문
 class Shader final : public IResource
 {
 private:
@@ -16,7 +16,6 @@ public:
 	~Shader();
 
 	void BindPipeline() override;
-	void BindPipeline_CS();
 
 public:
 	//Shader 추가 후 생성
@@ -30,6 +29,10 @@ public:
 
 	template<typename T>
 	std::shared_ptr<T> GetShader() const;
+
+public:
+	UINT GetShaderBindStage() const { return m_shader_bind_stage; }
+	void SetShaderBindStage(const UINT& shader_bind_stage) { m_shader_bind_stage = shader_bind_stage; }
 
 	const D3D11_PRIMITIVE_TOPOLOGY& GetPrimitiveTopology() const { return this->m_primitive_topology; }
 	void SetPrimitiveTopology(const D3D11_PRIMITIVE_TOPOLOGY& primitive_topology) { this->m_primitive_topology = primitive_topology; }
@@ -45,6 +48,8 @@ public:
 
 private:
     std::map<ShaderType, std::shared_ptr<IShader>> m_shader_map;
+
+	UINT m_shader_bind_stage = 0;
 
 	D3D11_PRIMITIVE_TOPOLOGY m_primitive_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 

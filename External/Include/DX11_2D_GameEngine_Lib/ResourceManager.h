@@ -20,19 +20,21 @@ public:
 	void Initialize();
 
     //Shader
-	void CreateShader();
+	void CreateDefaultShader();
 	const std::shared_ptr<Shader>& GetShaderResource(const ShaderResourceType& shader_type);
 	//Material
-	void CreateMaterial();
+	void CreateDefaultMaterial();
 	const std::shared_ptr<Material>& GetMaterial(const std::string& material_name);
 	//Texture
+	void CreateDefaultTexture();
 	const std::shared_ptr<Texture>& LoadTexture(const std::string& texture_path);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D);
 	const std::shared_ptr<Texture>& GetTexture(const std::string& texture_name);
 	//Mesh
-	const std::shared_ptr<Mesh>& CreateMesh(const MeshType& mesh_type, const UINT& width, const UINT& height);
-	const std::shared_ptr<Mesh>& GetMesh(const UINT& width, const UINT& height);
+	void CreateDefaultMesh();
+	const std::shared_ptr<Mesh>& CreateMesh(const MeshType& mesh_type);
+	const std::shared_ptr<Mesh>& GetMesh(const MeshType& mesh_type);
 	//Prefab
 	void AddPrefab(const std::string& prefab_object_name, GameObject* p_game_object);
 	const std::shared_ptr<Prefab>& GetPrefab(const std::string& game_object_name);
@@ -45,7 +47,7 @@ private:
 	//Texture
 	std::map<std::string, std::shared_ptr<IResource>> m_p_textrue_map;
 	//Mesh
-	std::map<std::pair<UINT, UINT>, std::shared_ptr<IResource>> m_p_mesh_map;
+	std::map<MeshType, std::shared_ptr<IResource>> m_p_mesh_map;
 	//Prefab
 	std::map<std::string, std::shared_ptr<IResource>> m_p_prefab_map;
 };

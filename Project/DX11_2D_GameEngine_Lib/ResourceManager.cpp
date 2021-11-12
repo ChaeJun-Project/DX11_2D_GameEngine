@@ -49,18 +49,19 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::Initialize()
 {
-	CreateShader();
-	CreateMaterial();
-	//Collider2D 전용 Mesh 생성
-	CreateMesh(MeshType::Rectangle, 100, 100);
+	CreateDefaultShader();
+	CreateDefaultMaterial();
+	CreateDefaultMesh();
+	CreateDefaultTexture();
 }
 
-void ResourceManager::CreateShader()
+void ResourceManager::CreateDefaultShader()
 {
 	//Create Standard Shader
 	auto shader = std::make_shared<Shader>("Standard_Shader");
 	shader->AddAndCreateShader<VertexShader>("Shader/TextureShader.fx", "VS", "vs_5_0");
 	shader->AddAndCreateShader<PixelShader>("Shader/TextureShader.fx", "PS", "ps_5_0");
+	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
 	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
@@ -76,6 +77,7 @@ void ResourceManager::CreateShader()
 	shader = std::make_shared<Shader>("Collider2D_Shader");
 	shader->AddAndCreateShader<VertexShader>("Shader/DrawLineShader.fx", "VS", "vs_5_0");
 	shader->AddAndCreateShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
+	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
 	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write); //깊이 비교를 하지않고 기록도 하지 않음
@@ -92,6 +94,7 @@ void ResourceManager::CreateShader()
 	shader = std::make_shared<Shader>("Light2D_Shader");
 	shader->AddAndCreateShader<VertexShader>("Shader/LightTextureShader.fx", "VS", "vs_5_0");
 	shader->AddAndCreateShader<PixelShader>("Shader/LightTextureShader.fx", "PS", "ps_5_0");
+	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
 	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
@@ -109,6 +112,7 @@ void ResourceManager::CreateShader()
 	shader->AddAndCreateShader<GeometryShader>("Shader/ParticleShader.fx", "GS", "gs_5_0");
 	shader->AddAndCreateShader<PixelShader>("Shader/ParticleShader.fx", "PS", "ps_5_0");
 	shader->AddAndCreateShader<ComputeShader>("Shader/ParticleUpdate.fx", "CS", "cs_5_0");
+	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::GS | PipelineStage::PS | PipelineStage::CS);
 
 	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
 	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
@@ -132,7 +136,7 @@ const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderRe
 	return std::dynamic_pointer_cast<Shader>(shader_iter->second);
 }
 
-void ResourceManager::CreateMaterial()
+void ResourceManager::CreateDefaultMaterial()
 {
     //=============================================
     //Collider2D
@@ -198,6 +202,35 @@ const std::shared_ptr<Material>& ResourceManager::GetMaterial(const std::string&
 		return nullptr;
 
 	return std::dynamic_pointer_cast<Material>(material_iter->second);
+}
+
+void ResourceManager::CreateDefaultTexture()
+{
+    //Noise Texture 1
+	LoadTexture("Texture/Noise/noise_01.png");
+
+	//Noise Texture 2
+	LoadTexture("Texture/Noise/noise_02.png");
+
+	//Noise Texture 1 사용
+	auto noise_texture = GetTexture("noise_01");
+
+	//Texture Bind Pipeline
+	noise_texture->SetPipelineStage(PipelineStage::Graphics_ALL);
+	noise_texture->SetBindSlot(13);
+	noise_texture->BindPipeline();
+
+	g_cbuffer_program.noise_resolution = Vector2
+	(
+		static_cast<float>(noise_texture->GetWidth()),
+		static_cast<float>(noise_texture->GetHeight())
+	);
+
+	//Smoke Particle Texture
+	LoadTexture("Texture/Particle/smoke_particle.png");
+
+	//Rain Particle Texture
+	LoadTexture("Texture/Particle/rain_particle.png");
 }
 
 //Texture/objectname/~~/textureName.확장자
@@ -279,21 +312,51 @@ const std::shared_ptr<Texture>& ResourceManager::GetTexture(const std::string& t
 	return std::dynamic_pointer_cast<Texture>(texture_iter->second);
 }
 
-const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const MeshType& mesh_type, const UINT& width, const UINT& height)
-{
-	auto mesh = GetMesh(width, height);
 
-	//해당 사이즈의 mesh가 존재하는 경우
+void ResourceManager::CreateDefaultMesh()
+{
+    //Point
+	CreateMesh(MeshType::Point);
+	//Triangle
+	CreateMesh(MeshType::Triangle);
+	//Rectangle
+	CreateMesh(MeshType::Rectangle);
+	//Circle
+	CreateMesh(MeshType::Circle);
+}
+
+const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const MeshType& mesh_type)
+{
+	auto mesh = GetMesh(mesh_type);
+
+	//해당 종류의 mesh가 존재하는 경우
 	if (mesh != nullptr)
 		return mesh;
 
-	//해당 사이즈의 mesh가 없는 경우 => 새로 생성
-	//Create Standard Shader
-	//매쉬의 크기값으로 저장하고 리소스 이름으로 설정
-	auto new_mesh = std::make_shared<Mesh>(std::to_string(width) + "x" + std::to_string(height) + "_Mesh");
-	new_mesh->Create(mesh_type, width, height);
+	std::string mesh_type_str;
 
-	auto mesh_iter = m_p_mesh_map.insert(std::make_pair(std::make_pair(width, height), new_mesh));
+	switch (mesh_type)
+	{
+	case MeshType::Point:
+		mesh_type_str = "Point";
+		break;
+	case MeshType::Triangle:
+		mesh_type_str = "Triangle";
+		break;
+	case MeshType::Rectangle:
+		mesh_type_str = "Rectangle";
+		break;
+	case MeshType::Circle:
+		mesh_type_str = "Circle";
+		break;
+	}
+
+	//해당 종류의 mesh가 없는 경우 => 새로 생성
+	//Create Standard Shader
+	auto new_mesh = std::make_shared<Mesh>( mesh_type_str + "Mesh");
+	new_mesh->Create(mesh_type);
+
+	auto mesh_iter = m_p_mesh_map.insert(std::make_pair(mesh_type, new_mesh));
 	auto result = mesh_iter.second;
 	assert(result);
 	if (!result)
@@ -302,11 +365,11 @@ const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const MeshType& mesh_ty
 	return std::dynamic_pointer_cast<Mesh>(mesh_iter.first->second);
 }
 
-const std::shared_ptr<Mesh>& ResourceManager::GetMesh(const UINT& width, const UINT& height)
+const std::shared_ptr<Mesh>& ResourceManager::GetMesh(const MeshType& mesh_type)
 {
-	auto mesh_iter = m_p_mesh_map.find(std::pair(width, height));
+	auto mesh_iter = m_p_mesh_map.find(mesh_type);
 
-	//해당 사이즈의 메쉬를 찾지 못했을 경우
+	//해당 종류의 메쉬를 찾지 못했을 경우
 	if (mesh_iter == m_p_mesh_map.end())
 		return nullptr;
 

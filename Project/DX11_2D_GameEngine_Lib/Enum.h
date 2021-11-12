@@ -95,7 +95,7 @@ enum PipelineStage : UINT
 	PS = 1U << 4, //1 0000, Pixel Shader
 	CS = 1U << 5, //11 0000, Compute Shader
 
-	ALL = VS | HS | DS | GS | PS,
+	Graphics_ALL = VS | HS | DS | GS | PS,
 };
 
 //Component Type(IComponent »ç¿ë)
@@ -104,7 +104,7 @@ enum class ComponentType : UINT
 	NONE = 0,
 	Transform = 1,
 	Camera = 2,
-	Renderer = 3,
+	SpriteRenderer = 3,
 	Animator = 4,
 	Script = 5,
 	Collider2D = 6,

@@ -17,16 +17,14 @@ Mesh::~Mesh()
 	m_index_vector.shrink_to_fit();
 }
 
-void Mesh::Create(const MeshType& mesh_type, const UINT& width, const UINT& height)
+void Mesh::Create(const MeshType& mesh_type)
 {
 	m_mesh_type = mesh_type;
-	m_width = width;
-	m_height = height;
 
 	switch (mesh_type)
 	{
 	case MeshType::Point:
-	    CreatePointMesh();
+		CreatePointMesh();
 		break;
 	case MeshType::Triangle:
 		CreateTriangleMesh();
@@ -113,41 +111,85 @@ void Mesh::CreatePointMesh()
 
 void Mesh::CreateTriangleMesh()
 {
+	//정삼각형 아님
 	m_vertex_vector.reserve(3);
-	m_index_vector.reserve(3);
-}
-
-void Mesh::CreateRectangleMesh()
-{
-    //Mesh의 Pivot을 사각형의 중심점으로 지정
-	//Vertex
-	m_vertex_vector.reserve(4);
 	{
 		VertexColorTexture vertex;
 
-		//Left Top Vertex(좌상단 정점)
-		vertex.position = Vector3(-(m_width * 0.5f), m_height * 0.5f, 0.0f);
+		//Middle Top Vertex(중앙 상단 정점)
+		vertex.position = Vector3(0.0f, 0.5f, 0.0f);
 		vertex.color = Color4::White;
 		vertex.color.a = 0.0f;
-		vertex.uv = Vector2(0.0f, 0.0f);
-		m_vertex_vector.emplace_back(vertex);
-
-		//Right Top Vertex(우상단 정점)
-		vertex.position = Vector3(m_width * 0.5f, m_height * 0.5f, 0.0f);
-		vertex.color = Color4::White;
-		vertex.color.a = 0.0f;
-		vertex.uv = Vector2(1.0f, 0.0f);
+		vertex.uv = Vector2(0.5f, 0.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Right Bottom Vertex(우하단 정점)
-		vertex.position = Vector3(m_width * 0.5f, -(m_height * 0.5f), 0.0f);
+		vertex.position = Vector3(0.5f, -0.5f, 0.0f);
 		vertex.color = Color4::White;
 		vertex.color.a = 0.0f;
 		vertex.uv = Vector2(1.0f, 1.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Left Bottom Vertex(좌하단 정점)
-		vertex.position = Vector3(-(m_width * 0.5f), -(m_height * 0.5f), 0.0f);
+		vertex.position = Vector3(-0.5f, -0.5f, 0.0f);
+		vertex.color = Color4::White;
+		vertex.color.a = 0.0f;
+		vertex.uv = Vector2(0.0f, 1.0f);
+		m_vertex_vector.emplace_back(vertex);
+	}
+
+	//Create Vertex Buffer
+	if (m_p_vertex_buffer == nullptr)
+		m_p_vertex_buffer = std::make_shared<VertexBuffer>();
+
+	m_p_vertex_buffer->Create(m_vertex_vector);
+
+	m_index_vector.reserve(3);
+	{
+		//Triangle
+		m_index_vector.emplace_back(0);
+		m_index_vector.emplace_back(1);
+		m_index_vector.emplace_back(2);
+	}
+
+	//Create Index Buffer
+	if (m_p_index_buffer == nullptr)
+		m_p_index_buffer = std::make_shared<IndexBuffer>();
+
+	m_p_index_buffer->Create(m_index_vector);
+}
+
+void Mesh::CreateRectangleMesh()
+{
+	//Mesh의 Pivot을 사각형의 중심점으로 지정
+	//Vertex
+	m_vertex_vector.reserve(4);
+	{
+		VertexColorTexture vertex;
+
+		//Left Top Vertex(좌상단 정점)
+		vertex.position = Vector3(-0.5f, 0.5f, 0.0f);
+		vertex.color = Color4::White;
+		vertex.color.a = 0.0f;
+		vertex.uv = Vector2(0.0f, 0.0f);
+		m_vertex_vector.emplace_back(vertex);
+
+		//Right Top Vertex(우상단 정점)
+		vertex.position = Vector3(0.5f, 0.5f, 0.0f);
+		vertex.color = Color4::White;
+		vertex.color.a = 0.0f;
+		vertex.uv = Vector2(1.0f, 0.0f);
+		m_vertex_vector.emplace_back(vertex);
+
+		//Right Bottom Vertex(우하단 정점)
+		vertex.position = Vector3(0.5f, -0.5f, 0.0f);
+		vertex.color = Color4::White;
+		vertex.color.a = 0.0f;
+		vertex.uv = Vector2(1.0f, 1.0f);
+		m_vertex_vector.emplace_back(vertex);
+
+		//Left Bottom Vertex(좌하단 정점)
+		vertex.position = Vector3(-0.5f, -0.5f, 0.0f);
 		vertex.color = Color4::White;
 		vertex.color.a = 0.0f;
 		vertex.uv = Vector2(0.0f, 1.0f);
@@ -184,11 +226,10 @@ void Mesh::CreateRectangleMesh()
 void Mesh::CreateCircleMesh()
 {
 	//Vertex
-	//mesh 사이즈(x와 y 값) 중 작은 사이즈를 반지름으로 결정
-	float radius = m_width <= m_height ? static_cast<float>(m_width) : static_cast<float>(m_height);
+	float radius = 0.5f;
 	UINT slice_count = 100; //원을 나눌 조각 수
 	float step_theta = XM_2PI / static_cast<float>(slice_count); //2PI = 360도, 조각당 각도
-		
+
 	//Vertex
 	auto vertex_count = slice_count + 1;
 	m_vertex_vector.reserve(static_cast<size_t>(vertex_count));
@@ -209,10 +250,10 @@ void Mesh::CreateCircleMesh()
 			vertex.position = Vector3(radius * cosf(theta), radius * sinf(theta), 0.0f);
 			vertex.color = Color4::White;
 			vertex.color.a = 0.0f;
-			vertex.uv = Vector2(0.5f + (vertex.position.x / (2.0f * radius)) , 0.5f - (vertex.position.y / (2.0f * radius)));
+			vertex.uv = Vector2(0.5f + (vertex.position.x / (2.0f * radius)), 0.5f - (vertex.position.y / (2.0f * radius)));
 
 			m_vertex_vector.emplace_back(vertex);
-			
+
 			theta += step_theta;
 		}
 	}

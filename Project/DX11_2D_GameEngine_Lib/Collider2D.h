@@ -25,15 +25,18 @@ public:
 	void OnCollision(Collider2D* other_collider);
 
 public:
-    void SetOffsetPos(const Vector3& offset_position) { this->m_offset_position = offset_position * 100.0f; }
+    void SetOffsetPos(const Vector3& offset_position) { this->m_offset_position = offset_position; }
 	void SetOffsetScale(const Vector3& offset_scale) { this->m_offset_scale = offset_scale; }
 
+	Vector3 GetDefaultSize() { return m_default_size; }
 	const Matrix& GetColliderWorldMatrix() { return this->m_collider_world_matrix; }
 
 public:
 	CLONE(Collider2D);
 
 private:
+	Vector3 m_default_size = Vector3(100.0f, 100.f, 1.0f);
+
     Vector3 m_offset_position = Vector3::Zero;
 	Vector3 m_offset_scale = Vector3::One; //유니티에서는 Size
 

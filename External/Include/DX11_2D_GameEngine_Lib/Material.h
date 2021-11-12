@@ -19,6 +19,8 @@ public:
     void SetShader(const std::shared_ptr<Shader>& shader) { this->m_p_shader = shader; }
     const std::shared_ptr<Shader>& GetShader() { SAFE_GET_POINTER(this->m_p_shader); }
 
+    const std::shared_ptr<Texture>& GetTexture() { return m_p_texture_vector[0]; }
+
 private:
     CBuffer_Material m_material_data;
 

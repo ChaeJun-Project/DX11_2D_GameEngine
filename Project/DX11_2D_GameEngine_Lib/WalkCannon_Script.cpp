@@ -73,7 +73,7 @@ void WalkCannon_Script::Initialize()
 	walkconnon_bullet->SetObjectName("WalkCannon_Bullet");
 	walkconnon_bullet->SetObjectTag("Enemy");
 	walkconnon_bullet->AddComponent(new Transform());
-	walkconnon_bullet->AddComponent(new Renderer());
+	walkconnon_bullet->AddComponent(new SpriteRenderer());
 	walkconnon_bullet->AddComponent(new Animator());
 	walkconnon_bullet->AddComponent(new Collider2D());
 	walkconnon_bullet->AddComponent(new WalkCannon_Bullet_Script());

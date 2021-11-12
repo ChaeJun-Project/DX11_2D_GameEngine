@@ -4,7 +4,7 @@ enum class CBuffer_BindSlot : UINT
 {
 	WVPMatrix = 0,
 	Material = 1,
-
+	Program = 2,
 	Light2D = 3,
 	Particle = 4,
 };
@@ -55,6 +55,10 @@ enum class Material_Parameter : UINT
 	TEX_1 = 21,
 	TEX_2 = 22,
 	TEX_3 = 23,
+	TEX_4 = 24,
+	TEX_5 = 25,
+	TEX_6 = 26,
+	TEX_7 = 27,
 };
 
 struct CBuffer_Material
@@ -65,6 +69,21 @@ struct CBuffer_Material
 	Vector4 v4_array[4];
 	Matrix mx_array[4];
 };
+
+//======================================
+//Program
+//======================================
+struct CBuffer_Program
+{
+    Vector2 resolution;
+	Vector2 noise_resolution; //Shader¿¡¼­ ·£´ý°ªÀ¸·Î »ç¿ë
+
+	float delta_time;     
+	float accumulate_time;   
+	Vector2 padding;
+};
+
+extern CBuffer_Program g_cbuffer_program;
 
 //======================================
 //Light2D
@@ -97,19 +116,25 @@ struct CBuffer_Light2D
 };
 
 //======================================
-//Light2D
+//Particle
 //======================================
 struct CBuffer_Particle
 {
-	Vector3 particle_world_position; //¿ùµå ÁÂÇ¥°è ±âÁØ
-	Vector3 particle_scale; //ºä ÁÂÇ¥°è ±âÁØ
-	Vector3 particle_rotation; //ºä ÁÂÇ¥°è ±âÁØ
+    UINT max_count;
 
-	Vector4 particle_color;
+    Vector3 world_position;
 
-	float particle_current_time;
-	float particle_life_time;
-	int particle_active;
+	Vector3 spawn_range;
+
+	Vector3 start_scale;
+	Vector3 end_scale;
+
+	Color4 start_color;
+	Color4 end_color;    
+
+	float speed;
+
+	float  min_life;
+	float  max_life;
 };
-
 

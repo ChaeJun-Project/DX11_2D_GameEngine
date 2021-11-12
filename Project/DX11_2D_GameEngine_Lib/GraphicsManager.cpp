@@ -5,6 +5,7 @@
 #include "Settings.h"
 
 #include "ResourceManager.h"
+#include "Texture.h"
 
 GraphicsManager::GraphicsManager()
 {
@@ -167,10 +168,10 @@ void GraphicsManager::ResizeWindowByProgram(const UINT& width, const UINT& heigh
 
 void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 {
-	if (m_p_render_target_view != nullptr)
+	if (m_p_render_target_view && m_p_depth_stencil_view)
 	{
-		auto p_render_target_view = m_p_render_target_view->GetRenderTargetView();
-		SAFE_RELEASE(p_render_target_view);
+		m_p_render_target_view->ReleaseRenderTargetView();
+		m_p_depth_stencil_view->ReleaseDepthStencilView();
 	}
 
 	if (m_p_swap_chain != nullptr)
@@ -188,7 +189,7 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 
 	//RenderTarget 관련 자원 생성
 	CreateRenderTargetView();
-
+	
 	//DepthStencil 관련 자원 생성
 	CreateDepthStencilView();
 
@@ -197,6 +198,8 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 
 	auto settings = Core::GetInstance()->GetSettings();
 	std::cout << "Resolution: " << settings->GetWindowWidth() << "X" << settings->GetWindowHeight() << std::endl;
+
+	g_cbuffer_program.resolution = Vector2(static_cast<float>(settings->GetWindowWidth()), static_cast<float>(settings->GetWindowHeight()));
 }
 
 void GraphicsManager::SetFullScreen(const bool& is_full_screen)
@@ -222,11 +225,11 @@ void GraphicsManager::SetViewport(const UINT& width, const UINT& height)
 
 void GraphicsManager::BeginScene()
 {
-	if (m_p_device_context && m_p_render_target_view && m_p_depth_stencil_view)
-	{
-		auto p_render_target_view = m_p_render_target_view->GetRenderTargetView();
-		auto p_depth_stencil_view = m_p_depth_stencil_view->GetDepthStencilView();
+	auto p_render_target_view = m_p_render_target_view->GetRenderTargetView();
+	auto p_depth_stencil_view = m_p_depth_stencil_view->GetDepthStencilView();
 
+	if (m_p_device_context && p_render_target_view && p_depth_stencil_view)
+	{
 		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
 		m_p_device_context->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
 		//설정한 뷰포트 등록
@@ -389,12 +392,19 @@ void GraphicsManager::CreateRenderTargetView()
 			"CreateRenderTargetView!!!!!!!!!!!!!!!!!!!!"
 		);
 
-		//백 버퍼를 바탕으로 렌더타겟 뷰를 생성
-		m_p_render_target_view = ResourceManager::GetInstance()->CreateTexture
-		(
-			"RenderTargetView",
-			p_back_buffer
-		);
+		if (m_p_render_target_view == nullptr)
+		{
+
+			//백 버퍼를 바탕으로 렌더타겟 뷰를 생성
+			m_p_render_target_view = ResourceManager::GetInstance()->CreateTexture
+			(
+				"RenderTargetView",
+				p_back_buffer
+			);
+		}
+
+		else
+			m_p_render_target_view->Create(p_back_buffer);
 	}
 }
 
@@ -404,14 +414,26 @@ void GraphicsManager::CreateDepthStencilView()
 	{
 		auto settings = Core::GetInstance()->GetSettings();
 
-		m_p_depth_stencil_view = ResourceManager::GetInstance()->CreateTexture
-		(
-			"DepthStencilView",
-			settings->GetWindowWidth(),
-			settings->GetWindowHeight(),
-			DXGI_FORMAT_D24_UNORM_S8_UINT,
-			D3D11_BIND_DEPTH_STENCIL
-		);
+		if (m_p_depth_stencil_view == nullptr)
+		{
+			m_p_depth_stencil_view = ResourceManager::GetInstance()->CreateTexture
+			(
+				"DepthStencilView",
+				settings->GetWindowWidth(),
+				settings->GetWindowHeight(),
+				DXGI_FORMAT_D24_UNORM_S8_UINT,
+				D3D11_BIND_DEPTH_STENCIL
+			);
+		}
+
+		else
+			m_p_depth_stencil_view->Create
+			(
+				settings->GetWindowWidth(),
+				settings->GetWindowHeight(),
+				DXGI_FORMAT_D24_UNORM_S8_UINT,
+				D3D11_BIND_DEPTH_STENCIL
+			);
 	}
 }
 
@@ -435,6 +457,15 @@ void GraphicsManager::CreateConstantBuffers()
 		pair_iter.first->second->Create<CBuffer_Material>(static_cast<UINT>(CBuffer_BindSlot::Material));
 	}
 
+	//Program
+	pair_iter = m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Program, std::make_shared<ConstantBuffer>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create<CBuffer_Material>(static_cast<UINT>(CBuffer_BindSlot::Program));
+	}
+
 	//Light2D
 	pair_iter = m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Light2D, std::make_shared<ConstantBuffer>()));
 	result = pair_iter.second;
@@ -442,6 +473,15 @@ void GraphicsManager::CreateConstantBuffers()
 	if (result)
 	{
 		pair_iter.first->second->Create<CBuffer_Light2D>(static_cast<UINT>(CBuffer_BindSlot::Light2D));
+	}
+
+	//Particle
+	pair_iter = m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Particle, std::make_shared<ConstantBuffer>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create<CBuffer_Particle>(static_cast<UINT>(CBuffer_BindSlot::Particle));
 	}
 }
 

@@ -32,7 +32,7 @@ float4 PS(VertexColorTextureOutputType ps_input) : SV_Target
 {
     float4 ps_output_color;
     
-    ps_output_color = g_Texture_0.Sample(Sampler1, ps_input.uv);
+    ps_output_color = g_texture_0.Sample(g_sampler1, ps_input.uv);
  
     return ps_output_color;
 }

@@ -139,8 +139,8 @@
     <ClInclude Include="Material.h">
       <Filter>Resource\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Scene\Components\3. Renderer</Filter>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Scene\Components\3. Sprite Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Resource\Mesh</Filter>
@@ -324,8 +324,8 @@
     <ClCompile Include="Material.cpp">
       <Filter>Resource\Material</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Scene\Components\3. Renderer</Filter>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Scene\Components\3. Sprite Renderer</Filter>
     </ClCompile>
     <ClCompile Include="ConstantStruct.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
@@ -554,9 +554,6 @@
     <Filter Include="Scene\Components\2. Camera">
       <UniqueIdentifier>{5010c158-ab20-4dff-a899-f82268185cb5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Components\3. Renderer">
-      <UniqueIdentifier>{964d467a-c2ac-4b30-bade-9303fcfa8d86}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Components\4. Animator">
       <UniqueIdentifier>{7defdf6b-a0f1-4cf9-a2f8-a9511e904d01}</UniqueIdentifier>
     </Filter>
@@ -629,6 +626,12 @@
     <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Compute\Compute Shader">
       <UniqueIdentifier>{601a225d-b77c-4cb1-ba7e-ddf0efa8bc7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\Components\3. Sprite Renderer">
+      <UniqueIdentifier>{964d467a-c2ac-4b30-bade-9303fcfa8d86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderFiles\Shader\Compute\Particle">
+      <UniqueIdentifier>{60311d86-c168-4995-a44c-20f29786d2e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ShaderFiles\ConstantBuffer.fx">
@@ -658,8 +661,11 @@
     <FxCompile Include="ShaderFiles\ParticleStruct.fx">
       <Filter>ShaderFiles\Struct</Filter>
     </FxCompile>
-    <FxCompile Include="ShaderFiles\ParticleUpdate.fx">
-      <Filter>ShaderFiles\Shader\Compute</Filter>
+    <FxCompile Include="ShaderFiles\RainUpdate.fx">
+      <Filter>ShaderFiles\Shader\Compute\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\SmokeUpdate.fx">
+      <Filter>ShaderFiles\Shader\Compute\Particle</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

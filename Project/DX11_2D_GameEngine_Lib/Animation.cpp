@@ -65,7 +65,7 @@ void Animation::LoadFromFile(const std::string& animation_directory_path)
 	}
 
 	//Create Mesh
-	this->m_p_mesh = resource_manager->CreateMesh(MeshType::Rectangle, m_p_texture_vector[0]->GetWidth(), m_p_texture_vector[0]->GetHeight());
+	this->m_p_mesh = resource_manager->GetMesh(MeshType::Rectangle);
 }
 
 void Animation::SaveFile(const std::string& animation_directory_path)
