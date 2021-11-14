@@ -4,11 +4,12 @@
 struct ParticleInfo
 {
     float3 world_position; //월드 좌표계 기준 위치값
-    float3 view_rotation;  //뷰 좌표계 기준 스케일값
-    float3 view_scale;     //뷰 좌표계 기준 회전값
+    float3 view_rotation;  //뷰 좌표계 기준 회전값
+    float3 view_scale;     //뷰 좌표계 기준 스케일값
     
     float4 color;          //파티클 색상
     
+    float speed;           //파티클 속도
     float3 direction;      //파티클 이동 방향
     
     float current_time;    //파티클이 생성되고 경과 시간

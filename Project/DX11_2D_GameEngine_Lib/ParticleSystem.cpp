@@ -18,14 +18,12 @@ ParticleSystem::ParticleSystem()
 
 	//Create Paritcle Update Shader
 	m_p_particle_update_shader = std::make_shared<ParticleUpdateShader>();
-	
+
 	//Create Particle Structured Buffer
 	m_p_particle_buffer = std::make_shared<StructuredBuffer>();
-	m_p_particle_buffer->Create(sizeof(ParticleInfo), m_max_particle_count, SBufferType::Read_Write, false);
 
 	//Create Particle Shared Structured Buffer
 	m_p_particle_shared_buffer = std::make_shared<StructuredBuffer>();
-	m_p_particle_shared_buffer->Create(sizeof(ParticleShared), 1, SBufferType::Read_Write, true);
 }
 
 ParticleSystem::ParticleSystem(const ParticleSystem& origin)
@@ -44,9 +42,16 @@ ParticleSystem::~ParticleSystem()
 	m_p_particle_shared_buffer.reset();
 }
 
+void ParticleSystem::Initialize()
+{
+	m_p_particle_buffer->Create(sizeof(ParticleInfo), m_max_particle_count, SBufferType::Read_Write, false);
+
+	m_p_particle_shared_buffer->Create(sizeof(ParticleShared), 1, SBufferType::Read_Write, true);
+}
+
 void ParticleSystem::FinalUpdate()
 {
-    //========================================================
+	//========================================================
 	//m_p_particle_shared_buffer 업데이트
 	//========================================================
 	m_accumulate_time += TimeManager::GetInstance()->GetDeltaTime_float();
@@ -72,7 +77,7 @@ void ParticleSystem::FinalUpdate()
 	//Set Particle World Position
 	auto object_world_position = m_p_owner_game_object->GetComponent<Transform>();
 	m_p_particle_update_shader->SetParticleTranslation(object_world_position->GetTranslation());
-	
+
 	//Set Particle Spawn
 	m_p_particle_update_shader->SetParticleSpawnRange(m_spawn_range);
 
@@ -83,7 +88,7 @@ void ParticleSystem::FinalUpdate()
 	m_p_particle_update_shader->SetParticleColor(m_start_color, m_end_color);
 
 	//Set Particle Speed
-	m_p_particle_update_shader->SetParticleSpeed(m_speed);
+	m_p_particle_update_shader->SetParticleSpeed(m_min_speed, m_max_speed);
 
 	//Set Particle Life
 	m_p_particle_update_shader->SetParticleLife(m_min_life, m_max_life);
@@ -108,8 +113,10 @@ void ParticleSystem::Render()
 
 void ParticleSystem::BindPipeline()
 {
+	m_p_owner_game_object->GetComponent<Transform>()->UpdateConstantBuffer();
+
 	m_p_particle_buffer->SetBufferBindStage(PipelineStage::VS | PipelineStage::GS | PipelineStage::PS);
-	m_p_particle_buffer->SetBufferBindSlot(13);
+	m_p_particle_buffer->SetBufferBindSlot(14);
 	m_p_particle_buffer->BindPipeline();
 
 	m_p_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_particle_texture);

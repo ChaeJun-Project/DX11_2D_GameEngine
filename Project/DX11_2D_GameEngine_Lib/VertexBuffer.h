@@ -27,7 +27,7 @@ private:
 };
 
 template<typename T>
-inline void VertexBuffer::Create(const std::vector<T>& vertex_vector, const D3D11_USAGE& usage)
+void VertexBuffer::Create(const std::vector<T>& vertex_vector, const D3D11_USAGE& usage)
 {
     //정점 벡터에 정보가 없는 경우
 	if (vertex_vector.size() == 0)

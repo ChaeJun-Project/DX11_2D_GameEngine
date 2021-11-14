@@ -108,15 +108,16 @@ void ResourceManager::CreateDefaultShader()
 
 	//Create Particle Shader
 	shader = std::make_shared<Shader>("Particle_Shader");
-	shader->AddAndCreateShader<VertexShader>("Shader/ParticleShader.fx", "VS", "vs_5_0");
-	shader->AddAndCreateShader<GeometryShader>("Shader/ParticleShader.fx", "GS", "gs_5_0");
-	shader->AddAndCreateShader<PixelShader>("Shader/ParticleShader.fx", "PS", "ps_5_0");
-	shader->AddAndCreateShader<ComputeShader>("Shader/ParticleUpdate.fx", "CS", "cs_5_0");
+	shader->AddAndCreateShader<VertexShader>("Shader/RainShader.fx", "VS_Rain", "vs_5_0");
+	shader->AddAndCreateShader<GeometryShader>("Shader/RainShader.fx", "GS_Rain", "gs_5_0");
+	shader->AddAndCreateShader<PixelShader>("Shader/RainShader.fx", "PS_Rain", "ps_5_0");
+	shader->AddAndCreateShader<ComputeShader>("Shader/RainUpdate.fx", "CS_Rain", "cs_5_0");
 	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::GS | PipelineStage::PS | PipelineStage::CS);
 
 	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
-	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
+	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
 	shader->SetBlendType(BlendType::Alpha_Blend);
+	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
 	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Particle, shader));
 	result = shader_iter.second;
@@ -216,7 +217,7 @@ void ResourceManager::CreateDefaultTexture()
 	auto noise_texture = GetTexture("noise_01");
 
 	//Texture Bind Pipeline
-	noise_texture->SetPipelineStage(PipelineStage::Graphics_ALL);
+	noise_texture->SetPipelineStage(PipelineStage::Graphics_ALL | PipelineStage::CS);
 	noise_texture->SetBindSlot(13);
 	noise_texture->BindPipeline();
 

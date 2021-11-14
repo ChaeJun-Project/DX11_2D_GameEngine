@@ -474,15 +474,6 @@ void GraphicsManager::CreateConstantBuffers()
 	{
 		pair_iter.first->second->Create<CBuffer_Light2D>(static_cast<UINT>(CBuffer_BindSlot::Light2D));
 	}
-
-	//Particle
-	pair_iter = m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Particle, std::make_shared<ConstantBuffer>()));
-	result = pair_iter.second;
-	assert(result);
-	if (result)
-	{
-		pair_iter.first->second->Create<CBuffer_Particle>(static_cast<UINT>(CBuffer_BindSlot::Particle));
-	}
 }
 
 void GraphicsManager::CreateRasterizer()

@@ -46,17 +46,17 @@ void GameLogic_Script::Initialize()
 	rockmanZ->AddComponent(new RockManZ_Script());
 
 	auto collider2D = rockmanZ->GetComponent<Collider2D>();
-	collider2D->SetOffsetPos(Vector3(0.0f, -0.2f, 0.0f));
-	collider2D->SetOffsetScale(Vector3(0.5f, 0.45f, 1.0f));
+	collider2D->SetOffsetPos(Vector3(0.0f, -0.08f, 0.0f));
+	collider2D->SetOffsetScale(Vector3(0.4f, 0.5f, 1.0f));
 	rockmanZ->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.5f));
 	auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
-	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 33.0f - 321.5f), 0.0f));
+	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 33.0f - 319.0f), 0.0f));
 
 	rockmanZ->GetComponent<Script>()->Initialize();
 	current_scene->AddGameObject(rockmanZ, 3, true);
 
 	//Enemy(4)
-	auto walkconnon = new GameObject();
+	/*auto walkconnon = new GameObject();
 	walkconnon->SetObjectName("WalkCannon");
 	walkconnon->SetObjectTag("Enemy");
 	walkconnon->AddComponent(new Transform());
@@ -74,7 +74,7 @@ void GameLogic_Script::Initialize()
 	walkconnon->GetComponent<Transform>()->SetTranslation(Vector3(300.f, -300.f, 0.0f));
 
 	walkconnon->GetComponent<Script>()->Initialize();
-	current_scene->AddGameObject(walkconnon, 4, false);
+	current_scene->AddGameObject(walkconnon, 4, false);*/
 	
 	//scene_manager->CreatePrefab(walkconnon);
 	//this->m_p_walkman_prefab = ResourceManager::GetInstance()->GetPrefab("WalkCannon");

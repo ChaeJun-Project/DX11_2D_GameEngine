@@ -55,9 +55,6 @@ void Animator::FinalUpdate()
 	auto material = renderer->GetMaterial();
 	material->SetShader(ResourceManager::GetInstance()->GetShaderResource(ShaderResourceType::Light2D));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, this->m_p_current_animation->GetCurrentTexture());
-
-	auto collider2D = m_p_owner_game_object->GetComponent<SpriteRenderer>();
-	collider2D->SetMesh(this->m_p_current_animation->GetMesh());
 }
 
 void Animator::Play(const bool& is_play_reverse)

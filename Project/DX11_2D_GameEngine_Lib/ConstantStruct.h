@@ -6,7 +6,6 @@ enum class CBuffer_BindSlot : UINT
 	Material = 1,
 	Program = 2,
 	Light2D = 3,
-	Particle = 4,
 };
 
 //======================================
@@ -14,9 +13,9 @@ enum class CBuffer_BindSlot : UINT
 //======================================
 struct CBuffer_WVPMatrix
 {
-   Matrix world;		//월드 행렬
-   Matrix view;			//뷰 행렬
-   Matrix projection;   //투영 행렬
+	Matrix world;		//월드 행렬
+	Matrix view;			//뷰 행렬
+	Matrix projection;   //투영 행렬
 };
 
 extern CBuffer_WVPMatrix g_cbuffer_wvpmatrix;
@@ -63,10 +62,10 @@ enum class Material_Parameter : UINT
 
 struct CBuffer_Material
 {
-    int i_array[4];
+	int i_array[4];
 	float f_array[4];
 	Vector2 v2_array[4];
-	Vector4 v4_array[4];
+	Vector4 v4_array[6];
 	Matrix mx_array[4];
 };
 
@@ -75,12 +74,14 @@ struct CBuffer_Material
 //======================================
 struct CBuffer_Program
 {
-    Vector2 resolution;
+	Vector2 resolution;
 	Vector2 noise_resolution; //Shader에서 랜덤값으로 사용
 
-	float delta_time;     
-	float accumulate_time;   
-	Vector2 padding;
+	Vector3 view_position; //Main Camera Position
+	float delta_time;
+
+	float accumulate_time;
+	Vector3 padding;
 };
 
 extern CBuffer_Program g_cbuffer_program;
@@ -114,27 +115,3 @@ struct CBuffer_Light2D
 	UINT light_count;
 	Vector3 padding;
 };
-
-//======================================
-//Particle
-//======================================
-struct CBuffer_Particle
-{
-    UINT max_count;
-
-    Vector3 world_position;
-
-	Vector3 spawn_range;
-
-	Vector3 start_scale;
-	Vector3 end_scale;
-
-	Color4 start_color;
-	Color4 end_color;    
-
-	float speed;
-
-	float  min_life;
-	float  max_life;
-};
-

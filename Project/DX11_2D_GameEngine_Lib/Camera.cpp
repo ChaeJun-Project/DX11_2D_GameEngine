@@ -84,6 +84,12 @@ void Camera::FinalUpdate()
 
 	//매 프레임마다 RenderManager에 카메라 등록
 	RenderManager::GetInstance()->RegisterCamera(this, this->m_camera_index);
+
+	if (m_camera_index == 0)
+	{
+	    auto transform = m_p_owner_game_object->GetComponent<Transform>();
+		g_cbuffer_program.view_position = transform->GetTranslation();
+	}
 }
 
 void Camera::Render()
@@ -110,7 +116,7 @@ void Camera::UpdateViewMatrix()
 	auto up_vector = transform->GetUpVector(); //카메라의 업 벡터
 	auto forward_vector = transform->GetForwardVector(); //카메라의 바라보는 방향 벡터(전면 벡터)
 
-	//카메라가의 위치의 반대 방향으로 모든 물체를 움직어야
+	//카메라의 위치의 반대 방향으로 모든 물체를 움직어야
 	//카메라의 위치가 중심인 상태에서 오브젝트를 볼 수 있음
 	//따라서 position에 -1을 곱한 값으로 뷰 행렬을 만듦
 	this->m_view_matrix = Matrix::LookAtLH((position * -1.0f), forward_vector, up_vector);

@@ -50,26 +50,26 @@ static float gaussian5x5[25] =
 };
 
 //Noise Texture의 픽셀 값으로 0 ~ 1사이의 랜덤 값을 구하는 함수
-float4 Sample_CS(in int2 _CenterPixelPos, in Texture2D _tex, int2 _resolution)
+float4 Sample_CS(in int2 center_pixel_position, in Texture2D noise_texture, int2 noise_texture_resolution)
 {
-    float4 fOut = (float4) 0.f;
+    float4 value_out = (float4) 0.f;
     
     for (int i = 0; i < 5; ++i)
     {
         for (int j = 0; j < 5; ++j)
         {
-            int2 iPixelPos = _CenterPixelPos + int2(i - 2, j - 2);
-            if (iPixelPos.x < 0 || _resolution.x <= iPixelPos.x
-                || iPixelPos.y < 0 || _resolution.y <= iPixelPos.y)
+            int2 iPixelPos = center_pixel_position + int2(i - 2, j - 2);
+            if (iPixelPos.x < 0 || noise_texture_resolution.x <= iPixelPos.x
+                || iPixelPos.y < 0 || noise_texture_resolution.y <= iPixelPos.y)
             {
                 continue;
             }
             
-            fOut += _tex[iPixelPos] * gaussian5x5[i * 5 + j];
+            value_out += noise_texture[iPixelPos] * gaussian5x5[i * 5 + j];
         }
     }
     
-    return fOut;
+    return value_out;
 }
 
 //key: 0 ~ 1 사이 랜덤

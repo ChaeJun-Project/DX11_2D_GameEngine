@@ -35,3 +35,9 @@ void ComputeShader::Create(const std::string& path, const std::string& function_
 	);
 	assert(SUCCEEDED(hResult));
 }
+
+void ComputeShader::Dispatch(const UINT& thread_group_x_count, const UINT& thread_group_y_count, const UINT& thread_group_z_count)
+{
+	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	device_context->Dispatch(m_thread_group_x, m_thread_group_y, m_thread_group_z);
+}

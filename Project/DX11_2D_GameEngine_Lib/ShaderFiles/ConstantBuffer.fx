@@ -38,6 +38,8 @@ cbuffer Material : register(b1)
     float4 g_vector4_1;
     float4 g_vector4_2;
     float4 g_vector4_3;
+    float4 g_vector4_4;
+    float4 g_vector4_5;
     
     row_major matrix g_matrix_0;
     row_major matrix g_matrix_1;
@@ -50,9 +52,11 @@ cbuffer Program : register(b2)
     float2 g_resolution;      //렌더타겟 해상도
     float2 g_noise_resolution;//노이즈 텍스처 해상도 크기
     
+    float3 g_view_position; //카메라 위치
     float g_delta_time;       //프레임 당 시간
+    
     float g_accumulate_time;  //누적시간     
-    float2 g_program_padding;
+    float3 g_program_padding;
 }
 
 #include "LightStruct.fx"
@@ -62,26 +66,6 @@ cbuffer Light2D : register(b3)
     LightInfo g_light2D_array[50];
     uint g_light2D_count;
     float3 g_light2D_padding;
-}
-
-cbuffer ParticleParameter : register(b4)
-{
-    uint max_count;
-    
-    float3 world_position;
-
-    float3 spawn_range;
-
-    float3 start_scale;
-    float3 end_scale;
-    
-    float4 start_color;
-    float4 end_color;
-    
-    float speed;
-    
-    float min_life;
-    float max_life;
 }
 
 //Texture2D: 텍스처 자원

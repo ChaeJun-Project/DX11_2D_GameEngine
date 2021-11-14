@@ -83,7 +83,7 @@ void StructuredBuffer::Create(const UINT& element_size, const UINT& element_coun
 
 		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
-		desc.Usage = D3D11_USAGE_STAGING; //GPU 메모리에서 CPU 메모리로 복사 허용
+		desc.Usage = D3D11_USAGE_DEFAULT; 
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ; //CPU 읽기만 허용
 
 		desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;

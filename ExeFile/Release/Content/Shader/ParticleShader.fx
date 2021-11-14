@@ -4,7 +4,7 @@
 #include "ConstantBuffer.fx"
 #include "ParticleStruct.fx"
 
-StructuredBuffer<ParticleInfo> g_particle : register(t13);
+StructuredBuffer<ParticleInfo> g_particle : register(t14);
 
 struct VS_IN
 {
@@ -28,14 +28,11 @@ struct GS_OUT // = PS_IN
 //Vertex Shader
 VS_OUT VS(VS_IN vs_input)
 {
-    VS_IN vs_output;
-    
-    //Position 복사
+    VS_OUT vs_output;
+  
     vs_output.position = vs_input.position;
-    
-    //Instance ID 복사
-    vs_input.instanceID = vs_input.instanceID;
-    
+    vs_output.instanceID = vs_input.instanceID;
+  
     return vs_output;
 }
 

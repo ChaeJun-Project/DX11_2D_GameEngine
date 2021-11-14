@@ -15,6 +15,8 @@ public:
 	explicit ParticleSystem(const ParticleSystem& origin);
 	~ParticleSystem();
 
+	void Initialize();
+
 	virtual void FinalUpdate() override;
 
 	void Render();
@@ -60,15 +62,21 @@ public:
 		m_end_color = end_color;	  //삭제 시 파티클 색상
 	}
 	//Set Particle Speed
-	void SetParticleSpeed(const float& speed)
+	void SetParticleSpeed(const float& min_speed, const float& max_speed)
 	{
-		m_speed = speed;
+		m_min_speed = min_speed;
+		m_max_speed = max_speed;
 	}
 	//Set Particle Life
 	void SetParticleLife(const float& min_life, const float& max_life)
 	{
 		m_min_life = min_life;
 		m_max_life = max_life;
+	}
+	//Set Particle Draw Frequency
+	void SetParticleDrawFrequency(const float& draw_frequency)
+	{
+		m_spawn_frequency = draw_frequency;
 	}
 
 public:
@@ -101,7 +109,8 @@ private:
 	Color4 m_end_color = Color4::White;    //삭제 시 파티클 색상
 
 	//Particle Speed
-	float m_speed = 0.0f;
+	float m_min_speed = 0.0f;
+	float m_max_speed = 0.0f;
 
 	//Particle Life
 	float  m_min_life = 0.0f; //생성 시 가질 수 있는 최소 파티클 생존 시간

@@ -9,6 +9,7 @@
 
 ParticleUpdateShader::ParticleUpdateShader()
 {
+    ZeroMemory(&m_particle_system_data, sizeof(CBuffer_Material));
 }
 
 ParticleUpdateShader::~ParticleUpdateShader()
@@ -25,23 +26,23 @@ void ParticleUpdateShader::Excute()
 
 	auto particle_max_count = m_p_particle_buffer->GetElementCount();
 
-	m_particle_system_data.max_count = particle_max_count;
+	m_particle_system_data.i_array[0] = particle_max_count;
 
 	// 상수버퍼 업데이트
-	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Particle);
-	constant_buffer->SetConstantBufferData(&m_particle_system_data, sizeof(CBuffer_Particle));
+	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Material);
+	constant_buffer->SetConstantBufferData(&m_particle_system_data, sizeof(CBuffer_Material));
 	constant_buffer->SetBufferBindStage(PipelineStage::CS);
 	constant_buffer->BindPipeline();
 
-	UINT thread_group_x_count;
-	
-	if((particle_max_count % m_p_compute_shader->GetGroupThreadXCount()) == 0)
+	UINT thread_group_x_count = 0;
+
+	if ((particle_max_count % m_p_compute_shader->GetGroupThreadXCount()) == 0)
 		thread_group_x_count = particle_max_count / m_p_compute_shader->GetGroupThreadXCount();
-	
+
 	else
 		thread_group_x_count = (particle_max_count / m_p_compute_shader->GetGroupThreadXCount()) + 1;
 
-	m_p_compute_shader->SetGroupThreadCount(thread_group_x_count, 1, 1);
+	m_p_compute_shader->Dispatch(thread_group_x_count, 1, 1);
 
 	Clear();
 }
@@ -55,6 +56,7 @@ void ParticleUpdateShader::BindPipeline()
 void ParticleUpdateShader::Clear()
 {
 	m_p_particle_buffer->Clear();
+	m_p_particle_buffer = nullptr;
 }
 
 void ParticleUpdateShader::SetComputeShader(const std::shared_ptr<ComputeShader>& p_compute_shader)

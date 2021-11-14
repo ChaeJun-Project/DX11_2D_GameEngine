@@ -655,17 +655,14 @@
     <FxCompile Include="ShaderFiles\ShaderFunc.fx">
       <Filter>ShaderFiles\Func</Filter>
     </FxCompile>
-    <FxCompile Include="ShaderFiles\ParticleShader.fx">
-      <Filter>ShaderFiles\Shader</Filter>
-    </FxCompile>
     <FxCompile Include="ShaderFiles\ParticleStruct.fx">
       <Filter>ShaderFiles\Struct</Filter>
     </FxCompile>
     <FxCompile Include="ShaderFiles\RainUpdate.fx">
       <Filter>ShaderFiles\Shader\Compute\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="ShaderFiles\SmokeUpdate.fx">
-      <Filter>ShaderFiles\Shader\Compute\Particle</Filter>
+    <FxCompile Include="ShaderFiles\RainShader.fx">
+      <Filter>ShaderFiles\Shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

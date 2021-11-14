@@ -20,6 +20,7 @@ constexpr ShaderType Shader::GetShaderType()
 #define REGISTER_SHADER_TYPE(T, shader_type) template<>  ShaderType Shader::GetShaderType<T>() { return shader_type; }
 
 REGISTER_SHADER_TYPE(VertexShader, ShaderType::VS);
+REGISTER_SHADER_TYPE(GeometryShader, ShaderType::GS);
 REGISTER_SHADER_TYPE(PixelShader, ShaderType::PS);
 REGISTER_SHADER_TYPE(ComputeShader, ShaderType::CS);
 //TODO: 추후에 다른 Shader들도 추가 예정
@@ -44,7 +45,8 @@ void Shader::BindPipeline()
     auto graphics_manager = GraphicsManager::GetInstance();
 
 	auto device_context = graphics_manager->GetDeviceContext();
-
+	
+	
 	//Vertex Shader Stage
 	if (m_shader_bind_stage & PipelineStage::VS)
 	{
@@ -62,11 +64,19 @@ void Shader::BindPipeline()
 	{
 		//TODO
 	}
+	else
+	{
+		
+	}
 
 	//Domain Shader Stage
 	if (m_shader_bind_stage & PipelineStage::DS)
 	{
 		//TODO
+	}
+	else
+	{
+		device_context->GSSetShader(nullptr, 0, 0);
 	}
 
 	//Geometry Shader Stage
@@ -74,6 +84,10 @@ void Shader::BindPipeline()
 	{
 		auto geometry_shader = GetShader<GeometryShader>();
 		device_context->GSSetShader(geometry_shader->GetGeometryShader(), 0, 0);
+	}
+	else
+	{
+		device_context->GSSetShader(nullptr, 0, 0);
 	}
 
 	//Pixel Shader Stage
@@ -88,7 +102,6 @@ void Shader::BindPipeline()
 	{
 	    auto compute_shader = GetShader<ComputeShader>();
 		device_context->CSSetShader(compute_shader->GetComputeShader(), 0, 0);
-		device_context->Dispatch(compute_shader->GetGroupThreadXCount(), compute_shader->GetGroupThreadYCount(), compute_shader->GetGroupThreadZCount());
 	}
 
 	//Rasterizer 적용

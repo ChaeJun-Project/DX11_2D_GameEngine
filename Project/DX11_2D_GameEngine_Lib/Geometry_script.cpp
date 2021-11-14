@@ -54,8 +54,8 @@ void Geometry_script::Initialize()
 	renderer->SetMesh(resource_manager->CreateMesh(MeshType::Rectangle));
 	
 	auto collider2D = ground->GetComponent<Collider2D>();
-	collider2D->SetOffsetPos(Vector3(0.0f, 0.0f, 0.0f));
-	collider2D->SetOffsetScale(Vector3(1.0f, 1.0f, 1.0f));
+	collider2D->SetOffsetPos(Vector3(0.0f, -0.21f, 0.0f));
+	collider2D->SetOffsetScale(Vector3(2.6f, 0.35f, 1.0f));
 	ground->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 	scene_manager->CreatePrefab(ground);
 	

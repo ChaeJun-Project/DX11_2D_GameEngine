@@ -94,7 +94,7 @@ private:
 	std::map<BlendType, std::shared_ptr<BlendState>> m_p_blender_map;
 
 	//클리어 컬러(검은색)
-	Color4 m_clear_color = Color4::Black;
+	Color4 m_clear_color = Color4(0.5f, 0.5f, 0.5f, 1.0f);
 
 	//GPU 관련 정보
 	UINT m_gpu_memory_size = 0;
