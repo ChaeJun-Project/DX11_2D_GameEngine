@@ -63,6 +63,7 @@ void ResourceManager::CreateDefaultShader()
 	shader->AddAndCreateShader<PixelShader>("Shader/TextureShader.fx", "PS", "ps_5_0");
 	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
+	shader->SetRenderTimePointType(RenderTimePointType::Forward);
 	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
 	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
 	shader->SetBlendType(BlendType::Alpha_Blend);
@@ -79,6 +80,7 @@ void ResourceManager::CreateDefaultShader()
 	shader->AddAndCreateShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
 	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
+	shader->SetRenderTimePointType(RenderTimePointType::Forward);
 	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
 	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write); //깊이 비교를 하지않고 기록도 하지 않음
 	shader->SetBlendType(BlendType::Default);
@@ -96,6 +98,7 @@ void ResourceManager::CreateDefaultShader()
 	shader->AddAndCreateShader<PixelShader>("Shader/LightTextureShader.fx", "PS", "ps_5_0");
 	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
+	shader->SetRenderTimePointType(RenderTimePointType::Forward);
 	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
 	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
 	shader->SetBlendType(BlendType::Alpha_Blend);
@@ -114,6 +117,7 @@ void ResourceManager::CreateDefaultShader()
 	shader->AddAndCreateShader<ComputeShader>("Shader/RainUpdate.fx", "CS_Rain", "cs_5_0");
 	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::GS | PipelineStage::PS | PipelineStage::CS);
 
+	shader->SetRenderTimePointType(RenderTimePointType::Particle);
 	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
 	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
 	shader->SetBlendType(BlendType::Alpha_Blend);
@@ -125,6 +129,23 @@ void ResourceManager::CreateDefaultShader()
 	if (!result)
 		return;
 
+	//Create Post Effect Shader
+	shader = std::make_shared<Shader>("Post_Effect_Shader");
+	shader->AddAndCreateShader<VertexShader>("Shader/PostEffectShader.fx", "VS", "vs_5_0");
+	shader->AddAndCreateShader<PixelShader>("Shader/PostEffectShader.fx", "PS", "ps_5_0");
+	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+
+	shader->SetRenderTimePointType(RenderTimePointType::Post_Effect);
+	shader->SetRasterizerType(RasterizerType::Cull_Back_Solid);
+	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
+	shader->SetBlendType(BlendType::Default);
+	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+
+	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Post_Effect, shader));
+	result = shader_iter.second;
+	assert(result);
+	if (!result)
+		return;
 }
 
 const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderResourceType& shader_type)

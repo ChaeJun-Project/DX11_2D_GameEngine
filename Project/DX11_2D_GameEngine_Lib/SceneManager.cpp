@@ -86,7 +86,7 @@ void SceneManager::Initialize()
 
 	particle_system->Initialize();
 
-	m_p_current_scene->AddGameObject(particle, 6, true);
+	m_p_current_scene->AddGameObject(particle, 1, true);
 }
 
 void SceneManager::Update()

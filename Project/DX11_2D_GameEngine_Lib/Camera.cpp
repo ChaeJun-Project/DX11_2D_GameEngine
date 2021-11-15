@@ -5,15 +5,26 @@
 #include "Core.h"
 #include "Settings.h"
 
+#include "Shader.h"
+
 #include "SceneManager.h"
 #include "Scene.h"
 #include "Layer.h"
 
 #include "RenderManager.h"
+#include "SpriteRenderer.h"
+#include "ParticleSystem.h"
 
 Camera::Camera()
 	:IComponent(ComponentType::Camera)
 {
+}
+
+Camera::~Camera()
+{
+	m_forward_object_vector.clear();
+	m_particle_object_vector.clear();
+	m_post_effect_object_vector.clear();
 }
 
 Camera::Camera(const Camera& origin)
@@ -87,13 +98,17 @@ void Camera::FinalUpdate()
 
 	if (m_camera_index == 0)
 	{
-	    auto transform = m_p_owner_game_object->GetComponent<Transform>();
+		auto transform = m_p_owner_game_object->GetComponent<Transform>();
 		g_cbuffer_program.view_position = transform->GetTranslation();
 	}
 }
 
-void Camera::Render()
+void Camera::SortObjects()
 {
+	m_forward_object_vector.clear();
+	m_particle_object_vector.clear();
+	m_post_effect_object_vector.clear();
+
 	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
 	auto layer_map = current_scene->GetLayerMap();
 
@@ -104,8 +119,97 @@ void Camera::Render()
 		if (this->m_culling_layer & (1 << layer_iter.first))
 			continue;
 
+		//화면에 보여지는 경우
 		else
-			layer_iter.second->Render();
+		{
+			const std::vector<GameObject*>& object_vector = layer_iter.second->GetGameObjects();
+
+			RenderTimePointType render_time_point = RenderTimePointType::NONE;
+
+			for (UINT i = 0; i < object_vector.size(); ++i)
+			{
+				//SpriteRenderer Component
+				SpriteRenderer* sprtie_renderer = object_vector[i]->GetComponent<SpriteRenderer>();
+				//ParticleSystem Component
+				ParticleSystem* particle_system = object_vector[i]->GetComponent<ParticleSystem>();
+
+				//해당 오브젝트가 SpriteRenderer 컴포넌트를 포함하고 있다면
+				if (sprtie_renderer != nullptr)
+				{
+					//Mesh, Material, Shader 중 하나라도 설정이 되어있지 않다면
+					//그리지 않음
+					if (sprtie_renderer->GetMesh() == nullptr ||
+						sprtie_renderer->GetMaterial() == nullptr ||
+						sprtie_renderer->GetMaterial()->GetShader() == nullptr)
+
+					{
+						continue;
+					}
+
+					render_time_point = sprtie_renderer->GetMaterial()->GetShader()->GetRenderTimePointType();
+				}
+
+				//해당 오브젝트가 ParticleSystem 컴포넌트를 포함하고 있다면
+				else if (particle_system != nullptr)
+				{
+					//Mesh, Material, Shader 중 하나라도 설정이 되어있지 않다면
+					//그리지 않음
+					if (particle_system->GetMesh() == nullptr ||
+						particle_system->GetMaterial() == nullptr ||
+						particle_system->GetMaterial()->GetShader() == nullptr)
+
+					{
+						continue;
+					}
+
+					render_time_point = particle_system->GetMaterial()->GetShader()->GetRenderTimePointType();
+				}
+
+				//해당 오브젝트가 PostEffect 컴포넌트를 포함하고 있다면(TODO)
+				else
+				{
+
+				}
+
+				//각 오브젝트의 그리는 시점에 따라 해당하는 벡터에 추가
+				switch (render_time_point)
+				{
+				case RenderTimePointType::Forward:
+					m_forward_object_vector.emplace_back(object_vector[i]);
+					break;
+				case RenderTimePointType::Particle:
+					m_particle_object_vector.emplace_back(object_vector[i]);
+					break;
+				case RenderTimePointType::Post_Effect:
+					m_post_effect_object_vector.emplace_back(object_vector[i]);
+					break;
+				}
+			}
+		}
+	}
+}
+
+void Camera::RenderForwardObjects()
+{
+	for (UINT i = 0; i < m_forward_object_vector.size(); ++i)
+	{
+		m_forward_object_vector[i]->Render();
+	}
+}
+
+void Camera::RenderParticleObjects()
+{
+	for (UINT i = 0; i < m_particle_object_vector.size(); ++i)
+	{
+		m_particle_object_vector[i]->Render();
+	}
+}
+
+void Camera::RenderPostEffectObjects()
+{
+	for (UINT i = 0; i < m_post_effect_object_vector.size(); ++i)
+	{
+		m_post_effect_object_vector[i]->Render();
 	}
 }
 

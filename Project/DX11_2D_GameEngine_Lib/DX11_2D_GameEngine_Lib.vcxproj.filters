@@ -632,6 +632,9 @@
     <Filter Include="ShaderFiles\Shader\Compute\Particle">
       <UniqueIdentifier>{60311d86-c168-4995-a44c-20f29786d2e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ShaderFiles\Shader\Post Effect">
+      <UniqueIdentifier>{dc21f727-a046-46ab-8716-eccc39faa83c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ShaderFiles\ConstantBuffer.fx">
@@ -663,6 +666,9 @@
     </FxCompile>
     <FxCompile Include="ShaderFiles\RainShader.fx">
       <Filter>ShaderFiles\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\PostEffectShader.fx">
+      <Filter>ShaderFiles\Shader\Post Effect</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

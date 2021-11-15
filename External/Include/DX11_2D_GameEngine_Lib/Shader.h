@@ -31,6 +31,9 @@ public:
 	std::shared_ptr<T> GetShader() const;
 
 public:
+	RenderTimePointType GetRenderTimePointType() const { return m_render_time_point; }
+	void SetRenderTimePointType(const RenderTimePointType& render_time_point) { m_render_time_point = render_time_point; }
+
 	UINT GetShaderBindStage() const { return m_shader_bind_stage; }
 	void SetShaderBindStage(const UINT& shader_bind_stage) { m_shader_bind_stage = shader_bind_stage; }
 
@@ -48,6 +51,8 @@ public:
 
 private:
     std::map<ShaderType, std::shared_ptr<IShader>> m_shader_map;
+
+	RenderTimePointType m_render_time_point = RenderTimePointType::NONE;
 
 	UINT m_shader_bind_stage = 0;
 

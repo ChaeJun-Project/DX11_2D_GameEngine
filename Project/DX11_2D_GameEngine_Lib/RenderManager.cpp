@@ -8,18 +8,18 @@
 
 RenderManager::RenderManager()
 {
-	this->m_camera_vector.resize(1);
+	m_camera_vector.resize(1);
 }
 
 RenderManager::~RenderManager()
 {
 	//Camera
-	this->m_camera_vector.clear();
-	this->m_camera_vector.shrink_to_fit();
+	m_camera_vector.clear();
+	m_camera_vector.shrink_to_fit();
 
 	//Light2D
-	this->m_light2D_vector.clear();
-	this->m_light2D_vector.shrink_to_fit();
+	m_light2D_vector.clear();
+	m_light2D_vector.shrink_to_fit();
 }
 
 void RenderManager::Render()
@@ -34,27 +34,37 @@ void RenderManager::Render()
 	graphis_manager->BeginScene();
 
 	//메인 카메라(index 0) 기준으로 화면 그리기
-	if (this->m_camera_vector[0] != nullptr)
-		this->m_camera_vector[0]->Render();
+	if (m_camera_vector[0] != nullptr)
+	{
+		m_camera_vector[0]->SortObjects();
+		m_camera_vector[0]->RenderForwardObjects();
+		m_camera_vector[0]->RenderParticleObjects();
+
+		//TODO
+		//RenderTargetView의 이미지를 카피하는 작업
+
+		m_camera_vector[0]->RenderPostEffectObjects();
+	}
 
 	//서브 카메라 화면 그리기(index 1부터)
-	for (UINT i = 1; i < static_cast<UINT>(this->m_camera_vector.size()); ++i)
+	for (UINT i = 1; i < static_cast<UINT>(m_camera_vector.size()); ++i)
 	{
-		if (this->m_camera_vector[i] == nullptr)
+		if (m_camera_vector[i] == nullptr)
 			continue;
 
-		this->m_camera_vector[i]->Render();
+		m_camera_vector[i]->SortObjects();
+		m_camera_vector[i]->RenderForwardObjects();
 	}
 
 	//Graphics Swap
 	graphis_manager->EndScene();
 
 	//카메라 벡터 초기화
-	this->m_camera_vector.clear();
-	this->m_camera_vector.resize(1);
+	m_camera_vector.clear();
+	m_camera_vector.resize(1);
 
 	//Light2D 벡터 초기화
-	this->m_light2D_vector.clear();
+	m_light2D_vector.clear();
 }
 
 void RenderManager::RegisterCamera(Camera* p_camera, int& camera_index)
@@ -62,8 +72,8 @@ void RenderManager::RegisterCamera(Camera* p_camera, int& camera_index)
 	//index가 설정되지 않은 카메라라면
 	if (camera_index == -1)
 	{
-		this->m_camera_vector.emplace_back(p_camera);
-		camera_index = static_cast<int>(this->m_camera_vector.size() - 1);
+		m_camera_vector.emplace_back(p_camera);
+		camera_index = static_cast<int>(m_camera_vector.size() - 1);
 		return;
 	}
 
@@ -71,11 +81,11 @@ void RenderManager::RegisterCamera(Camera* p_camera, int& camera_index)
 	{
 		//인자로 들어온 카메라 인덱스가 
 		//현재 카메라 벡터 사이즈보다 크거나 같은 경우
-		if (this->m_camera_vector.size() <= camera_index)
+		if (m_camera_vector.size() <= camera_index)
 		{
 			//카메라 벡터 사이즈를 증가
-			this->m_camera_vector.resize(camera_index);
-			this->m_camera_vector[camera_index] = p_camera;
+			m_camera_vector.resize(camera_index);
+			m_camera_vector[camera_index] = p_camera;
 			return;
 		}
 
@@ -84,7 +94,7 @@ void RenderManager::RegisterCamera(Camera* p_camera, int& camera_index)
 		else
 		{
 			//해당 카메라 인덱스에 이미 카메라가 등록되어 있는 경우
-			if (this->m_camera_vector[camera_index] != nullptr)
+			if (m_camera_vector[camera_index] != nullptr)
 			{
 				//이미 메인 카메라가 등록되어 있는데 새로운 메인 카메라를 넣을 경우
 				if (camera_index == 0)
@@ -92,13 +102,13 @@ void RenderManager::RegisterCamera(Camera* p_camera, int& camera_index)
 					assert(false); //오류체크
 				}
 
-				this->m_camera_vector.emplace_back(p_camera);
-				camera_index = static_cast<int>(this->m_camera_vector.size() - 1);
+				m_camera_vector.emplace_back(p_camera);
+				camera_index = static_cast<int>(m_camera_vector.size() - 1);
 				return;
 			}
 
 			else
-				this->m_camera_vector[camera_index] = p_camera;
+				m_camera_vector[camera_index] = p_camera;
 
 		}
 	}
@@ -106,16 +116,16 @@ void RenderManager::RegisterCamera(Camera* p_camera, int& camera_index)
 
 Camera* RenderManager::GetMainCamera()
 {
-	if (this->m_camera_vector[0] == nullptr)
+	if (m_camera_vector[0] == nullptr)
 		return nullptr;
 
-	return this->m_camera_vector[0];
+	return m_camera_vector[0];
 }
 
 void RenderManager::RegisterLight2D(Light2D* p_light2D, int& light2D_index)
 {
-	this->m_light2D_vector.emplace_back(p_light2D);
-	light2D_index = static_cast<int>(this->m_light2D_vector.size() - 1);
+	m_light2D_vector.emplace_back(p_light2D);
+	light2D_index = static_cast<int>(m_light2D_vector.size() - 1);
 }
 
 void RenderManager::UpdateConstantBuffer()
@@ -127,7 +137,7 @@ void RenderManager::UpdateConstantBuffer()
 	constant_buffer->SetConstantBufferData(&g_cbuffer_program, sizeof(CBuffer_Program));
 	constant_buffer->SetBufferBindStage(PipelineStage::Graphics_ALL | PipelineStage::CS);
 	constant_buffer->BindPipeline();
-	
+
 	//=============================================
 	//Light2D
 	//=============================================
@@ -135,12 +145,12 @@ void RenderManager::UpdateConstantBuffer()
 	ZeroMemory(&m_light2Ds_data, sizeof(CBuffer_Light2D));
 
 	//Light2D 데이터 업데이트
-	for (UINT i = 0; i < static_cast<UINT>(this->m_light2D_vector.size()); ++i)
+	for (UINT i = 0; i < static_cast<UINT>(m_light2D_vector.size()); ++i)
 	{
-		m_light2Ds_data.light2D_array[i] = this->m_light2D_vector[i]->GetLight2DInfo();
+		m_light2Ds_data.light2D_array[i] = m_light2D_vector[i]->GetLight2DInfo();
 	}
 	//Light2D 개수 업데이트
-	m_light2Ds_data.light_count = static_cast<UINT>(this->m_light2D_vector.size());
+	m_light2Ds_data.light_count = static_cast<UINT>(m_light2D_vector.size());
 
 	constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Light2D);
 	constant_buffer->SetConstantBufferData(&m_light2Ds_data, sizeof(CBuffer_Light2D));

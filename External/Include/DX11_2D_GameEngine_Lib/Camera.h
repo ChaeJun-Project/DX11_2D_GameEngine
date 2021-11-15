@@ -6,12 +6,17 @@ class Camera : public IComponent
 public:
     Camera();
     explicit Camera(const Camera& origin);
-    ~Camera() = default;
+    ~Camera();
 
     void Update() override;
     void FinalUpdate() override;
 
-    void Render();
+    //Rendering 시점 별로 그릴 오브젝트들을 분류하는 작업
+    void SortObjects();
+
+    void RenderForwardObjects();
+    void RenderParticleObjects();
+    void RenderPostEffectObjects();
 
 private:
     //뷰 행렬(메트릭스) 업데이트
@@ -63,5 +68,9 @@ private:
     Matrix m_projection_matrix = Matrix::Identity;
 
     UINT m_culling_layer = 1 << 0;
+
+    std::vector<GameObject*> m_forward_object_vector;
+    std::vector<GameObject*> m_particle_object_vector;
+    std::vector<GameObject*> m_post_effect_object_vector;
 };
 

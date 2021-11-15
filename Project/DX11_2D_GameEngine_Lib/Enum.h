@@ -77,13 +77,23 @@ enum class DepthStencilType : UINT
 	No_Test_No_Write = 5,
 };
 
+//렌더링 시점 Type(Shader 사용)
+enum class RenderTimePointType : UINT
+{
+	NONE = 0,
+	Forward = 1,
+	Particle = 2,
+	Post_Effect = 3,
+};
+
 //Shader Resource Type(ShaderManager 사용)
 enum class ShaderResourceType : UINT
 {
 	Standard = 0,		  //Draw Texture
 	Collider2D = 1,		  //Draw Line
-	Light2D = 2, //Draw Texture & Light2D
-	Particle = 3		  //Draw Particle
+	Light2D = 2,		  //Draw Texture & Light2D
+	Particle = 3,		  //Draw Particle
+	Post_Effect = 4       //Draw Post Effect
 };
 
 enum PipelineStage : UINT

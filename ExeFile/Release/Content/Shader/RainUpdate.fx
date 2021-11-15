@@ -80,7 +80,7 @@ void CS_Rain(int3 thread_id : SV_DispatchThreadID)
             g_rain_particle[thread_id.x].world_position = object_world_position;
             g_rain_particle[thread_id.x].view_scale = RAIN_PARTICLE_START_SCALE.xyz;
             g_rain_particle[thread_id.x].color = RAIN_PARTICLE_START_COLOR;
-            g_rain_particle[thread_id.x].speed = RAIN_PARTICLE_MIN_SPEED + (RAIN_PARTICLE_MAX_SPEED - RAIN_PARTICLE_MIN_SPEED) * random.x;
+            g_rain_particle[thread_id.x].speed = RAIN_PARTICLE_MIN_SPEED + (RAIN_PARTICLE_MAX_SPEED - RAIN_PARTICLE_MIN_SPEED) * random.z;
             g_rain_particle[thread_id.x].direction = normalize(float3(0.0f, -1.0f, 0.0f));
         }
     }
@@ -89,7 +89,7 @@ void CS_Rain(int3 thread_id : SV_DispatchThreadID)
     else
     {
         g_rain_particle[thread_id.x].world_position += g_delta_time * g_rain_particle[thread_id.x].speed * g_rain_particle[thread_id.x].direction;
-        if (g_rain_particle[thread_id.x].world_position.y <= (-(g_resolution.y * 0.5f)))
+        if (g_rain_particle[thread_id.x].world_position.y <= (g_view_position.y - (g_resolution.y * 0.5f)))
         {
             g_rain_particle[thread_id.x].is_active = 0;
         }

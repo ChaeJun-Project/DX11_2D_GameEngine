@@ -25,6 +25,10 @@ private:
 	void BindPipeline();
 
 	void Clear();
+	
+public:
+	std::shared_ptr<Mesh> GetMesh() { SAFE_GET_POINTER(this->m_p_mesh); }
+	std::shared_ptr<Material> GetMaterial() { SAFE_GET_POINTER(this->m_p_material); }
 
 public:
 	//Set Particle Texture
