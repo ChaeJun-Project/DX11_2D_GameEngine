@@ -324,6 +324,11 @@ void Texture::Clear()
 	device_context->CSSetUnorderedAccessViews(m_unordered_bind_slot, 1, &p_unordered_access_view, &i);
 }
 
+void Texture::ReleaseTexture()
+{
+	m_p_texture.Reset();
+}
+
 void Texture::ReleaseRenderTargetView()
 {
 	m_p_texture.Reset();

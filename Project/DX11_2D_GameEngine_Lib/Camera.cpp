@@ -180,7 +180,7 @@ void Camera::SortObjects()
 				case RenderTimePointType::Particle:
 					m_particle_object_vector.emplace_back(object_vector[i]);
 					break;
-				case RenderTimePointType::Post_Effect:
+				case RenderTimePointType::PostEffect:
 					m_post_effect_object_vector.emplace_back(object_vector[i]);
 					break;
 				}
@@ -209,6 +209,8 @@ void Camera::RenderPostEffectObjects()
 {
 	for (UINT i = 0; i < m_post_effect_object_vector.size(); ++i)
 	{
+	    //Post Effect가 적용된 텍스처를 누적으로 복사하는 부분
+		RenderManager::GetInstance()->CopyPostEffect();
 		m_post_effect_object_vector[i]->Render();
 	}
 }

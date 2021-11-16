@@ -46,6 +46,8 @@ void Core::Initialize()
 	ResourceManager::GetInstance()->Initialize();
 	//Initialize Scene Manager
 	SceneManager::GetInstance()->Initialize();
+	//Initialize Render Manager
+	RenderManager::GetInstance()->Initialize();
 }
 
 void Core::Progress()

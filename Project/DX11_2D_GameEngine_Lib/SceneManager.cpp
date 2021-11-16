@@ -23,6 +23,8 @@ void SceneManager::Initialize()
 {
 	m_p_current_scene = std::make_shared<Scene>();
 
+	auto resource_manager = ResourceManager::GetInstance();
+
 	//Camera(0)
 	auto camera = new GameObject();
 	camera->SetObjectName("Main Camera");
@@ -45,7 +47,6 @@ void SceneManager::Initialize()
 
 	game_logic->GetComponent<Script>()->Initialize();
 
-
 	//Particle
 	auto particle = new GameObject();
 	particle->SetObjectName("Particle");
@@ -54,8 +55,7 @@ void SceneManager::Initialize()
 	particle->AddComponent(new ParticleSystem());
 
 	auto particle_system = particle->GetComponent<ParticleSystem>();
-	auto resource_manager = ResourceManager::GetInstance();
-
+	
 	//Set Particle Texture
 	particle_system->SetParticleTexture(resource_manager->GetTexture("rain_particle"));
 

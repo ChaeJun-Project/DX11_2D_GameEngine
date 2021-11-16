@@ -83,7 +83,7 @@ enum class RenderTimePointType : UINT
 	NONE = 0,
 	Forward = 1,
 	Particle = 2,
-	Post_Effect = 3,
+	PostEffect = 3,
 };
 
 //Shader Resource Type(ShaderManager »ç¿ë)
@@ -93,7 +93,7 @@ enum class ShaderResourceType : UINT
 	Collider2D = 1,		  //Draw Line
 	Light2D = 2,		  //Draw Texture & Light2D
 	Particle = 3,		  //Draw Particle
-	Post_Effect = 4       //Draw Post Effect
+	PostEffect = 4       //Draw Post Effect
 };
 
 enum PipelineStage : UINT

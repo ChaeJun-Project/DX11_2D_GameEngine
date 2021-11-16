@@ -7,6 +7,8 @@
 #include "ResourceManager.h"
 #include "Texture.h"
 
+#include "RenderManager.h"
+
 GraphicsManager::GraphicsManager()
 {
 	//뷰 포트 구조체 0으로 초기화
@@ -189,6 +191,9 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 
 	//RenderTarget 관련 자원 생성
 	CreateRenderTargetView();
+
+	//Post Effect Target Texture 생성
+	RenderManager::GetInstance()->ResizePostEffectTexture();
 	
 	//DepthStencil 관련 자원 생성
 	CreateDepthStencilView();

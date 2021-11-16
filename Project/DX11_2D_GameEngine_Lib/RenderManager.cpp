@@ -1,10 +1,17 @@
 #include "stdafx.h"
 #include "RenderManager.h"
 
+#include "Core.h"
+#include "Settings.h"
+
 #include "GraphicsManager.h"
 
 #include "Camera.h"
 #include "Light2D.h"
+
+#include "ResourceManager.h"
+#include "Material.h"
+#include "Texture.h"
 
 RenderManager::RenderManager()
 {
@@ -20,6 +27,16 @@ RenderManager::~RenderManager()
 	//Light2D
 	m_light2D_vector.clear();
 	m_light2D_vector.shrink_to_fit();
+
+	//Post Effect Texture
+	m_p_post_effect_target_texture.reset();
+}
+
+void RenderManager::Initialize()
+{
+	//Post Effect Material에 Texture 연결
+	auto post_effect_material = ResourceManager::GetInstance()->GetMaterial("PostEffect");
+	post_effect_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);
 }
 
 void RenderManager::Render()
@@ -39,10 +56,6 @@ void RenderManager::Render()
 		m_camera_vector[0]->SortObjects();
 		m_camera_vector[0]->RenderForwardObjects();
 		m_camera_vector[0]->RenderParticleObjects();
-
-		//TODO
-		//RenderTargetView의 이미지를 카피하는 작업
-
 		m_camera_vector[0]->RenderPostEffectObjects();
 	}
 
@@ -65,6 +78,52 @@ void RenderManager::Render()
 
 	//Light2D 벡터 초기화
 	m_light2D_vector.clear();
+}
+
+//Camera Component의 RenderPostEffectObjects에서 호출
+void RenderManager::CopyPostEffect()
+{
+	//Render Target Texture
+	auto render_target_textre = ResourceManager::GetInstance()->GetTexture("RenderTargetView");
+
+	//Render Target Texture의 이미지를 카피
+	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	device_context->CopyResource(m_p_post_effect_target_texture->GetTexture(), render_target_textre->GetTexture());
+}
+
+void RenderManager::ResizePostEffectTexture()
+{
+	auto settings = Core::GetInstance()->GetSettings();
+	auto resource_manager = ResourceManager::GetInstance();
+
+    //최초 생성    
+    if(m_p_post_effect_target_texture == nullptr)
+	{ 
+		//현재 해상도에 맞게 Post Effect Target텍스처 생성
+		m_p_post_effect_target_texture = resource_manager->CreateTexture
+		(
+			"PostEffectTarget",
+			settings->GetWindowWidth(),
+			settings->GetWindowHeight(),
+			DXGI_FORMAT_R8G8B8A8_UNORM,
+			D3D11_BIND_SHADER_RESOURCE
+		);
+	}
+	//현재 생성된 Post Effect Target Texture가 있다면
+	else
+	{
+		//Post Effect Target Texture 해제
+		m_p_post_effect_target_texture->ReleaseTexture();
+
+		//새로 생성
+		m_p_post_effect_target_texture->Create
+		(
+			settings->GetWindowWidth(),
+			settings->GetWindowHeight(),
+			DXGI_FORMAT_R8G8B8A8_UNORM,
+			D3D11_BIND_SHADER_RESOURCE
+		);
+	}
 }
 
 void RenderManager::RegisterCamera(Camera* p_camera, int& camera_index)

@@ -32,7 +32,7 @@ void Geometry_script::Initialize()
 	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, resource_manager->LoadTexture("Texture/Geometry/Forest.gif"));
 	auto texture = resource_manager->GetTexture("Forest");
-	renderer->SetMesh(resource_manager->CreateMesh(MeshType::Rectangle));
+	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
 
 	background->GetComponent<Transform>()->SetScale(Vector3(6.0f, 6.0f, 1.0f));
 
@@ -51,7 +51,7 @@ void Geometry_script::Initialize()
 	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, ResourceManager::GetInstance()->LoadTexture("Texture/Geometry/Ground.gif"));
 	texture = resource_manager->GetTexture("Ground");
-	renderer->SetMesh(resource_manager->CreateMesh(MeshType::Rectangle));
+	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
 	
 	auto collider2D = ground->GetComponent<Collider2D>();
 	collider2D->SetOffsetPos(Vector3(0.0f, -0.21f, 0.0f));

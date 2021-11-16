@@ -36,12 +36,13 @@ public:
 	void SetBindSlot(const UINT& texture_bind_slot) { m_texture_bind_slot = texture_bind_slot; }
 	
 	ID3D11Texture2D* GetTexture() const { SAFE_GET_POINTER(m_p_texture.Get()); }
-	
+
 	ID3D11RenderTargetView* GetRenderTargetView() const { SAFE_GET_POINTER(m_p_render_target_view.Get()); }
 	ID3D11DepthStencilView* GetDepthStencilView() const { SAFE_GET_POINTER(m_p_depth_stencil_view.Get()); }
 	ID3D11ShaderResourceView* GetShaderResourceView() const { SAFE_GET_POINTER(m_p_shader_resource_view.Get()); }
 	ID3D11UnorderedAccessView* GetUnorderedAccessView() const { SAFE_GET_POINTER(m_p_unordered_access_view.Get()); }
 	
+	void ReleaseTexture();
 	void ReleaseRenderTargetView();
 	void ReleaseDepthStencilView();
 

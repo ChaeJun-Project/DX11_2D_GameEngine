@@ -40,7 +40,7 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::FinalUpdate()
 {
-	
+
 }
 
 void SpriteRenderer::Render()
@@ -48,7 +48,8 @@ void SpriteRenderer::Render()
 	if (m_p_mesh == nullptr || m_p_current_material == nullptr || m_p_current_material->GetShader() == nullptr)
 		return;
 
-	m_p_sprite = m_p_current_material->GetTexture();
+	if (m_p_owner_game_object->GetObjectTag() != "Distortion")
+		m_p_sprite = m_p_current_material->GetTexture();
 
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 	if (m_p_sprite != nullptr)
@@ -61,9 +62,12 @@ void SpriteRenderer::Render()
 
 	m_p_mesh->Render();
 
-	m_p_border->BindPipeline();
+	if (m_p_owner_game_object->GetObjectTag() != "Distortion")
+	{
+		m_p_border->BindPipeline();
 
-	m_p_mesh->Render();
+		m_p_mesh->Render();
+	}
 }
 
 void SpriteRenderer::SetMaterial(const std::shared_ptr<Material>& p_current_material)

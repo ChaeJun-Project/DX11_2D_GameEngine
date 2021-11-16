@@ -19,7 +19,7 @@ ResourceManager::~ResourceManager()
 	//Shader
 	for (auto& shader : m_p_shader_map)
 		shader.second.reset();
-	
+
 	m_p_shader_map.clear();
 
 	//Material
@@ -135,13 +135,12 @@ void ResourceManager::CreateDefaultShader()
 	shader->AddAndCreateShader<PixelShader>("Shader/PostEffectShader.fx", "PS", "ps_5_0");
 	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
-	shader->SetRenderTimePointType(RenderTimePointType::Post_Effect);
+	shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
 	shader->SetRasterizerType(RasterizerType::Cull_Back_Solid);
 	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
 	shader->SetBlendType(BlendType::Default);
-	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Post_Effect, shader));
+	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::PostEffect, shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
@@ -160,8 +159,8 @@ const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderRe
 
 void ResourceManager::CreateDefaultMaterial()
 {
-    //=============================================
-    //Collider2D
+	//=============================================
+	//Collider2D
 	//=============================================
 	//Collider2D Material White
 	std::string material_name = "Collider2D_White";
@@ -214,6 +213,19 @@ void ResourceManager::CreateDefaultMaterial()
 	assert(result);
 	if (!result)
 		return;
+
+	//=============================================
+	//Post Effect
+	//=============================================
+	material_name = "PostEffect";
+	material = std::make_shared<Material>(material_name);
+	material->SetShader(GetShaderResource(ShaderResourceType::PostEffect));
+
+	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
+	result = material_iter.second;
+	assert(result);
+	if (!result)
+		return;
 }
 
 const std::shared_ptr<Material>& ResourceManager::GetMaterial(const std::string& material_name)
@@ -228,7 +240,7 @@ const std::shared_ptr<Material>& ResourceManager::GetMaterial(const std::string&
 
 void ResourceManager::CreateDefaultTexture()
 {
-    //Noise Texture 1
+	//Noise Texture 1
 	LoadTexture("Texture/Noise/noise_01.png");
 
 	//Noise Texture 2
@@ -337,7 +349,7 @@ const std::shared_ptr<Texture>& ResourceManager::GetTexture(const std::string& t
 
 void ResourceManager::CreateDefaultMesh()
 {
-    //Point
+	//Point
 	CreateMesh(MeshType::Point);
 	//Triangle
 	CreateMesh(MeshType::Triangle);
@@ -375,7 +387,7 @@ const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const MeshType& mesh_ty
 
 	//해당 종류의 mesh가 없는 경우 => 새로 생성
 	//Create Standard Shader
-	auto new_mesh = std::make_shared<Mesh>( mesh_type_str + "Mesh");
+	auto new_mesh = std::make_shared<Mesh>(mesh_type_str + "Mesh");
 	new_mesh->Create(mesh_type);
 
 	auto mesh_iter = m_p_mesh_map.insert(std::make_pair(mesh_type, new_mesh));
