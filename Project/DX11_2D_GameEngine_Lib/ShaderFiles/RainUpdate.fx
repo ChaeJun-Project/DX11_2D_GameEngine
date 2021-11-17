@@ -89,7 +89,7 @@ void CS_Rain(int3 thread_id : SV_DispatchThreadID)
     else
     {
         g_rain_particle[thread_id.x].world_position += g_delta_time * g_rain_particle[thread_id.x].speed * g_rain_particle[thread_id.x].direction;
-        if (g_rain_particle[thread_id.x].world_position.y <= (g_view_position.y - (g_resolution.y * 0.5f)))
+        if (g_rain_particle[thread_id.x].world_position.y <= (g_view_position.y - (g_resolution.y * 0.3f)))
         {
             g_rain_particle[thread_id.x].is_active = 0;
         }

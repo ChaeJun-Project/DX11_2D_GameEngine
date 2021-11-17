@@ -60,7 +60,7 @@ void SceneManager::Initialize()
 	particle_system->SetParticleTexture(resource_manager->GetTexture("rain_particle"));
 
 	//Set Compute Shader
-	auto compute_shader = resource_manager->GetShaderResource(ShaderResourceType::Particle)->GetShader<ComputeShader>();
+	auto compute_shader = resource_manager->GetShaderResource(ShaderResourceType::Particle, "Particle_Shader")->GetShader<ComputeShader>();
 	particle_system->SetComputeShader(compute_shader);
 
 	//Set Particle Activable Count

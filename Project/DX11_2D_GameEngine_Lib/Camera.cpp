@@ -30,18 +30,18 @@ Camera::~Camera()
 Camera::Camera(const Camera& origin)
 	: IComponent(origin.GetComponentType())
 {
-	this->m_camera_index = origin.m_camera_index;
-	this->m_projection_type = origin.m_projection_type;
+	m_camera_index = origin.m_camera_index;
+	m_projection_type = origin.m_projection_type;
 
-	this->m_fov = origin.m_fov;
-	this->m_near_z = origin.m_near_z;
-	this->m_far_z = origin.m_far_z;
-	this->m_speed = origin.m_speed;
+	m_fov = origin.m_fov;
+	m_near_z = origin.m_near_z;
+	m_far_z = origin.m_far_z;
+	m_speed = origin.m_speed;
 
-	this->m_view_matrix = origin.m_view_matrix;
-	this->m_projection_matrix = origin.m_projection_matrix;
+	m_view_matrix = origin.m_view_matrix;
+	m_projection_matrix = origin.m_projection_matrix;
 
-	this->m_culling_layer = origin.m_culling_layer;
+	m_culling_layer = origin.m_culling_layer;
 }
 
 void Camera::Update()
@@ -90,11 +90,11 @@ void Camera::FinalUpdate()
 	//투영 행렬(메트릭스) 업데이트
 	UpdateProjectionMatrix();
 
-	g_cbuffer_wvpmatrix.view = this->m_view_matrix;
-	g_cbuffer_wvpmatrix.projection = this->m_projection_matrix;
+	g_cbuffer_wvpmatrix.view = m_view_matrix;
+	g_cbuffer_wvpmatrix.projection = m_projection_matrix;
 
 	//매 프레임마다 RenderManager에 카메라 등록
-	RenderManager::GetInstance()->RegisterCamera(this, this->m_camera_index);
+	RenderManager::GetInstance()->RegisterCamera(this, m_camera_index);
 
 	if (m_camera_index == 0)
 	{
@@ -116,7 +116,7 @@ void Camera::SortObjects()
 	{
 		//해당 카메라가 화면에 보여줄 수 있는 레이어라면
 		//Culling Layer에 등록되지 않은 Layer만 그림
-		if (this->m_culling_layer & (1 << layer_iter.first))
+		if (m_culling_layer & (1 << layer_iter.first))
 			continue;
 
 		//화면에 보여지는 경우
@@ -215,6 +215,17 @@ void Camera::RenderPostEffectObjects()
 	}
 }
 
+void Camera::CullingLayer(UINT layer_index)
+{
+	//이미 카메라에 등록된 Culling Layer라면
+	if (m_culling_layer & (1 << layer_index))
+		m_culling_layer &= ~(1 << layer_index); //등록 해제
+
+	//카메라에 등록된 Culling Layer가 아니라면
+	else
+		m_culling_layer |= (1 << layer_index); //등록
+}
+
 void Camera::UpdateViewMatrix()
 {
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
@@ -225,7 +236,7 @@ void Camera::UpdateViewMatrix()
 	//카메라의 위치의 반대 방향으로 모든 물체를 움직어야
 	//카메라의 위치가 중심인 상태에서 오브젝트를 볼 수 있음
 	//따라서 position에 -1을 곱한 값으로 뷰 행렬을 만듦
-	this->m_view_matrix = Matrix::LookAtLH((position * -1.0f), forward_vector, up_vector);
+	m_view_matrix = Matrix::LookAtLH((position * -1.0f), forward_vector, up_vector);
 }
 
 void Camera::UpdateProjectionMatrix()
@@ -234,27 +245,16 @@ void Camera::UpdateProjectionMatrix()
 	auto resolution_x = static_cast<float>(settings->GetWindowWidth());
 	auto resolution_y = static_cast<float>(settings->GetWindowHeight());
 
-	switch (this->m_projection_type)
+	switch (m_projection_type)
 	{
 		//직교 투영 모드
 	case ProjectionType::Orthographic:
-		this->m_projection_matrix = Matrix::OrthoLH(resolution_x, resolution_y, this->m_near_z, this->m_far_z);
+		m_projection_matrix = Matrix::OrthoLH(resolution_x, resolution_y, m_near_z, m_far_z);
 		break;
 
 		//원근 투영 모드
 	case ProjectionType::Perspective:
-		this->m_projection_matrix = Matrix::PerspectiveFovLH(this->m_fov, (resolution_x / resolution_y), this->m_near_z, this->m_far_z);
+		m_projection_matrix = Matrix::PerspectiveFovLH(m_fov, (resolution_x / resolution_y), m_near_z, m_far_z);
 		break;
 	}
-}
-
-void Camera::CullingLayer(UINT layer_index)
-{
-	//이미 카메라에 등록된 Culling Layer라면
-	if (this->m_culling_layer & (1 << layer_index))
-		this->m_culling_layer &= ~(1 << layer_index); //등록 해제
-
-	//카메라에 등록된 Culling Layer가 아니라면
-	else
-		this->m_culling_layer |= (1 << layer_index); //등록
 }

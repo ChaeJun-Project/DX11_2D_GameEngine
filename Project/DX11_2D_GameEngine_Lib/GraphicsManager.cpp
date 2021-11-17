@@ -194,7 +194,7 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 
 	//Post Effect Target Texture 积己
 	RenderManager::GetInstance()->ResizePostEffectTexture();
-	
+
 	//DepthStencil 包访 磊盔 积己
 	CreateDepthStencilView();
 
@@ -548,6 +548,8 @@ void GraphicsManager::CreateSampler()
 		(
 			0,
 			D3D11_FILTER::D3D11_FILTER_ANISOTROPIC,
+			D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP,
+			D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP,
 			D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
 		);
 	}
@@ -560,17 +562,36 @@ void GraphicsManager::CreateSampler()
 	{
 		pair_iter.first->second->Create
 		(
-			0,
+			1,
 			D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT,
+			D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP,
+			D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP,
+			D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
+		);
+	}
+
+	//Sampler3
+	pair_iter = m_p_sampler_map.insert(std::make_pair("Sampler3", std::make_shared<SamplerState>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create
+		(
+			2,
+			D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_LINEAR,
+			D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP,
+			D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_MIRROR,
 			D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
 		);
 	}
 
 	//Set Sampler
-	ID3D11SamplerState* sampler_array[2]
+	ID3D11SamplerState* sampler_array[3]
 	{
 	   m_p_sampler_map["Sampler1"]->GetSamplerState(),
-	   m_p_sampler_map["Sampler2"]->GetSamplerState()
+	   m_p_sampler_map["Sampler2"]->GetSamplerState(),
+	   m_p_sampler_map["Sampler3"]->GetSamplerState(),
 	};
 
 	m_p_device_context->VSSetSamplers(0, static_cast<UINT>(m_p_sampler_map.size()), sampler_array);

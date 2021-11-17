@@ -35,8 +35,11 @@ RenderManager::~RenderManager()
 void RenderManager::Initialize()
 {
 	//Post Effect Material¿¡ Texture ¿¬°á
-	auto post_effect_material = ResourceManager::GetInstance()->GetMaterial("PostEffect");
-	post_effect_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);
+	//auto post_effect_material = ResourceManager::GetInstance()->GetMaterial("PostEffect");
+	//post_effect_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);
+
+	auto water_material = ResourceManager::GetInstance()->GetMaterial("WaterEffect");
+	water_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);
 }
 
 void RenderManager::Render()

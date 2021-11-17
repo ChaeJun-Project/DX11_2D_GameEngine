@@ -14,8 +14,10 @@ enum class CBuffer_BindSlot : UINT
 struct CBuffer_WVPMatrix
 {
 	Matrix world;		//월드 행렬
-	Matrix view;			//뷰 행렬
-	Matrix projection;   //투영 행렬
+	Matrix view;		//뷰 행렬
+	Matrix projection;  //투영 행렬
+
+	Matrix reflection;  //반사 행렬
 };
 
 extern CBuffer_WVPMatrix g_cbuffer_wvpmatrix;

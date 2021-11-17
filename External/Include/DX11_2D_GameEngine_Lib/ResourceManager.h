@@ -21,7 +21,7 @@ public:
 
     //Shader
 	void CreateDefaultShader();
-	const std::shared_ptr<Shader>& GetShaderResource(const ShaderResourceType& shader_type);
+	const std::shared_ptr<Shader>& GetShaderResource(const ShaderResourceType& shader_type, const std::string shader_name);
 	//Material
 	void CreateDefaultMaterial();
 	const std::shared_ptr<Material>& GetMaterial(const std::string& material_name);
@@ -41,7 +41,7 @@ public:
 
 private:
     //Shader
-	std::map<ShaderResourceType, std::shared_ptr<IResource>> m_p_shader_map;
+	std::map<std::pair<ShaderResourceType, std::string>, std::shared_ptr<IResource>> m_p_shader_map;
 	//Material
 	std::map<std::string, std::shared_ptr<IResource>> m_p_material_map;
 	//Texture

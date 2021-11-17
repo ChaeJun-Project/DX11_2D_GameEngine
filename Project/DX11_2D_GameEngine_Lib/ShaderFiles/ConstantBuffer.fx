@@ -15,6 +15,8 @@ cbuffer WVPMatrix : register(b0)
     row_major matrix world;
     row_major matrix view;
     row_major matrix projection;
+    
+    row_major matrix reflection;
 }
 
 cbuffer Material : register(b1)
@@ -87,7 +89,6 @@ Texture2D g_noise_texture : register(t13);
 //이 객체를 사용하여 원래 텍스처의 어떤 픽셀 혹은 어떤 픽셀 조합을 사용해야 할지 결정
 SamplerState g_sampler1 : register(s0);
 SamplerState g_sampler2 : register(s1);
-
-
+SamplerState g_sampler3 : register(s2); //Mirror
 
 #endif

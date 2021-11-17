@@ -49,21 +49,21 @@ void RockManZ_Script::Initialize()
 
 	m_p_owner_game_object->AddChild(point_light2D);
 
-	//Distortion
-	auto distortion = new GameObject();
-	distortion->SetObjectName("Distortion");
-	distortion->SetObjectTag("Distortion");
-	distortion->AddComponent(new Transform());
-	distortion->AddComponent(new SpriteRenderer());
+	////Distortion
+	//auto distortion = new GameObject();
+	//distortion->SetObjectName("Distortion");
+	//distortion->SetObjectTag("Distortion");
+	//distortion->AddComponent(new Transform());
+	//distortion->AddComponent(new SpriteRenderer());
 
-	distortion->GetComponent<Transform>()->SetScale(Vector3(0.6f, 0.5f, 1.0f));
+	//distortion->GetComponent<Transform>()->SetScale(Vector3(0.6f, 0.5f, 1.0f));
 
-	auto resource_manager = ResourceManager::GetInstance();
-	auto sprite_renderer = distortion->GetComponent<SpriteRenderer>();
-	sprite_renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
-	sprite_renderer->SetMaterial(resource_manager->GetMaterial("PostEffect"));
+	//auto resource_manager = ResourceManager::GetInstance();
+	//auto sprite_renderer = distortion->GetComponent<SpriteRenderer>();
+	//sprite_renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
+	//sprite_renderer->SetMaterial(resource_manager->GetMaterial("PostEffect"));
 
-	m_p_owner_game_object->AddChild(distortion);
+	//m_p_owner_game_object->AddChild(distortion);
 }
 
 void RockManZ_Script::Update()

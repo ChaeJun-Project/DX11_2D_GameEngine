@@ -68,14 +68,14 @@ void ResourceManager::CreateDefaultShader()
 	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
 	shader->SetBlendType(BlendType::Alpha_Blend);
 
-	auto shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Standard, shader));
+	auto shader_iter = m_p_shader_map.insert(std::make_pair(std::make_pair(ShaderResourceType::Standard, shader->GetResourceName()), shader));
 	auto result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;
 
 	//Create Collider2D Shader
-	shader = std::make_shared<Shader>("Collider2D_Shader");
+	shader = std::make_shared<Shader>("Line_Shader");
 	shader->AddAndCreateShader<VertexShader>("Shader/DrawLineShader.fx", "VS", "vs_5_0");
 	shader->AddAndCreateShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
 	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
@@ -86,7 +86,7 @@ void ResourceManager::CreateDefaultShader()
 	shader->SetBlendType(BlendType::Default);
 	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP); //선으로 그리기
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Collider2D, shader));
+	shader_iter = m_p_shader_map.insert(std::make_pair(std::make_pair(ShaderResourceType::Line, shader->GetResourceName()), shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
@@ -103,7 +103,7 @@ void ResourceManager::CreateDefaultShader()
 	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
 	shader->SetBlendType(BlendType::Alpha_Blend);
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Light2D, shader));
+	shader_iter = m_p_shader_map.insert(std::make_pair(std::make_pair(ShaderResourceType::Light2D, shader->GetResourceName()), shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
@@ -123,7 +123,7 @@ void ResourceManager::CreateDefaultShader()
 	shader->SetBlendType(BlendType::Alpha_Blend);
 	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::Particle, shader));
+	shader_iter = m_p_shader_map.insert(std::make_pair(std::make_pair(ShaderResourceType::Particle, shader->GetResourceName()), shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
@@ -136,20 +136,37 @@ void ResourceManager::CreateDefaultShader()
 	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
-	shader->SetRasterizerType(RasterizerType::Cull_Back_Solid);
+	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
 	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
 	shader->SetBlendType(BlendType::Default);
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(ShaderResourceType::PostEffect, shader));
+	shader_iter = m_p_shader_map.insert(std::make_pair(std::make_pair(ShaderResourceType::PostEffect, shader->GetResourceName()), shader));
+	result = shader_iter.second;
+	assert(result);
+	if (!result)
+		return;
+
+	//Create Water Shader
+	shader = std::make_shared<Shader>("Water_Shader");
+	shader->AddAndCreateShader<VertexShader>("Shader/WaterShader.fx", "VS_Water", "vs_5_0");
+	shader->AddAndCreateShader<PixelShader>("Shader/WaterShader.fx", "PS_Water", "ps_5_0");
+	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+
+	shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
+	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
+	shader->SetBlendType(BlendType::Default);
+
+	shader_iter = m_p_shader_map.insert(std::make_pair(std::make_pair(ShaderResourceType::PostEffect, shader->GetResourceName()), shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;
 }
 
-const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderResourceType& shader_type)
+const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderResourceType& shader_type, const std::string shader_name)
 {
-	auto shader_iter = m_p_shader_map.find(shader_type);
+	auto shader_iter = m_p_shader_map.find(std::make_pair(shader_type, shader_name));
 
 	if (shader_iter == m_p_shader_map.end())
 		return nullptr;
@@ -165,7 +182,7 @@ void ResourceManager::CreateDefaultMaterial()
 	//Collider2D Material White
 	std::string material_name = "Collider2D_White";
 	auto material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShaderResource(ShaderResourceType::Collider2D));
+	material->SetShader(GetShaderResource(ShaderResourceType::Line, "Line_Shader"));
 
 	auto material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
 	auto result = material_iter.second;
@@ -176,7 +193,7 @@ void ResourceManager::CreateDefaultMaterial()
 	//Collider2D Material Green
 	material_name = "Collider2D_Green";
 	material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShaderResource(ShaderResourceType::Collider2D));
+	material->SetShader(GetShaderResource(ShaderResourceType::Line, "Line_Shader"));
 
 	int a = 1;
 	material->SetConstantBufferData(Material_Parameter::INT_0, &a, nullptr);
@@ -190,7 +207,7 @@ void ResourceManager::CreateDefaultMaterial()
 	//Collider2D Material Red
 	material_name = "Collider2D_Red";
 	material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShaderResource(ShaderResourceType::Collider2D));
+	material->SetShader(GetShaderResource(ShaderResourceType::Line, "Line_Shader"));
 
 	a = 1;
 	material->SetConstantBufferData(Material_Parameter::INT_1, &a, nullptr);
@@ -206,7 +223,7 @@ void ResourceManager::CreateDefaultMaterial()
 	//=============================================
 	material_name = "Particle";
 	material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShaderResource(ShaderResourceType::Particle));
+	material->SetShader(GetShaderResource(ShaderResourceType::Particle, "Particle_Shader"));
 
 	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
 	result = material_iter.second;
@@ -219,7 +236,17 @@ void ResourceManager::CreateDefaultMaterial()
 	//=============================================
 	material_name = "PostEffect";
 	material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShaderResource(ShaderResourceType::PostEffect));
+	material->SetShader(GetShaderResource(ShaderResourceType::PostEffect, "Post_Effect_Shader"));
+
+	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
+	result = material_iter.second;
+	assert(result);
+	if (!result)
+		return;
+
+	material_name = "WaterEffect";
+	material = std::make_shared<Material>(material_name);
+	material->SetShader(GetShaderResource(ShaderResourceType::PostEffect, "Water_Shader"));
 
 	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
 	result = material_iter.second;
@@ -245,6 +272,9 @@ void ResourceManager::CreateDefaultTexture()
 
 	//Noise Texture 2
 	LoadTexture("Texture/Noise/noise_02.png");
+
+	//Noise Texture 3
+	LoadTexture("Texture/Noise/noise_03.jpg");
 
 	//Noise Texture 1 사용
 	auto noise_texture = GetTexture("noise_01");

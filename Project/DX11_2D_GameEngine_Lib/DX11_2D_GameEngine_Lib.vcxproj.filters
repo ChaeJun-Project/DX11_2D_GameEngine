@@ -670,6 +670,9 @@
     <FxCompile Include="ShaderFiles\PostEffectShader.fx">
       <Filter>ShaderFiles\Shader\Post Effect</Filter>
     </FxCompile>
+    <FxCompile Include="ShaderFiles\WaterShader.fx">
+      <Filter>ShaderFiles\Shader\Post Effect</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\SimpleMath.inl">

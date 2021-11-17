@@ -90,10 +90,10 @@ enum class RenderTimePointType : UINT
 enum class ShaderResourceType : UINT
 {
 	Standard = 0,		  //Draw Texture
-	Collider2D = 1,		  //Draw Line
+	Line = 1,			  //Draw Line
 	Light2D = 2,		  //Draw Texture & Light2D
 	Particle = 3,		  //Draw Particle
-	PostEffect = 4       //Draw Post Effect
+	PostEffect = 4	      //Draw Post Effect
 };
 
 enum PipelineStage : UINT
