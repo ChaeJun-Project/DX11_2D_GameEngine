@@ -47,11 +47,8 @@ void RenderManager::Render()
 	//Program, Light2D 데이터 업데이트
 	UpdateConstantBuffer();
 
-	//Graphics Manager
-	auto graphis_manager = GraphicsManager::GetInstance();
-
 	//Graphics Clear Target
-	graphis_manager->BeginScene();
+	GraphicsManager::GetInstance()->BeginScene();
 
 	//메인 카메라(index 0) 기준으로 화면 그리기
 	if (m_camera_vector[0] != nullptr)
@@ -71,9 +68,6 @@ void RenderManager::Render()
 		m_camera_vector[i]->SortObjects();
 		m_camera_vector[i]->RenderForwardObjects();
 	}
-
-	//Graphics Swap
-	graphis_manager->EndScene();
 
 	//카메라 벡터 초기화
 	m_camera_vector.clear();

@@ -2,7 +2,7 @@
 
 #define WIN32_LEAN_AND_MEAN             // 거의 사용되지 않는 내용을 Windows 헤더에서 제외합니다.
 
-#include "resource.h"
+#include "WindowSettings/resource.h"
 
 #include <assert.h>
 
@@ -16,3 +16,13 @@
 #else //릴리즈 모드일 때
 #pragma comment(lib, "DX11_2D_GameEngine_Lib/Release/DX11_2D_GameEngine_Lib_Release.lib")
 #endif
+
+//Imgui Header
+#pragma region imgui
+#include "imgui.h"
+#include "Win32/imgui_impl_win32.h"
+#include "DirectX11\imgui_impl_dx11.h"
+#pragma endregion
+
+//Enum
+#include "Engine_Enum.h"

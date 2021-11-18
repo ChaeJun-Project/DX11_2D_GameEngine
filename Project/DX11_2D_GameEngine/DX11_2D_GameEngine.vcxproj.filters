@@ -5,40 +5,57 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Game">
-      <UniqueIdentifier>{b7ce9bfd-635f-4cb2-a8bd-a3c5be0a8644}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Editor">
-      <UniqueIdentifier>{90268c2c-cd6f-43d8-b950-47dea33c19ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Settings">
-      <UniqueIdentifier>{3910d78c-9e11-4626-a5c3-efe26f56d9bf}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="WindowSettings\targetver.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="WindowSettings\resource.h">
       <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="Imgui\imconfig.h" />
+    <ClInclude Include="Imgui\imgui.h" />
+    <ClInclude Include="Imgui\imgui_internal.h" />
+    <ClInclude Include="Imgui\imstb_rectpack.h" />
+    <ClInclude Include="Imgui\imstb_textedit.h" />
+    <ClInclude Include="Imgui\imstb_truetype.h" />
+    <ClInclude Include="Imgui\Win32\imgui_impl_win32.h" />
+    <ClInclude Include="Imgui\DirectX11\imgui_impl_dx11.h" />
+    <ClInclude Include="Editor\GUI\IGUI.h" />
+    <ClInclude Include="Editor\Manager\EditorManager.h" />
+    <ClInclude Include="Engine_Enum.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="DX11_2D_GameEngine.rc">
+    <ResourceCompile Include="WindowSettings\DX11_2D_GameEngine.rc">
       <Filter>Default</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Zero_icon.ico">
+    <Image Include="WindowSettings\Zero_icon.ico">
       <Filter>Default</Filter>
     </Image>
-    <Image Include="window_icon.ico">
+    <Image Include="WindowSettings\window_icon.ico">
+      <Filter>Default</Filter>
+    </Image>
+    <Image Include="WindowSettings\X_icon.ico">
       <Filter>Default</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="DX11_2D_GameEngine.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Imgui\imgui.cpp" />
+    <ClCompile Include="Imgui\imgui_demo.cpp" />
+    <ClCompile Include="Imgui\imgui_draw.cpp" />
+    <ClCompile Include="Imgui\imgui_tables.cpp" />
+    <ClCompile Include="Imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Imgui\Win32\imgui_impl_win32.cpp" />
+    <ClCompile Include="Imgui\DirectX11\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Editor\GUI\IGUI.cpp" />
+    <ClCompile Include="Editor\Manager\EditorManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WindowSettings\DX11_2D_GameEngine.aps" />
   </ItemGroup>
 </Project>
