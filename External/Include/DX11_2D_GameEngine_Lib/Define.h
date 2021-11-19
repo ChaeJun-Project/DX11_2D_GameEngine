@@ -21,6 +21,9 @@ typedef unsigned long ULONG;
 #define SAFE_RELEASE(p)         { if(p) { p->Release(); p = nullptr; } }
 
 //Key 상태 체크 매크로 정의 
+#define KEY_PRESS(key) InputManager::GetInstance()->KeyPress(key)
+#define KEY_DOWN(key) InputManager::GetInstance()->KeyDown(key)
+#define KEY_UP(key) InputManager::GetInstance()->KeyUp(key)
 
 //Mouse 위치 매크로 정의
 

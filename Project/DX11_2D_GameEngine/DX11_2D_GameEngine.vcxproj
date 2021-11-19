@@ -161,6 +161,10 @@
     <ClInclude Include="Engine_Enum.h" />
     <ClInclude Include="Editor\Manager\EditorManager.h" />
     <ClInclude Include="Editor\GUI\IGUI.h" />
+    <ClInclude Include="Editor\GUI\1. MenuBar\GUI_MenuBar.h" />
+    <ClInclude Include="Editor\GUI\2. ToolBar\GUI_ToolBar.h" />
+    <ClInclude Include="Editor\GUI\6. Inspector\GUI_Inspector.h" />
+    <ClInclude Include="Editor\Helper\IconProvider.h" />
     <ClInclude Include="Imgui\DirectX11\imgui_impl_dx11.h" />
     <ClInclude Include="Imgui\imconfig.h" />
     <ClInclude Include="Imgui\imgui.h" />
@@ -176,7 +180,10 @@
   <ItemGroup>
     <ClCompile Include="DX11_2D_GameEngine.cpp" />
     <ClCompile Include="Editor\Manager\EditorManager.cpp" />
-    <ClCompile Include="Editor\GUI\IGUI.cpp" />
+    <ClCompile Include="Editor\GUI\1. MenuBar\GUI_MenuBar.cpp" />
+    <ClCompile Include="Editor\GUI\2. ToolBar\GUI_ToolBar.cpp" />
+    <ClCompile Include="Editor\GUI\6. Inspector\GUI_Inspector.cpp" />
+    <ClCompile Include="Editor\Helper\IconProvider.cpp" />
     <ClCompile Include="Imgui\DirectX11\imgui_impl_dx11.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
     <ClCompile Include="Imgui\imgui_demo.cpp" />

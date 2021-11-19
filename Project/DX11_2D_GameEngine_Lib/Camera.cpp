@@ -49,38 +49,38 @@ void Camera::Update()
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 
 	//편집일 때
-	auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
-	rotation.z = 0.0f;
+	//auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
+	//rotation.z = 0.0f;
 
-	auto right = transform->GetRightVector(); //카메라의 오른 방향 벡터
-	auto up = transform->GetUpVector(); //카메라의 위쪽 방향 벡터
-	auto forward = transform->GetForwardVector(); //카메라의 정면 방향 벡터
+	//auto right = transform->GetRightVector(); //카메라의 오른 방향 벡터
+	//auto up = transform->GetUpVector(); //카메라의 위쪽 방향 벡터
+	//auto forward = transform->GetForwardVector(); //카메라의 정면 방향 벡터
 
-	Vector3 movement_speed;
+	//Vector3 movement_speed;
 
-	auto input = InputManager::GetInstance();
-	auto timer = TimeManager::GetInstance();
+	//auto input = InputManager::GetInstance();
+	//auto timer = TimeManager::GetInstance();
 
-	if (input->KeyPress(KeyCode::KEY_W))
-		movement_speed += forward * m_speed * timer->GetDeltaTime_float();
+	//if (input->KeyPress(KeyCode::KEY_W))
+	//	movement_speed += forward * m_speed * timer->GetDeltaTime_float();
 
-	else if (input->KeyPress(KeyCode::KEY_S))
-		movement_speed -= forward * m_speed * timer->GetDeltaTime_float();
+	//else if (input->KeyPress(KeyCode::KEY_S))
+	//	movement_speed -= forward * m_speed * timer->GetDeltaTime_float();
 
-	if (input->KeyPress(KeyCode::KEY_D))
-		movement_speed += right * m_speed * timer->GetDeltaTime_float();
+	//if (input->KeyPress(KeyCode::KEY_D))
+	//	movement_speed += right * m_speed * timer->GetDeltaTime_float();
 
-	else if (input->KeyPress(KeyCode::KEY_A))
-		movement_speed -= right * m_speed * timer->GetDeltaTime_float();
+	//else if (input->KeyPress(KeyCode::KEY_A))
+	//	movement_speed -= right * m_speed * timer->GetDeltaTime_float();
 
-	if (input->KeyPress(KeyCode::KEY_E))
-		movement_speed += up * m_speed * timer->GetDeltaTime_float();
+	//if (input->KeyPress(KeyCode::KEY_E))
+	//	movement_speed += up * m_speed * timer->GetDeltaTime_float();
 
-	else if (input->KeyPress(KeyCode::KEY_Q))
-		movement_speed -= up * m_speed * timer->GetDeltaTime_float();
+	//else if (input->KeyPress(KeyCode::KEY_Q))
+	//	movement_speed -= up * m_speed * timer->GetDeltaTime_float();
 
-	//카메라 위치 변경
-	transform->Translate(movement_speed);
+	////카메라 위치 변경
+	//transform->Translate(movement_speed);
 }
 
 void Camera::FinalUpdate()

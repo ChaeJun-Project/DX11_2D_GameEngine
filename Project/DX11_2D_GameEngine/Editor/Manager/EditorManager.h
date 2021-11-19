@@ -6,7 +6,7 @@
 
 class IGUI;
 
-class EditorManager : public Singleton<EditorManager>
+class EditorManager final : public Singleton<EditorManager>
 {
 	SINGLETON(EditorManager);
 
@@ -14,9 +14,12 @@ class EditorManager : public Singleton<EditorManager>
 	~EditorManager();
 
 public:
-	void Initialize(const HWND hwnd, ID3D11Device* device, ID3D11DeviceContext* device_context);
+	void Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceContext* device_context);
 	void Update();
 	void Render();
+
+private:
+    void ImGuiNewFrame();
 
 public:
     void ResizeEditor(const UINT& width, const UINT& height);

@@ -8,7 +8,12 @@
 
 void D3D11Debug();
 
+LPCWSTR g_class_name = L"DX11_2D_GameEngine";
+
 ClientSceneState client_scene_state = ClientSceneState::Editor;
+
+//Win32를 사용하므로 프로시저 핸들러를 선언해줘야 함.
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -21,7 +26,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//Core
 	auto core = Core::GetInstance();
 
-	Window::Create(hInstance, 1280, 800, L"DX11_2D_GameEngine", IDI_ZERO, false);
+	Window::Create(hInstance, 1280, 800, g_class_name, IDI_ZERO, false);
 	Window::Show(nCmdShow);
 
 	core->Initialize();
@@ -38,7 +43,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	editor_manager->Initialize(settings->GetWindowHandle(), graphics_manager->GetDevice(), graphics_manager->GetDeviceContext());
 
 	//Window Event 등록
+	//Mouse Event
 	Window::user_input_event = InputManager::GetInstance()->MouseProc;
+	//Editor Event
+	Window::editor_input_event = ImGui_ImplWin32_WndProcHandler;
+	//Window Resize Event
 	Window::resize_event = [&editor_manager](const UINT& width, const UINT& height)
 	{
 		editor_manager->ResizeEditor(width, height);
@@ -55,8 +64,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		case ClientSceneState::Game:
 			break;
 		case ClientSceneState::Editor:
-			//editor_manager->Update();
-			//editor_manager->Render();
+			editor_manager->Update();
+			editor_manager->Render();
 			break;
 		}
 
@@ -65,6 +74,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		//현재의 시점에서 스왑
 		graphics_manager->EndScene();
 	}
+
+	Window::Destroy(g_class_name);
 
 #ifdef _DEBUG //디버그 모드일 때
 	D3D11Debug();

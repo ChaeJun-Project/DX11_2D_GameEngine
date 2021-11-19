@@ -70,13 +70,12 @@ void RockManZ_Script::Update()
 {
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 
-	auto input = InputManager::GetInstance();
 	auto timer = TimeManager::GetInstance();
 
 	Vector3 move_speed = Vector3::Zero;
 
 	//오른쪽 이동
-	if (input->KeyPress(KeyCode::KEY_ARROW_RIGHT))
+	if (KEY_PRESS(KeyCode::KEY_ARROW_RIGHT))
 	{
 		this->m_current_state = AnimationState::Walk_Run;
 		move_speed.x += m_speed * timer->GetDeltaTime_float();
@@ -85,7 +84,7 @@ void RockManZ_Script::Update()
 	}
 
 	//왼쪽이동
-	if (input->KeyPress(KeyCode::KEY_ARROW_LEFT))
+	if (KEY_PRESS(KeyCode::KEY_ARROW_LEFT))
 	{
 		this->m_current_state = AnimationState::Walk_Run;
 		move_speed.x -= m_speed * timer->GetDeltaTime_float();
@@ -94,13 +93,13 @@ void RockManZ_Script::Update()
 	}
 
 	//앉기
-	if (input->KeyDown(KeyCode::KEY_ARROW_DOWN))
+	if (KEY_DOWN(KeyCode::KEY_ARROW_DOWN))
 	{
 		this->m_current_state = AnimationState::Crouch;
 		this->m_p_animator->SetCurrentAnimation("RockManZ_Crouch");
 	}
 
-	if (input->KeyDown(KeyCode::KEY_ARROW_UP))
+	if (KEY_DOWN(KeyCode::KEY_ARROW_UP))
 	{
 		this->m_current_state = AnimationState::Idle;
 		this->m_p_animator->SetCurrentAnimation("RockManZ_Idle");
@@ -115,7 +114,7 @@ void RockManZ_Script::Update()
 	//	//position += m_speed * timer->GetDeltaTime_float();
 
 	//공격
-	if (input->KeyPress(KeyCode::KEY_C))
+	if (KEY_PRESS(KeyCode::KEY_C))
 	{
 		this->m_current_state = AnimationState::Attack_1;
 		this->m_p_animator->SetCurrentAnimation("RockManZ_Attack");

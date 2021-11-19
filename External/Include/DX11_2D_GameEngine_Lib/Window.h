@@ -8,6 +8,7 @@
 namespace Window
 {
 	static std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> user_input_event;
+	static std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> editor_input_event;
 	static std::function<void(const UINT&, const UINT&)> resize_event;
 
 	//정보 대화 상자의 메시지 처리기입니다.
@@ -39,6 +40,12 @@ namespace Window
 		if (user_input_event != nullptr)
 		{
 			user_input_event(handle, message, wParam, lParam);
+		}
+
+		//편집기(ImGui) 입력 이벤트 함수를 등록했다면
+		if (editor_input_event != nullptr)
+		{
+			editor_input_event(handle, message, wParam, lParam);
 		}
 
 		switch (message)
