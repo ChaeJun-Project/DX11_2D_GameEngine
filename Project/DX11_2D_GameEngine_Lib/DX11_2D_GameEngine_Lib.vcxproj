@@ -260,7 +260,6 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="WalkCannon_Script.h" />
     <ClInclude Include="WalkCannon_Bullet_Script.h" />
-    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />

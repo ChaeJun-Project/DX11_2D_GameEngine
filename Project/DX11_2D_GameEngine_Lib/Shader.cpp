@@ -19,11 +19,12 @@ constexpr ShaderType Shader::GetShaderType()
 
 #define REGISTER_SHADER_TYPE(T, shader_type) template<>  ShaderType Shader::GetShaderType<T>() { return shader_type; }
 
+//TODO: 추후에 다른 Shader들도 추가 예정
 REGISTER_SHADER_TYPE(VertexShader, ShaderType::VS);
 REGISTER_SHADER_TYPE(GeometryShader, ShaderType::GS);
 REGISTER_SHADER_TYPE(PixelShader, ShaderType::PS);
+
 REGISTER_SHADER_TYPE(ComputeShader, ShaderType::CS);
-//TODO: 추후에 다른 Shader들도 추가 예정
 
 Shader::Shader(const std::string resource_name)
 	:IResource(ResourceType::Shader, resource_name)
@@ -40,13 +41,16 @@ Shader::~Shader()
 	m_shader_map.clear();
 }
 
+//<summary>
+//Compute Shader Setting 여기서 하지 않고 Compute Shader의 Dispatch 함수를 호출할 때 먼저 호출하도록 설계
+//이유: ImGui의 NewFrame 호출 후 ComputeShader가 설정되어있지 CS를 사용하는 렌더링에서 오류 발생
+//</summary>
 void Shader::BindPipeline()
 {
-    auto graphics_manager = GraphicsManager::GetInstance();
+	auto graphics_manager = GraphicsManager::GetInstance();
 
 	auto device_context = graphics_manager->GetDeviceContext();
-	
-	
+
 	//Vertex Shader Stage
 	if (m_shader_bind_stage & PipelineStage::VS)
 	{
@@ -56,7 +60,6 @@ void Shader::BindPipeline()
 		auto input_layout = vertex_shader->GetInputLayoutClass()->GetInputLayout();
 		device_context->IASetInputLayout(input_layout);
 		device_context->IASetPrimitiveTopology(m_primitive_topology);
-
 	}
 
 	//Hull Shader Stage
@@ -66,7 +69,7 @@ void Shader::BindPipeline()
 	}
 	else
 	{
-		
+
 	}
 
 	//Domain Shader Stage
@@ -95,13 +98,6 @@ void Shader::BindPipeline()
 	{
 		auto pixel_shader = GetShader<PixelShader>();
 		device_context->PSSetShader(pixel_shader->GetPixelShader(), 0, 0);
-	}
-
-	//Compute Shader Stage
-	if (m_shader_bind_stage & PipelineStage::CS)
-	{
-	    auto compute_shader = GetShader<ComputeShader>();
-		device_context->CSSetShader(compute_shader->GetComputeShader(), 0, 0);
 	}
 
 	//Rasterizer 적용

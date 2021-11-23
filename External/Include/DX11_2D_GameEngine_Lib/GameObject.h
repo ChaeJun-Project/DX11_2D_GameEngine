@@ -32,18 +32,19 @@ public:
 
 public:
 	//Object name
-	const std::string& GetObjectName() const { return this->m_object_name; }
-	void SetObjectName(const std::string& object_name) { this->m_object_name = object_name; }
+	const std::string& GetObjectName() const { return m_object_name; }
+	void SetObjectName(const std::string& object_name) { m_object_name = object_name; }
 
 	//Object Tag
-	const std::string& GetObjectTag() const { return this->m_object_tag; }
-	void SetObjectTag(const std::string& object_tag) { this->m_object_tag = object_tag; }
+	const std::string& GetObjectTag() const { return m_object_tag; }
+	void SetObjectTag(const std::string& object_tag) { m_object_tag = object_tag; }
 	
 	//Object Layer
-	const int& GetObjectLayer() const { return this->m_object_layer_index; }
+	const int& GetObjectLayer() const { return m_object_layer_index; }
+	void SetObjectLayer(const UINT& layer_index) { m_object_layer_index = static_cast<UINT>(layer_index); }
 
 	//Dead Check
-	const bool IsDead() { return this->m_dead_check; }
+	const bool IsDead() { return m_dead_check; }
 
 public:
 	//=====================================================================
@@ -53,23 +54,23 @@ public:
 	GameObject* GetRoot();
 	const bool& GetIsRoot() { return !HasParent(); }
 
-	GameObject* GetParent() const { if(m_p_parent != nullptr) return this->m_p_parent; return nullptr;}
+	GameObject* GetParent() const { if(m_p_parent != nullptr) return m_p_parent; return nullptr;}
 	void SetParent(GameObject* p_parent_game_object);
 	
-	const std::vector<GameObject*>& GetChilds() const { return this->m_p_child_vector; }
+	const std::vector<GameObject*>& GetChilds() const { return m_p_child_vector; }
 	GameObject* GetChildFromIndex(const UINT& index) const;
 	GameObject* GetChildFromObjectName(const std::string& object_name) const;
-	const UINT& GetChildCount() const { return static_cast<UINT>(this->m_p_child_vector.size()); }
+	const UINT& GetChildCount() const { return static_cast<UINT>(m_p_child_vector.size()); }
 
 	void AddChild(GameObject* p_child_game_object);
 	void DetachChild();
 	void TachChild();
 
 	const bool HasParent() { if(m_p_parent) return true; return false; }
-	const bool HasChilds() { return !(this->m_p_child_vector.empty()); }
+	const bool HasChilds() { return !(m_p_child_vector.empty()); }
 
 private:
-    void SetDead() { this->m_dead_check = true; }
+    void SetDead() { m_dead_check = true; }
 
 public:
 	GameObject* Clone() { return new GameObject(*this); }

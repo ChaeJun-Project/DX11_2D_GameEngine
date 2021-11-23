@@ -1,22 +1,56 @@
 #include "stdafx.h"
 #include "GUI_Inspector.h"
 
-#include "Helper/IconProvider.h"
+//Helper
+#include "Helper/EditorHelper.h"
 
 //Component
-#include <DX11_2D_GameEngine_Lib/Transform.h>
-#include <DX11_2D_GameEngine_Lib/Camera.h>
-#include <DX11_2D_GameEngine_Lib/SpriteRenderer.h>
-#include <DX11_2D_GameEngine_Lib/Animator.h>
-#include <DX11_2D_GameEngine_Lib/Script.h>
-#include <DX11_2D_GameEngine_Lib/Collider2D.h>
-#include <DX11_2D_GameEngine_Lib/Light2D.h>
-#include <DX11_2D_GameEngine_Lib/ParticleSystem.h>
+#include "Component/GUI_Component.h"
+#include "Component/1. Transform/GUI_Transform.h"
+#include "Component/2. Camera/GUI_Camera.h"
+#include "Component/3. SpriteRenderer/GUI_SpriteRenderer.h"
+#include "Component/4. Animator/GUI_Animator.h"
+#include "Component/5. Script/GUI_Script.h"
+#include "Component/6. Collider2D/GUI_Collider2D.h"
+#include "Component/7. Light2D/GUI_Light2D.h"
+#include "Component/8. ParticleSystem/GUI_ParticleSystem.h"
+
+#define ADD_COMPONENT_BUTTON_WIDTH 120.0f
+
 //RigidBody2D는 구현 후 추가
 
 GUI_Inspector::GUI_Inspector(const std::string& inspector_title)
 	:IGUI(inspector_title)
 {
+	//Transform
+	m_component_gui_list.push_back(std::make_pair(ComponentType::Transform, std::make_shared<GUI_Transform>("Transform")));
+	//Camera
+	m_component_gui_list.push_back(std::make_pair(ComponentType::Camera, std::make_shared<GUI_Camera>("Camera")));
+	//SpriteRenderer
+	m_component_gui_list.push_back(std::make_pair(ComponentType::SpriteRenderer, std::make_shared<GUI_SpriteRenderer>("Sprite Renderer")));
+	//Animator
+	m_component_gui_list.push_back(std::make_pair(ComponentType::Animator, std::make_shared<GUI_Animator>("Animator")));
+	//Script
+	m_component_gui_list.push_back(std::make_pair(ComponentType::Script, std::make_shared<GUI_Script>("Script")));
+	//Collider2D
+	m_component_gui_list.push_back(std::make_pair(ComponentType::Collider2D, std::make_shared<GUI_Collider2D>("Collider2D")));
+	//Light2D
+	m_component_gui_list.push_back(std::make_pair(ComponentType::Light2D, std::make_shared<GUI_Light2D>("Light2D")));
+	//ParticleSystem
+	m_component_gui_list.push_back(std::make_pair(ComponentType::ParticleSystem, std::make_shared<GUI_ParticleSystem>("ParticleSystem")));
+
+	m_select_game_object = EditorHelper::GetInstance()->GetSelectedGameObject();
+}
+
+GUI_Inspector::~GUI_Inspector()
+{
+	for (auto& gui_component : m_component_gui_list)
+	{
+		if (gui_component.second != nullptr)
+			gui_component.second.reset();
+	}
+
+	m_component_gui_list.clear();
 }
 
 void GUI_Inspector::Update()
@@ -27,94 +61,104 @@ void GUI_Inspector::Update()
 	}
 }
 
-
-
 void GUI_Inspector::Render()
 {
-    //Test
-	BeginComponent("Transform", IconType::Component_Transform);
-	BeginComponent("Camera", IconType::Component_Camera);
-	BeginComponent("SpriteRenderer", IconType::Component_SpriteRenderer);
-	BeginComponent("Animator", IconType::Component_Animator);
-	BeginComponent("Script", IconType::Component_Script);
-	BeginComponent("Collider2D", IconType::Component_Collider2D);
-	BeginComponent("Light2D", IconType::Component_Light2D);
-	BeginComponent("ParticleSystem", IconType::Component_ParticleSystem);
-	BeginComponent("RigidBody2D", IconType::Component_RigidBody2D);
+	ShowGameObjectInfo();
+
+	ShowAddComponent();
 }
 
-const bool GUI_Inspector::BeginComponent(const std::string component_name, const IconType& icon_type)
+//TODO: 컴포넌트가 추가될 때마다 for문의 범위 변경
+void GUI_Inspector::ShowGameObjectInfo()
 {
-	//Component Box의 Title 만들기
-	const bool collapsed_header = ImGui::CollapsingHeader(component_name.c_str(), ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_DefaultOpen); //창을 킴과 동시에 CollapsingHeader의 내용을 Open
-	if(collapsed_header)
+	if (m_select_game_object == nullptr)
+		return;
+
+	for (UINT i = static_cast<UINT>(ComponentType::Transform); i < static_cast<UINT>(ComponentType::ParticleSystem); ++i)
 	{
-		ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 8.0f); //컴퍼넌트 헤더와 같은 라인
+		if (!m_select_game_object->GetComponent(static_cast<ComponentType>(i)))
+		{
+			continue;
+		}
 
-		auto icon_provider = IconProvider::GetInstance();
-
-		//Component Settings 그리기
-		icon_provider->CreateImageButton(IconType::Component_Settings, ImVec2(13.0f, 13.0f));
-
-		//Component Icon 그리기
-		icon_provider->CreateImage(icon_type, ImVec2(14.0f, 14.0f));
-
-		ImGui::SameLine(); //컴퍼넌트 헤더와 같은 라인
-
-		//Component 이름
-		ImGui::Text(component_name.c_str());
-
-		DrawComponentEnd();
+		auto component_gui = GetComponentGUI(static_cast<ComponentType>(i));
+		component_gui->SetGameObject(m_select_game_object);
+		component_gui->Render();
 	}
-
-	return collapsed_header;
 }
 
-void GUI_Inspector::ShowComponentSettingPopup()
-{
-}
-
-void GUI_Inspector::DrawComponentEnd()
-{
-	ImGui::Separator();  //컴퍼넌트를 구분할 구분 선 그리기
-}
-
-void GUI_Inspector::ShowTransformComponent(const Transform* transform)
-{
-}
-
-void GUI_Inspector::ShowCameraComponent(const Transform* transform)
-{
-}
-
-void GUI_Inspector::ShowSpriteRenderer(const SpriteRenderer* sprite_renderer)
-{
-}
-
-void GUI_Inspector::ShowAnimaterComponent(const Animater* animator)
-{
-}
-
-void GUI_Inspector::ShowScriptComponent(const Script* script)
-{
-}
-
-void GUI_Inspector::ShowCollider2DComponent(const Collider2D* transform)
-{
-}
-
-void GUI_Inspector::ShowLight2DComponent(const Light2D* transform)
-{
-}
-
-void GUI_Inspector::ShowParticleSystemComponent(const ParticleSystem* transform)
+void GUI_Inspector::ShowResourceInfo()
 {
 }
 
 void GUI_Inspector::ShowAddComponent()
 {
+   ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.0f);
+   ImGui::SetCursorPosX(ImGui::GetWindowContentRegionWidth() * 0.5f - ADD_COMPONENT_BUTTON_WIDTH * 0.5f);
+	if (ImGui::Button("Add Component", ImVec2(ADD_COMPONENT_BUTTON_WIDTH, 0.0f)))
+		ImGui::OpenPopup("##ComponentPopup");
+
+	ShowAddComponentPopup();
 }
 
 void GUI_Inspector::ShowAddComponentPopup()
 {
+	if (ImGui::BeginPopup("##ComponentPopup"))
+	{
+		//Camera
+		if (ImGui::BeginMenu("Camera"))
+		{
+			ImGui::EndMenu();
+		}
+
+		//Sprite Renderer
+		if (ImGui::BeginMenu("Sprite Renderer"))
+		{
+			ImGui::EndMenu();
+		}
+
+		//Animator
+		if (ImGui::BeginMenu("Animator"))
+		{
+			ImGui::EndMenu();
+		}
+
+		//Script
+		if (ImGui::BeginMenu("Script"))
+		{
+			ImGui::EndMenu();
+		}
+
+		//Collider2D
+		if (ImGui::BeginMenu("Collider2D"))
+		{
+			ImGui::EndMenu();
+		}
+
+		//Light2D
+		if (ImGui::BeginMenu("Light2D"))
+		{
+			ImGui::EndMenu();
+		}
+
+		//ParticleSystem
+		if (ImGui::BeginMenu("ParticleSystem"))
+		{
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndPopup();
+	}
 }
+
+std::shared_ptr<GUI_Component> GUI_Inspector::GetComponentGUI(const ComponentType& component_type) const
+{
+	for (auto& component_gui : m_component_gui_list)
+	{
+		if (component_gui.first == component_type)
+			return component_gui.second;
+	}
+
+	return nullptr;
+}
+

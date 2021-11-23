@@ -39,5 +39,6 @@ void ComputeShader::Create(const std::string& path, const std::string& function_
 void ComputeShader::Dispatch(const UINT& thread_group_x_count, const UINT& thread_group_y_count, const UINT& thread_group_z_count)
 {
 	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	device_context->CSSetShader(m_p_compute_shader.Get(), 0, 0);
 	device_context->Dispatch(m_thread_group_x, m_thread_group_y, m_thread_group_z);
 }

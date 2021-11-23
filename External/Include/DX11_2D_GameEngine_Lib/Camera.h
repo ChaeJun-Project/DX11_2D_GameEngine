@@ -25,6 +25,12 @@ private:
     void UpdateProjectionMatrix();
 
 public:
+    void Picking();
+
+private:
+    const Vector3& ScreenToWorld(const Vector2& mouse_position);
+
+public:
     void SetMainCamera() { this->m_camera_index = 0; }
 
     const ProjectionType& GetProjectionType() const { return this->m_projection_type; }

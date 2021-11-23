@@ -13,6 +13,10 @@ public:
    void FinalUpdate();
 
 public:
+	std::vector<GameObject*>& GetAllGameObjects();
+	GameObject* FindGameObjectByName(const std::string& game_object_name);
+
+public:
    void AddGameObject(GameObject* p_game_object, UINT layer_index, bool is_move);
 
 public:

@@ -46,13 +46,13 @@ private:
 	float m_accumulate_time = 0.0f;
 	float m_fire_cooltime = 2.0f;
 
+	Vector3 m_fire_position = Vector3::Zero;
+	std::shared_ptr<Prefab> m_p_bullet_prefab = nullptr;
+
 	GameObject* m_p_player = nullptr;
 
 	Animator* m_p_animator = nullptr;
 
 	AnimationState m_current_state = AnimationState::Idle;
-
-	Vector3 m_fire_position = Vector3::Zero;
-	std::shared_ptr<Prefab> m_p_bullet_prefab = nullptr;
 };
 

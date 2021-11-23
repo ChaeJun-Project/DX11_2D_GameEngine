@@ -11,6 +11,7 @@
 #include "Scene.h"
 #include "Layer.h"
 
+#include "InputManager.h"
 #include "RenderManager.h"
 #include "SpriteRenderer.h"
 #include "ParticleSystem.h"
@@ -81,6 +82,11 @@ void Camera::Update()
 
 	////카메라 위치 변경
 	//transform->Translate(movement_speed);
+
+	if (MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
+	{
+		Picking();
+	}	
 }
 
 void Camera::FinalUpdate()
@@ -89,6 +95,8 @@ void Camera::FinalUpdate()
 	UpdateViewMatrix();
 	//투영 행렬(메트릭스) 업데이트
 	UpdateProjectionMatrix();
+
+	Picking();
 
 	g_cbuffer_wvpmatrix.view = m_view_matrix;
 	g_cbuffer_wvpmatrix.projection = m_projection_matrix;
@@ -165,10 +173,9 @@ void Camera::SortObjects()
 					render_time_point = particle_system->GetMaterial()->GetShader()->GetRenderTimePointType();
 				}
 
-				//해당 오브젝트가 PostEffect 컴포넌트를 포함하고 있다면(TODO)
 				else
 				{
-
+					render_time_point = RenderTimePointType::Forward;
 				}
 
 				//각 오브젝트의 그리는 시점에 따라 해당하는 벡터에 추가
@@ -209,7 +216,7 @@ void Camera::RenderPostEffectObjects()
 {
 	for (UINT i = 0; i < m_post_effect_object_vector.size(); ++i)
 	{
-	    //Post Effect가 적용된 텍스처를 누적으로 복사하는 부분
+		//Post Effect가 적용된 텍스처를 누적으로 복사하는 부분
 		RenderManager::GetInstance()->CopyPostEffect();
 		m_post_effect_object_vector[i]->Render();
 	}
@@ -257,4 +264,39 @@ void Camera::UpdateProjectionMatrix()
 		m_projection_matrix = Matrix::PerspectiveFovLH(m_fov, (resolution_x / resolution_y), m_near_z, m_far_z);
 		break;
 	}
+}
+
+void Camera::Picking()
+{
+	if (m_camera_index != 0)
+		return;
+
+	Vector2 mouse_position = InputManager::GetInstance()->GetMousePosition();
+
+	Vector3 world = ScreenToWorld(mouse_position);
+
+	world.Normalize(); //카메라 위치에서 Ray를 쏘는 방향 벡터
+}
+
+const Vector3& Camera::ScreenToWorld(const Vector2& mouse_position)
+{
+	Vector2 screen_resolution = Vector2
+	(
+		static_cast<float>(Core::GetInstance()->GetSettings()->GetWindowWidth()),
+		static_cast<float>(Core::GetInstance()->GetSettings()->GetWindowHeight())
+	);
+
+	Vector3 pick_ray_view_space = Vector3
+	(
+		((2.0f * mouse_position.x) / screen_resolution.x) - 1.0f,
+		1.0f - ((2.0f * mouse_position.y) / screen_resolution.y),
+		1.0f //투영 윈도우 값
+	);
+
+	Vector3 world_position;
+
+	Matrix view_projection_inverse = (m_view_matrix * m_projection_matrix).Inverse();
+	world_position = pick_ray_view_space * view_projection_inverse;
+
+	return world_position;
 }

@@ -56,8 +56,8 @@ void Geometry_script::Initialize()
 	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
 	
 	auto collider2D = ground->GetComponent<Collider2D>();
-	collider2D->SetOffsetPos(Vector3(0.0f, -0.21f, 0.0f));
-	collider2D->SetOffsetScale(Vector3(2.6f, 0.35f, 1.0f));
+	collider2D->SetOffsetPosition(Vector2(0.0f, -0.14f));
+	collider2D->SetOffsetScale(Vector2(2.6f, 0.34f));
 	ground->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 	scene_manager->CreatePrefab(ground);
 	
@@ -69,10 +69,51 @@ void Geometry_script::Initialize()
 		m_p_owner_game_object->AddChild(ground);
 	}
 
+	//Particle
+	auto particle = new GameObject();
+	particle->SetObjectName("Particle");
+	particle->SetObjectTag("Particle");
+	particle->AddComponent(new Transform());
+	particle->AddComponent(new ParticleSystem());
+
+	auto particle_system = particle->GetComponent<ParticleSystem>();
+
+	//Set Particle Texture
+	particle_system->SetParticleTexture(resource_manager->GetTexture("rain_particle"));
+
+	//Set Compute Shader
+	auto compute_shader = resource_manager->GetShaderResource(ShaderResourceType::Particle, "Particle_Shader")->GetShader<ComputeShader>();
+	particle_system->SetComputeShader(compute_shader);
+
+	//Set Particle Activable Count
+	particle_system->SetParticleActivableCount(50);
+
+	//Set Particle Count
+	particle_system->SetMaxParticleCount(1000);
+
+	//Set Particle Spawn
+	particle_system->SetParticleSpawnRange(Vector3(g_cbuffer_program.resolution.x, g_cbuffer_program.resolution.y, 0.0f));
+
+	//Set Particle Scale
+	particle_system->SetParticleScale(Vector3(10.0f, 30.0f, 1.0f), Vector3(2.0f, 6.0f, 1.0f));
+
+	//Set Particle Color
+	particle_system->SetParticleColor(Color4::White, Color4::White);
+
+	//Set Particle Speed
+	particle_system->SetParticleSpeed(200.0f, 300.0f);
+
+	//Set Particle Life
+	particle_system->SetParticleDrawFrequency(0.4f);
+
+	particle_system->Initialize();
+
+	m_p_owner_game_object->AddChild(particle);
+
 	//Water Distortion
 	auto water_distortion = new GameObject();
-	water_distortion->SetObjectName("Distortion");
-	water_distortion->SetObjectTag("Distortion");
+	water_distortion->SetObjectName("Water");
+	water_distortion->SetObjectTag("Water");
 	water_distortion->AddComponent(new Transform());
 	water_distortion->AddComponent(new SpriteRenderer());
 
@@ -90,7 +131,6 @@ void Geometry_script::Initialize()
 	water_material->SetConstantBufferData(Material_Parameter::FLOAT_1, &refract_scale);
 	water_material->SetConstantBufferData(Material_Parameter::TEX_1, nullptr, resource_manager->GetTexture("noise_03"));
 	renderer->SetMaterial(resource_manager->GetMaterial("WaterEffect"));
-
 
 	m_p_owner_game_object->AddChild(water_distortion);
 }

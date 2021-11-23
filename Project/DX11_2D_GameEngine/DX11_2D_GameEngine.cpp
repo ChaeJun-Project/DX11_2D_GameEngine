@@ -13,7 +13,7 @@ LPCWSTR g_class_name = L"DX11_2D_GameEngine";
 ClientSceneState client_scene_state = ClientSceneState::Editor;
 
 //Win32를 사용하므로 프로시저 핸들러를 선언해줘야 함.
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND, UINT, WPARAM, LPARAM);
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -36,6 +36,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	//Graphics Manager
 	auto graphics_manager = GraphicsManager::GetInstance();
+
+	//1 Frame Update
+	core->Progress();
 
 	//Editor Manager
 	auto editor_manager = EditorManager::GetInstance();
@@ -65,7 +68,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			break;
 		case ClientSceneState::Editor:
 			editor_manager->Update();
-			editor_manager->Render();
+		    editor_manager->Render();
 			break;
 		}
 

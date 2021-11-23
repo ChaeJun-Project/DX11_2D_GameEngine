@@ -37,12 +37,12 @@ GameObject::GameObject(const GameObject& origin)
 	//Object Tag
 	m_object_tag = origin.m_object_tag;
 	//Object Layer
-	this->m_object_layer_index = origin.m_object_layer_index;
+	m_object_layer_index = origin.m_object_layer_index;
 	
-	this->m_dead_check = false;
+	m_dead_check = false;
 
 	//해당 오브젝트로 프리팹을 만든 횟수
-	this->m_prefab_count = origin.m_prefab_count;
+	m_prefab_count = origin.m_prefab_count;
 
 	for (auto& origin_component : origin.m_component_list)
 	{
@@ -57,15 +57,15 @@ GameObject::GameObject(const GameObject& origin)
 
 GameObject::~GameObject()
 {
-	for (auto& component : this->m_component_list)
+	for (auto& component : m_component_list)
 		SAFE_DELETE(component.second);
 
-	this->m_component_list.clear();
+	m_component_list.clear();
 
-	this->m_p_parent = nullptr;
+	m_p_parent = nullptr;
 
-	this->m_p_child_vector.clear();
-	this->m_p_child_vector.shrink_to_fit();
+	m_p_child_vector.clear();
+	m_p_child_vector.shrink_to_fit();
 }
 
 void GameObject::Update()
@@ -74,17 +74,17 @@ void GameObject::Update()
 		return;
 
 	//컴포넌트 업데이트
-	for (auto& component : this->m_component_list)
+	for (auto& component : m_component_list)
 		component.second->Update();
 
 	//자식 오브젝트 업데이트
-	for (auto& child : this->m_p_child_vector)
+	for (auto& child : m_p_child_vector)
 		child->Update();
 }
 
 void GameObject::LateUpdate()
 {
-	if (this->m_dead_check)
+	if (m_dead_check)
 		return;
 
 }
@@ -92,16 +92,16 @@ void GameObject::LateUpdate()
 void GameObject::FinalUpdate()
 {
 	//컴포넌트 최종 업데이트
-	for (auto& component : this->m_component_list)
+	for (auto& component : m_component_list)
 		component.second->FinalUpdate();
 
 	//자식 오브젝트 최종 업데이트(transform)
-	for (auto& child : this->m_p_child_vector)
+	for (auto& child : m_p_child_vector)
 		child->FinalUpdate();
 
 	//Layer에 등록
 	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
-	auto layer = current_scene->GetLayer(static_cast<UINT>(this->m_object_layer_index));
+	auto layer = current_scene->GetLayer(static_cast<UINT>(m_object_layer_index));
 	layer->RegisterObject(this);
 }
 
@@ -127,7 +127,7 @@ void GameObject::Render()
 void GameObject::AddComponent(IComponent* p_component)
 {
 	p_component->SetGameObject(this);
-	this->m_component_list.push_back
+	m_component_list.push_back
 	(
 		std::make_pair(p_component->GetComponentType(), p_component)
 	);
@@ -135,7 +135,7 @@ void GameObject::AddComponent(IComponent* p_component)
 
 IComponent* GameObject::GetComponent(const ComponentType& component_type) const
 {
-	for (auto& component : this->m_component_list)
+	for (auto& component : m_component_list)
 	{
 		if (component.first == component_type)
 			return component.second;
@@ -149,11 +149,12 @@ void GameObject::RemoveComponent(const ComponentType& component_type)
 {
 	std::list<std::pair<ComponentType, IComponent*>>::iterator list_iter;
 
-	for (list_iter = this->m_component_list.begin(); list_iter != this->m_component_list.end();)
+	for (list_iter = m_component_list.begin(); list_iter != m_component_list.end();)
 	{
 		if (list_iter->first == component_type)
 		{
-			list_iter = this->m_component_list.erase(list_iter);
+			SAFE_DELETE(list_iter->second);
+			list_iter = m_component_list.erase(list_iter);
 		}
 
 		else
@@ -165,7 +166,7 @@ GameObject* GameObject::GetRoot()
 {
 	if (HasParent())
 	{
-		return this->m_p_parent->GetRoot();
+		return m_p_parent->GetRoot();
 	}
 
 	return this;
@@ -179,37 +180,37 @@ void GameObject::SetParent(GameObject* p_parent_game_object)
 	}
 
 	//인자로 들어온 컴퍼넌트가 자기 자신인 경우
-	if (this->GetObjectID() == p_parent_game_object->GetObjectID())
+	if (GetObjectID() == p_parent_game_object->GetObjectID())
 		return;
 
 	if (HasParent())
 	{
 		//현재 등록된 부모와 인자로 들어온 부모가 서로 같은 컴퍼넌트 ID를 소유한 경우(똑같은 부모인 경우)
-		if (this->m_p_parent->GetObjectID() == p_parent_game_object->GetObjectID())
+		if (m_p_parent->GetObjectID() == p_parent_game_object->GetObjectID())
 			return;
 	}
 
-	auto old_parenet = this->m_p_parent;
-	this->m_p_parent = p_parent_game_object;
+	auto old_parenet = m_p_parent;
+	m_p_parent = p_parent_game_object;
 
 	if (old_parenet != nullptr)
 		old_parenet->TachChild();
 
 	if (HasParent())
-		this->m_p_parent->TachChild();
+		m_p_parent->TachChild();
 }
 
 GameObject* GameObject::GetChildFromIndex(const UINT& index) const
 {
-	if (this->m_p_child_vector[index] != nullptr)
-		return this->m_p_child_vector[index];
+	if (m_p_child_vector[index] != nullptr)
+		return m_p_child_vector[index];
 
 	return nullptr;
 }
 
 GameObject* GameObject::GetChildFromObjectName(const std::string& object_name) const
 {
-	for (auto& child : this->m_p_child_vector)
+	for (auto& child : m_p_child_vector)
 	{
 		if (child->m_object_name == object_name)
 			return child;
@@ -225,12 +226,13 @@ void GameObject::AddChild(GameObject* p_child_game_object)
 		return;
 
 	//인자로 들어온 자식 오브젝트가 현재 자기 자신인 경우
-	if (this->GetObjectID() == p_child_game_object->GetObjectID())
+	if (GetObjectID() == p_child_game_object->GetObjectID())
 		return;
 
-	this->m_p_child_vector.emplace_back(p_child_game_object);
+	m_p_child_vector.emplace_back(p_child_game_object);
 
 	p_child_game_object->m_p_parent = this;
+	p_child_game_object->m_object_layer_index = m_object_layer_index;
 }
 
 void GameObject::DetachChild()
@@ -248,12 +250,12 @@ void GameObject::TachChild()
 	//자식 오브젝트의 transform vector 초기화
 	if (HasChilds())
 	{
-		for (auto& child : this->m_p_child_vector)
+		for (auto& child : m_p_child_vector)
 		{
 			SAFE_DELETE(child);
 		}
-		this->m_p_child_vector.clear();
-		this->m_p_child_vector.shrink_to_fit();
+		m_p_child_vector.clear();
+		m_p_child_vector.shrink_to_fit();
 	}
 
 	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
@@ -270,7 +272,7 @@ void GameObject::RegisterPrefab()
 {
      auto resource_manager = ResourceManager::GetInstance();
 
-	 std::string prefab_name = this->m_object_name;
+	 std::string prefab_name = m_object_name;
 	 assert(!prefab_name.empty());
 
 	 //이미 해당 이름으로 프리팹 오브젝트가 존재하는 경우
@@ -280,5 +282,5 @@ void GameObject::RegisterPrefab()
 	 }
 
 	 resource_manager->AddPrefab(prefab_name, this);
-	 ++this->m_prefab_count;
+	 ++m_prefab_count;
 }

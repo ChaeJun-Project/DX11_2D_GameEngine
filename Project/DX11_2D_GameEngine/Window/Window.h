@@ -80,7 +80,14 @@ namespace Window
 				resize_event(LOWORD(lParam), HIWORD(lParam));
 			}
 			break;
-
+		case WM_DPICHANGED:
+			if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DpiEnableScaleViewports)
+			{
+				//const int dpi = HIWORD(wParam);
+				//printf("WM_DPICHANGED to %d (%.0f%%)\n", dpi, (float)dpi / 96.0f * 100.0f);
+				const RECT* suggested_rect = (RECT*)lParam;
+				::SetWindowPos(handle, NULL, suggested_rect->left, suggested_rect->top, suggested_rect->right - suggested_rect->left, suggested_rect->bottom - suggested_rect->top, SWP_NOZORDER | SWP_NOACTIVATE);
+			}
 		case WM_CLOSE:
 		case WM_DESTROY:
 			//메인 윈도우가 파괴되면 응용 프로그램을 종료

@@ -59,9 +59,12 @@ void Collider2D::UpdateColliderWorldMatrix()
 	auto world_scale = transform->GetScale();
 	auto mesh_scale = transform->GetMeshScale();
 
-	auto default_scale = Vector3(m_default_size.x / mesh_scale.x, m_default_size.y/ mesh_scale.y, m_default_size.z / mesh_scale.z); //m_offset_scale이 (1.0f, 1.0f, 1.0f) 일 때
-	auto scale = Matrix::Scaling(m_offset_scale * default_scale);
-	auto translation = Matrix::Translation(m_offset_position);
+	//Collider2D Box 크기 / Mesh 크기 => 해당 비율을 m_offset_position과 m_offset_scale 곱해줘야 100x100일 때의 offset 비율이 나옴
+	//world_matrix에서 Mesh의 크기만큼 먼저 곱했기 때문에 이를 나눠주어야 함
+	auto ratio_scale = Vector3(m_default_size.x / mesh_scale.x, m_default_size.y/ mesh_scale.y, 1.0f); 
+
+	auto translation = Matrix::Translation(Vector3(m_offset_position.x, m_offset_position.y, 0.0f) * ratio_scale);
+	auto scale = Matrix::Scaling(Vector3(m_offset_scale.x, m_offset_scale.y, 1.0f) * ratio_scale);
 
 	m_collider_world_matrix = scale * translation * world_matrix;
 }

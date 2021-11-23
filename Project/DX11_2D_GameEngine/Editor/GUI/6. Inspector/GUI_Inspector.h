@@ -1,60 +1,36 @@
 #pragma once
 #include "GUI/IGUI.h"
 
-class Transform;
-class Camera;
-class SpriteRenderer;
-class Animater;
-class Script;
-class Collider2D;
-class Light2D;
-class ParticleSystem;
-
 class GameObject;
-
 class IResource;
+class GUI_Component;
 
 class GUI_Inspector : public IGUI
 {
 public:
 	GUI_Inspector(const std::string& inspector_title);
-	~GUI_Inspector() = default;
+	~GUI_Inspector();
 
 public:
 	void Update() override;
-
 	void Render() override;
 
-	//=====================================
-	//Component
-	//=====================================
 private:
-	const bool BeginComponent(const std::string component_name, const IconType& icon_type);
-	void ShowComponentSettingPopup();
-	void DrawComponentEnd();
-
-private:
-	void ShowTransformComponent(const Transform* transform);
-	void ShowCameraComponent(const Transform* transform);
-	void ShowSpriteRenderer(const SpriteRenderer* sprite_renderer);
-	void ShowAnimaterComponent(const Animater* animator);
-	void ShowScriptComponent(const Script* script);
-	void ShowCollider2DComponent(const Collider2D* transform);
-	void ShowLight2DComponent(const Light2D* transform);
-	void ShowParticleSystemComponent(const ParticleSystem* transform);
+    void ShowGameObjectInfo();
+	void ShowResourceInfo();
 
 	void ShowAddComponent();
 	void ShowAddComponentPopup();
 
-	//=====================================
-	//Resource Info
-	//=====================================
 private:
-
+	std::shared_ptr<GUI_Component> GetComponentGUI(const ComponentType& component_type) const;
 
 private:
-	std::weak_ptr<GameObject> m_select_game_object;
+	GameObject* m_select_game_object = nullptr;
 
-	std::weak_ptr<IResource> m_select_resource;
+	IResource* m_select_resource = nullptr;
+
+	//Component GUI list
+	std::list<std::pair<ComponentType, std::shared_ptr<GUI_Component>>> m_component_gui_list;
 };
 

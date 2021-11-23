@@ -115,7 +115,7 @@ void ResourceManager::CreateDefaultShader()
 	shader->AddAndCreateShader<GeometryShader>("Shader/RainShader.fx", "GS_Rain", "gs_5_0");
 	shader->AddAndCreateShader<PixelShader>("Shader/RainShader.fx", "PS_Rain", "ps_5_0");
 	shader->AddAndCreateShader<ComputeShader>("Shader/RainUpdate.fx", "CS_Rain", "cs_5_0");
-	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::GS | PipelineStage::PS | PipelineStage::CS);
+	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::GS | PipelineStage::PS);
 
 	shader->SetRenderTimePointType(RenderTimePointType::Particle);
 	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);

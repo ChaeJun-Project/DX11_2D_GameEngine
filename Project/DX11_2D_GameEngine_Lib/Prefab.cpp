@@ -11,7 +11,7 @@ Prefab::Prefab(const std::string& resource_name)
 Prefab::Prefab(GameObject* p_prototype_game_object)
 	: IResource(ResourceType::Prefab, p_prototype_game_object->GetObjectName())
 {
-	this->m_p_prototype_game_object = p_prototype_game_object;
+	m_p_prototype_game_object = p_prototype_game_object;
 }
 
 Prefab::~Prefab()
@@ -21,5 +21,5 @@ Prefab::~Prefab()
 
 GameObject* Prefab::Instantiate()
 {
-	return this->m_p_prototype_game_object->Clone();
+	return m_p_prototype_game_object->Clone();
 }

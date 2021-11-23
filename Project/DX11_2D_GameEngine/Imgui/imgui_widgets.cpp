@@ -1319,7 +1319,7 @@ void ImGui::Spacing()
     ImGuiWindow* window = GetCurrentWindow();
     if (window->SkipItems)
         return;
-    ItemSize(ImVec2(0, 0));
+    ItemSize(ImVec2(30, 0));
 }
 
 void ImGui::Dummy(const ImVec2& size)

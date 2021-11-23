@@ -27,10 +27,10 @@ CollisionManager::~CollisionManager()
 void CollisionManager::Update()
 {
 	//행 개수만큼 반복
-	for (UINT row = 0; row < static_cast<UINT>(m_check_vector.size()); ++row)
+	for (UINT row = 0; row < max_layer_count; ++row)
 	{
 		//중복되는 경우를 뺀 열의 개수만큼 반복
-		for (UINT column = row; column < static_cast<UINT>(m_check_vector.size()); ++column)
+		for (UINT column = row; column < max_layer_count; ++column)
 		{
 			//이미 체크가 된 경우
 			if (m_check_vector[row] & (1 << column))

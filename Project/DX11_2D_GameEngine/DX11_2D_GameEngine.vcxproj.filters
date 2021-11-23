@@ -29,6 +29,18 @@
     <ClInclude Include="Editor\GUI\2. ToolBar\GUI_ToolBar.h" />
     <ClInclude Include="Editor\GUI\6. Inspector\GUI_Inspector.h" />
     <ClInclude Include="Editor\Helper\IconProvider.h" />
+    <ClInclude Include="Window\Window.h" />
+    <ClInclude Include="Editor\GUI\6. Inspector\Component\GUI_Component.h" />
+    <ClInclude Include="Editor\GUI\6. Inspector\Component\1. Transform\GUI_Transform.h" />
+    <ClInclude Include="Editor\GUI\6. Inspector\Component\2. Camera\GUI_Camera.h" />
+    <ClInclude Include="Editor\GUI\6. Inspector\Component\3. SpriteRenderer\GUI_SpriteRenderer.h" />
+    <ClInclude Include="Editor\GUI\6. Inspector\Component\5. Script\GUI_Script.h" />
+    <ClInclude Include="Editor\GUI\6. Inspector\Component\4. Animator\GUI_Animator.h" />
+    <ClInclude Include="Editor\GUI\6. Inspector\Component\6. Collider2D\GUI_Collider2D.h" />
+    <ClInclude Include="Editor\GUI\6. Inspector\Component\7. Light2D\GUI_Light2D.h" />
+    <ClInclude Include="Editor\GUI\6. Inspector\Component\8. ParticleSystem\GUI_ParticleSystem.h" />
+    <ClInclude Include="Editor\Helper\EditorHelper.h" />
+    <ClInclude Include="Imgui\imgui_stdlib.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowSettings\DX11_2D_GameEngine.rc">
@@ -61,6 +73,17 @@
     <ClCompile Include="Editor\GUI\2. ToolBar\GUI_ToolBar.cpp" />
     <ClCompile Include="Editor\GUI\6. Inspector\GUI_Inspector.cpp" />
     <ClCompile Include="Editor\Helper\IconProvider.cpp" />
+    <ClCompile Include="Editor\GUI\6. Inspector\Component\GUI_Component.cpp" />
+    <ClCompile Include="Editor\GUI\6. Inspector\Component\1. Transform\GUI_Transform.cpp" />
+    <ClCompile Include="Editor\GUI\6. Inspector\Component\2. Camera\GUI_Camera.cpp" />
+    <ClCompile Include="Editor\GUI\6. Inspector\Component\3. SpriteRenderer\GUI_SpriteRenderer.cpp" />
+    <ClCompile Include="Editor\GUI\6. Inspector\Component\5. Script\GUI_Script.cpp" />
+    <ClCompile Include="Editor\GUI\6. Inspector\Component\4. Animator\GUI_Animator.cpp" />
+    <ClCompile Include="Editor\GUI\6. Inspector\Component\6. Collider2D\GUI_Collider2D.cpp" />
+    <ClCompile Include="Editor\GUI\6. Inspector\Component\7. Light2D\GUI_Light2D.cpp" />
+    <ClCompile Include="Editor\GUI\6. Inspector\Component\8. ParticleSystem\GUI_ParticleSystem.cpp" />
+    <ClCompile Include="Editor\Helper\EditorHelper.cpp" />
+    <ClCompile Include="Imgui\imgui_stdlib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WindowSettings\DX11_2D_GameEngine.aps" />

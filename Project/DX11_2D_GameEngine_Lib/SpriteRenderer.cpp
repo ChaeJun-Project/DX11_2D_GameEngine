@@ -48,13 +48,13 @@ void SpriteRenderer::Render()
 	if (m_p_mesh == nullptr || m_p_current_material == nullptr || m_p_current_material->GetShader() == nullptr)
 		return;
 
-	if (m_p_owner_game_object->GetObjectTag() != "Distortion")
-		m_p_sprite = m_p_current_material->GetTexture();
+	if (m_p_owner_game_object->GetObjectTag() != "Water")
+		m_p_sprite_texture = m_p_current_material->GetTexture();
 
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
-	if (m_p_sprite != nullptr)
+	if (m_p_sprite_texture != nullptr)
 	{
-		transform->SetMeshScale(m_p_sprite->GetWidth(), m_p_sprite->GetHeight());
+		transform->SetMeshScale(m_p_sprite_texture->GetWidth(), m_p_sprite_texture->GetHeight());
 	}
 	transform->UpdateConstantBuffer();
 
@@ -62,7 +62,7 @@ void SpriteRenderer::Render()
 
 	m_p_mesh->Render();
 
-	if (m_p_owner_game_object->GetObjectTag() != "Distortion")
+	if (m_p_owner_game_object->GetObjectTag() != "Water")
 	{
 		m_p_border->BindPipeline();
 

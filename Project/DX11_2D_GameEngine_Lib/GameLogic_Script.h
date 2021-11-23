@@ -21,6 +21,6 @@ public:
 private:
 	float m_accumulate_time = 0.0f;
 
-	std::shared_ptr<Prefab> m_p_walkman_prefab = nullptr;
+	std::shared_ptr<Prefab> m_p_walkcannon_prefab = nullptr;
 };
 

@@ -71,13 +71,19 @@ void IconProvider::CreateImage(const IconType& icon_type, const ImVec2& button_s
 	);
 }
 
-const bool IconProvider::CreateImageButton(const IconType& icon_type, const ImVec2& button_size)
+const bool IconProvider::CreateImageButton(const char* id, const IconType& icon_type, const ImVec2& button_size)
 {
+	ImGui::PushID(id);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 0.0f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 1.0f, 1.0f, 0.3f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 1.0f, 1.0f, 0.8f));
 	bool is_add_image_button = ImGui::ImageButton
 	(
 		GetIconTexture(icon_type)->GetShaderResourceView(),
 		button_size
 	);
+	ImGui::PopStyleColor(3);
+	ImGui::PopID();
 
 	return is_add_image_button;
 }

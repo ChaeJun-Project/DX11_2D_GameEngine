@@ -3,6 +3,7 @@
 #include <DX11_2D_GameEngine_Lib/GraphicsManager.h>
 
 //Helper
+#include "Helper/EditorHelper.h"
 #include "Helper/IconProvider.h"
 
 //GUI
@@ -32,6 +33,9 @@ EditorManager::~EditorManager()
 
 void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceContext* device_context)
 {
+	//Initialize Editor Helper
+	EditorHelper::GetInstance()->Initialize();
+
     //Initialize Icon Provider
 	IconProvider::GetInstance()->Initialize();
 
@@ -113,12 +117,11 @@ void EditorManager::Render()
 
 void EditorManager::ImGuiNewFrame()
 {
-	ImGui_ImplWin32_NewFrame();
+    //DX11 먼저 호출 후 Win32 호출해야 오류가 생기지 않음
 	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 }
-
-
 
 void EditorManager::ResizeEditor(const UINT& width, const UINT& height)
 {

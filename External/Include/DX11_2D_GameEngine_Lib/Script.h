@@ -27,5 +27,8 @@ public:
 	virtual void OnCollisionEnter(GameObject* other_game_object) {}
 	virtual void OnCollisionExit(GameObject* other_game_object) {}
 	virtual void OnCollision(GameObject* other_game_object) {}
+
+protected:
+    std::string script_name;
 };
 

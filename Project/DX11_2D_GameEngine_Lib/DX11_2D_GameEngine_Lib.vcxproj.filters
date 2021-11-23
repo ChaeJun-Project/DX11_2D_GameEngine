@@ -13,9 +13,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>Stdafx</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Core\Window</Filter>
-    </ClInclude>
     <ClInclude Include="Settings.h">
       <Filter>Core\Settings</Filter>
     </ClInclude>
@@ -526,9 +523,6 @@
     </Filter>
     <Filter Include="Math\SimpleMath">
       <UniqueIdentifier>{4109ffeb-74d4-4b92-b9cd-42fed8c4592e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Window">
-      <UniqueIdentifier>{dd17f2a6-ccd0-47bc-b287-5de2d2381fc0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Settings">
       <UniqueIdentifier>{26862a5f-43ba-4430-a84c-160341066642}</UniqueIdentifier>

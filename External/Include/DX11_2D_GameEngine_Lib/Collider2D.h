@@ -25,20 +25,25 @@ public:
 	void OnCollision(Collider2D* other_collider);
 
 public:
-    void SetOffsetPos(const Vector3& offset_position) { this->m_offset_position = offset_position; }
-	void SetOffsetScale(const Vector3& offset_scale) { this->m_offset_scale = offset_scale; }
+    //Offset Position
+    const Vector2 GetOffsetPosition() { return m_offset_position; }
+    void SetOffsetPosition(const Vector2& offset_position) { m_offset_position = offset_position; }
 
-	Vector3 GetDefaultSize() { return m_default_size; }
-	const Matrix& GetColliderWorldMatrix() { return this->m_collider_world_matrix; }
+	//Offset Scale
+	const Vector2 GetOffsetScale() { return m_offset_scale; }
+	void SetOffsetScale(const Vector2& offset_scale) { m_offset_scale = offset_scale; }
+
+	Vector3 GetDefaultSize() { return Vector3(m_default_size.x, m_default_size.y, 1.0f); }
+	const Matrix& GetColliderWorldMatrix() { return m_collider_world_matrix; }
 
 public:
 	CLONE(Collider2D);
 
 private:
-	Vector3 m_default_size = Vector3(100.0f, 100.f, 1.0f);
+	Vector2 m_default_size = Vector2(100.0f, 100.f);
 
-    Vector3 m_offset_position = Vector3::Zero;
-	Vector3 m_offset_scale = Vector3::One; //유니티에서는 Size
+    Vector2 m_offset_position = Vector2::Zero;
+	Vector2 m_offset_scale = Vector2::One; //유니티에서는 Size
 
 	Matrix m_collider_world_matrix = Matrix::Identity;
 
