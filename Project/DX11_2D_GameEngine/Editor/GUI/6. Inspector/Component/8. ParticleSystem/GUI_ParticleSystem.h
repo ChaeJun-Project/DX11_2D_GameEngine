@@ -6,7 +6,7 @@ class GUI_ParticleSystem final : public GUI_Component
 {
 public:
 	GUI_ParticleSystem(const std::string& particle_system_gui_name);
-	virtual ~GUI_ParticleSystem() = default;
+	~GUI_ParticleSystem() = default;
 
 	void Render() override;
 };

@@ -1,8 +1,8 @@
 #pragma once
 #include "stdafx.h"
 
-#include "Core.h"
-#include "Settings.h"
+#include <DX11_2D_GameEngine_Lib/Core.h>
+#include <DX11_2D_GameEngine_Lib/Settings.h>
 
 //namespace를 사용하는 이유: 중복때문에 생기는 충돌 방지
 namespace Window

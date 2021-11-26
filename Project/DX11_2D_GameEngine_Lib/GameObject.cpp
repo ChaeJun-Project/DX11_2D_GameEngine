@@ -38,7 +38,7 @@ GameObject::GameObject(const GameObject& origin)
 	m_object_tag = origin.m_object_tag;
 	//Object Layer
 	m_object_layer_index = origin.m_object_layer_index;
-	
+
 	m_dead_check = false;
 
 	//해당 오브젝트로 프리팹을 만든 횟수
@@ -68,9 +68,20 @@ GameObject::~GameObject()
 	m_p_child_vector.shrink_to_fit();
 }
 
+void GameObject::Start()
+{
+	//컴포넌트 업데이트
+	for (auto& component : m_component_list)
+		component.second->Start();
+
+	//자식 오브젝트 업데이트
+	for (auto& child : m_p_child_vector)
+		child->Start();
+}
+
 void GameObject::Update()
 {
-	if (this->m_dead_check)
+	if (m_dead_check)
 		return;
 
 	//컴포넌트 업데이트
@@ -112,9 +123,12 @@ void GameObject::Render()
 	if (renderer != nullptr)
 		renderer->Render();
 
+	if (!m_active_check)
+		return;
+
 	//Particle System
 	auto particle_system = GetComponent<ParticleSystem>();
-	if(particle_system != nullptr)
+	if (particle_system != nullptr)
 		particle_system->Render();
 
 	//Collider
@@ -270,17 +284,17 @@ void GameObject::TachChild()
 
 void GameObject::RegisterPrefab()
 {
-     auto resource_manager = ResourceManager::GetInstance();
+	auto resource_manager = ResourceManager::GetInstance();
 
-	 std::string prefab_name = m_object_name;
-	 assert(!prefab_name.empty());
+	std::string prefab_name = m_object_name;
+	assert(!prefab_name.empty());
 
-	 //이미 해당 이름으로 프리팹 오브젝트가 존재하는 경우
-	 if (resource_manager->GetPrefab(prefab_name) != nullptr)
-	 {
+	//이미 해당 이름으로 프리팹 오브젝트가 존재하는 경우
+	if (resource_manager->GetPrefab(prefab_name) != nullptr)
+	{
 		prefab_name += std::to_string(m_prefab_count);
-	 }
+	}
 
-	 resource_manager->AddPrefab(prefab_name, this);
-	 ++m_prefab_count;
+	resource_manager->AddPrefab(prefab_name, this);
+	++m_prefab_count;
 }

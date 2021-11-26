@@ -11,6 +11,7 @@ public:
 	explicit GameObject(const GameObject& origin); //복사생성자, 형변환 허용X
 	~GameObject();
 
+	void Start();
 	void Update();
 	void LateUpdate();
 	void FinalUpdate();
@@ -31,6 +32,13 @@ public:
 	void RemoveComponent(const ComponentType& component_type);
 
 public:
+	//Object IsActive
+	bool& IsActive() { return m_active_check; }
+	void SetObjectActive(const bool& is_active) { m_active_check = is_active; }
+
+	//Dead Check
+	const bool IsDead() { return m_dead_check; }
+
 	//Object name
 	const std::string& GetObjectName() const { return m_object_name; }
 	void SetObjectName(const std::string& object_name) { m_object_name = object_name; }
@@ -42,10 +50,6 @@ public:
 	//Object Layer
 	const int& GetObjectLayer() const { return m_object_layer_index; }
 	void SetObjectLayer(const UINT& layer_index) { m_object_layer_index = static_cast<UINT>(layer_index); }
-
-	//Dead Check
-	const bool IsDead() { return m_dead_check; }
-
 public:
 	//=====================================================================
 	// [Hierarchy]
@@ -78,6 +82,10 @@ public:
 	void RegisterPrefab();
 
 private:
+    //Object Active Check
+	bool m_active_check = true;
+	//Object Dead Check
+	bool m_dead_check = false;
 	//Object name
 	std::string m_object_name;
 	//Object Tag
@@ -93,7 +101,6 @@ private:
 	//Child Object
 	std::vector<GameObject*> m_p_child_vector;
 
-	bool m_dead_check = false;
 
 	//해당 오브젝트로 프리팹을 만든 횟수
 	UINT m_prefab_count = 0;

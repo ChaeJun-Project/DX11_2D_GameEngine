@@ -1,16 +1,17 @@
 ﻿#include "stdafx.h"
-#include <DX11_2D_GameEngine_Lib/Window.h>
+#include "Window/Window.h"
 #include <DX11_2D_GameEngine_Lib/Core.h>
 #include <DX11_2D_GameEngine_Lib/Settings.h>
 #include <DX11_2D_GameEngine_Lib/InputManager.h>
 #include <DX11_2D_GameEngine_Lib/GraphicsManager.h>
-#include "Editor\Manager\EditorManager.h"
+#include "Editor/Manager/EditorManager.h"
 
 void D3D11Debug();
 
 LPCWSTR g_class_name = L"DX11_2D_GameEngine";
 
-ClientSceneState client_scene_state = ClientSceneState::Editor;
+//TODO
+ClientState client_state = ClientState::Editor;
 
 //Win32를 사용하므로 프로시저 핸들러를 선언해줘야 함.
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND, UINT, WPARAM, LPARAM);
@@ -62,11 +63,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	{
 		core->Progress();
 
-		switch (client_scene_state)
+		switch (client_state)
 		{
-		case ClientSceneState::Game:
+		case ClientState::Game:
 			break;
-		case ClientSceneState::Editor:
+		case ClientState::Editor:
 			editor_manager->Update();
 		    editor_manager->Render();
 			break;

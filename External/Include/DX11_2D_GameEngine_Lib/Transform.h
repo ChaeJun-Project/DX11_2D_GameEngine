@@ -6,7 +6,7 @@ class Transform final : public IComponent
 {
 public:
 	Transform();
-	explicit Transform(const Transform& origin);
+	explicit Transform(const Transform& origin) = default; //=> 복사 생성자 호출 시 얕은 복사 사용
 	~Transform() = default;
 
 	void FinalUpdate() override;

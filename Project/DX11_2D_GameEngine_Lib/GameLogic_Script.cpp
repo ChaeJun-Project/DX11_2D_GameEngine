@@ -48,7 +48,7 @@ void GameLogic_Script::Initialize()
 
 	auto collider2D = rockmanZ->GetComponent<Collider2D>();
 	collider2D->SetOffsetPosition(Vector2(0.0f, -0.1f));
-	collider2D->SetOffsetScale(Vector2(0.4f, 0.5f));
+	collider2D->SetOffsetScale(Vector2(0.45f, 0.5f));
 	rockmanZ->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.5f));
 	auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
 	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 33.0f - 180.0f), 0.0f));

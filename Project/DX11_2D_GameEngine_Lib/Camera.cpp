@@ -49,44 +49,49 @@ void Camera::Update()
 {
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 
-	//편집일 때
-	//auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
-	//rotation.z = 0.0f;
+	auto scene_manager = SceneManager::GetInstance();
 
-	//auto right = transform->GetRightVector(); //카메라의 오른 방향 벡터
-	//auto up = transform->GetUpVector(); //카메라의 위쪽 방향 벡터
-	//auto forward = transform->GetForwardVector(); //카메라의 정면 방향 벡터
-
-	//Vector3 movement_speed;
-
-	//auto input = InputManager::GetInstance();
-	//auto timer = TimeManager::GetInstance();
-
-	//if (input->KeyPress(KeyCode::KEY_W))
-	//	movement_speed += forward * m_speed * timer->GetDeltaTime_float();
-
-	//else if (input->KeyPress(KeyCode::KEY_S))
-	//	movement_speed -= forward * m_speed * timer->GetDeltaTime_float();
-
-	//if (input->KeyPress(KeyCode::KEY_D))
-	//	movement_speed += right * m_speed * timer->GetDeltaTime_float();
-
-	//else if (input->KeyPress(KeyCode::KEY_A))
-	//	movement_speed -= right * m_speed * timer->GetDeltaTime_float();
-
-	//if (input->KeyPress(KeyCode::KEY_E))
-	//	movement_speed += up * m_speed * timer->GetDeltaTime_float();
-
-	//else if (input->KeyPress(KeyCode::KEY_Q))
-	//	movement_speed -= up * m_speed * timer->GetDeltaTime_float();
-
-	////카메라 위치 변경
-	//transform->Translate(movement_speed);
-
-	if (MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
+	if (scene_manager->GetEditorState() == EditorState::EditorState_Stop)
 	{
-		Picking();
-	}	
+		//편집일 때
+		auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
+		rotation.z = 0.0f;
+
+		auto right = transform->GetRightVector(); //카메라의 오른 방향 벡터
+		auto up = transform->GetUpVector(); //카메라의 위쪽 방향 벡터
+		auto forward = transform->GetForwardVector(); //카메라의 정면 방향 벡터
+
+		Vector3 movement_speed;
+
+		auto input = InputManager::GetInstance();
+		auto timer = TimeManager::GetInstance();
+
+		if (input->KeyPress(KeyCode::KEY_W))
+			movement_speed += forward * m_speed * timer->GetDeltaTime_float();
+
+		else if (input->KeyPress(KeyCode::KEY_S))
+			movement_speed -= forward * m_speed * timer->GetDeltaTime_float();
+
+		if (input->KeyPress(KeyCode::KEY_D))
+			movement_speed += right * m_speed * timer->GetDeltaTime_float();
+
+		else if (input->KeyPress(KeyCode::KEY_A))
+			movement_speed -= right * m_speed * timer->GetDeltaTime_float();
+
+		if (input->KeyPress(KeyCode::KEY_E))
+			movement_speed += up * m_speed * timer->GetDeltaTime_float();
+
+		else if (input->KeyPress(KeyCode::KEY_Q))
+			movement_speed -= up * m_speed * timer->GetDeltaTime_float();
+
+		//카메라 위치 변경
+		transform->Translate(movement_speed);
+
+		if (MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
+		{
+			Picking();
+		}
+	}
 }
 
 void Camera::FinalUpdate()
@@ -256,7 +261,7 @@ void Camera::UpdateProjectionMatrix()
 	{
 		//직교 투영 모드
 	case ProjectionType::Orthographic:
-		m_projection_matrix = Matrix::OrthoLH(resolution_x, resolution_y, m_near_z, m_far_z);
+		m_projection_matrix = Matrix::OrthoLH(resolution_x * m_size.x, resolution_y * m_size.y, m_near_z, m_far_z);
 		break;
 
 		//원근 투영 모드

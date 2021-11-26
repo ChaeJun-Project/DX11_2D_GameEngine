@@ -19,23 +19,33 @@ class ResourceManager final : public Singleton<ResourceManager>
 public:
 	void Initialize();
 
+public:
     //Shader
+	std::map<std::pair<ShaderResourceType, std::string>, std::shared_ptr<IResource>>& GetShaderMap() { return m_p_shader_map; }
 	void CreateDefaultShader();
 	const std::shared_ptr<Shader>& GetShaderResource(const ShaderResourceType& shader_type, const std::string shader_name);
+
 	//Material
+	std::map<std::string, std::shared_ptr<IResource>>& GetMaterialMap() { return m_p_material_map; }
 	void CreateDefaultMaterial();
 	const std::shared_ptr<Material>& GetMaterial(const std::string& material_name);
+	
 	//Texture
+	std::map<std::string, std::shared_ptr<IResource>>& GetTextureMap() { return m_p_textrue_map; }
 	void CreateDefaultTexture();
 	const std::shared_ptr<Texture>& LoadTexture(const std::string& texture_path);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D);
 	const std::shared_ptr<Texture>& GetTexture(const std::string& texture_name);
+	
 	//Mesh
+	std::map<MeshType, std::shared_ptr<IResource>>& GetMeshMap() { return m_p_mesh_map; }
 	void CreateDefaultMesh();
 	const std::shared_ptr<Mesh>& CreateMesh(const MeshType& mesh_type);
 	const std::shared_ptr<Mesh>& GetMesh(const MeshType& mesh_type);
+	
 	//Prefab
+	std::map<std::string, std::shared_ptr<IResource>>& GetPrefabMap() { return m_p_prefab_map; }
 	void AddPrefab(const std::string& prefab_object_name, GameObject* p_game_object);
 	const std::shared_ptr<Prefab>& GetPrefab(const std::string& game_object_name);
 

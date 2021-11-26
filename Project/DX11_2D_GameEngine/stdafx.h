@@ -22,7 +22,7 @@
 #include "imgui.h"
 #include "imgui_stdlib.h"
 #include "Win32/imgui_impl_win32.h"
-#include "DirectX11\imgui_impl_dx11.h"
+#include "DirectX11/imgui_impl_dx11.h"
 #pragma endregion
 
 //Enum

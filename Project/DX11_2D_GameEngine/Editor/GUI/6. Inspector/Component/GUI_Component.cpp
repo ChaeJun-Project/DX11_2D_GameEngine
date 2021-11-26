@@ -49,7 +49,6 @@ void GUI_Component::ShowComponentSettingPopup(const std::string& component_popup
 			if (component_type != ComponentType::Transform)
 				m_select_game_object->RemoveComponent(component_type);
 		}
-
 		ImGui::EndPopup();
 	}
 }

@@ -5,7 +5,7 @@ class GameObject;
 class IResource;
 class GUI_Component;
 
-class GUI_Inspector : public IGUI
+class GUI_Inspector final : public IGUI
 {
 public:
 	GUI_Inspector(const std::string& inspector_title);

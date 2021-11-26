@@ -28,7 +28,7 @@ public:
 public:
 	virtual void Begin()
 	{
-		ImGui::Begin(m_gui_title.c_str(), &m_is_active);
+		ImGui::Begin(m_gui_title.c_str(), &m_is_active, m_window_flags);
 	}
 
 	virtual void Render() = 0;
@@ -48,5 +48,7 @@ protected:
 	std::string m_gui_title;
 
 	bool m_is_active = true;
+
+	ImGuiWindowFlags m_window_flags = 0;
 };
 

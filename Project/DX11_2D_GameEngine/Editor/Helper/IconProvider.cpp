@@ -21,6 +21,10 @@ void IconProvider::Initialize()
 	LoadIconTexture("Texture/Icon/ToolBar/toolbar_pause.png", IconType::ToolBar_Pause);
 	LoadIconTexture("Texture/Icon/ToolBar/toolbar_stop.png", IconType::ToolBar_Stop);
 
+	//Load GameObject Icon Texture
+	LoadIconTexture("Texture/Icon/Inspector/GameObject.png", IconType::Inspector_GameObject);
+	LoadIconTexture("Texture/Icon/Inspector/Prefab_GameObject.png", IconType::Inspector_Prefab_GameObject);
+
 	//Load Component Icon Texture
 	LoadIconTexture("Texture/Icon/Inspector/component_settings.png", IconType::Component_Settings);
 	LoadIconTexture("Texture/Icon/Inspector/component_transform.png", IconType::Component_Transform);

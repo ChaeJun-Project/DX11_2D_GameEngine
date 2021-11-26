@@ -8,6 +8,8 @@
 
 //GUI
 #include "GUI/1. MenuBar/GUI_MenuBar.h"
+#include "GUI/2. ToolBar/GUI_ToolBar.h"
+#include "GUI/3. Hierarchy/GUI_Hierarchy.h"
 #include "GUI/6. Inspector/GUI_Inspector.h"
 
 
@@ -33,9 +35,6 @@ EditorManager::~EditorManager()
 
 void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceContext* device_context)
 {
-	//Initialize Editor Helper
-	EditorHelper::GetInstance()->Initialize();
-
     //Initialize Icon Provider
 	IconProvider::GetInstance()->Initialize();
 
@@ -71,8 +70,8 @@ void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceCont
 
 	//Add GUIs
 	m_gui_map.insert(std::make_pair(GUIType::MenuBar, std::make_unique<GUI_MenuBar>("Main Menu Bar")));			//MenuBar
-	//m_gui_map.insert(std::make_pair(GUIType::ToolBar, std::make_unique<>()));			//ToolBar
-	//m_gui_map.insert(std::make_pair(GUIType::Hierarchy, std::make_unique<>()));		//Hierarchy
+	m_gui_map.insert(std::make_pair(GUIType::ToolBar, std::make_unique<GUI_ToolBar>("Tool Bar")));			//ToolBar
+	m_gui_map.insert(std::make_pair(GUIType::Hierarchy, std::make_unique<GUI_Hierarchy>("Hierarchy")));		//Hierarchy
 	//m_gui_map.insert(std::make_pair(GUIType::Scene, std::make_unique<>()));		    //Scene
 	//m_gui_map.insert(std::make_pair(GUIType::Game, std::make_unique<>()));            //Game
 	m_gui_map.insert(std::make_pair(GUIType::Inspector, std::make_unique<GUI_Inspector>("Inspector")));		//Inspector

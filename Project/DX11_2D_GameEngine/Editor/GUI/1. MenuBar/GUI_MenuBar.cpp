@@ -1,9 +1,17 @@
 #include "stdafx.h"
 #include "GUI_MenuBar.h"
 
+#include "Style Selector/GUI_StyleSelector.h"
+
 GUI_MenuBar::GUI_MenuBar(const std::string& menubar_title)
 	:IGUI(menubar_title)
 {
+	m_p_gui_style_selector = new GUI_StyleSelector;
+}
+
+GUI_MenuBar::~GUI_MenuBar()
+{
+	SAFE_DELETE(m_p_gui_style_selector);
 }
 
 void GUI_MenuBar::Update()
@@ -29,6 +37,11 @@ void GUI_MenuBar::Update()
 		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_D))
 		{
 			m_is_show_demo = !m_is_show_demo;
+		}
+
+		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_Y))
+		{
+			m_is_show_style = !m_is_show_style;
 		}
 
 	}
@@ -61,6 +74,11 @@ void GUI_MenuBar::Render()
 				
 			}
 
+			if (ImGui::MenuItem("Show Style Selector", "CTRL + Y", &m_is_show_style))
+			{
+
+			}
+
 			ImGui::EndMenu();
 		}
 
@@ -68,4 +86,5 @@ void GUI_MenuBar::Render()
 	}
 
 	if(m_is_show_demo) ImGui::ShowDemoWindow(&m_is_show_demo);
+	if(m_is_show_style) m_p_gui_style_selector->Render();
 }

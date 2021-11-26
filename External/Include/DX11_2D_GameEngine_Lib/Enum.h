@@ -1,11 +1,11 @@
 #pragma once
 
 //Editor의 상태를 정의(Editor 사용)
-enum EditorState : UINT
+enum class EditorState : UINT
 {
-	EditorState_Edit = 1U << 0,  //0001 편집 모드
-	EditorState_Play = 1U << 1, //0010 재생 모드
-	EditorState_Pause = 1U << 2, //0100 정지 모드(재생 모드에서만 유효)
+	EditorState_Play = 0,	//편집_재생 모드
+	EditorState_Pause = 1,	//편집_정지 모드
+	EditorState_Stop = 2,	//편집_재생정지(편집가능) 모드
 };
 
 //Event Type(EventManager 사용)

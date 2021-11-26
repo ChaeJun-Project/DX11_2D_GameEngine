@@ -144,12 +144,13 @@ void Mesh::CreateTriangleMesh()
 
 	m_p_vertex_buffer->Create(m_vertex_vector);
 
-	m_index_vector.reserve(3);
+	m_index_vector.reserve(4);
 	{
 		//Triangle
 		m_index_vector.emplace_back(0);
 		m_index_vector.emplace_back(1);
 		m_index_vector.emplace_back(2);
+		m_index_vector.emplace_back(0);
 	}
 
 	//Create Index Buffer

@@ -9,10 +9,3 @@ EditorHelper::~EditorHelper()
 {
 	m_selected_game_object = nullptr;
 }
-
-void EditorHelper::Initialize()
-{
-	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
-	
-	m_selected_game_object = current_scene->FindGameObjectByName("RockManZ");
-}

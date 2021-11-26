@@ -18,10 +18,14 @@ Layer::~Layer()
 	this->m_p_game_object_vector.shrink_to_fit();
 }
 
+void Layer::Start()
+{
+	for (auto& game_object : this->m_p_parent_game_object_vector)
+		game_object->Start();
+}
+
 void Layer::Update()
 {
-	this->m_p_game_object_vector.clear();
-
 	for (auto& game_object : this->m_p_parent_game_object_vector)
 		game_object->Update();
 }

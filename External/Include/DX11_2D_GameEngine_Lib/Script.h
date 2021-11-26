@@ -13,6 +13,7 @@ public:
 
 	virtual void Initialize() = 0;
 
+	virtual void Start() {}
 	void Update() override {}
 	virtual void FinalUpdate() final {}
 

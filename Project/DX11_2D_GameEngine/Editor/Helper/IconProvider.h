@@ -7,6 +7,10 @@ enum class IconType : UINT
    ToolBar_Pause,
    ToolBar_Stop,
 
+   //GameObject
+   Inspector_GameObject,
+   Inspector_Prefab_GameObject,
+
    //Component
    Component_Settings,
    Component_Transform,

@@ -1,9 +1,10 @@
 #pragma once
 
-enum class ClientSceneState : UINT
+enum class ClientState : UINT
 {
-    Game = 0,
-    Editor = 1,
+    None = 0,
+    Game = 1,
+    Editor = 2,
 };
 
-extern ClientSceneState client_scene_state;
+extern ClientState client_state;

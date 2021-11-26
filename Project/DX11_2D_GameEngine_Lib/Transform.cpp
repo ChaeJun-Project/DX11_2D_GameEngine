@@ -9,15 +9,15 @@ Transform::Transform()
 
 }
 
-Transform::Transform(const Transform& origin)
-	: IComponent(origin.GetComponentType())
-{
-	m_local_translation = origin.m_local_translation;
-	m_local_rotation = origin.m_local_rotation;
-	m_local_scale = origin.m_local_scale;
-	m_world_matrix = origin.m_world_matrix;
-	m_game_object_side_state = origin.m_game_object_side_state;
-}
+//Transform::Transform(const Transform& origin)
+//	: IComponent(origin.GetComponentType())
+//{
+//	m_local_translation = origin.m_local_translation;
+//	m_local_rotation = origin.m_local_rotation;
+//	m_local_scale = origin.m_local_scale;
+//	m_world_matrix = origin.m_world_matrix;
+//	m_game_object_side_state = origin.m_game_object_side_state;
+//}
 
 void Transform::FinalUpdate()
 {

@@ -177,15 +177,29 @@ const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderRe
 void ResourceManager::CreateDefaultMaterial()
 {
 	//=============================================
-	//Collider2D
-	//=============================================
-	//Collider2D Material White
-	std::string material_name = "Collider2D_White";
+    //Standard
+    //=============================================
+    //Default Material
+	std::string material_name = "Default_Material";
 	auto material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShaderResource(ShaderResourceType::Line, "Line_Shader"));
+	material->SetShader(GetShaderResource(ShaderResourceType::Standard, "Standard_Shader"));
 
 	auto material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
 	auto result = material_iter.second;
+	assert(result);
+	if (!result)
+		return;
+
+	//=============================================
+	//Collider2D
+	//=============================================
+	//Collider2D Material White
+	material_name = "Collider2D_White";
+	material = std::make_shared<Material>(material_name);
+	material->SetShader(GetShaderResource(ShaderResourceType::Line, "Line_Shader"));
+
+	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
+	result = material_iter.second;
 	assert(result);
 	if (!result)
 		return;

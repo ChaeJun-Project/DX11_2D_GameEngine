@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "SpriteRenderer.h"
 
+#include "ResourceManager.h"
+
 #include "Mesh.h"
 #include "Material.h"
 #include "Texture.h"
@@ -10,9 +12,11 @@
 SpriteRenderer::SpriteRenderer()
 	:IComponent(ComponentType::SpriteRenderer)
 {
+	auto resource_manager = ResourceManager::GetInstance();
+	//m_p_current_material = resource_manager->GetMaterial("Default_Material");
+	m_p_mesh = resource_manager->GetMesh(MeshType::Rectangle);
 	m_p_current_material = std::make_shared<Material>("GameObject_Material");
-
-	m_p_border = ResourceManager::GetInstance()->GetMaterial("Collider2D_White");
+	m_p_border = resource_manager->GetMaterial("Collider2D_White");
 }
 
 SpriteRenderer::SpriteRenderer(const SpriteRenderer& origin)
@@ -62,12 +66,10 @@ void SpriteRenderer::Render()
 
 	m_p_mesh->Render();
 
-	if (m_p_owner_game_object->GetObjectTag() != "Water")
-	{
-		m_p_border->BindPipeline();
+	m_p_border->BindPipeline();
 
-		m_p_mesh->Render();
-	}
+	m_p_mesh->Render();
+
 }
 
 void SpriteRenderer::SetMaterial(const std::shared_ptr<Material>& p_current_material)

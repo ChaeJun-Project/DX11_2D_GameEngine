@@ -12,13 +12,13 @@ class EditorHelper final : public Singleton<EditorHelper>
 	~EditorHelper();
 
 public:
-     void Initialize();
-
-public:
 	GameObject* GetSelectedGameObject() const { SAFE_GET_POINTER(m_selected_game_object); }
+	void SetSelectedGameObject(GameObject* selected_game_object)
+	{
+		m_selected_game_object = selected_game_object;
+	}
 
 private:
 	GameObject* m_selected_game_object = nullptr;
-
 };
 

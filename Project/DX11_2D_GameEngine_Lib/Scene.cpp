@@ -6,12 +6,23 @@
 
 #include "Layer.h"
 
+Scene::Scene(const std::string& scene_name)
+	: m_scene_name(scene_name)
+{
+}
+
 Scene::~Scene()
 {
 	for (auto& layer : m_layer_map)
 		layer.second.reset();
 
 	m_layer_map.clear();
+}
+
+void Scene::Start()
+{
+	for (auto& layer : m_layer_map)
+		layer.second->Start();
 }
 
 void Scene::Update()
@@ -29,12 +40,34 @@ void Scene::LateUpdate()
 void Scene::FinalUpdate()
 {
 	for (auto& layer : m_layer_map)
+		layer.second->GetGameObjects().clear();
+
+	for (auto& layer : m_layer_map)
 		layer.second->FinalUpdate();
+}
+
+std::vector<GameObject*>& Scene::GetAllParentGameObjects()
+{
+	if (!m_p_parent_game_object_vector.empty())
+		m_p_parent_game_object_vector.clear();
+
+	for (auto& layer : m_layer_map)
+	{
+		const std::vector<GameObject*> parent_game_objects = layer.second->GetGameParentObjects();
+
+		for (UINT i = 0; i < static_cast<UINT>(parent_game_objects.size()); ++i)
+		{
+			m_p_parent_game_object_vector.emplace_back(parent_game_objects[i]);
+		}
+	}
+
+	return m_p_parent_game_object_vector;
 }
 
 std::vector<GameObject*>& Scene::GetAllGameObjects()
 {
-	std::vector<GameObject*> all_game_objects_vector;
+	if(!m_p_game_object_vector.empty())
+		m_p_game_object_vector.clear();
 
 	for (auto& layer : m_layer_map)
 	{
@@ -42,11 +75,11 @@ std::vector<GameObject*>& Scene::GetAllGameObjects()
 
 		for (UINT i = 0; i < static_cast<UINT>(game_objects.size()); ++i)
 		{
-			all_game_objects_vector.emplace_back(game_objects[i]);
+			m_p_game_object_vector.emplace_back(game_objects[i]);
 		}
 	}
 
-	return all_game_objects_vector;
+	return m_p_game_object_vector;
 }
 
 GameObject* Scene::FindGameObjectByName(const std::string& game_object_name)

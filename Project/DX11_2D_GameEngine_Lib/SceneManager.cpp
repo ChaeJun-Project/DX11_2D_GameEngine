@@ -21,7 +21,7 @@ SceneManager::~SceneManager()
 
 void SceneManager::Initialize()
 {
-	m_p_current_scene = std::make_shared<Scene>();
+	m_p_current_scene = std::make_shared<Scene>("New Scene");
 
 	auto resource_manager = ResourceManager::GetInstance();
 
@@ -50,12 +50,17 @@ void SceneManager::Initialize()
 
 void SceneManager::Update()
 {
-	m_p_current_scene->Update();
-	m_p_current_scene->LateUpdate();
+	if (m_editor_state == EditorState::EditorState_Play || m_client_state == 1)
+	{
+		m_p_current_scene->Update();
+		m_p_current_scene->LateUpdate();
+	}
+
 	m_p_current_scene->FinalUpdate();
 
-	//Update Collisio Manager
-	CollisionManager::GetInstance()->Update();
+	if (m_editor_state == EditorState::EditorState_Play || m_client_state == 1)
+		//Update Collisio Manager
+		CollisionManager::GetInstance()->Update();
 }
 
 void SceneManager::CreatePrefab(GameObject* p_game_object)

@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Editor\GUI\1. MenuBar\Style Selector\GUI_StyleSelector.h" />
     <ClInclude Include="Editor\Helper\EditorHelper.h" />
     <ClInclude Include="Engine_Enum.h" />
     <ClInclude Include="Editor\Manager\EditorManager.h" />
@@ -175,6 +176,8 @@
     <ClInclude Include="Editor\GUI\6. Inspector\Component\6. Collider2D\GUI_Collider2D.h" />
     <ClInclude Include="Editor\GUI\6. Inspector\Component\7. Light2D\GUI_Light2D.h" />
     <ClInclude Include="Editor\GUI\6. Inspector\Component\8. ParticleSystem\GUI_ParticleSystem.h" />
+    <ClInclude Include="Editor\GUI\GUI_ItemList.h" />
+    <ClInclude Include="Editor\GUI\3. Hierarchy\GUI_Hierarchy.h" />
     <ClInclude Include="Imgui\DirectX11\imgui_impl_dx11.h" />
     <ClInclude Include="Imgui\imconfig.h" />
     <ClInclude Include="Imgui\imgui.h" />
@@ -191,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX11_2D_GameEngine.cpp" />
+    <ClCompile Include="Editor\GUI\1. MenuBar\Style Selector\GUI_StyleSelector.cpp" />
     <ClCompile Include="Editor\Helper\EditorHelper.cpp" />
     <ClCompile Include="Editor\Manager\EditorManager.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\GUI_MenuBar.cpp" />
@@ -206,6 +210,8 @@
     <ClCompile Include="Editor\GUI\6. Inspector\Component\6. Collider2D\GUI_Collider2D.cpp" />
     <ClCompile Include="Editor\GUI\6. Inspector\Component\7. Light2D\GUI_Light2D.cpp" />
     <ClCompile Include="Editor\GUI\6. Inspector\Component\8. ParticleSystem\GUI_ParticleSystem.cpp" />
+    <ClCompile Include="Editor\GUI\GUI_ItemList.cpp" />
+    <ClCompile Include="Editor\GUI\3. Hierarchy\GUI_Hierarchy.cpp" />
     <ClCompile Include="Imgui\DirectX11\imgui_impl_dx11.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
     <ClCompile Include="Imgui\imgui_demo.cpp" />
