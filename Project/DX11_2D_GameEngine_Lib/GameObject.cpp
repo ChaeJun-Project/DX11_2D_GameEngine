@@ -8,6 +8,7 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "SpriteRenderer.h"
+#include "Animator2D.h"
 #include "Animator.h"
 #include "Script.h"
 #include "Collider2D.h"
@@ -24,6 +25,7 @@ constexpr ComponentType GameObject::GetComponentType()
 REGISTER_COMPONENT_TYPE(Transform, ComponentType::Transform);
 REGISTER_COMPONENT_TYPE(Camera, ComponentType::Camera);
 REGISTER_COMPONENT_TYPE(SpriteRenderer, ComponentType::SpriteRenderer);
+REGISTER_COMPONENT_TYPE(Animator2D, ComponentType::Animator2D);
 REGISTER_COMPONENT_TYPE(Animator, ComponentType::Animator);
 REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
 REGISTER_COMPONENT_TYPE(Collider2D, ComponentType::Collider2D);

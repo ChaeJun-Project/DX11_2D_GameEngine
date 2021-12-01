@@ -73,35 +73,10 @@ void GUI_Camera::Render()
 		m_p_item_list->ClearItemList();
 
 		//fov, near_z, far_z
-		const auto ShowFloat = [](const std::string& label_tag, const char* label_name, float& value, float indent)
-		{
-			ImGui::Text(label_name);
-			ImGui::SameLine(indent);
-			ImGui::PushItemWidth(70.0f);
-			std::string label_str = "##" + label_tag + "_" + FileManager::ConvertCharToString(label_name);
-			ImGui::InputFloat(label_str.c_str(), &value);
-			ImGui::PopItemWidth();
-		};
-
-		const auto ShowVector2 = [&ShowFloat](const char* label_name, Vector2& value, float indent)
-		{
-			ImGui::BeginGroup(); //하나의 그룹으로 묶기
-			std::string label_str = FileManager::ConvertCharToString(label_name);
-			ImGui::Text(label_name);
-			ImGui::SameLine(indent); //같은 라인에서 80만큼 떨어져서 시작
-
-			//Draw X
-			ShowFloat(label_str, "X", value.x, 0.0f); ImGui::SameLine(); //같은 라인에 시작
-			//Draw Y
-			ShowFloat(label_str, "Y", value.y, 0.0f);
-
-			ImGui::EndGroup(); //하나의 그룹으로 묶기 해제
-		};
-
 		switch (camera->GetProjectionType())
 		{
 		case ProjectionType::Orthographic:
-			ShowVector2("Size", size, 100.0f);
+			ShowFloat2("Size", size, 100.0f);
 			break;
 		case ProjectionType::Perspective:
 			projection_type_str = "Perspective";

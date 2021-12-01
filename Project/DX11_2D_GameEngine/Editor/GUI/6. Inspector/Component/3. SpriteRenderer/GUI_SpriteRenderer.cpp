@@ -49,7 +49,9 @@ void GUI_SpriteRenderer::Render()
 			ImGui::SameLine(80.0f);
 
 			ImGui::PushItemWidth(200.0f);
-			std::string sprite_name_str = p_texture->GetResourceName();
+			std::string sprite_name_str;
+			if(p_texture != nullptr)
+				sprite_name_str = p_texture->GetResourceName();
 			std::string sprite_name_label_str = "##" + sprite_name_str;
 			ImGui::InputText(sprite_name_label_str.c_str(), &sprite_name_str, ImGuiInputTextFlags_ReadOnly);
 			ImGui::PopItemWidth();

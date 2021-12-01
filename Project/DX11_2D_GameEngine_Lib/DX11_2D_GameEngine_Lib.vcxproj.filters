@@ -125,7 +125,7 @@
       <Filter>Scene\Layer</Filter>
     </ClInclude>
     <ClInclude Include="Animator.h">
-      <Filter>Scene\Components\4. Animator</Filter>
+      <Filter>Scene\Components\4. Animator2D</Filter>
     </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>Scene\Components\5. Script</Filter>
@@ -210,6 +210,12 @@
     </ClInclude>
     <ClInclude Include="GeometryShader.h">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator2D.h">
+      <Filter>Scene\Components\4. Animator2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation2D.h">
+      <Filter>Scene\Components\4. Animator2D\Animation2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -310,7 +316,7 @@
       <Filter>Scene\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Animator.cpp">
-      <Filter>Scene\Components\4. Animator</Filter>
+      <Filter>Scene\Components\4. Animator2D</Filter>
     </ClCompile>
     <ClCompile Include="Script.cpp">
       <Filter>Scene\Components\5. Script</Filter>
@@ -392,6 +398,12 @@
     </ClCompile>
     <ClCompile Include="GeometryShader.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator2D.cpp">
+      <Filter>Scene\Components\4. Animator2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation2D.cpp">
+      <Filter>Scene\Components\4. Animator2D\Animation2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -548,9 +560,6 @@
     <Filter Include="Scene\Components\2. Camera">
       <UniqueIdentifier>{5010c158-ab20-4dff-a899-f82268185cb5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Components\4. Animator">
-      <UniqueIdentifier>{7defdf6b-a0f1-4cf9-a2f8-a9511e904d01}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Components\5. Script">
       <UniqueIdentifier>{45b73adf-3a03-4022-97d9-4cd397f02347}</UniqueIdentifier>
     </Filter>
@@ -629,6 +638,12 @@
     <Filter Include="ShaderFiles\Shader\Post Effect">
       <UniqueIdentifier>{dc21f727-a046-46ab-8716-eccc39faa83c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\Components\4. Animator2D">
+      <UniqueIdentifier>{7defdf6b-a0f1-4cf9-a2f8-a9511e904d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\4. Animator2D\Animation2D">
+      <UniqueIdentifier>{53a4b151-9b6e-4737-83e4-6bb384577495}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ShaderFiles\ConstantBuffer.fx">
@@ -666,6 +681,9 @@
     </FxCompile>
     <FxCompile Include="ShaderFiles\WaterShader.fx">
       <Filter>ShaderFiles\Shader\Post Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\Animation2DStruct.fx">
+      <Filter>ShaderFiles\Struct</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

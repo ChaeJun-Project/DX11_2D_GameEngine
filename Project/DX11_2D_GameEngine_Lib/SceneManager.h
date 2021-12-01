@@ -10,26 +10,30 @@ class SceneManager final : public Singleton<SceneManager>
 	~SceneManager();
 
 public:
-    void Initialize();
-    void Update();
+	void Initialize();
+	void Update();
 
-    //임시
-    void CreatePrefab(GameObject* p_game_object);
+	//임시
+	void CreatePrefab(GameObject* p_game_object);
 
 public:
-    const std::shared_ptr<Scene>& GetCurrentScene() const { SAFE_GET_POINTER(this->m_p_current_scene); }
+	const std::shared_ptr<Scene>& GetCurrentScene() const { SAFE_GET_POINTER(this->m_p_current_scene); }
 
-    void SetClientState(const UINT& client_state) { m_client_state = client_state; }
-    
-    const EditorState& GetEditorState() const { return m_editor_state; }
-    void SetEditorState(const EditorState& editor_state) { m_editor_state = editor_state; }
+	void SetClientState(const UINT& client_state) { m_client_state = client_state; }
 
+	const UINT& GetEditorState() const { return m_editor_state; }
+	void SetEditorState(const UINT& editor_state);
 
-private: 
-    std::shared_ptr<Scene> m_p_current_scene;
+private:
+	std::shared_ptr<Scene> m_p_current_scene;
 
-
-    UINT m_client_state = 0;
-    EditorState m_editor_state = EditorState::EditorState_Stop;
+	//<summary>
+	//ClientState
+	//Title = 0
+	//Game = 1
+	//Editor = 2
+	//</summary>
+	UINT m_client_state = 0;
+	UINT m_editor_state = EditorState::EditorState_Stop;
 };
 

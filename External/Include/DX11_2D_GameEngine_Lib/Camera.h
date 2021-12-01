@@ -78,6 +78,9 @@ private:
     float m_far_z = 1000.0f;
     float m_speed = 100.0f;
 
+    //View Space 특징
+    //1. 카메라는 원점에 있음 (카메라가 이동했다면 이동한 만큼의 반대 방향으로 모든 오브젝트에 위치계산 적용)
+    //2. 카메라가 바라보는 방향은 z축과 평행
     Matrix m_view_matrix = Matrix::Identity;
     Matrix m_projection_matrix = Matrix::Identity;
 

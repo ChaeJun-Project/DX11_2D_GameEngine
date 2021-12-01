@@ -140,6 +140,9 @@ const Matrix Matrix::LookAtLH(const Vector3 & eye, const Vector3 & at, const Vec
     auto x_axis = Vector3::Normalize(Vector3::Cross(up, z_axis));
     auto y_axis = Vector3::Normalize(Vector3::Cross(z_axis, x_axis));
 
+    //카메라가 이동한 만큼의 반대로 이동하는 행렬을 만듦(T)
+    //Right, Up, Forward 벡터에 카메라 회전값을 곱한 후 4x4행이 1인 4x4 행렬을 만듦(R)
+    //T * R 순서대로 곱하면 View Matrix행렬을 구할 수 있음(이동시키고 회전해야 정상적인 값이 나옴) 
     return Matrix
     (
         x_axis.x, y_axis.x, z_axis.x, 0,

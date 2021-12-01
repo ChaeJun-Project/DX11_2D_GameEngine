@@ -61,7 +61,7 @@ void Animation::LoadFromFile(const std::string& animation_directory_path)
 	//Create Texture & Push Vector
 	for (auto& file_name : file_name_vector)
 	{
-		this->m_p_texture_vector.emplace_back(resource_manager->LoadTexture(animation_directory_path + file_name));
+		this->m_p_texture_vector.emplace_back(resource_manager->LoadTexture(animation_directory_path + file_name, TextureType::Normal));
 	}
 
 	//Create Mesh

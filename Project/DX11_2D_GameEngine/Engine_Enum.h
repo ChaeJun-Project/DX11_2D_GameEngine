@@ -2,7 +2,7 @@
 
 enum class ClientState : UINT
 {
-    None = 0,
+    Title = 0,
     Game = 1,
     Editor = 2,
 };

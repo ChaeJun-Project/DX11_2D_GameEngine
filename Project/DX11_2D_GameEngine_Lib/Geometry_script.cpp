@@ -32,7 +32,7 @@ void Geometry_script::Initialize()
 	auto renderer = background->GetComponent<SpriteRenderer>();
 	auto material = renderer->GetMaterial();
 	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D, "Light2D_Shader"));
-	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, resource_manager->LoadTexture("Texture/Geometry/Forest.gif"));
+	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, resource_manager->LoadTexture("Texture/Geometry/Forest.gif", TextureType::Normal));
 	auto texture = resource_manager->GetTexture("Forest");
 	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
 
@@ -51,7 +51,7 @@ void Geometry_script::Initialize()
 	renderer = ground->GetComponent<SpriteRenderer>();
 	material = renderer->GetMaterial();
 	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D, "Light2D_Shader"));
-	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, ResourceManager::GetInstance()->LoadTexture("Texture/Geometry/Ground.gif"));
+	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, ResourceManager::GetInstance()->LoadTexture("Texture/Geometry/Ground.gif", TextureType::Normal));
 	texture = resource_manager->GetTexture("Ground");
 	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
 	
@@ -70,45 +70,45 @@ void Geometry_script::Initialize()
 	}
 
 	//Particle
-	auto particle = new GameObject();
-	particle->SetObjectName("Particle");
-	particle->SetObjectTag("Particle");
-	particle->AddComponent(new Transform());
-	particle->AddComponent(new ParticleSystem());
+	//auto particle = new GameObject();
+	//particle->SetObjectName("Particle");
+	//particle->SetObjectTag("Particle");
+	//particle->AddComponent(new Transform());
+	//particle->AddComponent(new ParticleSystem());
 
-	auto particle_system = particle->GetComponent<ParticleSystem>();
+	//auto particle_system = particle->GetComponent<ParticleSystem>();
 
-	//Set Particle Texture
-	particle_system->SetParticleTexture(resource_manager->GetTexture("rain_particle"));
+	////Set Particle Texture
+	//particle_system->SetParticleTexture(resource_manager->GetTexture("rain_particle"));
 
-	//Set Compute Shader
-	auto compute_shader = resource_manager->GetShaderResource(ShaderResourceType::Particle, "Particle_Shader")->GetShader<ComputeShader>();
-	particle_system->SetComputeShader(compute_shader);
+	////Set Compute Shader
+	//auto compute_shader = resource_manager->GetShaderResource(ShaderResourceType::Particle, "Particle_Shader")->GetShader<ComputeShader>();
+	//particle_system->SetComputeShader(compute_shader);
 
-	//Set Particle Activable Count
-	particle_system->SetParticleActivableCount(50);
+	////Set Particle Activable Count
+	//particle_system->SetParticleActivableCount(50);
 
-	//Set Particle Count
-	particle_system->SetMaxParticleCount(1000);
+	////Set Particle Count
+	//particle_system->SetMaxParticleCount(1000);
 
-	//Set Particle Spawn
-	particle_system->SetParticleSpawnRange(Vector3(g_cbuffer_program.resolution.x, g_cbuffer_program.resolution.y, 0.0f));
+	////Set Particle Spawn
+	//particle_system->SetParticleSpawnRange(Vector3(g_cbuffer_program.resolution.x, g_cbuffer_program.resolution.y, 0.0f));
 
-	//Set Particle Scale
-	particle_system->SetParticleScale(Vector3(10.0f, 30.0f, 1.0f), Vector3(2.0f, 6.0f, 1.0f));
+	////Set Particle Scale
+	//particle_system->SetParticleScale(Vector3(10.0f, 30.0f, 1.0f), Vector3(2.0f, 6.0f, 1.0f));
 
-	//Set Particle Color
-	particle_system->SetParticleColor(Color4::White, Color4::White);
+	////Set Particle Color
+	//particle_system->SetParticleColor(Color4::White, Color4::White);
 
-	//Set Particle Speed
-	particle_system->SetParticleSpeed(200.0f, 300.0f);
+	////Set Particle Speed
+	//particle_system->SetParticleSpeed(200.0f, 300.0f);
 
-	//Set Particle Life
-	particle_system->SetParticleDrawFrequency(0.4f);
+	////Set Particle Life
+	//particle_system->SetParticleDrawFrequency(0.4f);
 
-	particle_system->Initialize();
+	//particle_system->Initialize();
 
-	m_p_owner_game_object->AddChild(particle);
+	//m_p_owner_game_object->AddChild(particle);
 
 	//Water Distortion
 	auto water_distortion = new GameObject();

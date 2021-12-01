@@ -37,66 +37,66 @@ void GameLogic_Script::Initialize()
 	geometry->GetComponent<Script>()->Initialize();
 
 	//RockManZ(3)
-	auto rockmanZ = new GameObject();
-	rockmanZ->SetObjectName("RockManZ");
-	rockmanZ->SetObjectTag("Player");
-	rockmanZ->AddComponent(new Transform());
-	rockmanZ->AddComponent(new SpriteRenderer());
-	rockmanZ->AddComponent(new Animator());
-	rockmanZ->AddComponent(new Collider2D());
-	rockmanZ->AddComponent(new RockManZ_Script());
+	//auto rockmanZ = new GameObject();
+	//rockmanZ->SetObjectName("RockManZ");
+	//rockmanZ->SetObjectTag("Player");
+	//rockmanZ->AddComponent(new Transform());
+	//rockmanZ->AddComponent(new SpriteRenderer());
+	//rockmanZ->AddComponent(new Animator());
+	//rockmanZ->AddComponent(new Collider2D());
+	//rockmanZ->AddComponent(new RockManZ_Script());
 
-	auto collider2D = rockmanZ->GetComponent<Collider2D>();
-	collider2D->SetOffsetPosition(Vector2(0.0f, -0.1f));
-	collider2D->SetOffsetScale(Vector2(0.45f, 0.5f));
-	rockmanZ->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.5f));
-	auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
-	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 33.0f - 180.0f), 0.0f));
+	//auto collider2D = rockmanZ->GetComponent<Collider2D>();
+	//collider2D->SetOffsetPosition(Vector2(0.0f, -0.1f));
+	//collider2D->SetOffsetScale(Vector2(0.45f, 0.5f));
+	//rockmanZ->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.5f));
+	//auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
+	//rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 33.0f - 180.0f), 0.0f));
 
-	rockmanZ->GetComponent<Script>()->Initialize();
-	current_scene->AddGameObject(rockmanZ, 3, true);
+	//rockmanZ->GetComponent<Script>()->Initialize();
+	//current_scene->AddGameObject(rockmanZ, 3, true);
 
-	//Enemy(4)
-	auto walkcannon = new GameObject();
-	walkcannon->SetObjectName("WalkCannon");
-	walkcannon->SetObjectTag("Enemy");
-	walkcannon->AddComponent(new Transform());
-	walkcannon->AddComponent(new SpriteRenderer());
-	walkcannon->AddComponent(new Animator());
-	walkcannon->AddComponent(new Collider2D());
-	walkcannon->AddComponent(new WalkCannon_Script());
+	////Enemy(4)
+	//auto walkcannon = new GameObject();
+	//walkcannon->SetObjectName("WalkCannon");
+	//walkcannon->SetObjectTag("Enemy");
+	//walkcannon->AddComponent(new Transform());
+	//walkcannon->AddComponent(new SpriteRenderer());
+	//walkcannon->AddComponent(new Animator());
+	//walkcannon->AddComponent(new Collider2D());
+	//walkcannon->AddComponent(new WalkCannon_Script());
 
-	collider2D = walkcannon->GetComponent<Collider2D>();
-	collider2D->SetOffsetScale(Vector2(0.4f, 0.4f));
+	//collider2D = walkcannon->GetComponent<Collider2D>();
+	//collider2D->SetOffsetScale(Vector2(0.4f, 0.4f));
 
-	walkcannon->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 2.0f));
-	scale = walkcannon->GetComponent<Transform>()->GetScale();
-	walkcannon->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 19.0f), 0.0f));
-	walkcannon->GetComponent<Transform>()->SetTranslation(Vector3(300.f, -160.f, 0.0f));
+	//walkcannon->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 2.0f));
+	//scale = walkcannon->GetComponent<Transform>()->GetScale();
+	//walkcannon->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 19.0f), 0.0f));
+	//walkcannon->GetComponent<Transform>()->SetTranslation(Vector3(300.f, -160.f, 0.0f));
 
-	scene_manager->CreatePrefab(walkcannon);
-	m_p_walkcannon_prefab = ResourceManager::GetInstance()->GetPrefab("WalkCannon");
+	//scene_manager->CreatePrefab(walkcannon);
+	//m_p_walkcannon_prefab = ResourceManager::GetInstance()->GetPrefab("WalkCannon");
 
-	//Enemy Bullet(4)
-	auto walkconnon_bullet = new GameObject();
-	walkconnon_bullet->SetObjectName("WalkCannon_Bullet");
-	walkconnon_bullet->SetObjectTag("Enemy");
-	walkconnon_bullet->AddComponent(new Transform());
-	walkconnon_bullet->AddComponent(new SpriteRenderer());
-	walkconnon_bullet->AddComponent(new Animator());
-	walkconnon_bullet->AddComponent(new Collider2D());
-	walkconnon_bullet->AddComponent(new WalkCannon_Bullet_Script());
+	////Enemy Bullet(4)
+	//auto walkconnon_bullet = new GameObject();
+	//walkconnon_bullet->SetObjectName("WalkCannon_Bullet");
+	//walkconnon_bullet->SetObjectTag("Enemy");
+	//walkconnon_bullet->AddComponent(new Transform());
+	//walkconnon_bullet->AddComponent(new SpriteRenderer());
+	//walkconnon_bullet->AddComponent(new Animator());
+	//walkconnon_bullet->AddComponent(new Collider2D());
+	//walkconnon_bullet->AddComponent(new WalkCannon_Bullet_Script());
 
-	collider2D = walkconnon_bullet->GetComponent<Collider2D>();
-	collider2D->SetOffsetScale(Vector2(0.1f, 0.1f));
+	//collider2D = walkconnon_bullet->GetComponent<Collider2D>();
+	//collider2D->SetOffsetScale(Vector2(0.1f, 0.1f));
 
-	walkconnon_bullet->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 2.0f));
+	//walkconnon_bullet->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 2.0f));
 
-	scene_manager->CreatePrefab(walkconnon_bullet);
+	//scene_manager->CreatePrefab(walkconnon_bullet);
 
-	auto collision_manager = CollisionManager::GetInstance();
+	//auto collision_manager = CollisionManager::GetInstance();
 
-	collision_manager->CheckLayer(2, 3);
+	//collision_manager->CheckLayer(2, 3);
 }
 
 void GameLogic_Script::Update()

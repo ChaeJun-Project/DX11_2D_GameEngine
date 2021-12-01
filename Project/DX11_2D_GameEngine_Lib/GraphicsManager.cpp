@@ -479,6 +479,15 @@ void GraphicsManager::CreateConstantBuffers()
 	{
 		pair_iter.first->second->Create<CBuffer_Light2D>(static_cast<UINT>(CBuffer_BindSlot::Light2D));
 	}
+
+	//Animation2D
+	pair_iter = m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::Animation2D, std::make_shared<ConstantBuffer>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create<CBuffer_Animation2D>(static_cast<UINT>(CBuffer_BindSlot::Animation2D));
+	}
 }
 
 void GraphicsManager::CreateRasterizer()

@@ -10,11 +10,12 @@
 #include "Component/1. Transform/GUI_Transform.h"
 #include "Component/2. Camera/GUI_Camera.h"
 #include "Component/3. SpriteRenderer/GUI_SpriteRenderer.h"
-#include "Component/4. Animator/GUI_Animator.h"
-#include "Component/5. Script/GUI_Script.h"
-#include "Component/6. Collider2D/GUI_Collider2D.h"
-#include "Component/7. Light2D/GUI_Light2D.h"
-#include "Component/8. ParticleSystem/GUI_ParticleSystem.h"
+#include "Component/4. Animator2D/GUI_Animator2D.h"
+//#include "Component/5. Animator/GUI_Animator.h"
+#include "Component/6. Script/GUI_Script.h"
+#include "Component/7. Collider2D/GUI_Collider2D.h"
+#include "Component/8. Light2D/GUI_Light2D.h"
+#include "Component/9. ParticleSystem/GUI_ParticleSystem.h"
 
 #define ADD_COMPONENT_BUTTON_WIDTH 120.0f
 
@@ -29,8 +30,10 @@ GUI_Inspector::GUI_Inspector(const std::string& inspector_title)
 	m_component_gui_list.push_back(std::make_pair(ComponentType::Camera, std::make_shared<GUI_Camera>("Camera")));
 	//SpriteRenderer
 	m_component_gui_list.push_back(std::make_pair(ComponentType::SpriteRenderer, std::make_shared<GUI_SpriteRenderer>("Sprite Renderer")));
+	//Animator2D
+	m_component_gui_list.push_back(std::make_pair(ComponentType::Animator2D, std::make_shared<GUI_Animator2D>("Animator2D")));
 	//Animator
-	m_component_gui_list.push_back(std::make_pair(ComponentType::Animator, std::make_shared<GUI_Animator>("Animator")));
+	//m_component_gui_list.push_back(std::make_pair(ComponentType::Animator, std::make_shared<GUI_Animator>("Animator")));
 	//Script
 	m_component_gui_list.push_back(std::make_pair(ComponentType::Script, std::make_shared<GUI_Script>("Script")));
 	//Collider2D
@@ -99,7 +102,7 @@ void GUI_Inspector::ShowGameObjectInfo()
 
 
 	//Component GUI
-	for (UINT i = static_cast<UINT>(ComponentType::Transform); i < static_cast<UINT>(ComponentType::ParticleSystem); ++i)
+	for (UINT i = static_cast<UINT>(ComponentType::Transform); i <= static_cast<UINT>(ComponentType::ParticleSystem); ++i)
 	{
 		if (!m_select_game_object->GetComponent(static_cast<ComponentType>(i)))
 		{
@@ -142,8 +145,8 @@ void GUI_Inspector::ShowAddComponentPopup()
 			ImGui::EndMenu();
 		}
 
-		//Animator
-		if (ImGui::BeginMenu("Animator"))
+		//Animator2D
+		if (ImGui::BeginMenu("Animator2D"))
 		{
 			ImGui::EndMenu();
 		}

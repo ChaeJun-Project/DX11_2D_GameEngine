@@ -51,7 +51,7 @@ void Camera::Update()
 
 	auto scene_manager = SceneManager::GetInstance();
 
-	if (scene_manager->GetEditorState() == EditorState::EditorState_Stop)
+	if (scene_manager->GetEditorState() == EditorState::EditorState_Play)
 	{
 		//편집일 때
 		auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값

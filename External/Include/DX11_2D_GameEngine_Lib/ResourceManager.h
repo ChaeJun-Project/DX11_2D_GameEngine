@@ -33,10 +33,12 @@ public:
 	//Texture
 	std::map<std::string, std::shared_ptr<IResource>>& GetTextureMap() { return m_p_textrue_map; }
 	void CreateDefaultTexture();
-	const std::shared_ptr<Texture>& LoadTexture(const std::string& texture_path);
+	const std::shared_ptr<Texture>& LoadTexture(const std::string& texture_path, const TextureType& texture_type);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D);
 	const std::shared_ptr<Texture>& GetTexture(const std::string& texture_name);
+	std::map<std::string, std::shared_ptr<IResource>>& GetAtlasTextureMap() { return m_p_atlas_textrue_map; }
+	const std::shared_ptr<Texture>& GetAtlasTexture(const std::string& atlas_texture_name);
 	
 	//Mesh
 	std::map<MeshType, std::shared_ptr<IResource>>& GetMeshMap() { return m_p_mesh_map; }
@@ -56,6 +58,7 @@ private:
 	std::map<std::string, std::shared_ptr<IResource>> m_p_material_map;
 	//Texture
 	std::map<std::string, std::shared_ptr<IResource>> m_p_textrue_map;
+	std::map<std::string, std::shared_ptr<IResource>> m_p_atlas_textrue_map;
 	//Mesh
 	std::map<MeshType, std::shared_ptr<IResource>> m_p_mesh_map;
 	//Prefab

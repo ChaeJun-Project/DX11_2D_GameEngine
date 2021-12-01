@@ -15,7 +15,7 @@ GUI_StyleSelector::~GUI_StyleSelector()
 
 void GUI_StyleSelector::Render()
 {
-	if (ImGui::Begin("Style Selector", nullptr, ImGuiWindowFlags_NoResize))
+	if (ImGui::Begin("Style Selector", &m_is_active, ImGuiWindowFlags_NoResize))
 	{
 		ImGui::Text("Style");
 		ImGui::SameLine();

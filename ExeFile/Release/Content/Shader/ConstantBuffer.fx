@@ -70,6 +70,13 @@ cbuffer Light2D : register(b3)
     float3 g_light2D_padding;
 }
 
+#include "Animation2DStruct.fx"
+
+cbuffer Animation2D : register(b4)
+{
+    Animation2D_Data g_animation2D_data_array[50];
+}
+
 //Texture2D: 텍스처 자원
 Texture2D g_texture_0 : register(t0);
 Texture2D g_texture_1 : register(t1);

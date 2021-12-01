@@ -282,13 +282,13 @@ const std::shared_ptr<Material>& ResourceManager::GetMaterial(const std::string&
 void ResourceManager::CreateDefaultTexture()
 {
 	//Noise Texture 1
-	LoadTexture("Texture/Noise/noise_01.png");
+	LoadTexture("Texture/Noise/noise_01.png", TextureType::Normal);
 
 	//Noise Texture 2
-	LoadTexture("Texture/Noise/noise_02.png");
+	LoadTexture("Texture/Noise/noise_02.png", TextureType::Normal);
 
 	//Noise Texture 3
-	LoadTexture("Texture/Noise/noise_03.jpg");
+	LoadTexture("Texture/Noise/noise_03.jpg", TextureType::Normal);
 
 	//Noise Texture 1 사용
 	auto noise_texture = GetTexture("noise_01");
@@ -305,14 +305,19 @@ void ResourceManager::CreateDefaultTexture()
 	);
 
 	//Smoke Particle Texture
-	LoadTexture("Texture/Particle/smoke_particle.png");
+	LoadTexture("Texture/Particle/smoke_particle.png", TextureType::Normal);
 
 	//Rain Particle Texture
-	LoadTexture("Texture/Particle/rain_particle.png");
+	LoadTexture("Texture/Particle/rain_particle.png", TextureType::Normal);
+
+	//Atlas Texture
+	LoadTexture("Texture/Sprite Editor/Atlas1.png", TextureType::Atlas);
+	LoadTexture("Texture/Sprite Editor/Mettool.gif", TextureType::Atlas);
+	LoadTexture("Texture/Sprite Editor/Walkcannon.gif", TextureType::Atlas);
 }
 
 //Texture/objectname/~~/textureName.확장자
-const std::shared_ptr<Texture>& ResourceManager::LoadTexture(const std::string& texture_path)
+const std::shared_ptr<Texture>& ResourceManager::LoadTexture(const std::string& texture_path, const TextureType& texture_type)
 {
 	//텍스처의 순수 이름(확장자를 뺀)을 구함
 	auto file_name = FileManager::GetIntactFileNameFromPath(texture_path);
@@ -326,9 +331,20 @@ const std::shared_ptr<Texture>& ResourceManager::LoadTexture(const std::string& 
 	auto new_texture = std::make_shared<Texture>(file_name);
 	new_texture->LoadFromFile(texture_path);
 
+	std::pair<std::map<std::string, std::shared_ptr<IResource>>::iterator, bool> texture_iter;
+	
 	//해당 이름의 texture가 없는 경우 => 새로 생성
 	//확장자가 포함된 파일 이름에서 확장자 부분을 뺀 string을 해당 텍스처의 리소스 이름으로 설정
-	auto texture_iter = m_p_textrue_map.insert(std::make_pair(file_name, new_texture));
+	switch (texture_type)
+	{
+	case TextureType::Normal:
+		texture_iter = m_p_textrue_map.insert(std::make_pair(file_name, new_texture));
+		break;
+	case TextureType::Atlas:
+		texture_iter = m_p_atlas_textrue_map.insert(std::make_pair(file_name, new_texture));
+		break;
+	}
+	
 	auto result = texture_iter.second;
 	assert(result);
 	if (!result)
@@ -388,6 +404,17 @@ const std::shared_ptr<Texture>& ResourceManager::GetTexture(const std::string& t
 		return nullptr;
 
 	return std::dynamic_pointer_cast<Texture>(texture_iter->second);
+}
+
+const std::shared_ptr<Texture>& ResourceManager::GetAtlasTexture(const std::string& atlas_texture_name)
+{
+	auto atlas_texture_iter = m_p_atlas_textrue_map.find(atlas_texture_name);
+
+	//해당 Atlas 텍스처를 찾지 못했을 경우
+	if (atlas_texture_iter == m_p_atlas_textrue_map.end())
+		return nullptr;
+
+	return std::dynamic_pointer_cast<Texture>(atlas_texture_iter->second);
 }
 
 

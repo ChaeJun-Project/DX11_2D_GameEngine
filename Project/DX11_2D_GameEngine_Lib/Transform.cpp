@@ -26,7 +26,7 @@ void Transform::FinalUpdate()
 
 void Transform::UpdateWorldMatrix()
 {
-	switch (m_game_object_side_state)
+	/*switch (m_game_object_side_state)
 	{
 	case GameObjectSideState::Right:
 		SetRotation(Quaternion::Identity);
@@ -34,7 +34,7 @@ void Transform::UpdateWorldMatrix()
 	case GameObjectSideState::Left:
 		SetRotation(Quaternion::QuaternionFromEulerAngle(Vector3(0.0f, 180.0f, 0.0f)));
 		break;
-	}
+	}*/
 
 	auto scale = Matrix::Scaling(m_local_scale * m_mesh_scale);
 	auto rotation = Matrix::RotationQuaternion(m_local_rotation);

@@ -80,6 +80,7 @@ void Animator::CreateAnimation(const std::string& animation_name, const std::str
 
 	auto animation_iter = m_p_animation_map.insert(std::make_pair(animation_name, animation));
 	auto result = animation_iter.second;
+	assert(result);
 }
 
 void Animator::LoadAnimation(const std::string& animation_file_path)

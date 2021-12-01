@@ -16,6 +16,10 @@ typedef unsigned long ULONG;
 //자원 정보 받기
 #define SAFE_GET_POINTER(p)       { if(p) {return p;} return nullptr; }
 
+//Delta Time
+#define DELTA_TIME_D TimeManager::GetInstance()->GetDeltaTime_double();
+#define DELTA_TIME_F TimeManager::GetInstance()->GetDeltaTime_float();
+
 //DirectX11 
 //자원 메모리 해제 매크로 정의
 #define SAFE_RELEASE(p)         { if(p) { p->Release(); p = nullptr; } }

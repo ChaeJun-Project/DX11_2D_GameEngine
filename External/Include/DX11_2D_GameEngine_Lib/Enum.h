@@ -1,11 +1,11 @@
 #pragma once
 
 //Editor의 상태를 정의(Editor 사용)
-enum class EditorState : UINT
+enum EditorState : UINT
 {
-	EditorState_Play = 0,	//편집_재생 모드
-	EditorState_Pause = 1,	//편집_정지 모드
-	EditorState_Stop = 2,	//편집_재생정지(편집가능) 모드
+	EditorState_Stop = 0U,			//0000, 편집_재생중지(편집가능) 모드
+	EditorState_Play = 1U << 0,		//0001, 편집_재생 모드
+	EditorState_Pause = 1U << 1,	//0010, 편집_정지 모드
 };
 
 //Event Type(EventManager 사용)
@@ -31,7 +31,7 @@ enum class ResourceType : UINT
 //Mesh Type(Mesh 사용)
 enum class MeshType : UINT
 {
-    Point = 0,     //점
+	Point = 0,     //점
 	Triangle = 1,  //삼각형
 	Rectangle = 2, //사각형
 	Circle = 3,    //원
@@ -47,6 +47,13 @@ enum class ShaderType : UINT
 	GS = 4, //Geometry Shader
 	PS = 5, //Pixel Shader
 	CS = 6, //Compute Shader
+};
+
+//Texture Type(Resource Manager 사용)
+enum class TextureType : UINT
+{
+	Normal = 0,
+	Atlas = 1
 };
 
 //Rasterizer State Type(Shader 사용)
@@ -115,12 +122,13 @@ enum class ComponentType : UINT
 	Transform = 1,
 	Camera = 2,
 	SpriteRenderer = 3,
-	Animator = 4,
-	Script = 5,
-	Collider2D = 6,
-	Light2D = 7,
-	ParticleSystem = 8,
-	RigidBody2D = 9,
+	Animator2D = 4,
+	Animator = 5,
+	Script = 6,
+	Collider2D = 7,
+	Light2D = 8,
+	ParticleSystem = 9,
+	RigidBody2D = 10,
 };
 
 //Projection Type(Camera 사용)

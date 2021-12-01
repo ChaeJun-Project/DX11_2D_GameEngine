@@ -76,7 +76,7 @@ void GUI_MenuBar::Render()
 
 			if (ImGui::MenuItem("Show Style Selector", "CTRL + Y", &m_is_show_style))
 			{
-
+				m_p_gui_style_selector->m_is_active = m_is_show_style;
 			}
 
 			ImGui::EndMenu();
@@ -86,5 +86,11 @@ void GUI_MenuBar::Render()
 	}
 
 	if(m_is_show_demo) ImGui::ShowDemoWindow(&m_is_show_demo);
+
+	if (!m_p_gui_style_selector->m_is_active)
+	{
+		m_is_show_style = false;
+	}
+
 	if(m_is_show_style) m_p_gui_style_selector->Render();
 }

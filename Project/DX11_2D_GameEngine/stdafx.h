@@ -20,6 +20,7 @@
 //Imgui Header
 #pragma region imgui
 #include "imgui.h"
+#include "imgui_internal.h"
 #include "imgui_stdlib.h"
 #include "Win32/imgui_impl_win32.h"
 #include "DirectX11/imgui_impl_dx11.h"
@@ -27,5 +28,8 @@
 
 //Enum
 #include "Engine_Enum.h"
+
+//Func
+#include "GUI/GUI_Function.h"
 
 #include <limits>
