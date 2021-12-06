@@ -10,10 +10,12 @@
 #include "SpriteRenderer.h"
 #include "Animator2D.h"
 #include "Animator.h"
-#include "Script.h"
 #include "Collider2D.h"
 #include "Light2D.h"
 #include "ParticleSystem.h"
+#include "TileMap.h"
+
+#include "Script.h"
 
 template<typename T>
 constexpr ComponentType GameObject::GetComponentType()
@@ -27,10 +29,13 @@ REGISTER_COMPONENT_TYPE(Camera, ComponentType::Camera);
 REGISTER_COMPONENT_TYPE(SpriteRenderer, ComponentType::SpriteRenderer);
 REGISTER_COMPONENT_TYPE(Animator2D, ComponentType::Animator2D);
 REGISTER_COMPONENT_TYPE(Animator, ComponentType::Animator);
-REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
 REGISTER_COMPONENT_TYPE(Collider2D, ComponentType::Collider2D);
 REGISTER_COMPONENT_TYPE(Light2D, ComponentType::Light2D);
 REGISTER_COMPONENT_TYPE(ParticleSystem, ComponentType::ParticleSystem);
+REGISTER_COMPONENT_TYPE(TileMap, ComponentType::TileMap);
+
+REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
+
 
 GameObject::GameObject(const GameObject& origin)
 {
@@ -120,13 +125,13 @@ void GameObject::FinalUpdate()
 
 void GameObject::Render()
 {
+	if (!m_active_check)
+		return;
+
 	//SpriteRenderer
 	auto renderer = GetComponent<SpriteRenderer>();
 	if (renderer != nullptr)
 		renderer->Render();
-
-	if (!m_active_check)
-		return;
 
 	//Particle System
 	auto particle_system = GetComponent<ParticleSystem>();
@@ -137,6 +142,11 @@ void GameObject::Render()
 	auto collider2D = GetComponent<Collider2D>();
 	if (collider2D != nullptr)
 		collider2D->Render();
+
+	//TileMap
+	auto tile_map = GetComponent<TileMap>();
+	if (tile_map != nullptr)
+		tile_map->Render();
 }
 
 //들어오는 데이터는 사전에 미리 소유하고 있는 게임 오브젝트를 설정해야 함

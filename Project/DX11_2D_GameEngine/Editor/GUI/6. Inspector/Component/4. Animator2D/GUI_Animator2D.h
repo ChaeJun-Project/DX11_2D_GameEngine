@@ -18,6 +18,4 @@ private:
 	GUI_ItemList* m_p_item_list = nullptr;
 
 	GUI_SpriteEditor* m_p_gui_sprite_editor = nullptr;
-
-	bool m_is_sprite_editor_active = false;
 };

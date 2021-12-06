@@ -9,11 +9,11 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "Animator2D.h"
+#include "ParticleSystem.h"
+#include "TileMap.h"
 
 //GameLogic
 #include "GameLogic_Script.h"
-
-#include "ParticleSystem.h"
 
 SceneManager::~SceneManager()
 {
@@ -52,7 +52,7 @@ void SceneManager::Initialize()
 	m_p_current_scene->AddGameObject(point_light2D, 0, true);
 
 	//Game Logic
-	auto game_logic = new GameObject();
+	/*auto game_logic = new GameObject();
 	game_logic->SetObjectName("Game Logic");
 	game_logic->SetObjectTag("Game Logic");
 	game_logic->AddComponent(new Transform());
@@ -60,33 +60,20 @@ void SceneManager::Initialize()
 
 	m_p_current_scene->AddGameObject(game_logic, 1, false);
 
-	game_logic->GetComponent<Script>()->Initialize();
+	game_logic->GetComponent<Script>()->Initialize();*/
 
-	//Game Object1
+	//Tile Object
 	auto game_object = new GameObject();
-	game_object->SetObjectName("GameObject1");
-	game_object->SetObjectTag("Enemy");
+	game_object->SetObjectName("TileObject");
+	game_object->SetObjectTag("Tile");
 	game_object->AddComponent(new Transform());
-	game_object->AddComponent(new SpriteRenderer());
-	game_object->AddComponent(new Animator2D());
-	game_object->AddComponent(new Collider2D());
+	game_object->AddComponent(new TileMap());
 
-	game_object->GetComponent<Transform>()->SetTranslation(Vector3(-100.0f, -150.0f, 0.0f));
+	auto tile_map = game_object->GetComponent<TileMap>();
+
+	//tile_map->SetTileAtlasTexture(ResourceManager::GetInstance()->GetTileAtlasTexture("Geometry_Tile"));
 
 	m_p_current_scene->AddGameObject(game_object, 3, true);
-
-	//Game Object2
-	/*game_object = new GameObject();
-	game_object->SetObjectName("GameObject2");
-	game_object->SetObjectTag("Enemy");
-	game_object->AddComponent(new Transform());
-	game_object->AddComponent(new SpriteRenderer());
-	game_object->AddComponent(new Animator2D());
-	game_object->AddComponent(new Collider2D());
-
-	game_object->GetComponent<Transform>()->SetTranslation(Vector3(-300.0f, -150.0f, 0.0f));
-
-	m_p_current_scene->AddGameObject(game_object, 3, true);*/
 }
 
 void SceneManager::Update()

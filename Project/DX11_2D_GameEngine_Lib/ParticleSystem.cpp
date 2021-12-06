@@ -42,7 +42,7 @@ ParticleSystem::~ParticleSystem()
 	m_p_particle_shared_buffer.reset();
 }
 
-void ParticleSystem::Initialize()
+void ParticleSystem::Start()
 {
 	m_p_particle_buffer->Create(sizeof(ParticleInfo), m_max_particle_count, SBufferType::Read_Write, false);
 

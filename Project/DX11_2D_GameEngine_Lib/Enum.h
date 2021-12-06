@@ -35,6 +35,7 @@ enum class MeshType : UINT
 	Triangle = 1,  //삼각형
 	Rectangle = 2, //사각형
 	Circle = 3,    //원
+	Grid = 4      //그리드
 };
 
 //Shader Type(Shader 사용)
@@ -52,8 +53,9 @@ enum class ShaderType : UINT
 //Texture Type(Resource Manager 사용)
 enum class TextureType : UINT
 {
-	Normal = 0,
-	Atlas = 1
+	Standard = 0,
+	Atlas = 1,
+	Tile_Atlas = 2,
 };
 
 //Rasterizer State Type(Shader 사용)
@@ -98,9 +100,11 @@ enum class ShaderResourceType : UINT
 {
 	Standard = 0,		  //Draw Texture
 	Line = 1,			  //Draw Line
-	Light2D = 2,		  //Draw Texture & Light2D
-	Particle = 3,		  //Draw Particle
-	PostEffect = 4	      //Draw Post Effect
+	Grid = 2,             //Draw Grid
+	Light2D = 3,		  //Draw Texture & Light2D
+	Particle = 4,		  //Draw Particle
+	PostEffect = 5,	      //Draw Post Effect
+	TileMap = 6           //Draw Tile Map
 };
 
 enum PipelineStage : UINT
@@ -124,11 +128,13 @@ enum class ComponentType : UINT
 	SpriteRenderer = 3,
 	Animator2D = 4,
 	Animator = 5,
-	Script = 6,
-	Collider2D = 7,
-	Light2D = 8,
-	ParticleSystem = 9,
+	Collider2D = 6,
+	Light2D = 7,
+	ParticleSystem = 8,
+	TileMap = 9,
 	RigidBody2D = 10,
+
+	Script = 11,
 };
 
 //Projection Type(Camera 사용)

@@ -15,7 +15,7 @@ public:
 	explicit ParticleSystem(const ParticleSystem& origin);
 	~ParticleSystem();
 
-	void Initialize();
+	virtual void Start() override;
 
 	virtual void FinalUpdate() override;
 

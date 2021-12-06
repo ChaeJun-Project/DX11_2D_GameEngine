@@ -11,6 +11,7 @@
 GUI_Transform::GUI_Transform(const std::string& transform_gui_name)
 	:GUI_Component(transform_gui_name)
 {
+  
 }
 
 void GUI_Transform::Render()

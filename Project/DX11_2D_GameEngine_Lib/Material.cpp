@@ -17,17 +17,17 @@ void Material::BindPipeline()
 	m_p_shader->BindPipeline();
 
 	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Material);
-	constant_buffer->SetConstantBufferData(&this->m_material_data, sizeof(CBuffer_Material));
+	constant_buffer->SetConstantBufferData(&m_material_data, sizeof(CBuffer_Material));
 	constant_buffer->SetBufferBindStage(PipelineStage::Graphics_ALL);
 	constant_buffer->BindPipeline();
 
-	for (UINT i = 0; i < this->m_p_texture_vector.size(); ++i)
+	for (UINT i = 0; i < m_p_texture_vector.size(); ++i)
 	{
-		if (this->m_p_texture_vector[i] != nullptr)
+		if (m_p_texture_vector[i] != nullptr)
 		{
-			this->m_p_texture_vector[i]->SetPipelineStage(PipelineStage::Graphics_ALL);
-			this->m_p_texture_vector[i]->SetBindSlot(i);
-			this->m_p_texture_vector[i]->BindPipeline();
+			m_p_texture_vector[i]->SetPipelineStage(PipelineStage::Graphics_ALL);
+			m_p_texture_vector[i]->SetBindSlot(i);
+			m_p_texture_vector[i]->BindPipeline();
 		}
 	}
 }
@@ -64,6 +64,10 @@ void Material::SetConstantBufferData(const Material_Parameter& material_paramete
 	case Material_Parameter::VEC4_1:
 	case Material_Parameter::VEC4_2:
 	case Material_Parameter::VEC4_3:
+	case Material_Parameter::VEC4_4:
+	case Material_Parameter::VEC4_5:
+	case Material_Parameter::VEC4_6:
+	case Material_Parameter::VEC4_7:
 		m_material_data.v4_array[static_cast<UINT>(material_parameter) - static_cast<UINT>(Material_Parameter::VEC4_0)] = *(reinterpret_cast<Vector4*>(data));
 		break;
 
@@ -80,6 +84,10 @@ void Material::SetConstantBufferData(const Material_Parameter& material_paramete
 	case Material_Parameter::TEX_1:
 	case Material_Parameter::TEX_2:
 	case Material_Parameter::TEX_3:
+	case Material_Parameter::TEX_4:
+	case Material_Parameter::TEX_5:
+	case Material_Parameter::TEX_6:
+	case Material_Parameter::TEX_7:
 		m_p_texture_vector[static_cast<UINT>(material_parameter) - static_cast<UINT>(Material_Parameter::TEX_0)] = texture;
 		break;
 	}

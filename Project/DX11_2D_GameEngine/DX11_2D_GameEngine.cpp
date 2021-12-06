@@ -27,7 +27,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//Core
 	auto core = Core::GetInstance();
 
-	Window::Create(hInstance, 1280, 800, g_class_name, IDI_ZERO, false);
+	Window::Create(hInstance, 1600, 900, g_class_name, IDI_ZERO, false);
 	Window::Show(nCmdShow);
 
 	core->Initialize();

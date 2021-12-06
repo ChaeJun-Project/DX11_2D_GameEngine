@@ -47,20 +47,24 @@ enum class Material_Parameter : UINT
 	VEC4_1 = 13,
 	VEC4_2 = 14,
 	VEC4_3 = 15,
+	VEC4_4 = 16,
+	VEC4_5 = 17,
+	VEC4_6 = 18,
+	VEC4_7 = 19,
 
-	MAT_0 = 16,
-	MAT_1 = 17,
-	MAT_2 = 18,
-	MAT_3 = 19,
+	MAT_0 = 20,
+	MAT_1 = 21,
+	MAT_2 = 22,
+	MAT_3 = 23,
 
-	TEX_0 = 20,
-	TEX_1 = 21,
-	TEX_2 = 22,
-	TEX_3 = 23,
-	TEX_4 = 24,
-	TEX_5 = 25,
-	TEX_6 = 26,
-	TEX_7 = 27,
+	TEX_0 = 24,
+	TEX_1 = 25,
+	TEX_2 = 26,
+	TEX_3 = 27,
+	TEX_4 = 28,
+	TEX_5 = 29,
+	TEX_6 = 30,
+	TEX_7 = 31,
 };
 
 struct CBuffer_Material
@@ -68,7 +72,7 @@ struct CBuffer_Material
 	int i_array[4];
 	float f_array[4];
 	Vector2 v2_array[4];
-	Vector4 v4_array[6];
+	Vector4 v4_array[8];
 	Matrix mx_array[4];
 };
 

@@ -17,7 +17,7 @@ Mesh::~Mesh()
 	m_index_vector.shrink_to_fit();
 }
 
-void Mesh::Create(const MeshType& mesh_type)
+void Mesh::Create(const MeshType& mesh_type, const UINT& count_x, const UINT& count_y)
 {
 	m_mesh_type = mesh_type;
 
@@ -34,6 +34,9 @@ void Mesh::Create(const MeshType& mesh_type)
 		break;
 	case MeshType::Circle:
 		CreateCircleMesh();
+		break;
+	case MeshType::Grid:
+		CreateGridMesh(count_x, count_y);
 		break;
 	}
 }
@@ -283,4 +286,138 @@ void Mesh::CreateCircleMesh()
 		m_p_index_buffer = std::make_shared<IndexBuffer>();
 
 	m_p_index_buffer->Create(m_index_vector);
+}
+
+void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
+{
+	if (!m_vertex_vector.empty() && !m_index_vector.empty() && !m_grid_left_top.empty())
+	{
+		Clear();
+		m_grid_left_top.clear();
+	}
+
+	float tile_per_width = static_cast<float>(1.0f / count_x); //타일 한 칸의 너비
+	float tile_per_height = static_cast<float>(1.0f / count_y); //타일 한 칸의 높이
+
+	UINT index = 0;
+	//Vertex & Index
+	//행
+	for (UINT row = 0; row < count_y; ++row)
+	{
+		//열
+		for (UINT column = 0; column < count_x; ++column)
+		{
+			VertexColorTexture vertex;
+
+			//=============================================
+			//Line1
+			//=============================================
+			//Left Top Vertex(좌상단 정점)
+			vertex.position = Vector3(-0.5f + (column * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
+			vertex.color = Color4::White;
+			vertex.color.a = 0.0f;
+			vertex.uv = Vector2(0.0f, 0.0f);
+			m_vertex_vector.emplace_back(vertex);
+			m_index_vector.emplace_back(index);
+			++index;
+
+			//Grid Left Top
+			m_grid_left_top.emplace_back(Vector2(vertex.position.x, vertex.position.y));
+
+			//Right Top Vertex(우상단 정점)
+			vertex.position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
+			vertex.color = Color4::White;
+			vertex.color.a = 0.0f;
+			vertex.uv = Vector2(0.0f, 0.0f);
+			m_vertex_vector.emplace_back(vertex);
+			m_index_vector.emplace_back(index);
+			++index;
+
+			//=============================================
+			//Line2
+			//=============================================
+			//Right Top Vertex(우상단 정점)
+			vertex.position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
+			vertex.color = Color4::White;
+			vertex.color.a = 0.0f;
+			vertex.uv = Vector2(0.0f, 0.0f);
+			m_vertex_vector.emplace_back(vertex);
+			m_index_vector.emplace_back(index);
+			++index;
+
+			//Right Bottom Vertex(우하단 정점)
+			vertex.position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
+			vertex.color = Color4::White;
+			vertex.color.a = 0.0f;
+			vertex.uv = Vector2(0.0f, 0.0f);
+			m_vertex_vector.emplace_back(vertex);
+			m_index_vector.emplace_back(index);
+			++index;
+
+			//=============================================
+			//Line3
+			//=============================================
+			//Right Bottom Vertex(우하단 정점)
+			vertex.position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
+			vertex.color = Color4::White;
+			vertex.color.a = 0.0f;
+			vertex.uv = Vector2(0.0f, 0.0f);
+			m_vertex_vector.emplace_back(vertex);
+			m_index_vector.emplace_back(index);
+			++index;
+
+			//Left Bottom Vertex(좌하단 정점)
+			vertex.position = Vector3(-0.5f + (column * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
+			vertex.color = Color4::White;
+			vertex.color.a = 0.0f;
+			vertex.uv = Vector2(0.0f, 1.0f);
+			m_vertex_vector.emplace_back(vertex);
+			m_index_vector.emplace_back(index);
+			++index;
+
+			//=============================================
+			//Line4
+			//=============================================
+			//Left Bottom Vertex(좌하단 정점)
+			vertex.position = Vector3(-0.5f + (column * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
+			vertex.color = Color4::White;
+			vertex.color.a = 0.0f;
+			vertex.uv = Vector2(0.0f, 1.0f);
+			m_vertex_vector.emplace_back(vertex);
+			m_index_vector.emplace_back(index);
+			++index;
+
+			//Left Top Vertex(좌상단 정점)
+			vertex.position = Vector3(-0.5f + (column * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
+			vertex.color = Color4::White;
+			vertex.color.a = 0.0f;
+			vertex.uv = Vector2(0.0f, 0.0f);
+			m_vertex_vector.emplace_back(vertex);
+			m_index_vector.emplace_back(index);
+			++index;
+		}
+	}
+
+	//Create Vertex Buffer
+	if (m_p_vertex_buffer == nullptr)
+		m_p_vertex_buffer = std::make_shared<VertexBuffer>();
+
+	m_p_vertex_buffer->Create(m_vertex_vector);
+
+	//Create Index Buffer
+	if (m_p_index_buffer == nullptr)
+		m_p_index_buffer = std::make_shared<IndexBuffer>();
+
+	m_p_index_buffer->Create(m_index_vector);
+}
+
+void Mesh::Clear()
+{
+	//Vertex Vector 삭제
+	m_vertex_vector.clear();
+	m_vertex_vector.shrink_to_fit();
+
+	//Index Vector 삭제
+	m_index_vector.clear();
+	m_index_vector.shrink_to_fit();
 }

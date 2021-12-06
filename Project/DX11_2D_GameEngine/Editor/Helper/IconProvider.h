@@ -16,12 +16,15 @@ enum class IconType : UINT
    Component_Transform,
    Component_Camera,
    Component_SpriteRenderer,
+   Component_Animator2D,
    Component_Animator,
-   Component_Script,
    Component_Collider2D,
    Component_Light2D,
    Component_ParticleSystem,
+   Component_TileMap,
    Component_RigidBody2D,
+
+   Component_Script,
 
    //Console
    Console_Info,

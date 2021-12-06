@@ -12,10 +12,12 @@
 #include "Component/3. SpriteRenderer/GUI_SpriteRenderer.h"
 #include "Component/4. Animator2D/GUI_Animator2D.h"
 //#include "Component/5. Animator/GUI_Animator.h"
-#include "Component/6. Script/GUI_Script.h"
-#include "Component/7. Collider2D/GUI_Collider2D.h"
-#include "Component/8. Light2D/GUI_Light2D.h"
-#include "Component/9. ParticleSystem/GUI_ParticleSystem.h"
+#include "Component/6. Collider2D/GUI_Collider2D.h"
+#include "Component/7. Light2D/GUI_Light2D.h"
+#include "Component/8. ParticleSystem/GUI_ParticleSystem.h"
+#include "Component/9. TileMap/GUI_TileMap.h"
+//RigidBody2D
+#include "Component/11. Script/GUI_Script.h"
 
 #define ADD_COMPONENT_BUTTON_WIDTH 120.0f
 
@@ -34,15 +36,17 @@ GUI_Inspector::GUI_Inspector(const std::string& inspector_title)
 	m_component_gui_list.push_back(std::make_pair(ComponentType::Animator2D, std::make_shared<GUI_Animator2D>("Animator2D")));
 	//Animator
 	//m_component_gui_list.push_back(std::make_pair(ComponentType::Animator, std::make_shared<GUI_Animator>("Animator")));
-	//Script
-	m_component_gui_list.push_back(std::make_pair(ComponentType::Script, std::make_shared<GUI_Script>("Script")));
 	//Collider2D
 	m_component_gui_list.push_back(std::make_pair(ComponentType::Collider2D, std::make_shared<GUI_Collider2D>("Collider2D")));
 	//Light2D
 	m_component_gui_list.push_back(std::make_pair(ComponentType::Light2D, std::make_shared<GUI_Light2D>("Light2D")));
 	//ParticleSystem
 	m_component_gui_list.push_back(std::make_pair(ComponentType::ParticleSystem, std::make_shared<GUI_ParticleSystem>("ParticleSystem")));
-
+	//TileMap
+	m_component_gui_list.push_back(std::make_pair(ComponentType::TileMap, std::make_shared<GUI_TileMap>("TileMap")));
+	//RigidBody2D
+	//Script
+	m_component_gui_list.push_back(std::make_pair(ComponentType::Script, std::make_shared<GUI_Script>("Script")));
 }
 
 GUI_Inspector::~GUI_Inspector()
@@ -84,7 +88,7 @@ void GUI_Inspector::ShowGameObjectInfo()
 	IconProvider::GetInstance()->CreateImage(IconType::Inspector_GameObject, ImVec2(16.0f, 16.0f));
 	ImGui::SameLine();
 
-	std::string game_object_name = m_select_game_object->GetObjectName();
+	static std::string game_object_name = m_select_game_object->GetObjectName();
 	std::string label_str = "##" + m_select_game_object->GetObjectName();
 	//Render Check
 	ImGui::Checkbox("", &m_select_game_object->IsActive());
@@ -92,8 +96,10 @@ void GUI_Inspector::ShowGameObjectInfo()
 	//Name
 	ImGui::PushItemWidth(150.0f);
 	if (ImGui::InputText(label_str.c_str(), &game_object_name))
+	{
 		m_select_game_object->SetObjectName(game_object_name); //Game Object의 이름을 수정한 경우에만 수행
-	
+	}
+
 	//TODO
 	//Tag
 
@@ -102,7 +108,7 @@ void GUI_Inspector::ShowGameObjectInfo()
 
 
 	//Component GUI
-	for (UINT i = static_cast<UINT>(ComponentType::Transform); i <= static_cast<UINT>(ComponentType::ParticleSystem); ++i)
+	for (UINT i = static_cast<UINT>(ComponentType::Transform); i <= static_cast<UINT>(ComponentType::TileMap); ++i)
 	{
 		if (!m_select_game_object->GetComponent(static_cast<ComponentType>(i)))
 		{

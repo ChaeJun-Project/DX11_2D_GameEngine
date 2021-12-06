@@ -87,10 +87,6 @@ void Camera::Update()
 		//카메라 위치 변경
 		transform->Translate(movement_speed);
 
-		if (MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
-		{
-			Picking();
-		}
 	}
 }
 
@@ -271,19 +267,19 @@ void Camera::UpdateProjectionMatrix()
 	}
 }
 
-void Camera::Picking()
+const Vector3 Camera::Picking()
 {
 	if (m_camera_index != 0)
-		return;
+		return Vector3::Zero;
 
 	Vector2 mouse_position = InputManager::GetInstance()->GetMousePosition();
 
-	Vector3 world = ScreenToWorld(mouse_position);
+	Vector3 mouse_world_position = ScreenToWorld(mouse_position);
 
-	world.Normalize(); //카메라 위치에서 Ray를 쏘는 방향 벡터
+	return mouse_world_position;
 }
 
-const Vector3& Camera::ScreenToWorld(const Vector2& mouse_position)
+const Vector3 Camera::ScreenToWorld(const Vector2& mouse_position)
 {
 	Vector2 screen_resolution = Vector2
 	(

@@ -37,8 +37,12 @@ public:
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D);
 	const std::shared_ptr<Texture>& GetTexture(const std::string& texture_name);
+	//Atlas
 	std::map<std::string, std::shared_ptr<IResource>>& GetAtlasTextureMap() { return m_p_atlas_textrue_map; }
 	const std::shared_ptr<Texture>& GetAtlasTexture(const std::string& atlas_texture_name);
+	//Tile Atlas
+	std::map<std::string, std::shared_ptr<IResource>>& GetTileAtlasTextureMap() { return m_p_tile_atlas_textrue_map; }
+	const std::shared_ptr<Texture>& GetTileAtlasTexture(const std::string& tile_atlas_texture_name);
 	
 	//Mesh
 	std::map<MeshType, std::shared_ptr<IResource>>& GetMeshMap() { return m_p_mesh_map; }
@@ -57,11 +61,12 @@ private:
 	//Material
 	std::map<std::string, std::shared_ptr<IResource>> m_p_material_map;
 	//Texture
-	std::map<std::string, std::shared_ptr<IResource>> m_p_textrue_map;
-	std::map<std::string, std::shared_ptr<IResource>> m_p_atlas_textrue_map;
+	std::map<std::string, std::shared_ptr<IResource>> m_p_textrue_map;  //Standard
+	std::map<std::string, std::shared_ptr<IResource>> m_p_atlas_textrue_map; //Atlas
+	std::map<std::string, std::shared_ptr<IResource>> m_p_tile_atlas_textrue_map; //Tile_Altas
+
 	//Mesh
 	std::map<MeshType, std::shared_ptr<IResource>> m_p_mesh_map;
 	//Prefab
 	std::map<std::string, std::shared_ptr<IResource>> m_p_prefab_map;
 };
-

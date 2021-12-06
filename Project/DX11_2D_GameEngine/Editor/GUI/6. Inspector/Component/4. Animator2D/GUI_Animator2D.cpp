@@ -25,7 +25,7 @@ GUI_Animator2D::~GUI_Animator2D()
 
 void GUI_Animator2D::Render()
 {
-	if (BeginComponent(m_component_gui_name, ComponentType::Animator2D, IconType::Component_Animator))
+	if (BeginComponent(m_component_gui_name, ComponentType::Animator2D, IconType::Component_Animator2D))
 	{
 		auto animator2D = m_select_game_object->GetComponent<Animator2D>();
 
@@ -36,9 +36,8 @@ void GUI_Animator2D::Render()
 		ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 110.0f);
 		if (ImGui::Button("Sprite Editor", ImVec2(110.0f, 0.0f)))
 		{
-			m_is_sprite_editor_active = true;
+			m_p_gui_sprite_editor->m_is_active = true;
 			m_p_gui_sprite_editor->m_p_current_animater = animator2D;
-			m_p_gui_sprite_editor->m_is_active = m_is_sprite_editor_active;
 		}
 
 		//Animator Index
@@ -93,7 +92,7 @@ void GUI_Animator2D::Render()
 				ImGui::EndCombo();
 			}
 			//Sprite Editor가 꺼져있다면 클리어
-			if (!m_is_sprite_editor_active)
+			if (!m_p_gui_sprite_editor->m_is_active)
 				m_p_item_list->ClearItemList();
 
 			ImGui::PopItemWidth();
@@ -120,14 +119,9 @@ void GUI_Animator2D::Render()
 		DrawComponentEnd();
 	}
 
-	if (m_is_sprite_editor_active)
+	if (m_p_gui_sprite_editor->m_is_active)
 	{
 		m_p_gui_sprite_editor->Render();
 		m_p_gui_sprite_editor->m_p_animation_item_list = m_p_item_list;
-	}
-
-	if (!m_p_gui_sprite_editor->m_is_active)
-	{
-		m_is_sprite_editor_active = false;
 	}
 }

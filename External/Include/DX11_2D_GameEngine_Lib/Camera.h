@@ -25,10 +25,10 @@ private:
     void UpdateProjectionMatrix();
 
 public:
-    void Picking();
+    const Vector3 Picking();
 
 private:
-    const Vector3& ScreenToWorld(const Vector2& mouse_position);
+    const Vector3 ScreenToWorld(const Vector2& mouse_position);
 
 public:
     void SetMainCamera() { m_camera_index = 0; }

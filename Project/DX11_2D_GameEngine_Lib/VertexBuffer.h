@@ -13,11 +13,18 @@ public:
 	template<typename T>
 	void Create(const std::vector<T>& vertex_vector, const D3D11_USAGE& usage = D3D11_USAGE_DEFAULT);
 
+private:
+	void Clear()
+	{
+		m_p_buffer.Reset();
+		m_p_buffer = nullptr;
+	}
+
 public:
-	ID3D11Buffer* GetBuffer() const { SAFE_GET_POINTER(this->m_p_buffer.Get()); }
-	const UINT& GetStride() const { return this->stride; }
-	const UINT& GetOffset() const { return this->offset; }
-	const UINT& GetCount() const { return this->count; }
+	ID3D11Buffer* GetBuffer() const { SAFE_GET_POINTER(m_p_buffer.Get()); }
+	const UINT& GetStride() const { return stride; }
+	const UINT& GetOffset() const { return offset; }
+	const UINT& GetCount() const { return count; }
 
 private:
 	ComPtr<ID3D11Buffer> m_p_buffer = nullptr;
@@ -33,8 +40,11 @@ void VertexBuffer::Create(const std::vector<T>& vertex_vector, const D3D11_USAGE
 	if (vertex_vector.size() == 0)
 		return;
 
-	this->stride = sizeof(T);
-	this->count = static_cast<UINT>(vertex_vector.size());
+	if(m_p_buffer)
+		Clear();
+
+	stride = sizeof(T);
+	count = static_cast<UINT>(vertex_vector.size());
 
 	//Vertex Buffer 정의
 	D3D11_BUFFER_DESC desc;
@@ -67,7 +77,7 @@ void VertexBuffer::Create(const std::vector<T>& vertex_vector, const D3D11_USAGE
 		break;
 	}
 	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER; //해당 Buffer를 Vertex Buffer로 사용
-	desc.ByteWidth = this->stride * this->count; //Vertex Buffer의 총 크기
+	desc.ByteWidth = stride * count; //Vertex Buffer의 총 크기
 
 	//실제 정점 정보를 포인터로 가리킴
 	D3D11_SUBRESOURCE_DATA sub_data;
@@ -76,7 +86,7 @@ void VertexBuffer::Create(const std::vector<T>& vertex_vector, const D3D11_USAGE
 
 	//Vertex Buffer 생성
 	auto device = GraphicsManager::GetInstance()->GetDevice();
-	auto hResult = device->CreateBuffer(&desc, &sub_data, this->m_p_buffer.GetAddressOf());
+	auto hResult = device->CreateBuffer(&desc, &sub_data, m_p_buffer.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return;

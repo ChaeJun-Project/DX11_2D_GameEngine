@@ -11,6 +11,9 @@ public:
 	//Vertex Buffer처럼 template 멤버 함수로 정의하지 않음
 	void Create(const std::vector<UINT>& index_vector, const D3D11_USAGE& usage = D3D11_USAGE_IMMUTABLE);
 
+private:
+	void Clear();
+
 public:
 	ID3D11Buffer* GetBuffer() const { SAFE_GET_POINTER(this->m_p_buffer.Get()); }
 	const UINT& GetStride() const { return this->stride; }

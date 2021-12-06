@@ -255,6 +255,7 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="StructuredBuffer.h" />
     <ClInclude Include="StructuredStruct.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="VertexStruct.h" />
@@ -325,6 +326,7 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="StructuredBuffer.cpp" />
     <ClCompile Include="StructuredStruct.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexStruct.cpp" />
@@ -412,6 +414,13 @@ call GameEngineCopy.bat</Command>
     <FxCompile Include="ShaderFiles\TextureShader.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\TileMapShader.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

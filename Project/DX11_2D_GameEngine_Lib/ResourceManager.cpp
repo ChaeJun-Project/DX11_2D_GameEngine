@@ -29,10 +29,23 @@ ResourceManager::~ResourceManager()
 	m_p_material_map.clear();
 
 	//Texture
+	//Standard
 	for (auto& texture : m_p_textrue_map)
 		texture.second.reset();
 
 	m_p_textrue_map.clear();
+
+	//Atlas
+	for (auto& atlas_texture : m_p_atlas_textrue_map)
+		atlas_texture.second.reset();
+
+	m_p_atlas_textrue_map.clear();
+
+	//Tile Atlas
+	for (auto& texture : m_p_tile_atlas_textrue_map)
+		texture.second.reset();
+
+	m_p_tile_atlas_textrue_map.clear();
 
 	//Mesh
 	for (auto& mesh : m_p_mesh_map)
@@ -74,7 +87,7 @@ void ResourceManager::CreateDefaultShader()
 	if (!result)
 		return;
 
-	//Create Collider2D Shader
+	//Create Line Shader
 	shader = std::make_shared<Shader>("Line_Shader");
 	shader->AddAndCreateShader<VertexShader>("Shader/DrawLineShader.fx", "VS", "vs_5_0");
 	shader->AddAndCreateShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
@@ -87,6 +100,24 @@ void ResourceManager::CreateDefaultShader()
 	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP); //선으로 그리기
 
 	shader_iter = m_p_shader_map.insert(std::make_pair(std::make_pair(ShaderResourceType::Line, shader->GetResourceName()), shader));
+	result = shader_iter.second;
+	assert(result);
+	if (!result)
+		return;
+
+	//Create Grid Shader
+	shader = std::make_shared<Shader>("Gird_Shader");
+	shader->AddAndCreateShader<VertexShader>("Shader/DrawLineShader.fx", "VS", "vs_5_0");
+	shader->AddAndCreateShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
+	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+
+	shader->SetRenderTimePointType(RenderTimePointType::Forward);
+	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write); //깊이 비교를 하지않고 기록도 하지 않음
+	shader->SetBlendType(BlendType::Default);
+	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST); //모든 정점을 잇는 선으로 그리기
+
+	shader_iter = m_p_shader_map.insert(std::make_pair(std::make_pair(ShaderResourceType::Grid, shader->GetResourceName()), shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
@@ -162,6 +193,23 @@ void ResourceManager::CreateDefaultShader()
 	assert(result);
 	if (!result)
 		return;
+
+	//Create Tile Shader
+	shader = std::make_shared<Shader>("TileMap_Shader");
+	shader->AddAndCreateShader<VertexShader>("Shader/TileMapShader.fx", "VS", "vs_5_0");
+	shader->AddAndCreateShader<PixelShader>("Shader/TileMapShader.fx", "PS", "ps_5_0");
+	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+
+	shader->SetRenderTimePointType(RenderTimePointType::Forward);
+	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
+	shader->SetBlendType(BlendType::Alpha_Blend);
+
+	shader_iter = m_p_shader_map.insert(std::make_pair(std::make_pair(ShaderResourceType::TileMap, shader->GetResourceName()), shader));
+	result = shader_iter.second;
+	assert(result);
+	if (!result)
+		return;
 }
 
 const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderResourceType& shader_type, const std::string shader_name)
@@ -177,9 +225,9 @@ const std::shared_ptr<Shader>& ResourceManager::GetShaderResource(const ShaderRe
 void ResourceManager::CreateDefaultMaterial()
 {
 	//=============================================
-    //Standard
-    //=============================================
-    //Default Material
+	//Standard
+	//=============================================
+	//Default Material
 	std::string material_name = "Default_Material";
 	auto material = std::make_shared<Material>(material_name);
 	material->SetShader(GetShaderResource(ShaderResourceType::Standard, "Standard_Shader"));
@@ -233,6 +281,19 @@ void ResourceManager::CreateDefaultMaterial()
 		return;
 
 	//=============================================
+	//Grid
+	//=============================================
+	material_name = "Grid_Material";
+	material = std::make_shared<Material>(material_name);
+	material->SetShader(GetShaderResource(ShaderResourceType::Grid, "Gird_Shader"));
+
+	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
+	result = material_iter.second;
+	assert(result);
+	if (!result)
+		return;
+
+	//=============================================
 	//Particle
 	//=============================================
 	material_name = "Particle";
@@ -267,6 +328,19 @@ void ResourceManager::CreateDefaultMaterial()
 	assert(result);
 	if (!result)
 		return;
+
+	//=============================================
+	//Tile
+	//=============================================
+	material_name = "TileMap_Material";
+	material = std::make_shared<Material>(material_name);
+	material->SetShader(GetShaderResource(ShaderResourceType::TileMap, "TileMap_Shader"));
+
+	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
+	result = material_iter.second;
+	assert(result);
+	if (!result)
+		return;
 }
 
 const std::shared_ptr<Material>& ResourceManager::GetMaterial(const std::string& material_name)
@@ -282,13 +356,13 @@ const std::shared_ptr<Material>& ResourceManager::GetMaterial(const std::string&
 void ResourceManager::CreateDefaultTexture()
 {
 	//Noise Texture 1
-	LoadTexture("Texture/Noise/noise_01.png", TextureType::Normal);
+	LoadTexture("Texture/Noise/noise_01.png", TextureType::Standard);
 
 	//Noise Texture 2
-	LoadTexture("Texture/Noise/noise_02.png", TextureType::Normal);
+	LoadTexture("Texture/Noise/noise_02.png", TextureType::Standard);
 
 	//Noise Texture 3
-	LoadTexture("Texture/Noise/noise_03.jpg", TextureType::Normal);
+	LoadTexture("Texture/Noise/noise_03.jpg", TextureType::Standard);
 
 	//Noise Texture 1 사용
 	auto noise_texture = GetTexture("noise_01");
@@ -305,15 +379,20 @@ void ResourceManager::CreateDefaultTexture()
 	);
 
 	//Smoke Particle Texture
-	LoadTexture("Texture/Particle/smoke_particle.png", TextureType::Normal);
+	LoadTexture("Texture/Particle/smoke_particle.png", TextureType::Standard);
 
 	//Rain Particle Texture
-	LoadTexture("Texture/Particle/rain_particle.png", TextureType::Normal);
+	LoadTexture("Texture/Particle/rain_particle.png", TextureType::Standard);
 
 	//Atlas Texture
-	LoadTexture("Texture/Sprite Editor/Atlas1.png", TextureType::Atlas);
-	LoadTexture("Texture/Sprite Editor/Mettool.gif", TextureType::Atlas);
-	LoadTexture("Texture/Sprite Editor/Walkcannon.gif", TextureType::Atlas);
+	LoadTexture("Texture/Atlas Texture/Atlas1.png", TextureType::Atlas);
+	LoadTexture("Texture/Atlas Texture/Mettool.gif", TextureType::Atlas);
+	LoadTexture("Texture/Atlas Texture/Walkcannon.gif", TextureType::Atlas);
+
+	//Tile Atlas Texture
+	LoadTexture("Texture/Tile/TileAtlas_Map1.png", TextureType::Tile_Atlas);
+	LoadTexture("Texture/Tile/TileAtlas_Map2.png", TextureType::Tile_Atlas);
+	LoadTexture("Texture/Tile/TileAtlas_Map3.png", TextureType::Tile_Atlas);
 }
 
 //Texture/objectname/~~/textureName.확장자
@@ -332,19 +411,22 @@ const std::shared_ptr<Texture>& ResourceManager::LoadTexture(const std::string& 
 	new_texture->LoadFromFile(texture_path);
 
 	std::pair<std::map<std::string, std::shared_ptr<IResource>>::iterator, bool> texture_iter;
-	
+
 	//해당 이름의 texture가 없는 경우 => 새로 생성
 	//확장자가 포함된 파일 이름에서 확장자 부분을 뺀 string을 해당 텍스처의 리소스 이름으로 설정
 	switch (texture_type)
 	{
-	case TextureType::Normal:
+	case TextureType::Standard:
 		texture_iter = m_p_textrue_map.insert(std::make_pair(file_name, new_texture));
 		break;
 	case TextureType::Atlas:
 		texture_iter = m_p_atlas_textrue_map.insert(std::make_pair(file_name, new_texture));
 		break;
+	case TextureType::Tile_Atlas:
+		texture_iter = m_p_tile_atlas_textrue_map.insert(std::make_pair(file_name, new_texture));
+		break;
 	}
-	
+
 	auto result = texture_iter.second;
 	assert(result);
 	if (!result)
@@ -417,6 +499,16 @@ const std::shared_ptr<Texture>& ResourceManager::GetAtlasTexture(const std::stri
 	return std::dynamic_pointer_cast<Texture>(atlas_texture_iter->second);
 }
 
+const std::shared_ptr<Texture>& ResourceManager::GetTileAtlasTexture(const std::string& tile_atlas_texture_name)
+{
+	auto tile_atlas_texture_iter = m_p_tile_atlas_textrue_map.find(tile_atlas_texture_name);
+
+	//해당 Tile Atlas 텍스처를 찾지 못했을 경우
+	if (tile_atlas_texture_iter == m_p_tile_atlas_textrue_map.end())
+		return nullptr;
+
+	return std::dynamic_pointer_cast<Texture>(tile_atlas_texture_iter->second);
+}
 
 void ResourceManager::CreateDefaultMesh()
 {

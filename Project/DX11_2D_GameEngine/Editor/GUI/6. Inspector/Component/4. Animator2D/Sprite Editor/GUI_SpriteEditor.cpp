@@ -32,7 +32,7 @@ GUI_SpriteEditor::~GUI_SpriteEditor()
 
 void GUI_SpriteEditor::Render()
 {
-	if (ImGui::Begin("Sprite Editor", &m_is_active, ImGuiWindowFlags_NoMove))
+	if (ImGui::Begin("Sprite Editor", &m_is_active))
 	{
 		ImGui::BulletText("Atlas Texture");
 
@@ -89,8 +89,8 @@ void GUI_SpriteEditor::Render()
 
 		if (m_p_atlas_texture != nullptr)
 		{
-			atlas_texture_size = Vector2::Zero;
-			atlas_texture_size = Vector2(static_cast<float>(m_p_atlas_texture->GetWidth()), static_cast<float>(m_p_atlas_texture->GetHeight()));
+			m_atlas_texture_size = Vector2::Zero;
+			m_atlas_texture_size = Vector2(static_cast<float>(m_p_atlas_texture->GetWidth()), static_cast<float>(m_p_atlas_texture->GetHeight()));
 
 			std::string atlas_texture_name = m_p_atlas_texture->GetResourceName() + "(" + std::to_string(m_p_atlas_texture->GetWidth()) + " X " + std::to_string(m_p_atlas_texture->GetHeight()) + ")";
 			ImGui::Text(atlas_texture_name.c_str());
@@ -98,14 +98,12 @@ void GUI_SpriteEditor::Render()
 			ImGui::Separator();
 
 			//Canvas(Atlas Texture) Range
-			draw_list = ImGui::GetWindowDrawList();
-
 			canvas_left_top = ImGui::GetCursorScreenPos();
-			canvas_right_bottom = canvas_left_top + ImVec2(atlas_texture_size.x, atlas_texture_size.y);
+			canvas_right_bottom = canvas_left_top + ImVec2(m_atlas_texture_size.x, m_atlas_texture_size.y);
 			ImGui::Image
 			(
 				m_p_atlas_texture->GetShaderResourceView(),
-				ImVec2(atlas_texture_size.x, atlas_texture_size.y),
+				ImVec2(m_atlas_texture_size.x, m_atlas_texture_size.y),
 				ImVec2(0.0f, 0.0f),
 				ImVec2(1.0f, 1.0f),
 				ImVec4(1.0f, 1.0f, 1.0f, 1.0f),
@@ -120,7 +118,7 @@ void GUI_SpriteEditor::Render()
 			if (m_p_atlas_texture != nullptr)
 
 
-				ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+			ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
 			ImGui::SameLine();
 
 			RenderAnimationEditor();
@@ -134,7 +132,7 @@ void GUI_SpriteEditor::Render()
 
 void GUI_SpriteEditor::RenderAnimationEditor()
 {
-	if (m_p_current_animater == nullptr || m_p_atlas_texture == nullptr)
+	if (m_p_atlas_texture == nullptr || m_p_current_animater == nullptr)
 		return;
 
 	ImGui::BeginGroup();
@@ -207,18 +205,18 @@ void GUI_SpriteEditor::RenderAnimationEditor()
 
 		if (m_p_animation2D->HasAnimationFrame())
 		{
-			animation2D_frame = m_p_animation2D->GetAnimationFrame(static_cast<UINT>(frame_index));
+			animation2D_frame = m_p_animation2D->GetAnimationFrame(static_cast<UINT>(m_frame_index));
 
-			total_frame_count = m_p_animation2D->GetAnimationFrameCount() - 1;
+			m_total_frame_count = m_p_animation2D->GetAnimationFrameCount() - 1;
 
 			//Frame Index(Frame Data가 1개라도 존재한느 경우에만 렌더링)
 			ImGui::SameLine();
 			ImGui::PushItemWidth(100.0f);
 			static int slider_index = 0;
-			if (ImGui::SliderInt("", &slider_index, 0, total_frame_count))
+			if (ImGui::SliderInt("", &slider_index, 0, m_total_frame_count))
 			{
-				frame_index = slider_index;
-				animation2D_frame = m_p_animation2D->GetAnimationFrame(static_cast<UINT>(frame_index));
+				m_frame_index = slider_index;
+				animation2D_frame = m_p_animation2D->GetAnimationFrame(static_cast<UINT>(m_frame_index));
 			}
 			ImGui::PopItemWidth();
 
@@ -238,19 +236,19 @@ void GUI_SpriteEditor::RenderAnimationEditor()
 			ShowFloat(m_p_animation2D->GetAnimationName(), "Duration", animation2D_frame.duration, 150.0f);
 
 
-			m_p_animation2D->SetAnimationFrame(frame_index, animation2D_frame);
+			m_p_animation2D->SetAnimationFrame(m_frame_index, animation2D_frame);
 
 			Animation2D_Data animation2D_data = animation2D_frame.animation2D_data;
 
 			Vector2 uv_left_top = Vector2
 			(
-				animation2D_data.left_top.x / atlas_texture_size.x + animation2D_data.offset.x / animation2D_data.full_frame_size.x,
-				animation2D_data.left_top.y / atlas_texture_size.y + animation2D_data.offset.y / animation2D_data.full_frame_size.y
+				animation2D_data.left_top.x / m_atlas_texture_size.x + animation2D_data.offset.x / animation2D_data.full_frame_size.x,
+				animation2D_data.left_top.y / m_atlas_texture_size.y + animation2D_data.offset.y / animation2D_data.full_frame_size.y
 			);
 			Vector2 uv_right_bottom = Vector2
 			(
-				(animation2D_data.left_top.x + animation2D_data.full_frame_size.x) / atlas_texture_size.x + animation2D_data.offset.x / animation2D_data.full_frame_size.x,
-				(animation2D_data.left_top.y + animation2D_data.full_frame_size.y) / atlas_texture_size.y + animation2D_data.offset.y / animation2D_data.full_frame_size.y
+				(animation2D_data.left_top.x + animation2D_data.full_frame_size.x) / m_atlas_texture_size.x + animation2D_data.offset.x / animation2D_data.full_frame_size.x,
+				(animation2D_data.left_top.y + animation2D_data.full_frame_size.y) / m_atlas_texture_size.y + animation2D_data.offset.y / animation2D_data.full_frame_size.y
 			);
 
 			//Preview Animation
@@ -290,6 +288,7 @@ void GUI_SpriteEditor::RenderAnimationEditor()
 				);
 			}
 
+			draw_list = ImGui::GetWindowDrawList();
 			//Canvas의 범위
 			draw_list->PushClipRect(current_screen_pos, current_screen_pos + preview_rect_size, true);
 			//Vertical Cross
@@ -319,13 +318,13 @@ void GUI_SpriteEditor::RenderAnimationEditor()
 		{
 			ZeroMemory(&animation2D_frame, sizeof(Animation2D_Frame));
 			m_p_animation2D->CreateAnimationFrame(animation2D_frame);
-			start_point_in_canvas = ImVec2(0.0f, 0.0f);
-			end_point_in_canvas = ImVec2(0.0f, 0.0f);
+			m_start_point_in_canvas = ImVec2(0.0f, 0.0f);
+			m_end_point_in_canvas = ImVec2(0.0f, 0.0f);
 		}
 
 		if (ImGui::Button("Delete Frame", ImVec2(120.0f, 0.0f)))
 		{
-			frame_index = m_p_animation2D->DeleteAnimationFrame(frame_index);
+			m_frame_index = m_p_animation2D->DeleteAnimationFrame(m_frame_index);
 		}
 	}
 
@@ -347,38 +346,27 @@ void GUI_SpriteEditor::DrawRect(const bool& is_hovered, const bool& is_active)
 		//Canvas의 시작점
 		const ImVec2 origin(canvas_left_top.x, canvas_left_top.y);
 
-		Animation2D_Frame animation2D_frame = m_p_animation2D->GetAnimationFrame(static_cast<UINT>(frame_index));
+		Animation2D_Frame animation2D_frame = m_p_animation2D->GetAnimationFrame(static_cast<UINT>(m_frame_index));
 
 		//Draw Rect
-		draw_left_top = Vector2(animation2D_frame.animation2D_data.left_top.x, animation2D_frame.animation2D_data.left_top.y);
-		draw_right_bottom = Vector2(draw_left_top.x + animation2D_frame.animation2D_data.full_frame_size.x, draw_left_top.y + animation2D_frame.animation2D_data.full_frame_size.y);
+		m_draw_left_top = Vector2(animation2D_frame.animation2D_data.left_top.x, animation2D_frame.animation2D_data.left_top.y);
+		m_draw_right_bottom = Vector2(m_draw_left_top.x + animation2D_frame.animation2D_data.full_frame_size.x, m_draw_left_top.y + animation2D_frame.animation2D_data.full_frame_size.y);
 
 		//Canvas의 상대적인 좌표를 구함(= Atlas Texture 상에서의 left_top, right_bottom 좌표를 구함)
-		draw_left_top.x += origin.x;
-		draw_left_top.y += origin.y;
+		m_draw_left_top.x += origin.x;
+		m_draw_left_top.y += origin.y;
 
-		draw_right_bottom.x += origin.x;
-		draw_right_bottom.y += origin.y;
+		m_draw_right_bottom.x += origin.x;
+		m_draw_right_bottom.y += origin.y;
 
 		//Canvas의 범위
 		if (animation2D_frame.animation2D_data.full_frame_size.x != 0.0f || animation2D_frame.animation2D_data.full_frame_size.y != 0.0f)
 		{
 			draw_list->PushClipRect(origin, canvas_right_bottom, true);
-			draw_list->AddRect(ImVec2(draw_left_top.x, draw_left_top.y), ImVec2(draw_right_bottom.x, draw_right_bottom.y), IM_COL32(0, 255, 0, 255));
+			draw_list->AddRect(ImVec2(m_draw_left_top.x, m_draw_left_top.y), ImVec2(m_draw_right_bottom.x, m_draw_right_bottom.y), IM_COL32(0, 255, 0, 255));
 			draw_list->PopClipRect();
 		}
 	}
-}
-
-const bool GUI_SpriteEditor::CheckMousePositionInRect(const ImVec2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom)
-{
-	//현재 마우스 커서의 위치가 Rect 내부에 있는 경우
-	if (rect_left_top.x < mouse_position.x && rect_left_top.y < mouse_position.y &&
-		rect_right_bottom.x > mouse_position.x && rect_right_bottom.y > mouse_position.y)
-		return true;
-
-	else
-		return false;
 }
 
 void GUI_SpriteEditor::Store()

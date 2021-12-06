@@ -174,7 +174,7 @@ void StructuredBuffer::GetStructuredBufferData(void* buffer_data, const UINT& bu
 
 	//MAPPED_SUBRESOURCE 데이터를 매개변수로 들어온 buffer_data에 복사
 	memcpy(buffer_data, mapped_sub_data.pData, static_cast<size_t>(buffer_size));
-
+	
 	device_context->Unmap(m_p_cpu_read_buffer.Get(), 0);
 }
 

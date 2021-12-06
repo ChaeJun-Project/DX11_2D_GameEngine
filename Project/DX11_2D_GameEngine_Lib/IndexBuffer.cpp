@@ -7,8 +7,11 @@ void IndexBuffer::Create(const std::vector<UINT>& index_vector, const D3D11_USAG
 	if (index_vector.size() == 0)
 		return;
 
-	this->stride = sizeof(UINT);
-	this->count = static_cast<UINT>(index_vector.size());
+	if (m_p_buffer)
+		Clear();
+
+	stride = sizeof(UINT);
+	count = static_cast<UINT>(index_vector.size());
 
 	//Index Buffer 정의
 	D3D11_BUFFER_DESC desc;
@@ -41,7 +44,7 @@ void IndexBuffer::Create(const std::vector<UINT>& index_vector, const D3D11_USAG
 		break;
 	}
 	desc.BindFlags = D3D11_BIND_INDEX_BUFFER; //해당 Buffer를 Index Buffer로 사용
-	desc.ByteWidth = this->stride * this->count; //Index Buffer의 총 크기
+	desc.ByteWidth = stride * count; //Index Buffer의 총 크기
 
 	//실제 인덱스 정보를 포인터로 가리킴
 	D3D11_SUBRESOURCE_DATA sub_data;
@@ -54,4 +57,10 @@ void IndexBuffer::Create(const std::vector<UINT>& index_vector, const D3D11_USAG
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return;
+}
+
+void IndexBuffer::Clear()
+{
+	m_p_buffer.Reset();
+	m_p_buffer = nullptr;
 }

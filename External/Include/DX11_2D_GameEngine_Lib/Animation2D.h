@@ -50,7 +50,7 @@ public:
 	const int& GetCurrentFrameID() const { return m_current_frame_id; }
 
 	//현재 애니메이션 프레임에 대한 정보
-	const int& GetAnimationFrameCount() const { return m_p_animation_frame_vector.size(); }
+	const int& GetAnimationFrameCount() const { return static_cast<int>(m_p_animation_frame_vector.size()); }
 	const bool& HasAnimationFrame() const { return !m_p_animation_frame_vector.empty(); }
 	const Animation2D_Frame& GetAnimationFrame(const UINT& frame_index)
 	{

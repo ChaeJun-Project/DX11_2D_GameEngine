@@ -32,7 +32,7 @@ void Geometry_script::Initialize()
 	auto renderer = background->GetComponent<SpriteRenderer>();
 	auto material = renderer->GetMaterial();
 	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D, "Light2D_Shader"));
-	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, resource_manager->LoadTexture("Texture/Geometry/Forest.gif", TextureType::Normal));
+	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, resource_manager->LoadTexture("Texture/Geometry/Forest.gif", TextureType::Standard));
 	auto texture = resource_manager->GetTexture("Forest");
 	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
 
@@ -51,7 +51,7 @@ void Geometry_script::Initialize()
 	renderer = ground->GetComponent<SpriteRenderer>();
 	material = renderer->GetMaterial();
 	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D, "Light2D_Shader"));
-	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, ResourceManager::GetInstance()->LoadTexture("Texture/Geometry/Ground.gif", TextureType::Normal));
+	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, ResourceManager::GetInstance()->LoadTexture("Texture/Geometry/Ground.gif", TextureType::Standard));
 	texture = resource_manager->GetTexture("Ground");
 	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
 	

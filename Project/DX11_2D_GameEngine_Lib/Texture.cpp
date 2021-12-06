@@ -17,7 +17,7 @@ void Texture::LoadFromFile(const std::string& texture_path)
 	//스크래치 이미지 생성
 	auto hResult = GetScratchImage(FileManager::ConvertStringToWString(texture_path), image);
 	assert(SUCCEEDED(hResult));
-	
+	image.GetPixels();
 	//텍스처 생성
 	auto device = GraphicsManager::GetInstance()->GetDevice();
 	hResult = CreateTexture
@@ -36,11 +36,11 @@ void Texture::LoadFromFile(const std::string& texture_path)
 	srv_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srv_desc.Texture2D.MostDetailedMip = 0;
 	srv_desc.Texture2D.MipLevels = 1;
-
+	
 	//Texture 구조체 정의
 	m_p_texture->GetDesc(&m_texture_desc);
 	srv_desc.Format = m_texture_desc.Format;
-
+	
 	//Shader Resource View 생성
 	hResult = device->CreateShaderResourceView
 	(

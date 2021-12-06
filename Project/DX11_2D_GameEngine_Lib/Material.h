@@ -21,6 +21,8 @@ public:
 
     const std::shared_ptr<Texture>& GetTexture() { return m_p_texture_vector[0]; }
 
+    const std::vector<std::shared_ptr<Texture>>& GetTextureVector() { return m_p_texture_vector; }
+
 private:
     CBuffer_Material m_material_data;
 

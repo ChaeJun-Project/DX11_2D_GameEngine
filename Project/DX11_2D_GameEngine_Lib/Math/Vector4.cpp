@@ -3,6 +3,8 @@
 #include "Vector2.h"
 #include "Vector3.h"
 
+const Vector4 Vector4::Zero = Vector4(0.0f);
+
 Vector4::Vector4()
     : x(0.0f)
     , y(0.0f)
