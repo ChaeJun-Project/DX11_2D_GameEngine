@@ -8,8 +8,10 @@ public:
     explicit Camera(const Camera& origin);
     ~Camera();
 
-    void Update() override;
     void FinalUpdate() override;
+
+public:
+    void UpdateMatrix();
 
     //Rendering 시점 별로 그릴 오브젝트들을 분류하는 작업
     void SortObjects();
@@ -18,7 +20,7 @@ public:
     void RenderParticleObjects();
     void RenderPostEffectObjects();
 
-private:
+protected:
     //뷰 행렬(메트릭스) 업데이트
     void UpdateViewMatrix();
     //투영 행렬(메트릭스) 업데이트
@@ -76,8 +78,7 @@ private:
     float m_fov = Math::ToRadian(47); //47은 표준 렌즈의 시야각 값
     float m_near_z = 0.3f;
     float m_far_z = 1000.0f;
-    float m_speed = 100.0f;
-
+   
     //View Space 특징
     //1. 카메라는 원점에 있음 (카메라가 이동했다면 이동한 만큼의 반대 방향으로 모든 오브젝트에 위치계산 적용)
     //2. 카메라가 바라보는 방향은 z축과 평행

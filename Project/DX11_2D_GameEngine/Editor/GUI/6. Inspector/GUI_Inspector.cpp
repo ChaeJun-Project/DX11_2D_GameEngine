@@ -56,7 +56,7 @@ GUI_Inspector::~GUI_Inspector()
 		if (gui_component.second != nullptr)
 			gui_component.second.reset();
 	}
-
+	
 	m_component_gui_list.clear();
 }
 

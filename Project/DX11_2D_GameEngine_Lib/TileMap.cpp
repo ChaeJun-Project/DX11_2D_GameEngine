@@ -80,7 +80,7 @@ void TileMap::Render()
 		{
 			Vector3 left_top = Vector3(m_grid_left_top_vector[i].x, m_grid_left_top_vector[i].y, 0.0f);
 
-			left_top = left_top * world_matrix;
+			left_top = left_top * world_matrix * g_cbuffer_wvpmatrix.view;
 
 			m_tile_info_vector[i].left_top.x = left_top.x;
 			m_tile_info_vector[i].left_top.y = left_top.y;

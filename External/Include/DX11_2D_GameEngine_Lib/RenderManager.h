@@ -16,12 +16,18 @@ public:
     void Initialize();
     void Render();
 
+private:
+    void RenderTitle();
+	void RenderPlay();
+    void RenderEditor();
+
 public:
 	void CopyPostEffect();
 	void ResizePostEffectTexture();
 
 public:
     //Camera
+	void RegisterEditorCamera(Camera* p_editor_camera) { m_p_editor_camera = p_editor_camera; }
     void RegisterCamera(Camera* p_camera, int& camera_index);
 
 	Camera* GetMainCamera();
@@ -34,6 +40,8 @@ public:
 	void UpdateConstantBuffer();
 
 private:
+    //Editor Camera
+	Camera* m_p_editor_camera = nullptr;
     //Scene에 있는 Camera
     std::vector<Camera*> m_camera_vector;
 	//Scene에 있는 Light2D

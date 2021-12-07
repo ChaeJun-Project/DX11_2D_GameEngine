@@ -75,13 +75,14 @@ public:
 
 private:
     void SetDead() { m_dead_check = true; }
+	void RegisterLayer();
 
 public:
 	GameObject* Clone() { return new GameObject(*this); }
 
 	void RegisterPrefab();
 
-private:
+protected:
     //Object Active Check
 	bool m_active_check = true;
 	//Object Dead Check
@@ -92,9 +93,12 @@ private:
 	std::string m_object_tag;
 	//Object Layer
 	int m_object_layer_index = -1;
-	//Component list
+
+	//Component List
 	std::list<std::pair<ComponentType, IComponent*>> m_component_list;
 	
+	//Script List
+
 	//Hierarchy
 	//Parent Object
 	GameObject* m_p_parent = nullptr;

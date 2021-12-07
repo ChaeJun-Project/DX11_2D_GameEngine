@@ -117,6 +117,11 @@ void GameObject::FinalUpdate()
 	for (auto& child : m_p_child_vector)
 		child->FinalUpdate();
 
+	RegisterLayer();
+}
+
+void GameObject::RegisterLayer()
+{
 	//Layer¿¡ µî·Ï
 	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
 	auto layer = current_scene->GetLayer(static_cast<UINT>(m_object_layer_index));

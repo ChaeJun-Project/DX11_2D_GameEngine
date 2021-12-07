@@ -8,44 +8,44 @@ Layer::Layer(const UINT& layer_index)
 
 Layer::~Layer()
 {
-	this->m_p_parent_game_object_vector.clear();
-	this->m_p_parent_game_object_vector.shrink_to_fit();
+	m_p_parent_game_object_vector.clear();
+	m_p_parent_game_object_vector.shrink_to_fit();
 
-	for(auto& game_object : this->m_p_game_object_vector)
+	for(auto& game_object : m_p_game_object_vector)
 	   SAFE_DELETE(game_object);
 
-	this->m_p_game_object_vector.clear();
-	this->m_p_game_object_vector.shrink_to_fit();
+	m_p_game_object_vector.clear();
+	m_p_game_object_vector.shrink_to_fit();
 }
 
 void Layer::Start()
 {
-	for (auto& game_object : this->m_p_parent_game_object_vector)
+	for (auto& game_object : m_p_parent_game_object_vector)
 		game_object->Start();
 }
 
 void Layer::Update()
 {
-	for (auto& game_object : this->m_p_parent_game_object_vector)
+	for (auto& game_object : m_p_parent_game_object_vector)
 		game_object->Update();
 }
 
 void Layer::LateUpdate()
 {
-	for (auto& game_object : this->m_p_parent_game_object_vector)
+	for (auto& game_object : m_p_parent_game_object_vector)
 		game_object->LateUpdate();
 }
 
 void Layer::FinalUpdate()
 {
-	std::vector<GameObject*>::iterator iter = this->m_p_parent_game_object_vector.begin();
+	std::vector<GameObject*>::iterator iter = m_p_parent_game_object_vector.begin();
 
-	for (; iter != this->m_p_parent_game_object_vector.end(); )
+	for (; iter != m_p_parent_game_object_vector.end(); )
 	{
 		(*iter)->FinalUpdate();
 
 		if ((*iter)->IsDead())
-			iter = this->m_p_parent_game_object_vector.erase(iter);
+			iter = m_p_parent_game_object_vector.erase(iter);
 
 		else
 			++iter;
@@ -54,7 +54,7 @@ void Layer::FinalUpdate()
 
 void Layer::Render()
 {
-	for (auto& game_object : this->m_p_game_object_vector)
+	for (auto& game_object : m_p_game_object_vector)
 		game_object->Render();
 }
 
@@ -63,7 +63,7 @@ void Layer::AddGameObject(GameObject* p_game_object, bool is_move)
 	if (p_game_object == nullptr)
 		return;
 
-	this->m_p_parent_game_object_vector.emplace_back(p_game_object);
+	m_p_parent_game_object_vector.emplace_back(p_game_object);
 	p_game_object->m_object_layer_index = m_layer_index;
 
 	std::queue<GameObject*> p_object_queue;

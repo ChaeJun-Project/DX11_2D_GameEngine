@@ -37,57 +37,11 @@ Camera::Camera(const Camera& origin)
 	m_fov = origin.m_fov;
 	m_near_z = origin.m_near_z;
 	m_far_z = origin.m_far_z;
-	m_speed = origin.m_speed;
 
 	m_view_matrix = origin.m_view_matrix;
 	m_projection_matrix = origin.m_projection_matrix;
 
 	m_culling_layer = origin.m_culling_layer;
-}
-
-void Camera::Update()
-{
-	auto transform = m_p_owner_game_object->GetComponent<Transform>();
-
-	auto scene_manager = SceneManager::GetInstance();
-
-	if (scene_manager->GetEditorState() == EditorState::EditorState_Play)
-	{
-		//편집일 때
-		auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
-		rotation.z = 0.0f;
-
-		auto right = transform->GetRightVector(); //카메라의 오른 방향 벡터
-		auto up = transform->GetUpVector(); //카메라의 위쪽 방향 벡터
-		auto forward = transform->GetForwardVector(); //카메라의 정면 방향 벡터
-
-		Vector3 movement_speed;
-
-		auto input = InputManager::GetInstance();
-		auto timer = TimeManager::GetInstance();
-
-		if (input->KeyPress(KeyCode::KEY_W))
-			movement_speed += forward * m_speed * timer->GetDeltaTime_float();
-
-		else if (input->KeyPress(KeyCode::KEY_S))
-			movement_speed -= forward * m_speed * timer->GetDeltaTime_float();
-
-		if (input->KeyPress(KeyCode::KEY_D))
-			movement_speed += right * m_speed * timer->GetDeltaTime_float();
-
-		else if (input->KeyPress(KeyCode::KEY_A))
-			movement_speed -= right * m_speed * timer->GetDeltaTime_float();
-
-		if (input->KeyPress(KeyCode::KEY_E))
-			movement_speed += up * m_speed * timer->GetDeltaTime_float();
-
-		else if (input->KeyPress(KeyCode::KEY_Q))
-			movement_speed -= up * m_speed * timer->GetDeltaTime_float();
-
-		//카메라 위치 변경
-		transform->Translate(movement_speed);
-
-	}
 }
 
 void Camera::FinalUpdate()
@@ -97,11 +51,6 @@ void Camera::FinalUpdate()
 	//투영 행렬(메트릭스) 업데이트
 	UpdateProjectionMatrix();
 
-	Picking();
-
-	g_cbuffer_wvpmatrix.view = m_view_matrix;
-	g_cbuffer_wvpmatrix.projection = m_projection_matrix;
-
 	//매 프레임마다 RenderManager에 카메라 등록
 	RenderManager::GetInstance()->RegisterCamera(this, m_camera_index);
 
@@ -110,6 +59,12 @@ void Camera::FinalUpdate()
 		auto transform = m_p_owner_game_object->GetComponent<Transform>();
 		g_cbuffer_program.view_position = transform->GetTranslation();
 	}
+}
+
+void Camera::UpdateMatrix()
+{
+	g_cbuffer_wvpmatrix.view = m_view_matrix;
+	g_cbuffer_wvpmatrix.projection = m_projection_matrix;
 }
 
 void Camera::SortObjects()

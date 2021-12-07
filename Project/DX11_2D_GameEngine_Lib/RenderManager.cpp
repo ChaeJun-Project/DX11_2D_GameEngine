@@ -6,12 +6,14 @@
 
 #include "GraphicsManager.h"
 
-#include "Camera.h"
-#include "Light2D.h"
-
 #include "ResourceManager.h"
 #include "Material.h"
 #include "Texture.h"
+
+#include "SceneManager.h"
+
+#include "Camera.h"
+#include "Light2D.h"
 
 RenderManager::RenderManager()
 {
@@ -50,9 +52,69 @@ void RenderManager::Render()
 	//Graphics Clear Target
 	GraphicsManager::GetInstance()->BeginScene();
 
+	auto scene_manager = SceneManager::GetInstance();
+
+	//<summary>
+	//ClientState
+	//Title = 0
+	//Game = 1
+	//Editor = 2
+
+	switch (scene_manager->GetClientState())
+	{
+	case 0:
+		RenderTitle();
+		break;
+	case 1:
+		RenderPlay();
+		break;
+	case 2:
+	{
+		if (scene_manager->GetEditorState() == EditorState::EditorState_Stop)
+		{
+			RenderEditor();
+		}
+
+		else
+			RenderPlay();
+	}
+	break;
+	}
+
+	//카메라 벡터 초기화
+	m_camera_vector.clear();
+	m_camera_vector.resize(1);
+
+	//Light2D 벡터 초기화
+	m_light2D_vector.clear();
+}
+
+void RenderManager::RenderTitle()
+{
+    //TODO
+}
+
+void RenderManager::RenderEditor()
+{
+	//Editor Camera 기준으로 화면 그리기
+	if (m_p_editor_camera != nullptr)
+	{
+		m_p_editor_camera->UpdateMatrix();
+
+		m_p_editor_camera->SortObjects();
+		m_p_editor_camera->RenderForwardObjects();
+		m_p_editor_camera->RenderParticleObjects();
+		m_p_editor_camera->RenderPostEffectObjects();
+	}
+}
+
+void RenderManager::RenderPlay()
+{
 	//메인 카메라(index 0) 기준으로 화면 그리기
 	if (m_camera_vector[0] != nullptr)
 	{
+		m_camera_vector[0]->UpdateMatrix();
+
 		m_camera_vector[0]->SortObjects();
 		m_camera_vector[0]->RenderForwardObjects();
 		m_camera_vector[0]->RenderParticleObjects();
@@ -68,13 +130,6 @@ void RenderManager::Render()
 		m_camera_vector[i]->SortObjects();
 		m_camera_vector[i]->RenderForwardObjects();
 	}
-
-	//카메라 벡터 초기화
-	m_camera_vector.clear();
-	m_camera_vector.resize(1);
-
-	//Light2D 벡터 초기화
-	m_light2D_vector.clear();
 }
 
 //Camera Component의 RenderPostEffectObjects에서 호출
@@ -93,9 +148,9 @@ void RenderManager::ResizePostEffectTexture()
 	auto settings = Core::GetInstance()->GetSettings();
 	auto resource_manager = ResourceManager::GetInstance();
 
-    //최초 생성    
-    if(m_p_post_effect_target_texture == nullptr)
-	{ 
+	//최초 생성    
+	if (m_p_post_effect_target_texture == nullptr)
+	{
 		//현재 해상도에 맞게 Post Effect Target텍스처 생성
 		m_p_post_effect_target_texture = resource_manager->CreateTexture
 		(

@@ -73,7 +73,7 @@ void GUI_Hierarchy::AddGameObject(GameObject* game_object)
 	}
 
 	//노드 추가해서 화면에 보여주는 역할
-	const auto is_node_open = ImGui::TreeNodeEx(reinterpret_cast<void*>(static_cast<intptr_t>(game_object->GetObjectID())), flags, game_object->GetObjectName().c_str());
+	const auto is_node_open = ImGui::TreeNodeEx(reinterpret_cast<void*>(game_object->GetObjectID()), flags, game_object->GetObjectName().c_str());
 
 	if (m_clicked_game_object != nullptr && EditorHelper::GetInstance()->GetSelectedGameObject() != nullptr)
 	{

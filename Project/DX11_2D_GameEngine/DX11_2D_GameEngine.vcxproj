@@ -158,6 +158,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Editor\EditorObject\Camera\CameraEx.h" />
+    <ClInclude Include="Editor\Manager\EditorObjectManager.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\Style Selector\GUI_StyleSelector.h" />
     <ClInclude Include="Editor\Helper\EditorHelper.h" />
     <ClInclude Include="Engine_Enum.h" />
@@ -182,6 +184,7 @@
     <ClInclude Include="Editor\GUI\GUI_Function.h" />
     <ClInclude Include="Editor\GUI\6. Inspector\Component\9. TileMap\GUI_TileMap.h" />
     <ClInclude Include="Editor\GUI\6. Inspector\Component\9. TileMap\MapTool\GUI_MapTool.h" />
+    <ClInclude Include="Editor\EditorObject\GameObject\GameObjectEx.h" />
     <ClInclude Include="Imgui\DirectX11\imgui_impl_dx11.h" />
     <ClInclude Include="Imgui\imconfig.h" />
     <ClInclude Include="Imgui\imgui.h" />
@@ -199,7 +202,9 @@
     <ClInclude Include="Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Editor\EditorObject\Camera\CameraEx.cpp" />
     <ClCompile Include="DX11_2D_GameEngine.cpp" />
+    <ClCompile Include="Editor\Manager\EditorObjectManager.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Style Selector\GUI_StyleSelector.cpp" />
     <ClCompile Include="Editor\Helper\EditorHelper.cpp" />
     <ClCompile Include="Editor\Manager\EditorManager.cpp" />
@@ -222,6 +227,7 @@
     <ClCompile Include="Editor\GUI\GUI_Function.cpp" />
     <ClCompile Include="Editor\GUI\6. Inspector\Component\9. TileMap\GUI_TileMap.cpp" />
     <ClCompile Include="Editor\GUI\6. Inspector\Component\9. TileMap\MapTool\GUI_MapTool.cpp" />
+    <ClCompile Include="Editor\EditorObject\GameObject\GameObjectEx.cpp" />
     <ClCompile Include="Imgui\DirectX11\imgui_impl_dx11.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
     <ClCompile Include="Imgui\imgui_demo.cpp" />

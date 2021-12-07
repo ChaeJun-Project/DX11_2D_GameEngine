@@ -5,6 +5,7 @@
 #include <DX11_2D_GameEngine_Lib/InputManager.h>
 #include <DX11_2D_GameEngine_Lib/GraphicsManager.h>
 #include "Editor/Manager/EditorManager.h"
+#include "Editor/Manager/EditorObjectManager.h"
 
 void D3D11Debug();
 
@@ -38,6 +39,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//Graphics Manager
 	auto graphics_manager = GraphicsManager::GetInstance();
 
+	//Scene Manager
+	auto scene_manager = SceneManager::GetInstance();
+	scene_manager->SetClientState(static_cast<UINT>(client_state));
+
 	//1 Frame Update
 	core->Progress();
 
@@ -45,6 +50,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	auto editor_manager = EditorManager::GetInstance();
 	//Initialize Editor Manager
 	editor_manager->Initialize(settings->GetWindowHandle(), graphics_manager->GetDevice(), graphics_manager->GetDeviceContext());
+
+	//EditorObject Manager
+	auto editor_object_manager = EditorObjectManager::GetInstance();
+	//Initialize EditorObject Manager
+	editor_object_manager->Initialize();
 
 	//Window Event 등록
 	//Mouse Event
@@ -65,9 +75,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		switch (client_state)
 		{
+		case ClientState::Title:
+			break;
 		case ClientState::Game:
 			break;
 		case ClientState::Editor:
+			editor_object_manager->Update();
+			editor_object_manager->Render();
+
 			editor_manager->Update();
 		    editor_manager->Render();
 			break;
