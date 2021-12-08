@@ -16,7 +16,6 @@ typedef unsigned long ULONG;
 //자원 정보 받기
 #define SAFE_GET_POINTER(p)       { if(p) {return p;} return nullptr; }
 
-//DirectX11 
 //자원 메모리 해제 매크로 정의
 #define SAFE_RELEASE(p)         { if(p) { p->Release(); p = nullptr; } }
 
@@ -37,6 +36,11 @@ typedef unsigned long ULONG;
 #define MOUSE_BUTTON_PRESS(button) InputManager::GetInstance()->BtnPress(button)
 
 #define MOUSE_MOVE InputManager::GetInstance()->GetMouseMoveValue()
+
+//DirectX11 
+//Device & Device Context
+#define DEVICE GraphicsManager::GetInstance()->GetDevice()
+#define DEVICE_CONTEXT GraphicsManager::GetInstance()->GetDeviceContext()
 
 //클래스 복사 생성 매크로 정의(깊은 복사, 기존 클래스와 클론 클래스가 같은 메모리를 참조하지 않음)
 #define CLONE(type) type* Clone() {return new type(*this);}

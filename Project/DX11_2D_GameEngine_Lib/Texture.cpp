@@ -36,11 +36,11 @@ void Texture::LoadFromFile(const std::string& texture_path)
 	srv_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srv_desc.Texture2D.MostDetailedMip = 0;
 	srv_desc.Texture2D.MipLevels = 1;
-	
+
 	//Texture 구조체 정의
 	m_p_texture->GetDesc(&m_texture_desc);
 	srv_desc.Format = m_texture_desc.Format;
-	
+
 	//Shader Resource View 생성
 	hResult = device->CreateShaderResourceView
 	(
@@ -84,6 +84,11 @@ void Texture::SaveFile(const std::string& texture_path)
 
 void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage)
 {
+	if (m_p_texture != nullptr)
+	{
+		ReleaseTexture();
+	}
+
 	m_texture_desc.Width = width;
 	m_texture_desc.Height = height;
 
@@ -113,7 +118,12 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 	//Depth Stencil View 생성
 	if (D3D11_BIND_DEPTH_STENCIL & m_texture_desc.BindFlags)
 	{
-		hResult = device->CreateDepthStencilView
+		if (m_p_depth_stencil_view != nullptr)
+		{
+			ReleaseDepthStencilView();
+		}
+
+		hResult = DEVICE->CreateDepthStencilView
 		(
 			m_p_texture.Get(),
 			nullptr,
@@ -127,10 +137,21 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 		//Render Target View 생성
 		if (D3D11_BIND_RENDER_TARGET & m_texture_desc.BindFlags)
 		{
+			if (m_p_render_target_view != nullptr)
+			{
+				ReleaseRenderTargetView();
+			}
+
+			D3D11_RENDER_TARGET_VIEW_DESC rtv_desc;
+			ZeroMemory(&rtv_desc, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
+			rtv_desc.Format = m_texture_desc.Format;
+			rtv_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+			rtv_desc.Texture2DArray.MipSlice = 0;
+
 			hResult = device->CreateRenderTargetView
 			(
 				m_p_texture.Get(),
-				nullptr,
+				&rtv_desc,
 				m_p_render_target_view.GetAddressOf()
 			);
 			assert(SUCCEEDED(hResult));
@@ -139,10 +160,23 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 		//Shader Resource View 생성
 		if (D3D11_BIND_SHADER_RESOURCE & m_texture_desc.BindFlags)
 		{
+			if (m_p_shader_resource_view != nullptr)
+			{
+				ReleaseShaderResourceView();
+			}
+
+			//Shader Resource View 구조체 정의
+			D3D11_SHADER_RESOURCE_VIEW_DESC srv_desc;
+			ZeroMemory(&srv_desc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+			srv_desc.Format = m_texture_desc.Format;
+			srv_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			srv_desc.Texture2D.MostDetailedMip = 0;
+			srv_desc.Texture2D.MipLevels = 1;
+
 			hResult = device->CreateShaderResourceView
 			(
 				m_p_texture.Get(),
-				nullptr,
+				&srv_desc,
 				m_p_shader_resource_view.GetAddressOf()
 			);
 			assert(SUCCEEDED(hResult));
@@ -151,6 +185,11 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 		//Unordered Access View 생성
 		if (D3D11_BIND_UNORDERED_ACCESS & m_texture_desc.BindFlags)
 		{
+			if (m_p_unordered_access_view != nullptr)
+			{
+				ReleaseUnorderedAccessView();
+			}
+
 			hResult = device->CreateUnorderedAccessView
 			(
 				m_p_texture.Get(),
@@ -160,10 +199,18 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 			assert(SUCCEEDED(hResult));
 		}
 	}
+
+	//Set View Port Size
+	SetViewport(width, height);
 }
 
 void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 {
+	if (m_p_texture != nullptr)
+	{
+		ReleaseTexture();
+	}
+
 	m_p_texture = texture2D;
 	m_p_texture->GetDesc(&m_texture_desc);
 
@@ -174,6 +221,11 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 	//Depth Stencil View 생성
 	if (D3D11_BIND_DEPTH_STENCIL & m_texture_desc.BindFlags)
 	{
+		if (m_p_depth_stencil_view != nullptr)
+		{
+			ReleaseDepthStencilView();
+		}
+
 		hResult = device->CreateDepthStencilView
 		(
 			m_p_texture.Get(),
@@ -188,10 +240,21 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 		//Render Target View 생성
 		if (D3D11_BIND_RENDER_TARGET & m_texture_desc.BindFlags)
 		{
+			if (m_p_render_target_view != nullptr)
+			{
+				ReleaseRenderTargetView();
+			}
+
+			D3D11_RENDER_TARGET_VIEW_DESC rtv_desc;
+			ZeroMemory(&rtv_desc, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
+			rtv_desc.Format = m_texture_desc.Format;
+			rtv_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+			rtv_desc.Texture2DArray.MipSlice = 0;
+
 			hResult = device->CreateRenderTargetView
 			(
 				m_p_texture.Get(),
-				nullptr,
+				&rtv_desc,
 				m_p_render_target_view.GetAddressOf()
 			);
 			assert(SUCCEEDED(hResult));
@@ -200,10 +263,23 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 		//Shader Resource View 생성
 		if (D3D11_BIND_SHADER_RESOURCE & m_texture_desc.BindFlags)
 		{
+			if (m_p_shader_resource_view != nullptr)
+			{
+				ReleaseShaderResourceView();
+			}
+
+			//Shader Resource View 구조체 정의
+			D3D11_SHADER_RESOURCE_VIEW_DESC srv_desc;
+			ZeroMemory(&srv_desc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+			srv_desc.Format = m_texture_desc.Format;
+			srv_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			srv_desc.Texture2D.MostDetailedMip = 0;
+			srv_desc.Texture2D.MipLevels = 1;
+
 			hResult = device->CreateShaderResourceView
 			(
 				m_p_texture.Get(),
-				nullptr,
+				&srv_desc,
 				m_p_shader_resource_view.GetAddressOf()
 			);
 			assert(SUCCEEDED(hResult));
@@ -212,6 +288,11 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 		//Unordered Access View 생성
 		if (D3D11_BIND_UNORDERED_ACCESS & m_texture_desc.BindFlags)
 		{
+			if (m_p_unordered_access_view != nullptr)
+			{
+				ReleaseUnorderedAccessView();
+			}
+
 			hResult = device->CreateUnorderedAccessView
 			(
 				m_p_texture.Get(),
@@ -331,13 +412,36 @@ void Texture::ReleaseTexture()
 
 void Texture::ReleaseRenderTargetView()
 {
-	m_p_texture.Reset();
 	m_p_render_target_view.Reset();
 }
 
 void Texture::ReleaseDepthStencilView()
 {
-	m_p_texture.Reset();
 	m_p_depth_stencil_view.Reset();
+}
+
+void Texture::ReleaseShaderResourceView()
+{
+	m_p_shader_resource_view.Reset();
+}
+
+void Texture::ReleaseUnorderedAccessView()
+{
+	m_p_unordered_access_view.Reset();
+}
+
+void Texture::SetViewport(const UINT& width, const UINT& height)
+{
+	//뷰포트의 시작점 설정
+	m_viewport.TopLeftX = 0.0f;
+	m_viewport.TopLeftY = 0.0f;
+
+	//뷰포트의 크기 설정
+	m_viewport.Width = static_cast<float>(width);
+	m_viewport.Height = static_cast<float>(height);
+
+	//뷰포트의 최대, 최소 깊이값 설정
+	m_viewport.MinDepth = 0.0f;
+	m_viewport.MaxDepth = 1.0f;
 }
 

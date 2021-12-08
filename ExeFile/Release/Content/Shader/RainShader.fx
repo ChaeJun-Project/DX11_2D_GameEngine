@@ -2,6 +2,7 @@
 #define RainShader
 
 #include "VertexStruct.fx"
+#include "PixelStruct.fx"
 #include "ConstantBuffer.fx"
 #include "ParticleStruct.fx"
 
@@ -99,17 +100,16 @@ void GS_Rain(point VS_OUT gs_input[1], inout TriangleStream<VertexColorTextureOu
 //Pixel Shader
 float4 PS_Rain(VertexColorTextureOutputType ps_input) : SV_Target
 {
-    float4 ps_output;
+    float4 ps_output_color = (float4) 0.0f;
     
     //UV좌표에 대응하는 텍스처의 알파값 추출
     float texture_alpha = g_texture_0.Sample(g_sampler1, ps_input.uv).a;
     
     //색상 정보 전달
-    ps_output = ps_input.color;
+    ps_output_color = ps_input.color;
+    ps_output_color.a = texture_alpha;
  
-    ps_output.a = texture_alpha;
-   
-    return ps_output;
+    return ps_output_color;
 }
 
 #endif

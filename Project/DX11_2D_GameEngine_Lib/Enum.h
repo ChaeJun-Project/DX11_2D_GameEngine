@@ -58,6 +58,13 @@ enum class TextureType : UINT
 	Tile_Atlas = 2,
 };
 
+//RenderTexture Type(RenderManager 사용)
+enum class RenderTextureType : UINT
+{
+	GameScene = 0,
+	EditorScene = 1,
+};
+
 //Rasterizer State Type(Shader 사용)
 enum class RasterizerType : UINT
 {

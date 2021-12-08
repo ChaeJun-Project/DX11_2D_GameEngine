@@ -20,7 +20,6 @@ SpriteRenderer::SpriteRenderer()
 	m_p_mesh = resource_manager->GetMesh(MeshType::Rectangle);
 	m_p_current_material = std::make_shared<Material>("GameObject_Material");
 	m_p_current_material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D, "Light2D_Shader"));
-	m_p_border = resource_manager->GetMaterial("Collider2D_White");
 }
 
 SpriteRenderer::SpriteRenderer(const SpriteRenderer& origin)
@@ -31,8 +30,6 @@ SpriteRenderer::SpriteRenderer(const SpriteRenderer& origin)
 	m_p_current_material = origin.m_p_current_material;
 	m_p_shared_material = origin.m_p_shared_material;
 	m_p_cloned_material = origin.m_p_cloned_material;
-
-	m_p_border = origin.m_p_border;
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -42,8 +39,6 @@ SpriteRenderer::~SpriteRenderer()
 	m_p_current_material.reset();
 	m_p_shared_material.reset();
 	m_p_cloned_material.reset();
-
-	m_p_border.reset();
 }
 
 void SpriteRenderer::FinalUpdate()
@@ -98,10 +93,6 @@ void SpriteRenderer::Render()
 	transform->UpdateConstantBuffer();
 
 	m_p_current_material->BindPipeline();
-
-	m_p_mesh->Render();
-
-	m_p_border->BindPipeline();
 
 	m_p_mesh->Render();
 }

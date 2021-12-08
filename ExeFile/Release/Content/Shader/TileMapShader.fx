@@ -2,6 +2,7 @@
 #define TileMapShader
 
 #include "VertexStruct.fx"
+#include "PixelStruct.fx"
 #include "ConstantBuffer.fx"
 
 #define TILE_COUNT_X          g_int_0 //타일 X축 개수
@@ -68,7 +69,7 @@ VertexColorTextureOutputType VS(VertexColorTexture vs_input)
 float4 PS(VertexColorTextureOutputType ps_input) : SV_Target
 {
     float4 ps_output_color = (float4) 0.0f;
-    
+   
     //타일의 행, 열 개수를 곱하여 uv 좌표값을 확장
     float2 expand_uv = ps_input.uv * float2(TILE_COUNT_X, TILE_COUNT_Y);
     //floor(float): float보다 같거나 작은 정수 반환
@@ -154,53 +155,46 @@ float4 PS(VertexColorTextureOutputType ps_input) : SV_Target
         case 0:
             {
                 ps_output_color = TILE_ATLAS_TEXTURE_1.Sample(g_sampler1, expand_uv);
-    
             }
             break;
         case 1:
           {
                 ps_output_color = TILE_ATLAS_TEXTURE_2.Sample(g_sampler1, expand_uv);
-    
             }
             break;
         case 2:
           {
                 ps_output_color = TILE_ATLAS_TEXTURE_3.Sample(g_sampler1, expand_uv);
-    
             }
             break;
         case 3:
           {
                 ps_output_color = TILE_ATLAS_TEXTURE_4.Sample(g_sampler1, expand_uv);
-    
             }
             break;
         case 4:
           {
                 ps_output_color = TILE_ATLAS_TEXTURE_5.Sample(g_sampler1, expand_uv);
-    
             }
             break;
         case 5:
           {
                 ps_output_color = TILE_ATLAS_TEXTURE_6.Sample(g_sampler1, expand_uv);
-    
             }
             break;
         case 6:
           {
                 ps_output_color = TILE_ATLAS_TEXTURE_7.Sample(g_sampler1, expand_uv);
-    
             }
             break;
         case 7:
           {
                 ps_output_color = TILE_ATLAS_TEXTURE_8.Sample(g_sampler1, expand_uv);
-    
             }
             break;
     }
  
     return ps_output_color;
 }
+
 #endif

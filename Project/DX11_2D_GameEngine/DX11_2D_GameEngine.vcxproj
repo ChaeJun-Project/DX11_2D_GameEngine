@@ -185,6 +185,10 @@
     <ClInclude Include="Editor\GUI\6. Inspector\Component\9. TileMap\GUI_TileMap.h" />
     <ClInclude Include="Editor\GUI\6. Inspector\Component\9. TileMap\MapTool\GUI_MapTool.h" />
     <ClInclude Include="Editor\EditorObject\GameObject\GameObjectEx.h" />
+    <ClInclude Include="Editor\GUI\4. Scene\GUI_Scene.h" />
+    <ClInclude Include="Editor\GUI\5. Game\GUI_Game.h" />
+    <ClInclude Include="Editor\GUI\7. Project\GUI_Project.h" />
+    <ClInclude Include="Editor\GUI\8. Console\GUI_Console.h" />
     <ClInclude Include="Imgui\DirectX11\imgui_impl_dx11.h" />
     <ClInclude Include="Imgui\imconfig.h" />
     <ClInclude Include="Imgui\imgui.h" />
@@ -228,6 +232,10 @@
     <ClCompile Include="Editor\GUI\6. Inspector\Component\9. TileMap\GUI_TileMap.cpp" />
     <ClCompile Include="Editor\GUI\6. Inspector\Component\9. TileMap\MapTool\GUI_MapTool.cpp" />
     <ClCompile Include="Editor\EditorObject\GameObject\GameObjectEx.cpp" />
+    <ClCompile Include="Editor\GUI\4. Scene\GUI_Scene.cpp" />
+    <ClCompile Include="Editor\GUI\5. Game\GUI_Game.cpp" />
+    <ClCompile Include="Editor\GUI\7. Project\GUI_Project.cpp" />
+    <ClCompile Include="Editor\GUI\8. Console\GUI_Console.cpp" />
     <ClCompile Include="Imgui\DirectX11\imgui_impl_dx11.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
     <ClCompile Include="Imgui\imgui_demo.cpp" />

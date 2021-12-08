@@ -22,6 +22,13 @@ RenderManager::RenderManager()
 
 RenderManager::~RenderManager()
 {
+	//Render Texture Map
+	for (auto& p_render_texture : m_p_render_texture_map)
+	{
+		p_render_texture.second.reset();
+	}
+	m_p_render_texture_map.clear();
+
 	//Camera
 	m_camera_vector.clear();
 	m_camera_vector.shrink_to_fit();
@@ -36,6 +43,9 @@ RenderManager::~RenderManager()
 
 void RenderManager::Initialize()
 {
+	CreateRenderTexture(RenderTextureType::GameScene, g_cbuffer_program.resolution.x, g_cbuffer_program.resolution.y);
+	CreateRenderTexture(RenderTextureType::EditorScene, g_cbuffer_program.resolution.x, g_cbuffer_program.resolution.y);
+
 	//Post Effect Material에 Texture 연결
 	//auto post_effect_material = ResourceManager::GetInstance()->GetMaterial("PostEffect");
 	//post_effect_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);
@@ -48,10 +58,7 @@ void RenderManager::Render()
 {
 	//Program, Light2D 데이터 업데이트
 	UpdateConstantBuffer();
-
-	//Graphics Clear Target
-	GraphicsManager::GetInstance()->BeginScene();
-
+	
 	auto scene_manager = SceneManager::GetInstance();
 
 	//<summary>
@@ -70,13 +77,8 @@ void RenderManager::Render()
 		break;
 	case 2:
 	{
-		if (scene_manager->GetEditorState() == EditorState::EditorState_Stop)
-		{
-			RenderEditor();
-		}
-
-		else
-			RenderPlay();
+		RenderEditor();
+		RenderPlay();
 	}
 	break;
 	}
@@ -87,29 +89,20 @@ void RenderManager::Render()
 
 	//Light2D 벡터 초기화
 	m_light2D_vector.clear();
+
+	//Graphics Clear Target
+	GraphicsManager::GetInstance()->BeginScene();
 }
 
 void RenderManager::RenderTitle()
 {
-    //TODO
-}
-
-void RenderManager::RenderEditor()
-{
-	//Editor Camera 기준으로 화면 그리기
-	if (m_p_editor_camera != nullptr)
-	{
-		m_p_editor_camera->UpdateMatrix();
-
-		m_p_editor_camera->SortObjects();
-		m_p_editor_camera->RenderForwardObjects();
-		m_p_editor_camera->RenderParticleObjects();
-		m_p_editor_camera->RenderPostEffectObjects();
-	}
+	//TODO
 }
 
 void RenderManager::RenderPlay()
 {
+	SetRenderTexture(RenderTextureType::GameScene);
+
 	//메인 카메라(index 0) 기준으로 화면 그리기
 	if (m_camera_vector[0] != nullptr)
 	{
@@ -129,6 +122,43 @@ void RenderManager::RenderPlay()
 
 		m_camera_vector[i]->SortObjects();
 		m_camera_vector[i]->RenderForwardObjects();
+	}
+}
+
+void RenderManager::RenderEditor()
+{
+	SetRenderTexture(RenderTextureType::EditorScene);
+
+	//Editor Camera 기준으로 화면 그리기
+	if (m_p_editor_camera != nullptr)
+	{
+		m_p_editor_camera->UpdateMatrix();
+
+		m_p_editor_camera->SortObjects();
+		m_p_editor_camera->RenderForwardObjects();
+		m_p_editor_camera->RenderParticleObjects();
+		m_p_editor_camera->RenderPostEffectObjects();
+	}
+}
+
+void RenderManager::SetRenderTexture(const RenderTextureType& render_texture_type)
+{
+	auto render_texture = GetRenderTexture(render_texture_type);
+
+	if (render_texture != nullptr)
+	{
+		auto p_render_target_view = render_texture->GetRenderTargetView();
+		auto p_depth_stencil_view = render_texture->GetDepthStencilView();
+		auto view_port = render_texture->GetViewPort();
+
+		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
+		DEVICE_CONTEXT->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
+		//설정한 뷰포트 등록
+		DEVICE_CONTEXT->RSSetViewports(1, &view_port);
+		//백 버퍼(render_target_view)에 그려진 내용 지우기
+		DEVICE_CONTEXT->ClearRenderTargetView(p_render_target_view, Color4::Black);
+		//깊이 버퍼 내용 지우기
+		DEVICE_CONTEXT->ClearDepthStencilView(p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 }
 
@@ -268,3 +298,83 @@ void RenderManager::UpdateConstantBuffer()
 	constant_buffer->SetBufferBindStage(PipelineStage::Graphics_ALL);
 	constant_buffer->BindPipeline();
 }
+
+void RenderManager::SetResolution(const RenderTextureType& render_texture_type, const UINT& width, const UINT& height)
+{
+	if (width == 0 || height == 0)
+	{
+		return;
+	}
+
+	CreateRenderTexture(render_texture_type, width, height);
+}
+
+void RenderManager::CreateRenderTexture(const RenderTextureType& render_texture_type, const UINT& width, const UINT& height)
+{
+	auto map_iter = m_p_render_texture_map.find(render_texture_type);
+
+	//추가가 안 되어있는 경우
+	if (map_iter == m_p_render_texture_map.end())
+	{
+		//Create Render Target View
+		auto render_texture = std::make_shared<Texture>("");
+
+		render_texture->Create
+		(
+			width,
+			height,
+			DXGI_FORMAT_R32G32B32A32_FLOAT,
+			D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE
+		);
+
+		//Create Depth Stencil View
+		render_texture->Create
+		(
+			width,
+			height,
+			DXGI_FORMAT_D24_UNORM_S8_UINT,
+			D3D11_BIND_DEPTH_STENCIL
+		);
+
+		//생성한 Render Texture를 Map에 추가
+		auto render_texture_iter = m_p_render_texture_map.insert(std::make_pair(render_texture_type, render_texture));
+		auto result = render_texture_iter.second;
+		assert(result);
+	}
+
+	//이미 추가가 된 경우
+	else
+	{
+		auto render_texture = m_p_render_texture_map[render_texture_type];
+
+		//Create Render Target View
+		render_texture->Create
+		(
+			width,
+			height,
+			DXGI_FORMAT_R32G32B32A32_FLOAT,
+			D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE
+		);
+
+		//Create Depth Stencil View
+		render_texture->Create
+		(
+			width,
+			height,
+			DXGI_FORMAT_D24_UNORM_S8_UINT,
+			D3D11_BIND_DEPTH_STENCIL
+		);
+	}
+}
+
+const std::shared_ptr<Texture>& RenderManager::GetRenderTexture(const RenderTextureType& render_texture_type)
+{
+	auto render_texture_iter = m_p_render_texture_map.find(render_texture_type);
+
+	//해당 Render Texture를 찾지 못했을 경우
+	if (render_texture_iter == m_p_render_texture_map.end())
+		return nullptr;
+
+	return render_texture_iter->second;
+}
+

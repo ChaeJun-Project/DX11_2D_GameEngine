@@ -2,6 +2,7 @@
 #define WaterShader
 
 #include "VertexStruct.fx"
+#include "PixelStruct.fx"
 #include "ConstantBuffer.fx"
 #include "ShaderFunc.fx"
 
@@ -29,7 +30,7 @@ VertexColorTextureOutputType VS_Water(VertexColorTexture vs_input)
 //Pixel Shader
 float4 PS_Water(VertexColorTextureOutputType ps_input) : SV_Target
 {
-    float4 ps_output_color = (float) 0.0f;
+    float4 ps_output_color = (float4) 0.0f;
    
     //그려질 픽셀의 높이
     float uv_offset_y = (float) WATER_HEIGHT / g_resolution.y;

@@ -51,6 +51,10 @@
     <ClInclude Include="Editor\Manager\EditorObjectManager.h" />
     <ClInclude Include="Editor\EditorObject\GameObject\GameObjectEx.h" />
     <ClInclude Include="Editor\EditorObject\Camera\CameraEx.h" />
+    <ClInclude Include="Editor\GUI\4. Scene\GUI_Scene.h" />
+    <ClInclude Include="Editor\GUI\5. Game\GUI_Game.h" />
+    <ClInclude Include="Editor\GUI\7. Project\GUI_Project.h" />
+    <ClInclude Include="Editor\GUI\8. Console\GUI_Console.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowSettings\DX11_2D_GameEngine.rc">
@@ -104,6 +108,10 @@
     <ClCompile Include="Editor\Manager\EditorObjectManager.cpp" />
     <ClCompile Include="Editor\EditorObject\GameObject\GameObjectEx.cpp" />
     <ClCompile Include="Editor\EditorObject\Camera\CameraEx.cpp" />
+    <ClCompile Include="Editor\GUI\4. Scene\GUI_Scene.cpp" />
+    <ClCompile Include="Editor\GUI\5. Game\GUI_Game.cpp" />
+    <ClCompile Include="Editor\GUI\7. Project\GUI_Project.cpp" />
+    <ClCompile Include="Editor\GUI\8. Console\GUI_Console.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WindowSettings\DX11_2D_GameEngine.aps" />

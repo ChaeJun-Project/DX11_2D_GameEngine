@@ -172,7 +172,10 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 {
 	if (m_p_render_target_view && m_p_depth_stencil_view)
 	{
+		m_p_render_target_view->ReleaseTexture();
 		m_p_render_target_view->ReleaseRenderTargetView();
+
+		m_p_depth_stencil_view->ReleaseTexture();
 		m_p_depth_stencil_view->ReleaseDepthStencilView();
 	}
 
@@ -399,7 +402,6 @@ void GraphicsManager::CreateRenderTargetView()
 
 		if (m_p_render_target_view == nullptr)
 		{
-
 			//¹é ¹öÆÛ¸¦ ¹ÙÅÁÀ¸·Î ·»´õÅ¸°Ù ºä¸¦ »ı¼º
 			m_p_render_target_view = ResourceManager::GetInstance()->CreateTexture
 			(

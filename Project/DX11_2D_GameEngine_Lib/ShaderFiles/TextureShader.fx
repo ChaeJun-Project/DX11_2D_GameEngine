@@ -2,6 +2,7 @@
 #define TextureShader
 
 #include "VertexStruct.fx"
+#include "PixelStruct.fx"
 #include "ConstantBuffer.fx"
 
 //RS State에서 Solid 사용
@@ -30,10 +31,10 @@ VertexColorTextureOutputType VS(VertexColorTexture vs_input)
 //Pixel Shader
 float4 PS(VertexColorTextureOutputType ps_input) : SV_Target
 {
-    float4 ps_output_color;
+    float4 ps_output_color = (float4) 0.0f;
     
     ps_output_color = g_texture_0.Sample(g_sampler1, ps_input.uv);
- 
+   
     return ps_output_color;
 }
 

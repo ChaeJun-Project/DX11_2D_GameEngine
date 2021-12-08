@@ -700,6 +700,9 @@
     <FxCompile Include="ShaderFiles\TileMapShader.fx">
       <Filter>ShaderFiles\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="ShaderFiles\PixelStruct.fx">
+      <Filter>ShaderFiles\Struct</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\SimpleMath.inl">

@@ -10,7 +10,7 @@ class EditorManager final : public Singleton<EditorManager>
 {
 	SINGLETON(EditorManager);
 
-	EditorManager();
+	EditorManager() = default;
 	~EditorManager();
 
 public:
@@ -20,6 +20,8 @@ public:
 
 private:
     void ImGuiNewFrame();
+	void BeginDockWindow();
+	void EndDockWindow();
 
 public:
     void ResizeEditor(const UINT& width, const UINT& height);

@@ -111,7 +111,7 @@ void Geometry_script::Initialize()
 	//m_p_owner_game_object->AddChild(particle);
 
 	//Water Distortion
-	auto water_distortion = new GameObject();
+	/*auto water_distortion = new GameObject();
 	water_distortion->SetObjectName("Water");
 	water_distortion->SetObjectTag("Water");
 	water_distortion->AddComponent(new Transform());
@@ -133,6 +133,7 @@ void Geometry_script::Initialize()
 	renderer->SetMaterial(resource_manager->GetMaterial("WaterEffect"));
 
 	m_p_owner_game_object->AddChild(water_distortion);
+	*/
 }
 
 void Geometry_script::Update()

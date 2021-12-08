@@ -25,9 +25,11 @@ void EditorObjectManager::Initialize()
     editor_camera->AddComponent(new Transform());
     editor_camera->AddComponent(new CameraEx());
 
+    editor_camera->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, 0.0f, -1000.0f));
+
     auto camera = editor_camera->GetComponent<Camera>();
 
-    camera->SetProjectionType(ProjectionType::Orthographic);
+    camera->SetProjectionType(ProjectionType::Perspective);
     camera->CullingNothing();
 
     RenderManager::GetInstance()->RegisterEditorCamera(camera);

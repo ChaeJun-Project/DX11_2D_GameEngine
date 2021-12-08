@@ -32,8 +32,8 @@ public:
 public:
 	//Get Method
 	//const 멤버 함수로 구현하여 함수 내에서 멤버 변수의 수정을 방지
-	ID3D11Device* GetDevice() const { SAFE_GET_POINTER(this->m_p_device.Get()); }
-	ID3D11DeviceContext* GetDeviceContext() const { SAFE_GET_POINTER(this->m_p_device_context.Get()); }
+	ID3D11Device* GetDevice() { SAFE_GET_POINTER(m_p_device.Get()); }
+	ID3D11DeviceContext* GetDeviceContext() { SAFE_GET_POINTER(m_p_device_context.Get()); }
 
 	const std::shared_ptr<ConstantBuffer>& GetConstantBuffer(const CBuffer_BindSlot& bind_slot);
 	const std::shared_ptr<RasterizerState>& GetRasterizer(const RasterizerType& rasterizer_type);
@@ -102,6 +102,3 @@ private:
 	UINT m_denominator = 0;
 	std::wstring m_gpu_description = L"";
 };
-
-#define DEVICE GraphicsManager::GetInstance()->GetDevice();
-#define DEVICE_CONTEXT GraphicsManager::GetInstance()->GetDeviceConte();

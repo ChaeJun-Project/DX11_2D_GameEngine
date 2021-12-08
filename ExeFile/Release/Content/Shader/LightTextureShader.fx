@@ -2,6 +2,7 @@
 #define LightTextureShader
 
 #include "VertexStruct.fx"
+#include "PixelStruct.fx"
 #include "ConstantBuffer.fx"
 #include "ShaderFunc.fx"
 
@@ -19,7 +20,7 @@ VertexColorTextureLightOutputType VS(VertexColorTexture vs_input)
     //x가 vector 값이면 행 벡터(Row-Vector)로 처리
     //y가 vector 값이면 열 벡터(Column-Vector)로 처리
     vs_output.position = mul(float4(vs_input.position, 1.0f), world);
-    vs_output.world_position = vs_output.position;
+    vs_output.world_position = vs_output.position.xyz;
     
     vs_output.position = mul(vs_output.position, view);
     vs_output.position = mul(vs_output.position, projection);
@@ -36,7 +37,7 @@ VertexColorTextureLightOutputType VS(VertexColorTexture vs_input)
 //Pixel Shader
 float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
 {
-    float4 ps_output_color;
+    float4 ps_output_color = (float4) 0.0f;
     
     //Light
     LightColor light_color = (LightColor) 0.0f;
@@ -63,8 +64,9 @@ float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
             clip(-1); // 호출 된 픽셀 쉐이더 폐기처분
     }
     else
+    {
         ps_output_color = g_texture_0.Sample(g_sampler1, ps_input.uv);
-  
+    }
     
     //각 색상 성분에 맞는 rgb값을 곱함
     ps_output_color.rgb *= light_color.color.rgb;

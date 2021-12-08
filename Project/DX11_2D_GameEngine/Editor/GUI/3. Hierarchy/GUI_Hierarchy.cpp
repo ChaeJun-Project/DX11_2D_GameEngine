@@ -91,7 +91,7 @@ void GUI_Hierarchy::AddGameObject(GameObject* game_object)
 
 	//현재 마우스 커서가 오브젝트 텍스트에 올라갈 경우
 	if (ImGui::IsItemHovered(ImGuiHoveredFlags_RectOnly))
-		m_hovered_game_object = game_object;
+		m_hovered_game_object = game_object;	
 }
 
 void GUI_Hierarchy::ClickedGameObject()

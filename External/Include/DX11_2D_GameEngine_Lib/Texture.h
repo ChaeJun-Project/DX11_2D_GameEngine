@@ -45,6 +45,8 @@ public:
 	void ReleaseTexture();
 	void ReleaseRenderTargetView();
 	void ReleaseDepthStencilView();
+	void ReleaseShaderResourceView();
+	void ReleaseUnorderedAccessView();
 
 	//Texture Bind Stage
 	const UINT& GetTextureBindStage() const { return static_cast<UINT>(m_texture_bind_stage); }
@@ -54,6 +56,9 @@ public:
 	const UINT& GetWidth() const { return m_texture_desc.Width; }
 	const UINT& GetHeight() const { return m_texture_desc.Height; }
 
+    D3D11_VIEWPORT& GetViewPort() { return m_viewport; }
+	void SetViewport(const UINT& width, const UINT& height);
+
 private:
 	ComPtr<ID3D11Texture2D> m_p_texture = nullptr;
 	D3D11_TEXTURE2D_DESC m_texture_desc;
@@ -62,6 +67,9 @@ private:
 	ComPtr<ID3D11DepthStencilView> m_p_depth_stencil_view = nullptr;
 	ComPtr<ID3D11ShaderResourceView> m_p_shader_resource_view = nullptr;
 	ComPtr<ID3D11UnorderedAccessView> m_p_unordered_access_view = nullptr;
+
+	//텍스처가 그려질 영역
+	D3D11_VIEWPORT m_viewport;
 
 	UINT m_texture_bind_stage = 0; //텍스처 바인드 단계
 	UINT m_texture_bind_slot = 0; //t register 바인드 슬롯 번호

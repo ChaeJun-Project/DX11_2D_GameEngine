@@ -2,6 +2,7 @@
 #define DrawLineShader
 
 #include "VertexStruct.fx"
+#include "PixelStruct.fx"
 #include "ConstantBuffer.fx"
 
 //RS State에서 WireFrame 사용
@@ -24,19 +25,23 @@ VertexColorOuputType VS(VertexColor vs_input)
 //Pixel Shader
 float4 PS(VertexColorOuputType ps_input) : SV_Target
 {
+    float4 ps_output_color = (float4) 0.0f;
+    
+    ps_output_color.a = 1.0f;
+  
     //Collider2D Green Line
     if (g_int_0)
     {
-        ps_input.color = float4(0.0f, 1.0f, 0.0f, 1.0f);
+        ps_output_color = float4(0.0f, 1.0f, 0.0f, 1.0f);
     }
-    
+   
     //Collider2D Red Line
     if (g_int_1)
     {
-        ps_input.color = float4(1.0f, 0.0f, 0.0f, 1.0f);
+        ps_output_color = float4(1.0f, 0.0f, 0.0f, 1.0f);
     }
-    
-    return ps_input.color;
+   
+    return ps_output_color;
 }
 
 #endif
