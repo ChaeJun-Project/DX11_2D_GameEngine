@@ -10,6 +10,10 @@ GUI_Console::~GUI_Console()
 {
 }
 
+void GUI_Console::Initialize()
+{
+}
+
 void GUI_Console::Update()
 {
 }

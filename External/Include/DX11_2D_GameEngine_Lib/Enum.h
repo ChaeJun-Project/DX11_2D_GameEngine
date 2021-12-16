@@ -13,6 +13,7 @@ enum class EventType : UINT
 {
 	Create_Object = 0,
 	Delete_Object = 1,
+	Add_Child_Object = 2,
 };
 
 //Resource Type(IResource »ç¿ë)

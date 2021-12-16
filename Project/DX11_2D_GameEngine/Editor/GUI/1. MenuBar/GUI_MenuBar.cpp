@@ -14,6 +14,10 @@ GUI_MenuBar::~GUI_MenuBar()
 	SAFE_DELETE(m_p_gui_style_selector);
 }
 
+void GUI_MenuBar::Initialize()
+{
+}
+
 void GUI_MenuBar::Update()
 {
 	if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_M))

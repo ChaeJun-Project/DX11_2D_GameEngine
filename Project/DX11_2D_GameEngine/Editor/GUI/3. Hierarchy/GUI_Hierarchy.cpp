@@ -6,20 +6,38 @@
 
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 #include <DX11_2D_GameEngine_Lib/Scene.h>
+#include <DX11_2D_GameEngine_Lib/GameObject.h>
+
+#include <DX11_2D_GameEngine_Lib/EventManager.h>
 
 
 GUI_Hierarchy::GUI_Hierarchy(const std::string& hierarchy_title)
 	:IGUI(hierarchy_title)
 {
+	m_p_clicked_func = std::bind
+	(
+		&GUI_Hierarchy::ClickedGameObject,
+		this,
+		std::placeholders::_1
+	);
+
+	m_p_drag_drop_func = std::bind
+	(
+		&GUI_Hierarchy::DragDropGameObject,
+		this,
+		std::placeholders::_1,
+		std::placeholders::_2
+	);
 }
 
 GUI_Hierarchy::~GUI_Hierarchy()
 {
 	m_p_current_scene.reset();
+}
 
-	m_hovered_game_object = nullptr;
-	m_clicked_game_object = nullptr;
-	m_empty_game_object = nullptr;
+void GUI_Hierarchy::Initialize()
+{
+	UpdateTree();
 }
 
 void GUI_Hierarchy::Update()
@@ -28,126 +46,122 @@ void GUI_Hierarchy::Update()
 	{
 		m_is_active = !m_is_active;
 	}
+
+	//Scene내의 GameObject 변경점이 있는 경우 
+	if (EventManager::GetInstance()->IsUpdate())
+	{
+		UpdateTree();
+	}
 }
 
 void GUI_Hierarchy::Render()
 {
 	ShowHierarchy();
 
-	ClickedGameObject();
-
-	ClickedCheck();
+	CheckClickRightButton();
 
 	ShowMenuPopup();
+
+	//현재 윈도우가 포커싱되었을 경우
+	if (ImGui::IsWindowFocused())
+		CheckEvnetKey();
+}
+
+void GUI_Hierarchy::UpdateTree()
+{
+	m_gui_tree.Clear();
+	m_gui_tree.SetIsVisibleRoot(false);
+
+	m_p_current_scene = SceneManager::GetInstance()->GetCurrentScene();
+
+	auto p_root_tree_item = m_gui_tree.AddItem(nullptr, m_p_current_scene->GetSceneName(), PayLoadType::NONE, 0);
+
+	const auto& root_game_object_vector = m_p_current_scene->GetAllParentGameObjects();
+	for (const auto& root_game_object : root_game_object_vector)
+		AddGameObject(p_root_tree_item, root_game_object);
+
+	m_gui_tree.SetClickedCallBack(m_p_clicked_func);
+	m_gui_tree.SetDragDropCallBack(m_p_drag_drop_func);
+}
+
+void GUI_Hierarchy::CheckClickRightButton()
+{
+	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem | ImGuiHoveredFlags_AllowWhenBlockedByPopup))
+	{
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+			ImGui::OpenPopup("Hierarchy Menu Popup");
+	}
 }
 
 void GUI_Hierarchy::ShowHierarchy()
 {
-	m_p_current_scene = SceneManager::GetInstance()->GetCurrentScene();
-
 	//ImGuiTreeNodeFlags_DefaultOpen : 시작부터 하위노드를 다 보여주는 옵션
 	if (ImGui::CollapsingHeader(m_p_current_scene->GetSceneName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		const auto& root_game_object_vector = m_p_current_scene->GetAllParentGameObjects();
-		for (const auto& root_game_object : root_game_object_vector)
-			AddGameObject(root_game_object);
+		m_gui_tree.Update();
 	}
 }
 
-void GUI_Hierarchy::AddGameObject(GameObject* game_object)
+void GUI_Hierarchy::ClickedGameObject(DWORD_PTR object_address)
 {
-	if (game_object == nullptr)
+	GameObject* p_selected_game_object = (GameObject*)object_address;
+
+	SelectedGameObject(p_selected_game_object);
+}
+
+void GUI_Hierarchy::DragDropGameObject(DWORD_PTR p_dropped_item, DWORD_PTR p_drag_start_item)
+{
+	GUI_TreeItem* p_dest_item = (GUI_TreeItem*)p_dropped_item;
+	GUI_TreeItem* p_src_item = (GUI_TreeItem*)p_drag_start_item;
+
+	EventStruct event_struct;
+	ZeroMemory(&event_struct, sizeof(EventStruct));
+
+	event_struct.event_type = EventType::Add_Child_Object;
+	event_struct.object_address_1 = p_dest_item->GetPayLoadData();
+	event_struct.object_address_2 = p_src_item->GetPayLoadData();
+
+	EventManager::GetInstance()->AddEvent(event_struct);
+}
+
+void GUI_Hierarchy::CheckEvnetKey()
+{
+	if (KEY_DOWN(KeyCode::KEY_DELETE))
+	{
+		auto select_game_object = EditorHelper::GetInstance()->GetSelectedGameObject();
+		if (select_game_object == nullptr)
+			return;
+
+		DeleteGameObject(select_game_object);
+
+		EditorHelper::GetInstance()->SetSelectedGameObject(nullptr);
+	}
+}
+
+void GUI_Hierarchy::DeleteGameObject(GameObject* game_object)
+{
+	EventStruct event_struct;
+	ZeroMemory(&event_struct, sizeof(EventStruct));
+
+	event_struct.event_type = EventType::Delete_Object;
+	event_struct.object_address_1 = (DWORD_PTR)(game_object);
+
+	EventManager::GetInstance()->AddEvent(event_struct);
+}
+
+
+void GUI_Hierarchy::AddGameObject(GUI_TreeItem* p_tree_item, GameObject* game_object)
+{
+	if (game_object != nullptr && game_object->IsDead())
 		return;
+
+	std::string game_object_name = game_object->GetGameObjectName();
+	auto p_current_tree_item = m_gui_tree.AddItem(p_tree_item, game_object_name, PayLoadType::GameObject, (DWORD_PTR)game_object);
 
 	const auto& childs_vector = game_object->GetChilds();
-	//ImGuiTreeNodeFlags_AllowItemOverlap: 마우스를 끌어다가 놓으면 자동으로 자식으로 만들어주는 플래그
-	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_AllowItemOverlap;
-	//ImGuiTreeNodeFlags_OpenOnArrow : 화살표를 on했을때만 open하는 플래그
-	//자식이 없다면
-	flags |= childs_vector.empty() ? ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_OpenOnArrow;
 
-	if (const auto selected_actor = EditorHelper::GetInstance()->GetSelectedGameObject())
-	{
-		const auto is_selected = selected_actor->GetObjectID() == game_object->GetObjectID();
-		flags |= is_selected ? ImGuiTreeNodeFlags_Selected : ImGuiTreeNodeFlags_None;
-	}
-
-	//노드 추가해서 화면에 보여주는 역할
-	const auto is_node_open = ImGui::TreeNodeEx(reinterpret_cast<void*>(game_object->GetObjectID()), flags, game_object->GetObjectName().c_str());
-
-	if (m_clicked_game_object != nullptr && EditorHelper::GetInstance()->GetSelectedGameObject() != nullptr)
-	{
-		if (EditorHelper::GetInstance()->GetSelectedGameObject()->GetObjectID() == m_clicked_game_object->GetObjectID())
-			ImGui::SetItemDefaultFocus();
-	}
-
-	if (is_node_open)
-	{
-		for (const auto& child_game_object : childs_vector)
-			AddGameObject(child_game_object);
-		//노드 추가를 중지함
-		ImGui::TreePop();
-	}
-
-	//현재 마우스 커서가 오브젝트 텍스트에 올라갈 경우
-	if (ImGui::IsItemHovered(ImGuiHoveredFlags_RectOnly))
-		m_hovered_game_object = game_object;	
-}
-
-void GUI_Hierarchy::ClickedGameObject()
-{
-	//Hierarchy Window에 마우스가 올라가 있는지 확인하는 변수
-	const auto is_window_hovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem | ImGuiHoveredFlags_AllowWhenBlockedByPopup);
-	//마우스 왼쪽 클릭
-	const auto is_left_click = ImGui::IsMouseClicked(0);
-	//마우스 오른쪽 클릭
-	const auto is_right_click = ImGui::IsMouseClicked(1);
-
-	if (!is_window_hovered)
-		return;
-
-
-	//왼쪽 클릭
-	if (is_left_click)
-	{
-		//현재 마우스 커서가 올라간 오브젝트가 있다면
-		if (m_hovered_game_object != nullptr)
-			m_clicked_game_object = m_hovered_game_object;
-
-		//현재 마우스 커서가 올라간 오브젝트가 없다면
-		else
-		{
-			SelectedGameObject(m_empty_game_object);
-		}
-	}
-
-	//오른쪽 클릭
-	if (is_right_click)
-	{
-		//현재 선택되어진 오브젝트가 있다면
-		if (m_hovered_game_object != nullptr)
-			m_clicked_game_object = m_hovered_game_object;
-
-		ImGui::OpenPopup("Hierarchy Menu Popup");
-	}
-
-	//마우스 왼쪽 또는 오른쪽 클릭을 했을 때 현재 마우스 커서가 올라간 오브젝트가 없다면
-	if ((is_left_click || is_right_click) && m_hovered_game_object == nullptr)
-	{
-		SelectedGameObject(m_empty_game_object);
-	}
-}
-
-void GUI_Hierarchy::ClickedCheck()
-{
-	if ((ImGui::IsMouseReleased(0) || ImGui::IsMouseReleased(1)) && m_clicked_game_object != nullptr)
-	{
-		if (m_hovered_game_object != nullptr && m_hovered_game_object->GetObjectID() == m_clicked_game_object->GetObjectID())
-			SelectedGameObject(m_clicked_game_object);
-
-		m_hovered_game_object = nullptr;
-		m_clicked_game_object = nullptr;
-	}
+	for (const auto& child_game_object : childs_vector)
+		AddGameObject(p_current_tree_item, child_game_object);
 }
 
 void GUI_Hierarchy::ShowMenuPopup()

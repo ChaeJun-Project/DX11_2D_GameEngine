@@ -1,6 +1,8 @@
 #pragma once
 #include "GUI/IGUI.h"
 
+class CameraEx;
+
 class GUI_Scene final : public IGUI
 {
 public:
@@ -8,6 +10,7 @@ public:
 	~GUI_Scene();
 
 public:
+	void Initialize() override;
 	void Update() override;
 	void Render() override;
 
@@ -18,6 +21,6 @@ private:
 
 private:
 	//Editor Camera
-	Camera* m_p_editor_camera = nullptr;
+	CameraEx* m_p_editor_camera = nullptr;
 };
 

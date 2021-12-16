@@ -23,6 +23,7 @@ public:
 	virtual ~IGUI() = default;
 
 public:
+    virtual void Initialize() = 0;
 	virtual void Update() = 0;
 
 public:

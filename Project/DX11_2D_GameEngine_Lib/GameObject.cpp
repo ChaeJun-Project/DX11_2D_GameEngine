@@ -36,15 +36,14 @@ REGISTER_COMPONENT_TYPE(TileMap, ComponentType::TileMap);
 
 REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
 
-
 GameObject::GameObject(const GameObject& origin)
 {
-	//Object name
-	m_object_name = origin.m_object_name;
-	//Object Tag
-	m_object_tag = origin.m_object_tag;
-	//Object Layer
-	m_object_layer_index = origin.m_object_layer_index;
+	//GameObject name
+	m_game_object_name = origin.m_game_object_name;
+	//GameObject Tag
+	m_game_object_tag = origin.m_game_object_tag;
+	//GameObject Layer
+	m_game_object_layer = origin.m_game_object_layer;
 
 	m_dead_check = false;
 
@@ -64,12 +63,24 @@ GameObject::GameObject(const GameObject& origin)
 
 GameObject::~GameObject()
 {
+	//Component
 	for (auto& component : m_component_list)
 		SAFE_DELETE(component.second);
 
 	m_component_list.clear();
 
+	//Script
+	for (auto& script : m_script_list)
+		SAFE_DELETE(script);
+
+	m_script_list.clear();
+
+	//Parent
 	m_p_parent = nullptr;
+
+	//Child
+	for (auto& child : m_p_child_vector)
+		SAFE_DELETE(child);
 
 	m_p_child_vector.clear();
 	m_p_child_vector.shrink_to_fit();
@@ -100,15 +111,11 @@ void GameObject::Update()
 		child->Update();
 }
 
-void GameObject::LateUpdate()
+void GameObject::FinalUpdate()
 {
 	if (m_dead_check)
 		return;
 
-}
-
-void GameObject::FinalUpdate()
-{
 	//컴포넌트 최종 업데이트
 	for (auto& component : m_component_list)
 		component.second->FinalUpdate();
@@ -124,7 +131,7 @@ void GameObject::RegisterLayer()
 {
 	//Layer에 등록
 	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
-	auto layer = current_scene->GetLayer(static_cast<UINT>(m_object_layer_index));
+	auto layer = current_scene->GetLayer(static_cast<UINT>(m_game_object_layer));
 	layer->RegisterObject(this);
 }
 
@@ -154,9 +161,9 @@ void GameObject::Render()
 		tile_map->Render();
 }
 
-//들어오는 데이터는 사전에 미리 소유하고 있는 게임 오브젝트를 설정해야 함
 void GameObject::AddComponent(IComponent* p_component)
 {
+	//해당 Component를 소유하고 있는 게임 오브젝트를 설정
 	p_component->SetGameObject(this);
 	m_component_list.push_back
 	(
@@ -175,7 +182,6 @@ IComponent* GameObject::GetComponent(const ComponentType& component_type) const
 	return nullptr;
 }
 
-//TODO: 스크립트가 두 개 이상 존재할 경우 삭제를 어떻게 할지 고민
 void GameObject::RemoveComponent(const ComponentType& component_type)
 {
 	std::list<std::pair<ComponentType, IComponent*>>::iterator list_iter;
@@ -193,6 +199,9 @@ void GameObject::RemoveComponent(const ComponentType& component_type)
 	}
 }
 
+//=====================================================================
+// [Hierarchy]
+//=====================================================================
 GameObject* GameObject::GetRoot()
 {
 	if (HasParent())
@@ -201,34 +210,6 @@ GameObject* GameObject::GetRoot()
 	}
 
 	return this;
-}
-
-void GameObject::SetParent(GameObject* p_parent_game_object)
-{
-	if (p_parent_game_object == nullptr)
-	{
-		return;
-	}
-
-	//인자로 들어온 컴퍼넌트가 자기 자신인 경우
-	if (GetObjectID() == p_parent_game_object->GetObjectID())
-		return;
-
-	if (HasParent())
-	{
-		//현재 등록된 부모와 인자로 들어온 부모가 서로 같은 컴퍼넌트 ID를 소유한 경우(똑같은 부모인 경우)
-		if (m_p_parent->GetObjectID() == p_parent_game_object->GetObjectID())
-			return;
-	}
-
-	auto old_parenet = m_p_parent;
-	m_p_parent = p_parent_game_object;
-
-	if (old_parenet != nullptr)
-		old_parenet->TachChild();
-
-	if (HasParent())
-		m_p_parent->TachChild();
 }
 
 GameObject* GameObject::GetChildFromIndex(const UINT& index) const
@@ -241,13 +222,31 @@ GameObject* GameObject::GetChildFromIndex(const UINT& index) const
 
 GameObject* GameObject::GetChildFromObjectName(const std::string& object_name) const
 {
-	for (auto& child : m_p_child_vector)
+	for (auto child : m_p_child_vector)
 	{
-		if (child->m_object_name == object_name)
+		if (child->m_game_object_name == object_name)
 			return child;
 	}
 
 	return nullptr;
+}
+
+const bool GameObject::GetHasChild(GameObject* p_game_object)
+{
+	std::vector<GameObject*>::iterator iter = m_p_child_vector.begin();
+
+	for (; iter != m_p_child_vector.end();)
+	{
+		if ((*iter) == p_game_object)
+		{
+			return true;
+		}
+
+		else
+			++iter;
+	}
+
+	return false;
 }
 
 void GameObject::AddChild(GameObject* p_child_game_object)
@@ -263,37 +262,28 @@ void GameObject::AddChild(GameObject* p_child_game_object)
 	m_p_child_vector.emplace_back(p_child_game_object);
 
 	p_child_game_object->m_p_parent = this;
-	p_child_game_object->m_object_layer_index = m_object_layer_index;
+	p_child_game_object->m_game_object_layer = m_game_object_layer;
 }
 
-void GameObject::DetachChild()
+void GameObject::DetachFromParent()
 {
 	//부모가 없는 경우
 	if (!HasParent())
 		return;
 
-	//TODO
-}
+	std::vector<GameObject*>::iterator iter = m_p_parent->m_p_child_vector.begin();
 
-void GameObject::TachChild()
-{
-	//자식 오브젝트의 transform을 가지고 있는 경우
-	//자식 오브젝트의 transform vector 초기화
-	if (HasChilds())
+	for (; iter != m_p_parent->m_p_child_vector.end();)
 	{
-		for (auto& child : m_p_child_vector)
+		if ((*iter) == this)
 		{
-			SAFE_DELETE(child);
+			iter = m_p_parent->m_p_child_vector.erase(iter);
+
+			return;
 		}
-		m_p_child_vector.clear();
-		m_p_child_vector.shrink_to_fit();
-	}
 
-	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
-
-	if (current_scene != nullptr)
-	{
-		//TODO
+		else
+			++iter;
 	}
 }
 
@@ -303,7 +293,7 @@ void GameObject::RegisterPrefab()
 {
 	auto resource_manager = ResourceManager::GetInstance();
 
-	std::string prefab_name = m_object_name;
+	std::string prefab_name = m_game_object_name;
 	assert(!prefab_name.empty());
 
 	//이미 해당 이름으로 프리팹 오브젝트가 존재하는 경우

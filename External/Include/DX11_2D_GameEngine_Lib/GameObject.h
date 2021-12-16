@@ -13,7 +13,6 @@ public:
 
 	void Start();
 	void Update();
-	void LateUpdate();
 	void FinalUpdate();
 
 	void Render();
@@ -39,17 +38,18 @@ public:
 	//Dead Check
 	const bool IsDead() { return m_dead_check; }
 
-	//Object name
-	const std::string& GetObjectName() const { return m_object_name; }
-	void SetObjectName(const std::string& object_name) { m_object_name = object_name; }
+	//GameObject name
+	const std::string& GetGameObjectName() const { return m_game_object_name; }
+	void SetGameObjectName(const std::string& object_name) { m_game_object_name = object_name; }
 
-	//Object Tag
-	const std::string& GetObjectTag() const { return m_object_tag; }
-	void SetObjectTag(const std::string& object_tag) { m_object_tag = object_tag; }
+	//GameObject Tag
+	const std::string& GetGameObjectTag() const { return m_game_object_tag; }
+	void SetGameObjectTag(const std::string& object_tag) { m_game_object_tag = object_tag; }
 	
-	//Object Layer
-	const int& GetObjectLayer() const { return m_object_layer_index; }
-	void SetObjectLayer(const UINT& layer_index) { m_object_layer_index = static_cast<UINT>(layer_index); }
+	//GameObject Layer
+	const int& GetGameObjectLayer() const { return m_game_object_layer; }
+	void SetGameObjectLayer(const UINT& layer_index) { m_game_object_layer = static_cast<UINT>(layer_index); }
+
 public:
 	//=====================================================================
 	// [Hierarchy]
@@ -59,17 +59,16 @@ public:
 	const bool& GetIsRoot() { return !HasParent(); }
 
 	GameObject* GetParent() const { if(m_p_parent != nullptr) return m_p_parent; return nullptr;}
-	void SetParent(GameObject* p_parent_game_object);
 	
 	const std::vector<GameObject*>& GetChilds() const { return m_p_child_vector; }
 	GameObject* GetChildFromIndex(const UINT& index) const;
 	GameObject* GetChildFromObjectName(const std::string& object_name) const;
+	const bool GetHasChild(GameObject* p_game_object);
 	const UINT& GetChildCount() const { return static_cast<UINT>(m_p_child_vector.size()); }
 
 	void AddChild(GameObject* p_child_game_object);
-	void DetachChild();
-	void TachChild();
-
+	void DetachFromParent();
+	
 	const bool HasParent() { if(m_p_parent) return true; return false; }
 	const bool HasChilds() { return !(m_p_child_vector.empty()); }
 
@@ -87,24 +86,24 @@ protected:
 	bool m_active_check = true;
 	//Object Dead Check
 	bool m_dead_check = false;
-	//Object name
-	std::string m_object_name;
-	//Object Tag
-	std::string m_object_tag;
-	//Object Layer
-	int m_object_layer_index = -1;
+	//GameObject name
+	std::string m_game_object_name;
+	//GameObject Tag
+	std::string m_game_object_tag;
+	//GameObject Layer
+	int m_game_object_layer = -1;
 
 	//Component List
 	std::list<std::pair<ComponentType, IComponent*>> m_component_list;
 	
 	//Script List
+	std::list<Script*> m_script_list;
 
 	//Hierarchy
 	//Parent Object
 	GameObject* m_p_parent = nullptr;
 	//Child Object
 	std::vector<GameObject*> m_p_child_vector;
-
 
 	//해당 오브젝트로 프리팹을 만든 횟수
 	UINT m_prefab_count = 0;

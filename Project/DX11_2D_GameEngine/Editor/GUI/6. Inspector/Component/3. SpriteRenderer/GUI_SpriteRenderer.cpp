@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GUI_SpriteRenderer.h"
 
-#include "GUI/GUI_ItemList.h"
+#include "GUI/Module/ItemList/GUI_ItemList.h"
 
 #include "Helper/IconProvider.h"
 

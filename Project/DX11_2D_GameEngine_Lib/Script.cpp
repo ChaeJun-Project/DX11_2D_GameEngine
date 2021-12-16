@@ -37,7 +37,7 @@ void Script::Destroy(GameObject* p_delete_game_object)
 	ZeroMemory(&event_struct, sizeof(EventStruct));
 
 	event_struct.event_type = EventType::Delete_Object;
-	event_struct.object_address = (DWORD_PTR)(p_delete_game_object);
+	event_struct.object_address_1 = (DWORD_PTR)(p_delete_game_object);
 
 	EventManager::GetInstance()->AddEvent(event_struct);
 }
@@ -48,7 +48,7 @@ void Script::CreateGameObject(GameObject* p_new_game_object, const UINT& layer_i
 	ZeroMemory(&event_struct, sizeof(EventStruct));
 
 	event_struct.event_type = EventType::Create_Object;
-	event_struct.object_address = (DWORD_PTR)(p_new_game_object);
+	event_struct.object_address_1 = (DWORD_PTR)(p_new_game_object);
 	event_struct.layer_index = layer_index;
 
 	EventManager::GetInstance()->AddEvent(event_struct);

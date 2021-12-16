@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{c4dc0253-a9fa-4951-b728-ffe5d9e77846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{30ac4514-fbf2-490e-b5e7-1e0e2ab210ff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Script_Lib.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="GameLogic_Script.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry_script.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="RockManZ_Script.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkCannon_Bullet_Script.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkCannon_Script.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="GameLogic_Script.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry_Script.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="RockManZ_Script.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkCannon_Bullet_Script.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkCannon_Script.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

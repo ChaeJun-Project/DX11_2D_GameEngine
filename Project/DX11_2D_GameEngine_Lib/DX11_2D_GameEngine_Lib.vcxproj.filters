@@ -127,9 +127,6 @@
     <ClInclude Include="Script.h">
       <Filter>Scene\Components\Script</Filter>
     </ClInclude>
-    <ClInclude Include="RockManZ_Script.h">
-      <Filter>Scene\Components\Script\4. Player\RockManZ</Filter>
-    </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Resource\Material</Filter>
     </ClInclude>
@@ -160,18 +157,6 @@
     <ClInclude Include="Prefab.h">
       <Filter>Resource\Prefab</Filter>
     </ClInclude>
-    <ClInclude Include="WalkCannon_Script.h">
-      <Filter>Scene\Components\Script\5. Enemy\WalkCannon</Filter>
-    </ClInclude>
-    <ClInclude Include="WalkCannon_Bullet_Script.h">
-      <Filter>Scene\Components\Script\5. Enemy\WalkCannon</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic_Script.h">
-      <Filter>Scene\Components\Script\1. GameLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry_script.h">
-      <Filter>Scene\Components\Script\2. Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="DX11Object.h">
       <Filter>DX11ObjectID</Filter>
     </ClInclude>
@@ -189,9 +174,6 @@
     </ClInclude>
     <ClInclude Include="ComputeShader.h">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders\Compute\Compute Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Factory_Script.h">
-      <Filter>Scene\Components\Script\3. Factory</Filter>
     </ClInclude>
     <ClInclude Include="StructuredBuffer.h">
       <Filter>Core\DX11_Graphics_Pipeline\StructuredBuffer</Filter>
@@ -321,9 +303,6 @@
     <ClCompile Include="Script.cpp">
       <Filter>Scene\Components\Script</Filter>
     </ClCompile>
-    <ClCompile Include="RockManZ_Script.cpp">
-      <Filter>Scene\Components\Script\4. Player\RockManZ</Filter>
-    </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Resource\Material</Filter>
     </ClCompile>
@@ -357,18 +336,6 @@
     <ClCompile Include="Prefab.cpp">
       <Filter>Resource\Prefab</Filter>
     </ClCompile>
-    <ClCompile Include="WalkCannon_Script.cpp">
-      <Filter>Scene\Components\Script\5. Enemy\WalkCannon</Filter>
-    </ClCompile>
-    <ClCompile Include="WalkCannon_Bullet_Script.cpp">
-      <Filter>Scene\Components\Script\5. Enemy\WalkCannon</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic_Script.cpp">
-      <Filter>Scene\Components\Script\1. GameLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="Geometry_script.cpp">
-      <Filter>Scene\Components\Script\2. Geometry</Filter>
-    </ClCompile>
     <ClCompile Include="Light2D.cpp">
       <Filter>Scene\Components\7. Light2D</Filter>
     </ClCompile>
@@ -380,9 +347,6 @@
     </ClCompile>
     <ClCompile Include="ComputeShader.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders\Compute\Compute Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Factory_Script.cpp">
-      <Filter>Scene\Components\Script\3. Factory</Filter>
     </ClCompile>
     <ClCompile Include="StructuredBuffer.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\StructuredBuffer</Filter>
@@ -634,27 +598,6 @@
     </Filter>
     <Filter Include="Scene\Components\Script">
       <UniqueIdentifier>{45b73adf-3a03-4022-97d9-4cd397f02347}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\1. GameLogic">
-      <UniqueIdentifier>{15436bf0-a034-4139-aade-4762881e2255}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\2. Geometry">
-      <UniqueIdentifier>{b00526e5-1da4-43f6-a7a8-942fbdb4f8a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\3. Factory">
-      <UniqueIdentifier>{baf73406-6b79-4671-97c5-abe00626cb6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\4. Player">
-      <UniqueIdentifier>{0ef02b3c-a1f1-420f-becd-2fdf0f3c1d0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\4. Player\RockManZ">
-      <UniqueIdentifier>{1059a6e4-27b6-422c-b93e-095e805be973}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\5. Enemy">
-      <UniqueIdentifier>{27876332-0b17-4f54-badf-9e964659e75c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\Script\5. Enemy\WalkCannon">
-      <UniqueIdentifier>{5149de55-85c1-4516-a402-693ecbcd560e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

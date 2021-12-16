@@ -74,7 +74,7 @@ void SpriteRenderer::Render()
 		}
 	}
 
-	if (m_p_owner_game_object->GetObjectTag() != "Water")
+	if (m_p_owner_game_object->GetGameObjectTag() != "Water")
 		m_p_sprite_texture = m_p_current_material->GetTexture();
 
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();

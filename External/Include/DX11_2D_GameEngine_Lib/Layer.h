@@ -11,13 +11,14 @@ public:
 public:
 	void Start();
 	void Update();
-	void LateUpdate();
 	void FinalUpdate();
 	void Render();
 
 public:
     void AddGameObject(GameObject* p_game_object, bool is_move);
-	void RegisterObject(GameObject* p_game_object) { this->m_p_game_object_vector.emplace_back(p_game_object);}
+	void RegisterObject(GameObject* p_game_object) { m_p_game_object_vector.emplace_back(p_game_object);}
+
+	void DeregisterFromParentGameObject(GameObject* p_game_object);
 
 	std::vector<GameObject*>& GetGameParentObjects() { return m_p_parent_game_object_vector; }
 	std::vector<GameObject*>& GetGameObjects() { return m_p_game_object_vector; }

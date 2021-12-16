@@ -19,6 +19,7 @@ public:
 	void Render();
 
 private:
+    void InitializeGUI();
     void ImGuiNewFrame();
 	void BeginDockWindow();
 	void EndDockWindow();

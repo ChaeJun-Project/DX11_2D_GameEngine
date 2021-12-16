@@ -9,7 +9,7 @@ Prefab::Prefab(const std::string& resource_name)
 }
 
 Prefab::Prefab(GameObject* p_prototype_game_object)
-	: IResource(ResourceType::Prefab, p_prototype_game_object->GetObjectName())
+	: IResource(ResourceType::Prefab, p_prototype_game_object->GetGameObjectName())
 {
 	m_p_prototype_game_object = p_prototype_game_object;
 }

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GUI_StyleSelector.h"
 
-#include "GUI/GUI_ItemList.h"
+#include "GUI/Module/ItemList/GUI_ItemList.h"
 
 GUI_StyleSelector::GUI_StyleSelector()
 {

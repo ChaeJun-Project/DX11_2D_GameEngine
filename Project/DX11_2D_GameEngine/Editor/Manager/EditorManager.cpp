@@ -66,23 +66,16 @@ void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceCont
 	ImGui_ImplWin32_Init(hwnd);
 	//ImGui¿¡ D3D11 Device °´Ã¼¿Í` D3D11 DeviceContext °´Ã¼ Á¤º¸ Àü´Þ
 	ImGui_ImplDX11_Init(device, device_context);
-
-	//Add GUIs
-	m_gui_map.insert(std::make_pair(GUIType::MenuBar, std::make_unique<GUI_MenuBar>("Main Menu Bar")));		//MenuBar
-	m_gui_map.insert(std::make_pair(GUIType::ToolBar, std::make_unique<GUI_ToolBar>("Tool Bar")));			//ToolBar
-	m_gui_map.insert(std::make_pair(GUIType::Hierarchy, std::make_unique<GUI_Hierarchy>("Hierarchy")));		//Hierarchy
-	m_gui_map.insert(std::make_pair(GUIType::Scene, std::make_unique<GUI_Scene>("Scene")));					//Scene
-	m_gui_map.insert(std::make_pair(GUIType::Game, std::make_unique<GUI_Game>("Game")));					//Game
-	m_gui_map.insert(std::make_pair(GUIType::Inspector, std::make_unique<GUI_Inspector>("Inspector")));		//Inspector
-	m_gui_map.insert(std::make_pair(GUIType::Project, std::make_unique<GUI_Project>("Project")));			//Project
-	m_gui_map.insert(std::make_pair(GUIType::Console, std::make_unique<GUI_Console>("Console")));			//Console(Log)
+	
+	//Initialize GUI
+	InitializeGUI();
 }
 
 void EditorManager::Update()
 {
 	for (auto& gui : m_gui_map)
 	{
-		if (gui.second != nullptr)
+		if (gui.second != nullptr && gui.second->GetIsActive())
 			gui.second->Update();
 	}
 }
@@ -122,6 +115,28 @@ void EditorManager::Render()
 	{
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
+	}
+}
+
+void EditorManager::InitializeGUI()
+{
+	//Add GUI
+	m_gui_map.insert(std::make_pair(GUIType::MenuBar, std::make_unique<GUI_MenuBar>("Main Menu Bar")));		//MenuBar
+	m_gui_map.insert(std::make_pair(GUIType::ToolBar, std::make_unique<GUI_ToolBar>("Tool Bar")));			//ToolBar
+	m_gui_map.insert(std::make_pair(GUIType::Hierarchy, std::make_unique<GUI_Hierarchy>("Hierarchy")));		//Hierarchy
+	m_gui_map.insert(std::make_pair(GUIType::Scene, std::make_unique<GUI_Scene>("Scene")));					//Scene
+	m_gui_map.insert(std::make_pair(GUIType::Game, std::make_unique<GUI_Game>("Game")));					//Game
+	m_gui_map.insert(std::make_pair(GUIType::Inspector, std::make_unique<GUI_Inspector>("Inspector")));		//Inspector
+	m_gui_map.insert(std::make_pair(GUIType::Project, std::make_unique<GUI_Project>("Project")));			//Project
+	m_gui_map.insert(std::make_pair(GUIType::Console, std::make_unique<GUI_Console>("Console")));			//Console(Log)
+
+	//Initialize Each GUI
+	for (auto& gui : m_gui_map)
+	{
+		if (gui.second != nullptr)
+		{
+			gui.second->Initialize();
+		}
 	}
 }
 

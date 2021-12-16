@@ -26,6 +26,22 @@
 GUI_Inspector::GUI_Inspector(const std::string& inspector_title)
 	:IGUI(inspector_title)
 {
+	
+}
+
+GUI_Inspector::~GUI_Inspector()
+{
+	for (auto& gui_component : m_component_gui_list)
+	{
+		if (gui_component.second != nullptr)
+			gui_component.second.reset();
+	}
+	
+	m_component_gui_list.clear();
+}
+
+void GUI_Inspector::Initialize()
+{
 	//Transform
 	m_component_gui_list.push_back(std::make_pair(ComponentType::Transform, std::make_shared<GUI_Transform>("Transform")));
 	//Camera
@@ -49,25 +65,12 @@ GUI_Inspector::GUI_Inspector(const std::string& inspector_title)
 	m_component_gui_list.push_back(std::make_pair(ComponentType::Script, std::make_shared<GUI_Script>("Script")));
 }
 
-GUI_Inspector::~GUI_Inspector()
-{
-	for (auto& gui_component : m_component_gui_list)
-	{
-		if (gui_component.second != nullptr)
-			gui_component.second.reset();
-	}
-	
-	m_component_gui_list.clear();
-}
-
 void GUI_Inspector::Update()
 {
 	if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_I))
 	{
 		m_is_active = !m_is_active;
 	}
-
-	m_select_game_object = EditorHelper::GetInstance()->GetSelectedGameObject();
 }
 
 void GUI_Inspector::Render()
@@ -80,7 +83,8 @@ void GUI_Inspector::Render()
 //TODO: 컴포넌트가 추가될 때마다 for문의 범위 변경
 void GUI_Inspector::ShowGameObjectInfo()
 {
-	if (m_select_game_object == nullptr)
+    auto p_selected_game_object = EditorHelper::GetInstance()->GetSelectedGameObject();
+	if (p_selected_game_object == nullptr || p_selected_game_object->IsDead())
 		return;
 
 	//GameObject Name, Tag, Layer GUI
@@ -88,16 +92,16 @@ void GUI_Inspector::ShowGameObjectInfo()
 	IconProvider::GetInstance()->CreateImage(IconType::Inspector_GameObject, ImVec2(16.0f, 16.0f));
 	ImGui::SameLine();
 
-	static std::string game_object_name = m_select_game_object->GetObjectName();
-	std::string label_str = "##" + m_select_game_object->GetObjectName();
+	std::string game_object_name = p_selected_game_object->GetGameObjectName();
+	std::string label_str = "##" + p_selected_game_object->GetGameObjectName();
 	//Render Check
-	ImGui::Checkbox("", &m_select_game_object->IsActive());
+	ImGui::Checkbox("", &p_selected_game_object->IsActive());
     ImGui::SameLine();
 	//Name
 	ImGui::PushItemWidth(150.0f);
 	if (ImGui::InputText(label_str.c_str(), &game_object_name))
 	{
-		m_select_game_object->SetObjectName(game_object_name); //Game Object의 이름을 수정한 경우에만 수행
+		p_selected_game_object->SetGameObjectName(game_object_name); //Game Object의 이름을 수정한 경우에만 수행
 	}
 
 	//TODO
@@ -110,13 +114,13 @@ void GUI_Inspector::ShowGameObjectInfo()
 	//Component GUI
 	for (UINT i = static_cast<UINT>(ComponentType::Transform); i <= static_cast<UINT>(ComponentType::TileMap); ++i)
 	{
-		if (!m_select_game_object->GetComponent(static_cast<ComponentType>(i)))
+		if (!p_selected_game_object->GetComponent(static_cast<ComponentType>(i)))
 		{
 			continue;
 		}
 
 		auto component_gui = GetComponentGUI(static_cast<ComponentType>(i));
-		component_gui->SetGameObject(m_select_game_object);
+		component_gui->SetGameObject(p_selected_game_object);
 		component_gui->Render();
 	}
 }
@@ -140,43 +144,44 @@ void GUI_Inspector::ShowAddComponentPopup()
 	if (ImGui::BeginPopup("##ComponentPopup"))
 	{
 		//Camera
-		if (ImGui::BeginMenu("Camera"))
+		if (ImGui::MenuItem("Camera"))
 		{
-			ImGui::EndMenu();
+			
 		}
 
 		//Sprite Renderer
-		if (ImGui::BeginMenu("Sprite Renderer"))
+		if (ImGui::MenuItem("Sprite Renderer"))
 		{
-			ImGui::EndMenu();
+			
 		}
 
 		//Animator2D
-		if (ImGui::BeginMenu("Animator2D"))
+		if (ImGui::MenuItem("Animator2D"))
 		{
-			ImGui::EndMenu();
-		}
-
-		//Script
-		if (ImGui::BeginMenu("Script"))
-		{
-			ImGui::EndMenu();
+			
 		}
 
 		//Collider2D
-		if (ImGui::BeginMenu("Collider2D"))
+		if (ImGui::MenuItem("Collider2D"))
 		{
-			ImGui::EndMenu();
+			
 		}
 
 		//Light2D
-		if (ImGui::BeginMenu("Light2D"))
+		if (ImGui::MenuItem("Light2D"))
 		{
-			ImGui::EndMenu();
+			
 		}
 
 		//ParticleSystem
-		if (ImGui::BeginMenu("ParticleSystem"))
+		if (ImGui::MenuItem("ParticleSystem"))
+		{
+		
+		}
+
+
+		//Script
+		if (ImGui::BeginMenu("Script"))
 		{
 			ImGui::EndMenu();
 		}

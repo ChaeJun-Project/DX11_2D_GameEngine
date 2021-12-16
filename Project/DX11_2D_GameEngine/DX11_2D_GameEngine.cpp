@@ -4,6 +4,7 @@
 #include <DX11_2D_GameEngine_Lib/Settings.h>
 #include <DX11_2D_GameEngine_Lib/InputManager.h>
 #include <DX11_2D_GameEngine_Lib/GraphicsManager.h>
+#include "Scene/ClientSceneManager.h"
 #include "Editor/Manager/EditorManager.h"
 #include "Editor/Manager/EditorObjectManager.h"
 
@@ -42,6 +43,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//Scene Manager
 	auto scene_manager = SceneManager::GetInstance();
 	scene_manager->SetClientState(static_cast<UINT>(client_state));
+
+	ClientSceneManager::CreateNewScene();
 
 	//1 Frame Update
 	core->Progress();

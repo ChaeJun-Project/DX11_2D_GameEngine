@@ -15,6 +15,10 @@ GUI_Game::~GUI_Game()
 {
 }
 
+void GUI_Game::Initialize()
+{
+}
+
 void GUI_Game::Update()
 {
 

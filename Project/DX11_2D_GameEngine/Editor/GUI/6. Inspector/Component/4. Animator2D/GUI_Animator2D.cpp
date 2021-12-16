@@ -3,7 +3,7 @@
 
 #include "Helper/IconProvider.h"
 
-#include "GUI/GUI_ItemList.h"
+#include "GUI/Module/ItemList/GUI_ItemList.h"
 
 #include "Sprite Editor/GUI_SpriteEditor.h"
 

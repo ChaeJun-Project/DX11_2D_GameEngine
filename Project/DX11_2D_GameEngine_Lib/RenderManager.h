@@ -47,12 +47,15 @@ public:
 
 	const std::shared_ptr<Texture>& GetRenderTexture(const RenderTextureType& render_texture_type);
 
+	const Vector2& GetResolution() { return m_resolution_size; }
+
 private:
 	void CreateRenderTexture(const RenderTextureType& render_texture_type, const UINT& width, const UINT& height);
 	
 private:
     //RenderTargetTexture
 	std::map<RenderTextureType, std::shared_ptr<Texture>> m_p_render_texture_map;
+	Vector2 m_resolution_size = Vector2::Zero;
 
     //Editor Camera
 	Camera* m_p_editor_camera = nullptr;

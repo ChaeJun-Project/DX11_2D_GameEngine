@@ -29,7 +29,10 @@ public:
 	virtual void OnCollisionExit(GameObject* other_game_object) {}
 	virtual void OnCollision(GameObject* other_game_object) {}
 
-protected:
-    std::string script_name;
+public:
+    const int& GetScriptType() { return m_script_type; }
+
+private:
+    int m_script_type = -1;
 };
 

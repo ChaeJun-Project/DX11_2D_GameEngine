@@ -36,7 +36,7 @@ public:
     void SetMainCamera() { m_camera_index = 0; }
 
     const ProjectionType& GetProjectionType() const { return m_projection_type; }
-    void SetProjectionType(const ProjectionType& projection_type) { m_projection_type = projection_type; }
+    void SetProjectionType(const ProjectionType& projection_type);
 
     //ProjectionType::Orthographic(직교 투영 전용)
     const Vector2& GetSize() const { return m_size; }
@@ -62,7 +62,7 @@ public:
 public:
     CLONE(Camera);
 
-private:
+protected:
     //RenderManager에 등록될 카메라 인덱스 값
     //메인 카메라의 index는 항상 0으로 고정
     int m_camera_index = -1; 

@@ -11,7 +11,6 @@
 #include "Scene.h"
 #include "Layer.h"
 
-#include "InputManager.h"
 #include "RenderManager.h"
 #include "SpriteRenderer.h"
 #include "ParticleSystem.h"
@@ -204,20 +203,18 @@ void Camera::UpdateViewMatrix()
 
 void Camera::UpdateProjectionMatrix()
 {
-	auto settings = Core::GetInstance()->GetSettings();
-	auto resolution_x = static_cast<float>(settings->GetWindowWidth());
-	auto resolution_y = static_cast<float>(settings->GetWindowHeight());
+	auto resolution = RenderManager::GetInstance()->GetResolution();
 
 	switch (m_projection_type)
 	{
 		//직교 투영 모드
 	case ProjectionType::Orthographic:
-		m_projection_matrix = Matrix::OrthoLH(resolution_x * m_size.x, resolution_y * m_size.y, m_near_z, m_far_z);
+		m_projection_matrix = Matrix::OrthoLH(resolution.x * m_size.x, resolution.y * m_size.y, m_near_z, m_far_z);
 		break;
 
 		//원근 투영 모드
 	case ProjectionType::Perspective:
-		m_projection_matrix = Matrix::PerspectiveFovLH(m_fov, (resolution_x / resolution_y), m_near_z, m_far_z);
+		m_projection_matrix = Matrix::PerspectiveFovLH(m_fov, (resolution.x / resolution.y), m_near_z, m_far_z);
 		break;
 	}
 }
@@ -255,4 +252,15 @@ const Vector3 Camera::ScreenToWorld(const Vector2& mouse_position)
 	world_position = pick_ray_view_space * view_projection_inverse;
 
 	return world_position;
+}
+
+void Camera::SetProjectionType(const ProjectionType& projection_type)
+{
+	m_projection_type = projection_type;
+
+	if (m_projection_type == ProjectionType::Orthographic)
+	{
+		auto transform = m_p_owner_game_object->GetComponent<Transform>();
+		transform->SetRotation(Quaternion::QuaternionFromEulerAngle(Vector3::Zero));
+	}
 }

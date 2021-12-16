@@ -31,12 +31,6 @@ void Scene::Update()
 		layer.second->Update();
 }
 
-void Scene::LateUpdate()
-{
-	for (auto& layer : m_layer_map)
-		layer.second->LateUpdate();
-}
-
 void Scene::FinalUpdate()
 {
 	for (auto& layer : m_layer_map)
@@ -90,7 +84,7 @@ GameObject* Scene::FindGameObjectByName(const std::string& game_object_name)
 
 		for (UINT i = 0; i < static_cast<UINT>(game_objects.size()); ++i)
 		{
-			if (game_objects[i]->GetObjectName() == game_object_name)
+			if (game_objects[i]->GetGameObjectName() == game_object_name)
 				return game_objects[i];
 		}
 	}

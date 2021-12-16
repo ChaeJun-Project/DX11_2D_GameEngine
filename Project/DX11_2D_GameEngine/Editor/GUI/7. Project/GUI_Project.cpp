@@ -10,6 +10,10 @@ GUI_Project::~GUI_Project()
 {
 }
 
+void GUI_Project::Initialize()
+{
+}
+
 void GUI_Project::Update()
 {
 }

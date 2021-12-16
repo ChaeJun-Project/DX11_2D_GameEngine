@@ -12,9 +12,6 @@
 #include "ParticleSystem.h"
 #include "TileMap.h"
 
-//GameLogic
-#include "GameLogic_Script.h"
-
 SceneManager::~SceneManager()
 {
 	m_p_current_scene.reset();
@@ -22,56 +19,7 @@ SceneManager::~SceneManager()
 
 void SceneManager::Initialize()
 {
-	m_p_current_scene = std::make_shared<Scene>("New Scene");
-
-	auto resource_manager = ResourceManager::GetInstance();
-
-	//Camera(0)
-	auto camera = new GameObject();
-	camera->SetObjectName("Main Camera");
-	camera->SetObjectTag("Main Camera");
-	camera->AddComponent(new Transform());
-	camera->AddComponent(new Camera());
-
-	camera->GetComponent<Camera>()->SetMainCamera();
-
-	m_p_current_scene->AddGameObject(camera, 0, true);
-
-	//Light2D
-	auto point_light2D = new GameObject();
-	point_light2D->SetObjectName("Light2D_Point");
-	point_light2D->SetObjectTag("Light2D_Point");
-	point_light2D->AddComponent(new Transform());
-	point_light2D->AddComponent(new Light2D());
-
-	auto point_light = point_light2D->GetComponent<Light2D>();
-	point_light->SetLightType(LightType::Point);
-	point_light->SetLightRange(2000.0f);
-	point_light->SetLightColor(Color4::White);
-
-	m_p_current_scene->AddGameObject(point_light2D, 0, true);
-
-	//Game Logic
-	auto game_logic = new GameObject();
-	game_logic->SetObjectName("Game Logic");
-	game_logic->SetObjectTag("Game Logic");
-	game_logic->AddComponent(new Transform());
-	game_logic->AddComponent(new GameLogic_Script());
-
-	m_p_current_scene->AddGameObject(game_logic, 1, false);
-
-	game_logic->GetComponent<Script>()->Initialize();
-
-	//Tile Object
-	/*auto game_object = new GameObject();
-	game_object->SetObjectName("TileObject");
-	game_object->SetObjectTag("Tile");
-	game_object->AddComponent(new Transform());
-	game_object->AddComponent(new TileMap());
-
-	auto tile_map = game_object->GetComponent<TileMap>();
-
-	m_p_current_scene->AddGameObject(game_object, 3, true);*/
+	
 }
 
 void SceneManager::Update()
@@ -88,7 +36,6 @@ void SceneManager::Update()
 	|| m_client_state == 1 )
 	{
 		m_p_current_scene->Update();
-		m_p_current_scene->LateUpdate();
 	}
 
 	m_p_current_scene->FinalUpdate();
@@ -103,6 +50,14 @@ void SceneManager::Update()
 void SceneManager::CreatePrefab(GameObject* p_game_object)
 {
 	p_game_object->RegisterPrefab();
+}
+
+void SceneManager::SetCurrentScene(const std::shared_ptr<Scene>& p_current_scene)
+{
+   if(m_p_current_scene != nullptr)
+	   m_p_current_scene.reset();
+
+   m_p_current_scene = p_current_scene;
 }
 
 void SceneManager::SetEditorState(const UINT& editor_state)

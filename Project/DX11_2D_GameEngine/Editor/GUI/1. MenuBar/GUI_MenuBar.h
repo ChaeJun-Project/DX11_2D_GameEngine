@@ -10,6 +10,7 @@ public:
     ~GUI_MenuBar();
 
 public:
+    void Initialize() override;
     void Update() override;
 
     void Begin() override {}

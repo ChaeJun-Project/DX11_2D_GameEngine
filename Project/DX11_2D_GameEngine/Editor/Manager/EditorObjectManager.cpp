@@ -45,9 +45,6 @@ void EditorObjectManager::Update()
             game_object->Update();
 
         for (auto& game_object : m_game_object_ex_vector)
-            game_object->LateUpdate();
-
-        for (auto& game_object : m_game_object_ex_vector)
             game_object->FinalUpdate();
     }
 }

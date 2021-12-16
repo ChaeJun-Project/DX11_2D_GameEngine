@@ -8,6 +8,7 @@ public:
     ~GUI_Console();
 
 public:
+    void Initialize() override;
     void Update() override;
     void Render() override;
 

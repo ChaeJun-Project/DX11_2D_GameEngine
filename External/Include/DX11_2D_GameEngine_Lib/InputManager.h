@@ -56,6 +56,7 @@ enum KeyCode : unsigned long
 	KEY_CONTROL = 0x11,
 	KEY_SPACE = 0x20,
 	KEY_ENTER = 0x0D,
+	KEY_DELETE = 0x2E,
 };
 
 class InputManager final : public Singleton<InputManager>

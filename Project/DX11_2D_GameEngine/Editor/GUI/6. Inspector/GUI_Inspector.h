@@ -12,6 +12,7 @@ public:
 	~GUI_Inspector();
 
 public:
+	void Initialize() override;
 	void Update() override;
 	void Render() override;
 
@@ -26,8 +27,6 @@ private:
 	std::shared_ptr<GUI_Component> GetComponentGUI(const ComponentType& component_type) const;
 
 private:
-	GameObject* m_select_game_object = nullptr;
-
 	IResource* m_select_resource = nullptr;
 
 	//Component GUI list

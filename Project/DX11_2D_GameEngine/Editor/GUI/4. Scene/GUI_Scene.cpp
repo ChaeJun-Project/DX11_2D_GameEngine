@@ -3,10 +3,10 @@
 
 #include "Helper/IconProvider.h"
 
+#include "EditorObject/Camera/CameraEx.h"
+
 #include <DX11_2D_GameEngine_Lib/RenderManager.h>
 #include <DX11_2D_GameEngine_Lib/Texture.h>
-
-#include <DX11_2D_GameEngine_Lib/Camera.h>
 
 GUI_Scene::GUI_Scene(const std::string& scene_title)
 	:IGUI(scene_title)
@@ -18,10 +18,14 @@ GUI_Scene::~GUI_Scene()
 {
 }
 
+void GUI_Scene::Initialize()
+{
+}
+
 void GUI_Scene::Update()
 {
 	if (m_p_editor_camera == nullptr)
-		m_p_editor_camera = RenderManager::GetInstance()->GetEditorCamera();
+		m_p_editor_camera = dynamic_cast<CameraEx*>(RenderManager::GetInstance()->GetEditorCamera());
 }
 
 void GUI_Scene::Render()
@@ -37,6 +41,10 @@ void GUI_Scene::ShowProjectionButton()
 {
 	if (m_p_editor_camera != nullptr)
 	{
+		auto is_window_hovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem | ImGuiHoveredFlags_AllowWhenBlockedByPopup);
+
+		m_p_editor_camera->SetIsActvie(is_window_hovered);
+
 		ImGui::PushStyleColor
 		(
 			ImGuiCol_Button,
@@ -45,12 +53,16 @@ void GUI_Scene::ShowProjectionButton()
 
 		if (ImGui::Button("2D", ImVec2(50.0f, 0.0f)))
 		{
+			//직교투영 -> 원근투영
 			if (m_p_editor_camera->GetProjectionType() == ProjectionType::Orthographic)
 			{
 				m_p_editor_camera->SetProjectionType(ProjectionType::Perspective);
 			}
+			//원근투영 -> 직교투영
 			else
+			{
 				m_p_editor_camera->SetProjectionType(ProjectionType::Orthographic);
+			}
 		}
 
 		ImGui::PopStyleColor();
@@ -67,7 +79,7 @@ void GUI_Scene::ShowScene()
 
 	//Scene 윈도우창의 크기를 받아옴
 	auto scene_window_width = static_cast<UINT>(ImGui::GetWindowContentRegionMax().x - ImGui::GetWindowContentRegionMin().x);
-	auto scene_window_height = static_cast<UINT>(ImGui::GetWindowContentRegionMax().y - ImGui::GetWindowContentRegionMin().y);
+	auto scene_window_height = static_cast<UINT>(ImGui::GetWindowContentRegionMax().y - ImGui::GetWindowContentRegionMin().y - 28.0f);
 
 	//Scene 윈도우창의 크기를 항상 짝수로 설정
 	scene_window_width -= scene_window_width % 2 != 0 ? 1 : 0;

@@ -18,6 +18,10 @@ GUI_ToolBar::GUI_ToolBar(const std::string& toolbar_title)
 		| ImGuiWindowFlags_NoSavedSettings;
 }
 
+void GUI_ToolBar::Initialize()
+{
+}
+
 void GUI_ToolBar::Update()
 {
 	if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_T))

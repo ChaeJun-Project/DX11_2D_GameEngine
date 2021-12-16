@@ -8,6 +8,7 @@ public:
     ~GUI_ToolBar() = default;
 
 public:
+    void Initialize() override;
     void Update() override;
 
     void Begin() override;

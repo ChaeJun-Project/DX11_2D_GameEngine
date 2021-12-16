@@ -58,7 +58,7 @@ void RenderManager::Render()
 {
 	//Program, Light2D 데이터 업데이트
 	UpdateConstantBuffer();
-	
+
 	auto scene_manager = SceneManager::GetInstance();
 
 	//<summary>
@@ -96,7 +96,9 @@ void RenderManager::Render()
 
 void RenderManager::RenderTitle()
 {
-	//TODO
+	auto settings = Core::GetInstance()->GetSettings();
+	m_resolution_size.x = static_cast<float>(settings->GetWindowWidth());
+	m_resolution_size.y = static_cast<float>(settings->GetWindowHeight());
 }
 
 void RenderManager::RenderPlay()
@@ -143,7 +145,7 @@ void RenderManager::RenderEditor()
 
 void RenderManager::SetRenderTexture(const RenderTextureType& render_texture_type)
 {
-	auto render_texture = GetRenderTexture(render_texture_type);
+	auto render_texture = m_p_render_texture_map[render_texture_type];
 
 	if (render_texture != nullptr)
 	{
@@ -159,6 +161,8 @@ void RenderManager::SetRenderTexture(const RenderTextureType& render_texture_typ
 		DEVICE_CONTEXT->ClearRenderTargetView(p_render_target_view, Color4::Black);
 		//깊이 버퍼 내용 지우기
 		DEVICE_CONTEXT->ClearDepthStencilView(p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+		m_resolution_size = Vector2(view_port.Width, view_port.Height);
 	}
 }
 
@@ -169,8 +173,7 @@ void RenderManager::CopyPostEffect()
 	auto render_target_textre = ResourceManager::GetInstance()->GetTexture("RenderTargetView");
 
 	//Render Target Texture의 이미지를 카피
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
-	device_context->CopyResource(m_p_post_effect_target_texture->GetTexture(), render_target_textre->GetTexture());
+	DEVICE_CONTEXT->CopyResource(m_p_post_effect_target_texture->GetTexture(), render_target_textre->GetTexture());
 }
 
 void RenderManager::ResizePostEffectTexture()

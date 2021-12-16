@@ -207,12 +207,9 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="DX11Object.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="EventManager.h" />
-    <ClInclude Include="Factory_Script.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="FileStream.h" />
-    <ClInclude Include="GameLogic_Script.h" />
     <ClInclude Include="GeometryShader.h" />
-    <ClInclude Include="Geometry_script.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GraphicsManager.h" />
     <ClInclude Include="IComponent.h" />
@@ -242,7 +239,6 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="RockManZ_Script.h" />
     <ClInclude Include="SamplerState.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
@@ -261,8 +257,6 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="VertexStruct.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />
-    <ClInclude Include="WalkCannon_Script.h" />
-    <ClInclude Include="WalkCannon_Bullet_Script.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
@@ -279,12 +273,9 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="DepthStencilState.cpp" />
     <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="Factory_Script.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="FileStream.cpp" />
-    <ClCompile Include="GameLogic_Script.cpp" />
     <ClCompile Include="GeometryShader.cpp" />
-    <ClCompile Include="Geometry_script.cpp" />
     <ClCompile Include="GraphicsManager.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputLayout.cpp" />
@@ -310,7 +301,6 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="RockManZ_Script.cpp" />
     <ClCompile Include="SamplerState.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -331,8 +321,6 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexStruct.cpp" />
     <ClCompile Include="VertexShader.cpp" />
-    <ClCompile Include="WalkCannon_Script.cpp" />
-    <ClCompile Include="WalkCannon_Bullet_Script.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ShaderFiles\Animation2DStruct.fx">
