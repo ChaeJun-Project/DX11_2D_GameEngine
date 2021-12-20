@@ -20,8 +20,12 @@ public:
 
 	void DeregisterFromParentGameObject(GameObject* p_game_object);
 
-	std::vector<GameObject*>& GetGameParentObjects() { return m_p_parent_game_object_vector; }
+	std::vector<GameObject*>& GetParentGameObjects() { return m_p_parent_game_object_vector; }
 	std::vector<GameObject*>& GetGameObjects() { return m_p_game_object_vector; }
+
+public:
+	void SaveToScene(FILE* p_file) override;
+	void LoadFromScene(FILE* p_file) override;
 
 private:
     //해당 layer에 속한 최상위 부모 오브젝트들
@@ -31,5 +35,7 @@ private:
 	std::vector<GameObject*> m_p_game_object_vector;
 
 	int m_layer_index = -1;
+
+	friend class Scene;
 };
 

@@ -29,6 +29,10 @@ public:
     std::shared_ptr<Material> GetClonedMaterial();
 
 public:
+    virtual void SaveToScene(FILE* p_file);
+    virtual void LoadFromScene(FILE* p_file);
+
+public:
     CLONE(SpriteRenderer);
 
 private:

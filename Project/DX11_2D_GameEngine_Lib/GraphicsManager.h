@@ -15,20 +15,20 @@ class GraphicsManager final : public Singleton<GraphicsManager>
 	~GraphicsManager();
 
 public:
-    //DirectX11 자원 초기화
+	//DirectX11 자원 초기화
 	void Initialize();
 	//백버퍼에 그려진 내용 초기화
 	void BeginScene();
 	//백버퍼에 그려진 내용을 현재 보여주고 있는 전면 버퍼와 교체
 	void EndScene();
-	
+
 	//응용 프로그램 내부에서 윈도우의 해상도를 변경할 때
 	void ResizeWindowByProgram(const UINT& width, const UINT& height);
 	//유저에 의해서 윈도우의 해상도가 변경될 때
 	void ResizeWindowByUser(const UINT& width, const UINT& height);
 	//전체화면으로 변경
 	void SetFullScreen(const bool& is_full_screen);
-	
+
 public:
 	//Get Method
 	//const 멤버 함수로 구현하여 함수 내에서 멤버 변수의 수정을 방지

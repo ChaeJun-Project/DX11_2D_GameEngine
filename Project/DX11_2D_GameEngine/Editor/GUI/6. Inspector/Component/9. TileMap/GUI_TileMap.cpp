@@ -42,11 +42,11 @@ void GUI_TileMap::Render()
 		static int tile_count_row = 0;
 		static int tile_count_column = 0;
 		//Tiling Count
-		ShowInt2("Tiling", tile_count_row, tile_count_column, 80.0f);
+		ShowInt2("Tiling", tile_count_row, tile_count_column, 70.0f, 80.0f);
 
 		static Vector2 tile_size = Vector2::Zero;
 		//Tile Size
-		ShowFloat2("Tile Size", tile_size, 80.0f);
+		ShowFloat2("Tile Size", tile_size, 70.0f, 80.0f);
 
 		//Draw Grid Check
 		ImGui::Checkbox("Draw Grid", &tile_map->GetIsDrawGrid());

@@ -1,16 +1,28 @@
 #pragma once
 
 #include "stdafx.h"
+#include "FileManager.h"
 
 //DX11_2D_GameEngine_Lib에서 생성되는 모든 DirectX11 객체에 상속
 class DX11Obejct
 {
 public:
-	DX11Obejct() { this->m_id = CreateID(); }
+	DX11Obejct() { m_id = CreateID(); }
 	virtual ~DX11Obejct() = default;
 
+	virtual void SaveToScene(FILE* p_file)
+	{
+		fprintf(p_file, "%s\n", m_object_name.c_str());
+		//FileManager::SaveStringToFile(m_object_name, p_file);
+	}
+
+	virtual void LoadFromScene(FILE* p_file)
+	{
+		//FileManager::LoadStringFromFile(m_object_name, p_file);
+	}
+
 public:
-	const UINT& GetObjectID() const { return this->m_id; }
+	const UINT& GetObjectID() const { return m_id; }
 
 public:
     virtual DX11Obejct* Clone() { return nullptr; }
@@ -39,6 +51,8 @@ private:
 		return static_cast<UINT>(hasher(FileManager::ConvertWStringToString(guid_wstr)));
 	}
 
-private:
+protected:
 	UINT m_id = 0;
+
+	std::string m_object_name;
 };

@@ -1,13 +1,11 @@
 #pragma once
 
-
-
-class ClientSceneManager
+class ClientSceneManager final
 {
 public: 
      static void CreateNewScene();
      static void SaveScene(const std::string& file_path);
-     static Scene* LoadScene(const std::string& file_path);
+     static std::shared_ptr<Scene> LoadScene(const std::string& file_path);
 
 private:
      static void SaveGameObject(GameObject* p_game_object, FILE* p_file);

@@ -43,9 +43,6 @@ RenderManager::~RenderManager()
 
 void RenderManager::Initialize()
 {
-	CreateRenderTexture(RenderTextureType::GameScene, g_cbuffer_program.resolution.x, g_cbuffer_program.resolution.y);
-	CreateRenderTexture(RenderTextureType::EditorScene, g_cbuffer_program.resolution.x, g_cbuffer_program.resolution.y);
-
 	//Post Effect Material에 Texture 연결
 	//auto post_effect_material = ResourceManager::GetInstance()->GetMaterial("PostEffect");
 	//post_effect_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);
@@ -103,6 +100,10 @@ void RenderManager::RenderTitle()
 
 void RenderManager::RenderPlay()
 {
+	auto render_texture = m_p_render_texture_map.find(RenderTextureType::GameScene);
+	if (render_texture == m_p_render_texture_map.end())
+		return;
+
 	SetRenderTexture(RenderTextureType::GameScene);
 
 	//메인 카메라(index 0) 기준으로 화면 그리기
@@ -129,6 +130,10 @@ void RenderManager::RenderPlay()
 
 void RenderManager::RenderEditor()
 {
+	auto render_texture = m_p_render_texture_map.find(RenderTextureType::EditorScene);
+	if (render_texture == m_p_render_texture_map.end())
+		return;
+
 	SetRenderTexture(RenderTextureType::EditorScene);
 
 	//Editor Camera 기준으로 화면 그리기
@@ -154,10 +159,12 @@ void RenderManager::SetRenderTexture(const RenderTextureType& render_texture_typ
 		auto view_port = render_texture->GetViewPort();
 
 		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
-		DEVICE_CONTEXT->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
+		DEVICE_CONTEXT->OMSetRenderTargets(1, &p_render_target_view, nullptr);
+
 		//설정한 뷰포트 등록
 		DEVICE_CONTEXT->RSSetViewports(1, &view_port);
-		//백 버퍼(render_target_view)에 그려진 내용 지우기
+
+		//render_target_view에 그려진 내용 지우기
 		DEVICE_CONTEXT->ClearRenderTargetView(p_render_target_view, Color4::Black);
 		//깊이 버퍼 내용 지우기
 		DEVICE_CONTEXT->ClearDepthStencilView(p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -380,4 +387,3 @@ const std::shared_ptr<Texture>& RenderManager::GetRenderTexture(const RenderText
 
 	return render_texture_iter->second;
 }
-

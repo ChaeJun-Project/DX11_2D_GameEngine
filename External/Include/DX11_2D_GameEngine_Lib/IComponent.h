@@ -23,6 +23,16 @@ public:
 	virtual void FinalUpdate() = 0; //최종 업데이트 => 오브젝트가 움직이면 안됨
 
 public:
+	virtual void SaveToScene(FILE* p_file)
+	{
+
+	}
+	virtual void LoadFromScene(FILE* p_file)
+	{
+
+	}
+	
+public:
     virtual IComponent* Clone() = 0;
 
 public:

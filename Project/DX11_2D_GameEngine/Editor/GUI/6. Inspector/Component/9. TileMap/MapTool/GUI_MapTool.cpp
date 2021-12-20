@@ -142,7 +142,7 @@ void GUI_MapTool::RenderTileAtlasTexture()
 	//Per Tile Size
 	static Vector2 per_tile_size = Vector2::Zero;
 	//Per Tile Size
-	ShowFloat2("Per Tile Size", per_tile_size, 100.0f);
+	ShowFloat2("Per Tile Size", per_tile_size, 70.0f, 100.0f);
 
 	if (ImGui::Button("Apply", ImVec2(110.0f, 0.0f)))
 	{

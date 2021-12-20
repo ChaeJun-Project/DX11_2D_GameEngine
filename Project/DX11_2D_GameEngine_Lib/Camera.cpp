@@ -221,8 +221,8 @@ void Camera::UpdateProjectionMatrix()
 
 const Vector3 Camera::Picking()
 {
-	if (m_camera_index != 0)
-		return Vector3::Zero;
+	/*if (m_camera_index != 0)
+		return Vector3::Zero;*/
 
 	Vector2 mouse_position = InputManager::GetInstance()->GetMousePosition();
 
@@ -233,16 +233,26 @@ const Vector3 Camera::Picking()
 
 const Vector3 Camera::ScreenToWorld(const Vector2& mouse_position)
 {
-	Vector2 screen_resolution = Vector2
+	/*Vector2 screen_resolution = Vector2
 	(
 		static_cast<float>(Core::GetInstance()->GetSettings()->GetWindowWidth()),
 		static_cast<float>(Core::GetInstance()->GetSettings()->GetWindowHeight())
+	);*/
+
+	auto resolution = RenderManager::GetInstance()->GetResolution();
+	auto screen_offset = RenderManager::GetInstance()->GetScreenOffset();
+	auto relative_mouse_position = mouse_position - screen_offset;
+
+	Vector2 screen_resolution = Vector2
+	(
+		resolution.x,
+		resolution.y
 	);
 
 	Vector3 pick_ray_view_space = Vector3
 	(
-		((2.0f * mouse_position.x) / screen_resolution.x) - 1.0f,
-		1.0f - ((2.0f * mouse_position.y) / screen_resolution.y),
+		((2.0f * relative_mouse_position.x) / screen_resolution.x) - 1.0f,
+		1.0f - ((2.0f * relative_mouse_position.y) / screen_resolution.y),
 		1.0f //투영 윈도우 값
 	);
 

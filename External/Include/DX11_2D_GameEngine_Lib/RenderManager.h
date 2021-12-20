@@ -13,13 +13,13 @@ class RenderManager final : public Singleton<RenderManager>
 	~RenderManager();
 
 public:
-    void Initialize();
-    void Render();
+	void Initialize();
+	void Render();
 
 private:
-    void RenderTitle();
+	void RenderTitle();
 	void RenderPlay();
-    void RenderEditor();
+	void RenderEditor();
 
 	void SetRenderTexture(const RenderTextureType& render_texture_type);
 
@@ -28,11 +28,11 @@ public:
 	void ResizePostEffectTexture();
 
 public:
-    //Camera
+	//Camera
 	void RegisterEditorCamera(Camera* p_editor_camera) { m_p_editor_camera = p_editor_camera; }
 	Camera* GetEditorCamera() { SAFE_GET_POINTER(m_p_editor_camera); }
 
-    void RegisterCamera(Camera* p_camera, int& camera_index);
+	void RegisterCamera(Camera* p_camera, int& camera_index);
 	Camera* GetMainCamera();
 
 public:
@@ -43,28 +43,30 @@ public:
 	void UpdateConstantBuffer();
 
 public:
-    void SetResolution(const RenderTextureType& render_texture_type, const UINT& width, const UINT& height);
-
 	const std::shared_ptr<Texture>& GetRenderTexture(const RenderTextureType& render_texture_type);
 
+	void SetResolution(const RenderTextureType& render_texture_type, const UINT& width, const UINT& height);
 	const Vector2& GetResolution() { return m_resolution_size; }
+	
+	void SetScreenOffset(const float& x, const float& y) { m_screen_offset.x = x; m_screen_offset.y = y;}
+	const Vector2& GetScreenOffset() { return m_screen_offset; }
 
 private:
 	void CreateRenderTexture(const RenderTextureType& render_texture_type, const UINT& width, const UINT& height);
-	
+
 private:
-    //RenderTargetTexture
+	//RenderTargetTexture
 	std::map<RenderTextureType, std::shared_ptr<Texture>> m_p_render_texture_map;
 	Vector2 m_resolution_size = Vector2::Zero;
+	Vector2 m_screen_offset = Vector2::Zero;
 
-    //Editor Camera
+	//Editor Camera
 	Camera* m_p_editor_camera = nullptr;
-    //Scene에 있는 Camera
-    std::vector<Camera*> m_camera_vector;
+	//Scene에 있는 Camera
+	std::vector<Camera*> m_camera_vector;
 	//Scene에 있는 Light2D
 	std::vector<Light2D*> m_light2D_vector;
 
 	//Post Effect 전용 Texture
 	std::shared_ptr<Texture> m_p_post_effect_target_texture;
 };
-

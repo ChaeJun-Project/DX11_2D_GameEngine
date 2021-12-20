@@ -32,5 +32,7 @@ private:
 	//각 GUI 또한 각 종류마다 유일한 단 하나의 객체만 가지고 있어야 하므로
 	//unique pointer를 사용하여 객체 생성 및 관리
 	std::map<GUIType, std::unique_ptr<IGUI>> m_gui_map;
+
+	std::string init_current_path;
 };
 

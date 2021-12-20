@@ -593,6 +593,39 @@ void FileManager::ReplaceAll(std::string& in_out_str, const std::string& from, c
 	}
 }
 
+void FileManager::SaveStringToFile(const std::string& str, FILE* p_file)
+{
+	size_t iLen = str.length();
+	fwrite(&iLen, sizeof(size_t), 1, p_file);
+	fwrite(str.c_str(), sizeof(char), iLen, p_file);
+}
+
+void FileManager::LoadStringFromFile(std::string& str, FILE* p_file)
+{
+	size_t iLen = 0;
+	fread(&iLen, sizeof(size_t), 1, p_file);
+
+	char szBuffer[256] = "";
+	fread(szBuffer, sizeof(wchar_t), iLen, p_file);
+	str = szBuffer;
+}
+
+void FileManager::FScanf(char* p_buffer, FILE* p_file)
+{
+	int i = 0;
+	while (true)
+	{
+		char c = (char)getc(p_file);
+		if (c == '\n')
+		{
+			p_buffer[i++] = '\0';
+			break;
+		}
+
+		p_buffer[i++] = c;
+	}
+}
+
 //void FileManager::ChangeFileName(const std::string& from_path, const std::string& to_path)
 //{
 //	if (!IsExistDirectory(from_path))

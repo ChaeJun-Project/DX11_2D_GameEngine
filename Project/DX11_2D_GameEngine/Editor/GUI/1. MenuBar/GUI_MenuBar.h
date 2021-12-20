@@ -19,12 +19,6 @@ public:
 
 private:
      //=========================
-     // File
-     //=========================
-     bool m_is_scene_load = false;
-     bool m_is_scene_save = false;
-
-     //=========================
      // Edit
      //=========================
      //Demo

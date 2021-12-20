@@ -2,6 +2,7 @@
 
 #include "../GUI_Component.h"
 
+class GUI_ItemList;
 class GUI_SpriteEditor;
 
 class GUI_Animator2D final : public GUI_Component

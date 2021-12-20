@@ -54,11 +54,11 @@ void TileMap::Start()
 
 void TileMap::FinalUpdate()
 {
-	auto main_camera = RenderManager::GetInstance()->GetMainCamera();
+	auto editor_camera = RenderManager::GetInstance()->GetEditorCamera();
 
-	if (main_camera != nullptr && MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
+	if (editor_camera != nullptr && MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
 	{
-		auto mouse_world_position = main_camera->Picking();
+		auto mouse_world_position = editor_camera->Picking();
 
 		CalcCurrentPickRect(Vector2(mouse_world_position.x, mouse_world_position.y));
 	}

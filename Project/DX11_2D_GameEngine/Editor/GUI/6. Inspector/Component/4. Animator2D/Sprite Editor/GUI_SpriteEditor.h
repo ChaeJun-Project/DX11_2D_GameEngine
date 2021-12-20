@@ -19,9 +19,6 @@ private:
 	void RenderAnimationEditor();
 	void DrawRect(const bool& is_hovered, const bool& is_active);
 
-	
-	void Store();
-
 private:
 	//Atlas Texture
 	std::shared_ptr<Texture> m_p_atlas_texture = nullptr;

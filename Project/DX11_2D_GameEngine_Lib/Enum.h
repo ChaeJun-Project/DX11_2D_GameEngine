@@ -16,6 +16,13 @@ enum class EventType : UINT
 	Add_Child_Object = 2,
 };
 
+//RenderTexture Type
+enum class RenderTextureType : UINT
+{
+	GameScene = 0,
+	EditorScene = 1
+};
+
 //Resource Type(IResource 사용)
 enum class ResourceType : UINT
 {
@@ -57,13 +64,6 @@ enum class TextureType : UINT
 	Standard = 0,
 	Atlas = 1,
 	Tile_Atlas = 2,
-};
-
-//RenderTexture Type(RenderManager 사용)
-enum class RenderTextureType : UINT
-{
-	GameScene = 0,
-	EditorScene = 1,
 };
 
 //Rasterizer State Type(Shader 사용)
@@ -141,8 +141,9 @@ enum class ComponentType : UINT
 	ParticleSystem = 8,
 	TileMap = 9,
 	RigidBody2D = 10,
+	END = 11,
 
-	Script = 11,
+	Script = 12,
 };
 
 //Projection Type(Camera 사용)

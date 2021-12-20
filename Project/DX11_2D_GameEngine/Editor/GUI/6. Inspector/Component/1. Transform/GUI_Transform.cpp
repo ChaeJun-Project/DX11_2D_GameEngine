@@ -24,9 +24,9 @@ void GUI_Transform::Render()
 		auto rotation = transform->GetLocalRotation().ToEulerAngle();
 		auto scale = transform->GetLocalScale();
 
-		ShowFloat3("Position", position, 80.0f);
-		ShowFloat3("Rotation", rotation, 80.0f);
-		ShowFloat3("Scale", scale, 80.0f);
+		ShowFloat3("Position", position, 70.0f, 80.0f);
+		ShowFloat3("Rotation", rotation, 70.0f, 80.0f);
+		ShowFloat3("Scale", scale, 70.0f, 80.0f);
 
 		transform->SetTranslation(position);
 		transform->SetRotation(Quaternion::QuaternionFromEulerAngle(rotation));

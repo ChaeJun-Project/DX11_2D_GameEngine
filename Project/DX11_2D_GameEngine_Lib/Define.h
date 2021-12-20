@@ -45,3 +45,4 @@ typedef unsigned long ULONG;
 //클래스 복사 생성 매크로 정의(깊은 복사, 기존 클래스와 클론 클래스가 같은 메모리를 참조하지 않음)
 #define CLONE(type) type* Clone() {return new type(*this);}
 
+#define MAX_LAYER 32

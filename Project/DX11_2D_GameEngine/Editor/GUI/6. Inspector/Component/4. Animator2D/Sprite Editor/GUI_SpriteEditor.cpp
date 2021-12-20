@@ -221,16 +221,16 @@ void GUI_SpriteEditor::RenderAnimationEditor()
 			ImGui::PopItemWidth();
 
 			//Left Top
-			ShowFloat2("Left Top", animation2D_frame.animation2D_data.left_top, 150.0f);
+			ShowFloat2("Left Top", animation2D_frame.animation2D_data.left_top, 70.0f, 150.0f);
 
 			//Frame Size
-			ShowFloat2("Frame Size", animation2D_frame.animation2D_data.frame_size, 150.0f);
+			ShowFloat2("Frame Size", animation2D_frame.animation2D_data.frame_size, 70.0f, 150.0f);
 
 			//Full Frame Size
-			ShowFloat2("Full Frame Size", animation2D_frame.animation2D_data.full_frame_size, 150.0f);
+			ShowFloat2("Full Frame Size", animation2D_frame.animation2D_data.full_frame_size, 70.0f, 150.0f);
 
 			//Offset
-			ShowFloat2("Offset", animation2D_frame.animation2D_data.offset, 150.0f);
+			ShowFloat2("Offset", animation2D_frame.animation2D_data.offset, 70.0f, 150.0f);
 
 			//Duration
 			ShowFloat(m_p_animation2D->GetAnimationName(), "Duration", animation2D_frame.duration, 150.0f);
@@ -367,95 +367,4 @@ void GUI_SpriteEditor::DrawRect(const bool& is_hovered, const bool& is_active)
 			draw_list->PopClipRect();
 		}
 	}
-}
-
-void GUI_SpriteEditor::Store()
-{
-	//if (m_p_animation2D == nullptr)
-	//	return;
-
-	//static bool is_new_draw = false;
-	//static bool is_rect_move = false;
-	//static bool is_adding_rect = false;
-
-	//// Draw border and background color
-	//ImGuiIO& io = ImGui::GetIO();
-
-	////Canvas의 시작점
-	//const ImVec2 origin(canvas_left_top.x, canvas_left_top.y);
-	//const ImVec2 mouse_pos_in_canvas = ImVec2(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
-
-	////현재 마우스 위치가 그려진 사각형 내부에 위치해있지 않다면
-	//if (!CheckMousePositionInRect(mouse_pos_in_canvas, draw_left_top, draw_right_bottom))
-	//{
-	//	//Add start and end point
-	//	if (is_hovered && !is_adding_rect && ImGui::IsMouseClicked(0))
-	//	{
-	//		start_point_in_canvas = mouse_pos_in_canvas;
-	//		m_mouse_pos_in_canvas = mouse_pos_in_canvas;
-	//		is_adding_rect = true;
-	//	}
-	//	if (is_adding_rect)
-	//	{
-	//		end_point_in_canvas = mouse_pos_in_canvas;
-	//		m_mouse_pos_in_canvas = mouse_pos_in_canvas;
-	//		if (!ImGui::IsMouseDown(0))
-	//			is_adding_rect = false;
-
-	//		is_new_draw = true;
-	//	}
-	//}
-
-	//else
-	//{
-	//	if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
-	//	{
-	//		start_point_in_canvas.x += io.MouseDelta.x;
-	//		start_point_in_canvas.y += io.MouseDelta.y;
-
-	//		end_point_in_canvas.x += io.MouseDelta.x;
-	//		end_point_in_canvas.y += io.MouseDelta.y;
-
-	//		is_rect_move = true;
-	//	}
-	//}
-
-
-	////Draw Rect
-	//draw_left_top = Vector2(origin.x + start_point_in_canvas.x, origin.y + start_point_in_canvas.y);
-	//draw_right_bottom = Vector2(origin.x + end_point_in_canvas.x, origin.y + end_point_in_canvas.y);
-
-	//if (m_p_animation2D->HasAnimationFrame())
-	//{
-	//	Animation2D_Frame animation2D_frame = m_p_animation2D->GetAnimationFrame(static_cast<UINT>(frame_index));
-
-	//	//Canvas의 범위
-	//	draw_list->PushClipRect(origin, canvas_right_bottom, true);
-	//	draw_list->AddRect(ImVec2(draw_left_top.x, draw_left_top.y), ImVec2(draw_right_bottom.x, draw_right_bottom.y), IM_COL32(0, 255, 0, 255));
-	//	draw_list->PopClipRect();
-
-	//	//Canvas의 상대적인 좌표를 구함(= Atlas Texture 상에서의 left_top, right_bottom 좌표를 구함)
-	//	draw_left_top.x -= origin.x;
-	//	draw_left_top.y -= origin.y;
-
-	//	draw_right_bottom.x -= origin.x;
-	//	draw_right_bottom.y -= origin.y;
-
-	//	Vector2 draw_full_frame_size = (draw_left_top - draw_right_bottom);
-	//	draw_full_frame_size.x = Math::Abs(draw_full_frame_size.x);
-	//	draw_full_frame_size.y = Math::Abs(draw_full_frame_size.y);
-
-	//	if (is_new_draw || is_rect_move)
-	//	{
-	//		animation2D_frame.animation2D_data.left_top = draw_left_top;
-	//		animation2D_frame.animation2D_data.full_frame_size = draw_full_frame_size;
-	//		m_p_animation2D->SetAnimationFrame(frame_index, animation2D_frame);
-
-	//		if (is_new_draw)
-	//			is_new_draw = false;
-
-	//		if (is_rect_move)
-	//			is_rect_move = false;
-	//	}
-	//}
 }

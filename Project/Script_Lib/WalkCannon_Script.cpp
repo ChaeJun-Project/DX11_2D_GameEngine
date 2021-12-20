@@ -69,7 +69,7 @@ void WalkCannon_Script::Initialize()
 	m_p_bullet_prefab = ResourceManager::GetInstance()->GetPrefab("WalkCannon_Bullet");
 
 	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
-	auto game_object_vector = current_scene->GetLayer(3)->GetGameParentObjects();
+	auto game_object_vector = current_scene->GetLayer(3)->GetParentGameObjects();
 	m_p_player = game_object_vector[0];
 
 	CollisionManager::GetInstance()->CheckLayer(3, 4);
@@ -83,7 +83,7 @@ void WalkCannon_Script::Update()
 	if (m_p_player == nullptr)
 	{
 		auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
-		auto game_object_vector = current_scene->GetLayer(3)->GetGameParentObjects();
+		auto game_object_vector = current_scene->GetLayer(3)->GetParentGameObjects();
 		m_p_player = game_object_vector[0];
 	}
 

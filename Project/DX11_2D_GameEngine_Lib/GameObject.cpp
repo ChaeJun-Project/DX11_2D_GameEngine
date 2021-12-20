@@ -39,7 +39,7 @@ REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
 GameObject::GameObject(const GameObject& origin)
 {
 	//GameObject name
-	m_game_object_name = origin.m_game_object_name;
+	m_object_name = origin.m_object_name;
 	//GameObject Tag
 	m_game_object_tag = origin.m_game_object_tag;
 	//GameObject Layer
@@ -224,7 +224,7 @@ GameObject* GameObject::GetChildFromObjectName(const std::string& object_name) c
 {
 	for (auto child : m_p_child_vector)
 	{
-		if (child->m_game_object_name == object_name)
+		if (child->m_object_name == object_name)
 			return child;
 	}
 
@@ -293,7 +293,7 @@ void GameObject::RegisterPrefab()
 {
 	auto resource_manager = ResourceManager::GetInstance();
 
-	std::string prefab_name = m_game_object_name;
+	std::string prefab_name = m_object_name;
 	assert(!prefab_name.empty());
 
 	//이미 해당 이름으로 프리팹 오브젝트가 존재하는 경우

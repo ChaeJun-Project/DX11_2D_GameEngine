@@ -17,6 +17,7 @@ GUI_Game::~GUI_Game()
 
 void GUI_Game::Initialize()
 {
+
 }
 
 void GUI_Game::Update()
@@ -31,10 +32,6 @@ void GUI_Game::Render()
 
 void GUI_Game::ShowGame()
 {
-	//Game 윈도우창을 그릴 위치를 받아옴
-	auto window_position_x = static_cast<UINT>(ImGui::GetCursorPos().x + ImGui::GetWindowPos().x);
-	auto window_position_y = static_cast<UINT>(ImGui::GetCursorPos().y + ImGui::GetWindowPos().y);
-
 	//Game 윈도우창의 크기를 받아옴
 	auto scene_window_width = static_cast<UINT>(ImGui::GetWindowContentRegionMax().x - ImGui::GetWindowContentRegionMin().x);
 	auto scene_window_height = static_cast<UINT>(ImGui::GetWindowContentRegionMax().y - ImGui::GetWindowContentRegionMin().y);
@@ -46,15 +43,12 @@ void GUI_Game::ShowGame()
 	auto render_manager = RenderManager::GetInstance();
 
 	//현재 윈도우 사이즈가 변경된 경우
-	if (m_is_resize)
-	{
-		render_manager->SetResolution(RenderTextureType::GameScene, scene_window_width, scene_window_height); //RTV, SRV, DSV 재생성
-	}
+	render_manager->SetResolution(RenderTextureType::GameScene, scene_window_width, scene_window_height); //RTV, SRV, DSV 재생성
 
 	auto render_texture_srv = render_manager->GetRenderTexture(RenderTextureType::GameScene)->GetShaderResourceView();
 	ImGui::Image
 	(
-		render_texture_srv? render_texture_srv : nullptr,
+		render_texture_srv ? render_texture_srv : nullptr,
 		ImVec2(static_cast<float>(scene_window_width), static_cast<float>(scene_window_height)),
 		ImVec2(0.0f, 0.0f),
 		ImVec2(1.0f, 1.0f),

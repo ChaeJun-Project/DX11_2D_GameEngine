@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Helper/IconProvider.h"
+
 class GUI_Component
 {
 public:

@@ -82,6 +82,10 @@ public:
 	const Vector3& GetMeshScale() const { return m_mesh_scale; }
 
 public:
+	virtual void SaveToScene(FILE* p_file) override;
+	virtual void LoadFromScene(FILE* p_file) override;
+
+public:
 	CLONE(Transform);
 
 private:

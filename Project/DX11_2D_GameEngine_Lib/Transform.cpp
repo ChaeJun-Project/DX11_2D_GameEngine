@@ -159,3 +159,22 @@ void Transform::UpdateConstantBuffer()
 	constant_buffer->SetBufferBindStage(PipelineStage::VS | PipelineStage::GS);
 	constant_buffer->BindPipeline();
 }
+
+
+void Transform::SaveToScene(FILE* p_file)
+{
+    __super::SaveToScene(p_file); //IComponent
+
+	fwrite(&m_local_translation, sizeof(Vector3), 1, p_file); //오브젝트의 위치 정보
+	fwrite(&m_local_rotation, sizeof(Quaternion), 1, p_file); //오브젝트의 회전 값
+	fwrite(&m_local_scale, sizeof(Vector3), 1, p_file);       //오브젝트의 스케일 값
+}
+
+void Transform::LoadFromScene(FILE* p_file)
+{
+	__super::LoadFromScene(p_file); //IComponent
+
+	fread(&m_local_translation, sizeof(Vector3), 1, p_file); //오브젝트의 위치 정보
+	fread(&m_local_rotation, sizeof(Quaternion), 1, p_file); //오브젝트의 회전 값
+	fread(&m_local_scale, sizeof(Vector3), 1, p_file);       //오브젝트의 스케일 값
+}

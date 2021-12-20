@@ -1,0 +1,26 @@
+[Scene Name]
+New Scene
+[Layer Count]
+4
+[Layer Index List]
+0 1 2 3 
+[Layer Index]
+0
+[Parent GameObject Count]
+2
+
+[Layer Index]
+1
+[Parent GameObject Count]
+1
+
+[Layer Index]
+2
+[Parent GameObject Count]
+1
+
+[Layer Index]
+3
+[Parent GameObject Count]
+2
+

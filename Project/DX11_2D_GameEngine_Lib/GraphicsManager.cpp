@@ -239,7 +239,7 @@ void GraphicsManager::BeginScene()
 	if (m_p_device_context && p_render_target_view && p_depth_stencil_view)
 	{
 		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
-		m_p_device_context->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
+	    m_p_device_context->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
 		//설정한 뷰포트 등록
 		m_p_device_context->RSSetViewports(1, &m_viewport);
 		//백 버퍼(render_target_view)에 그려진 내용 지우기
@@ -751,4 +751,3 @@ const std::shared_ptr<BlendState>& GraphicsManager::GetBlender(const BlendType& 
 
 	return nullptr;
 }
-

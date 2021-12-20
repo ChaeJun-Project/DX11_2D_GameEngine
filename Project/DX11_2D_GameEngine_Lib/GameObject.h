@@ -39,8 +39,8 @@ public:
 	const bool IsDead() { return m_dead_check; }
 
 	//GameObject name
-	const std::string& GetGameObjectName() const { return m_game_object_name; }
-	void SetGameObjectName(const std::string& object_name) { m_game_object_name = object_name; }
+	const std::string& GetGameObjectName() const { return m_object_name; }
+	void SetGameObjectName(const std::string& object_name) { m_object_name = object_name; }
 
 	//GameObject Tag
 	const std::string& GetGameObjectTag() const { return m_game_object_tag; }
@@ -86,8 +86,6 @@ protected:
 	bool m_active_check = true;
 	//Object Dead Check
 	bool m_dead_check = false;
-	//GameObject name
-	std::string m_game_object_name;
 	//GameObject Tag
 	std::string m_game_object_tag;
 	//GameObject Layer

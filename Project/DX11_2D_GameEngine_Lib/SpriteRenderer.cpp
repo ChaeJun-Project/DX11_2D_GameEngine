@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SpriteRenderer.h"
 
+#include "FileManager.h"
 #include "ResourceManager.h"
 
 #include "Mesh.h"
@@ -82,7 +83,7 @@ void SpriteRenderer::Render()
 	{
 		if (animator2D && animator2D->GetCurrentAnimation() != nullptr)
 		{
-		    auto current_animation = animator2D->GetCurrentAnimation();
+			auto current_animation = animator2D->GetCurrentAnimation();
 			auto full_frame_size = current_animation->GetCurrentFrameData().full_frame_size;
 			transform->SetMeshScale(static_cast<UINT>(full_frame_size.x), static_cast<UINT>(full_frame_size.y));
 		}
@@ -126,4 +127,36 @@ std::shared_ptr<Material> SpriteRenderer::GetClonedMaterial()
 		return nullptr;
 
 	return m_p_cloned_material;
+}
+
+void SpriteRenderer::SaveToScene(FILE* p_file)
+{
+	__super::SaveToScene(p_file); //IComponent
+
+	int null_check = !!m_p_mesh.get();
+	fwrite(&null_check, sizeof(int), 1, p_file);
+
+	if (null_check)
+	{
+		FileManager::SaveStringToFile(m_p_mesh->GetResourceName(), p_file);
+		FileManager::SaveStringToFile(m_p_mesh->GetResourcePath(), p_file);
+	}
+
+	std::shared_ptr<Material> m_p_shared_material = nullptr; //°øÀ¯ Material
+}
+
+void SpriteRenderer::LoadFromScene(FILE* p_file)
+{
+	__super::LoadFromScene(p_file); //IComponent
+
+	int null_check = !!m_p_mesh.get();
+	fread(&null_check, sizeof(int), 1, p_file);
+
+	if (null_check)
+	{
+		std::string resource_name, resource_path;
+		FileManager::LoadStringFromFile(resource_name, p_file);
+		FileManager::LoadStringFromFile(resource_path, p_file);
+	}
+	//m_p_mesh = ResourceManager::GetInstance()->CreateMesh();
 }

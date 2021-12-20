@@ -33,6 +33,9 @@ private:
     const Vector3 ScreenToWorld(const Vector2& mouse_position);
 
 public:
+    const int& GetCameraIndex() { return m_camera_index; }
+    void SetCameraIndex(const int& camera_index) { m_camera_index = camera_index; }
+
     void SetMainCamera() { m_camera_index = 0; }
 
     const ProjectionType& GetProjectionType() const { return m_projection_type; }
@@ -58,6 +61,8 @@ public:
      void CullingLayer(UINT layer_index); //토글 방식으로 구현(On/Off)
      void CullingEverything() { m_culling_layer = 0xffffffff; } //32비트를 모두 1로 채움
      void CullingNothing() { m_culling_layer = 1 << 0; } //32비트를 모두 0으로 채움
+
+     const UINT& GetCullingLayer() { return m_culling_layer; }
 
 public:
     CLONE(Camera);

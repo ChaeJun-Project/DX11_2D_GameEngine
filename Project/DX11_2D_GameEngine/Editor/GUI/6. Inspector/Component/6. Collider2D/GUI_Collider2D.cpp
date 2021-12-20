@@ -25,8 +25,8 @@ void GUI_Collider2D::Render()
 		auto offest_position = collider2D->GetOffsetPosition();
 		auto offest_scale = collider2D->GetOffsetScale();
 
-		ShowFloat2("Offset", offest_position, 80.0f);
-		ShowFloat2("Size", offest_scale, 80.0f);
+		ShowFloat2("Offset", offest_position, 70.0f, 80.0f);
+		ShowFloat2("Size", offest_scale, 70.0f, 80.0f);
 
 		collider2D->SetOffsetPosition(offest_position);
 		collider2D->SetOffsetScale(offest_scale);

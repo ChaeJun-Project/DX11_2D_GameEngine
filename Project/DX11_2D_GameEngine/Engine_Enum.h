@@ -8,3 +8,10 @@ enum class ClientState : UINT
 };
 
 extern ClientState client_state;
+
+enum class FileType : UINT
+{
+    Scene = 0,
+    Tile = 1,
+    Animation = 2,
+};

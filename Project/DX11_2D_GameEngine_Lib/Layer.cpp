@@ -104,3 +104,16 @@ void Layer::DeregisterFromParentGameObject(GameObject* p_game_object)
 			++iter;
 	}
 }
+
+void Layer::SaveToScene(FILE* p_file)
+{
+	fprintf(p_file, "[Layer Index]\n");
+	fprintf(p_file, "%d\n", m_layer_index);
+}
+
+void Layer::LoadFromScene(FILE* p_file)
+{
+	char char_buffer[256] = { 0 };
+	FileManager::FScanf(char_buffer, p_file);
+	fscanf_s(p_file, "%d\n", &m_layer_index);
+}

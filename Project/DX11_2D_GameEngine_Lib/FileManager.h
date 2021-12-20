@@ -52,6 +52,11 @@ public:
 	static void ReplaceAll(std::string& in_out_str, const std::string& from, const std::string& to);
 	//static void ChangeFileName(const std::string& from_path, const std::string& to_path);
 
+	static void SaveStringToFile(const std::string& str, FILE* p_file);
+	static void LoadStringFromFile(std::string& str, FILE* p_file);
+
+	static void FScanf(char* p_buffer, FILE* p_file);
+
 private:
 	static std::vector<std::string> supported_texture_formats;		//Texture에 지원되는 확장자들
 	static std::vector<std::string> supported_model_formats;		//Model에 지원되는 확장자들

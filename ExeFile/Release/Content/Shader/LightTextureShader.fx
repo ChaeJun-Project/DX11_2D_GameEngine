@@ -68,6 +68,7 @@ float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
         ps_output_color = g_texture_0.Sample(g_sampler1, ps_input.uv);
     }
     
+    ps_output_color = g_texture_0.Sample(g_sampler1, ps_input.uv);
     //각 색상 성분에 맞는 rgb값을 곱함
     ps_output_color.rgb *= light_color.color.rgb;
  

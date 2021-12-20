@@ -16,7 +16,8 @@ private:
     void SetProjectionType(Camera* camera, const std::string& projection_type_str);
 
 private:
-	GUI_ItemList* m_p_item_list = nullptr;
+	GUI_ItemList* m_p_projection_list = nullptr;
+	GUI_ItemList* m_p_culling_layer_list = nullptr;
 };
 
 

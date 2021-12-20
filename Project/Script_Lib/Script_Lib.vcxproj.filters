@@ -7,10 +7,12 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{30ac4514-fbf2-490e-b5e7-1e0e2ab210ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Stdafx">
+      <UniqueIdentifier>{0b31d502-28cc-4edb-9113-f8772b9d29e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script_Lib.cpp" />
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="GameLogic_Script.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
@@ -29,9 +31,11 @@
     <ClCompile Include="ScriptManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Stdafx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="GameLogic_Script.h">
       <Filter>Scripts</Filter>
     </ClInclude>
@@ -49,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="ScriptManager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Stdafx</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

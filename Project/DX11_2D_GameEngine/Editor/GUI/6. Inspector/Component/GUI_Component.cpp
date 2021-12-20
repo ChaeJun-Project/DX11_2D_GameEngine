@@ -1,10 +1,7 @@
 #include "stdafx.h"
 #include "GUI_Component.h"
 
-#include "Helper/IconProvider.h"
-
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
-
 
 GUI_Component::GUI_Component(const std::string& component_gui_name)
 	:m_component_gui_name(component_gui_name)

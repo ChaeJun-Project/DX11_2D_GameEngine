@@ -51,9 +51,10 @@ using namespace DirectX::PackedVector;
 //using namespace SimpleMath;
 #pragma endregion
 
-#pragma region Enum & Define
+#pragma region Enum & Define & Function
 #include "Enum.h"
 #include "Define.h"
+#include "Function.h"
 #pragma endregion
 
 #pragma region Settings

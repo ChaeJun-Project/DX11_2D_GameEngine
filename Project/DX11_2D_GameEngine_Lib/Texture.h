@@ -21,7 +21,7 @@ public:
 	void SaveFile(const std::string& texture_path) override;
 
 	void Create(const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
-	void Create(const ComPtr<ID3D11Texture2D>& texture2D);
+	void Create(const ComPtr<ID3D11Texture2D>& texture2D, const UINT& bind_flage = 0);
 	
 	void BindPipeline() override;
 	void BindPipelineRW(const UINT& unordered_bind_slot);

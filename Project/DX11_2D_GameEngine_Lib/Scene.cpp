@@ -7,8 +7,8 @@
 #include "Layer.h"
 
 Scene::Scene(const std::string& scene_name)
-	: m_scene_name(scene_name)
 {
+	m_object_name = scene_name;
 }
 
 Scene::~Scene()
@@ -47,7 +47,7 @@ std::vector<GameObject*>& Scene::GetAllParentGameObjects()
 
 	for (auto& layer : m_layer_map)
 	{
-		const std::vector<GameObject*> parent_game_objects = layer.second->GetGameParentObjects();
+		const std::vector<GameObject*> parent_game_objects = layer.second->GetParentGameObjects();
 
 		for (UINT i = 0; i < static_cast<UINT>(parent_game_objects.size()); ++i)
 		{
@@ -60,7 +60,7 @@ std::vector<GameObject*>& Scene::GetAllParentGameObjects()
 
 std::vector<GameObject*>& Scene::GetAllGameObjects()
 {
-	if(!m_p_game_object_vector.empty())
+	if (!m_p_game_object_vector.empty())
 		m_p_game_object_vector.clear();
 
 	for (auto& layer : m_layer_map)
@@ -92,11 +92,20 @@ GameObject* Scene::FindGameObjectByName(const std::string& game_object_name)
 	return nullptr;
 }
 
-void Scene::AddGameObject(GameObject* p_game_object, UINT layer_index, bool is_move)
+void Scene::CreateLayer(const UINT& layer_index)
 {
 	auto pair_iter = m_layer_map.insert(std::make_pair(layer_index, std::make_shared<Layer>(layer_index)));
+	assert(pair_iter.second);
+}
 
-	auto layer = pair_iter.first->second;
+void Scene::AddGameObject(GameObject* p_game_object, UINT layer_index, bool is_move)
+{
+	std::shared_ptr<Layer> layer = nullptr;
+
+	if (m_layer_map.find(layer_index) == m_layer_map.end())
+		layer = m_layer_map.insert(std::make_pair(layer_index, std::make_shared<Layer>(layer_index))).first->second;
+
+	layer = m_layer_map.find(layer_index)->second;
 	layer->AddGameObject(p_game_object, is_move);
 }
 
@@ -108,4 +117,49 @@ const std::shared_ptr<Layer>& Scene::GetLayer(const UINT& layer_index)
 		return layer_iter->second;
 
 	return nullptr;
+}
+
+void Scene::SaveToScene(FILE* p_file)
+{
+	//Scene Name
+	fprintf(p_file, "[Scene Name]\n");
+	__super::SaveToScene(p_file);
+
+	//Layer Count
+	fprintf(p_file, "[Layer Count]\n");
+	int layer_count = static_cast<int>(m_layer_map.size());
+	fprintf(p_file, "%d\n", layer_count);
+
+	//Layer Index List
+	fprintf(p_file, "[Layer Index List]\n");
+	for (const auto& layer : m_layer_map)
+	{
+		if (layer.second->m_layer_index != -1)
+			fprintf(p_file, "%d ", layer.second->m_layer_index);
+	}
+
+	fprintf(p_file, "\n");
+}
+
+void Scene::LoadFromScene(FILE* p_file)
+{
+	char char_buffer[256] = {};
+	FileManager::FScanf(char_buffer, p_file);
+	FileManager::FScanf(char_buffer, p_file);
+	m_object_name = char_buffer;
+
+	//Layer Count
+	int layer_count = 0;
+	FileManager::FScanf(char_buffer, p_file);
+	fscanf_s(p_file, "%d\n", &layer_count);
+
+	//Layer Index List
+	FileManager::FScanf(char_buffer, p_file);
+	for (int i = 0; i < layer_count; ++i)
+	{
+		int index = -1;
+		fscanf_s(p_file, "%d", &index);
+		if (index != -1)
+			CreateLayer(static_cast<UINT>(index));
+	}
 }

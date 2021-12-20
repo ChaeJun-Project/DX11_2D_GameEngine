@@ -30,9 +30,14 @@ void GUI_MenuBar::Update()
 		//=========================
 		// File
 		//=========================
+		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_A))
+		{
+			LoadFile("Scene/", FileType::Scene);
+		}
+
 		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_S))
 		{
-			m_is_scene_save = true;
+			SaveFile("Scene/", FileType::Scene);
 		}
 
 		//=========================
@@ -58,14 +63,14 @@ void GUI_MenuBar::Render()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Load Scene", "CTRL + A", &m_is_scene_load))
+			if (ImGui::MenuItem("Load Scene", "CTRL + A"))
 			{
-
+				LoadFile("Scene/", FileType::Scene);
 			}
 
-			if (ImGui::MenuItem("Save Scene", "CTRL + S", &m_is_scene_save))
+			if (ImGui::MenuItem("Save Scene", "CTRL + S"))
 			{
-
+				SaveFile("Scene/", FileType::Scene);
 			}
 
 			ImGui::EndMenu();

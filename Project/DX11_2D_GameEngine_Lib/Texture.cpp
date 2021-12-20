@@ -201,10 +201,10 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 	}
 
 	//Set View Port Size
-	SetViewport(width, height);
+	SetViewport(m_texture_desc.Width, m_texture_desc.Height);
 }
 
-void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
+void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D, const UINT& bind_flage)
 {
 	if (m_p_texture != nullptr)
 	{
@@ -213,6 +213,8 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 
 	m_p_texture = texture2D;
 	m_p_texture->GetDesc(&m_texture_desc);
+
+	m_texture_desc.BindFlags |= bind_flage;
 
 	auto device = GraphicsManager::GetInstance()->GetDevice();
 	HRESULT hResult;
@@ -302,6 +304,9 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D)
 			assert(SUCCEEDED(hResult));
 		}
 	}
+
+	//Set View Port Size
+	SetViewport(m_texture_desc.Width, m_texture_desc.Height);
 }
 
 void Texture::BindPipeline()

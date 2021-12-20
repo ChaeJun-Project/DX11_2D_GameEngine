@@ -107,6 +107,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 void D3D11Debug()
 {
+#ifdef _DEBUG //디버그 모드일 때
 	HMODULE dxgidebugdll = GetModuleHandleW(L"dxgidebug.dll");
 	decltype(&DXGIGetDebugInterface) GetDebugInterface = reinterpret_cast<decltype(&DXGIGetDebugInterface)>(GetProcAddress(dxgidebugdll, "DXGIGetDebugInterface"));
 
@@ -119,4 +120,5 @@ void D3D11Debug()
 	OutputDebugStringW(L"ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ\r\n");
 
 	debug->Release();
+#endif
 }

@@ -31,7 +31,7 @@ public:
 
 private:
     std::vector<UINT> m_check_vector; //Layer 간의 충돌 체크 매트릭스
-	UINT max_layer_count = 32;
+
 	std::map<ULONGLONG, bool> m_collision_check_map; //충돌체 간의 이전 프레임 충돌 정보 
 };
 

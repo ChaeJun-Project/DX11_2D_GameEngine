@@ -36,18 +36,18 @@ void RockManZ_Script::Initialize()
 
 
 	//Light2D
-	auto point_light2D = new GameObject();
-	point_light2D->SetGameObjectName("Light2D_Point");
-	point_light2D->SetGameObjectTag("Light2D_Point");
-	point_light2D->AddComponent(new Transform());
-	point_light2D->AddComponent(new Light2D());
+	//auto point_light2D = new GameObject();
+	//point_light2D->SetGameObjectName("Light2D_Point");
+	//point_light2D->SetGameObjectTag("Light2D_Point");
+	//point_light2D->AddComponent(new Transform());
+	//point_light2D->AddComponent(new Light2D());
 
-	auto point_light = point_light2D->GetComponent<Light2D>();
-	point_light->SetLightType(LightType::Point);
-	point_light->SetLightRange(2000.0f);
-	point_light->SetLightColor(Color4::White);
+	//auto point_light = point_light2D->GetComponent<Light2D>();
+	//point_light->SetLightType(LightType::Point);
+	//point_light->SetLightRange(2000.0f);
+	//point_light->SetLightColor(Color4::White);
 
-	m_p_owner_game_object->AddChild(point_light2D);
+	//m_p_owner_game_object->AddChild(point_light2D);
 }
 
 void RockManZ_Script::Update()
@@ -64,6 +64,7 @@ void RockManZ_Script::Update()
 		this->m_current_state = AnimationState::Walk_Run;
 		move_speed.x += m_speed * timer->GetDeltaTime_float();
 		transform->SetObjectSideState(GameObjectSideState::Right);
+		transform->SetRotation(Quaternion::Identity);
 		this->m_p_animator->SetCurrentAnimation("RockManZ_Walk_Run");
 	}
 
@@ -73,6 +74,7 @@ void RockManZ_Script::Update()
 		this->m_current_state = AnimationState::Walk_Run;
 		move_speed.x -= m_speed * timer->GetDeltaTime_float();
 		transform->SetObjectSideState(GameObjectSideState::Left);
+		transform->SetRotation(Quaternion::QuaternionFromEulerAngle(Vector3(0.0f, 180.0f, 0.0f)));
 		this->m_p_animator->SetCurrentAnimation("RockManZ_Walk_Run");
 	}
 
