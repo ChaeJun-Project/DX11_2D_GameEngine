@@ -14,8 +14,8 @@ public:
     ) override;
 
 public:
-    ID3D11GeometryShader* GetGeometryShader() const { SAFE_GET_POINTER(this->m_p_geometry_shader.Get()); }
-    ID3DBlob* GetBlob() const { SAFE_GET_POINTER(this->m_p_blob.Get()); }
+    ID3D11GeometryShader* GetGeometryShader() const { SAFE_GET_POINTER(m_p_geometry_shader.Get()); }
+    ID3DBlob* GetBlob() const { SAFE_GET_POINTER(m_p_blob.Get()); }
 
 private:
     //Geometry Shader ฐüทร

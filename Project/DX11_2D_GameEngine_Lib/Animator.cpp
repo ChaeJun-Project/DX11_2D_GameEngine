@@ -53,7 +53,7 @@ void Animator::FinalUpdate()
 	auto renderer = m_p_owner_game_object->GetComponent<SpriteRenderer>();
 	//renderer->SetMesh(m_p_current_animation->GetMesh());
 	auto material = renderer->GetMaterial();
-	material->SetShader(ResourceManager::GetInstance()->GetShaderResource(ShaderResourceType::Light2D, "Light2D_Shader"));
+	material->SetShader(ResourceManager::GetInstance()->GetShader("Light2D"));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_current_animation->GetCurrentTexture());
 }
 

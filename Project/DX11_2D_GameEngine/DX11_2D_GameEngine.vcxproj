@@ -171,28 +171,27 @@
     <ClInclude Include="Editor\GUI\IGUI.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\GUI_MenuBar.h" />
     <ClInclude Include="Editor\GUI\2. ToolBar\GUI_ToolBar.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\GUI_Inspector.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\GUI_Inspector.h" />
     <ClInclude Include="Editor\Helper\IconProvider.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\GUI_Component.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\1. Transform\GUI_Transform.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\2. Camera\GUI_Camera.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\3. SpriteRenderer\GUI_SpriteRenderer.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\11. Script\GUI_Script.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\4. Animator2D\GUI_Animator2D.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\6. Collider2D\GUI_Collider2D.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\7. Light2D\GUI_Light2D.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\8. ParticleSystem\GUI_ParticleSystem.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\GUI_Component.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\1. Transform\GUI_Transform.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\2. Camera\GUI_Camera.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\3. SpriteRenderer\GUI_SpriteRenderer.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\11. Script\GUI_Script.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\4. Animator2D\GUI_Animator2D.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\6. Collider2D\GUI_Collider2D.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\7. Light2D\GUI_Light2D.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\8. ParticleSystem\GUI_ParticleSystem.h" />
     <ClInclude Include="Editor\GUI\Module\ItemList\GUI_ItemList.h" />
     <ClInclude Include="Editor\GUI\3. Hierarchy\GUI_Hierarchy.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\4. Animator2D\Sprite Editor\GUI_SpriteEditor.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\4. Animator2D\Sprite Editor\GUI_SpriteEditor.h" />
     <ClInclude Include="Editor\GUI\GUI_Function.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\9. TileMap\GUI_TileMap.h" />
-    <ClInclude Include="Editor\GUI\6. Inspector\Component\9. TileMap\MapTool\GUI_MapTool.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\9. TileMap\GUI_TileMap.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\9. TileMap\MapTool\GUI_MapTool.h" />
     <ClInclude Include="Editor\EditorObject\GameObject\GameObjectEx.h" />
     <ClInclude Include="Editor\GUI\4. Scene\GUI_Scene.h" />
-    <ClInclude Include="Editor\GUI\5. Game\GUI_Game.h" />
-    <ClInclude Include="Editor\GUI\7. Project\GUI_Project.h" />
-    <ClInclude Include="Editor\GUI\8. Console\GUI_Console.h" />
+    <ClInclude Include="Editor\GUI\6. Project\GUI_Project.h" />
+    <ClInclude Include="Editor\GUI\7. Console\GUI_Console.h" />
     <ClInclude Include="Editor\GUI\Module\Tree\GUI_Tree.h" />
     <ClInclude Include="Editor\GUI\Module\Tree\GUI_TreeItem.h" />
     <ClInclude Include="Imgui\DirectX11\imgui_impl_dx11.h" />
@@ -222,39 +221,64 @@
     <ClCompile Include="Editor\Manager\EditorManager.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\GUI_MenuBar.cpp" />
     <ClCompile Include="Editor\GUI\2. ToolBar\GUI_ToolBar.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\GUI_Inspector.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\GUI_Inspector.cpp" />
     <ClCompile Include="Editor\Helper\IconProvider.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\GUI_Component.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\1. Transform\GUI_Transform.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\2. Camera\GUI_Camera.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\3. SpriteRenderer\GUI_SpriteRenderer.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\11. Script\GUI_Script.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\4. Animator2D\GUI_Animator2D.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\6. Collider2D\GUI_Collider2D.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\7. Light2D\GUI_Light2D.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\8. ParticleSystem\GUI_ParticleSystem.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\GUI_Component.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\1. Transform\GUI_Transform.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\2. Camera\GUI_Camera.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\3. SpriteRenderer\GUI_SpriteRenderer.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\11. Script\GUI_Script.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\4. Animator2D\GUI_Animator2D.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\6. Collider2D\GUI_Collider2D.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\7. Light2D\GUI_Light2D.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\8. ParticleSystem\GUI_ParticleSystem.cpp" />
     <ClCompile Include="Editor\GUI\Module\ItemList\GUI_ItemList.cpp" />
     <ClCompile Include="Editor\GUI\3. Hierarchy\GUI_Hierarchy.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\4. Animator2D\Sprite Editor\GUI_SpriteEditor.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\4. Animator2D\Sprite Editor\GUI_SpriteEditor.cpp" />
     <ClCompile Include="Editor\GUI\GUI_Function.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\9. TileMap\GUI_TileMap.cpp" />
-    <ClCompile Include="Editor\GUI\6. Inspector\Component\9. TileMap\MapTool\GUI_MapTool.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\9. TileMap\GUI_TileMap.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\9. TileMap\MapTool\GUI_MapTool.cpp" />
     <ClCompile Include="Editor\EditorObject\GameObject\GameObjectEx.cpp" />
     <ClCompile Include="Editor\GUI\4. Scene\GUI_Scene.cpp" />
-    <ClCompile Include="Editor\GUI\5. Game\GUI_Game.cpp" />
-    <ClCompile Include="Editor\GUI\7. Project\GUI_Project.cpp" />
-    <ClCompile Include="Editor\GUI\8. Console\GUI_Console.cpp" />
+    <ClCompile Include="Editor\GUI\6. Project\GUI_Project.cpp" />
+    <ClCompile Include="Editor\GUI\7. Console\GUI_Console.cpp" />
     <ClCompile Include="Editor\GUI\Module\Tree\GUI_Tree.cpp" />
     <ClCompile Include="Editor\GUI\Module\Tree\GUI_TreeItem.cpp" />
-    <ClCompile Include="Imgui\DirectX11\imgui_impl_dx11.cpp" />
-    <ClCompile Include="Imgui\Editor\ImGuizmo.cpp" />
-    <ClCompile Include="Imgui\imgui.cpp" />
-    <ClCompile Include="Imgui\imgui_demo.cpp" />
-    <ClCompile Include="Imgui\imgui_draw.cpp" />
-    <ClCompile Include="Imgui\imgui_stdlib.cpp" />
-    <ClCompile Include="Imgui\imgui_tables.cpp" />
-    <ClCompile Include="Imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Imgui\Win32\imgui_impl_win32.cpp" />
+    <ClCompile Include="Imgui\DirectX11\imgui_impl_dx11.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Imgui\Editor\ImGuizmo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui_stdlib.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Imgui\Win32\imgui_impl_win32.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Scene\ClientSceneManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

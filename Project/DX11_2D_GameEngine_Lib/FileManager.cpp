@@ -610,6 +610,19 @@ void FileManager::LoadStringFromFile(std::string& str, FILE* p_file)
 	str = szBuffer;
 }
 
+void FileManager::FPrintf_Vector2(const Vector2& vector2, FILE* p_file)
+{
+	fprintf(p_file, "%f ", vector2.x);
+	fprintf(p_file, "%f\n", vector2.y);
+}
+
+void FileManager::FPrintf_Vector3(const Vector3& vector3, FILE* p_file)
+{
+	fprintf(p_file, "%f ", vector3.x);
+	fprintf(p_file, "%f ", vector3.y);
+	fprintf(p_file, "%f\n", vector3.z);
+}
+
 void FileManager::FScanf(char* p_buffer, FILE* p_file)
 {
 	int i = 0;
@@ -624,6 +637,19 @@ void FileManager::FScanf(char* p_buffer, FILE* p_file)
 
 		p_buffer[i++] = c;
 	}
+}
+
+void FileManager::FScanf_Vector2(Vector2& vector2, FILE* p_file)
+{
+	fscanf_s(p_file, "%f", &vector2.x);
+	fscanf_s(p_file, "%f\n", &vector2.y);
+}
+
+void FileManager::FScanf_Vector3(Vector3& vector3, FILE* p_file)
+{
+	fscanf_s(p_file, "%f", &vector3.x);
+	fscanf_s(p_file, "%f", &vector3.y);
+	fscanf_s(p_file, "%f\n", &vector3.z);
 }
 
 //void FileManager::ChangeFileName(const std::string& from_path, const std::string& to_path)

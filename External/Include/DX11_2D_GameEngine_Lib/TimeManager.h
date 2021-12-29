@@ -15,8 +15,12 @@ public:
    void Render();
 
 public:
-   const double& GetDeltaTime_double() { return this->m_delta_time; }
-   const float& GetDeltaTime_float() { return static_cast<float>(this->m_delta_time); }
+   const double& GetDeltaTime_double() { return m_delta_time; }
+   const float& GetDeltaTime_float() { return static_cast<float>(m_delta_time); }
+   const std::string& GetCurrentTime_str() { return current_time; }
+
+private:
+   void CalcCurrentTime();
 
 private:
    //LARGE_INTEGER: 크기가 큰 정수형 자료형 타입(= __int64)
@@ -29,4 +33,6 @@ private:
 
    UINT m_func_call_count = 0; //함수 호출 회수 체크
    UINT m_fps = 0; //초당 호출 횟수
+
+   std::string current_time;
 };

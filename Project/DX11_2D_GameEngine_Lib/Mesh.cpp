@@ -85,10 +85,10 @@ void Mesh::CreatePointMesh()
 		VertexColorTexture vertex;
 
 		//월드 좌표계를 중점으로 한 점
-		vertex.position = Vector3(0.0f, 0.0f, 0.0f);
-		vertex.color = Color4::White;
-		vertex.color.a = 0.0f;
-		vertex.uv = Vector2(0.0f, 0.0f);
+		vertex.m_position = Vector3(0.0f, 0.0f, 0.0f);
+		vertex.m_color = Vector4::White;
+		vertex.m_color.w = 0.0f;
+		vertex.m_uv = Vector2(0.0f, 0.0f);
 		m_vertex_vector.emplace_back(vertex);
 	}
 
@@ -120,24 +120,24 @@ void Mesh::CreateTriangleMesh()
 		VertexColorTexture vertex;
 
 		//Middle Top Vertex(중앙 상단 정점)
-		vertex.position = Vector3(0.0f, 0.5f, 0.0f);
-		vertex.color = Color4::White;
-		vertex.color.a = 0.0f;
-		vertex.uv = Vector2(0.5f, 0.0f);
+		vertex.m_position = Vector3(0.0f, 0.5f, 0.0f);
+		vertex.m_color = Vector4::White;
+		vertex.m_color.w = 0.0f;
+		vertex.m_uv = Vector2(0.5f, 0.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Right Bottom Vertex(우하단 정점)
-		vertex.position = Vector3(0.5f, -0.5f, 0.0f);
-		vertex.color = Color4::White;
-		vertex.color.a = 0.0f;
-		vertex.uv = Vector2(1.0f, 1.0f);
+		vertex.m_position = Vector3(0.5f, -0.5f, 0.0f);
+		vertex.m_color = Vector4::White;
+		vertex.m_color.w = 0.0f;
+		vertex.m_uv = Vector2(1.0f, 1.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Left Bottom Vertex(좌하단 정점)
-		vertex.position = Vector3(-0.5f, -0.5f, 0.0f);
-		vertex.color = Color4::White;
-		vertex.color.a = 0.0f;
-		vertex.uv = Vector2(0.0f, 1.0f);
+		vertex.m_position = Vector3(-0.5f, -0.5f, 0.0f);
+		vertex.m_color = Vector4::White;
+		vertex.m_color.w = 0.0f;
+		vertex.m_uv = Vector2(0.0f, 1.0f);
 		m_vertex_vector.emplace_back(vertex);
 	}
 
@@ -172,31 +172,31 @@ void Mesh::CreateRectangleMesh()
 		VertexColorTexture vertex;
 
 		//Left Top Vertex(좌상단 정점)
-		vertex.position = Vector3(-0.5f, 0.5f, 0.0f);
-		vertex.color = Color4::White;
-		vertex.color.a = 0.0f;
-		vertex.uv = Vector2(0.0f, 0.0f);
+		vertex.m_position = Vector3(-0.5f, 0.5f, 0.0f);
+		vertex.m_color = Vector4::White;
+		vertex.m_color.w = 0.0f;
+		vertex.m_uv = Vector2(0.0f, 0.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Right Top Vertex(우상단 정점)
-		vertex.position = Vector3(0.5f, 0.5f, 0.0f);
-		vertex.color = Color4::White;
-		vertex.color.a = 0.0f;
-		vertex.uv = Vector2(1.0f, 0.0f);
+		vertex.m_position = Vector3(0.5f, 0.5f, 0.0f);
+		vertex.m_color = Vector4::White;
+		vertex.m_color.w = 0.0f;
+		vertex.m_uv = Vector2(1.0f, 0.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Right Bottom Vertex(우하단 정점)
-		vertex.position = Vector3(0.5f, -0.5f, 0.0f);
-		vertex.color = Color4::White;
-		vertex.color.a = 0.0f;
-		vertex.uv = Vector2(1.0f, 1.0f);
+		vertex.m_position = Vector3(0.5f, -0.5f, 0.0f);
+		vertex.m_color = Vector4::White;
+		vertex.m_color.w = 0.0f;
+		vertex.m_uv = Vector2(1.0f, 1.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Left Bottom Vertex(좌하단 정점)
-		vertex.position = Vector3(-0.5f, -0.5f, 0.0f);
-		vertex.color = Color4::White;
-		vertex.color.a = 0.0f;
-		vertex.uv = Vector2(0.0f, 1.0f);
+		vertex.m_position = Vector3(-0.5f, -0.5f, 0.0f);
+		vertex.m_color = Vector4::White;
+		vertex.m_color.w = 0.0f;
+		vertex.m_uv = Vector2(0.0f, 1.0f);
 		m_vertex_vector.emplace_back(vertex);
 	}
 
@@ -241,20 +241,20 @@ void Mesh::CreateCircleMesh()
 		VertexColorTexture vertex;
 
 		//Center Vertex(중앙 정점)
-		vertex.position = Vector3(0.0f, 0.0f, 0.0f);
-		vertex.color = Color4::White;
-		vertex.color.a = 0.0f;
-		vertex.uv = Vector2(0.5f, 0.5f);
+		vertex.m_position = Vector3(0.0f, 0.0f, 0.0f);
+		vertex.m_color = Vector4::White;
+		vertex.m_color.w = 0.0f;
+		vertex.m_uv = Vector2(0.5f, 0.5f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Circle Vertex(반 시계 방향으로)
 		float theta = 0.0f;
 		for (UINT i = 0; i <= slice_count; ++i)
 		{
-			vertex.position = Vector3(radius * cosf(theta), radius * sinf(theta), 0.0f);
-			vertex.color = Color4::White;
-			vertex.color.a = 0.0f;
-			vertex.uv = Vector2(0.5f + (vertex.position.x / (2.0f * radius)), 0.5f - (vertex.position.y / (2.0f * radius)));
+			vertex.m_position = Vector3(radius * cosf(theta), radius * sinf(theta), 0.0f);
+			vertex.m_color = Vector4::White;
+			vertex.m_color.w = 0.0f;
+			vertex.m_uv = Vector2(0.5f + (vertex.m_position.x / (2.0f * radius)), 0.5f - (vertex.m_position.y / (2.0f * radius)));
 
 			m_vertex_vector.emplace_back(vertex);
 
@@ -313,22 +313,22 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Line1
 			//=============================================
 			//Left Top Vertex(좌상단 정점)
-			vertex.position = Vector3(-0.5f + (column * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
-			vertex.color = Color4::White;
-			vertex.color.a = 0.0f;
-			vertex.uv = Vector2(0.0f, 0.0f);
+			vertex.m_position = Vector3(-0.5f + (column * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
+			vertex.m_color = Vector4::White;
+			vertex.m_color.w = 0.0f;
+			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
 			++index;
 
 			//Grid Left Top
-			m_grid_left_top.emplace_back(Vector2(vertex.position.x, vertex.position.y));
+			m_grid_left_top.emplace_back(Vector2(vertex.m_position.x, vertex.m_position.y));
 
 			//Right Top Vertex(우상단 정점)
-			vertex.position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
-			vertex.color = Color4::White;
-			vertex.color.a = 0.0f;
-			vertex.uv = Vector2(0.0f, 0.0f);
+			vertex.m_position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
+			vertex.m_color = Vector4::White;
+			vertex.m_color.w = 0.0f;
+			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
 			++index;
@@ -337,19 +337,19 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Line2
 			//=============================================
 			//Right Top Vertex(우상단 정점)
-			vertex.position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
-			vertex.color = Color4::White;
-			vertex.color.a = 0.0f;
-			vertex.uv = Vector2(0.0f, 0.0f);
+			vertex.m_position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
+			vertex.m_color = Vector4::White;
+			vertex.m_color.w = 0.0f;
+			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
 			++index;
 
 			//Right Bottom Vertex(우하단 정점)
-			vertex.position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
-			vertex.color = Color4::White;
-			vertex.color.a = 0.0f;
-			vertex.uv = Vector2(0.0f, 0.0f);
+			vertex.m_position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
+			vertex.m_color = Vector4::White;
+			vertex.m_color.w = 0.0f;
+			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
 			++index;
@@ -358,19 +358,19 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Line3
 			//=============================================
 			//Right Bottom Vertex(우하단 정점)
-			vertex.position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
-			vertex.color = Color4::White;
-			vertex.color.a = 0.0f;
-			vertex.uv = Vector2(0.0f, 0.0f);
+			vertex.m_position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
+			vertex.m_color = Vector4::White;
+			vertex.m_color.w = 0.0f;
+			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
 			++index;
 
 			//Left Bottom Vertex(좌하단 정점)
-			vertex.position = Vector3(-0.5f + (column * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
-			vertex.color = Color4::White;
-			vertex.color.a = 0.0f;
-			vertex.uv = Vector2(0.0f, 1.0f);
+			vertex.m_position = Vector3(-0.5f + (column * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
+			vertex.m_color = Vector4::White;
+			vertex.m_color.w = 0.0f;
+			vertex.m_uv = Vector2(0.0f, 1.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
 			++index;
@@ -379,19 +379,19 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Line4
 			//=============================================
 			//Left Bottom Vertex(좌하단 정점)
-			vertex.position = Vector3(-0.5f + (column * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
-			vertex.color = Color4::White;
-			vertex.color.a = 0.0f;
-			vertex.uv = Vector2(0.0f, 1.0f);
+			vertex.m_position = Vector3(-0.5f + (column * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
+			vertex.m_color = Vector4::White;
+			vertex.m_color.w = 0.0f;
+			vertex.m_uv = Vector2(0.0f, 1.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
 			++index;
 
 			//Left Top Vertex(좌상단 정점)
-			vertex.position = Vector3(-0.5f + (column * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
-			vertex.color = Color4::White;
-			vertex.color.a = 0.0f;
-			vertex.uv = Vector2(0.0f, 0.0f);
+			vertex.m_position = Vector3(-0.5f + (column * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
+			vertex.m_color = Vector4::White;
+			vertex.m_color.w = 0.0f;
+			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
 			++index;

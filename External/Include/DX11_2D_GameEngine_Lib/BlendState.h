@@ -19,7 +19,7 @@ public:
 	);
 
 public:
-	ID3D11BlendState* GetBlendState() const { SAFE_GET_POINTER(this->m_p_blend_state.Get()); }
+	ID3D11BlendState* GetBlendState() const { SAFE_GET_POINTER(m_p_blend_state.Get()); }
 
 private:
 	ComPtr<ID3D11BlendState> m_p_blend_state = nullptr;

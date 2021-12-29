@@ -54,8 +54,7 @@ public:
 	RockManZ_Script();
 	~RockManZ_Script();
 
-	void Initialize() override;
-
+	void Start() override;
 	void Update() override;
 
 public:

@@ -65,12 +65,19 @@ public:
      const UINT& GetCullingLayer() { return m_culling_layer; }
 
 public:
+    virtual void SaveToScene(FILE* p_file) override;
+    virtual void LoadFromScene(FILE* p_file) override;
+
+public:
     CLONE(Camera);
 
 protected:
     //RenderManager에 등록될 카메라 인덱스 값
     //메인 카메라의 index는 항상 0으로 고정
     int m_camera_index = -1; 
+
+    //카메라 culling layer
+    UINT m_culling_layer = 1 << 0;
 
     //카메라 투영 타입
     ProjectionType m_projection_type = ProjectionType::Orthographic;
@@ -89,8 +96,6 @@ protected:
     //2. 카메라가 바라보는 방향은 z축과 평행
     Matrix m_view_matrix = Matrix::Identity;
     Matrix m_projection_matrix = Matrix::Identity;
-
-    UINT m_culling_layer = 1 << 0;
 
     std::vector<GameObject*> m_forward_object_vector;
     std::vector<GameObject*> m_particle_object_vector;

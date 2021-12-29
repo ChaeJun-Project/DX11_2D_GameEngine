@@ -5,6 +5,7 @@
 
 //하나의 그래픽스 파이프라인과 Compute Shader의 과정을 Shader Class로 정의
 //여러 Shader(VS, HS, DS, GS, PS, CS)들을 조합하여 사용할 수 있기 때문
+//CS Binding은 별도로 ComputeShader의 Dispatch에서 수행
 class Shader final : public IResource
 {
 private:
@@ -37,17 +38,17 @@ public:
 	UINT GetShaderBindStage() const { return m_shader_bind_stage; }
 	void SetShaderBindStage(const UINT& shader_bind_stage) { m_shader_bind_stage = shader_bind_stage; }
 
-	const D3D11_PRIMITIVE_TOPOLOGY& GetPrimitiveTopology() const { return this->m_primitive_topology; }
-	void SetPrimitiveTopology(const D3D11_PRIMITIVE_TOPOLOGY& primitive_topology) { this->m_primitive_topology = primitive_topology; }
+	const D3D11_PRIMITIVE_TOPOLOGY& GetPrimitiveTopology() const { return m_primitive_topology; }
+	void SetPrimitiveTopology(const D3D11_PRIMITIVE_TOPOLOGY& primitive_topology) { m_primitive_topology = primitive_topology; }
 
-	const RasterizerType& GetRasterizerType() const { return this->m_rasterizer_type; }
-	void SetRasterizerType(const RasterizerType& rasterizer_type) { this->m_rasterizer_type = rasterizer_type; }
+	const RasterizerType& GetRasterizerType() const { return m_rasterizer_type; }
+	void SetRasterizerType(const RasterizerType& rasterizer_type) { m_rasterizer_type = rasterizer_type; }
 
-	const BlendType& GetBlendType() const { return this->m_blend_type; }
-	void SetBlendType(const BlendType& blend_type) { this->m_blend_type = blend_type; }
+	const BlendType& GetBlendType() const { return m_blend_type; }
+	void SetBlendType(const BlendType& blend_type) { m_blend_type = blend_type; }
 
-	const DepthStencilType& GetDepthStencilType() const { return this->m_depth_stencil_type; }
-	void SetDepthStencilType(const DepthStencilType& depth_stencil_type) { this->m_depth_stencil_type = depth_stencil_type; }
+	const DepthStencilType& GetDepthStencilType() const { return m_depth_stencil_type; }
+	void SetDepthStencilType(const DepthStencilType& depth_stencil_type) { m_depth_stencil_type = depth_stencil_type; }
 
 private:
     std::map<ShaderType, std::shared_ptr<IShader>> m_shader_map;
@@ -105,10 +106,10 @@ std::shared_ptr<T> Shader::GetShader() const
 
 	//타입 T에 해당하는 Shader Type 반환
 	auto shader_type = GetShaderType<T>();
-	auto shader_iter = this->m_shader_map.find(shader_type);
+	auto shader_iter = m_shader_map.find(shader_type);
 
 	//해당 Shader Type의 Shader 데이터가 존재하는 경우
-	assert(shader_iter != this->m_shader_map.end());
+	assert(shader_iter != m_shader_map.end());
 	//타입 T에 해당하는 Shader가 존재하는 경우
 	if (shader_iter->second != nullptr)
 	{

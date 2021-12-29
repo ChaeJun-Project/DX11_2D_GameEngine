@@ -29,7 +29,7 @@ public:
 	const std::shared_ptr<Animation>& GetAnimation(const std::string& animation_name);
 
 public:
-	const std::shared_ptr<Animation> GetCurrentAnimation() { SAFE_GET_POINTER(this->m_p_current_animation); }
+	const std::shared_ptr<Animation> GetCurrentAnimation() { SAFE_GET_POINTER(m_p_current_animation); }
 	void SetCurrentAnimation(const std::string& animation_name);
 
 	void SetAnimationEvent(const std::string& animation_name, const UINT& clip_index, std::function<void(void)> event_func);

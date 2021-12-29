@@ -27,8 +27,8 @@ private:
 	void Clear();
 	
 public:
-	std::shared_ptr<Mesh> GetMesh() { SAFE_GET_POINTER(this->m_p_mesh); }
-	std::shared_ptr<Material> GetMaterial() { SAFE_GET_POINTER(this->m_p_material); }
+	std::shared_ptr<Mesh> GetMesh() { SAFE_GET_POINTER(m_p_mesh); }
+	std::shared_ptr<Material> GetMaterial() { SAFE_GET_POINTER(m_p_material); }
 
 public:
 	//Set Particle Texture
@@ -60,7 +60,7 @@ public:
 		m_end_scale = end_scale;
 	}
 	//Set Particle Color
-	void SetParticleColor(const Color4& start_color, const Color4& end_color)
+	void SetParticleColor(const Vector4& start_color, const Vector4& end_color)
 	{
 		m_start_color = start_color;  //생성 시 파티클 색상
 		m_end_color = end_color;	  //삭제 시 파티클 색상
@@ -109,8 +109,8 @@ private:
 	Vector3 m_end_scale = Vector3::One; //삭제 시 파티클 크기
 
 	//Particle Color
-	Color4 m_start_color = Color4::White;  //생성 시 파티클 색상
-	Color4 m_end_color = Color4::White;    //삭제 시 파티클 색상
+	Vector4 m_start_color = Vector4::White;  //생성 시 파티클 색상
+	Vector4 m_end_color = Vector4::White;    //삭제 시 파티클 색상
 
 	//Particle Speed
 	float m_min_speed = 0.0f;

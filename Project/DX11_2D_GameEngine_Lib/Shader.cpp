@@ -42,8 +42,8 @@ Shader::~Shader()
 }
 
 //<summary>
-//Compute Shader Setting 여기서 하지 않고 Compute Shader의 Dispatch 함수를 호출할 때 먼저 호출하도록 설계
-//이유: ImGui의 NewFrame 호출 후 ComputeShader가 설정되어있지 CS를 사용하는 렌더링에서 오류 발생
+//Compute Shader Setting을 여기서 하지 않고 Compute Shader의 Dispatch 함수를 호출할 때 먼저 호출하도록 설계
+//이유: ImGui의 NewFrame 호출 후 ComputeShader가 설정되어있지 않아 CS를 사용하는 렌더링에서 오류 발생
 //</summary>
 void Shader::BindPipeline()
 {
@@ -101,14 +101,14 @@ void Shader::BindPipeline()
 	}
 
 	//Rasterizer 적용
-	auto rasterizer = graphics_manager->GetRasterizer(this->m_rasterizer_type);
+	auto rasterizer = graphics_manager->GetRasterizer(m_rasterizer_type);
 	device_context->RSSetState(rasterizer->GetRasterizerState());
 
 	//DepthStencil 적용
-	auto depth_stencil = graphics_manager->GetDepthStencilState(this->m_depth_stencil_type);
+	auto depth_stencil = graphics_manager->GetDepthStencilState(m_depth_stencil_type);
 	device_context->OMSetDepthStencilState(depth_stencil->GetDepthStencilState(), 0);
 
 	//Blender 적용
-	auto blender = graphics_manager->GetBlender(this->m_blend_type);
+	auto blender = graphics_manager->GetBlender(m_blend_type);
 	device_context->OMSetBlendState(blender->GetBlendState(), nullptr, 0xFF);
 }

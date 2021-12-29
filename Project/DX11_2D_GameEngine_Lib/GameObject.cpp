@@ -50,7 +50,7 @@ GameObject::GameObject(const GameObject& origin)
 	//해당 오브젝트로 프리팹을 만든 횟수
 	m_prefab_count = origin.m_prefab_count;
 
-	for (auto& origin_component : origin.m_component_list)
+	for (auto& origin_component : origin.m_p_component_list)
 	{
 		AddComponent(origin_component.second->Clone());
 	}
@@ -64,16 +64,16 @@ GameObject::GameObject(const GameObject& origin)
 GameObject::~GameObject()
 {
 	//Component
-	for (auto& component : m_component_list)
+	for (auto& component : m_p_component_list)
 		SAFE_DELETE(component.second);
 
-	m_component_list.clear();
+	m_p_component_list.clear();
 
 	//Script
-	for (auto& script : m_script_list)
+	for (auto& script : m_p_script_list)
 		SAFE_DELETE(script);
 
-	m_script_list.clear();
+	m_p_script_list.clear();
 
 	//Parent
 	m_p_parent = nullptr;
@@ -89,7 +89,7 @@ GameObject::~GameObject()
 void GameObject::Start()
 {
 	//컴포넌트 업데이트
-	for (auto& component : m_component_list)
+	for (auto& component : m_p_component_list)
 		component.second->Start();
 
 	//자식 오브젝트 업데이트
@@ -103,7 +103,7 @@ void GameObject::Update()
 		return;
 
 	//컴포넌트 업데이트
-	for (auto& component : m_component_list)
+	for (auto& component : m_p_component_list)
 		component.second->Update();
 
 	//자식 오브젝트 업데이트
@@ -117,7 +117,7 @@ void GameObject::FinalUpdate()
 		return;
 
 	//컴포넌트 최종 업데이트
-	for (auto& component : m_component_list)
+	for (auto& component : m_p_component_list)
 		component.second->FinalUpdate();
 
 	//자식 오브젝트 최종 업데이트(transform)
@@ -165,15 +165,22 @@ void GameObject::AddComponent(IComponent* p_component)
 {
 	//해당 Component를 소유하고 있는 게임 오브젝트를 설정
 	p_component->SetGameObject(this);
-	m_component_list.push_back
-	(
-		std::make_pair(p_component->GetComponentType(), p_component)
-	);
+
+	//해당 Component가 Script인 경우
+	if (p_component->GetComponentType() == ComponentType::Script)
+		m_p_script_list.push_back(dynamic_cast<Script*>(p_component));
+	
+	//그 외의 경우
+	else
+		m_p_component_list.push_back
+		(
+			std::make_pair(p_component->GetComponentType(), p_component)
+		);
 }
 
 IComponent* GameObject::GetComponent(const ComponentType& component_type) const
 {
-	for (auto& component : m_component_list)
+	for (auto& component : m_p_component_list)
 	{
 		if (component.first == component_type)
 			return component.second;
@@ -186,12 +193,12 @@ void GameObject::RemoveComponent(const ComponentType& component_type)
 {
 	std::list<std::pair<ComponentType, IComponent*>>::iterator list_iter;
 
-	for (list_iter = m_component_list.begin(); list_iter != m_component_list.end();)
+	for (list_iter = m_p_component_list.begin(); list_iter != m_p_component_list.end();)
 	{
 		if (list_iter->first == component_type)
 		{
 			SAFE_DELETE(list_iter->second);
-			list_iter = m_component_list.erase(list_iter);
+			list_iter = m_p_component_list.erase(list_iter);
 		}
 
 		else

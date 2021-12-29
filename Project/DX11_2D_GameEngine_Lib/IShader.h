@@ -36,7 +36,7 @@ protected:
 	);
 
 public:
-	const ShaderType& GetShaderType() const { return this->m_shader_type; }
+	const ShaderType& GetShaderType() const { return m_shader_type; }
 
 protected:
     const ShaderType m_shader_type;

@@ -46,10 +46,10 @@ public:
 		m_particle_system_data.v4_array[3] = end_scale;
 	}
 	//Set Particle Color
-	void SetParticleColor(const Color4& start_color, const Color4& end_color)
+	void SetParticleColor(const Vector4& start_color, const Vector4& end_color)
 	{
-		m_particle_system_data.v4_array[4] = Vector4(start_color.r, start_color.g, start_color.b, start_color.a);
-		m_particle_system_data.v4_array[5] = Vector4(end_color.r, end_color.g, end_color.b, end_color.a);
+		m_particle_system_data.v4_array[4] = Vector4(start_color.x, start_color.y, start_color.z, start_color.w);
+		m_particle_system_data.v4_array[5] = Vector4(end_color.x, end_color.y, end_color.z, end_color.w);
 	}
 	//Set Particle Speed
 	void SetParticleSpeed(const float& min_speed, const float& max_speed)

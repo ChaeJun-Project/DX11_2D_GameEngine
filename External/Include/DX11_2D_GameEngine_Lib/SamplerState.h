@@ -17,8 +17,8 @@ public:
 	);
 
 public:
-	ID3D11SamplerState* GetSamplerState() const { SAFE_GET_POINTER(this->m_p_sampler_state.Get()); }
-	const UINT& GetSamplerBindSlot() { return this->m_sampler_bind_slot; }
+	ID3D11SamplerState* GetSamplerState() const { SAFE_GET_POINTER(m_p_sampler_state.Get()); }
+	const UINT& GetSamplerBindSlot() { return m_sampler_bind_slot; }
 
 private:
 	ComPtr<ID3D11SamplerState> m_p_sampler_state = nullptr;

@@ -21,7 +21,7 @@ GameLogic_Script::~GameLogic_Script()
 {
 }
 
-void GameLogic_Script::Initialize()
+void GameLogic_Script::Start()
 {
 	auto scene_manager = SceneManager::GetInstance();
 	auto current_scene = scene_manager->GetCurrentScene();
@@ -34,7 +34,6 @@ void GameLogic_Script::Initialize()
 	geometry->AddComponent(new Geometry_Script());
 
 	current_scene->AddGameObject(geometry, 2, true);
-	geometry->GetComponent<Script>()->Initialize();
 
 	//RockManZ(3)
 	auto rockmanZ = new GameObject();
@@ -53,7 +52,6 @@ void GameLogic_Script::Initialize()
 	auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
 	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 33.0f - 180.0f), 0.0f));
 
-	rockmanZ->GetComponent<Script>()->Initialize();
 	current_scene->AddGameObject(rockmanZ, 3, true);
 
 	////Enemy(4)

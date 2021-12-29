@@ -18,6 +18,9 @@ public:
 	void Update();
 	void Render();
 
+public:
+    void ExcuteEventCallBack();
+
 private:
     void InitializeGUI();
     void ImGuiNewFrame();
@@ -34,5 +37,7 @@ private:
 	std::map<GUIType, std::unique_ptr<IGUI>> m_gui_map;
 
 	std::string init_current_path;
+
+	std::vector<Event_CallBack> m_event_callBack_vector;
 };
 

@@ -18,12 +18,15 @@ TileMap::TileMap()
 	m_p_tile_map_buffer = std::make_shared<StructuredBuffer>();
 
 	auto resource_manager = ResourceManager::GetInstance();
+
 	m_p_mesh = resource_manager->GetMesh(MeshType::Rectangle);
-	m_p_material = resource_manager->GetMaterial("TileMap_Material");
+	auto material = resource_manager->GetMaterial("TileMap_Material")->Clone();
+	m_p_material = std::shared_ptr<Material>(material);
 
 	m_p_grid_mesh = std::make_shared<Mesh>("Grid_Mesh");
 	m_p_grid_mesh->Create(MeshType::Grid, 1, 1);
-	m_p_grid_material = resource_manager->GetMaterial("Grid_Material");
+	material = resource_manager->GetMaterial("Grid_Material")->Clone();
+	m_p_grid_material = std::shared_ptr<Material>(material);
 }
 
 TileMap::TileMap(const TileMap& origin)
@@ -69,6 +72,9 @@ void TileMap::FinalUpdate()
 
 void TileMap::Render()
 {
+	if (m_p_mesh == nullptr || m_p_material == nullptr || m_p_material->GetShader() == nullptr)
+		return;
+
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 	if (m_tile_size != Vector2::Zero && m_tile_count != 0)
 	{
@@ -225,6 +231,8 @@ void TileMap::SetTileCount(const UINT& tile_count_x, const UINT& tile_count_y)
 	}
 
 	m_p_tile_map_buffer->Create(sizeof(TileInfo), m_tile_count, SBufferType::Read_Only, true, m_tile_info_vector.data());
+
+	LOG_INFO_F("Tile Size to %dx%d", tile_count_x, tile_count_y);
 }
 
 void TileMap::CalcCurrentPickRect(const Vector2& current_screen_pos)

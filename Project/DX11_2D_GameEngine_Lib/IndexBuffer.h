@@ -15,10 +15,10 @@ private:
 	void Clear();
 
 public:
-	ID3D11Buffer* GetBuffer() const { SAFE_GET_POINTER(this->m_p_buffer.Get()); }
-	const UINT& GetStride() const { return this->stride; }
-	const UINT& GetOffset() const { return this->offset; }
-	const UINT& GetCount() const { return this->count; }
+	ID3D11Buffer* GetBuffer() const { SAFE_GET_POINTER(m_p_buffer.Get()); }
+	const UINT& GetStride() const { return stride; }
+	const UINT& GetOffset() const { return offset; }
+	const UINT& GetCount() const { return count; }
 
 private:
 	ComPtr<ID3D11Buffer> m_p_buffer = nullptr;

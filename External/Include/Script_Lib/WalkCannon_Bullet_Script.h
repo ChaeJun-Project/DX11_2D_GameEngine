@@ -7,8 +7,7 @@ public:
 	WalkCannon_Bullet_Script() = default;
 	~WalkCannon_Bullet_Script();
 
-	void Initialize() override;
-
+	void Start() override;
 	void Update() override;
 
 public:

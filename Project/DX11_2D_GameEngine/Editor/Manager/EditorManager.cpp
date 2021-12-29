@@ -11,10 +11,9 @@
 #include "GUI/2. ToolBar/GUI_ToolBar.h"
 #include "GUI/3. Hierarchy/GUI_Hierarchy.h"
 #include "GUI/4. Scene/GUI_Scene.h"
-#include "GUI/5. Game/GUI_Game.h"
-#include "GUI/6. Inspector/GUI_Inspector.h"
-#include "GUI/7. Project/GUI_Project.h"
-#include "GUI/8. Console/GUI_Console.h"
+#include "GUI/5. Inspector/GUI_Inspector.h"
+#include "GUI/6. Project/GUI_Project.h"
+#include "GUI/7. Console/GUI_Console.h"
 
 #include <DX11_2D_GameEngine_Lib/FileManager.h>
 
@@ -38,6 +37,9 @@ EditorManager::~EditorManager()
 	}
 
 	m_gui_map.clear();
+
+	m_event_callBack_vector.clear();
+	m_event_callBack_vector.shrink_to_fit();
 }
 
 void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceContext* device_context)
@@ -62,7 +64,7 @@ void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceCont
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  //키보드 입력 사용
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      //도킹 시스템 사용
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;    //멀티 뷰포트 사용(윈도우 플랫폼)
-	
+
 	//Set GUI Style(Current: Dark Color)
 	ImGui::StyleColorsDark();
 	ImGuiStyle& style = ImGui::GetStyle();
@@ -76,7 +78,7 @@ void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceCont
 	ImGui_ImplWin32_Init(hwnd);
 	//ImGui에 D3D11 Device 객체와` D3D11 DeviceContext 객체 정보 전달
 	ImGui_ImplDX11_Init(device, device_context);
-	
+
 	//Initialize GUI
 	InitializeGUI();
 }
@@ -128,6 +130,12 @@ void EditorManager::Render()
 	}
 }
 
+void EditorManager::ExcuteEventCallBack()
+{
+   for(auto& event_callback : m_event_callBack_vector)
+	   event_callback();
+}
+
 void EditorManager::InitializeGUI()
 {
 	//Add GUI
@@ -135,7 +143,6 @@ void EditorManager::InitializeGUI()
 	m_gui_map.insert(std::make_pair(GUIType::ToolBar, std::make_unique<GUI_ToolBar>("Tool Bar")));			//ToolBar
 	m_gui_map.insert(std::make_pair(GUIType::Hierarchy, std::make_unique<GUI_Hierarchy>("Hierarchy")));		//Hierarchy
 	m_gui_map.insert(std::make_pair(GUIType::Scene, std::make_unique<GUI_Scene>("Scene")));					//Scene
-	m_gui_map.insert(std::make_pair(GUIType::Game, std::make_unique<GUI_Game>("Game")));					//Game
 	m_gui_map.insert(std::make_pair(GUIType::Inspector, std::make_unique<GUI_Inspector>("Inspector")));		//Inspector
 	m_gui_map.insert(std::make_pair(GUIType::Project, std::make_unique<GUI_Project>("Project")));			//Project
 	m_gui_map.insert(std::make_pair(GUIType::Console, std::make_unique<GUI_Console>("Console")));			//Console(Log)
@@ -146,6 +153,19 @@ void EditorManager::InitializeGUI()
 		if (gui.second != nullptr)
 		{
 			gui.second->Initialize();
+
+			if (gui.first == GUIType::Console)
+			{
+				auto p_console = dynamic_cast<GUI_Console*>(gui.second.get());
+				m_event_callBack_vector.emplace_back
+				(
+					std::bind
+					(
+						&GUI_Console::ClearLog,
+						p_console
+					)
+				);
+			}
 		}
 	}
 }
@@ -200,12 +220,10 @@ void EditorManager::BeginDockWindow()
 		ImGuiID down_right = ImGui::DockBuilderSplitNode(down, ImGuiDir_Right, 0.2f, nullptr, &down);
 		ImGuiID right = ImGui::DockBuilderSplitNode(main, ImGuiDir_Right, 0.2f, nullptr, &main);
 		ImGuiID right2 = ImGui::DockBuilderSplitNode(right, ImGuiDir_Right, 0.2f, nullptr, &right);
-		ImGuiID right3 = ImGui::DockBuilderSplitNode(right2, ImGuiDir_Right, 0.2f, nullptr, &right2);
 
 		ImGui::DockBuilderDockWindow(m_gui_map[GUIType::Hierarchy]->m_gui_title.c_str(), main);
 		ImGui::DockBuilderDockWindow(m_gui_map[GUIType::Scene]->m_gui_title.c_str(), right);
-		ImGui::DockBuilderDockWindow(m_gui_map[GUIType::Game]->m_gui_title.c_str(), right2);
-		ImGui::DockBuilderDockWindow(m_gui_map[GUIType::Inspector]->m_gui_title.c_str(), right3);
+		ImGui::DockBuilderDockWindow(m_gui_map[GUIType::Inspector]->m_gui_title.c_str(), right2);
 		ImGui::DockBuilderDockWindow(m_gui_map[GUIType::Project]->m_gui_title.c_str(), down);
 		ImGui::DockBuilderDockWindow(m_gui_map[GUIType::Console]->m_gui_title.c_str(), down_right);
 		ImGui::DockBuilderFinish(dock_window_id);

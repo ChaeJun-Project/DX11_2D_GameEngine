@@ -8,31 +8,31 @@ RockManZ_Script::RockManZ_Script()
 
 RockManZ_Script::~RockManZ_Script()
 {
-	this->m_p_animator = nullptr;
+	m_p_animator = nullptr;
 }
 
-void RockManZ_Script::Initialize()
+void RockManZ_Script::Start()
 {
-	this->m_p_animator = m_p_owner_game_object->GetComponent<Animator>();
+	m_p_animator = m_p_owner_game_object->GetComponent<Animator>();
 
 	//Idle
-	this->m_p_animator->CreateAnimation("RockManZ_Idle", "Texture/Player/RockManZ/Animation/Z03_Idle/", 0.5f, true);
-	this->m_p_animator->SetCurrentAnimation("RockManZ_Idle");
+	m_p_animator->CreateAnimation("RockManZ_Idle", "Texture/Player/RockManZ/Animation/Z03_Idle/", 0.5f, true);
+	m_p_animator->SetCurrentAnimation("RockManZ_Idle");
 
 	//Walk_Begin
-	this->m_p_animator->CreateAnimation("RockManZ_Walk_Begin", "Texture/Player/RockManZ/Animation/Z06_Walk/Walk_Begin/", 0.5f, false);
+	m_p_animator->CreateAnimation("RockManZ_Walk_Begin", "Texture/Player/RockManZ/Animation/Z06_Walk/Walk_Begin/", 0.5f, false);
 
 	//Walk_Run
-	this->m_p_animator->CreateAnimation("RockManZ_Walk_Run", "Texture/Player/RockManZ/Animation/Z06_Walk/Walk_Run/", 0.5f, true);
+	m_p_animator->CreateAnimation("RockManZ_Walk_Run", "Texture/Player/RockManZ/Animation/Z06_Walk/Walk_Run/", 0.5f, true);
 
 	//Crouch
-	this->m_p_animator->CreateAnimation("RockManZ_Crouch", "Texture/Player/RockManZ/Animation/Z10_Crouch/Crouch/", 0.1f, false);
+	m_p_animator->CreateAnimation("RockManZ_Crouch", "Texture/Player/RockManZ/Animation/Z10_Crouch/Crouch/", 0.1f, false);
 
 	//Attack
-	this->m_p_animator->CreateAnimation("RockManZ_Attack", "Texture/Player/RockManZ/Animation/Z04_Attack/Attack_1/", 0.4f, true);
+	m_p_animator->CreateAnimation("RockManZ_Attack", "Texture/Player/RockManZ/Animation/Z04_Attack/Attack_1/", 0.4f, true);
 
 	//Damaged
-	this->m_p_animator->CreateAnimation("RockManZ_Damaged", "Texture/Player/RockManZ/Animation/Z09_Damaged/Damaged/", 0.5f, true);
+	m_p_animator->CreateAnimation("RockManZ_Damaged", "Texture/Player/RockManZ/Animation/Z09_Damaged/Damaged/", 0.5f, true);
 
 
 	//Light2D
@@ -45,7 +45,7 @@ void RockManZ_Script::Initialize()
 	//auto point_light = point_light2D->GetComponent<Light2D>();
 	//point_light->SetLightType(LightType::Point);
 	//point_light->SetLightRange(2000.0f);
-	//point_light->SetLightColor(Color4::White);
+	//point_light->SetLightColor(Vector4::White);
 
 	//m_p_owner_game_object->AddChild(point_light2D);
 }
@@ -61,34 +61,34 @@ void RockManZ_Script::Update()
 	//오른쪽 이동
 	if (KEY_PRESS(KeyCode::KEY_ARROW_RIGHT))
 	{
-		this->m_current_state = AnimationState::Walk_Run;
+		m_current_state = AnimationState::Walk_Run;
 		move_speed.x += m_speed * timer->GetDeltaTime_float();
 		transform->SetObjectSideState(GameObjectSideState::Right);
 		transform->SetRotation(Quaternion::Identity);
-		this->m_p_animator->SetCurrentAnimation("RockManZ_Walk_Run");
+		m_p_animator->SetCurrentAnimation("RockManZ_Walk_Run");
 	}
 
 	//왼쪽이동
 	if (KEY_PRESS(KeyCode::KEY_ARROW_LEFT))
 	{
-		this->m_current_state = AnimationState::Walk_Run;
+		m_current_state = AnimationState::Walk_Run;
 		move_speed.x -= m_speed * timer->GetDeltaTime_float();
 		transform->SetObjectSideState(GameObjectSideState::Left);
 		transform->SetRotation(Quaternion::QuaternionFromEulerAngle(Vector3(0.0f, 180.0f, 0.0f)));
-		this->m_p_animator->SetCurrentAnimation("RockManZ_Walk_Run");
+		m_p_animator->SetCurrentAnimation("RockManZ_Walk_Run");
 	}
 
 	//앉기
 	if (KEY_DOWN(KeyCode::KEY_ARROW_DOWN))
 	{
-		this->m_current_state = AnimationState::Crouch;
-		this->m_p_animator->SetCurrentAnimation("RockManZ_Crouch");
+		m_current_state = AnimationState::Crouch;
+		m_p_animator->SetCurrentAnimation("RockManZ_Crouch");
 	}
 
 	if (KEY_DOWN(KeyCode::KEY_ARROW_UP))
 	{
-		this->m_current_state = AnimationState::Idle;
-		this->m_p_animator->SetCurrentAnimation("RockManZ_Idle");
+		m_current_state = AnimationState::Idle;
+		m_p_animator->SetCurrentAnimation("RockManZ_Idle");
 	}
 
 	////대쉬
@@ -102,19 +102,19 @@ void RockManZ_Script::Update()
 	//공격
 	if (KEY_PRESS(KeyCode::KEY_C))
 	{
-		this->m_current_state = AnimationState::Attack_1;
-		this->m_p_animator->SetCurrentAnimation("RockManZ_Attack");
+		m_current_state = AnimationState::Attack_1;
+		m_p_animator->SetCurrentAnimation("RockManZ_Attack");
 	}
 
 
-	if (this->m_current_state == AnimationState::Damaged)
+	if (m_current_state == AnimationState::Damaged)
 	{
-		this->m_p_animator->SetCurrentAnimation("RockManZ_Damaged");
+		m_p_animator->SetCurrentAnimation("RockManZ_Damaged");
 	}
 
-	if (this->m_current_state == AnimationState::Idle)
+	if (m_current_state == AnimationState::Idle)
 	{
-		this->m_p_animator->SetCurrentAnimation("RockManZ_Idle");
+		m_p_animator->SetCurrentAnimation("RockManZ_Idle");
 	}
 
 
@@ -126,7 +126,7 @@ void RockManZ_Script::OnCollisionEnter(GameObject* other_game_object)
 {
 	if (other_game_object->GetGameObjectTag() == "Enemy")
 	{
-		this->m_current_state = AnimationState::Damaged;
+		m_current_state = AnimationState::Damaged;
 	}
 }
 
@@ -134,7 +134,7 @@ void RockManZ_Script::OnCollisionExit(GameObject* other_game_object)
 {
 	if (other_game_object->GetGameObjectTag() == "Enemy")
 	{
-	    this->m_current_state = AnimationState::Idle;
+	    m_current_state = AnimationState::Idle;
 	}
 }
 

@@ -20,11 +20,13 @@ void TimeManager::Update()
 
 	m_previous_count = m_current_count;
 
-//Debug 모드에서는 Delta Time을 고정
+	//Debug 모드에서는 Delta Time을 고정
 #ifdef _DEBUG
-    if(m_delta_time > (1.0 / 60.0))
+	if (m_delta_time > (1.0 / 60.0))
 		m_delta_time = 1.0 / 60.0;
 #endif
+
+	CalcCurrentTime();
 
 	Render();
 
@@ -34,13 +36,30 @@ void TimeManager::Update()
 
 void TimeManager::Render()
 {
-     ++m_func_call_count;
-	 m_accumulate_time += m_delta_time; //시간 누적
+	++m_func_call_count;
+	m_accumulate_time += m_delta_time; //시간 누적
 
-	 if (m_accumulate_time >= 1.0)
-	 {
-		 m_fps = m_func_call_count;
-		 m_func_call_count = 0;
-		 m_accumulate_time = 0.0;
-	 }
+	if (m_accumulate_time >= 1.0)
+	{
+		m_fps = m_func_call_count;
+		m_func_call_count = 0;
+		m_accumulate_time = 0.0;
+	}
+}
+
+void TimeManager::CalcCurrentTime()
+{
+	time_t now = time(NULL);
+
+	tm date_time;
+	ZeroMemory(&date_time, sizeof(tm));
+
+	date_time = *localtime(&now);
+
+	current_time = "[" + std::to_string(date_time.tm_year + 1900) + "/"
+		+ std::to_string(date_time.tm_mon + 1) + "/"
+		+ std::to_string(date_time.tm_mday) + "/"
+		+ std::to_string(date_time.tm_hour) + ":"
+		+ std::to_string(date_time.tm_min) + ":"
+		+ std::to_string(date_time.tm_sec) + "]";
 }

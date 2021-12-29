@@ -18,8 +18,8 @@ public:
     void Dispatch(const UINT& thread_group_x_count, const UINT& thread_group_y_count, const UINT& thread_group_z_count);
 
 public:
-    ID3D11ComputeShader* GetComputeShader() const { SAFE_GET_POINTER(this->m_p_compute_shader.Get()); }
-    ID3DBlob* GetBlob() const { SAFE_GET_POINTER(this->m_p_blob.Get()); }
+    ID3D11ComputeShader* GetComputeShader() const { SAFE_GET_POINTER(m_p_compute_shader.Get()); }
+    ID3DBlob* GetBlob() const { SAFE_GET_POINTER(m_p_blob.Get()); }
 
     void SetGroupThreadCount(const UINT& thread_group_x_count, const UINT& thread_group_y_count, const UINT& thread_group_z_count)
     {

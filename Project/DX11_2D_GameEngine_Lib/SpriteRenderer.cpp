@@ -16,40 +16,22 @@
 SpriteRenderer::SpriteRenderer()
 	:IComponent(ComponentType::SpriteRenderer)
 {
-	auto resource_manager = ResourceManager::GetInstance();
-	//m_p_current_material = resource_manager->GetMaterial("Default_Material");
+    auto resource_manager = ResourceManager::GetInstance();
+
 	m_p_mesh = resource_manager->GetMesh(MeshType::Rectangle);
-	m_p_current_material = std::make_shared<Material>("GameObject_Material");
-	m_p_current_material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D, "Light2D_Shader"));
-}
-
-SpriteRenderer::SpriteRenderer(const SpriteRenderer& origin)
-	: IComponent(origin.GetComponentType())
-{
-	m_p_mesh = origin.m_p_mesh;
-
-	m_p_current_material = origin.m_p_current_material;
-	m_p_shared_material = origin.m_p_shared_material;
-	m_p_cloned_material = origin.m_p_cloned_material;
+	auto material = resource_manager->GetMaterial("Default_Material")->Clone();
+	m_p_material = std::shared_ptr<Material>(material);
 }
 
 SpriteRenderer::~SpriteRenderer()
 {
 	m_p_mesh.reset();
-
-	m_p_current_material.reset();
-	m_p_shared_material.reset();
-	m_p_cloned_material.reset();
-}
-
-void SpriteRenderer::FinalUpdate()
-{
-
+	m_p_material.reset();
 }
 
 void SpriteRenderer::Render()
 {
-	if (m_p_mesh == nullptr || m_p_current_material == nullptr || m_p_current_material->GetShader() == nullptr)
+	if (m_p_mesh == nullptr || m_p_material == nullptr || m_p_material->GetShader() == nullptr)
 		return;
 
 	Animator2D* animator2D = nullptr;
@@ -61,22 +43,22 @@ void SpriteRenderer::Render()
 	{
 		auto resource_manager = ResourceManager::GetInstance();
 
-		m_p_current_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, animator2D->GetAtlasTexture());
+		m_p_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, animator2D->GetAtlasTexture());
 
 		if (animator2D->GetCurrentAnimation() != nullptr)
 		{
 			int flag = 1;
 			//Set Has Animation
-			m_p_current_material->SetConstantBufferData(Material_Parameter::INT_0, &flag);
+			m_p_material->SetConstantBufferData(Material_Parameter::INT_0, &flag);
 
 			//Set Animator ID
 			flag = animator2D->GetAnimator2DID();
-			m_p_current_material->SetConstantBufferData(Material_Parameter::INT_1, &flag);
+			m_p_material->SetConstantBufferData(Material_Parameter::INT_1, &flag);
 		}
 	}
 
 	if (m_p_owner_game_object->GetGameObjectTag() != "Water")
-		m_p_sprite_texture = m_p_current_material->GetTexture();
+		m_p_sprite_texture = m_p_material->GetTexture();
 
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 	if (m_p_sprite_texture != nullptr)
@@ -93,70 +75,47 @@ void SpriteRenderer::Render()
 	}
 	transform->UpdateConstantBuffer();
 
-	m_p_current_material->BindPipeline();
+	m_p_material->BindPipeline();
 
 	m_p_mesh->Render();
 }
 
-void SpriteRenderer::SetMaterial(const std::shared_ptr<Material>& p_current_material)
+void SpriteRenderer::SetMaterial(const std::shared_ptr<Material>& p_material)
 {
-	m_p_shared_material = p_current_material;
-	m_p_current_material = m_p_shared_material;
+    if(m_p_material != nullptr)
+		m_p_material.reset();
 
-	if (m_p_cloned_material != nullptr)
-	{
-		m_p_cloned_material.reset();
-		m_p_cloned_material = nullptr;
-	}
-}
-
-std::shared_ptr<Material> SpriteRenderer::GetSharedMaterial()
-{
-	return m_p_shared_material;
-}
-
-std::shared_ptr<Material> SpriteRenderer::GetClonedMaterial()
-{
-	if (m_p_shared_material != nullptr)
-	{
-		if (m_p_cloned_material == nullptr)
-			m_p_cloned_material = m_p_shared_material;
-	}
-
-	else
-		return nullptr;
-
-	return m_p_cloned_material;
+	m_p_material = p_material;
 }
 
 void SpriteRenderer::SaveToScene(FILE* p_file)
 {
 	__super::SaveToScene(p_file); //IComponent
 
-	int null_check = !!m_p_mesh.get();
-	fwrite(&null_check, sizeof(int), 1, p_file);
+	//int null_check = !!m_p_mesh.get();
+	//fwrite(&null_check, sizeof(int), 1, p_file);
 
-	if (null_check)
-	{
-		FileManager::SaveStringToFile(m_p_mesh->GetResourceName(), p_file);
-		FileManager::SaveStringToFile(m_p_mesh->GetResourcePath(), p_file);
-	}
+	//if (null_check)
+	//{
+	//	FileManager::SaveStringToFile(m_p_mesh->GetResourceName(), p_file);
+	//	FileManager::SaveStringToFile(m_p_mesh->GetResourcePath(), p_file);
+	//}
 
-	std::shared_ptr<Material> m_p_shared_material = nullptr; //공유 Material
+	//std::shared_ptr<Material> m_p_shared_material = nullptr; //공유 Material
 }
 
 void SpriteRenderer::LoadFromScene(FILE* p_file)
 {
 	__super::LoadFromScene(p_file); //IComponent
 
-	int null_check = !!m_p_mesh.get();
-	fread(&null_check, sizeof(int), 1, p_file);
+	//int null_check = !!m_p_mesh.get();
+	//fread(&null_check, sizeof(int), 1, p_file);
 
-	if (null_check)
-	{
-		std::string resource_name, resource_path;
-		FileManager::LoadStringFromFile(resource_name, p_file);
-		FileManager::LoadStringFromFile(resource_path, p_file);
-	}
+	//if (null_check)
+	//{
+	//	std::string resource_name, resource_path;
+	//	FileManager::LoadStringFromFile(resource_name, p_file);
+	//	FileManager::LoadStringFromFile(resource_path, p_file);
+	//}
 	//m_p_mesh = ResourceManager::GetInstance()->CreateMesh();
 }

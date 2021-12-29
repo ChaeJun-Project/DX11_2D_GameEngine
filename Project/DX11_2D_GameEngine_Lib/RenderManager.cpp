@@ -47,8 +47,8 @@ void RenderManager::Initialize()
 	//auto post_effect_material = ResourceManager::GetInstance()->GetMaterial("PostEffect");
 	//post_effect_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);
 
-	auto water_material = ResourceManager::GetInstance()->GetMaterial("WaterEffect");
-	water_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);
+	/*auto water_material = ResourceManager::GetInstance()->GetMaterial("Water");
+	water_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);*/
 }
 
 void RenderManager::Render()
@@ -165,7 +165,7 @@ void RenderManager::SetRenderTexture(const RenderTextureType& render_texture_typ
 		DEVICE_CONTEXT->RSSetViewports(1, &view_port);
 
 		//render_target_view에 그려진 내용 지우기
-		DEVICE_CONTEXT->ClearRenderTargetView(p_render_target_view, Color4::Black);
+		DEVICE_CONTEXT->ClearRenderTargetView(p_render_target_view, Vector4::Black);
 		//깊이 버퍼 내용 지우기
 		DEVICE_CONTEXT->ClearDepthStencilView(p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 

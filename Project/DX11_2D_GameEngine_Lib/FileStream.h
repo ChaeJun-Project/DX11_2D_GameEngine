@@ -14,7 +14,7 @@ public:
 	FileStream(const std::string& path, const UINT& flags);
 	~FileStream();
 
-	const bool  IsOpen() const { return is_open; }
+	const bool  IsOpen() const { return m_is_open; }
 	void Close();
 	void Skip(const UINT& n);
 
@@ -38,12 +38,12 @@ public:
 		std::is_same<T, Vector2>::value ||
 		std::is_same<T, Vector3>::value ||
 		std::is_same<T, Vector4>::value ||
-		std::is_same<T, Color4>::value ||
+		std::is_same<T, Vector4>::value ||
 		std::is_same<T, Quaternion>::value ||
 		std::is_same<T, Matrix>::value>::type>
 		void Write(const T& value)
 	{
-		f_out.write(reinterpret_cast<const char*>(&value), sizeof(T)); //인자로 받은 value값을 파일에 바이너리 형식으로 저장
+		m_f_out.write(reinterpret_cast<const char*>(&value), sizeof(T)); //인자로 받은 value값을 파일에 바이너리 형식으로 저장
 	}
 
 	//Write함수 오버로딩
@@ -71,12 +71,12 @@ public:
 		std::is_same<T, Vector2>::value ||
 		std::is_same<T, Vector3>::value ||
 		std::is_same<T, Vector4>::value ||
-		std::is_same<T, Color4>::value ||
+		std::is_same<T, Vector4>::value ||
 		std::is_same<T, Quaternion>::value ||
 		std::is_same<T, Matrix>::value>::type>
 		void Read(T& value)
 	{
-		f_in.read(reinterpret_cast<char*>(&value), sizeof(T)); //파일에 바이너리 형식으로 저장된 데이터를 인자로 받은 value에 저장
+		m_f_in.read(reinterpret_cast<char*>(&value), sizeof(T)); //파일에 바이너리 형식으로 저장된 데이터를 인자로 받은 value에 저장
 	}
 
 	//Read함수 오버로딩
@@ -100,7 +100,7 @@ public:
 		std::is_same<T, Vector2>::value ||
 		std::is_same<T, Vector3>::value ||
 		std::is_same<T, Vector4>::value ||
-		std::is_same<T, Color4>::value ||
+		std::is_same<T, Vector4>::value ||
 		std::is_same<T, Quaternion>::value ||
 		std::is_same<T, Matrix>::value>::type>
 		const T Read()
@@ -112,9 +112,9 @@ public:
 	}
 
 private:
-	std::ofstream f_out; //프로그램 내의 데이터를 프로그램내 스트림 파일에 저장
-	std::ifstream f_in;  //프로그램내 스트림 파일의 데이터를 프로그램 내에 사용
+	std::ofstream m_f_out; //프로그램 내의 데이터를 프로그램내 스트림 파일에 저장
+	std::ifstream m_f_in;  //프로그램내 스트림 파일의 데이터를 프로그램 내에 사용
 
-	UINT flags = 0; //파일 스트림을 어떤 용도로 사용하는지
-	bool is_open = false; //파일이 성공적으로 열렸는지 확인
+	UINT m_flags = 0; //파일 스트림을 어떤 용도로 사용하는지
+	bool m_is_open = false; //파일이 성공적으로 열렸는지 확인
 };

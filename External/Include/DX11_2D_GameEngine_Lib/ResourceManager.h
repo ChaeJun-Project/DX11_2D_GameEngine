@@ -3,6 +3,8 @@
 #include "IResource.h"
 
 class Shader;
+class ComputeShader;
+
 class Material;
 class Texture;
 class Mesh;
@@ -21,9 +23,11 @@ public:
 
 public:
     //Shader
-	std::map<std::pair<ShaderResourceType, std::string>, std::shared_ptr<IResource>>& GetShaderMap() { return m_p_shader_map; }
+	std::map<std::string, std::shared_ptr<IResource>>& GetShaderMap() { return m_p_shader_map; }
 	void CreateDefaultShader();
-	const std::shared_ptr<Shader>& GetShaderResource(const ShaderResourceType& shader_type, const std::string shader_name);
+	const std::shared_ptr<Shader>& GetShader(const std::string& shader_name);
+	void AddComputeShader(const std::string& compute_shader_name, const std::shared_ptr<ComputeShader>& p_compute_shader);
+	const std::shared_ptr<ComputeShader>& GetComputeShader(const std::string& compute_shader_name);
 
 	//Material
 	std::map<std::string, std::shared_ptr<IResource>>& GetMaterialMap() { return m_p_material_map; }
@@ -57,9 +61,12 @@ public:
 
 private:
     //Shader
-	std::map<std::pair<ShaderResourceType, std::string>, std::shared_ptr<IResource>> m_p_shader_map;
+	std::map<std::string, std::shared_ptr<IResource>> m_p_shader_map;
+	std::map<std::string, std::shared_ptr<ComputeShader>> m_p_compute_shader_map;
+
 	//Material
 	std::map<std::string, std::shared_ptr<IResource>> m_p_material_map;
+
 	//Texture
 	std::map<std::string, std::shared_ptr<IResource>> m_p_textrue_map;  //Standard
 	std::map<std::string, std::shared_ptr<IResource>> m_p_atlas_textrue_map; //Atlas
@@ -67,6 +74,7 @@ private:
 
 	//Mesh
 	std::map<MeshType, std::shared_ptr<IResource>> m_p_mesh_map;
+
 	//Prefab
 	std::map<std::string, std::shared_ptr<IResource>> m_p_prefab_map;
 };

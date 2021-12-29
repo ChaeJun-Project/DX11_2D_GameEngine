@@ -44,7 +44,6 @@ using namespace DirectX::PackedVector;
 #include "Math/Vector2.h"
 #include "Math/Vector3.h"
 #include "Math/Vector4.h"
-#include "Math/Color4.h"
 #include "Math/Quaternion.h"
 #include "Math/Matrix.h"
 //#include "Math/SimpleMath.h"
@@ -55,6 +54,10 @@ using namespace DirectX::PackedVector;
 #include "Enum.h"
 #include "Define.h"
 #include "Function.h"
+#pragma endregion
+
+#pragma region Log
+#include "Logger.h"
 #pragma endregion
 
 #pragma region Settings
@@ -71,6 +74,9 @@ using namespace DirectX::PackedVector;
 //FileManager
 #include "FileManager.h"
 #include "FileStream.h"
+
+//Log
+#include "LogManager.h"
 
 //InputManager
 #include "InputManager.h"

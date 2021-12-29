@@ -39,6 +39,11 @@ void IconProvider::Initialize()
 	LoadIconTexture("Texture/Icon/Inspector/component_rigid_body2D.png", IconType::Component_RigidBody2D);
 	
 	LoadIconTexture("Texture/Icon/Inspector/component_script.png", IconType::Component_Script);
+
+	//Load Console Icon
+	LoadIconTexture("Texture/Icon/Console/console_log_info.png", IconType::Console_Info);
+	LoadIconTexture("Texture/Icon/Console/console_log_warning.png", IconType::Console_Warning);
+	LoadIconTexture("Texture/Icon/Console/console_log_error.png", IconType::Console_Error);
 }
 
 void IconProvider::LoadIconTexture(const std::string& texture_path, const IconType& icon_type)
@@ -78,7 +83,7 @@ void IconProvider::CreateImage(const IconType& icon_type, const ImVec2& button_s
 	);
 }
 
-const bool IconProvider::CreateImageButton(const char* id, const IconType& icon_type, const ImVec2& button_size)
+const bool IconProvider::CreateImageButton(const IconType& icon_type, const ImVec2& button_size)
 {
 	bool is_add_image_button = ImGui::ImageButton
 	(

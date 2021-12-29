@@ -23,8 +23,7 @@ public:
 	explicit WalkCannon_Script(const WalkCannon_Script& origin);
 	~WalkCannon_Script();
 
-	void Initialize() override;
-
+	void Start() override;
 	void Update() override;
 
 public:

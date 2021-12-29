@@ -27,7 +27,7 @@ private:
 
 public:
 	void CheckLayer(const UINT& left_layer, const UINT& right_layer);
-	void ResetCheckVector() { std::fill(this->m_check_vector.begin(), this->m_check_vector.end(), 0); };
+	void ResetCheckVector() { std::fill(m_check_vector.begin(), m_check_vector.end(), 0); };
 
 private:
     std::vector<UINT> m_check_vector; //Layer 간의 충돌 체크 매트릭스

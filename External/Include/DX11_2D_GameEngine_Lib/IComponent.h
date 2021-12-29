@@ -25,21 +25,59 @@ public:
 public:
 	virtual void SaveToScene(FILE* p_file)
 	{
-
+		switch (m_component_type)
+		{
+		case ComponentType::Transform:
+			fprintf(p_file, "[Transform]\n");
+			break;
+		case ComponentType::Camera:
+			fprintf(p_file, "[Camera]\n");
+			break;
+		case ComponentType::SpriteRenderer:
+			fprintf(p_file, "[SpriteRenderer]\n");
+			break;
+		case ComponentType::Animator2D:
+			fprintf(p_file, "[Animator2D]\n");
+			break;
+		case ComponentType::Animator:
+			fprintf(p_file, "[Animator]\n");
+			break;
+		case ComponentType::Collider2D:
+			fprintf(p_file, "[Collider2D]\n");
+			break;
+		case ComponentType::Light2D:
+			fprintf(p_file, "[Light2D]\n");
+			break;
+		case ComponentType::ParticleSystem:
+			fprintf(p_file, "[ParticleSystem]\n");
+			break;
+		case ComponentType::TileMap:
+			fprintf(p_file, "[TileMap]\n");
+			break;
+		case ComponentType::RigidBody2D:
+			fprintf(p_file, "[RigidBody2D]\n");
+			break;
+		case ComponentType::Script:
+			fprintf(p_file, "[Script]\n");
+			break;
+		default:
+			break;
+		}
 	}
 	virtual void LoadFromScene(FILE* p_file)
 	{
-
+		char char_buffer[256] = { 0 };
+		FileManager::FScanf(char_buffer, p_file);
 	}
 	
 public:
     virtual IComponent* Clone() = 0;
 
 public:
-	const ComponentType& GetComponentType() const { return this->m_component_type; }
+	const ComponentType& GetComponentType() const { return m_component_type; }
 
-	GameObject* GetGameObject() { SAFE_GET_POINTER(this->m_p_owner_game_object); }
-	void SetGameObject(GameObject* p_game_object) { this->m_p_owner_game_object = p_game_object; }
+	GameObject* GetGameObject() { SAFE_GET_POINTER(m_p_owner_game_object); }
+	void SetGameObject(GameObject* p_game_object) { m_p_owner_game_object = p_game_object; }
 
 protected:
 	const ComponentType m_component_type;

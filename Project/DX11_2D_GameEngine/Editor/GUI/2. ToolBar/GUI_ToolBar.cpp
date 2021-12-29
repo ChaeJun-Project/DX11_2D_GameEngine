@@ -3,6 +3,7 @@
 
 //Helper
 #include "Helper/IconProvider.h"
+#include "Manager/EditorManager.h"
 
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 
@@ -63,8 +64,9 @@ void GUI_ToolBar::Render()
 	);
 
 	//Scene Play Button 그리기
-	if (icon_provider->CreateImageButton("Scene Play", IconType::ToolBar_Play, ImVec2(22.0f, 22.0f)))
+	if (icon_provider->CreateImageButton(IconType::ToolBar_Play, ImVec2(22.0f, 22.0f)))
 	{ 
+		EditorManager::GetInstance()->ExcuteEventCallBack();
 		scene_manager->SetEditorState(EditorState::EditorState_Play);
 	    ImGui::SetWindowFocus(nullptr);
 	}
@@ -80,7 +82,7 @@ void GUI_ToolBar::Render()
 	);
 
 	//Scene Pause Button 그리기
-	if (icon_provider->CreateImageButton("Scene Pause", IconType::ToolBar_Pause, ImVec2(22.0f, 22.0f)))
+	if (icon_provider->CreateImageButton(IconType::ToolBar_Pause, ImVec2(22.0f, 22.0f)))
 	{ 
 		scene_manager->SetEditorState(EditorState::EditorState_Pause);
 		ImGui::SetWindowFocus(nullptr);
@@ -90,8 +92,9 @@ void GUI_ToolBar::Render()
 	ImGui::PopStyleColor();
 
 	//Scene Pause Button 그리기
-	if (icon_provider->CreateImageButton("Scene Stop", IconType::ToolBar_Stop, ImVec2(22.0f, 22.0f)))
+	if (icon_provider->CreateImageButton(IconType::ToolBar_Stop, ImVec2(22.0f, 22.0f)))
 	{ 
+		EditorManager::GetInstance()->ExcuteEventCallBack();
 		scene_manager->SetEditorState(EditorState::EditorState_Stop);
 		ImGui::SetWindowFocus(nullptr);
 	}

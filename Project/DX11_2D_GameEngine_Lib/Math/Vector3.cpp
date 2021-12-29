@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Vector3.h"
 #include "Vector2.h"
-#include "Color4.h"
+#include "Vector4.h"
 #include "Matrix.h"
 
 const Vector3 Vector3::Zero(0.0f);
@@ -117,10 +117,10 @@ Vector3::Vector3(const Vector2 & rhs)
 {
 }
 
-Vector3::Vector3(const Color4 & rhs)
-	: x(rhs.r)
-	, y(rhs.g)
-	, z(rhs.b)
+Vector3::Vector3(const Vector4 & rhs)
+	: x(rhs.x)
+	, y(rhs.y)
+	, z(rhs.z)
 {
 }
 

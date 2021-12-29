@@ -789,7 +789,6 @@ CODE
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-#include "stdafx.h"
 #include "imgui.h"
 #ifndef IMGUI_DISABLE
 

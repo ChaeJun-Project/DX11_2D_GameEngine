@@ -19,10 +19,17 @@ typedef unsigned long ULONG;
 //자원 메모리 해제 매크로 정의
 #define SAFE_RELEASE(p)         { if(p) { p->Release(); p = nullptr; } }
 
+//Log
+#define LOG_MANAGER					LogManager::GetInstance()
+#define LOG_INFO_F(text, ...)       { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Info_Formatted(text, __VA_ARGS__); }
+#define LOG_WARNING_F(text, ...)    { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Warning_Formatted(text, __VA_ARGS__); }
+#define LOG_ERROR_F(text, ...)      { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Error_Formatted(text, __VA_ARGS__); }
+
 //Time
 //Delta Time
 #define DELTA_TIME_D TimeManager::GetInstance()->GetDeltaTime_double()
 #define DELTA_TIME_F TimeManager::GetInstance()->GetDeltaTime_float()
+#define CURRENT_TIME TimeManager::GetInstance()->GetCurrentTime_str()
 
 //Input
 //Key 상태 체크 매크로 정의 

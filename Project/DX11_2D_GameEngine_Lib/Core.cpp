@@ -26,12 +26,12 @@
 Core::Core()
 {
 	//Create Settings
-	this->m_p_settings = std::make_shared<Settings>();
+	m_p_settings = std::make_shared<Settings>();
 }
 
 Core::~Core()
 {
-	this->m_p_settings.reset();
+	m_p_settings.reset();
 }
 
 void Core::Initialize()

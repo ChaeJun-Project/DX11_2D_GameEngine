@@ -14,7 +14,7 @@ public:
 	);
 
 public:
-	ID3D11DepthStencilState* GetDepthStencilState() const { SAFE_GET_POINTER(this->m_p_depth_stencil_state.Get()); }
+	ID3D11DepthStencilState* GetDepthStencilState() const { SAFE_GET_POINTER(m_p_depth_stencil_state.Get()); }
 
 private:
     ComPtr<ID3D11DepthStencilState> m_p_depth_stencil_state = nullptr; 

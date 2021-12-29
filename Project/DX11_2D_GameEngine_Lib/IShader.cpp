@@ -11,7 +11,7 @@ const bool IShader::GetShaderError(const HRESULT& hResult, ID3DBlob* shader_erro
 
 		   std::string shader_type;
 
-		   switch (this->m_shader_type)
+		   switch (m_shader_type)
 		   {
 		   case ShaderType::VS:
 			   shader_type = "Vertex Shader";

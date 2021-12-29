@@ -35,6 +35,13 @@
 #include "DirectX11/imgui_impl_dx11.h"
 #pragma endregion
 
+//Memory Leak Check
+#ifdef _DEBUG //디버그 모드일 때
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h> // 메모리 할당 및 할당 해제를 추적하는 함수들이 정의되어 있음.
+#define new new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#endif
+
 //Enum
 #include "Engine_Enum.h"
 

@@ -15,7 +15,7 @@ Geometry_Script::~Geometry_Script()
 {
 }
 
-void Geometry_Script::Initialize()
+void Geometry_Script::Start()
 {
 	auto scene_manager = SceneManager::GetInstance();
 	auto current_scene = scene_manager->GetCurrentScene();
@@ -31,7 +31,7 @@ void Geometry_Script::Initialize()
 
 	auto renderer = background->GetComponent<SpriteRenderer>();
 	auto material = renderer->GetMaterial();
-	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D, "Light2D_Shader"));
+	material->SetShader(resource_manager->GetShader("Light2D"));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, resource_manager->LoadTexture("Texture/Geometry/Forest.gif", TextureType::Standard));
 	auto texture = resource_manager->GetTexture("Forest");
 	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
@@ -50,22 +50,22 @@ void Geometry_Script::Initialize()
 
 	renderer = ground->GetComponent<SpriteRenderer>();
 	material = renderer->GetMaterial();
-	material->SetShader(resource_manager->GetShaderResource(ShaderResourceType::Light2D, "Light2D_Shader"));
+	material->SetShader(resource_manager->GetShader("Light2D"));
 	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, ResourceManager::GetInstance()->LoadTexture("Texture/Geometry/Ground.gif", TextureType::Standard));
 	texture = resource_manager->GetTexture("Ground");
 	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
-	
+
 	auto collider2D = ground->GetComponent<Collider2D>();
 	collider2D->SetOffsetPosition(Vector2(0.0f, -0.14f));
 	collider2D->SetOffsetScale(Vector2(2.6f, 0.34f));
 	ground->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 	scene_manager->CreatePrefab(ground);
-	
+
 	auto ground_prefab = ResourceManager::GetInstance()->GetPrefab("Forest_Ground");
 
 	for (int i = 0; i < 3; ++i)
 	{
-		auto ground = Instantiate(ground_prefab, Vector3((-1 + i)*(520.0f), -200.0f, 0.0f) , 2, false);
+		auto ground = Instantiate(ground_prefab, Vector3((-1 + i) * (520.0f), -200.0f, 0.0f), 2, false);
 		m_p_owner_game_object->AddChild(ground);
 	}
 
@@ -82,7 +82,7 @@ void Geometry_Script::Initialize()
 	particle_system->SetParticleTexture(resource_manager->GetTexture("rain_particle"));
 
 	//Set Compute Shader
-	auto compute_shader = resource_manager->GetShaderResource(ShaderResourceType::Particle, "Particle_Shader")->GetShader<ComputeShader>();
+	auto compute_shader = resource_manager->GetShader("Rain")->GetShader<ComputeShader>();
 	particle_system->SetComputeShader(compute_shader);
 
 	//Set Particle Activable Count
@@ -98,7 +98,7 @@ void Geometry_Script::Initialize()
 	particle_system->SetParticleScale(Vector3(10.0f, 30.0f, 1.0f), Vector3(2.0f, 6.0f, 1.0f));
 
 	//Set Particle Color
-	particle_system->SetParticleColor(Color4::White, Color4::White);
+	particle_system->SetParticleColor(Vector4::White, Vector4::White);
 
 	//Set Particle Speed
 	particle_system->SetParticleSpeed(200.0f, 300.0f);
@@ -133,7 +133,6 @@ void Geometry_Script::Initialize()
 	renderer->SetMaterial(resource_manager->GetMaterial("WaterEffect"));
 
 	m_p_owner_game_object->AddChild(water_distortion);
-	
 }
 
 void Geometry_Script::Update()

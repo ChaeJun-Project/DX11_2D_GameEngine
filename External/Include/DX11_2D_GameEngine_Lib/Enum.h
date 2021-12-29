@@ -8,6 +8,14 @@ enum EditorState : UINT
 	EditorState_Pause = 1U << 1,	//0010, 편집_정지 모드
 };
 
+//Log Type(LogManager 사용)
+enum class LogType : UINT
+{
+	Info,     //정보
+	Warning,  //경고
+	Error,    //에러
+};
+
 //Event Type(EventManager 사용)
 enum class EventType : UINT
 {
@@ -32,8 +40,8 @@ enum class ResourceType : UINT
 	Shader = 3,
 	Texture = 4,
 	Animation = 5,
-	Prefab = 6,
-	Sound = 7,
+	Sound = 6,
+	Prefab = 7,
 };
 
 //Mesh Type(Mesh 사용)
@@ -101,18 +109,6 @@ enum class RenderTimePointType : UINT
 	Forward = 1,
 	Particle = 2,
 	PostEffect = 3,
-};
-
-//Shader Resource Type(ShaderManager 사용)
-enum class ShaderResourceType : UINT
-{
-	Standard = 0,		  //Draw Texture
-	Line = 1,			  //Draw Line
-	Grid = 2,             //Draw Grid
-	Light2D = 3,		  //Draw Texture & Light2D
-	Particle = 4,		  //Draw Particle
-	PostEffect = 5,	      //Draw Post Effect
-	TileMap = 6           //Draw Tile Map
 };
 
 enum PipelineStage : UINT

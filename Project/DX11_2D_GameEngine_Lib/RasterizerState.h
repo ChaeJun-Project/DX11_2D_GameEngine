@@ -14,7 +14,7 @@ public:
 	);
 
 public:
-	ID3D11RasterizerState* GetRasterizerState() const { SAFE_GET_POINTER(this->m_p_rasterizer_state.Get()); }
+	ID3D11RasterizerState* GetRasterizerState() const { SAFE_GET_POINTER(m_p_rasterizer_state.Get()); }
 
 private:
     ComPtr<ID3D11RasterizerState> m_p_rasterizer_state = nullptr;

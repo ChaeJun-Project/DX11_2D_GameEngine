@@ -8,7 +8,8 @@
 #define PCH_H
 
 // 거의 사용되지 않는 내용을 Windows 헤더에서 제외합니다.
-#define WIN32_LEAN_AND_MEAN         
+#define WIN32_LEAN_AND_MEAN  
+#define _CRT_SECURE_NO_WARNINGS
 
 // Windows 헤더 파일
 #include <windows.h>
@@ -19,7 +20,6 @@
 
 //#include <assert.h> //C Ver.
 #include <cassert>  //C++ Ver.
-
 
 #ifdef _DEBUG //디버그 모드일 때 콘솔창 연결
 

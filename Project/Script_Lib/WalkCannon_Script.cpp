@@ -25,7 +25,7 @@ WalkCannon_Script::~WalkCannon_Script()
 	m_p_animator = nullptr;
 }
 
-void WalkCannon_Script::Initialize()
+void WalkCannon_Script::Start()
 {
 	m_p_animator = m_p_owner_game_object->GetComponent<Animator>();
 
@@ -162,7 +162,7 @@ void WalkCannon_Script::CreateBullet()
 	auto current_scene = scene_manager->GetCurrentScene();
 
 	auto bullet = Instantiate(m_p_bullet_prefab, position, 4, true);
-	bullet->GetComponent<Script>()->Initialize();
+	
 	current_scene->AddGameObject(bullet, 4, true);
 	dynamic_cast<WalkCannon_Bullet_Script*>(bullet->GetComponent<Script>())->SetDirection(direction);
 

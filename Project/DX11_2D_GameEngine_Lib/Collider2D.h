@@ -37,6 +37,10 @@ public:
 	const Matrix& GetColliderWorldMatrix() { return m_collider_world_matrix; }
 
 public:
+	virtual void SaveToScene(FILE* p_file);
+	virtual void LoadFromScene(FILE* p_file);
+
+public:
 	CLONE(Collider2D);
 
 private:

@@ -6,7 +6,6 @@ enum class GUIType : UINT
 	ToolBar,
 	Hierarchy,
 	Scene,
-	Game,
 	Inspector,
 	Project,
 	Console,

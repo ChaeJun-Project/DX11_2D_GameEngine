@@ -274,3 +274,78 @@ void Camera::SetProjectionType(const ProjectionType& projection_type)
 		transform->SetRotation(Quaternion::QuaternionFromEulerAngle(Vector3::Zero));
 	}
 }
+
+void Camera::SaveToScene(FILE* p_file)
+{
+	__super::SaveToScene(p_file); //IComponent
+
+	//Camera Index
+	fprintf(p_file, "[Index]\n");
+	fprintf(p_file, "%d\n", m_camera_index);
+	
+	//Camera Culling Layer
+	fprintf(p_file, "[Index]\n");
+	fprintf(p_file, "%d\n", m_culling_layer);
+
+	//카메라 투영 타입
+	fprintf(p_file, "[Projection]\n");
+	auto projection_type = static_cast<UINT>(m_projection_type);
+	fprintf(p_file, "%d\n", projection_type);
+	
+	//ProjectionType::Orthographic(직교 투영 전용)
+	//Size가 늘어남에 따라 한 화면에 보여지는 화면의 해상도 증가(커질수록 줌아웃, 작아질수록 줌인)
+	if (m_projection_type == ProjectionType::Orthographic)
+	{
+		fprintf(p_file, "[Size]\n");
+		FileManager::FPrintf_Vector2(m_size, p_file);
+	}
+
+	//Field of View
+	fprintf(p_file, "[Fov]\n");
+	fprintf(p_file, "%f\n", m_fov);
+
+	fprintf(p_file, "[Near]\n");
+	fprintf(p_file, "%f\n", m_near_z);
+
+	fprintf(p_file, "[Far]\n");
+	fprintf(p_file, "%f\n", m_far_z);
+}
+
+void Camera::LoadFromScene(FILE* p_file)
+{
+	__super::LoadFromScene(p_file); //IComponent
+
+	char char_buffer[256] = { 0 };
+	
+	//Camera Index
+	FileManager::FScanf(char_buffer, p_file);
+	fscanf_s(p_file, "%d\n", &m_camera_index);
+
+	//Camera Culling Layer
+	FileManager::FScanf(char_buffer, p_file);
+	fscanf_s(p_file, "%d\n", &m_culling_layer);
+	
+	//카메라 투영 타입
+	FileManager::FScanf(char_buffer, p_file);
+	int projection_type = -1;
+	fscanf_s(p_file, "%d\n", &projection_type);
+	m_projection_type = static_cast<ProjectionType>(projection_type);
+	
+	//ProjectionType::Orthographic(직교 투영 전용)
+	//Size가 늘어남에 따라 한 화면에 보여지는 화면의 해상도 증가(커질수록 줌아웃, 작아질수록 줌인)
+	if (m_projection_type == ProjectionType::Orthographic)
+	{
+		FileManager::FScanf(char_buffer, p_file);
+		FileManager::FScanf_Vector2(m_size, p_file);
+	}
+
+	//Field of View
+	FileManager::FScanf(char_buffer, p_file);
+	fscanf_s(p_file, "%f\n", &m_fov);
+
+	FileManager::FScanf(char_buffer, p_file);
+	fscanf_s(p_file, "%f\n", &m_near_z);
+
+	FileManager::FScanf(char_buffer, p_file);
+	fscanf_s(p_file, "%f\n", &m_far_z);
+}

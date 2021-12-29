@@ -8,7 +8,6 @@
 // Changelog:
 // - v0.10: Initial version. Added InputText() / InputTextMultiline() calls with std::string
 
-#include "stdafx.h"
 #include "imgui.h"
 #include "imgui_stdlib.h"
 

@@ -4,14 +4,21 @@ class Vector4 final
 {
 public:
     static const Vector4 Zero;
+    static const Vector4 Red;
+    static const Vector4 Blue;
+    static const Vector4 Green;
+    static const Vector4 White;
+    static const Vector4 Black;
 
 public:
     Vector4();
     Vector4(const float& x, const float& y, const float& z, const float& w);
     Vector4(const float& value);
+    Vector4(const UINT& value);
     Vector4(const Vector4& rhs);
     Vector4(const class Vector2& rhs);
     Vector4(const class Vector3& rhs);
+    Vector4(const class Quaternion& rhs);
     ~Vector4() = default;
 
     auto Length() const -> const float { return sqrtf(x * x + y * y + z * z + w * w); }
@@ -19,6 +26,7 @@ public:
     auto Normalize() const -> const Vector4;
     void Normalize();
 
+    operator UINT() const;
     operator float*() { return &x; }
     operator const float*() const { return &x; }
 

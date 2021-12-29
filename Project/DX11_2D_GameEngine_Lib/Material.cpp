@@ -12,6 +12,31 @@ Material::Material(const std::string resource_name)
 	m_p_texture_vector.resize(8);
 }
 
+Material::Material(const Material& origin)
+	:IResource(origin.GetResourceType(), origin.m_resource_name)
+{
+	//Material Data 복사
+	m_material_data = origin.m_material_data;
+
+	//텍스처는 총 8장까지만 들어가므로
+	//Vector의 capacity를 8로 초기화 
+	m_p_texture_vector.reserve(8);
+	m_p_texture_vector.resize(8);
+
+	//Texture Vector 복사(origin의 Texture Vector가 비어있지 않다면)
+	int i = 0;
+	for (const auto& texture : origin.m_p_texture_vector)
+	{
+		if(texture != nullptr)
+			m_p_texture_vector[i] = texture;
+
+		++i;
+	}
+	
+	//Shader 공유
+	m_p_shader = origin.m_p_shader;
+}
+
 void Material::BindPipeline()
 {
 	m_p_shader->BindPipeline();

@@ -55,7 +55,36 @@ public:
 	static void SaveStringToFile(const std::string& str, FILE* p_file);
 	static void LoadStringFromFile(std::string& str, FILE* p_file);
 
+	//FPrintf
+	static void FPrintf_Vector2(const Vector2& vector2, FILE* p_file);
+	static void FPrintf_Vector3(const Vector3& vector3, FILE* p_file);
+
+	template <typename T, typename = typename std::enable_if <
+		std::is_same<T, Vector4>::value ||
+		std::is_same<T, Quaternion>::value > ::type >
+		static void FPrintf_Vector4(const T& vector4, FILE* p_file)
+	{
+		fprintf(p_file, "%f ", vector4.x);
+		fprintf(p_file, "%f ", vector4.y);
+		fprintf(p_file, "%f ", vector4.z);
+		fprintf(p_file, "%f\n", vector4.w);
+	}
+
+	//FScanf
 	static void FScanf(char* p_buffer, FILE* p_file);
+	static void FScanf_Vector2(Vector2& vector2, FILE* p_file);
+	static void FScanf_Vector3(Vector3& vector3, FILE* p_file);
+
+	template <typename T, typename = typename std::enable_if <
+		std::is_same<T, Vector4>::value ||
+		std::is_same<T, Quaternion>::value > ::type >
+		static void FScanf_Vector4(T& vector4, FILE* p_file)
+	{
+		fscanf_s(p_file, "%f ", &vector4.x);
+		fscanf_s(p_file, "%f ", &vector4.y);
+		fscanf_s(p_file, "%f ", &vector4.z);
+		fscanf_s(p_file, "%f\n", &vector4.w);
+	}
 
 private:
 	static std::vector<std::string> supported_texture_formats;		//Texture에 지원되는 확장자들

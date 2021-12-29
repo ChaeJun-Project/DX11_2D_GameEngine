@@ -16,7 +16,7 @@ public:
 	void Progress();
 
 public:
-	std::shared_ptr<Settings>& GetSettings() { return this->m_p_settings; }
+	std::shared_ptr<Settings>& GetSettings() { return m_p_settings; }
 
 private:
 	std::shared_ptr<Settings> m_p_settings = nullptr;

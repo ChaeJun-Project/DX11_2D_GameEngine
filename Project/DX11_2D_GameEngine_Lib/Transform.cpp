@@ -165,16 +165,41 @@ void Transform::SaveToScene(FILE* p_file)
 {
     __super::SaveToScene(p_file); //IComponent
 
-	fwrite(&m_local_translation, sizeof(Vector3), 1, p_file); //오브젝트의 위치 정보
-	fwrite(&m_local_rotation, sizeof(Quaternion), 1, p_file); //오브젝트의 회전 값
-	fwrite(&m_local_scale, sizeof(Vector3), 1, p_file);       //오브젝트의 스케일 값
+	Vector3 m_local_translation = Vector3::Zero; //xyz 모두 0.0f로 초기화
+	Quaternion m_local_rotation = Quaternion::Identity;
+	Vector3 m_local_scale = Vector3::One; //xyz 모두 1.0f로 초기화
+
+	//Position
+	fprintf(p_file, "[Position]\n");
+	FileManager::FPrintf_Vector3(m_local_translation, p_file);
+
+	//Rotation
+	fprintf(p_file, "[Rotation]\n");
+	FileManager::FPrintf_Vector4<Quaternion>(m_local_rotation, p_file);
+
+	//Scale
+	fprintf(p_file, "[Scale]\n");
+	FileManager::FPrintf_Vector3(m_local_scale, p_file);
 }
 
 void Transform::LoadFromScene(FILE* p_file)
 {
 	__super::LoadFromScene(p_file); //IComponent
 
-	fread(&m_local_translation, sizeof(Vector3), 1, p_file); //오브젝트의 위치 정보
-	fread(&m_local_rotation, sizeof(Quaternion), 1, p_file); //오브젝트의 회전 값
-	fread(&m_local_scale, sizeof(Vector3), 1, p_file);       //오브젝트의 스케일 값
+	char char_buffer[256] = { 0 };
+
+	//Offset Position
+	
+
+	//Position
+	FileManager::FScanf(char_buffer, p_file);
+	FileManager::FScanf_Vector3(m_local_translation, p_file);
+
+	//Rotation
+	FileManager::FScanf(char_buffer, p_file);
+	FileManager::FScanf_Vector4<Quaternion>(m_local_rotation, p_file);
+
+	//Scale
+	FileManager::FScanf(char_buffer, p_file);
+	FileManager::FScanf_Vector3(m_local_scale, p_file);
 }

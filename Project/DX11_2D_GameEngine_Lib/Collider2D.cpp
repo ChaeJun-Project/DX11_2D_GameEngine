@@ -4,8 +4,10 @@
 Collider2D::Collider2D()
 	:IComponent(ComponentType::Collider2D)
 {
-	m_p_mesh = ResourceManager::GetInstance()->GetMesh(MeshType::Rectangle);
-	m_p_material = ResourceManager::GetInstance()->GetMaterial("Collider2D_Green");
+	auto resource_manager = ResourceManager::GetInstance();
+
+	m_p_mesh = resource_manager->GetMesh(MeshType::Rectangle);
+	m_p_material = resource_manager->GetMaterial("Collider2D_Green");
 }
 
 Collider2D::Collider2D(const Collider2D& origin)
@@ -35,6 +37,9 @@ void Collider2D::FinalUpdate()
 
 void Collider2D::Render()
 {
+	if (m_p_mesh == nullptr || m_p_material == nullptr || m_p_material->GetShader() == nullptr)
+		return;
+
 	UpdateConstantBuffer();
 
 	m_p_material->BindPipeline();
@@ -98,3 +103,32 @@ void Collider2D::OnCollision(Collider2D* other_collider)
 	if (script != nullptr)
 		script->OnCollisionEnter(other_collider->GetGameObject());
 }
+
+void Collider2D::SaveToScene(FILE* p_file)
+{
+	__super::SaveToScene(p_file); //IComponent
+
+	//Offset Position
+	fprintf(p_file, "[Offset Position]\n");
+	FileManager::FPrintf_Vector2(m_offset_position, p_file);
+
+	//Offset Scale
+	fprintf(p_file, "[Offset Scale]\n");
+	FileManager::FPrintf_Vector2(m_offset_scale, p_file);
+}
+
+void Collider2D::LoadFromScene(FILE* p_file)
+{
+	__super::LoadFromScene(p_file); //IComponent
+
+	char char_buffer[256] = { 0 };
+
+	//Offset Position
+	FileManager::FScanf(char_buffer, p_file);
+	FileManager::FScanf_Vector2(m_offset_position, p_file);
+
+	//Offset Scale
+	FileManager::FScanf(char_buffer, p_file);
+	FileManager::FScanf_Vector2(m_offset_scale, p_file);
+}
+	

@@ -7,18 +7,18 @@ struct VertexColor final
 {
 	VertexColor()
 	{
-		this->position = Vector3(0.0f, 0.0f, 0.0f);
-		this->color = Color4::White;
+		m_position = Vector3(0.0f, 0.0f, 0.0f);
+		m_color = Vector4::White;
 	}
 
-	VertexColor(const Vector3& position, const Color4& color)
+	VertexColor(const Vector3& position, const Vector4& color)
 	{
-		this->position = position;
-		this->color = color;
+		m_position = position;
+		m_color = color;
 	}
 
-	Vector3 position;
-	Color4 color;
+	Vector3 m_position;
+	Vector4 m_color;
 
 	static D3D11_INPUT_ELEMENT_DESC descs[];
 	static const UINT element_count = 2;
@@ -30,21 +30,21 @@ struct VertexColorTexture final
 {
 	VertexColorTexture()
 	{
-		this->position = Vector3(0.0f, 0.0f, 0.0f);
-		this->color = Color4::White;
-		this->uv = Vector2(0.0f, 0.0f);
+		m_position = Vector3(0.0f, 0.0f, 0.0f);
+		m_color = Vector4::White;
+		m_uv = Vector2(0.0f, 0.0f);
 	}
 
-	VertexColorTexture(const Vector3& position, const Color4& color, const Vector2& uv)
+	VertexColorTexture(const Vector3& position, const Vector4& color, const Vector2& uv)
 	{
-		this->position = position;
-		this->color = color;
-		this->uv = uv;
+		m_position = position;
+		m_color = color;
+		m_uv = uv;
 	}
 
-	Vector3 position;
-	Color4 color;
-	Vector2 uv;
+	Vector3 m_position;
+	Vector4 m_color;
+	Vector2 m_uv;
 
 	static D3D11_INPUT_ELEMENT_DESC descs[];
 	static const UINT element_count = 3;

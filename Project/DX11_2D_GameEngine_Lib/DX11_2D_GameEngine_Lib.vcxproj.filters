@@ -31,9 +31,6 @@
     <ClInclude Include="FileManager.h">
       <Filter>Manager\File</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Color4.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Math.h">
       <Filter>Math</Filter>
     </ClInclude>
@@ -81,9 +78,6 @@
     </ClInclude>
     <ClInclude Include="ConstantStruct.h">
       <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Resource\Shader</Filter>
     </ClInclude>
     <ClInclude Include="IComponent.h">
       <Filter>Scene\Components</Filter>
@@ -202,6 +196,15 @@
     <ClInclude Include="Animator.h">
       <Filter>Scene\Components\5. Animator</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Resource\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="LogManager.h">
+      <Filter>Manager\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Manager\Log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -221,9 +224,6 @@
     </ClCompile>
     <ClCompile Include="FileManager.cpp">
       <Filter>Manager\File</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Color4.cpp">
-      <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="Math\Math.cpp">
       <Filter>Math</Filter>
@@ -263,9 +263,6 @@
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\ConstantBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Resource\Shader</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Resource\Texture</Filter>
@@ -374,6 +371,15 @@
     </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>Scene\Components\5. Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Resource\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="LogManager.cpp">
+      <Filter>Manager\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Manager\Log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -598,6 +604,9 @@
     </Filter>
     <Filter Include="Scene\Components\Script">
       <UniqueIdentifier>{45b73adf-3a03-4022-97d9-4cd397f02347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Log">
+      <UniqueIdentifier>{c9e1a6ef-fce9-474a-a2ac-5d6eb1631d3d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

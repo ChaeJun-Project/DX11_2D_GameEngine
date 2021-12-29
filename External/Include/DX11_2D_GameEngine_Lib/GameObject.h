@@ -31,6 +31,9 @@ public:
 	void RemoveComponent(const ComponentType& component_type);
 
 public:
+    const std::list<Script*> GetScripts() { return m_p_script_list; }
+
+public:
 	//Object IsActive
 	bool& IsActive() { return m_active_check; }
 	void SetObjectActive(const bool& is_active) { m_active_check = is_active; }
@@ -92,10 +95,10 @@ protected:
 	int m_game_object_layer = -1;
 
 	//Component List
-	std::list<std::pair<ComponentType, IComponent*>> m_component_list;
+	std::list<std::pair<ComponentType, IComponent*>> m_p_component_list;
 	
 	//Script List
-	std::list<Script*> m_script_list;
+	std::list<Script*> m_p_script_list;
 
 	//Hierarchy
 	//Parent Object

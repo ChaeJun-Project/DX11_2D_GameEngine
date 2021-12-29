@@ -13,8 +13,11 @@
 ParticleSystem::ParticleSystem()
 	:IComponent(ComponentType::ParticleSystem)
 {
-	m_p_mesh = ResourceManager::GetInstance()->GetMesh(MeshType::Point);
-	m_p_material = ResourceManager::GetInstance()->GetMaterial("Particle");
+	auto resource_manager = ResourceManager::GetInstance();
+
+	m_p_mesh = resource_manager->GetMesh(MeshType::Point);
+	auto material = resource_manager->GetMaterial("Default_Material")->Clone();
+	m_p_material = std::shared_ptr<Material>(material);
 
 	//Create Paritcle Update Shader
 	m_p_particle_update_shader = std::make_shared<ParticleUpdateShader>();

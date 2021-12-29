@@ -37,6 +37,6 @@ void BlendState::Create(const bool& is_blend_enable, const D3D11_BLEND_OP& blend
 
 	//Blend State »ý¼º
 	auto device = GraphicsManager::GetInstance()->GetDevice();
-	auto hResult = device->CreateBlendState(&desc, this->m_p_blend_state.GetAddressOf());
+	auto hResult = device->CreateBlendState(&desc, m_p_blend_state.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 }

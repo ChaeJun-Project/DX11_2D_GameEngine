@@ -46,7 +46,7 @@ void ClientSceneManager::CreateNewScene()
 	auto point_light = point_light2D->GetComponent<Light2D>();
 	point_light->SetLightType(LightType::Point);
 	point_light->SetLightRange(2000.0f);
-	point_light->SetLightColor(Color4::White);
+	point_light->SetLightColor(Vector4::White);
 
 	new_scene->AddGameObject(point_light2D, 0, true);
 
@@ -58,8 +58,6 @@ void ClientSceneManager::CreateNewScene()
 	game_logic->AddComponent(new GameLogic_Script());
 
 	new_scene->AddGameObject(game_logic, 1, false);
-
-	game_logic->GetComponent<Script>()->Initialize();
 
 	//Tile Object
 	auto game_object = new GameObject();
@@ -92,18 +90,60 @@ void ClientSceneManager::SaveScene(const std::string& file_path)
 		fprintf(p_file, "[Parent GameObject Count]\n");
 		const auto& parent_game_object_vector = layer.second->GetParentGameObjects();
 		auto parent_game_object_count = parent_game_object_vector.size();
-		fprintf(p_file, "%d\n", parent_game_object_count);
-		//fwrite(&parent_game_object_count, sizeof(size_t), 1, p_file); //해당 Layer의 부모 GameObject 개수 쓰기
+		fprintf(p_file, "%d\n", parent_game_object_count); //해당 Layer의 부모 GameObject 개수
 
 		for (auto& parent_game_object : parent_game_object_vector)
 		{
-			//SaveGameObject(parent_game_object, p_file);
+			SaveGameObject(parent_game_object, p_file);
 		}
 
 		fprintf(p_file, "\n");
 	}
 
 	fclose(p_file);
+}
+
+void ClientSceneManager::SaveGameObject(GameObject* p_game_object, FILE* p_file)
+{
+    //GameObject
+	fprintf(p_file, "=================================================================================\n");
+	fprintf(p_file, "[GameObject]\n");
+	p_game_object->SaveToScene(p_file);
+
+	//Component
+	for (UINT i = 1; i < static_cast<UINT>(ComponentType::END); ++i)
+	{
+		IComponent* p_component = p_game_object->GetComponent(static_cast<ComponentType>(i));
+
+		if (p_component != nullptr)
+			p_component->SaveToScene(p_file);
+	}
+
+	//Script
+	SaveScript(p_game_object, p_file);
+
+	//Child GameObject
+	if (p_game_object->HasChilds())
+	{
+		fprintf(p_file, "[Child GameObject Count]\n");
+		const auto& child_game_object_vector = p_game_object->GetChilds();
+		auto child_game_object_count = child_game_object_vector.size();
+		fprintf(p_file, "%d\n", child_game_object_count);
+
+		fprintf(p_file, "[Child GameObject]\n");
+		for (auto& child_game_object : child_game_object_vector)
+		{
+			SaveGameObject(child_game_object, p_file);
+		}
+	}
+
+	fprintf(p_file, "=================================================================================\n");
+}
+
+void ClientSceneManager::SaveScript(GameObject* p_game_object, FILE* p_file)
+{
+	fprintf(p_file, "[Script]\n");
+    //const auto& script_vector;
 }
 
 std::shared_ptr<Scene> ClientSceneManager::LoadScene(const std::string& file_path)
@@ -139,22 +179,14 @@ std::shared_ptr<Scene> ClientSceneManager::LoadScene(const std::string& file_pat
 	return new_scene;
 }
 
-void ClientSceneManager::SaveGameObject(GameObject* p_game_object, FILE* p_file)
-{
-	p_game_object->SaveToScene(p_file);
-
-	for (UINT i = 1; i < static_cast<UINT>(ComponentType::END); ++i)
-	{
-		IComponent* p_component = p_game_object->GetComponent(static_cast<ComponentType>(i));
-
-		if(p_component != nullptr)
-			p_component->SaveToScene(p_file);
-	}
-}
 
 GameObject* ClientSceneManager::LoadGameObject(FILE* p_file)
 {
 	return nullptr;
+}
+
+void ClientSceneManager::LoadScript(GameObject* p_game_object, FILE* p_file)
+{
 }
 
 void ClientSceneManager::CreatePrefab()

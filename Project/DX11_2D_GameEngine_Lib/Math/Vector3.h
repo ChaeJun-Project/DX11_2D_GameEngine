@@ -32,7 +32,7 @@ public:
     Vector3(const float& value);
     Vector3(const Vector3& rhs);
     Vector3(const class Vector2& rhs);
-	Vector3(const class Color4& rhs);
+	Vector3(const class Vector4& rhs);
     ~Vector3() = default;
 
     auto Length() const -> const float { return sqrtf(x * x + y * y + z * z); }

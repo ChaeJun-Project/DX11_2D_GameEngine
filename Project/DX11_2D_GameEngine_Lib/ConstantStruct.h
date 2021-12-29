@@ -98,9 +98,9 @@ extern CBuffer_Program g_cbuffer_program;
 //======================================
 struct LightColor
 {
-	Color4 color;
-	Color4 specular;
-	Color4 ambient;
+	Vector4 color;
+	Vector4 specular;
+	Vector4 ambient;
 };
 
 struct LightInfo

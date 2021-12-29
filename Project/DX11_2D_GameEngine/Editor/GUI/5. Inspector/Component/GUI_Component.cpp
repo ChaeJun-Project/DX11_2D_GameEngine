@@ -19,7 +19,7 @@ const bool GUI_Component::BeginComponent(const std::string& component_name, cons
 		auto icon_provider = IconProvider::GetInstance();
 
 		//Component Settings ±×¸®±â
-		if (icon_provider->CreateImageButton(component_name.c_str(), IconType::Component_Settings, ImVec2(13.0f, 13.0f)))
+		if (icon_provider->CreateImageButton(IconType::Component_Settings, ImVec2(13.0f, 13.0f)))
 			ImGui::OpenPopup(component_name.c_str());
 
 		ShowComponentSettingPopup(component_name.c_str(), component_type);

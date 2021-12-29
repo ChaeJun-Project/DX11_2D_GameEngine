@@ -11,27 +11,27 @@ public:
 public:
 	//Instance Setting
 	HINSTANCE GetProgramInstance() const { return m_program_instance; }
-	void SetProgramInstance(HINSTANCE program_instance) { this->m_program_instance = program_instance; }
+	void SetProgramInstance(HINSTANCE program_instance) { m_program_instance = program_instance; }
 
 	//Handle Setting
 	HWND GetWindowHandle() const { return m_window_handle; }
-	void SetWindowHandle(HWND window_handle) { this->m_window_handle = window_handle; }
+	void SetWindowHandle(HWND window_handle) { m_window_handle = window_handle; }
 
 	//Width Setting
 	const UINT& GetWindowWidth() const { return m_window_width; }
-	void SetWindowWidth(const UINT& window_width) { this->m_window_width = window_width; }
+	void SetWindowWidth(const UINT& window_width) { m_window_width = window_width; }
 
 	//Height Setting
 	const UINT& GetWindowHeight() const { return m_window_height; }
-	void SetWindowHeight(const UINT& window_height) { this->m_window_height = window_height; }
+	void SetWindowHeight(const UINT& window_height) { m_window_height = window_height; }
 
 	//전체화면 Setting
 	const bool& IsFullScreen() const { return m_is_full_screen; }
-	void SetFullScreen(const bool& m_is_full_screen) { this->m_is_full_screen = m_is_full_screen; }
+	void SetFullScreen(const bool& is_full_screen) { m_is_full_screen = is_full_screen; }
 
 	//수직동기화 Setting
 	const bool& IsVsync() const { return m_is_vsync; }
-	void SetVsync(const bool& is_vsync) { this->m_is_vsync = is_vsync; }
+	void SetVsync(const bool& is_vsync) { m_is_vsync = is_vsync; }
 
 private:
 	//HINSTANCE: 프로그램의 실제 메모리를 가지고 있는

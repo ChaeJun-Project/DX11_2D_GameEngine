@@ -26,7 +26,7 @@ public:
    void SetSceneName(const std::string& scene_name) { m_object_name = scene_name; }
 
    const std::shared_ptr<Layer>& GetLayer(const UINT& layer_index);
-   const std::map<UINT, std::shared_ptr<Layer>> GetLayerMap() const { return this->m_layer_map; }
+   const std::map<UINT, std::shared_ptr<Layer>> GetLayerMap() const { return m_layer_map; }
 
 public:
 	void SaveToScene(FILE* p_file) override;

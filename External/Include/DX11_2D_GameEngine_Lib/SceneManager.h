@@ -18,7 +18,7 @@ public:
 
 public:
     void SetCurrentScene(const std::shared_ptr<Scene>& p_current_scene);
-	const std::shared_ptr<Scene>& GetCurrentScene() const { SAFE_GET_POINTER(this->m_p_current_scene); }
+	const std::shared_ptr<Scene>& GetCurrentScene() const { SAFE_GET_POINTER(m_p_current_scene); }
 
 	const UINT& GetClientState() const { return m_client_state; }
 	void SetClientState(const UINT& client_state) { m_client_state = client_state; }

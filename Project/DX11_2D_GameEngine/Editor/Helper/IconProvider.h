@@ -51,7 +51,7 @@ private:
 
 public:
     void CreateImage(const IconType& icon_type, const ImVec2& button_size);
-    const bool CreateImageButton(const char* id, const IconType& icon_type, const ImVec2& button_size);
+    const bool CreateImageButton(const IconType& icon_type, const ImVec2& button_size);
 
 private:
     std::map<IconType, std::shared_ptr<Texture>> m_icon_map;

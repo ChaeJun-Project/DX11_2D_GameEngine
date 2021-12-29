@@ -20,13 +20,13 @@ public:
     virtual void BindPipeline() {}
 
 public:
-    const ResourceType& GetResourceType() const { return this->m_resource_type; }
+    const ResourceType& GetResourceType() const { return m_resource_type; }
 
-    const std::string& GetResourceName() const { return this->m_resource_name; }
-    void SetResourceName(const std::string& resource_name) { this->m_resource_name = m_resource_name; }
+    const std::string& GetResourceName() const { return m_resource_name; }
+    void SetResourceName(const std::string& resource_name) { m_resource_name = m_resource_name; }
 
-    const std::string& GetResourcePath() const { return this->m_resource_path; }
-    void SetResourcePath(const std::string& resource_path) { this->m_resource_path = resource_path; }
+    const std::string& GetResourcePath() const { return m_resource_path; }
+    void SetResourcePath(const std::string& resource_path) { m_resource_path = resource_path; }
 
 protected:
     const ResourceType m_resource_type;

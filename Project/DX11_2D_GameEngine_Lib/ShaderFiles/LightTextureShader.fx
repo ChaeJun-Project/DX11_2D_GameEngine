@@ -56,7 +56,7 @@ float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
         if (uv_range.x < animation2D_uv.x && animation2D_uv.x < uv_range.x + current_animation2D_data.frame_size.x
             && uv_range.y < animation2D_uv.y && animation2D_uv.y < uv_range.y + current_animation2D_data.frame_size.y)
         {
-            animation2D_uv += (current_animation2D_data.left_top - current_animation2D_data.offset);
+            animation2D_uv += (current_animation2D_data.left_top - uv_range + current_animation2D_data.frame_size / 2 - current_animation2D_data.offset);
             ps_output_color = g_texture_0.Sample(g_sampler1, animation2D_uv);
         }
         

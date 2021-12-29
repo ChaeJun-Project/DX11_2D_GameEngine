@@ -20,7 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "stdafx.h"
 #include "imgui.h"
 #ifndef IMGUI_DEFINE_MATH_OPERATORS
 #define IMGUI_DEFINE_MATH_OPERATORS
@@ -65,7 +64,7 @@ namespace ImGuizmo
         r[15] = a[12] * b[3] + a[13] * b[7] + a[14] * b[11] + a[15] * b[15];
     }
 
-    //template <typename T> T LERP(T x, T y, float z) { return (x + (y - x)*z); }
+    template <typename T> T LERP(T x, T y, float z) { return (x + (y - x)*z); }
     template <typename T> T Clamp(T x, T y, T z) { return ((x < y) ? y : ((x > z) ? z : x)); }
     template <typename T> T max(T x, T y) { return (x > y) ? x : y; }
     template <typename T> T min(T x, T y) { return (x < y) ? x : y; }
@@ -103,7 +102,7 @@ namespace ImGuizmo
         float Length() const { return sqrtf(x * x + y * y + z * z); };
         float LengthSq() const { return (x * x + y * y + z * z); };
         vec_t Normalize() { (*this) *= (1.f / Length()); return (*this); }
-        vec_t Normalize(const vec_t& v) { this->Set(v.x, v.y, v.z, v.w); this->Normalize(); return (*this); }
+        vec_t Normalize(const vec_t& v) { Set(v.x, v.y, v.z, v.w); Normalize(); return (*this); }
         vec_t Abs() const;
         void Cross(const vec_t& v)
         {
@@ -138,8 +137,8 @@ namespace ImGuizmo
 
         void TransformVector(const matrix_t& matrix);
         void TransformPoint(const matrix_t& matrix);
-        void TransformVector(const vec_t& v, const matrix_t& matrix) { (*this) = v; this->TransformVector(matrix); }
-        void TransformPoint(const vec_t& v, const matrix_t& matrix) { (*this) = v; this->TransformPoint(matrix); }
+        void TransformVector(const vec_t& v, const matrix_t& matrix) { (*this) = v; TransformVector(matrix); }
+        void TransformPoint(const vec_t& v, const matrix_t& matrix) { (*this) = v; TransformPoint(matrix); }
 
         float& operator [] (size_t index) { return ((float*)&x)[index]; }
         const float& operator [] (size_t index) const { return ((float*)&x)[index]; }
@@ -201,7 +200,7 @@ namespace ImGuizmo
 
         operator float* () { return m16; }
         operator const float* () const { return m16; }
-        void Translation(float _x, float _y, float _z) { this->Translation(makeVect(_x, _y, _z)); }
+        void Translation(float _x, float _y, float _z) { Translation(makeVect(_x, _y, _z)); }
 
         void Translation(const vec_t& vt)
         {

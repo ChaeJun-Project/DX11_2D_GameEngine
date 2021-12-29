@@ -18,8 +18,8 @@
 
 #define RAIN_PARTICLE_START_COLOR    g_vector4_4
 
-#define RAIN_PARTICLE_MIN_SPEED          g_float_0
-#define RAIN_PARTICLE_MAX_SPEED          g_float_1
+#define RAIN_PARTICLE_MIN_SPEED      g_float_0
+#define RAIN_PARTICLE_MAX_SPEED      g_float_1
 
 RWStructuredBuffer<ParticleInfo> g_rain_particle : register(u0);
 RWStructuredBuffer<ParticleShared> g_particle_shared : register(u1);
