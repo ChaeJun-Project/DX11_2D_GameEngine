@@ -1,0 +1,33 @@
+[Layer List]
+0 Default
+1 Camera
+2 Light
+3 UI
+4 Geometry
+5 Player
+6 Enemy
+7 
+8 
+9 
+10 
+11 
+12 
+13 
+14 
+15 
+16 
+17 
+18 
+19 
+20 
+21 
+22 
+23 
+24 
+25 
+26 
+27 
+28 
+29 
+30 
+31 

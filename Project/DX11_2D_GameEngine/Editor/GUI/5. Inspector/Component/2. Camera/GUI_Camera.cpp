@@ -11,8 +11,8 @@
 GUI_Camera::GUI_Camera(const std::string& camera_gui_name)
 	:GUI_Component(camera_gui_name)
 {
-	m_p_projection_list = new GUI_ItemList;
-	m_p_culling_layer_list = new GUI_ItemList;
+	m_p_projection_list = new GUI_ItemList();
+	m_p_culling_layer_list = new GUI_ItemList();
 }
 
 GUI_Camera::~GUI_Camera()
@@ -36,61 +36,23 @@ void GUI_Camera::Render()
 		auto culling_layer = camera->GetCullingLayer();
 
 		//Projection
-		ImGui::Text("Projection");
-		ImGui::SameLine(100.0f); //같은 라인에서 80만큼 떨어져서 시작
-
-		std::string projection_type_str;
-
-		switch (projection_type)
-		{
-		case ProjectionType::Orthographic:
-			projection_type_str = "Orthographic";
-			break;
-		case ProjectionType::Perspective:
-			projection_type_str = "Perspective";
-			break;
-		}
-
-		m_p_projection_list->AddItem("Orthographic");
-		m_p_projection_list->AddItem("Perspective");
-
-		const auto& projection_list_vector = m_p_projection_list->GetItemList();
-
-		if (ImGui::BeginCombo("##ProjectionType", projection_type_str.c_str()))
-		{
-			for (UINT i = 0; i < static_cast<UINT>(projection_list_vector.size()); ++i)
-			{
-				const bool is_selected = (*(m_p_projection_list->GetCurrentListID()) == i);
-				if (ImGui::Selectable(projection_list_vector[i].c_str(), is_selected))
-				{
-					SetProjectionType(camera, projection_list_vector[i]);
-				}
-
-				if (is_selected)
-					ImGui::SetItemDefaultFocus();
-			}
-
-			ImGui::EndCombo();
-		}
-
-		m_p_projection_list->ClearItemList();
-
+		ShowComboProjectionType(camera, projection_type);
 
 		switch (camera->GetProjectionType())
 		{
 		case ProjectionType::Orthographic:
-			ShowFloat2("Size", size, 100.0f, 70.0f);
+			ShowFloat2("Size", size, 100.0f, 100.0f);
 			break;
 		case ProjectionType::Perspective:
-			projection_type_str = "Perspective";
+
 			break;
 		}
 
 		//fov, near_z, far_z, Camera_Index
-		ShowFloat("Camera", "Fov", fov, 70.0f, 100.0f);
-		ShowFloat("Camera", "Near", near_z, 70.0f, 100.0f);
-		ShowFloat("Camera", "Far", far_z, 70.0f, 100.0f);
-		ShowInt("Camera", "Index", camera_index, 70.0f, 100.0f);
+		ShowFloat("Camera", "Fov", fov, 100.f, 100.0f);
+		ShowFloat("Camera", "Near", near_z, 100.f, 100.0f);
+		ShowFloat("Camera", "Far", far_z, 100.f, 100.0f);
+		ShowInt("Camera", "Index", camera_index, 100.f, 100.0f);
 
 		camera->SetSize(size);
 		camera->SetFov(Math::ToRadian(fov));
@@ -153,11 +115,60 @@ void GUI_Camera::Render()
 	}
 }
 
-void GUI_Camera::SetProjectionType(Camera* camera, const std::string& projection_type_str)
+void GUI_Camera::ShowComboProjectionType(Camera* p_camera, ProjectionType& projection_type)
 {
-	if (projection_type_str == "Orthographic")
-		camera->SetProjectionType(ProjectionType::Orthographic);
+	ImGui::BeginGroup();
+	ImGui::Text("Projection");
+	ImGui::SameLine(90.0f); //같은 라인에서 80만큼 떨어져서 시작
 
-	else if (projection_type_str == "Perspective")
-		camera->SetProjectionType(ProjectionType::Perspective);
+	//Show Combo
+	ImGui::PushItemWidth(120.0f);
+	{
+		int index = 0;
+
+		std::string current_projection_type;
+
+		switch (projection_type)
+		{
+		case ProjectionType::Orthographic:
+			current_projection_type = "Orthographic";
+			break;
+		case ProjectionType::Perspective:
+			current_projection_type = "Perspective";
+			break;
+		}
+
+		m_p_projection_list->AddItem("Orthographic");
+		m_p_projection_list->AddItem("Perspective");
+
+		const auto& projection_list_vector = m_p_projection_list->GetItemList();
+
+		for (auto& projection_type : projection_list_vector)
+		{
+			if (projection_type == current_projection_type)
+				m_p_projection_list->SetCurrentListID(index);
+
+			else
+				++index;
+		}
+
+		if (ImGui::BeginCombo("##Projection Type", current_projection_type.c_str()))
+		{
+			for (UINT i = 0; i < static_cast<UINT>(projection_list_vector.size()); ++i)
+			{
+				const bool is_selected = (*(m_p_projection_list->GetCurrentListID()) == i);
+				if (ImGui::Selectable(projection_list_vector[i].c_str(), is_selected))
+				{
+					p_camera->SetProjectionType(static_cast<ProjectionType>(i));
+				}
+
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
+		m_p_projection_list->ClearItemList();
+	}
+	ImGui::PopItemWidth();
+	ImGui::EndGroup();
 }

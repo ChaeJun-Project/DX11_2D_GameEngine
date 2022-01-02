@@ -58,9 +58,9 @@ public:
     const Matrix& GetProjectionMatrix() const { return m_projection_matrix; }
 
 public:
-     void CullingLayer(UINT layer_index); //토글 방식으로 구현(On/Off)
+     void CullingLayer(const UINT& layer_index); //토글 방식으로 구현(On/Off)
      void CullingEverything() { m_culling_layer = 0xffffffff; } //32비트를 모두 1로 채움
-     void CullingNothing() { m_culling_layer = 1 << 0; } //32비트를 모두 0으로 채움
+     void CullingNothing() { m_culling_layer = 0; } //32비트를 모두 0으로 채움
 
      const UINT& GetCullingLayer() { return m_culling_layer; }
 
@@ -77,7 +77,7 @@ protected:
     int m_camera_index = -1; 
 
     //카메라 culling layer
-    UINT m_culling_layer = 1 << 0;
+    UINT m_culling_layer = 0;
 
     //카메라 투영 타입
     ProjectionType m_projection_type = ProjectionType::Orthographic;

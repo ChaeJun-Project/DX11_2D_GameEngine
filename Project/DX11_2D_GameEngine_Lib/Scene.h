@@ -13,20 +13,22 @@ public:
    void FinalUpdate();
 
 public:
-	std::vector<GameObject*>& GetAllParentGameObjects();
-	std::vector<GameObject*>& GetAllGameObjects();
-	GameObject* FindGameObjectByName(const std::string& game_object_name);
+   void AddGameObject(GameObject* p_new_game_object);
 
-public:
-   void CreateLayer(const UINT& layer_index);
-   void AddGameObject(GameObject* p_game_object, UINT layer_index, bool is_move);
+   GameObject* FindGameObject(const std::string& game_object_name);
 
 public:
    const std::string& GetSceneName() { return m_object_name; }
    void SetSceneName(const std::string& scene_name) { m_object_name = scene_name; }
 
    const std::shared_ptr<Layer>& GetLayer(const UINT& layer_index);
-   const std::map<UINT, std::shared_ptr<Layer>> GetLayerMap() const { return m_layer_map; }
+   const std::map<UINT, std::shared_ptr<Layer>>& GetLayerMap() const { return m_layer_map; }
+
+   const std::vector<GameObject*>& GetAllParentGameObjects();
+   const std::vector<GameObject*>& GetAllGameObjects();
+
+private:
+	void CreateLayer(const UINT& layer_index);
 
 public:
 	void SaveToScene(FILE* p_file) override;

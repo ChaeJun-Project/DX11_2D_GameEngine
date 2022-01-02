@@ -35,6 +35,7 @@ private:
 private:
 	void ShowMenuPopup();
 	void SelectedGameObject(GameObject* game_object);
+	void CreateGameObject();
 
 private:
 	std::shared_ptr<Scene> m_p_current_scene = nullptr;

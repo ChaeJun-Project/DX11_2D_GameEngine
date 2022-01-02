@@ -11,7 +11,7 @@
 
 GUI_SpriteEditor::GUI_SpriteEditor()
 {
-	m_p_atlas_item_list = new GUI_ItemList;
+	m_p_atlas_item_list = new GUI_ItemList();
 }
 
 GUI_SpriteEditor::~GUI_SpriteEditor()

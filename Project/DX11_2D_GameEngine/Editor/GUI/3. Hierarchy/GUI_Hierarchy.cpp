@@ -169,11 +169,11 @@ void GUI_Hierarchy::ShowMenuPopup()
 	if (!ImGui::BeginPopup("Hierarchy Menu Popup"))
 		return;
 
-	if (ImGui::BeginMenu("Create 2D Object"))
+	if (ImGui::BeginMenu("Create Object"))
 	{
-		if (ImGui::MenuItem("Sprite"))
+		if (ImGui::MenuItem("Empty"))
 		{
-
+			CreateGameObject();
 		}
 
 		ImGui::EndMenu();
@@ -185,6 +185,21 @@ void GUI_Hierarchy::ShowMenuPopup()
 void GUI_Hierarchy::SelectedGameObject(GameObject* game_object)
 {
 	EditorHelper::GetInstance()->SetSelectedGameObject(game_object);
+}
+
+void GUI_Hierarchy::CreateGameObject()
+{
+	auto p_new_game_object = new GameObject();
+	p_new_game_object->AddComponent(new Transform());
+
+	EventStruct event_struct;
+	ZeroMemory(&event_struct, sizeof(EventStruct));
+
+	event_struct.event_type = EventType::Create_Object;
+	event_struct.object_address_1 = (DWORD_PTR)(p_new_game_object);
+	event_struct.layer_index = 0;
+
+	EventManager::GetInstance()->AddEvent(event_struct);
 }
 
 

@@ -30,6 +30,7 @@ EditorManager::~EditorManager()
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 
+	//GUI Clear
 	for (auto& gui : m_gui_map)
 	{
 		if (gui.second != nullptr)
@@ -38,6 +39,7 @@ EditorManager::~EditorManager()
 
 	m_gui_map.clear();
 
+	//Event CallBack Clear
 	m_event_callBack_vector.clear();
 	m_event_callBack_vector.shrink_to_fit();
 }
@@ -132,8 +134,8 @@ void EditorManager::Render()
 
 void EditorManager::ExcuteEventCallBack()
 {
-   for(auto& event_callback : m_event_callBack_vector)
-	   event_callback();
+	for (auto& event_callback : m_event_callBack_vector)
+		event_callback();
 }
 
 void EditorManager::InitializeGUI()

@@ -49,12 +49,7 @@ void EventManager::Excute(const EventStruct& event_struct)
 	case EventType::Create_Object:
 	{
 		auto p_new_game_object = (GameObject*)(event_struct.object_address_1);
-		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject
-		(
-			p_new_game_object,
-			event_struct.layer_index,
-			false
-		);
+		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(p_new_game_object);
 
 		m_is_update = true;
 	}
@@ -68,32 +63,37 @@ void EventManager::Excute(const EventStruct& event_struct)
 	break;
 	case EventType::Add_Child_Object:
 	{
-	    auto p_parent_game_object = (GameObject*)(event_struct.object_address_1);
+		auto p_parent_game_object = (GameObject*)(event_struct.object_address_1);
 		auto p_child_game_object = (GameObject*)(event_struct.object_address_2);
 
 		//이미 해당 GameObject를 자식으로 소유하고 있는 경우
 		if (p_parent_game_object->GetHasChild(p_child_game_object))
-		  return;
+			return;
 
 		//연결할 자식 GameObject가 부모 GameObject를 소유하고 있는 경우
-		if(p_child_game_object->HasParent())
+		if (p_child_game_object->HasParent())
 			p_child_game_object->DetachFromParent(); //부모로부터 분리
 
 		//연결할 자식 GameObject가 최상위 부모인 경우
 		else
 		{
-		    auto layer_index = p_child_game_object->GetGameObjectLayer();
+			auto layer_index = p_child_game_object->GetGameObjectLayer();
 			if (layer_index != -1)
 			{
-			   auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
-			   auto layer = current_scene->GetLayer(static_cast<UINT>(layer_index));
-			   layer->DeregisterFromParentGameObject(p_child_game_object);
+				auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
+				auto layer = current_scene->GetLayer(static_cast<UINT>(layer_index));
+				layer->DeregisterFromParentGameObject(p_child_game_object);
 			}
 		}
 
 		p_parent_game_object->AddChild(p_child_game_object);
 
 		m_is_update = true;
+	}
+	break;
+	case EventType::Scene_Change:
+	{
+	   //TODO
 	}
 	break;
 	}

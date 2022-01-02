@@ -4,19 +4,57 @@
 #include "Layer.h"
 #include "GameObject.h"
 
-#include "Layer.h"
+#include "Transform.h"
+#include "Camera.h"
+#include "Light2D.h"
 
 Scene::Scene(const std::string& scene_name)
 {
 	m_object_name = scene_name;
+
+	//Create Layer(0 ~ 31)
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+		CreateLayer(i);
+
+	//Camera(0)
+	auto camera = new GameObject();
+	camera->SetGameObjectName("Main Camera");
+	camera->SetGameObjectTag("Main Camera");
+	camera->AddComponent(new Transform());
+	camera->AddComponent(new Camera());
+
+	camera->GetComponent<Camera>()->SetMainCamera();
+
+	AddGameObject(camera);
+
+	//Light2D
+	auto point_light2D = new GameObject();
+	point_light2D->SetGameObjectName("Light2D_Point");
+	point_light2D->SetGameObjectTag("Light");
+	point_light2D->AddComponent(new Transform());
+	point_light2D->AddComponent(new Light2D());
+
+	auto point_light = point_light2D->GetComponent<Light2D>();
+	point_light->SetLightType(LightType::Point);
+	point_light->SetLightRange(2000.0f);
+	point_light->SetLightColor(Vector4::White);
+
+	AddGameObject(point_light2D);
 }
 
 Scene::~Scene()
 {
+    //Layer
 	for (auto& layer : m_layer_map)
 		layer.second.reset();
 
 	m_layer_map.clear();
+
+	for (auto& p_parent_game_object : m_p_parent_game_object_vector)
+		SAFE_DELETE(p_parent_game_object);
+
+	m_p_parent_game_object_vector.clear();
+	m_p_parent_game_object_vector.shrink_to_fit();
 }
 
 void Scene::Start()
@@ -34,80 +72,34 @@ void Scene::Update()
 void Scene::FinalUpdate()
 {
 	for (auto& layer : m_layer_map)
-		layer.second->GetGameObjects().clear();
-
-	for (auto& layer : m_layer_map)
 		layer.second->FinalUpdate();
 }
 
-std::vector<GameObject*>& Scene::GetAllParentGameObjects()
+void Scene::AddGameObject(GameObject* p_new_game_object)
 {
-	if (!m_p_parent_game_object_vector.empty())
-		m_p_parent_game_object_vector.clear();
+	if (p_new_game_object == nullptr)
+		return;
 
-	for (auto& layer : m_layer_map)
-	{
-		const std::vector<GameObject*> parent_game_objects = layer.second->GetParentGameObjects();
+	//해당 GameObject가 최상위 오브젝트일 경우
+	if (!p_new_game_object->HasParent())
+		m_p_parent_game_object_vector.emplace_back(p_new_game_object);
 
-		for (UINT i = 0; i < static_cast<UINT>(parent_game_objects.size()); ++i)
-		{
-			m_p_parent_game_object_vector.emplace_back(parent_game_objects[i]);
-		}
-	}
-
-	return m_p_parent_game_object_vector;
+	m_p_game_object_vector.emplace_back(p_new_game_object);
+	auto layer = p_new_game_object->GetGameObjectLayer();
+	m_layer_map[layer]->RegisterGameObject(p_new_game_object);
 }
 
-std::vector<GameObject*>& Scene::GetAllGameObjects()
+GameObject* Scene::FindGameObject(const std::string& game_object_name)
 {
-	if (!m_p_game_object_vector.empty())
-		m_p_game_object_vector.clear();
-
-	for (auto& layer : m_layer_map)
+	for (const auto& p_game_object : m_p_game_object_vector)
 	{
-		const std::vector<GameObject*> game_objects = layer.second->GetGameObjects();
-
-		for (UINT i = 0; i < static_cast<UINT>(game_objects.size()); ++i)
-		{
-			m_p_game_object_vector.emplace_back(game_objects[i]);
-		}
-	}
-
-	return m_p_game_object_vector;
-}
-
-GameObject* Scene::FindGameObjectByName(const std::string& game_object_name)
-{
-	for (auto& layer : m_layer_map)
-	{
-		const std::vector<GameObject*> game_objects = layer.second->GetGameObjects();
-
-		for (UINT i = 0; i < static_cast<UINT>(game_objects.size()); ++i)
-		{
-			if (game_objects[i]->GetGameObjectName() == game_object_name)
-				return game_objects[i];
-		}
+		if (p_game_object->GetGameObjectName() == game_object_name)
+			return p_game_object;
 	}
 
 	return nullptr;
 }
 
-void Scene::CreateLayer(const UINT& layer_index)
-{
-	auto pair_iter = m_layer_map.insert(std::make_pair(layer_index, std::make_shared<Layer>(layer_index)));
-	assert(pair_iter.second);
-}
-
-void Scene::AddGameObject(GameObject* p_game_object, UINT layer_index, bool is_move)
-{
-	std::shared_ptr<Layer> layer = nullptr;
-
-	if (m_layer_map.find(layer_index) == m_layer_map.end())
-		layer = m_layer_map.insert(std::make_pair(layer_index, std::make_shared<Layer>(layer_index))).first->second;
-
-	layer = m_layer_map.find(layer_index)->second;
-	layer->AddGameObject(p_game_object, is_move);
-}
 
 const std::shared_ptr<Layer>& Scene::GetLayer(const UINT& layer_index)
 {
@@ -119,47 +111,60 @@ const std::shared_ptr<Layer>& Scene::GetLayer(const UINT& layer_index)
 	return nullptr;
 }
 
+const std::vector<GameObject*>& Scene::GetAllParentGameObjects()
+{
+	/*if (!m_p_parent_game_object_vector.empty())
+		m_p_parent_game_object_vector.clear();
+
+	for (auto& layer : m_layer_map)
+	{
+		const std::vector<GameObject*> parent_game_objects = layer.second->GetParentGameObjects();
+
+		for (UINT i = 0; i < static_cast<UINT>(parent_game_objects.size()); ++i)
+		{
+			m_p_parent_game_object_vector.emplace_back(parent_game_objects[i]);
+		}
+	}*/
+
+	return m_p_parent_game_object_vector;
+}
+
+const std::vector<GameObject*>& Scene::GetAllGameObjects()
+{
+	//if (!m_p_game_object_vector.empty())
+	//	m_p_game_object_vector.clear();
+
+	//for (auto& layer : m_layer_map)
+	//{
+	//	const std::vector<GameObject*> game_objects = layer.second->GetGameObjects();
+
+	//	for (UINT i = 0; i < static_cast<UINT>(game_objects.size()); ++i)
+	//	{
+	//		m_p_game_object_vector.emplace_back(game_objects[i]);
+	//	}
+	//}
+
+	return m_p_game_object_vector;
+}
+
+void Scene::CreateLayer(const UINT& layer_index)
+{
+	auto pair_iter = m_layer_map.insert(std::make_pair(layer_index, std::make_shared<Layer>(layer_index)));
+	assert(pair_iter.second);
+}
+
 void Scene::SaveToScene(FILE* p_file)
 {
 	//Scene Name
-	fprintf(p_file, "[Scene Name]\n");
+	fprintf(p_file, "※ Scene\n");
 	__super::SaveToScene(p_file);
-
-	//Layer Count
-	fprintf(p_file, "[Layer Count]\n");
-	int layer_count = static_cast<int>(m_layer_map.size());
-	fprintf(p_file, "%d\n", layer_count);
-
-	//Layer Index List
-	fprintf(p_file, "[Layer Index List]\n");
-	for (const auto& layer : m_layer_map)
-	{
-		if (layer.second->m_layer_index != -1)
-			fprintf(p_file, "%d ", layer.second->m_layer_index);
-	}
-
-	fprintf(p_file, "\n");
 }
 
 void Scene::LoadFromScene(FILE* p_file)
 {
 	char char_buffer[256] = {};
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf(char_buffer, p_file);
-	m_object_name = char_buffer;
 
-	//Layer Count
-	int layer_count = 0;
+	//Scene Name
 	FileManager::FScanf(char_buffer, p_file);
-	fscanf_s(p_file, "%d\n", &layer_count);
-
-	//Layer Index List
-	FileManager::FScanf(char_buffer, p_file);
-	for (int i = 0; i < layer_count; ++i)
-	{
-		int index = -1;
-		fscanf_s(p_file, "%d", &index);
-		if (index != -1)
-			CreateLayer(static_cast<UINT>(index));
-	}
+	__super::LoadFromScene(p_file);
 }

@@ -18,7 +18,7 @@
 GUI_SpriteRenderer::GUI_SpriteRenderer(const std::string& sprite_renderer_gui_name)
 	:GUI_Component(sprite_renderer_gui_name)
 {
-	m_p_item_list = new GUI_ItemList;
+	m_p_item_list = new GUI_ItemList();
 }
 
 GUI_SpriteRenderer::~GUI_SpriteRenderer()

@@ -23,52 +23,51 @@ public:
 	virtual void FinalUpdate() = 0; //최종 업데이트 => 오브젝트가 움직이면 안됨
 
 public:
-	virtual void SaveToScene(FILE* p_file)
+	virtual void SaveToScene(FILE* p_file) override
 	{
 		switch (m_component_type)
 		{
 		case ComponentType::Transform:
-			fprintf(p_file, "[Transform]\n");
+			fprintf(p_file, "● Transform\n");
 			break;
 		case ComponentType::Camera:
-			fprintf(p_file, "[Camera]\n");
+			fprintf(p_file, "● Camera\n");
 			break;
 		case ComponentType::SpriteRenderer:
-			fprintf(p_file, "[SpriteRenderer]\n");
+			fprintf(p_file, "● SpriteRenderer\n");
 			break;
 		case ComponentType::Animator2D:
-			fprintf(p_file, "[Animator2D]\n");
+			fprintf(p_file, "● Animator2D\n");
 			break;
 		case ComponentType::Animator:
-			fprintf(p_file, "[Animator]\n");
+			fprintf(p_file, "● Animator\n");
 			break;
 		case ComponentType::Collider2D:
-			fprintf(p_file, "[Collider2D]\n");
+			fprintf(p_file, "● Collider2D\n");
 			break;
 		case ComponentType::Light2D:
-			fprintf(p_file, "[Light2D]\n");
+			fprintf(p_file, "● Light2D\n");
 			break;
 		case ComponentType::ParticleSystem:
-			fprintf(p_file, "[ParticleSystem]\n");
+			fprintf(p_file, "● ParticleSystem\n");
 			break;
 		case ComponentType::TileMap:
-			fprintf(p_file, "[TileMap]\n");
+			fprintf(p_file, "● TileMap\n");
 			break;
 		case ComponentType::RigidBody2D:
-			fprintf(p_file, "[RigidBody2D]\n");
+			fprintf(p_file, "● RigidBody2D\n");
 			break;
 		case ComponentType::Script:
-			fprintf(p_file, "[Script]\n");
+			fprintf(p_file, "● Script\n");
 			break;
 		default:
 			break;
 		}
+
+		//Component Type
+		fprintf(p_file, "%d\n", static_cast<UINT>(m_component_type));
 	}
-	virtual void LoadFromScene(FILE* p_file)
-	{
-		char char_buffer[256] = { 0 };
-		FileManager::FScanf(char_buffer, p_file);
-	}
+	void LoadFromScene(FILE* p_file) override {}
 	
 public:
     virtual IComponent* Clone() = 0;

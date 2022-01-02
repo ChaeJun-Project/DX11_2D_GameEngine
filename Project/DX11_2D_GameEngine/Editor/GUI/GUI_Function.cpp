@@ -5,6 +5,7 @@
 
 #include <DX11_2D_GameEngine_Lib/Core.h>
 #include <DX11_2D_GameEngine_Lib/Settings.h>
+#include <DX11_2D_GameEngine_Lib/SceneManager.h>
 
 void ShowInt(const std::string& label_tag, const char* label_name, int& value, const float& size, const float& indent, ImGuiInputTextFlags flags)
 {
@@ -69,6 +70,25 @@ void ShowFloat3(const char* label_name, Vector3& value, const float& size, const
 	ShowFloat(label_str, "Y", value.y, size, 0.0f, flags); ImGui::SameLine(); //같은 라인에 시작
 	//Draw Z
 	ShowFloat(label_str, "Z", value.z, size, 0.0f, flags);
+
+	ImGui::EndGroup(); //하나의 그룹으로 묶기 해제
+}
+
+void ShowFloat4(const char* label_name, Vector4& value, const float& size, const float& indent, ImGuiInputTextFlags flags)
+{
+	ImGui::BeginGroup(); //하나의 그룹으로 묶기
+	ImGui::Text(label_name);
+	std::string label_str = FileManager::ConvertCharToString(label_name);
+	ImGui::SameLine(indent); //같은 라인에서 80만큼 떨어져서 시작
+
+	//Draw X
+	ShowFloat(label_str, "X", value.x, size, 0.0f, flags); ImGui::SameLine(); //같은 라인에 시작
+	//Draw Y
+	ShowFloat(label_str, "Y", value.y, size, 0.0f, flags); ImGui::SameLine(); //같은 라인에 시작
+	//Draw Z
+	ShowFloat(label_str, "Z", value.z, size, 0.0f, flags); ImGui::SameLine(); //같은 라인에 시작
+	//Draw W
+	ShowFloat(label_str, "W", value.z, size, 0.0f, flags);
 
 	ImGui::EndGroup(); //하나의 그룹으로 묶기 해제
 }
@@ -178,7 +198,7 @@ void LoadFile(const std::string path, const FileType& file_type)
 		switch (file_type)
 		{
 		case FileType::Scene:
-			ClientSceneManager::LoadScene(FileManager::ConvertWStringToString(szName));
+			SceneManager::GetInstance()->SetCurrentScene(ClientSceneManager::LoadScene(FileManager::ConvertWStringToString(szName)));
 			break;
 		case FileType::Tile:
 

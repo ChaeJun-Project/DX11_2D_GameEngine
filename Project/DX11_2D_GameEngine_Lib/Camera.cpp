@@ -177,7 +177,7 @@ void Camera::RenderPostEffectObjects()
 	}
 }
 
-void Camera::CullingLayer(UINT layer_index)
+void Camera::CullingLayer(const UINT& layer_index)
 {
 	//이미 카메라에 등록된 Culling Layer라면
 	if (m_culling_layer & (1 << layer_index))
@@ -284,7 +284,7 @@ void Camera::SaveToScene(FILE* p_file)
 	fprintf(p_file, "%d\n", m_camera_index);
 	
 	//Camera Culling Layer
-	fprintf(p_file, "[Index]\n");
+	fprintf(p_file, "[Culling Layer]\n");
 	fprintf(p_file, "%d\n", m_culling_layer);
 
 	//카메라 투영 타입

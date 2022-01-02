@@ -85,9 +85,6 @@
     <ClInclude Include="Texture.h">
       <Filter>Resource\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Scene\Components\1. Transform</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Scene\GameObject</Filter>
     </ClInclude>
@@ -204,6 +201,9 @@
     </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Manager\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Scene\Components\1. Transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

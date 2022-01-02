@@ -7,13 +7,13 @@ class FileManager final
 {
 public:
 	static void OpenDirectoryWindow(const std::string& directory);
-	//static const bool Create_Directory(const std::string& path); //특정 경로에 폴더를 생성
-	//static const bool Delete_Directory(const std::string& path); //특정 경로의 폴더 또는 파일을 삭제(폴더 내의 데이터를 모두 삭제)
-	//static const bool Delete_File(const std::string& path); //특정 경로의 파일을 삭제
-	//static const bool Copy_File(const std::string& src, const std::string& dst); //파일을 복사 src(source)의 내용을 dst(destination)에 복사
-	//static const bool IsDirectory(const std::string& path); //특정 경로가 폴더인지 확인
-	//static const bool IsExistDirectory(const std::string& path); //특정 경로에 폴더가 존재하는지 확인
-	//static const bool IsExistFile(const std::string& path); //특정 폴더에 파일이 존재하는지 확인
+	static const bool Create_Directory(const std::string& path); //특정 경로에 폴더를 생성
+	static const bool Delete_Directory(const std::string& path); //특정 경로의 폴더 또는 파일을 삭제(폴더 내의 데이터를 모두 삭제)
+	static const bool Delete_File(const std::string& path); //특정 경로의 파일을 삭제
+	static const bool Copy_File(const std::string& src, const std::string& dst); //파일을 복사 src(source)의 내용을 dst(destination)에 복사
+	static const bool IsDirectory(const std::string& path); //특정 경로가 폴더인지 확인
+	static const bool IsExistDirectory(const std::string& path); //특정 경로에 폴더가 존재하는지 확인
+	static const bool IsExistFile(const std::string& path); //특정 폴더에 파일이 존재하는지 확인
 	static const std::vector<std::string> GetFileNameVectorFromDirectory(const std::string& path); //특정 경로의 디렉토리 내부의 모든 파일의 이름을 벡터로 저장하여 반환
 
 	static const std::string GetFileNameFromPath(const std::string& path); //특정 경로에 있는 파일의 이름을 반환(확장자 포함)

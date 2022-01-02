@@ -10,6 +10,8 @@ static void ShowFloat2(const char* label_name, Vector2& value, const float& size
 
 static void ShowFloat3(const char* label_name, Vector3& value, const float& size, const float& indent,  ImGuiInputTextFlags flags = 0);
 
+static void ShowFloat4(const char* label_name, Vector4& value, const float& size, const float& indent, ImGuiInputTextFlags flags = 0);
+
 static const bool CheckMousePositionInRect(const ImVec2& mouse_position, const ImVec2& rect_left_top, const ImVec2& rect_right_bottom);
 
 static void SaveFile(const std::string path, const FileType& file_type);

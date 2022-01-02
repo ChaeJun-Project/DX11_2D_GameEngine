@@ -3,6 +3,7 @@
 #include "stdafx.h"
 
 class IComponent;
+class Script;
 
 class GameObject : public DX11Obejct
 {
@@ -22,6 +23,7 @@ private:
 	static constexpr ComponentType GetComponentType();
 
 public:
+    void AddComponent(const ComponentType& component_type);
 	void AddComponent(IComponent* p_component);
 
 	template<typename T>
@@ -30,13 +32,15 @@ public:
 
 	void RemoveComponent(const ComponentType& component_type);
 
+	const UINT& GetComponentCount() const { return static_cast<UINT>(m_p_component_list.size()); }
+
 public:
     const std::list<Script*> GetScripts() { return m_p_script_list; }
 
 public:
-	//Object IsActive
-	bool& IsActive() { return m_active_check; }
-	void SetObjectActive(const bool& is_active) { m_active_check = is_active; }
+	//GameObject IsActive
+	const bool& IsActive() { return m_active_check; }
+	void SetGameObjectActive(const bool& is_active) { m_active_check = is_active; }
 
 	//Dead Check
 	const bool IsDead() { return m_dead_check; }
@@ -50,8 +54,8 @@ public:
 	void SetGameObjectTag(const std::string& object_tag) { m_game_object_tag = object_tag; }
 	
 	//GameObject Layer
-	const int& GetGameObjectLayer() const { return m_game_object_layer; }
-	void SetGameObjectLayer(const UINT& layer_index) { m_game_object_layer = static_cast<UINT>(layer_index); }
+	const UINT& GetGameObjectLayer() const { return m_game_object_layer; }
+	void SetGameObjectLayer(const UINT& layer_index);
 
 public:
 	//=====================================================================
@@ -72,12 +76,15 @@ public:
 	void AddChild(GameObject* p_child_game_object);
 	void DetachFromParent();
 	
-	const bool HasParent() { if(m_p_parent) return true; return false; }
-	const bool HasChilds() { return !(m_p_child_vector.empty()); }
+	bool HasParent() { if(m_p_parent) return true; return false; }
+	bool HasChilds() { return !(m_p_child_vector.empty()); }
 
 private:
     void SetDead() { m_dead_check = true; }
-	void RegisterLayer();
+
+public:
+	void SaveToScene(FILE* p_file) override;
+	void LoadFromScene(FILE* p_file) override;
 
 public:
 	GameObject* Clone() { return new GameObject(*this); }
@@ -90,9 +97,9 @@ protected:
 	//Object Dead Check
 	bool m_dead_check = false;
 	//GameObject Tag
-	std::string m_game_object_tag;
+	std::string m_game_object_tag = "Default";
 	//GameObject Layer
-	int m_game_object_layer = -1;
+	UINT m_game_object_layer = 0;
 
 	//Component List
 	std::list<std::pair<ComponentType, IComponent*>> m_p_component_list;

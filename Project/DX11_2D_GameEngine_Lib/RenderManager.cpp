@@ -73,11 +73,8 @@ void RenderManager::Render()
 		RenderPlay();
 		break;
 	case 2:
-	{
 		RenderEditor();
-		RenderPlay();
-	}
-	break;
+		break;
 	}
 
 	//카메라 벡터 초기화
@@ -136,15 +133,40 @@ void RenderManager::RenderEditor()
 
 	SetRenderTexture(RenderTextureType::EditorScene);
 
-	//Editor Camera 기준으로 화면 그리기
-	if (m_p_editor_camera != nullptr)
+	if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
 	{
-		m_p_editor_camera->UpdateMatrix();
+		//Editor Camera 기준으로 화면 그리기
+		if (m_p_editor_camera != nullptr)
+		{
+			m_p_editor_camera->UpdateMatrix();
 
-		m_p_editor_camera->SortObjects();
-		m_p_editor_camera->RenderForwardObjects();
-		m_p_editor_camera->RenderParticleObjects();
-		m_p_editor_camera->RenderPostEffectObjects();
+			m_p_editor_camera->SortObjects();
+			m_p_editor_camera->RenderForwardObjects();
+			m_p_editor_camera->RenderParticleObjects();
+			m_p_editor_camera->RenderPostEffectObjects();
+		}
+	}
+
+	else
+		//메인 카메라(index 0) 기준으로 화면 그리기
+		if (m_camera_vector[0] != nullptr)
+		{
+			m_camera_vector[0]->UpdateMatrix();
+
+			m_camera_vector[0]->SortObjects();
+			m_camera_vector[0]->RenderForwardObjects();
+			m_camera_vector[0]->RenderParticleObjects();
+			m_camera_vector[0]->RenderPostEffectObjects();
+		}
+
+	//서브 카메라 화면 그리기(index 1부터)
+	for (UINT i = 1; i < static_cast<UINT>(m_camera_vector.size()); ++i)
+	{
+		if (m_camera_vector[i] == nullptr)
+			continue;
+
+		m_camera_vector[i]->SortObjects();
+		m_camera_vector[i]->RenderForwardObjects();
 	}
 }
 

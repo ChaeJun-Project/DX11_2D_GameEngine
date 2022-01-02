@@ -1,0 +1,9 @@
+[Tag Count]
+5
+
+[Tag List]
+Default
+Main Camera
+Light
+Player
+Enemy

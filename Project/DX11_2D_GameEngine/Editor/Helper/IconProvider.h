@@ -13,6 +13,8 @@ enum class IconType : UINT
 
    //Component
    Component_Settings,
+   Component_Plus,
+   Component_Back,
    Component_Transform,
    Component_Camera,
    Component_SpriteRenderer,

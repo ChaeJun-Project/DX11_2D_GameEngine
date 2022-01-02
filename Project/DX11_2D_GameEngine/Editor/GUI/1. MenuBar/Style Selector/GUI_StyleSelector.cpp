@@ -5,7 +5,7 @@
 
 GUI_StyleSelector::GUI_StyleSelector()
 {
-	m_p_item_list = new GUI_ItemList;
+	m_p_item_list = new GUI_ItemList();
 }
 
 GUI_StyleSelector::~GUI_StyleSelector()

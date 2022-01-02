@@ -163,7 +163,7 @@ void WalkCannon_Script::CreateBullet()
 
 	auto bullet = Instantiate(m_p_bullet_prefab, position, 4, true);
 	
-	current_scene->AddGameObject(bullet, 4, true);
+	current_scene->AddGameObject(bullet);
 	dynamic_cast<WalkCannon_Bullet_Script*>(bullet->GetComponent<Script>())->SetDirection(direction);
 
 	m_current_state = AnimationState::Idle;

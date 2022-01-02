@@ -43,8 +43,8 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 {
 	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
 
-	const std::vector<GameObject*>& left_layer_game_objects = current_scene->GetLayer(left_layer)->GetGameObjects();
-	const std::vector<GameObject*>& right_layer_game_objects = current_scene->GetLayer(right_layer)->GetGameObjects();
+	const auto& left_layer_game_objects = current_scene->GetLayer(left_layer)->GetGameObjects();
+	const auto& right_layer_game_objects = current_scene->GetLayer(right_layer)->GetGameObjects();
 
 	std::map<ULONGLONG, bool>::iterator iter;
 

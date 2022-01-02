@@ -17,33 +17,35 @@ IconProvider::~IconProvider()
 void IconProvider::Initialize()
 {
     //Load Tool Bar Texture
-	LoadIconTexture("Texture/Icon/ToolBar/toolbar_play.png", IconType::ToolBar_Play);
-	LoadIconTexture("Texture/Icon/ToolBar/toolbar_pause.png", IconType::ToolBar_Pause);
-	LoadIconTexture("Texture/Icon/ToolBar/toolbar_stop.png", IconType::ToolBar_Stop);
+	LoadIconTexture("Icon/ToolBar/toolbar_play.png", IconType::ToolBar_Play);
+	LoadIconTexture("Icon/ToolBar/toolbar_pause.png", IconType::ToolBar_Pause);
+	LoadIconTexture("Icon/ToolBar/toolbar_stop.png", IconType::ToolBar_Stop);
 
 	//Load GameObject Icon Texture
-	LoadIconTexture("Texture/Icon/Inspector/GameObject.png", IconType::Inspector_GameObject);
-	LoadIconTexture("Texture/Icon/Inspector/Prefab_GameObject.png", IconType::Inspector_Prefab_GameObject);
+	LoadIconTexture("Icon/Inspector/GameObject.png", IconType::Inspector_GameObject);
+	LoadIconTexture("Icon/Inspector/Prefab_GameObject.png", IconType::Inspector_Prefab_GameObject);
 
 	//Load Component Icon Texture
-	LoadIconTexture("Texture/Icon/Inspector/component_settings.png", IconType::Component_Settings);
-	LoadIconTexture("Texture/Icon/Inspector/component_transform.png", IconType::Component_Transform);
-	LoadIconTexture("Texture/Icon/Inspector/component_camera.png", IconType::Component_Camera);
-	LoadIconTexture("Texture/Icon/Inspector/component_sprite_renderer.png", IconType::Component_SpriteRenderer);
-	LoadIconTexture("Texture/Icon/Inspector/component_animator2D.png", IconType::Component_Animator2D);
-	LoadIconTexture("Texture/Icon/Inspector/component_animator.png", IconType::Component_Animator);
-	LoadIconTexture("Texture/Icon/Inspector/component_collider2d.png", IconType::Component_Collider2D);
-	LoadIconTexture("Texture/Icon/Inspector/component_light2D.png", IconType::Component_Light2D);
-	LoadIconTexture("Texture/Icon/Inspector/component_particle_system.png", IconType::Component_ParticleSystem);
-	LoadIconTexture("Texture/Icon/Inspector/component_tile_map.png", IconType::Component_TileMap);
-	LoadIconTexture("Texture/Icon/Inspector/component_rigid_body2D.png", IconType::Component_RigidBody2D);
+	LoadIconTexture("Icon/Inspector/component_settings.png", IconType::Component_Settings);
+	LoadIconTexture("Icon/Inspector/component_plus.png", IconType::Component_Plus);
+	LoadIconTexture("Icon/Inspector/component_back_arrow.png", IconType::Component_Back);
+	LoadIconTexture("Icon/Inspector/component_transform.png", IconType::Component_Transform);
+	LoadIconTexture("Icon/Inspector/component_camera.png", IconType::Component_Camera);
+	LoadIconTexture("Icon/Inspector/component_sprite_renderer.png", IconType::Component_SpriteRenderer);
+	LoadIconTexture("Icon/Inspector/component_animator2D.png", IconType::Component_Animator2D);
+	LoadIconTexture("Icon/Inspector/component_animator.png", IconType::Component_Animator);
+	LoadIconTexture("Icon/Inspector/component_collider2d.png", IconType::Component_Collider2D);
+	LoadIconTexture("Icon/Inspector/component_light2D.png", IconType::Component_Light2D);
+	LoadIconTexture("Icon/Inspector/component_particle_system.png", IconType::Component_ParticleSystem);
+	LoadIconTexture("Icon/Inspector/component_tile_map.png", IconType::Component_TileMap);
+	LoadIconTexture("Icon/Inspector/component_rigid_body2D.png", IconType::Component_RigidBody2D);
 	
-	LoadIconTexture("Texture/Icon/Inspector/component_script.png", IconType::Component_Script);
+	LoadIconTexture("Icon/Inspector/component_script.png", IconType::Component_Script);
 
 	//Load Console Icon
-	LoadIconTexture("Texture/Icon/Console/console_log_info.png", IconType::Console_Info);
-	LoadIconTexture("Texture/Icon/Console/console_log_warning.png", IconType::Console_Warning);
-	LoadIconTexture("Texture/Icon/Console/console_log_error.png", IconType::Console_Error);
+	LoadIconTexture("Icon/Console/console_log_info.png", IconType::Console_Info);
+	LoadIconTexture("Icon/Console/console_log_warning.png", IconType::Console_Warning);
+	LoadIconTexture("Icon/Console/console_log_error.png", IconType::Console_Error);
 }
 
 void IconProvider::LoadIconTexture(const std::string& texture_path, const IconType& icon_type)

@@ -28,7 +28,7 @@ private:
 	void EndDockWindow();
 
 public:
-    void ResizeEditor(const UINT& width, const UINT& height);
+	void ResizeEditor(const UINT& width, const UINT& height);
 
 private:
 	//엔전에서 사용되는 모든 GUI를 저장 및 관리할 벡터

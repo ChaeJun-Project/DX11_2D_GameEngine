@@ -33,7 +33,7 @@ void GameLogic_Script::Start()
 	geometry->AddComponent(new Transform());
 	geometry->AddComponent(new Geometry_Script());
 
-	current_scene->AddGameObject(geometry, 2, true);
+	current_scene->AddGameObject(geometry);
 
 	//RockManZ(3)
 	auto rockmanZ = new GameObject();
@@ -52,7 +52,7 @@ void GameLogic_Script::Start()
 	auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
 	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 33.0f - 180.0f), 0.0f));
 
-	current_scene->AddGameObject(rockmanZ, 3, true);
+	current_scene->AddGameObject(rockmanZ);
 
 	////Enemy(4)
 	//auto walkcannon = new GameObject();

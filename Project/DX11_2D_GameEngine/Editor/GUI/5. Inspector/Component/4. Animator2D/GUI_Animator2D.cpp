@@ -13,8 +13,8 @@
 GUI_Animator2D::GUI_Animator2D(const std::string& animator_gui_name)
 	:GUI_Component(animator_gui_name)
 {
-	m_p_item_list = new GUI_ItemList;
-	m_p_gui_sprite_editor = new GUI_SpriteEditor;
+	m_p_item_list = new GUI_ItemList();
+	m_p_gui_sprite_editor = new GUI_SpriteEditor();
 }
 
 GUI_Animator2D::~GUI_Animator2D()

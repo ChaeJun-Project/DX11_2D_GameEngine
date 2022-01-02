@@ -18,7 +18,6 @@ public:
 	//Light Property
 	void SetLightType(LightType light_type) { m_light2D_data.light_type = light_type; }
 	void SetLightDir(Vector3 light_direction) { m_light2D_data.light_direction = light_direction; }
-	void SetLightPos(Vector3 light_position) { m_light2D_data.light_position = light_position; }
 	void SetLightRange(float light_range) {  m_light2D_data.light_range = light_range; }
 	void SetLightAngle(float light_angle) {  m_light2D_data.light_angle = light_angle; }
 

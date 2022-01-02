@@ -1,6 +1,7 @@
 #pragma once
 
 class GUI_Tree;
+class GameObject;
 
 class GUI_TreeItem final
 {
@@ -34,6 +35,7 @@ private:
 	std::string m_item_name;
 	GUI_TreeItem* m_p_parent = nullptr;
 	PayLoad m_pay_load;
+	GameObject* p_game_object = nullptr;
 
 	std::vector<GUI_TreeItem*> m_p_child_vector;
 

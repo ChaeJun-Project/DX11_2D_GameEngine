@@ -9,16 +9,28 @@ GUI_TreeItem::GUI_TreeItem(GUI_TreeItem* p_parent, const std::string& item_name,
 {
 	m_pay_load.type = pay_load_type;
 	m_pay_load.data = object_address;
+
+	if (m_pay_load.type == PayLoadType::GameObject)
+	{
+		p_game_object = (GameObject*)(object_address);
+	}
 }
 
 GUI_TreeItem::~GUI_TreeItem()
 {
+	p_game_object = nullptr;
+
 	m_p_child_vector.clear();
 	m_p_child_vector.shrink_to_fit();
 }
 
 void GUI_TreeItem::Update()
 {
+	if (p_game_object != nullptr)
+	{
+		m_item_name = p_game_object->GetGameObjectName();
+	}
+
 	//TreeItem이 자식을 가지고 있는 경우 더블 클릭 or 왼쪽 화살표를 눌렀을 경우 펼침
 	int flags = ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow;
 

@@ -10,7 +10,7 @@
 
 GUI_MapTool::GUI_MapTool()
 {
-	m_p_tile_atlas_item_list = new GUI_ItemList;
+	m_p_tile_atlas_item_list = new GUI_ItemList();
 }
 
 GUI_MapTool::~GUI_MapTool()

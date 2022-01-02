@@ -1,19 +1,20 @@
 #include "stdafx.h"
 #include "Layer.h"
 
+#include "GameObject.h"
+
 Layer::Layer(const UINT& layer_index)
-	:m_layer_index(layer_index)
+	:m_layer_index()
 {
 }
 
 Layer::~Layer()
 {
-	for (auto& p_parent_game_object : m_p_parent_game_object_vector)
-		SAFE_DELETE(p_parent_game_object);
-
+    //Clear Parent GameObject Vector
 	m_p_parent_game_object_vector.clear();
 	m_p_parent_game_object_vector.shrink_to_fit();
 
+	//Clear GameObject Vector
 	m_p_game_object_vector.clear();
 	m_p_game_object_vector.shrink_to_fit();
 }
@@ -38,8 +39,17 @@ void Layer::FinalUpdate()
 	{
 		(*iter)->FinalUpdate();
 
+		//해당 GameObject가 삭제예정이라면
 		if ((*iter)->IsDead())
+		{ 
+			//해당 Layer에 속한 자식 GameObject들 제거
+			auto child_game_object_vector = (*iter)->GetChilds();
+			for(const auto& p_child_game_object : child_game_object_vector)
+				DeregisterGameObject(p_child_game_object);
+
+		    //해당 GameObject를 Parent GameObject Vector에서 제거
 			iter = m_p_parent_game_object_vector.erase(iter);
+		}
 
 		else
 			++iter;
@@ -87,6 +97,37 @@ void Layer::AddGameObject(GameObject* p_game_object, bool is_move)
 	}
 }
 
+void Layer::RegisterGameObject(GameObject* p_game_object)
+{
+	//해당 GameObject 부모가 없는 최상위 오브젝트라면
+	if (!p_game_object->HasParent())
+		m_p_parent_game_object_vector.emplace_back(p_game_object);
+
+	m_p_game_object_vector.emplace_back(p_game_object);
+}
+
+void Layer::DeregisterGameObject(GameObject* p_game_object)
+{
+	//해당 GameObject 부모가 없는 최상위 오브젝트라면
+	if (!p_game_object->HasParent())
+		DeregisterFromParentGameObject(p_game_object);
+
+	std::vector<GameObject*>::iterator iter = m_p_game_object_vector.begin();
+
+	for (; iter != m_p_game_object_vector.end();)
+	{
+		if ((*iter) == p_game_object)
+		{
+			iter = m_p_game_object_vector.erase(iter);
+
+			return;
+		}
+
+		else
+			++iter;
+	}
+}
+
 void Layer::DeregisterFromParentGameObject(GameObject* p_game_object)
 {
 	std::vector<GameObject*>::iterator iter = m_p_parent_game_object_vector.begin();
@@ -103,17 +144,4 @@ void Layer::DeregisterFromParentGameObject(GameObject* p_game_object)
 		else
 			++iter;
 	}
-}
-
-void Layer::SaveToScene(FILE* p_file)
-{
-	fprintf(p_file, "[Layer Index]\n");
-	fprintf(p_file, "%d\n", m_layer_index);
-}
-
-void Layer::LoadFromScene(FILE* p_file)
-{
-	char char_buffer[256] = { 0 };
-	FileManager::FScanf(char_buffer, p_file);
-	fscanf_s(p_file, "%d\n", &m_layer_index);
 }

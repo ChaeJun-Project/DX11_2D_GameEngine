@@ -26,6 +26,10 @@ void Light2D::FinalUpdate()
 	RenderManager::GetInstance()->RegisterLight2D(this , m_light2D_index);
 }
 
+//<summary>
+//Light Position은 매 프레임마다 해당 컴포넌트를 소유한 GameObject의 Transform의 데이터를 받아
+//설정하기 때문에 Save & Load에는 포함하지 않음
+//</summary>
 void Light2D::SaveToScene(FILE* p_file)
 {
 	__super::SaveToScene(p_file); //IComponent
@@ -49,10 +53,6 @@ void Light2D::SaveToScene(FILE* p_file)
 	fprintf(p_file, "[Direction]\n");
 	FileManager::FPrintf_Vector3(m_light2D_data.light_direction, p_file);
 
-	//Light Position
-	fprintf(p_file, "[Position]\n");
-	FileManager::FPrintf_Vector3(m_light2D_data.light_position, p_file);
-	
 	//Light Ragne
 	fprintf(p_file, "[Range]\n");
 	fprintf(p_file, "%f\n", m_light2D_data.light_range);
@@ -87,10 +87,6 @@ void Light2D::LoadFromScene(FILE* p_file)
 	//Light Direction
 	FileManager::FScanf(char_buffer, p_file);
 	FileManager::FScanf_Vector3(m_light2D_data.light_direction, p_file);
-
-	//Light Position
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf_Vector3(m_light2D_data.light_position, p_file);
 
 	//Light Ragne
 	FileManager::FScanf(char_buffer, p_file);

@@ -18,6 +18,10 @@ public:
 
 	virtual void LoadFromScene(FILE* p_file)
 	{
+		char char_buffer[256] = {};
+
+		FileManager::FScanf(char_buffer, p_file);
+		m_object_name = std::string(char_buffer);
 		//FileManager::LoadStringFromFile(m_object_name, p_file);
 	}
 
@@ -54,5 +58,5 @@ private:
 protected:
 	UINT m_id = 0;
 
-	std::string m_object_name;
+	std::string m_object_name = "GameObject";
 };

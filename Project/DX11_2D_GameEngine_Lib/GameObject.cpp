@@ -123,16 +123,6 @@ void GameObject::FinalUpdate()
 	//자식 오브젝트 최종 업데이트(transform)
 	for (auto& child : m_p_child_vector)
 		child->FinalUpdate();
-
-	RegisterLayer();
-}
-
-void GameObject::RegisterLayer()
-{
-	//Layer에 등록
-	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
-	auto layer = current_scene->GetLayer(static_cast<UINT>(m_game_object_layer));
-	layer->RegisterObject(this);
 }
 
 void GameObject::Render()
@@ -159,6 +149,43 @@ void GameObject::Render()
 	auto tile_map = GetComponent<TileMap>();
 	if (tile_map != nullptr)
 		tile_map->Render();
+}
+
+void GameObject::AddComponent(const ComponentType& component_type)
+{
+	switch (component_type)
+	{
+	case ComponentType::Transform:
+		AddComponent(new Transform());
+		break;
+	case ComponentType::Camera:
+		AddComponent(new Camera());
+		break;
+	case ComponentType::SpriteRenderer:
+		AddComponent(new SpriteRenderer());
+		break;
+	case ComponentType::Animator2D:
+		AddComponent(new Animator2D());
+		break;
+	case ComponentType::Animator:
+		//TODO
+		break;
+	case ComponentType::Collider2D:
+		AddComponent(new Collider2D());
+		break;
+	case ComponentType::Light2D:
+		AddComponent(new Light2D());
+		break;
+	case ComponentType::ParticleSystem:
+		AddComponent(new ParticleSystem());
+		break;
+	case ComponentType::TileMap:
+		AddComponent(new TileMap());
+		break;
+	case ComponentType::RigidBody2D:
+		//TODO
+		break;
+	}
 }
 
 void GameObject::AddComponent(IComponent* p_component)
@@ -204,6 +231,26 @@ void GameObject::RemoveComponent(const ComponentType& component_type)
 		else
 			++list_iter;
 	}
+}
+
+void GameObject::SetGameObjectLayer(const UINT& layer_index)
+{
+	if (m_game_object_layer != layer_index)
+	{
+		//Current Scene
+		auto p_current_scene = SceneManager::GetInstance()->GetCurrentScene();
+
+		//Deregister from Pre Layer
+		auto p_pre_layer = p_current_scene->GetLayer(m_game_object_layer);
+		p_pre_layer->DeregisterGameObject(this);
+
+		//Set New Layer Index
+		m_game_object_layer = layer_index;
+
+		//Register to Current Layer
+		auto p_current_layer = p_current_scene->GetLayer(m_game_object_layer);
+		p_current_layer->RegisterGameObject(this);
+   }
 }
 
 //=====================================================================
@@ -292,6 +339,37 @@ void GameObject::DetachFromParent()
 		else
 			++iter;
 	}
+}
+
+void GameObject::SaveToScene(FILE* p_file)
+{
+	//GameObject Name
+	__super::SaveToScene(p_file);
+
+	//Tag
+	fprintf(p_file, "[Tag]\n");
+	fprintf(p_file, "%s\n", m_game_object_tag.c_str());
+
+	//Layer
+	fprintf(p_file, "[Layer]\n");
+	fprintf(p_file, "%d\n", m_game_object_layer);
+}
+
+void GameObject::LoadFromScene(FILE* p_file)
+{
+	//GameObject Name
+	__super::LoadFromScene(p_file);
+
+	char char_buffer[256] = {};
+
+	//Tag
+	FileManager::FScanf(char_buffer, p_file);
+	FileManager::FScanf(char_buffer, p_file);
+	m_game_object_tag = std::string(char_buffer);
+
+	//Layer
+	FileManager::FScanf(char_buffer, p_file);
+	fscanf_s(p_file, "%d\n", &m_game_object_layer);
 }
 
 #include "Prefab.h"
