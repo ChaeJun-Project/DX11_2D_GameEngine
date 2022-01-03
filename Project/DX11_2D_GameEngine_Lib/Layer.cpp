@@ -21,45 +21,39 @@ Layer::~Layer()
 
 void Layer::Start()
 {
-	for (auto& game_object : m_p_parent_game_object_vector)
-		game_object->Start();
+	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
+		p_parent_game_object->Start();
 }
 
 void Layer::Update()
 {
-	for (auto& game_object : m_p_parent_game_object_vector)
-		game_object->Update();
+	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
+		p_parent_game_object->Update();
 }
 
 void Layer::FinalUpdate()
 {
-	std::vector<GameObject*>::iterator iter = m_p_parent_game_object_vector.begin();
-
-	for (; iter != m_p_parent_game_object_vector.end(); )
+	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
 	{
-		(*iter)->FinalUpdate();
+		p_parent_game_object->FinalUpdate();
 
-		//해당 GameObject가 삭제예정이라면
-		if ((*iter)->IsDead())
-		{ 
+		if (p_parent_game_object->IsDead())
+		{
 			//해당 Layer에 속한 자식 GameObject들 제거
-			auto child_game_object_vector = (*iter)->GetChilds();
-			for(const auto& p_child_game_object : child_game_object_vector)
+			const auto& child_game_object_vector = p_parent_game_object->GetChilds();
+			for (const auto& p_child_game_object : child_game_object_vector)
 				DeregisterGameObject(p_child_game_object);
 
-		    //해당 GameObject를 Parent GameObject Vector에서 제거
-			iter = m_p_parent_game_object_vector.erase(iter);
+			//해당 GameObject를 Parent GameObject Vector & GameObject Vector에서 제거
+			DeregisterGameObject(p_parent_game_object);
 		}
-
-		else
-			++iter;
 	}
 }
 
 void Layer::Render()
 {
-	for (auto& game_object : m_p_game_object_vector)
-		game_object->Render();
+	for (const auto& p_game_object : m_p_game_object_vector)
+		p_game_object->Render();
 }
 
 void Layer::AddGameObject(GameObject* p_game_object, bool is_move)
@@ -119,7 +113,6 @@ void Layer::DeregisterGameObject(GameObject* p_game_object)
 		if ((*iter) == p_game_object)
 		{
 			iter = m_p_game_object_vector.erase(iter);
-
 			return;
 		}
 
@@ -137,7 +130,6 @@ void Layer::DeregisterFromParentGameObject(GameObject* p_game_object)
 		if ((*iter) == p_game_object)
 		{
 			iter = m_p_parent_game_object_vector.erase(iter);
-
 			return;
 		}
 

@@ -316,7 +316,6 @@ void GameObject::AddChild(GameObject* p_child_game_object)
 	m_p_child_vector.emplace_back(p_child_game_object);
 
 	p_child_game_object->m_p_parent = this;
-	p_child_game_object->m_game_object_layer = m_game_object_layer;
 }
 
 void GameObject::DetachFromParent()

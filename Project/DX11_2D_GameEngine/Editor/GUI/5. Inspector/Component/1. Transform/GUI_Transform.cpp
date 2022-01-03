@@ -5,13 +5,15 @@
 
 #include <DX11_2D_GameEngine_Lib/FileManager.h>
 
+#include <DX11_2D_GameEngine_Lib/SceneManager.h>
+
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/Transform.h>
 
 GUI_Transform::GUI_Transform(const std::string& transform_gui_name)
 	:GUI_Component(transform_gui_name)
 {
-  
+
 }
 
 void GUI_Transform::Render()
@@ -28,9 +30,13 @@ void GUI_Transform::Render()
 		ShowFloat3("Rotation", rotation, 70.0f, 80.0f);
 		ShowFloat3("Scale", scale, 70.0f, 80.0f);
 
-		transform->SetTranslation(position);
-		transform->SetRotation(Quaternion::QuaternionFromEulerAngle(rotation));
-		transform->SetScale(scale);
+		//Set Data
+		if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+		{
+			transform->SetTranslation(position);
+			transform->SetRotation(Quaternion::QuaternionFromEulerAngle(rotation));
+			transform->SetScale(scale);
+		}
 
 		DrawComponentEnd();
 	}

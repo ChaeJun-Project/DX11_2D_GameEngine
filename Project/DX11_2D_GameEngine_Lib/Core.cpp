@@ -4,6 +4,9 @@
 #include "Settings.h"
 
 #pragma region Manager
+//FileManager
+#include "FileManager.h"
+
 //TimeManager
 #include "TimeManager.h"
 
@@ -36,6 +39,8 @@ Core::~Core()
 
 void Core::Initialize()
 {
+    //Initialize File Manager
+	FileManager::Initialize();
     //Initialize Time Manager 
 	TimeManager::GetInstance()->Initialize();
 	//Initialize Input Manager

@@ -1,9 +1,12 @@
 #include "stdafx.h"
 #include "Logger.h"
 
+#include "FileManager.h"
+
 Logger::Logger(const std::string& log_file_name)
 	:m_log_file_name(log_file_name)
 {
+	m_log_path = FileManager::GetAbsoluteContentPath() + m_log_path;
 	m_log_file_name = m_log_path + m_log_file_name;
 }
 
@@ -32,7 +35,7 @@ void Logger::ExcuteCallBack(const LogType& type, const std::string& text)
 void Logger::SaveToFile()
 {
 	FILE* p_file = nullptr;
-	fopen_s(&p_file, m_log_file_name.c_str(), "wb");
+	auto error = fopen_s(&p_file, m_log_file_name.c_str(), "wb");
 	assert(p_file);
 
 	for (auto& log : m_log_vector)

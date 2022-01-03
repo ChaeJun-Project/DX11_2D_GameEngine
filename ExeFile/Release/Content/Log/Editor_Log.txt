@@ -1,1 +1,4 @@
-[2022/1/2/17:59:19][Info] TileMap::SetTileCount : Tile Size to 10x10
+[2022/1/4/3:50:28][Info] LoadScene : Success to Load MainScene
+[2022/1/4/3:50:36][Info] GUI_MenuBar::ShowRenameScene : Success to Rename Current Scene 'Main'
+[2022/1/4/3:51:6][Info] SaveScene : Success to Save 'Main'
+[2022/1/4/3:51:33][Info] GUI_MenuBar::ShowRenameScene : Success to Rename Current Scene 'MainScene'

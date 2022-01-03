@@ -132,7 +132,7 @@ void TileMap::BindPipeline()
 
 void TileMap::DrawGrid()
 {
-	if (is_draw_grid)
+	if (m_is_draw_grid)
 	{
 		m_p_grid_material->BindPipeline();
 		m_p_grid_mesh->Render();
@@ -232,7 +232,7 @@ void TileMap::SetTileCount(const UINT& tile_count_x, const UINT& tile_count_y)
 
 	m_p_tile_map_buffer->Create(sizeof(TileInfo), m_tile_count, SBufferType::Read_Only, true, m_tile_info_vector.data());
 
-	LOG_INFO_F("Tile Size to %dx%d", tile_count_x, tile_count_y);
+	EDITOR_LOG_INFO_F("Tile Size: %dx%d", tile_count_x, tile_count_y);
 }
 
 void TileMap::CalcCurrentPickRect(const Vector2& current_screen_pos)

@@ -54,7 +54,8 @@ public:
 	void SetTileSize(const Vector2& tile_size) { m_tile_size = tile_size; }
 
 	//Grid
-	bool& GetIsDrawGrid() { return is_draw_grid; }
+	const bool& GetIsDrawGrid() { return m_is_draw_grid; }
+	void SetIsDrawGrid(const bool& is_draw_grid) { m_is_draw_grid = is_draw_grid; }
 
 private:
 	void CalcCurrentPickRect(const Vector2& current_screen_pos);
@@ -87,7 +88,7 @@ private:
 	std::shared_ptr<Material> m_p_material = nullptr;
 
 	//Grid
-	bool is_draw_grid = true;
+	bool m_is_draw_grid = true;
 	std::shared_ptr<Mesh> m_p_grid_mesh = nullptr;
 	std::shared_ptr<Material> m_p_grid_material = nullptr;
 	std::vector<Vector2> m_grid_left_top_vector;

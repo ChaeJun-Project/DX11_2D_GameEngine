@@ -15,7 +15,9 @@ public:
 
 private:
     void ShowComboLightType(Light2D* p_light2D, LightType& light_type);
+	void ShowColorPicker(const std::string& label_name, float* data,const ImGuiColorEditFlags& flags);
 
 private:
+	ImGuiColorEditFlags m_color_edit_flag = 0;
 	GUI_ItemList* m_p_light_type_list = nullptr;
 };

@@ -14,6 +14,10 @@ static void ShowFloat4(const char* label_name, Vector4& value, const float& size
 
 static const bool CheckMousePositionInRect(const ImVec2& mouse_position, const ImVec2& rect_left_top, const ImVec2& rect_right_bottom);
 
-static void SaveFile(const std::string path, const FileType& file_type);
+static void SaveFile(const std::string& path, const FileType& file_type);
 
-static void LoadFile(const std::string path, const FileType& file_type);
+static void SaveScene(const std::string& path);
+
+static void LoadFile(const std::string& path, const FileType& file_type);
+
+static void LoadScene(const std::string& path);

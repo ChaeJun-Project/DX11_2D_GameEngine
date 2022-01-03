@@ -19,6 +19,7 @@
 void ClientSceneManager::CreateNewScene()
 {
 	auto new_scene = std::make_shared<Scene>("New Scene");
+	new_scene->Initialize();
 
 	auto scene_manager = SceneManager::GetInstance();
 	auto resource_manager = ResourceManager::GetInstance();
@@ -36,7 +37,7 @@ void ClientSceneManager::CreateNewScene()
 
 	camera->GetComponent<Camera>()->SetMainCamera();
 
-	new_scene->AddGameObject(camera);
+	new_scene->RegisterGameObject(camera);
 
 	//Light2D
 	auto point_light2D = new GameObject();
@@ -50,7 +51,7 @@ void ClientSceneManager::CreateNewScene()
 	point_light->SetLightRange(2000.0f);
 	point_light->SetLightColor(Vector4::White);
 
-	new_scene->AddGameObject(point_light2D);
+	new_scene->RegisterGameObject(point_light2D);
 
 	//Game Logic
 	auto game_logic = new GameObject();
@@ -59,7 +60,7 @@ void ClientSceneManager::CreateNewScene()
 	game_logic->AddComponent(new Transform());
 	game_logic->AddComponent(new GameLogic_Script());
 
-	new_scene->AddGameObject(game_logic);
+	new_scene->RegisterGameObject(game_logic);
 
 	//Tile Object
 	auto game_object = new GameObject();
@@ -70,10 +71,10 @@ void ClientSceneManager::CreateNewScene()
 
 	auto tile_map = game_object->GetComponent<TileMap>();
 
-	new_scene->AddGameObject(game_object);
+	new_scene->RegisterGameObject(game_object);
 }
 
-void ClientSceneManager::SaveScene(const std::string& file_path)
+std::shared_ptr<Scene> ClientSceneManager::SaveScene(const std::string& file_path)
 {
 	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
 
@@ -101,8 +102,9 @@ void ClientSceneManager::SaveScene(const std::string& file_path)
 
 	fprintf(p_file, "\n");
 
-
 	fclose(p_file);
+
+	return current_scene;
 }
 
 void ClientSceneManager::SaveGameObject(GameObject* p_game_object, FILE* p_file)
@@ -187,7 +189,7 @@ std::shared_ptr<Scene> ClientSceneManager::LoadScene(const std::string& file_pat
 	for (UINT i = 0; i < parent_game_object_count; ++i)
 	{
 		GameObject* p_parent_game_object = LoadGameObject(p_file);
-		p_new_scene->AddGameObject(p_parent_game_object); //해당 Scene에 Load한 GameObject를 추가
+		p_new_scene->RegisterGameObject(p_parent_game_object); //해당 Scene에 Load한 GameObject를 등록
 	}
 
 	fclose(p_file);
@@ -250,11 +252,14 @@ GameObject* ClientSceneManager::LoadGameObject(FILE* p_file)
 	fscanf_s(p_file, "%d\n", &child_game_object_count);
 
 	//Create Child GameObject
-	FileManager::FScanf(char_buffer, p_file);
-	for (UINT i = 0; i < child_game_object_count; ++i)
+	if (child_game_object_count != 0)
 	{
-		GameObject* p_new_child_game_object = LoadGameObject(p_file);
-		p_new_game_object->AddChild(p_new_child_game_object);
+		FileManager::FScanf(char_buffer, p_file);
+		for (UINT i = 0; i < child_game_object_count; ++i)
+		{
+			GameObject* p_new_child_game_object = LoadGameObject(p_file);
+			p_new_game_object->AddChild(p_new_child_game_object);
+		}
 	}
 
 	FileManager::FScanf(char_buffer, p_file);

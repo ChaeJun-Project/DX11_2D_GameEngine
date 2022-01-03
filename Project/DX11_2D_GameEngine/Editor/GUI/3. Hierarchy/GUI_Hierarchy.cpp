@@ -118,8 +118,8 @@ void GUI_Hierarchy::DragDropGameObject(DWORD_PTR p_dropped_item, DWORD_PTR p_dra
 	ZeroMemory(&event_struct, sizeof(EventStruct));
 
 	event_struct.event_type = EventType::Add_Child_Object;
-	event_struct.object_address_1 = p_dest_item->GetPayLoadData();
-	event_struct.object_address_2 = p_src_item->GetPayLoadData();
+	event_struct.object_address_1 = (GameObject*)p_dest_item->GetPayLoadData();
+	event_struct.object_address_2 = (GameObject*)p_src_item->GetPayLoadData();
 
 	EventManager::GetInstance()->AddEvent(event_struct);
 }
@@ -144,7 +144,7 @@ void GUI_Hierarchy::DeleteGameObject(GameObject* game_object)
 	ZeroMemory(&event_struct, sizeof(EventStruct));
 
 	event_struct.event_type = EventType::Delete_Object;
-	event_struct.object_address_1 = (DWORD_PTR)(game_object);
+	event_struct.object_address_1 = game_object;
 
 	EventManager::GetInstance()->AddEvent(event_struct);
 }
@@ -196,7 +196,7 @@ void GUI_Hierarchy::CreateGameObject()
 	ZeroMemory(&event_struct, sizeof(EventStruct));
 
 	event_struct.event_type = EventType::Create_Object;
-	event_struct.object_address_1 = (DWORD_PTR)(p_new_game_object);
+	event_struct.object_address_1 = p_new_game_object;
 	event_struct.layer_index = 0;
 
 	EventManager::GetInstance()->AddEvent(event_struct);

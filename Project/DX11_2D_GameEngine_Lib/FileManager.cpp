@@ -12,6 +12,8 @@
 
 using namespace std::filesystem;
 
+std::string FileManager::absolute_content_path;
+
 //Texture에 지원되는 확장자들
 std::vector<std::string> FileManager::supported_texture_formats
 {
@@ -86,12 +88,6 @@ std::vector<std::string> FileManager::supported_model_formats
 	".ndo"
 };
 
-//Script에 지원되는 확장자들
-std::vector<std::string> FileManager::supported_script_formats
-{
-	".as",
-};
-
 //Audio에 지원되는 확장자들
 std::vector<std::string> FileManager::supported_audio_formats
 {
@@ -117,6 +113,11 @@ std::vector<std::string> FileManager::supported_audio_formats
 	".xm",
 	".xma" // XBOX 360
 };
+
+void FileManager::Initialize()
+{
+	absolute_content_path = GetWorkingDirectory();
+}
 
 void FileManager::OpenDirectoryWindow(const std::string& directory)
 {
@@ -238,6 +239,13 @@ const std::vector<std::string> FileManager::GetFileNameVectorFromDirectory(const
 	}
 
 	return file_name_vector;
+}
+
+const void FileManager::RenameFileName(const std::string& folder_name, const std::string& extension_name, const std::string& old_file_name, const std::string& new_file_name)
+{
+	auto old_file_path = absolute_content_path + folder_name + old_file_name + extension_name;
+	auto new_file_path = absolute_content_path + folder_name + new_file_name + extension_name;
+	rename(old_file_path.c_str(), new_file_path.c_str());
 }
 
 const std::string FileManager::GetFileNameFromPath(const std::string& path)
@@ -473,22 +481,6 @@ const bool FileManager::IsSupportedModelFile(const std::string& path)
 	return false;
 }
 
-//Script
-const bool FileManager::IsSupportedScriptFile(const std::string& path)
-{
-	auto file_extension = GetExtensionFromPath(path);
-	auto supported_formats = GetSupportedScriptFormats();
-
-	for (const auto& format : supported_formats)
-	{
-		//대소문자 비교포함
-		if (file_extension == format || file_extension == ToUppercase(format))
-			return true;
-	}
-
-	return false;
-}
-
 //Audio
 const bool FileManager::IsSupportedAudioFile(const std::string& path)
 {
@@ -642,11 +634,3 @@ void FileManager::FScanf_Vector3(Vector3& vector3, FILE* p_file)
 	fscanf_s(p_file, "%f", &vector3.y);
 	fscanf_s(p_file, "%f\n", &vector3.z);
 }
-
-//void FileManager::ChangeFileName(const std::string& from_path, const std::string& to_path)
-//{
-//	if (!IsExistDirectory(from_path))
-//		return;
-//
-//	rename(from_path.c_str(), to_path.c_str());
-//}

@@ -25,9 +25,6 @@
     <ClInclude Include="VertexShader.h">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\1. Vertex Shader</Filter>
     </ClInclude>
-    <ClInclude Include="FileStream.h">
-      <Filter>Manager\File</Filter>
-    </ClInclude>
     <ClInclude Include="FileManager.h">
       <Filter>Manager\File</Filter>
     </ClInclude>
@@ -218,9 +215,6 @@
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\1. Vertex Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="FileStream.cpp">
-      <Filter>Manager\File</Filter>
     </ClCompile>
     <ClCompile Include="FileManager.cpp">
       <Filter>Manager\File</Filter>

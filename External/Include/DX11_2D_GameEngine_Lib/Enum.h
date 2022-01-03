@@ -22,6 +22,7 @@ enum class EventType : UINT
 	Create_Object = 0,
 	Delete_Object = 1,
 	Add_Child_Object = 2,
+	Scene_Change = 3,
 };
 
 //RenderTexture Type

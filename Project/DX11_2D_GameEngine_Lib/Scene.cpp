@@ -15,7 +15,30 @@ Scene::Scene(const std::string& scene_name)
 	//Create Layer(0 ~ 31)
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 		CreateLayer(i);
+}
 
+Scene::~Scene()
+{
+    //Clear Layer Map
+	for (auto& layer : m_layer_map)
+		layer.second.reset();
+
+	m_layer_map.clear();
+
+	//Clear GameObject Vector
+	m_p_game_object_vector.clear();
+	m_p_game_object_vector.shrink_to_fit();
+
+	//Clear Parent GameObject Vector
+	for (auto& p_parent_game_object : m_p_parent_game_object_vector)
+		SAFE_DELETE(p_parent_game_object);
+
+	m_p_parent_game_object_vector.clear();
+	m_p_parent_game_object_vector.shrink_to_fit();
+}
+
+void Scene::Initialize()
+{
 	//Camera(0)
 	auto camera = new GameObject();
 	camera->SetGameObjectName("Main Camera");
@@ -25,7 +48,7 @@ Scene::Scene(const std::string& scene_name)
 
 	camera->GetComponent<Camera>()->SetMainCamera();
 
-	AddGameObject(camera);
+	RegisterGameObject(camera);
 
 	//Light2D
 	auto point_light2D = new GameObject();
@@ -36,25 +59,8 @@ Scene::Scene(const std::string& scene_name)
 
 	auto point_light = point_light2D->GetComponent<Light2D>();
 	point_light->SetLightType(LightType::Point);
-	point_light->SetLightRange(2000.0f);
-	point_light->SetLightColor(Vector4::White);
-
-	AddGameObject(point_light2D);
-}
-
-Scene::~Scene()
-{
-    //Layer
-	for (auto& layer : m_layer_map)
-		layer.second.reset();
-
-	m_layer_map.clear();
-
-	for (auto& p_parent_game_object : m_p_parent_game_object_vector)
-		SAFE_DELETE(p_parent_game_object);
-
-	m_p_parent_game_object_vector.clear();
-	m_p_parent_game_object_vector.shrink_to_fit();
+	
+	RegisterGameObject(point_light2D);
 }
 
 void Scene::Start()
@@ -75,18 +81,64 @@ void Scene::FinalUpdate()
 		layer.second->FinalUpdate();
 }
 
-void Scene::AddGameObject(GameObject* p_new_game_object)
+void Scene::RegisterGameObject(GameObject* p_game_object)
 {
-	if (p_new_game_object == nullptr)
+	if (p_game_object == nullptr)
 		return;
 
 	//해당 GameObject가 최상위 오브젝트일 경우
-	if (!p_new_game_object->HasParent())
-		m_p_parent_game_object_vector.emplace_back(p_new_game_object);
+	if (!p_game_object->HasParent())
+		m_p_parent_game_object_vector.emplace_back(p_game_object);
 
-	m_p_game_object_vector.emplace_back(p_new_game_object);
-	auto layer = p_new_game_object->GetGameObjectLayer();
-	m_layer_map[layer]->RegisterGameObject(p_new_game_object);
+	m_p_game_object_vector.emplace_back(p_game_object);
+	auto layer = p_game_object->GetGameObjectLayer();
+	m_layer_map[layer]->RegisterGameObject(p_game_object);
+
+	//해당 GameObject가 자식을 가지고 있을 경우
+	const auto& child_game_object_vector = p_game_object->GetChilds();
+	for (const auto& p_child_game_object : child_game_object_vector)
+		RegisterGameObject(p_child_game_object);
+}
+
+void Scene::DeregisterGameObject(GameObject* p_game_object)
+{
+	//해당 GameObject 부모가 없는 최상위 오브젝트라면
+	if (!p_game_object->HasParent())
+		DeregisterFromParentGameObject(p_game_object);
+
+	std::vector<GameObject*>::iterator iter = m_p_game_object_vector.begin();
+
+	for (; iter != m_p_game_object_vector.end();)
+	{
+		if ((*iter) == p_game_object)
+		{
+			iter = m_p_game_object_vector.erase(iter);
+			break;
+		}
+
+		else
+			++iter;
+	}
+
+	auto layer = p_game_object->GetGameObjectLayer();
+	m_layer_map[layer]->DeregisterGameObject(p_game_object);
+}
+
+void Scene::DeregisterFromParentGameObject(GameObject* p_game_object)
+{
+	std::vector<GameObject*>::iterator iter = m_p_parent_game_object_vector.begin();
+
+	for (; iter != m_p_parent_game_object_vector.end();)
+	{
+		if ((*iter) == p_game_object)
+		{
+			iter = m_p_parent_game_object_vector.erase(iter);
+			return;
+		}
+
+		else
+			++iter;
+	}
 }
 
 GameObject* Scene::FindGameObject(const std::string& game_object_name)

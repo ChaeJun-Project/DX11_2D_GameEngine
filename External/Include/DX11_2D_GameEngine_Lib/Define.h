@@ -21,9 +21,14 @@ typedef unsigned long ULONG;
 
 //Log
 #define LOG_MANAGER					LogManager::GetInstance()
-#define LOG_INFO_F(text, ...)       { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Info_Formatted(text, __VA_ARGS__); }
-#define LOG_WARNING_F(text, ...)    { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Warning_Formatted(text, __VA_ARGS__); }
-#define LOG_ERROR_F(text, ...)      { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Error_Formatted(text, __VA_ARGS__); }
+//Editor
+#define EDITOR_LOG_INFO_F(text, ...)       { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Info_Formatted(text, __VA_ARGS__); }
+#define EDITOR_LOG_WARNING_F(text, ...)    { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Warning_Formatted(text, __VA_ARGS__); }
+#define EDITOR_LOG_ERROR_F(text, ...)      { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Error_Formatted(text, __VA_ARGS__); }
+//Play
+#define PLAY_LOG_INFO_F(text, ...)       { LOG_MANAGER->Info_Formatted(text, __VA_ARGS__); }
+#define PLAY_LOG_WARNING_F(text, ...)    { LOG_MANAGER->Warning_Formatted(text, __VA_ARGS__); }
+#define PLAY_LOG_ERROR_F(text, ...)      { LOG_MANAGER->Error_Formatted(text, __VA_ARGS__); }
 
 //Time
 //Delta Time

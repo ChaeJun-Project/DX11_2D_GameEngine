@@ -18,6 +18,14 @@ public:
     void End() override {}
 
 private:
+    void ShowRenameScene();
+
+private:
+     //=========================
+     // File
+     //=========================
+     bool m_is_show_rename_scene = false;
+
      //=========================
      // Edit
      //=========================

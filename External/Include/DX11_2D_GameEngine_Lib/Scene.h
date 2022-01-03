@@ -8,12 +8,16 @@ public:
    Scene(const std::string& scene_name);
    ~Scene();
 
+   void Initialize();
+
    void Start();
    void Update();
    void FinalUpdate();
 
 public:
-   void AddGameObject(GameObject* p_new_game_object);
+   void RegisterGameObject(GameObject* p_game_object);
+   void DeregisterGameObject(GameObject* p_game_object);
+   void DeregisterFromParentGameObject(GameObject* p_game_object);
 
    GameObject* FindGameObject(const std::string& game_object_name);
 
@@ -37,10 +41,10 @@ public:
 private:
    std::map<UINT, std::shared_ptr<Layer>> m_layer_map;
 
-   //해당 Scene에 속한 최상위 부모 오브젝트들
-   std::vector<GameObject*> m_p_parent_game_object_vector;
-
    //부모 자식 관계없이 해당 Scene에 속한 모든 오브젝트들
    std::vector<GameObject*> m_p_game_object_vector;
+
+   //해당 Scene에 속한 최상위 부모 오브젝트들
+   std::vector<GameObject*> m_p_parent_game_object_vector;
 };
 

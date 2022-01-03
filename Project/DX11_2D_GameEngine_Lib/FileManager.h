@@ -5,6 +5,10 @@
 //이 클래스의 함수명의 끝이 File인 경우 인자에 파일의 확장자까지 넣어야함
 class FileManager final
 {
+public: 
+    static void Initialize();
+	static std::string GetAbsoluteContentPath() { return absolute_content_path; }
+
 public:
 	static void OpenDirectoryWindow(const std::string& directory);
 	static const bool Create_Directory(const std::string& path); //특정 경로에 폴더를 생성
@@ -16,6 +20,7 @@ public:
 	static const bool IsExistFile(const std::string& path); //특정 폴더에 파일이 존재하는지 확인
 	static const std::vector<std::string> GetFileNameVectorFromDirectory(const std::string& path); //특정 경로의 디렉토리 내부의 모든 파일의 이름을 벡터로 저장하여 반환
 
+	static const void RenameFileName(const std::string& folder_name, const std::string& extension_name, const std::string& old_file_name, const std::string& new_file_name);
 	static const std::string GetFileNameFromPath(const std::string& path); //특정 경로에 있는 파일의 이름을 반환(확장자 포함)
 	static const std::string GetIntactFileNameFromPath(const std::string& path); //특정 경로에 있는 파일의 이름만을 반환(확장자 미포함)
 	static const std::string GetDirectoryFromPath(const std::string& path); //특정 경로에 있는 폴더의 이름을 반환
@@ -32,14 +37,12 @@ public:
 
 	static const std::vector<std::string>& GetSupportedTextureFormats() { return supported_texture_formats; }
 	static const std::vector<std::string>& GetSupportedModelFormats() { return supported_model_formats; }
-	static const std::vector<std::string>& GetSupportedScriptFormats() { return supported_script_formats; }
 	static const std::vector<std::string>& GetSupportedAudioFormats() { return supported_audio_formats; }
 
 	//미리 정의했던 지원되는 확장자를 현재 경로의 파일의 확장자와 비교하여 지원되는지 여부를 확인
-	//Texture, Model, Animation, Script, Audio
+	//Texture, Model, Audio
 	static const bool IsSupportedTextureFile(const std::string& path);   //Texture
 	static const bool IsSupportedModelFile(const std::string& path);     //Model
-	static const bool IsSupportedScriptFile(const std::string& path);    //Script
 	static const bool IsSupportedAudioFile(const std::string& path);     //Audio
 
 	static const std::string ToUppercase(const std::string& lower); //소문자 -> 대문자
@@ -50,8 +53,7 @@ public:
 	static const std::string ConvertCharToString(const char* message); //Char -> String 변환
 
 	static void ReplaceAll(std::string& in_out_str, const std::string& from, const std::string& to);
-	//static void ChangeFileName(const std::string& from_path, const std::string& to_path);
-
+	
 	static void SaveStringToFile(const std::string& str, FILE* p_file);
 	static void LoadStringFromFile(std::string& str, FILE* p_file);
 
@@ -87,8 +89,9 @@ public:
 	}
 
 private:
+	static std::string absolute_content_path;
+
 	static std::vector<std::string> supported_texture_formats;		//Texture에 지원되는 확장자들
 	static std::vector<std::string> supported_model_formats;		//Model에 지원되는 확장자들
-	static std::vector<std::string> supported_script_formats;		//Script에 지원되는 확장자들
 	static std::vector<std::string> supported_audio_formats;		//Audio에 지원되는 확장자들
 };

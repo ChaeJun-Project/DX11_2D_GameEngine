@@ -4,7 +4,7 @@ class ClientSceneManager final
 {
 public:
 	static void CreateNewScene();
-	static void SaveScene(const std::string& file_path);
+	static std::shared_ptr<Scene> SaveScene(const std::string& file_path);
 private:
 	static void SaveGameObject(GameObject* p_game_object, FILE* p_file);
 	static void SaveScript(GameObject* p_game_object, FILE* p_file);

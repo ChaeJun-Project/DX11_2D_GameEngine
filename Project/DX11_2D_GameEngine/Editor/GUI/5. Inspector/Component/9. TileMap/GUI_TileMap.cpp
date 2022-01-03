@@ -25,14 +25,17 @@ void GUI_TileMap::Render()
 {
 	if (BeginComponent(m_component_gui_name, ComponentType::TileMap, IconType::Component_TileMap))
 	{
-	    auto tile_map = m_select_game_object->GetComponent<TileMap>();
+		auto tile_map = m_select_game_object->GetComponent<TileMap>();
 
 		//Map Tool
 		ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 110.0f);
 		if (ImGui::Button("Map Tool", ImVec2(110.0f, 0.0f)))
 		{
-			m_p_gui_map_tool->m_is_active = true;
-			m_p_gui_map_tool->m_p_current_tile_map = tile_map;
+			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+			{
+				m_p_gui_map_tool->m_is_active = true;
+				m_p_gui_map_tool->m_p_current_tile_map = tile_map;
+			}
 		}
 
 		//Use Tile Texture Count
@@ -44,17 +47,39 @@ void GUI_TileMap::Render()
 		//Tiling Count
 		ShowInt2("Tiling", tile_count_row, tile_count_column, 70.0f, 80.0f);
 
-		static Vector2 tile_size = Vector2::Zero;
 		//Tile Size
+		static Vector2 tile_size = Vector2::Zero;
 		ShowFloat2("Tile Size", tile_size, 70.0f, 80.0f);
 
+		//Editor 상태가 Play or Pause인 경우
+		if (SceneManager::GetInstance()->GetEditorState() != EditorState::EditorState_Stop)
+		{
+			//Tiling Count
+			auto tile_count = tile_map->GetTileCount();
+			tile_count_row = static_cast<int>(tile_count.x);
+			tile_count_column = static_cast<int>(tile_count.y);
+
+			//Tile Size
+			tile_size = tile_map->GetTileSize();
+		}
+
 		//Draw Grid Check
-		ImGui::Checkbox("Draw Grid", &tile_map->GetIsDrawGrid());
+		bool is_active = tile_map->GetIsDrawGrid();
+		if (ImGui::Checkbox("Draw Grid", &is_active))
+		{
+			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+			{
+				tile_map->SetIsDrawGrid(is_active);
+			}
+		}
 
 		if (ImGui::Button("Apply", ImVec2(110.0f, 0.0f)))
 		{
-			tile_map->SetTileCount(static_cast<UINT>(tile_count_row), static_cast<UINT>(tile_count_column));
-			tile_map->SetTileSize(tile_size);
+			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+			{
+				tile_map->SetTileCount(static_cast<UINT>(tile_count_row), static_cast<UINT>(tile_count_column));
+				tile_map->SetTileSize(tile_size);
+			}
 		}
 
 		DrawComponentEnd();

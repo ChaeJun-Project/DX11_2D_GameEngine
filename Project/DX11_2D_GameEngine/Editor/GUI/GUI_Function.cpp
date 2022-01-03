@@ -6,6 +6,7 @@
 #include <DX11_2D_GameEngine_Lib/Core.h>
 #include <DX11_2D_GameEngine_Lib/Settings.h>
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
+#include <DX11_2D_GameEngine_Lib/Scene.h>
 
 void ShowInt(const std::string& label_tag, const char* label_name, int& value, const float& size, const float& indent, ImGuiInputTextFlags flags)
 {
@@ -103,13 +104,41 @@ const bool CheckMousePositionInRect(const ImVec2& mouse_position, const ImVec2& 
 	else
 		return false;
 }
-
-void SaveFile(const std::string path, const FileType& file_type)
+void SaveFile(const std::string& path, const FileType& file_type)
 {
-	wchar_t szName[256] = {};
-
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+
+	wchar_t szName[256] = {};
+
+	std::wstring file_folder_path;
+	switch (file_type)
+	{
+	case FileType::Scene:
+	{
+		file_folder_path = L"Scene";
+		ofn.lpstrFilter = L"All\0*.*\0Scene\0*.scene\0";
+
+		auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
+		auto current_scene_name_with_intact = current_scene->GetSceneName() + ".scene";
+		std::wstring scene_name = FileManager::ConvertStringToWString(current_scene_name_with_intact);
+
+		wcscpy_s(szName, scene_name.c_str());
+	}
+	break;
+	case FileType::Tile:
+	{
+		file_folder_path = L"Tile";
+		ofn.lpstrFilter = L"All\0*.*\0Tile\0*.tile\0";
+	}
+	break;
+	case FileType::Animation:
+	{
+		file_folder_path = L"Animation";
+		ofn.lpstrFilter = L"All\0*.*\0Animation\0*.anim\0";
+	}
+	break;
+	}
 
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = Core::GetInstance()->GetSettings()->GetWindowHandle();
@@ -118,26 +147,8 @@ void SaveFile(const std::string path, const FileType& file_type)
 	ofn.nFilterIndex = 0;
 	ofn.lpstrFileTitle = nullptr;
 	ofn.nMaxFileTitle = 0;
-
-	std::wstring file_folder_path;
-	switch (file_type)
-	{
-	case FileType::Scene:
-		file_folder_path = L"Scene";
-		ofn.lpstrFilter = L"All\0*.*\0Scene\0*.scene\0";
-		break;
-	case FileType::Tile:
-		file_folder_path = L"Tile";
-		ofn.lpstrFilter = L"All\0*.*\0Tile\0*.tile\0";
-		break;
-	case FileType::Animation:
-		file_folder_path = L"Animation";
-		ofn.lpstrFilter = L"All\0*.*\0Animation\0*.anim\0";
-		break;
-	}
-	
-	ofn.lpstrInitialDir = file_folder_path.c_str();
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	ofn.lpstrInitialDir = file_folder_path.c_str();
 
 	// Modal
 	if (GetSaveFileName(&ofn))
@@ -145,24 +156,58 @@ void SaveFile(const std::string path, const FileType& file_type)
 		switch (file_type)
 		{
 		case FileType::Scene:
-			ClientSceneManager::SaveScene(FileManager::ConvertWStringToString(szName));
+			SaveScene(FileManager::ConvertWStringToString(szName));
 			break;
 		case FileType::Tile:
-			
+
 			break;
 		case FileType::Animation:
-			
+
 			break;
 		}
 	}
 }
 
-void LoadFile(const std::string path, const FileType& file_type)
+void SaveScene(const std::string& path)
 {
-	wchar_t szName[256] = {};
+	auto save_scene = ClientSceneManager::SaveScene(path);
 
+	if (save_scene != nullptr)
+	{
+		auto scene_name = save_scene->GetSceneName();
+		EDITOR_LOG_INFO_F("Success to Save '%s'", scene_name.c_str());
+	}
+}
+
+void LoadFile(const std::string& path, const FileType& file_type)
+{
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+
+	wchar_t szName[256] = {};
+
+	std::wstring file_folder_path;
+	switch (file_type)
+	{
+	case FileType::Scene:
+	{
+		file_folder_path = L"Scene";
+		ofn.lpstrFilter = L"All\0*.*\0Scene\0*.scene\0";
+	}
+	break;
+	case FileType::Tile:
+	{
+		file_folder_path = L"Tile";
+		ofn.lpstrFilter = L"All\0*.*\0Tile\0*.tile\0";
+	}
+	break;
+	case FileType::Animation:
+	{
+		file_folder_path = L"Animation";
+		ofn.lpstrFilter = L"All\0*.*\0Animation\0*.anim\0";
+	}
+	break;
+	}
 
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = Core::GetInstance()->GetSettings()->GetWindowHandle();
@@ -171,26 +216,8 @@ void LoadFile(const std::string path, const FileType& file_type)
 	ofn.nFilterIndex = 0;
 	ofn.lpstrFileTitle = nullptr;
 	ofn.nMaxFileTitle = 0;
-
-	std::wstring file_folder_path;
-	switch (file_type)
-	{
-	case FileType::Scene:
-		file_folder_path = L"Scene";
-		ofn.lpstrFilter = L"All\0*.*\0Scene\0*.scene\0";
-		break;
-	case FileType::Tile:
-		file_folder_path = L"Tile";
-		ofn.lpstrFilter = L"All\0*.*\0Tile\0*.tile\0";
-		break;
-	case FileType::Animation:
-		file_folder_path = L"Animation";
-		ofn.lpstrFilter = L"All\0*.*\0Animation\0*.anim\0";
-		break;
-	}
-
-	ofn.lpstrInitialDir = file_folder_path.c_str();
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	ofn.lpstrInitialDir = file_folder_path.c_str();
 
 	// Modal
 	if (GetOpenFileName(&ofn))
@@ -198,7 +225,7 @@ void LoadFile(const std::string path, const FileType& file_type)
 		switch (file_type)
 		{
 		case FileType::Scene:
-			SceneManager::GetInstance()->SetCurrentScene(ClientSceneManager::LoadScene(FileManager::ConvertWStringToString(szName)));
+			LoadScene(FileManager::ConvertWStringToString(szName));
 			break;
 		case FileType::Tile:
 
@@ -209,3 +236,23 @@ void LoadFile(const std::string path, const FileType& file_type)
 		}
 	}
 }
+
+void LoadScene(const std::string& path)
+{
+	auto next_scene = ClientSceneManager::LoadScene(path);
+
+	if (next_scene != nullptr)
+	{
+		auto scene_name = next_scene->GetSceneName();
+		EDITOR_LOG_INFO_F("Success to Load %s", scene_name.c_str());
+	}
+
+	EventStruct event_struct;
+	ZeroMemory(&event_struct, sizeof(EventStruct));
+
+	event_struct.event_type = EventType::Scene_Change;
+	event_struct.object_address_1 = next_scene;
+
+	EventManager::GetInstance()->AddEvent(event_struct);
+}
+

@@ -9,6 +9,10 @@ Light2D::Light2D()
  :IComponent(ComponentType::Light2D)
 {
    ZeroMemory(&m_light2D_data, sizeof(LightInfo));
+
+   m_light2D_data.ligth_color.color = Vector4::White;
+   m_light2D_data.ligth_color.specular = Vector4::White;
+   m_light2D_data.ligth_color.ambient = Vector4::White;
 }
 
 Light2D::Light2D(const Light2D& origin)
