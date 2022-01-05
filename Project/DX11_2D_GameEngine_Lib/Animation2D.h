@@ -66,6 +66,10 @@ public:
 	}
 	const Animation2D_Data& GetCurrentFrameData() const { return m_p_animation_frame_vector[m_current_frame_id].animation2D_data; }
 
+public:
+	virtual void SaveToScene(FILE* p_file);
+	virtual void LoadFromScene(FILE* p_file);
+
 private:
 	std::string m_animation_name;
 	Animator2D* m_p_owner_animator2D = nullptr;

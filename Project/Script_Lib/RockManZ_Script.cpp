@@ -54,6 +54,8 @@ void RockManZ_Script::Update()
 {
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 
+	auto position = transform->GetTranslation();
+
 	auto timer = TimeManager::GetInstance();
 
 	Vector3 move_speed = Vector3::Zero;
@@ -119,7 +121,7 @@ void RockManZ_Script::Update()
 
 
 	//캐릭터 위치 변경
-	transform->Translate(move_speed);
+	transform->SetTranslation(position + move_speed);
 }
 
 void RockManZ_Script::OnCollisionEnter(GameObject* other_game_object)

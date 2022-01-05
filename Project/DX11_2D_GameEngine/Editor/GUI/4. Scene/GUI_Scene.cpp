@@ -3,11 +3,17 @@
 
 #include "Editor/ImGuizmo.h"
 #include "Helper/IconProvider.h"
+#include "Helper/EditorHelper.h"
 
 #include "EditorObject/Camera/CameraEx.h"
 
+#include <DX11_2D_GameEngine_Lib/SceneManager.h>
+
 #include <DX11_2D_GameEngine_Lib/RenderManager.h>
 #include <DX11_2D_GameEngine_Lib/Texture.h>
+
+#include <DX11_2D_GameEngine_Lib/Transform.h>
+#include <DX11_2D_GameEngine_Lib/Camera.h>
 
 GUI_Scene::GUI_Scene(const std::string& scene_title)
 	:IGUI(scene_title)
@@ -55,15 +61,18 @@ void GUI_Scene::ShowProjectionButton()
 
 		if (ImGui::Button("2D", ImVec2(50.0f, 0.0f)))
 		{
-			//직교투영 -> 원근투영
-			if (m_p_editor_camera->GetProjectionType() == ProjectionType::Orthographic)
+			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
 			{
-				m_p_editor_camera->SetProjectionType(ProjectionType::Perspective);
-			}
-			//원근투영 -> 직교투영
-			else
-			{
-				m_p_editor_camera->SetProjectionType(ProjectionType::Orthographic);
+				//직교투영 -> 원근투영
+				if (m_p_editor_camera->GetProjectionType() == ProjectionType::Orthographic)
+				{
+					m_p_editor_camera->SetProjectionType(ProjectionType::Perspective);
+				}
+				//원근투영 -> 직교투영
+				else
+				{
+					m_p_editor_camera->SetProjectionType(ProjectionType::Orthographic);
+				}
 			}
 		}
 
@@ -106,58 +115,66 @@ void GUI_Scene::ShowScene()
 	);
 }
 
+//<summary>
+//https://github.com/CedricGuillemet/ImGuizmo 튜토리얼 참고
+//</summary>
 void GUI_Scene::ShowGizmo()
 {
-	////선택된 Actor 포인터가 만료된 경우(참조 카운트가 0이 되어 해제된 경우)
-	//if (Editor_Helper::GetInstance()->selected_actor.expired())
-	//	return;
+	if (SceneManager::GetInstance()->GetEditorState() != EditorState::EditorState_Stop)
+		return;
 
-	//auto camera = renderer->GetCamera();
-	//auto actor = Editor_Helper::GetInstance()->selected_actor.lock();
+	auto render_manager = RenderManager::GetInstance();
+	auto p_editor_camera = render_manager->GetEditorCamera();
 
-	////Scene에 카메라가 있고 선택된 actor에 카메라 컴퍼넌트가 없는 경우
-	//if (camera && !actor->GetComponent<Camera>())
-	//{
-	//	auto transform = actor->GetTransform();
+	//Editor Camera가 없고 선택된 GameObject가 nullptr인 경우
+	if (p_editor_camera == nullptr || EditorHelper::GetInstance()->GetSelectedGameObject() == nullptr)
+		return;
 
-	//	if (!transform)
-	//		return;
+	auto p_game_object = EditorHelper::GetInstance()->GetSelectedGameObject();
 
-	//	static ImGuizmo::OPERATION operation(ImGuizmo::TRANSLATE);
-	//	static ImGuizmo::MODE mode(ImGuizmo::WORLD);
+	auto transform = p_game_object->GetComponent<Transform>();
 
-	//	if (ImGui::IsKeyPressed(87)) //w
-	//		operation = ImGuizmo::TRANSLATE;
-	//	if (ImGui::IsKeyPressed(69)) //e
-	//		operation = ImGuizmo::ROTATE;
-	//	if (ImGui::IsKeyPressed(82)) //r
-	//		operation = ImGuizmo::SCALE;
+	static ImGuizmo::OPERATION operation(ImGuizmo::TRANSLATE);
+	static ImGuizmo::MODE mode(ImGuizmo::WORLD);
 
-	//	auto offset = renderer->GetEditorOffset();
-	//	auto size = renderer->GetResolution();
-	//	//D3D는 행기준 행렬을 사용하고 OpenGL은 열기준 행렬을 사용하는데
-	//	//ImGuizmo는 OpenGL처럼 열기준 행렬을 사용하기 때문에
-	//	//프로그램 내에서 사용하는 행렬 메트릭스를 모두 전치행렬로 바꿔 넘겨줘야 원하는 형태로 렌더링이 됨
-	//	auto view = camera->GetViewMatrix().Transpose();		//뷰 메트릭스의 전치행렬
-	//	auto proj = camera->GetProjectionMatrix().Transpose();	//투영 메트릭스의 전치행렬
-	//	auto world = transform->GetWorldMatrix().Transpose();	//월드 메트릭스의 전치행렬
+	//Change Gizmo Mode
+	if (KEY_PRESS(KeyCode::KEY_1))
+		operation = ImGuizmo::TRANSLATE; //Transform Mode
 
-	//	ImGuizmo::SetDrawlist();
-	//	ImGuizmo::SetRect(offset.x, offset.y, size.x, size.y);
-	//	ImGuizmo::Manipulate
-	//	(
-	//		view,
-	//		proj,
-	//		operation,
-	//		mode,
-	//		world
-	//	);
+	if (KEY_PRESS(KeyCode::KEY_2))
+		operation = ImGuizmo::ROTATE; //Rotation Mode
 
-	//	//월드 메트릭스의 전치행렬를 다시 전치행렬로 변환 -> 프로그램 내에서 사용하는 행기준 행렬로 다시 변환한다는 의미
-	//	world.Transpose();
+	if (KEY_PRESS(KeyCode::KEY_3))
+		operation = ImGuizmo::SCALE; //Scale Mode
 
-	//	transform->SetTranslation(world.GetTranslation());
-	//	transform->SetRotation(world.GetRotation());
-	//	transform->SetScale(world.GetScale());
-	//}
+	if (KEY_PRESS(KeyCode::KEY_4))
+		operation = ImGuizmo::UNIVERSAL; //Universal Mode(Transform + Rotation + Scale)
+
+	//선택된 GameObject에 부모 GameObject가 있는 경우 Gizmo Mode를 Local로 변경
+	if (p_game_object->HasParent())
+		mode = ImGuizmo::LOCAL;
+
+	else
+		mode = ImGuizmo::WORLD;
+
+	auto offset = render_manager->GetScreenOffset();
+	auto size = render_manager->GetResolution();
+	auto view = p_editor_camera->GetViewMatrix();
+	auto proj = p_editor_camera->GetProjectionMatrix();
+	auto world = transform->GetOriginWorldMatrix();
+
+	ImGuizmo::SetDrawlist();
+	ImGuizmo::SetRect(offset.x, offset.y, size.x, size.y);
+	ImGuizmo::Manipulate
+	(
+		view,
+		proj,
+		operation,
+		mode,
+		world
+	);
+
+	transform->SetTranslation(world.GetTranslation());
+	transform->SetRotation(world.GetRotation());
+	transform->SetScale(world.GetScale());
 }

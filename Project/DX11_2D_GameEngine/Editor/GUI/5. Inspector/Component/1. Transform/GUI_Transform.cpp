@@ -33,9 +33,9 @@ void GUI_Transform::Render()
 		//Set Data
 		if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
 		{
-			transform->SetTranslation(position);
-			transform->SetRotation(Quaternion::QuaternionFromEulerAngle(rotation));
-			transform->SetScale(scale);
+			transform->SetLocalTranslation(position);
+			transform->SetLocalRotation(Quaternion::QuaternionFromEulerAngle(rotation));
+			transform->SetLocalScale(scale);
 		}
 
 		DrawComponentEnd();

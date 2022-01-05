@@ -30,6 +30,10 @@ public:
 public:
     const int& GetScriptType() { return m_script_type; }
 
+public:
+	virtual void SaveToScene(FILE* p_file);
+	virtual void LoadFromScene(FILE* p_file);
+
 private:
     int m_script_type = -1;
 };

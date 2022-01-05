@@ -2,6 +2,7 @@
 #include "../GUI_Component.h"
 
 class GUI_MapTool;
+class GameObject;
 
 class GUI_TileMap : public GUI_Component
 {
@@ -14,5 +15,6 @@ public:
 
 private:
     GUI_MapTool* m_p_gui_map_tool = nullptr;
+    GameObject* m_p_current_game_object = nullptr;
 };
 

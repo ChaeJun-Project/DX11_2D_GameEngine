@@ -19,13 +19,37 @@ GUI_TileMap::GUI_TileMap(const std::string& tilemap_gui_name)
 GUI_TileMap::~GUI_TileMap()
 {
 	SAFE_DELETE(m_p_gui_map_tool);
+
+	m_p_current_game_object = nullptr;
 }
 
 void GUI_TileMap::Render()
 {
 	if (BeginComponent(m_component_gui_name, ComponentType::TileMap, IconType::Component_TileMap))
 	{
-		auto tile_map = m_select_game_object->GetComponent<TileMap>();
+	    //Tiling Count
+		static int tile_count_row = 0;
+		static int tile_count_column = 0;
+
+		//Tile Size
+		static Vector2 tile_size = Vector2::Zero;
+
+		if (m_p_current_game_object != nullptr && m_p_current_game_object != m_select_game_object)
+		{
+			auto tile_map = m_select_game_object->GetComponent<TileMap>();
+
+			//Tiling Count
+			auto tile_count = tile_map->GetTileCount();
+			tile_count_row = static_cast<int>(tile_count.x);
+			tile_count_column = static_cast<int>(tile_count.y);
+
+			//Tile Size
+			tile_size = tile_map->GetTileSize();
+		}
+
+		m_p_current_game_object = m_select_game_object;
+		
+		auto tile_map = m_p_current_game_object->GetComponent<TileMap>();
 
 		//Map Tool
 		ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 110.0f);
@@ -42,13 +66,10 @@ void GUI_TileMap::Render()
 		int use_count = static_cast<int>(tile_map->GetUseTileAtlasTextureCount());
 		ShowInt("TileMap", "Tile Texture Count", use_count, 150.0f, ImGuiInputTextFlags_ReadOnly);
 
-		static int tile_count_row = 0;
-		static int tile_count_column = 0;
 		//Tiling Count
 		ShowInt2("Tiling", tile_count_row, tile_count_column, 70.0f, 80.0f);
 
 		//Tile Size
-		static Vector2 tile_size = Vector2::Zero;
 		ShowFloat2("Tile Size", tile_size, 70.0f, 80.0f);
 
 		//Editor 상태가 Play or Pause인 경우

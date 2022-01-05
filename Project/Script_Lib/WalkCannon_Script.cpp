@@ -94,7 +94,8 @@ void WalkCannon_Script::Update()
 	auto player_position = m_p_player->GetComponent<Transform>()->GetLocalTranslation();
 
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
-	auto position = transform->GetLocalTranslation();
+
+	auto position = transform->GetTranslation();
 
 	Vector3 move_speed = Vector3::Zero;
 
@@ -145,7 +146,7 @@ void WalkCannon_Script::Update()
 		m_p_animator->SetCurrentAnimation("WalkCannon_Idle");
 
 	//캐릭터 위치 변경
-	transform->Translate(move_speed);
+	transform->SetTranslation(position + move_speed);
 }
 
 void WalkCannon_Script::CreateBullet()

@@ -23,6 +23,9 @@ void GUI_MenuBar::Initialize()
 
 void GUI_MenuBar::Update()
 {
+	if (SceneManager::GetInstance()->GetEditorState() != EditorState::EditorState_Stop)
+		return;
+
 	if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_M))
 	{
 		m_is_active = !m_is_active;
@@ -66,6 +69,9 @@ void GUI_MenuBar::Update()
 
 void GUI_MenuBar::Render()
 {
+	if (SceneManager::GetInstance()->GetEditorState() != EditorState::EditorState_Stop)
+		return;
+
 	//Draw Menu Bar
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -93,7 +99,7 @@ void GUI_MenuBar::Render()
 		{
 			if (ImGui::MenuItem("Show Demo", "CTRL + D", &m_is_show_demo))
 			{
-				
+
 			}
 
 			if (ImGui::MenuItem("Show Style Selector", "CTRL + Y", &m_is_show_style))
@@ -107,23 +113,23 @@ void GUI_MenuBar::Render()
 		ImGui::EndMainMenuBar();
 	}
 
-	if(m_is_show_rename_scene) ShowRenameScene();
+	if (m_is_show_rename_scene) ShowRenameScene();
 
-	if(m_is_show_demo) ImGui::ShowDemoWindow(&m_is_show_demo);
+	if (m_is_show_demo) ImGui::ShowDemoWindow(&m_is_show_demo);
 
 	if (!m_p_gui_style_selector->m_is_active)
 	{
 		m_is_show_style = false;
 	}
 
-	if(m_is_show_style) m_p_gui_style_selector->Render();
+	if (m_is_show_style) m_p_gui_style_selector->Render();
 }
 
 void GUI_MenuBar::ShowRenameScene()
 {
 	if (ImGui::Begin("Rename Scene", &m_is_show_rename_scene))
 	{
-	    auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
+		auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
 		std::string scene_name = current_scene->GetSceneName();
 
 		//Scene Name

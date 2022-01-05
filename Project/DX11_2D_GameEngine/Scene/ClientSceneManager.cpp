@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ClientSceneManager.h"
 
+#include "Helper/EditorHelper.h"
+
 #include <DX11_2D_GameEngine_Lib/ResourceManager.h>
 
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
@@ -167,6 +169,9 @@ void ClientSceneManager::SaveScript(GameObject* p_game_object, FILE* p_file)
 
 std::shared_ptr<Scene> ClientSceneManager::LoadScene(const std::string& file_path)
 {
+	EditorHelper::GetInstance()->SetSelectedGameObject(nullptr);
+	EditorHelper::GetInstance()->SetSelectedResource(nullptr);
+
 	auto p_new_scene = std::make_shared<Scene>("New Scene");
 
 	FILE* p_file = nullptr;

@@ -27,6 +27,8 @@ void WalkCannon_Bullet_Script::Update()
 
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 
+	auto position = transform->GetTranslation();
+
 	Vector3 move_speed = Vector3::Zero;
 
 	move_speed.x += m_speed * timer->GetDeltaTime_float();
@@ -34,7 +36,7 @@ void WalkCannon_Bullet_Script::Update()
 	move_speed = move_speed * m_fire_direction;
 
 	//위치 변경
-	transform->Translate(move_speed);
+	transform->SetTranslation(position + move_speed);
 }
 
 void WalkCannon_Bullet_Script::OnCollisionEnter(GameObject* other_game_object)

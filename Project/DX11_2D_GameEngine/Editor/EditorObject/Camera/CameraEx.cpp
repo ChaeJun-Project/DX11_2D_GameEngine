@@ -42,6 +42,8 @@ void CameraEx::Control3DViewMode()
 	auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
 	rotation.z = 0.0f;
 
+	auto position = transform->GetLocalTranslation();
+
 	auto right = transform->GetRightVector(); //카메라의 오른 방향 벡터
 	auto up = transform->GetUpVector(); //카메라의 위쪽 방향 벡터
 	auto forward = transform->GetForwardVector(); //카메라의 정면 방향 벡터
@@ -83,7 +85,7 @@ void CameraEx::Control3DViewMode()
 	transform->SetRotation(Quaternion::QuaternionFromEulerAngle(rotation));
 
 	//카메라 위치 변경
-	transform->Translate(movement_speed);
+	transform->SetLocalTranslation(position + movement_speed);
 	movement_speed *= m_drag;
 }
 
@@ -93,6 +95,8 @@ void CameraEx::Control2DViewMode()
 
 	auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
 	rotation.z = 0.0f;
+
+	auto position = transform->GetLocalTranslation();
 
 	auto right = transform->GetRightVector(); //카메라의 오른 방향 벡터
 	auto up = transform->GetUpVector(); //카메라의 위쪽 방향 벡터
@@ -117,6 +121,6 @@ void CameraEx::Control2DViewMode()
 		movement_speed -= right * m_speed * DELTA_TIME_F;
 
 	//카메라 위치 변경
-	transform->Translate(movement_speed);
+	transform->SetLocalTranslation(position + movement_speed);
 	movement_speed *= m_drag;
 }

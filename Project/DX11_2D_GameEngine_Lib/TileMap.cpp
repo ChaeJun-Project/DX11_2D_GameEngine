@@ -78,7 +78,7 @@ void TileMap::Render()
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 	if (m_tile_size != Vector2::Zero && m_tile_count != 0)
 	{
-		transform->SetMeshScale(m_tile_count_x * m_tile_size.x, m_tile_count_y * m_tile_size.y);
+		transform->SetMeshScale(static_cast<UINT>(m_tile_count_x * m_tile_size.x), static_cast<UINT>(m_tile_count_y * m_tile_size.y));
 
 		auto world_matrix = transform->GetWorldMatrix();
 

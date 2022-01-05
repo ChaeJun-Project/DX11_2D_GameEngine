@@ -49,7 +49,6 @@ void Script::CreateGameObject(GameObject* p_new_game_object, const UINT& layer_i
 
 	event_struct.event_type = EventType::Create_Object;
 	event_struct.object_address_1 = p_new_game_object;
-	event_struct.layer_index = layer_index;
 
 	EventManager::GetInstance()->AddEvent(event_struct);
 }

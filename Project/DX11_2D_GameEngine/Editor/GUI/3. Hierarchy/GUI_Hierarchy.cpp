@@ -42,9 +42,12 @@ void GUI_Hierarchy::Initialize()
 
 void GUI_Hierarchy::Update()
 {
-	if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_H))
+	if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
 	{
-		m_is_active = !m_is_active;
+		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_H))
+		{
+			m_is_active = !m_is_active;
+		}
 	}
 
 	//Scene내의 GameObject 변경점이 있는 경우 
@@ -58,13 +61,16 @@ void GUI_Hierarchy::Render()
 {
 	ShowHierarchy();
 
-	CheckClickRightButton();
+	if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+	{
+		CheckClickRightButton();
 
-	ShowMenuPopup();
+		ShowMenuPopup();
 
-	//현재 윈도우가 포커싱되었을 경우
-	if (ImGui::IsWindowFocused())
-		CheckEvnetKey();
+		//현재 윈도우가 포커싱되었을 경우
+		if (ImGui::IsWindowFocused())
+			CheckEvnetKey();
+	}
 }
 
 void GUI_Hierarchy::UpdateTree()
@@ -111,6 +117,9 @@ void GUI_Hierarchy::ClickedGameObject(DWORD_PTR object_address)
 
 void GUI_Hierarchy::DragDropGameObject(DWORD_PTR p_dropped_item, DWORD_PTR p_drag_start_item)
 {
+	if (SceneManager::GetInstance()->GetEditorState() != EditorState::EditorState_Stop)
+		return;
+
 	GUI_TreeItem* p_dest_item = (GUI_TreeItem*)p_dropped_item;
 	GUI_TreeItem* p_src_item = (GUI_TreeItem*)p_drag_start_item;
 
@@ -152,7 +161,7 @@ void GUI_Hierarchy::DeleteGameObject(GameObject* game_object)
 
 void GUI_Hierarchy::AddGameObject(GUI_TreeItem* p_tree_item, GameObject* game_object)
 {
-	if (game_object != nullptr && game_object->IsDead())
+	if (game_object == nullptr || game_object->IsDead())
 		return;
 
 	std::string game_object_name = game_object->GetGameObjectName();
@@ -189,6 +198,7 @@ void GUI_Hierarchy::SelectedGameObject(GameObject* game_object)
 
 void GUI_Hierarchy::CreateGameObject()
 {
+    //Create New GameObject
 	auto p_new_game_object = new GameObject();
 	p_new_game_object->AddComponent(new Transform());
 
@@ -197,9 +207,23 @@ void GUI_Hierarchy::CreateGameObject()
 
 	event_struct.event_type = EventType::Create_Object;
 	event_struct.object_address_1 = p_new_game_object;
-	event_struct.layer_index = 0;
 
 	EventManager::GetInstance()->AddEvent(event_struct);
+
+	//현재 선택된 GameObject가 있다면
+	//Add Child GameObject
+	auto p_parent_game_object = EditorHelper::GetInstance()->GetSelectedGameObject();
+
+	if (p_parent_game_object != nullptr)
+	{
+		ZeroMemory(&event_struct, sizeof(EventStruct));
+
+		event_struct.event_type = EventType::Add_Child_Object;
+		event_struct.object_address_1 = p_parent_game_object;
+		event_struct.object_address_2 = p_new_game_object;
+		
+		EventManager::GetInstance()->AddEvent(event_struct);
+	}
 }
 
 
