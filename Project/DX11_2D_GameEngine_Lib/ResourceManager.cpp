@@ -371,13 +371,13 @@ const std::shared_ptr<Material>& ResourceManager::GetMaterial(const std::string&
 void ResourceManager::CreateDefaultTexture()
 {
 	//Noise Texture 1
-	LoadTexture("Texture/Noise/noise_01.png", TextureType::Standard);
+	LoadTexture("Asset/Texture/Noise/noise_01.png", TextureType::Standard);
 
 	//Noise Texture 2
-	LoadTexture("Texture/Noise/noise_02.png", TextureType::Standard);
+	LoadTexture("Asset/Texture/Noise/noise_02.png", TextureType::Standard);
 
 	//Noise Texture 3
-	LoadTexture("Texture/Noise/noise_03.jpg", TextureType::Standard);
+	LoadTexture("Asset/Texture/Noise/noise_03.jpg", TextureType::Standard);
 
 	//Noise Texture 1 사용
 	auto noise_texture = GetTexture("noise_01");
@@ -394,10 +394,10 @@ void ResourceManager::CreateDefaultTexture()
 	);
 
 	//Smoke Particle Texture
-	LoadTexture("Texture/Particle/smoke_particle.png", TextureType::Standard);
+	LoadTexture("Asset/Texture/Particle/smoke_particle.png", TextureType::Standard);
 
 	//Rain Particle Texture
-	LoadTexture("Texture/Particle/rain_particle.png", TextureType::Standard);
+	LoadTexture("Asset/Texture/Particle/rain_particle.png", TextureType::Standard);
 }
 
 //Texture/objectname/~~/textureName.확장자

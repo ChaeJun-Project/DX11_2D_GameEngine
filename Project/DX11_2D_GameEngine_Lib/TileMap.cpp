@@ -260,3 +260,11 @@ const bool TileMap::CheckMousePositionInRect(const Vector2& mouse_position, cons
 	else
 		return false;
 }
+
+void TileMap::SaveToScene(FILE* p_file)
+{
+}
+
+void TileMap::LoadFromScene(FILE* p_file)
+{
+}

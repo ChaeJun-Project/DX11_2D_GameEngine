@@ -21,6 +21,7 @@ public:
 
 private:
    void CalcCurrentTime();
+   void CalcFps();
 
 private:
    //LARGE_INTEGER: 크기가 큰 정수형 자료형 타입(= __int64)
@@ -35,4 +36,5 @@ private:
    UINT m_fps = 0; //초당 호출 횟수
 
    std::string current_time;
+   std::string render_str;
 };

@@ -52,26 +52,45 @@ void GUI_TreeItem::Update()
 
 	bool press_mouse_left_button = false;
 
-	auto object = (DX11Obejct*)(std::get<DWORD_PTR>(m_pay_load.data));
-
-	if (ImGui::TreeNodeEx((const void*)(object->GetObjectID()), flags, m_item_name.c_str()))
+	if (m_pay_load.type == PayLoadType::GameObject)
 	{
-		DragAndDrop();
+		auto object = (DX11Obejct*)(std::get<DWORD_PTR>(m_pay_load.data));
 
-		press_mouse_left_button = CheckClickMouseLeftButton();
+		if (ImGui::TreeNodeEx((const void*)(object->GetObjectID()), flags, m_item_name.c_str()))
+		{
+			DragAndDrop();
 
-		for (auto& child_tree_item : m_p_child_vector)
-			child_tree_item->Update();
+			press_mouse_left_button = CheckClickMouseLeftButton();
 
-		//노드 추가를 중지함
-		ImGui::TreePop();
+			for (auto& child_tree_item : m_p_child_vector)
+				child_tree_item->Update();
+
+			//노드 추가를 중지함
+			ImGui::TreePop();
+		}
+
+		else
+		{
+			DragAndDrop();
+
+			press_mouse_left_button = CheckClickMouseLeftButton();
+		}
 	}
 
 	else
 	{
-		DragAndDrop();
+		if (ImGui::TreeNodeEx(m_item_name.c_str(), flags, m_item_name.c_str()))
+		{
+			DragAndDrop();
 
-		press_mouse_left_button = CheckClickMouseLeftButton();
+			press_mouse_left_button = CheckClickMouseLeftButton();
+
+			for (auto& child_tree_item : m_p_child_vector)
+				child_tree_item->Update();
+
+			//노드 추가를 중지함
+			ImGui::TreePop();
+		}
 	}
 
 	if (press_mouse_left_button)

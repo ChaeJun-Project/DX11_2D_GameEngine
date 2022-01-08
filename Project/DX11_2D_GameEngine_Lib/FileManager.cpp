@@ -268,7 +268,7 @@ const std::string FileManager::GetIntactFileNameFromPath(const std::string& path
 const std::string FileManager::GetDirectoryFromPath(const std::string& path)
 {
 	auto last_index = path.find_last_of("\\/");
-	auto directory = path.substr(0, last_index + 1);
+	auto directory = path.substr(last_index + 1, path.length());
 
 	return directory;
 }

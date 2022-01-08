@@ -24,6 +24,9 @@
 
 //RenderManager
 #include "RenderManager.h"
+
+//FontManager
+#include "FontManager.h"
 #pragma endregion
 
 Core::Core()
@@ -53,6 +56,8 @@ void Core::Initialize()
 	SceneManager::GetInstance()->Initialize();
 	//Initialize Render Manager
 	RenderManager::GetInstance()->Initialize();
+	//Initialize Font Manager
+	FontManager::GetInstance()->Initialize();
 }
 
 void Core::Progress()

@@ -103,9 +103,8 @@ void GUI_Hierarchy::ShowHierarchy()
 {
 	//ImGuiTreeNodeFlags_DefaultOpen : 시작부터 하위노드를 다 보여주는 옵션
 	if (ImGui::CollapsingHeader(m_p_current_scene->GetSceneName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
-	{
 		m_gui_tree.Update();
-	}
+
 }
 
 void GUI_Hierarchy::ClickedGameObject(DWORD_PTR object_address)
@@ -161,7 +160,7 @@ void GUI_Hierarchy::DeleteGameObject(GameObject* game_object)
 
 void GUI_Hierarchy::AddGameObject(GUI_TreeItem* p_tree_item, GameObject* game_object)
 {
-	if (game_object == nullptr || game_object->IsDead())
+	if (p_tree_item == nullptr || game_object == nullptr || game_object->IsDead())
 		return;
 
 	std::string game_object_name = game_object->GetGameObjectName();
@@ -198,7 +197,7 @@ void GUI_Hierarchy::SelectedGameObject(GameObject* game_object)
 
 void GUI_Hierarchy::CreateGameObject()
 {
-    //Create New GameObject
+	//Create New GameObject
 	auto p_new_game_object = new GameObject();
 	p_new_game_object->AddComponent(new Transform());
 
@@ -221,7 +220,7 @@ void GUI_Hierarchy::CreateGameObject()
 		event_struct.event_type = EventType::Add_Child_Object;
 		event_struct.object_address_1 = p_parent_game_object;
 		event_struct.object_address_2 = p_new_game_object;
-		
+
 		EventManager::GetInstance()->AddEvent(event_struct);
 	}
 }

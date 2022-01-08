@@ -62,6 +62,10 @@ private:
 	const bool CheckMousePositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom);
 
 public:
+	virtual void SaveToScene(FILE* p_file);
+	virtual void LoadFromScene(FILE* p_file);
+
+public:
 	CLONE(TileMap);
 
 private:

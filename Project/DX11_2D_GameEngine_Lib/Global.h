@@ -77,6 +77,9 @@ using namespace DirectX::PackedVector;
 //Log
 #include "LogManager.h"
 
+//Font
+#include "FontManager.h"
+
 //InputManager
 #include "InputManager.h"
 

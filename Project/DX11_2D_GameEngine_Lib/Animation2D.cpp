@@ -157,3 +157,11 @@ void Animation2D::ResetAnimationEventFlag()
 		animation_event.second.first = false;
 	}
 }
+
+void Animation2D::SaveToScene(FILE* p_file)
+{
+}
+
+void Animation2D::LoadFromScene(FILE* p_file)
+{
+}

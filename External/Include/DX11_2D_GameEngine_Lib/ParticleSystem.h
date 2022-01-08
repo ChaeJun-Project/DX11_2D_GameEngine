@@ -84,6 +84,10 @@ public:
 	}
 
 public:
+	virtual void SaveToScene(FILE* p_file);
+	virtual void LoadFromScene(FILE* p_file);
+
+public:
 	CLONE(ParticleSystem);
 
 private:
@@ -123,6 +127,5 @@ private:
 	//Particle Spawn Time
 	float m_spawn_frequency = 0.0f; //파티클 생성 빈도 시간
 	float m_accumulate_time = 0.0f; //누적 시간
-
 };
 

@@ -21,6 +21,12 @@ class ResourceManager final : public Singleton<ResourceManager>
 public:
 	void Initialize();
 
+	template<typename T>
+	void SaveResource(std::shared_ptr<T> p_resource, FILE* p_file);
+
+	template<typename T>
+	void LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file);
+
 public:
     //Shader
 	std::map<std::string, std::shared_ptr<IResource>>& GetShaderMap() { return m_p_shader_map; }
@@ -78,3 +84,13 @@ private:
 	//Prefab
 	std::map<std::string, std::shared_ptr<IResource>> m_p_prefab_map;
 };
+
+template<typename T>
+inline void ResourceManager::SaveResource(std::shared_ptr<T> p_resource, FILE* p_file)
+{
+}
+
+template<typename T>
+inline void ResourceManager::LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file)
+{
+}

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "TimeManager.h"
 
+#include "FontManager.h"
+
 void TimeManager::Initialize()
 {
 	//초당 카운트 횟수 받아오기
@@ -27,8 +29,7 @@ void TimeManager::Update()
 #endif
 
 	CalcCurrentTime();
-
-	Render();
+	CalcFps();
 
 	g_cbuffer_program.delta_time = static_cast<float>(m_delta_time);
 	g_cbuffer_program.accumulate_time += static_cast<float>(m_delta_time);
@@ -36,15 +37,7 @@ void TimeManager::Update()
 
 void TimeManager::Render()
 {
-	++m_func_call_count;
-	m_accumulate_time += m_delta_time; //시간 누적
-
-	if (m_accumulate_time >= 1.0)
-	{
-		m_fps = m_func_call_count;
-		m_func_call_count = 0;
-		m_accumulate_time = 0.0;
-	}
+	FontManager::GetInstance()->DrawFont(render_str, 20.0f, FONT_RGBA(0, 255, 0, 255), 10.0f, 10.0f);
 }
 
 void TimeManager::CalcCurrentTime()
@@ -62,4 +55,20 @@ void TimeManager::CalcCurrentTime()
 		+ std::to_string(date_time.tm_hour) + ":"
 		+ std::to_string(date_time.tm_min) + ":"
 		+ std::to_string(date_time.tm_sec) + "]";
+}
+
+void TimeManager::CalcFps()
+{
+	++m_func_call_count;
+	m_accumulate_time += m_delta_time; //시간 누적
+
+	if (m_accumulate_time >= 1.0)
+	{
+		m_fps = m_func_call_count;
+		m_func_call_count = 0;
+		m_accumulate_time = 0.0;
+
+		render_str = "FPS: " + std::to_string(m_fps) + " Delta Time: " + std::to_string(m_delta_time);
+	}
+
 }

@@ -4,6 +4,7 @@
 enum class PayLoadType : UINT
 {
 	NONE,
+	Folder,
 	GameObject,
 	Prefab,
 	Texture,

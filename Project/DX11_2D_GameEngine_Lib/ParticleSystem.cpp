@@ -134,3 +134,11 @@ void ParticleSystem::SetComputeShader(const std::shared_ptr<ComputeShader>& p_co
 {
 	m_p_particle_update_shader->SetComputeShader(p_compute_shader);
 }
+
+void ParticleSystem::SaveToScene(FILE* p_file)
+{
+}
+
+void ParticleSystem::LoadFromScene(FILE* p_file)
+{
+}

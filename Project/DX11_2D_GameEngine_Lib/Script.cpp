@@ -53,3 +53,11 @@ void Script::CreateGameObject(GameObject* p_new_game_object, const UINT& layer_i
 	EventManager::GetInstance()->AddEvent(event_struct);
 }
 
+void Script::SaveToScene(FILE* p_file)
+{
+}
+
+void Script::LoadFromScene(FILE* p_file)
+{
+}
+

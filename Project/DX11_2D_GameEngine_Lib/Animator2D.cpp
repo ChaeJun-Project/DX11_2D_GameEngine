@@ -164,3 +164,11 @@ auto animation = GetAnimation(animation_name);
 
 	animation->SetAnimationEvent(clip_index, event_func);
 }
+
+void Animator2D::SaveToScene(FILE* p_file)
+{
+}
+
+void Animator2D::LoadFromScene(FILE* p_file)
+{
+}

@@ -77,6 +77,9 @@ void RenderManager::Render()
 		break;
 	}
 
+	//Render Time Manager
+	TimeManager::GetInstance()->Render();
+
 	//카메라 벡터 초기화
 	m_camera_vector.clear();
 	m_camera_vector.resize(1);
