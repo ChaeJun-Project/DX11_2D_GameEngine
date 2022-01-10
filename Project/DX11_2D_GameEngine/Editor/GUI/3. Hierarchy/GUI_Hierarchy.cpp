@@ -14,7 +14,7 @@
 GUI_Hierarchy::GUI_Hierarchy(const std::string& hierarchy_title)
 	:IGUI(hierarchy_title)
 {
-	m_p_clicked_func = std::bind
+	m_p_clicked_func_2 = std::bind
 	(
 		&GUI_Hierarchy::ClickedGameObject,
 		this,
@@ -80,13 +80,17 @@ void GUI_Hierarchy::UpdateTree()
 
 	m_p_current_scene = SceneManager::GetInstance()->GetCurrentScene();
 
-	auto p_root_tree_item = m_gui_tree.AddItem(nullptr, m_p_current_scene->GetSceneName(), PayLoadType::NONE, 0);
+	PayLoad pay_load;
+	pay_load.type = PayLoadType::NONE;
+	pay_load.data = 0;
+
+	auto p_root_tree_item = m_gui_tree.AddItem(nullptr, m_p_current_scene->GetSceneName(), pay_load);
 
 	const auto& root_game_object_vector = m_p_current_scene->GetAllParentGameObjects();
 	for (const auto& root_game_object : root_game_object_vector)
 		AddGameObject(p_root_tree_item, root_game_object);
 
-	m_gui_tree.SetClickedCallBack(m_p_clicked_func);
+	m_gui_tree.SetClickedCallBack2(m_p_clicked_func_2);
 	m_gui_tree.SetDragDropCallBack(m_p_drag_drop_func);
 }
 
@@ -164,7 +168,12 @@ void GUI_Hierarchy::AddGameObject(GUI_TreeItem* p_tree_item, GameObject* game_ob
 		return;
 
 	std::string game_object_name = game_object->GetGameObjectName();
-	auto p_current_tree_item = m_gui_tree.AddItem(p_tree_item, game_object_name, PayLoadType::GameObject, (DWORD_PTR)game_object);
+
+	PayLoad pay_load;
+	pay_load.type = PayLoadType::GameObject;
+	pay_load.data = (DWORD_PTR)game_object;
+
+	auto p_current_tree_item = m_gui_tree.AddItem(p_tree_item, game_object_name, pay_load);
 
 	const auto& childs_vector = game_object->GetChilds();
 
@@ -199,6 +208,7 @@ void GUI_Hierarchy::CreateGameObject()
 {
 	//Create New GameObject
 	auto p_new_game_object = new GameObject();
+	p_new_game_object->SetGameObjectName("GameObject");
 	p_new_game_object->AddComponent(new Transform());
 
 	EventStruct event_struct;

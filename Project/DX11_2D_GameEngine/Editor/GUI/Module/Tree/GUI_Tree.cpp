@@ -23,9 +23,9 @@ void GUI_Tree::Update()
 	}
 }
 
-GUI_TreeItem* GUI_Tree::AddItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoadType& pay_load_type, DWORD_PTR object_address)
+GUI_TreeItem* GUI_Tree::AddItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoad& pay_load)
 {
-	auto p_tree_item = new GUI_TreeItem(p_parent, item_name, pay_load_type, object_address);
+	auto p_tree_item = new GUI_TreeItem(p_parent, item_name, pay_load);
 	p_tree_item->m_p_owner_tree = this;
 
 	//최상위 TreeItem인 경우
@@ -73,8 +73,17 @@ void GUI_Tree::ExcuteClickedCallBack(GUI_TreeItem* p_item)
 {
 	m_p_selected_item = p_item;
 
-	if (m_p_clicked_func != nullptr)
-		m_p_clicked_func(std::get<DWORD_PTR>(m_p_selected_item->m_pay_load.data));
+	if (m_p_selected_item->m_pay_load.type == PayLoadType::GameObject)
+	{
+		if(m_p_clicked_func_2 != nullptr)
+			m_p_clicked_func_2(std::get<DWORD_PTR>(m_p_selected_item->m_pay_load.data));
+	}
+
+	else
+	{
+		if (m_p_clicked_func_1 != nullptr)
+			m_p_clicked_func_1(std::get<std::string>(m_p_selected_item->m_pay_load.data));
+	}
 }
 
 void GUI_Tree::SetDroppedItem(GUI_TreeItem* p_item)

@@ -12,10 +12,11 @@ public:
     void Update();
   
 public:
-    GUI_TreeItem* AddItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoadType& pay_load_type, DWORD_PTR object_address);
+    GUI_TreeItem* AddItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoad& pay_load);
     void Clear();
 
-    void SetClickedCallBack(Clicked_CallBack p_clicked_func) { m_p_clicked_func = p_clicked_func; }
+    void SetClickedCallBack1(Clicked_CallBack1 p_clicked_func_1) { m_p_clicked_func_1 = p_clicked_func_1; }
+    void SetClickedCallBack2(Clicked_CallBack2 p_clicked_func_2) { m_p_clicked_func_2 = p_clicked_func_2; }
     void ExcuteClickedCallBack(GUI_TreeItem* p_item);
     GUI_TreeItem* GetSelectedItem() { SAFE_GET_POINTER(m_p_selected_item); }
 
@@ -29,7 +30,8 @@ public:
 private:
     GUI_TreeItem* m_p_root_item = nullptr;
 
-    Clicked_CallBack m_p_clicked_func = nullptr;
+    Clicked_CallBack1 m_p_clicked_func_1 = nullptr;
+    Clicked_CallBack2 m_p_clicked_func_2 = nullptr;
 
     GUI_TreeItem* m_p_selected_item = nullptr;
 

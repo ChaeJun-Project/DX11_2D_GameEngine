@@ -14,23 +14,17 @@
 #include "Component/2. Camera/GUI_Camera.h"
 #include "Component/3. SpriteRenderer/GUI_SpriteRenderer.h"
 #include "Component/4. Animator2D/GUI_Animator2D.h"
-//#include "Component/5. Animator/GUI_Animator.h"
+//Animator
 #include "Component/6. Collider2D/GUI_Collider2D.h"
 #include "Component/7. Light2D/GUI_Light2D.h"
 #include "Component/8. ParticleSystem/GUI_ParticleSystem.h"
 #include "Component/9. TileMap/GUI_TileMap.h"
 //RigidBody2D
-#include "Component/11. Script/GUI_Script.h"
+#include "Component/11. AudioListener/GUI_AudioListener.h"
+#include "Component/12. AudioSource/GUI_AudioSource.h"
+#include "Component/13. Script/GUI_Script.h"
 
-#include <DX11_2D_GameEngine_Lib/Camera.h>
-#include <DX11_2D_GameEngine_Lib/SpriteRenderer.h>
-#include <DX11_2D_GameEngine_Lib/Animator2D.h>
-#include <DX11_2D_GameEngine_Lib/Collider2D.h>
-#include <DX11_2D_GameEngine_Lib/Light2D.h>
-#include <DX11_2D_GameEngine_Lib/ParticleSystem.h>
-//RigidBody2D
-#include <DX11_2D_GameEngine_Lib/TileMap.h>
-
+//Script
 #include <Script_Lib/ScriptManager.h>
 
 //Define
@@ -69,13 +63,13 @@ GUI_Inspector::~GUI_Inspector()
 	m_p_layer_list.reset();
 	m_layer_map.clear();
 
-	for (auto& gui_component : m_component_gui_list)
+	for (auto& gui_component : m_component_gui_map)
 	{
 		if (gui_component.second != nullptr)
 			gui_component.second.reset();
 	}
 
-	m_component_gui_list.clear();
+	m_component_gui_map.clear();
 }
 
 void GUI_Inspector::Initialize()
@@ -87,26 +81,30 @@ void GUI_Inspector::Initialize()
 	InitializeLayer();
 
 	//Transform
-	m_component_gui_list.push_back(std::make_pair(ComponentType::Transform, std::make_shared<GUI_Transform>("Transform")));
+	m_component_gui_map.insert(std::make_pair(ComponentType::Transform, std::make_unique<GUI_Transform>("Transform")));
 	//Camera
-	m_component_gui_list.push_back(std::make_pair(ComponentType::Camera, std::make_shared<GUI_Camera>("Camera")));
+	m_component_gui_map.insert(std::make_pair(ComponentType::Camera, std::make_unique<GUI_Camera>("Camera")));
 	//SpriteRenderer
-	m_component_gui_list.push_back(std::make_pair(ComponentType::SpriteRenderer, std::make_shared<GUI_SpriteRenderer>("Sprite Renderer")));
+	m_component_gui_map.insert(std::make_pair(ComponentType::SpriteRenderer, std::make_unique<GUI_SpriteRenderer>("Sprite Renderer")));
 	//Animator2D
-	m_component_gui_list.push_back(std::make_pair(ComponentType::Animator2D, std::make_shared<GUI_Animator2D>("Animator2D")));
+	m_component_gui_map.insert(std::make_pair(ComponentType::Animator2D, std::make_unique<GUI_Animator2D>("Animator2D")));
 	//Animator
-	//m_component_gui_list.push_back(std::make_pair(ComponentType::Animator, std::make_shared<GUI_Animator>("Animator")));
+	//m_component_gui_map.insert(std::make_pair(ComponentType::Animator, std::make_unique<GUI_Animator>("Animator")));
 	//Collider2D
-	m_component_gui_list.push_back(std::make_pair(ComponentType::Collider2D, std::make_shared<GUI_Collider2D>("Collider2D")));
+	m_component_gui_map.insert(std::make_pair(ComponentType::Collider2D, std::make_unique<GUI_Collider2D>("Collider2D")));
 	//Light2D
-	m_component_gui_list.push_back(std::make_pair(ComponentType::Light2D, std::make_shared<GUI_Light2D>("Light2D")));
+	m_component_gui_map.insert(std::make_pair(ComponentType::Light2D, std::make_unique<GUI_Light2D>("Light2D")));
 	//ParticleSystem
-	m_component_gui_list.push_back(std::make_pair(ComponentType::ParticleSystem, std::make_shared<GUI_ParticleSystem>("ParticleSystem")));
+	m_component_gui_map.insert(std::make_pair(ComponentType::ParticleSystem, std::make_unique<GUI_ParticleSystem>("ParticleSystem")));
 	//TileMap
-	m_component_gui_list.push_back(std::make_pair(ComponentType::TileMap, std::make_shared<GUI_TileMap>("TileMap")));
+	m_component_gui_map.insert(std::make_pair(ComponentType::TileMap, std::make_unique<GUI_TileMap>("TileMap")));
 	//RigidBody2D
-	//Script
-	m_component_gui_list.push_back(std::make_pair(ComponentType::Script, std::make_shared<GUI_Script>("Script")));
+	//AudioListener
+	m_component_gui_map.insert(std::make_pair(ComponentType::AudioListener, std::make_unique<GUI_AudioListener>("Audio Listener")));
+	//AudioSource
+	m_component_gui_map.insert(std::make_pair(ComponentType::AudioSource, std::make_unique<GUI_AudioSource>("Audio Source")));
+
+	//Script º¸·ù
 }
 
 void GUI_Inspector::Update()
@@ -191,16 +189,15 @@ void GUI_Inspector::ShowGameObjectInfo()
 	ImGui::EndGroup();
 
 	//Component GUI
-	for (UINT i = static_cast<UINT>(ComponentType::Transform); i <= static_cast<UINT>(ComponentType::TileMap); ++i)
+	for (UINT i = static_cast<UINT>(ComponentType::Transform); i < static_cast<UINT>(ComponentType::END); ++i)
 	{
 		if (!m_p_selected_game_object->GetComponent(static_cast<ComponentType>(i)))
 		{
 			continue;
 		}
 
-		auto component_gui = GetComponentGUI(static_cast<ComponentType>(i));
-		component_gui->SetGameObject(m_p_selected_game_object);
-		component_gui->Render();
+		m_component_gui_map[static_cast<ComponentType>(i)]->SetGameObject(m_p_selected_game_object);
+		m_component_gui_map[static_cast<ComponentType>(i)]->Render();
 	}
 }
 
@@ -357,17 +354,6 @@ void GUI_Inspector::ShowTagAndLayerList()
 	}
 }
 
-std::shared_ptr<GUI_Component> GUI_Inspector::GetComponentGUI(const ComponentType& component_type) const
-{
-	for (auto& component_gui : m_component_gui_list)
-	{
-		if (component_gui.first == component_type)
-			return component_gui.second;
-	}
-
-	return nullptr;
-}
-
 void GUI_Inspector::ShowResourceInfo()
 {
 }
@@ -389,49 +375,91 @@ void GUI_Inspector::ShowAddComponentPopup()
 		//Camera
 		if (ImGui::MenuItem("Camera"))
 		{
-			m_p_selected_game_object->AddComponent(new Camera());
+			m_p_selected_game_object->AddComponent(ComponentType::Camera);
 		}
 
 		//Sprite Renderer
 		if (ImGui::MenuItem("Sprite Renderer"))
 		{
-			m_p_selected_game_object->AddComponent(new SpriteRenderer());
+			m_p_selected_game_object->AddComponent(ComponentType::SpriteRenderer);
 		}
 
-		//Animator2D
-		if (ImGui::MenuItem("Animator2D"))
+		//Animator
+		if (ImGui::BeginMenu("Animator"))
 		{
-			m_p_selected_game_object->AddComponent(new Animator());
+			//Animator2D
+			if (ImGui::MenuItem("Animator2D"))
+			{
+				m_p_selected_game_object->AddComponent(ComponentType::Animator2D);
+			}
+
+			ImGui::EndMenu();
 		}
 
-		//Collider2D
-		if (ImGui::MenuItem("Collider2D"))
+		//Collider
+		if (ImGui::BeginMenu("Collider"))
 		{
-			m_p_selected_game_object->AddComponent(new Collider2D());
+			//Collider2D
+			if (ImGui::MenuItem("Collider2D"))
+			{
+				m_p_selected_game_object->AddComponent(ComponentType::Collider2D);
+			}
+
+			ImGui::EndMenu();
 		}
 
-		//Light2D
-		if (ImGui::MenuItem("Light2D"))
+		//Light
+		if (ImGui::BeginMenu("Light"))
 		{
-			m_p_selected_game_object->AddComponent(new Light2D());
+			//Light2D
+			if (ImGui::MenuItem("Light2D"))
+			{
+				m_p_selected_game_object->AddComponent(ComponentType::Light2D);
+			}
+
+			ImGui::EndMenu();
 		}
 
 		//ParticleSystem
 		if (ImGui::MenuItem("ParticleSystem"))
 		{
-			m_p_selected_game_object->AddComponent(new ParticleSystem());
+			m_p_selected_game_object->AddComponent(ComponentType::ParticleSystem);
 		}
 
-		//RigidBody2D
-		if (ImGui::MenuItem("RigidBody2D"))
+		//RigidBody
+		if (ImGui::BeginMenu("RigidBody"))
 		{
+			//RigidBody2D
+			if (ImGui::MenuItem("RigidBody2D"))
+			{
+				
+			}
 
+			ImGui::EndMenu();
 		}
 
 		//TileMap
 		if (ImGui::MenuItem("TileMap"))
 		{
-			m_p_selected_game_object->AddComponent(new TileMap());
+			m_p_selected_game_object->AddComponent(ComponentType::TileMap);
+		}
+
+		//Audio
+		if (ImGui::BeginMenu("Audio"))
+		{
+			//Audio Listener
+			if (ImGui::MenuItem("Audio Listener"))
+			{
+				m_p_selected_game_object->AddComponent(ComponentType::AudioListener);
+			}
+
+			//Audio Source
+			if (ImGui::MenuItem("Audio Source"))
+			{
+				m_p_selected_game_object->AddComponent(ComponentType::AudioSource);
+			}
+
+			ImGui::EndMenu();
 		}
 
 		//Script

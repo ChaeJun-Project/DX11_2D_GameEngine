@@ -38,9 +38,6 @@ private:
 	void LoadLayer();
 
 private:
-	std::shared_ptr<GUI_Component> GetComponentGUI(const ComponentType& component_type) const;
-
-private:
     GameObject* m_p_selected_game_object = nullptr;
 	IResource* m_p_select_resource = nullptr;
 
@@ -58,7 +55,10 @@ private:
 	std::string m_tag_layer_path = "Layer.txt";
 	std::map<UINT, std::string> m_layer_map;
 
-	//Component GUI list
-	std::list<std::pair<ComponentType, std::shared_ptr<GUI_Component>>> m_component_gui_list;
+	//Component GUI Map
+	std::map<ComponentType, std::unique_ptr<GUI_Component>> m_component_gui_map;
+
+	//Script
+	//std::list<std::pair<ComponentType, std::unique_ptr<GUI_Component>>> m_component_gui_list;
 };
 

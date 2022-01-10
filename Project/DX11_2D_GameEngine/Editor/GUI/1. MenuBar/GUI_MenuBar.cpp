@@ -3,12 +3,15 @@
 
 #include "Style Selector/GUI_StyleSelector.h"
 
+#include <DX11_2D_GameEngine_Lib/FileManager.h>
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 #include <DX11_2D_GameEngine_Lib/Scene.h>
 
 GUI_MenuBar::GUI_MenuBar(const std::string& menubar_title)
 	:IGUI(menubar_title)
 {
+	m_scene_folder_path = FileManager::GetAbsoluteContentPath();
+	m_scene_folder_path += "Asset/Scene/";
 	m_p_gui_style_selector = new GUI_StyleSelector;
 }
 
@@ -38,12 +41,12 @@ void GUI_MenuBar::Update()
 		//=========================
 		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_A))
 		{
-			LoadFile("Scene/", FileType::Scene);
+			LoadFile(m_scene_folder_path, FileType::Scene);
 		}
 
 		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_S))
 		{
-			SaveFile("Scene/", FileType::Scene);
+			SaveFile(m_scene_folder_path, FileType::Scene);
 		}
 
 		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_R))
@@ -79,12 +82,12 @@ void GUI_MenuBar::Render()
 		{
 			if (ImGui::MenuItem("Load Scene", "CTRL + A"))
 			{
-				LoadFile("Scene/", FileType::Scene);
+				LoadFile(m_scene_folder_path, FileType::Scene);
 			}
 
 			if (ImGui::MenuItem("Save Scene", "CTRL + S"))
 			{
-				SaveFile("Scene/", FileType::Scene);
+				SaveFile(m_scene_folder_path, FileType::Scene);
 			}
 
 			if (ImGui::MenuItem("Rename Current Scene", "CTRL + R"))
@@ -139,7 +142,7 @@ void GUI_MenuBar::ShowRenameScene()
 		ImGui::PushItemWidth(200.0f);
 		if (ImGui::InputText("##Scene Name", &scene_name, 1000))
 		{
-			FileManager::RenameFileName("Scene/", ".scene", current_scene->GetSceneName(), scene_name);
+			FileManager::RenameFileName(m_scene_folder_path, ".scene", current_scene->GetSceneName(), scene_name);
 			current_scene->SetSceneName(scene_name);
 			EDITOR_LOG_INFO_F("Success to Rename Current Scene '%s'", scene_name.c_str());
 		}

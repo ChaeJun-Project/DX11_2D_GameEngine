@@ -80,6 +80,9 @@ using namespace DirectX::PackedVector;
 //Font
 #include "FontManager.h"
 
+//Audio
+#include "AudioManager.h"
+
 //InputManager
 #include "InputManager.h"
 

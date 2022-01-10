@@ -42,6 +42,6 @@ private:
 
 	GUI_Tree    m_gui_tree;
 
-	Clicked_CallBack m_p_clicked_func = nullptr;
+	Clicked_CallBack2 m_p_clicked_func_2 = nullptr;
 	DragDrop_CallBack m_p_drag_drop_func = nullptr;
 };

@@ -17,9 +17,6 @@ public:
 	Texture(const std::string resource_name);
 	~Texture() = default;
 
-	void LoadFromFile(const std::string& texture_path) override;
-	void SaveFile(const std::string& texture_path) override;
-
 	void Create(const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
 	void Create(const ComPtr<ID3D11Texture2D>& texture2D, const UINT& bind_flage = 0);
 	
@@ -58,6 +55,11 @@ public:
 
     D3D11_VIEWPORT& GetViewPort() { return m_viewport; }
 	void SetViewport(const UINT& width, const UINT& height);
+
+public:
+	void LoadFromFile(const std::string& texture_path) override;
+	void SaveFile(const std::string& texture_path) override;
+
 
 private:
 	ComPtr<ID3D11Texture2D> m_p_texture = nullptr;

@@ -205,8 +205,17 @@
     <ClInclude Include="FontManager.h">
       <Filter>Manager\Font</Filter>
     </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>Resource\Sound</Filter>
+    <ClInclude Include="AudioClip.h">
+      <Filter>Resource\AudioClip</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Manager\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioListener.h">
+      <Filter>Scene\Components\11. Audio Listener</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioSource.h">
+      <Filter>Scene\Components\12. Audio Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -384,8 +393,17 @@
     <ClCompile Include="FontManager.cpp">
       <Filter>Manager\Font</Filter>
     </ClCompile>
-    <ClCompile Include="Sound.cpp">
-      <Filter>Resource\Sound</Filter>
+    <ClCompile Include="AudioClip.cpp">
+      <Filter>Resource\AudioClip</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Manager\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioListener.cpp">
+      <Filter>Scene\Components\11. Audio Listener</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource.cpp">
+      <Filter>Scene\Components\12. Audio Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -424,9 +442,6 @@
     </Filter>
     <Filter Include="Resource\Mesh">
       <UniqueIdentifier>{788f9814-fb0b-45c0-934c-8592bf96d437}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\Sound">
-      <UniqueIdentifier>{bcad10b5-98c9-4000-9abc-699ae6edd49c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource\Texture">
       <UniqueIdentifier>{2bb8315c-6024-4be2-8209-ae8cedb26f21}</UniqueIdentifier>
@@ -613,6 +628,18 @@
     </Filter>
     <Filter Include="Manager\Font">
       <UniqueIdentifier>{66ba0651-6e9d-4d4c-9f0d-e472ae907138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Audio">
+      <UniqueIdentifier>{941edfd4-0ba1-4234-8f97-031eff4e9877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\11. Audio Listener">
+      <UniqueIdentifier>{5ca66697-2bdd-4b95-a111-d01f1d527e94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\12. Audio Source">
+      <UniqueIdentifier>{65ad16ff-9ea5-42a9-ad37-4971f83e3137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\AudioClip">
+      <UniqueIdentifier>{bcad10b5-98c9-4000-9abc-699ae6edd49c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

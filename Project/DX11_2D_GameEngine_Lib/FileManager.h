@@ -20,7 +20,7 @@ public:
 	static const bool IsExistFile(const std::string& path); //특정 폴더에 파일이 존재하는지 확인
 	static const std::vector<std::string> GetFileNameVectorFromDirectory(const std::string& path); //특정 경로의 디렉토리 내부의 모든 파일의 이름을 벡터로 저장하여 반환
 
-	static const void RenameFileName(const std::string& folder_name, const std::string& extension_name, const std::string& old_file_name, const std::string& new_file_name);
+	static const void RenameFileName(const std::string& folder_path, const std::string& extension_name, const std::string& old_file_name, const std::string& new_file_name);
 	static const std::string GetFileNameFromPath(const std::string& path); //특정 경로에 있는 파일의 이름을 반환(확장자 포함)
 	static const std::string GetIntactFileNameFromPath(const std::string& path); //특정 경로에 있는 파일의 이름만을 반환(확장자 미포함)
 	static const std::string GetDirectoryFromPath(const std::string& path); //특정 경로에 있는 폴더의 이름을 반환

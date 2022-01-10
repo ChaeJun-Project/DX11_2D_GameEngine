@@ -25,6 +25,8 @@ enum class IconType : UINT
    Component_ParticleSystem,
    Component_TileMap,
    Component_RigidBody2D,
+   Component_Audio_Listener,
+   Component_Audio_Source,
 
    Component_Script,
 
@@ -54,7 +56,7 @@ private:
 public:
     void CreateImage(const IconType& icon_type, const ImVec2& button_size);
     const bool CreateImageButton(const IconType& icon_type, const ImVec2& button_size);
-
+	
 private:
     std::map<IconType, std::shared_ptr<Texture>> m_icon_map;
 

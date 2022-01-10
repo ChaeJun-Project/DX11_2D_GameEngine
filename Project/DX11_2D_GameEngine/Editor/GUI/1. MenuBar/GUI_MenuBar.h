@@ -24,6 +24,7 @@ private:
      //=========================
      // File
      //=========================
+     std::string m_scene_folder_path;
      bool m_is_show_rename_scene = false;
 
      //=========================

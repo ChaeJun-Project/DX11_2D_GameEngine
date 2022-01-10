@@ -58,5 +58,5 @@ private:
 protected:
 	UINT m_id = 0;
 
-	std::string m_object_name = "GameObject";
+	std::string m_object_name;
 };

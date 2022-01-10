@@ -11,8 +11,7 @@ public:
 	(
 		GUI_TreeItem* p_parent,
 		const std::string& item_name,
-		const PayLoadType& pay_load_type,
-		DWORD_PTR object_address
+		const PayLoad& pay_load
 	);
 	~GUI_TreeItem();
 

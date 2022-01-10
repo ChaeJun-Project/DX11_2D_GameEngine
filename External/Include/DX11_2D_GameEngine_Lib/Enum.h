@@ -40,9 +40,9 @@ enum class ResourceType : UINT
 	Material = 2,
 	Shader = 3,
 	Texture = 4,
-	Animation = 5,
-	Sound = 6,
-	Prefab = 7,
+	AudioClip = 5,
+	Prefab = 6,
+	Animation = 7,
 };
 
 //Mesh Type(Mesh 사용)
@@ -138,9 +138,11 @@ enum class ComponentType : UINT
 	ParticleSystem = 8,
 	TileMap = 9,
 	RigidBody2D = 10,
-	END = 11,
+	AudioListener = 11,
+	AudioSource = 12,
+	END = 13,
 
-	Script = 12,
+	Script = 14,
 };
 
 //Projection Type(Camera 사용)

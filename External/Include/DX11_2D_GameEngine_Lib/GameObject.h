@@ -32,7 +32,7 @@ public:
 
 	void RemoveComponent(const ComponentType& component_type);
 
-	const UINT& GetComponentCount() const { return static_cast<UINT>(m_p_component_list.size()); }
+	const UINT& GetComponentCount() const { return static_cast<UINT>(m_p_component_map.size()); }
 
 public:
     const std::list<Script*> GetScripts() { return m_p_script_list; }
@@ -102,7 +102,7 @@ protected:
 	UINT m_game_object_layer = 0;
 
 	//Component List
-	std::list<std::pair<ComponentType, IComponent*>> m_p_component_list;
+	std::map<ComponentType, IComponent*> m_p_component_map;
 	
 	//Script List
 	std::list<Script*> m_p_script_list;

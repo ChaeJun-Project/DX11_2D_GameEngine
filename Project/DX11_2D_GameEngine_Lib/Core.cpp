@@ -27,6 +27,9 @@
 
 //FontManager
 #include "FontManager.h"
+
+//AudioManager
+#include "AudioManager.h"
 #pragma endregion
 
 Core::Core()
@@ -58,6 +61,8 @@ void Core::Initialize()
 	RenderManager::GetInstance()->Initialize();
 	//Initialize Font Manager
 	FontManager::GetInstance()->Initialize();
+	//Initialize Audio Manager
+	AudioManager::GetInstance()->Initialize();
 }
 
 void Core::Progress()
@@ -70,6 +75,8 @@ void Core::Progress()
 	SceneManager::GetInstance()->Update();
 	//Render Render Manager 
 	RenderManager::GetInstance()->Render();
+	//Update Audio Manager
+	AudioManager::GetInstance()->Update();
 	//Update Event Manager
 	EventManager::GetInstance()->Update();
 }

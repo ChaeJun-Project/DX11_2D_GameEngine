@@ -97,7 +97,7 @@ void GUI_Console::ShowButtons()
 void GUI_Console::ShowFilter()
 {
 	//Filter
-	m_log_filter.Draw("##Filter", 400.0f);
+	m_log_filter.Draw("##Log Filter", 400.0f);
 }
 
 void GUI_Console::ShowLog()

@@ -111,30 +111,28 @@ void SaveFile(const std::string& path, const FileType& file_type)
 
 	wchar_t szName[256] = {};
 
-	std::wstring file_folder_path;
+	std::wstring file_folder_path = FileManager::ConvertStringToWString(path);
+	SetCurrentDirectory(file_folder_path.c_str()); //해당 경로를 현재 작업 중인 디렉토리로 설정
 	switch (file_type)
 	{
 	case FileType::Scene:
 	{
-		file_folder_path = L"Scene";
 		ofn.lpstrFilter = L"All\0*.*\0Scene\0*.scene\0";
 
 		auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
-		auto current_scene_name_with_intact = current_scene->GetSceneName() + ".scene";
-		std::wstring scene_name = FileManager::ConvertStringToWString(current_scene_name_with_intact);
+		auto current_scene_name_with_extension = current_scene->GetSceneName() + ".scene";
+		std::wstring scene_name = FileManager::ConvertStringToWString(current_scene_name_with_extension);
 
 		wcscpy_s(szName, scene_name.c_str());
 	}
 	break;
 	case FileType::Tile:
 	{
-		file_folder_path = L"Tile";
 		ofn.lpstrFilter = L"All\0*.*\0Tile\0*.tile\0";
 	}
 	break;
 	case FileType::Animation:
 	{
-		file_folder_path = L"Animation";
 		ofn.lpstrFilter = L"All\0*.*\0Animation\0*.anim\0";
 	}
 	break;
@@ -147,8 +145,8 @@ void SaveFile(const std::string& path, const FileType& file_type)
 	ofn.nFilterIndex = 0;
 	ofn.lpstrFileTitle = nullptr;
 	ofn.nMaxFileTitle = 0;
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-	ofn.lpstrInitialDir = file_folder_path.c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+	ofn.lpstrInitialDir = L"."; //현재 디렉토리를 기준으로 파일 다이얼로그 창을 엶
 
 	// Modal
 	if (GetSaveFileName(&ofn))
@@ -186,24 +184,22 @@ void LoadFile(const std::string& path, const FileType& file_type)
 
 	wchar_t szName[256] = {};
 
-	std::wstring file_folder_path;
+	std::wstring file_folder_path = FileManager::ConvertStringToWString(path);
+	SetCurrentDirectory(file_folder_path.c_str()); //해당 경로를 현재 작업 중인 디렉토리로 설정
 	switch (file_type)
 	{
 	case FileType::Scene:
 	{
-		file_folder_path = L"Scene";
 		ofn.lpstrFilter = L"All\0*.*\0Scene\0*.scene\0";
 	}
 	break;
 	case FileType::Tile:
 	{
-		file_folder_path = L"Tile";
 		ofn.lpstrFilter = L"All\0*.*\0Tile\0*.tile\0";
 	}
 	break;
 	case FileType::Animation:
 	{
-		file_folder_path = L"Animation";
 		ofn.lpstrFilter = L"All\0*.*\0Animation\0*.anim\0";
 	}
 	break;
@@ -216,8 +212,8 @@ void LoadFile(const std::string& path, const FileType& file_type)
 	ofn.nFilterIndex = 0;
 	ofn.lpstrFileTitle = nullptr;
 	ofn.nMaxFileTitle = 0;
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-	ofn.lpstrInitialDir = file_folder_path.c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+	ofn.lpstrInitialDir = L"."; //현재 디렉토리를 기준으로 파일 다이얼로그 창을 엶
 
 	// Modal
 	if (GetOpenFileName(&ofn))

@@ -7,7 +7,7 @@
 void GameObjectEx::FinalUpdate()
 {
 	//컴포넌트 최종 업데이트
-	for (auto& component : m_p_component_list)
+	for (auto& component : m_p_component_map)
 		component.second->FinalUpdate();
 
 	//스크립트 업데이트

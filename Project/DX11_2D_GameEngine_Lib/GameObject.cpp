@@ -14,6 +14,8 @@
 #include "Light2D.h"
 #include "ParticleSystem.h"
 #include "TileMap.h"
+#include "AudioListener.h"
+#include "AudioSource.h"
 
 #include "Script.h"
 
@@ -33,6 +35,8 @@ REGISTER_COMPONENT_TYPE(Collider2D, ComponentType::Collider2D);
 REGISTER_COMPONENT_TYPE(Light2D, ComponentType::Light2D);
 REGISTER_COMPONENT_TYPE(ParticleSystem, ComponentType::ParticleSystem);
 REGISTER_COMPONENT_TYPE(TileMap, ComponentType::TileMap);
+REGISTER_COMPONENT_TYPE(AudioListener, ComponentType::AudioListener);
+REGISTER_COMPONENT_TYPE(AudioSource, ComponentType::AudioSource);
 
 REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
 
@@ -50,7 +54,7 @@ GameObject::GameObject(const GameObject& origin)
 	//해당 오브젝트로 프리팹을 만든 횟수
 	m_prefab_count = origin.m_prefab_count;
 
-	for (auto& origin_component : origin.m_p_component_list)
+	for (auto& origin_component : origin.m_p_component_map)
 	{
 		AddComponent(origin_component.second->Clone());
 	}
@@ -64,10 +68,10 @@ GameObject::GameObject(const GameObject& origin)
 GameObject::~GameObject()
 {
 	//Component
-	for (auto& component : m_p_component_list)
+	for (auto& component : m_p_component_map)
 		SAFE_DELETE(component.second);
 
-	m_p_component_list.clear();
+	m_p_component_map.clear();
 
 	//Script
 	for (auto& script : m_p_script_list)
@@ -89,7 +93,7 @@ GameObject::~GameObject()
 void GameObject::Start()
 {
 	//컴포넌트 업데이트
-	for (auto& component : m_p_component_list)
+	for (auto& component : m_p_component_map)
 		component.second->Start();
 
 	//자식 오브젝트 업데이트
@@ -103,7 +107,7 @@ void GameObject::Update()
 		return;
 
 	//컴포넌트 업데이트
-	for (auto& component : m_p_component_list)
+	for (auto& component : m_p_component_map)
 		component.second->Update();
 
 	//자식 오브젝트 업데이트
@@ -117,7 +121,7 @@ void GameObject::FinalUpdate()
 		return;
 
 	//컴포넌트 최종 업데이트
-	for (auto& component : m_p_component_list)
+	for (auto& component : m_p_component_map)
 		component.second->FinalUpdate();
 
 	//자식 오브젝트 최종 업데이트(transform)
@@ -185,6 +189,12 @@ void GameObject::AddComponent(const ComponentType& component_type)
 	case ComponentType::RigidBody2D:
 		//TODO
 		break;
+	case ComponentType::AudioListener:
+		AddComponent(new AudioListener());
+		break;
+	case ComponentType::AudioSource:
+		AddComponent(new AudioSource());
+		break;
 	}
 }
 
@@ -199,38 +209,31 @@ void GameObject::AddComponent(IComponent* p_component)
 	
 	//그 외의 경우
 	else
-		m_p_component_list.push_back
-		(
-			std::make_pair(p_component->GetComponentType(), p_component)
-		);
+		m_p_component_map.insert(std::make_pair(p_component->GetComponentType(), p_component));
 }
 
 IComponent* GameObject::GetComponent(const ComponentType& component_type) const
 {
-	for (auto& component : m_p_component_list)
-	{
-		if (component.first == component_type)
-			return component.second;
-	}
+	auto component_iter = m_p_component_map.find(component_type);
 
-	return nullptr;
+	if (component_iter == m_p_component_map.end())
+		return nullptr;
+
+	return component_iter->second;
 }
 
 void GameObject::RemoveComponent(const ComponentType& component_type)
 {
-	std::list<std::pair<ComponentType, IComponent*>>::iterator list_iter;
+	auto component_iter = m_p_component_map.find(component_type);
 
-	for (list_iter = m_p_component_list.begin(); list_iter != m_p_component_list.end();)
-	{
-		if (list_iter->first == component_type)
-		{
-			SAFE_DELETE(list_iter->second);
-			list_iter = m_p_component_list.erase(list_iter);
-		}
+	if (component_iter == m_p_component_map.end())
+		return;
 
-		else
-			++list_iter;
-	}
+    //해당 Component 메모리 해제
+	SAFE_DELETE(component_iter->second);
+
+	//해당 Component 삭제
+	m_p_component_map.erase(component_type);
 }
 
 void GameObject::SetGameObjectLayer(const UINT& layer_index)

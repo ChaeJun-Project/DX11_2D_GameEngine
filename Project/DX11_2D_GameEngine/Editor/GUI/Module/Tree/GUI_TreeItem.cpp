@@ -3,16 +3,15 @@
 
 #include "GUI_Tree.h"
 
-GUI_TreeItem::GUI_TreeItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoadType& pay_load_type, DWORD_PTR object_address)
+GUI_TreeItem::GUI_TreeItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoad& pay_load)
 	: m_p_parent(p_parent),
 	m_item_name(item_name)
 {
-	m_pay_load.type = pay_load_type;
-	m_pay_load.data = object_address;
+	m_pay_load = pay_load;
 
 	if (m_pay_load.type == PayLoadType::GameObject)
 	{
-		p_game_object = (GameObject*)(object_address);
+		p_game_object = (GameObject*)(std::get<DWORD_PTR>(m_pay_load.data));
 	}
 }
 
@@ -31,6 +30,8 @@ void GUI_TreeItem::Update()
 		m_item_name = p_game_object->GetGameObjectName();
 	}
 
+	bool press_mouse_left_button = false;
+
 	//TreeItem이 자식을 가지고 있는 경우 더블 클릭 or 왼쪽 화살표를 눌렀을 경우 펼침
 	int flags = ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow;
 
@@ -38,19 +39,11 @@ void GUI_TreeItem::Update()
 	if (m_p_child_vector.empty())
 		flags |= ImGuiTreeNodeFlags_Leaf;  //해당 TreeItem는 잎으로 그림
 
-	//현재 선택된 아이탬이 자신일 경우
-	if (m_p_owner_tree->GetSelectedItem() == this)
+	//현재 선택된 아이탬이 자신 또는 현재 드래그 시작 아이탬이 자신일 경우
+	if (m_p_owner_tree->GetSelectedItem() == this || m_p_owner_tree->GetDragStartItem() == this)
 	{
 		flags |= ImGuiTreeNodeFlags_Selected;
 	}
-
-	//현재 드래그 시작 아이탬이 자신일 경우
-	if (m_p_owner_tree->GetDragStartItem() == this)
-	{
-		flags |= ImGuiTreeNodeFlags_Selected;
-	}
-
-	bool press_mouse_left_button = false;
 
 	if (m_pay_load.type == PayLoadType::GameObject)
 	{
@@ -90,6 +83,13 @@ void GUI_TreeItem::Update()
 
 			//노드 추가를 중지함
 			ImGui::TreePop();
+		}
+
+		else
+		{
+			DragAndDrop();
+
+			press_mouse_left_button = CheckClickMouseLeftButton();
 		}
 	}
 

@@ -6,6 +6,9 @@
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\DX11_2D_GameEngine.cpp"
 
 
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\12. AudioSource\GUI_AudioSource.cpp"
+
+
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\Manager\EditorObjectManager.cpp"
 
 
@@ -42,7 +45,7 @@
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\3. SpriteRenderer\GUI_SpriteRenderer.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\11. Script\GUI_Script.cpp"
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\13. Script\GUI_Script.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\4. Animator2D\GUI_Animator2D.cpp"
@@ -94,6 +97,9 @@
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\GUI_ColorPicker.cpp"
+
+
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\11. AudioListener\GUI_AudioListener.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Imgui\Editor\ImGuizmo.cpp"

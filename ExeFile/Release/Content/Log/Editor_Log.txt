@@ -1,2 +1,1 @@
-[2022/1/5/15:12:48][Info] LoadScene : Success to Load MainScene
-[2022/1/5/15:13:15][Info] TileMap::SetTileCount : Tile Size: 20x20
+[2022/1/9/9:18:18][Info] SaveScene : Success to Save 'New Scene'

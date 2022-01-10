@@ -14,15 +14,20 @@ const bool GUI_Component::BeginComponent(const std::string& component_name, cons
 	const bool collapsed_header = ImGui::CollapsingHeader(component_name.c_str(), ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_DefaultOpen); //창을 킴과 동시에 CollapsingHeader의 내용을 Open
 	if (collapsed_header)
 	{
-		ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 8.0f); //컴퍼넌트 헤더와 같은 라인
-
 		auto icon_provider = IconProvider::GetInstance();
+		
+		std::string guid_str = std::to_string(m_select_game_object->GetObjectID()) + component_name;
+		ImGui::PushID(guid_str.c_str());
+		if (component_type != ComponentType::Transform)
+		{
+			ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 8.0f); //컴퍼넌트 헤더와 같은 라인
 
-		//Component Settings 그리기
-		if (icon_provider->CreateImageButton(IconType::Component_Settings, ImVec2(13.0f, 13.0f)))
-			ImGui::OpenPopup(component_name.c_str());
+			if (icon_provider->CreateImageButton(IconType::Component_Settings, ImVec2(13.0f, 13.0f)))
+				ImGui::OpenPopup(component_name.c_str(), ImGuiPopupFlags_MouseButtonRight);
 
-		ShowComponentSettingPopup(component_name.c_str(), component_type);
+			ShowComponentSettingPopup(component_name, component_type);
+		}
+		ImGui::PopID();
 
 		//Component Icon 그리기
 		icon_provider->CreateImage(icon_type, ImVec2(14.0f, 14.0f));
@@ -43,8 +48,7 @@ void GUI_Component::ShowComponentSettingPopup(const std::string& component_popup
 		//Remove Component
 		if (ImGui::MenuItem("Remove Component"))
 		{
-			if (component_type != ComponentType::Transform)
-				m_select_game_object->RemoveComponent(component_type);
+			m_select_game_object->RemoveComponent(component_type);
 		}
 		ImGui::EndPopup();
 	}

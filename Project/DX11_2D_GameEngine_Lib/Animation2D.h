@@ -3,7 +3,7 @@
 class Animator2D;
 class Texture;
 
-class Animation2D
+class Animation2D final
 {
 public:
 	Animation2D() = default;

@@ -23,8 +23,8 @@ public:
 	explicit TileMap(const TileMap& origin);
 	~TileMap();
 
-	virtual void Start() override;
-	virtual void FinalUpdate() override;
+	void Start() override;
+	void FinalUpdate() override;
 	void Render();
 
 private:
