@@ -18,6 +18,8 @@ public:
 
 private:
 	void UpdateColliderWorldMatrix();
+	void ChangeColliderBoxColorGreen();
+	void ChangeColliderBoxColorRed();
 
 public:
     void OnCollisionEnter(Collider2D* other_collider);

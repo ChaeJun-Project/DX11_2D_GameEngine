@@ -21,7 +21,7 @@ public:
 public:
 	//Shader 추가 후 생성
 	template<typename T>
-	void AddAndCreateShader
+	void AddShader
 	(
 		const std::string& path,			//Shader 파일 경로
 		const std::string& function_name,	//Shader 파일에서 사용되는 함수이름
@@ -65,15 +65,14 @@ private:
 };
 
 template<typename T>
-void Shader::AddAndCreateShader(const std::string& path, const std::string& function_name, const std::string& shader_version)
+void Shader::AddShader(const std::string& path, const std::string& function_name, const std::string& shader_version)
 {
 	//Class T가 IShader를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IShader, T>::value;
 	assert(result);
 	if (!result)
-	{
 		return;
-	}
+	
 
 	//타입 T에 해당하는 Shader Type 반환
 	auto shader_type = GetShaderType<T>();

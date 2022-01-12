@@ -384,11 +384,11 @@ void GameObject::RegisterPrefab()
 	assert(!prefab_name.empty());
 
 	//이미 해당 이름으로 프리팹 오브젝트가 존재하는 경우
-	if (resource_manager->GetPrefab(prefab_name) != nullptr)
+	if (resource_manager->GetResource<Prefab>(prefab_name) != nullptr)
 	{
 		prefab_name += std::to_string(m_prefab_count);
 	}
 
-	resource_manager->AddPrefab(prefab_name, this);
+	resource_manager->CreatePrefab(this);
 	++m_prefab_count;
 }

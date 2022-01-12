@@ -35,7 +35,7 @@ private:
     FMOD::System* m_p_system = nullptr;
 	UINT m_version = 0;
 	UINT m_max_channels = 32;
-	float m_distance_factor = 1.0f; //Engine에서 1미터당 상대적인 거리 비율
+	float m_distance_factor = 50.0f; //Engine에서 1미터당 상대적인 거리 비율
 
 	Transform* m_p_listener_transform = nullptr; //주로 해당 Scene의 Main Camera의 Transform 설정
 	UINT m_interface_update_time = 50;

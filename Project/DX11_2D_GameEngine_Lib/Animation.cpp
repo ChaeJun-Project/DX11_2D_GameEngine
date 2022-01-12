@@ -3,6 +3,8 @@
 #include "Texture.h"
 #include "Mesh.h"
 
+#include "ResourceManager.h"
+
 Animation::Animation(const std::string resource_name)
 	:IResource(ResourceType::Animation, resource_name)
 {
@@ -61,11 +63,11 @@ void Animation::LoadFromFile(const std::string& animation_directory_path)
 	//Create Texture & Push Vector
 	for (auto& file_name : file_name_vector)
 	{
-		m_p_texture_vector.emplace_back(resource_manager->LoadTexture(animation_directory_path + file_name, TextureType::Standard));
+		m_p_texture_vector.emplace_back(resource_manager->CreateTexture(animation_directory_path + file_name));
 	}
 
 	//Create Mesh
-	m_p_mesh = resource_manager->GetMesh(MeshType::Rectangle);
+	m_p_mesh = resource_manager->GetResource<Mesh>("Rectangle_Mesh");
 }
 
 void Animation::SaveFile(const std::string& animation_directory_path)

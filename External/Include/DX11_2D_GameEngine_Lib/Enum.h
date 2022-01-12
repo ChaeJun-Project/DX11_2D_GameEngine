@@ -42,7 +42,7 @@ enum class ResourceType : UINT
 	Texture = 4,
 	AudioClip = 5,
 	Prefab = 6,
-	Animation = 7,
+	Animation = 7
 };
 
 //Mesh Type(Mesh 사용)
@@ -67,12 +67,11 @@ enum class ShaderType : UINT
 	CS = 6, //Compute Shader
 };
 
-//Texture Type(Resource Manager 사용)
-enum class TextureType : UINT
+//AudioMode Type(Audio Clip 사용)
+enum class AudioModeType : UINT
 {
-	Standard = 0,
-	Atlas = 1,
-	Tile_Atlas = 2,
+	Audio_2D = 0,
+	Audio_3D = 1
 };
 
 //Rasterizer State Type(Shader 사용)

@@ -66,7 +66,7 @@ void WalkCannon_Script::Start()
 
 	m_p_animator->SetCurrentAnimation("WalkCannon_Idle");
 
-	m_p_bullet_prefab = ResourceManager::GetInstance()->GetPrefab("WalkCannon_Bullet");
+	m_p_bullet_prefab = ResourceManager::GetInstance()->GetResource<Prefab>("WalkCannon_Bullet");
 
 	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
 	auto game_object_vector = current_scene->GetLayer(3)->GetParentGameObjects();

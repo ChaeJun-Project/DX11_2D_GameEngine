@@ -4,9 +4,11 @@
 #include "Layer.h"
 #include "GameObject.h"
 
-#include "Transform.h"
+#include "AudioClip.h"
+
 #include "Camera.h"
 #include "Light2D.h"
+#include "AudioSource.h"
 
 Scene::Scene(const std::string& scene_name)
 {
@@ -43,8 +45,9 @@ void Scene::Initialize()
 	auto camera = new GameObject();
 	camera->SetGameObjectName("Main Camera");
 	camera->SetGameObjectTag("Main Camera");
-	camera->AddComponent(new Transform());
-	camera->AddComponent(new Camera());
+	camera->AddComponent(ComponentType::Transform);
+	camera->AddComponent(ComponentType::Camera);
+	camera->AddComponent(ComponentType::AudioListener);
 
 	camera->GetComponent<Camera>()->SetMainCamera();
 
@@ -54,13 +57,26 @@ void Scene::Initialize()
 	auto point_light2D = new GameObject();
 	point_light2D->SetGameObjectName("Light2D_Point");
 	point_light2D->SetGameObjectTag("Light");
-	point_light2D->AddComponent(new Transform());
-	point_light2D->AddComponent(new Light2D());
+	point_light2D->AddComponent(ComponentType::Transform);
+	point_light2D->AddComponent(ComponentType::Light2D);
 
 	auto point_light = point_light2D->GetComponent<Light2D>();
 	point_light->SetLightType(LightType::Point);
 	
 	RegisterGameObject(point_light2D);
+
+	//Test
+	auto audio_test  = new GameObject();
+	audio_test->SetGameObjectName("Audio Test");
+	audio_test->AddComponent(ComponentType::Transform);
+	audio_test->AddComponent(ComponentType::AudioSource);
+
+	auto p_audio_clip = std::make_shared<AudioClip>("Test Audio");
+	p_audio_clip->LoadFromFile(FileManager::GetAbsoluteContentPath() + "Asset/Audio/17 - X4 - BOSS.mp3");
+	auto audio_source = audio_test->GetComponent<AudioSource>();
+	audio_source->SetAudioClip(p_audio_clip);
+
+	RegisterGameObject(audio_test);
 }
 
 void Scene::Start()
@@ -152,7 +168,6 @@ GameObject* Scene::FindGameObject(const std::string& game_object_name)
 	return nullptr;
 }
 
-
 const std::shared_ptr<Layer>& Scene::GetLayer(const UINT& layer_index)
 {
 	auto layer_iter = m_layer_map.find(layer_index);
@@ -161,42 +176,6 @@ const std::shared_ptr<Layer>& Scene::GetLayer(const UINT& layer_index)
 		return layer_iter->second;
 
 	return nullptr;
-}
-
-const std::vector<GameObject*>& Scene::GetAllParentGameObjects()
-{
-	/*if (!m_p_parent_game_object_vector.empty())
-		m_p_parent_game_object_vector.clear();
-
-	for (auto& layer : m_layer_map)
-	{
-		const std::vector<GameObject*> parent_game_objects = layer.second->GetParentGameObjects();
-
-		for (UINT i = 0; i < static_cast<UINT>(parent_game_objects.size()); ++i)
-		{
-			m_p_parent_game_object_vector.emplace_back(parent_game_objects[i]);
-		}
-	}*/
-
-	return m_p_parent_game_object_vector;
-}
-
-const std::vector<GameObject*>& Scene::GetAllGameObjects()
-{
-	//if (!m_p_game_object_vector.empty())
-	//	m_p_game_object_vector.clear();
-
-	//for (auto& layer : m_layer_map)
-	//{
-	//	const std::vector<GameObject*> game_objects = layer.second->GetGameObjects();
-
-	//	for (UINT i = 0; i < static_cast<UINT>(game_objects.size()); ++i)
-	//	{
-	//		m_p_game_object_vector.emplace_back(game_objects[i]);
-	//	}
-	//}
-
-	return m_p_game_object_vector;
 }
 
 void Scene::CreateLayer(const UINT& layer_index)

@@ -5,19 +5,18 @@ class GameObject;
 
 class Prefab : public IResource
 {
-private:
-	Prefab(const std::string& resource_name);
-	Prefab(GameObject* p_prototype_game_object);
-
 public:
+	Prefab(GameObject* p_prototype_game_object);
 	~Prefab();
 
+public:
 	GameObject* Instantiate();
 
+public:
+	void LoadFromFile(const std::string& texture_path) override;
+	void SaveFile(const std::string& texture_path) override;
 
 private:
     GameObject* m_p_prototype_game_object = nullptr;
-
-	friend class ResourceManager;
 };
 

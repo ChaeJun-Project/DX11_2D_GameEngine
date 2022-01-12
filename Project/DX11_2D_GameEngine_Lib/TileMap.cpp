@@ -19,14 +19,14 @@ TileMap::TileMap()
 
 	auto resource_manager = ResourceManager::GetInstance();
 
-	m_p_mesh = resource_manager->GetMesh(MeshType::Rectangle);
-	auto material = resource_manager->GetMaterial("TileMap_Material")->Clone();
-	m_p_material = std::shared_ptr<Material>(material);
+	m_p_mesh = resource_manager->GetResource<Mesh>("Rectangle_Mesh");
+	auto clone_material = resource_manager->GetResource<Material>("TileMap_Material")->Clone();
+	m_p_material = std::shared_ptr<Material>(clone_material);
 
 	m_p_grid_mesh = std::make_shared<Mesh>("Grid_Mesh");
 	m_p_grid_mesh->Create(MeshType::Grid, 1, 1);
-	material = resource_manager->GetMaterial("Grid_Material")->Clone();
-	m_p_grid_material = std::shared_ptr<Material>(material);
+	clone_material = resource_manager->GetResource<Material>("Grid_Material")->Clone();
+	m_p_grid_material = std::shared_ptr<Material>(clone_material);
 }
 
 TileMap::TileMap(const TileMap& origin)

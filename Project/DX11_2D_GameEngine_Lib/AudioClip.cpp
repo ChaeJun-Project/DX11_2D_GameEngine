@@ -9,18 +9,18 @@ AudioClip::AudioClip(const std::string resource_name)
 
 AudioClip::~AudioClip()
 {
-	if (m_p_sound)
-		m_p_sound->release();
+	if (m_p_sound != nullptr)
+		m_p_sound->release(); //Audio Manager 보다 먼저 Release 되어야 함 => ResourceManager에 데이터를 보관하면 해결됨
 }
 
 void AudioClip::Play()
 {
-	AUDIO_SYSTEM->playSound(m_p_sound, nullptr, true, &m_p_channel);
+	AUDIO_SYSTEM->playSound(m_p_sound, nullptr, false, &m_p_channel);
 }
 
 void AudioClip::Pause()
 {
-    bool is_pause = false;
+	bool is_pause = false;
 	m_p_channel->getPaused(&is_pause);
 
 	//현재 중지된 상태라면
@@ -28,6 +28,19 @@ void AudioClip::Pause()
 		return;
 
 	is_pause = true;
+	m_p_channel->setPaused(is_pause);
+}
+
+void AudioClip::Resume()
+{
+	bool is_pause = false;
+	m_p_channel->getPaused(&is_pause);
+
+	//현재 중지된 상태가 아니라면
+	if (!is_pause)
+		return;
+
+	is_pause = false;
 	m_p_channel->setPaused(is_pause);
 }
 
@@ -56,9 +69,22 @@ void AudioClip::SetVolume(const float& volume)
 	m_p_channel->set3DMinMaxDistance(m_min_distance, m_max_distance);
 }
 
+void AudioClip::SetAudioType(const AudioModeType& audio_mode_type)
+{
+	switch (audio_mode_type)
+	{
+	case AudioModeType::Audio_2D:
+		m_loop_mode = FMOD_2D;
+		break;
+	case AudioModeType::Audio_3D:
+		m_loop_mode = FMOD_3D;
+		break;
+	}
+}
+
 void AudioClip::CreateAudio(const std::string& audio_clip_path)
 {
-	auto result = AUDIO_SYSTEM->createSound(audio_clip_path.c_str(), FMOD_3D, 0, &m_p_sound);
+	auto result = AUDIO_SYSTEM->createSound(audio_clip_path.c_str(), m_audio_mode, 0, &m_p_sound);
 	assert(result == FMOD_OK);
 
 	m_p_sound->set3DMinMaxDistance(m_min_distance, m_max_distance);

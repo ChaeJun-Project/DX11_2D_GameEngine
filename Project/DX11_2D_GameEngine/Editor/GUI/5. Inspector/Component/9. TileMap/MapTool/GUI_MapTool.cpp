@@ -32,7 +32,7 @@ void GUI_MapTool::Render()
 
 			int index = 0;
 
-			const auto& tile_atlas_texture_map = resource_manager->GetTileAtlasTextureMap();
+			const auto& tile_atlas_texture_map = resource_manager->GetResourceMap(ResourceType::Texture);
 
 			std::string current_tile_atlas_name;
 
@@ -62,7 +62,7 @@ void GUI_MapTool::Render()
 					const bool is_selected = (*(m_p_tile_atlas_item_list->GetCurrentListID()) == i);
 					if (ImGui::Selectable(item_list_vector[i].c_str(), is_selected))
 					{
-						m_p_tile_atlas_texture = resource_manager->GetTileAtlasTexture(item_list_vector[i]);
+						m_p_tile_atlas_texture = resource_manager->GetResource<Texture>(item_list_vector[i]);
 						m_tile_atlas_texture_size_x = m_p_tile_atlas_texture->GetWidth();
 						m_tile_atlas_texture_size_y = m_p_tile_atlas_texture->GetHeight();
 						m_canvas_size = ImVec2

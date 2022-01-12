@@ -54,7 +54,7 @@ void IconProvider::LoadIconTexture(const std::string& texture_path, const IconTy
 {
 	auto resource_manager = ResourceManager::GetInstance();
 
-	auto texture = resource_manager->LoadTexture(texture_path, TextureType::Standard);
+	auto texture = resource_manager->CreateTexture(texture_path);
 
 	if (texture != nullptr)
 	{

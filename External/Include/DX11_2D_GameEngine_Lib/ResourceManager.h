@@ -8,8 +8,11 @@ class ComputeShader;
 class Material;
 class Texture;
 class Mesh;
+class AudioClip;
 class Prefab;
 class GameObject;
+
+typedef std::map<std::string, std::shared_ptr<IResource>> ResourceMap;
 
 class ResourceManager final : public Singleton<ResourceManager>
 {
@@ -18,8 +21,15 @@ class ResourceManager final : public Singleton<ResourceManager>
 	ResourceManager() = default;
 	~ResourceManager();
 
+private:
+	template<typename T>
+	static constexpr ResourceType GetResourceType();
+
 public:
-	void Initialize();
+	template<typename T>
+	const std::shared_ptr<T>& GetResource(const std::string& resource_name);
+
+	const ResourceMap& GetResourceMap(const ResourceType& resource_type);
 
 	template<typename T>
 	void SaveResource(std::shared_ptr<T> p_resource, FILE* p_file);
@@ -28,62 +38,70 @@ public:
 	void LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file);
 
 public:
-    //Shader
-	std::map<std::string, std::shared_ptr<IResource>>& GetShaderMap() { return m_p_shader_map; }
+	void Initialize();
+
+private:
+	void CreateResourceMap();
+
+public:
+	//Shader
 	void CreateDefaultShader();
-	const std::shared_ptr<Shader>& GetShader(const std::string& shader_name);
+	
+	//Compute Shader
 	void AddComputeShader(const std::string& compute_shader_name, const std::shared_ptr<ComputeShader>& p_compute_shader);
 	const std::shared_ptr<ComputeShader>& GetComputeShader(const std::string& compute_shader_name);
 
 	//Material
-	std::map<std::string, std::shared_ptr<IResource>>& GetMaterialMap() { return m_p_material_map; }
 	void CreateDefaultMaterial();
-	const std::shared_ptr<Material>& GetMaterial(const std::string& material_name);
+	const std::shared_ptr<Material>& CreateMaterial(const std::string& material_name, const std::string& shader_name);
 	
 	//Texture
-	std::map<std::string, std::shared_ptr<IResource>>& GetTextureMap() { return m_p_textrue_map; }
 	void CreateDefaultTexture();
-	const std::shared_ptr<Texture>& LoadTexture(const std::string& texture_path, const TextureType& texture_type);
+	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_path);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D);
-	const std::shared_ptr<Texture>& GetTexture(const std::string& texture_name);
-	//Atlas
-	std::map<std::string, std::shared_ptr<IResource>>& GetAtlasTextureMap() { return m_p_atlas_textrue_map; }
-	const std::shared_ptr<Texture>& GetAtlasTexture(const std::string& atlas_texture_name);
-	//Tile Atlas
-	std::map<std::string, std::shared_ptr<IResource>>& GetTileAtlasTextureMap() { return m_p_tile_atlas_textrue_map; }
-	const std::shared_ptr<Texture>& GetTileAtlasTexture(const std::string& tile_atlas_texture_name);
-	
+
 	//Mesh
-	std::map<MeshType, std::shared_ptr<IResource>>& GetMeshMap() { return m_p_mesh_map; }
 	void CreateDefaultMesh();
-	const std::shared_ptr<Mesh>& CreateMesh(const MeshType& mesh_type);
-	const std::shared_ptr<Mesh>& GetMesh(const MeshType& mesh_type);
+	const std::shared_ptr<Mesh>& CreateMesh(const std::string& mesh_name, const MeshType& mesh_type);
+	
+	//Audio
+	const std::shared_ptr<AudioClip>& CreateAudioClip(const std::string& audio_clip_path);
 	
 	//Prefab
-	std::map<std::string, std::shared_ptr<IResource>>& GetPrefabMap() { return m_p_prefab_map; }
-	void AddPrefab(const std::string& prefab_object_name, GameObject* p_game_object);
-	const std::shared_ptr<Prefab>& GetPrefab(const std::string& game_object_name);
-
+	const std::shared_ptr<Prefab>& CreatePrefab(GameObject* p_game_object);
+	
 private:
-    //Shader
-	std::map<std::string, std::shared_ptr<IResource>> m_p_shader_map;
+	//<summary>
+	//ResourceMap == std::map<std::string, std::shared_ptr<IResource>>
+	//</summary>
+	std::map<ResourceType, ResourceMap> m_resources_map;
 	std::map<std::string, std::shared_ptr<ComputeShader>> m_p_compute_shader_map;
-
-	//Material
-	std::map<std::string, std::shared_ptr<IResource>> m_p_material_map;
-
-	//Texture
-	std::map<std::string, std::shared_ptr<IResource>> m_p_textrue_map;  //Standard
-	std::map<std::string, std::shared_ptr<IResource>> m_p_atlas_textrue_map; //Atlas
-	std::map<std::string, std::shared_ptr<IResource>> m_p_tile_atlas_textrue_map; //Tile_Altas
-
-	//Mesh
-	std::map<MeshType, std::shared_ptr<IResource>> m_p_mesh_map;
-
-	//Prefab
-	std::map<std::string, std::shared_ptr<IResource>> m_p_prefab_map;
 };
+
+template<typename T>
+const std::shared_ptr<T>& ResourceManager::GetResource(const std::string& resource_name)
+{
+	//Class T가 IResource를 상속받는 클래스인지 확인
+	auto result = std::is_base_of<IResource, T>::value;
+	assert(result);
+#ifdef _DEBUG
+	if (!result)
+		return nullptr;
+#endif 
+
+	auto resource_type = GetResourceType<T>(); //타입 T에 해당하는 Resource Type 반환
+	auto resource_map = m_resources_map[resource_type]; //Resource Type에 해당하는 Resource Map 반환
+	
+	auto resource_iter = resource_map.find(resource_name);
+
+#ifdef _DEBUG
+	if (resource_iter == resource_map.end())
+		return nullptr;
+#endif 
+
+	return std::dynamic_pointer_cast<T>(resource_iter->second);
+}
 
 template<typename T>
 inline void ResourceManager::SaveResource(std::shared_ptr<T> p_resource, FILE* p_file)

@@ -18,9 +18,9 @@ SpriteRenderer::SpriteRenderer()
 {
     auto resource_manager = ResourceManager::GetInstance();
 
-	m_p_mesh = resource_manager->GetMesh(MeshType::Rectangle);
-	auto material = resource_manager->GetMaterial("Default_Material")->Clone();
-	m_p_material = std::shared_ptr<Material>(material);
+	m_p_mesh = resource_manager->GetResource<Mesh>("Rectangle_Mesh");
+	auto clone_material = resource_manager->GetResource<Material>("Default_Material")->Clone();
+	m_p_material = std::shared_ptr<Material>(clone_material);
 }
 
 SpriteRenderer::~SpriteRenderer()

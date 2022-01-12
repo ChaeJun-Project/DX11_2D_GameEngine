@@ -28,8 +28,8 @@ public:
    const std::shared_ptr<Layer>& GetLayer(const UINT& layer_index);
    const std::map<UINT, std::shared_ptr<Layer>>& GetLayerMap() const { return m_layer_map; }
 
-   const std::vector<GameObject*>& GetAllParentGameObjects();
-   const std::vector<GameObject*>& GetAllGameObjects();
+   const std::vector<GameObject*>& GetAllGameObjects() { return m_p_game_object_vector; }
+   const std::vector<GameObject*>& GetAllParentGameObjects() { return m_p_parent_game_object_vector; }
 
 private:
 	void CreateLayer(const UINT& layer_index);

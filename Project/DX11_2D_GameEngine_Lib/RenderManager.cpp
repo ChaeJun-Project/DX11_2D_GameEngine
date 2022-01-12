@@ -202,7 +202,7 @@ void RenderManager::SetRenderTexture(const RenderTextureType& render_texture_typ
 void RenderManager::CopyPostEffect()
 {
 	//Render Target Texture
-	auto render_target_textre = ResourceManager::GetInstance()->GetTexture("RenderTargetView");
+	auto render_target_textre = ResourceManager::GetInstance()->GetResource<Texture>("RenderTargetView");
 
 	//Render Target Texture의 이미지를 카피
 	DEVICE_CONTEXT->CopyResource(m_p_post_effect_target_texture->GetTexture(), render_target_textre->GetTexture());

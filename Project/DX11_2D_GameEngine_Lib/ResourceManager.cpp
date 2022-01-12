@@ -10,222 +10,219 @@
 #include "ComputeShader.h"
 //Texture
 #include "Texture.h"
-//Animation
-#include "Animation.h"
+//AudioClip
+#include "AudioClip.h"
 //Prefab
 #include "Prefab.h"
 
 ResourceManager::~ResourceManager()
 {
-	//Shader
-	for (auto& shader : m_p_shader_map)
-		shader.second.reset();
+	//Clear Resource Map
+	for (auto& resource_map : m_resources_map)
+	{
+		//Clear Each Resource Map
+		for (auto& resource : resource_map.second)
+			resource.second.reset();
 
-	m_p_shader_map.clear();
+		resource_map.second.clear();
+	}
 
+	m_resources_map.clear();
+
+	//Compute Shader
 	for (auto& compute_shader : m_p_compute_shader_map)
 		compute_shader.second.reset();
 
 	m_p_compute_shader_map.clear();
+}
 
-	//Material
-	for (auto& material : m_p_material_map)
-		material.second.reset();
+template<typename T>
+inline constexpr ResourceType ResourceManager::GetResourceType()
+{
+	return ResourceType::NONE;
+}
 
-	m_p_material_map.clear();
+#define REGISTER_RESOURCE_TYPE(T, resource_type) template<> ResourceType ResourceManager::GetResourceType<T>() { return resource_type; } 
 
-	//Texture
-	//Standard
-	for (auto& texture : m_p_textrue_map)
-		texture.second.reset();
+//TODO: 추후에 다른 Resource들도 추가 예정
+REGISTER_RESOURCE_TYPE(Mesh, ResourceType::Mesh);
+REGISTER_RESOURCE_TYPE(Material, ResourceType::Material);
+REGISTER_RESOURCE_TYPE(Shader, ResourceType::Shader);
+REGISTER_RESOURCE_TYPE(Texture, ResourceType::Texture);
+REGISTER_RESOURCE_TYPE(AudioClip, ResourceType::AudioClip);
+REGISTER_RESOURCE_TYPE(Prefab, ResourceType::Prefab);
 
-	m_p_textrue_map.clear();
+const ResourceMap& ResourceManager::GetResourceMap(const ResourceType& resource_type)
+{
+	auto resource_map_iter = m_resources_map.find(resource_type);
+	if (resource_map_iter == m_resources_map.end())
+		return ResourceMap();
 
-	//Atlas
-	for (auto& atlas_texture : m_p_atlas_textrue_map)
-		atlas_texture.second.reset();
-
-	m_p_atlas_textrue_map.clear();
-
-	//Tile Atlas
-	for (auto& texture : m_p_tile_atlas_textrue_map)
-		texture.second.reset();
-
-	m_p_tile_atlas_textrue_map.clear();
-
-	//Mesh
-	for (auto& mesh : m_p_mesh_map)
-		mesh.second.reset();
-
-	m_p_mesh_map.clear();
-
-	//Prefab
-	for (auto& prefab : m_p_prefab_map)
-		prefab.second.reset();
-
-	m_p_prefab_map.clear();
+	return resource_map_iter->second;
 }
 
 void ResourceManager::Initialize()
 {
+	CreateResourceMap();
+
 	CreateDefaultShader();
 	CreateDefaultMaterial();
 	CreateDefaultMesh();
 	CreateDefaultTexture();
 }
 
+void ResourceManager::CreateResourceMap()
+{
+	for (UINT i = static_cast<UINT>(ResourceType::Mesh); i <= static_cast<UINT>(ResourceType::Prefab); ++i)
+	{
+		m_resources_map.insert(std::make_pair(static_cast<ResourceType>(i), ResourceMap()));
+	}
+}
+
 void ResourceManager::CreateDefaultShader()
 {
+    auto& shader_map = m_resources_map[ResourceType::Shader];
+
 	//Create Default Shader
-	auto shader = std::make_shared<Shader>("Default");
-	shader->AddAndCreateShader<VertexShader>("Shader/TextureShader.fx", "VS", "vs_5_0");
-	shader->AddAndCreateShader<PixelShader>("Shader/TextureShader.fx", "PS", "ps_5_0");
-	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+	auto p_shader = std::make_shared<Shader>("Default");
+	p_shader->AddShader<VertexShader>("Shader/TextureShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>("Shader/TextureShader.fx", "PS", "ps_5_0");
+	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
-	shader->SetRenderTimePointType(RenderTimePointType::Forward);
-	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
-	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
-	shader->SetBlendType(BlendType::Alpha_Blend);
+	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
+	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	p_shader->SetDepthStencilType(DepthStencilType::Less_Equal);
+	p_shader->SetBlendType(BlendType::Alpha_Blend);
 
-	auto shader_iter = m_p_shader_map.insert(std::make_pair(shader->GetResourceName(), shader));
+	auto shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	auto result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;
 
 	//Create Line Shader
-	shader = std::make_shared<Shader>("Line");
-	shader->AddAndCreateShader<VertexShader>("Shader/DrawLineShader.fx", "VS", "vs_5_0");
-	shader->AddAndCreateShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
-	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+	p_shader = std::make_shared<Shader>("Line");
+	p_shader->AddShader<VertexShader>("Shader/DrawLineShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
+	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
-	shader->SetRenderTimePointType(RenderTimePointType::Forward);
-	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
-	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write); //깊이 비교를 하지않고 기록도 하지 않음
-	shader->SetBlendType(BlendType::Default);
-	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP); //선으로 그리기
+	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
+	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	p_shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write); //깊이 비교를 하지않고 기록도 하지 않음
+	p_shader->SetBlendType(BlendType::Default);
+	p_shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP); //선으로 그리기
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(shader->GetResourceName(), shader));
+	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;
 
 	//Create Grid Shader
-	shader = std::make_shared<Shader>("Grid");
-	shader->AddAndCreateShader<VertexShader>("Shader/DrawLineShader.fx", "VS", "vs_5_0");
-	shader->AddAndCreateShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
-	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+	p_shader = std::make_shared<Shader>("Grid");
+	p_shader->AddShader<VertexShader>("Shader/DrawLineShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
+	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
-	shader->SetRenderTimePointType(RenderTimePointType::Forward);
-	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
-	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write); //깊이 비교를 하지않고 기록도 하지 않음
-	shader->SetBlendType(BlendType::Default);
-	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST); //모든 정점을 잇는 선으로 그리기
+	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
+	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	p_shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write); //깊이 비교를 하지않고 기록도 하지 않음
+	p_shader->SetBlendType(BlendType::Default);
+	p_shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST); //모든 정점을 잇는 선으로 그리기
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(shader->GetResourceName(), shader));
+	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;
 
 	//Create Light2D Shader
-	shader = std::make_shared<Shader>("Light2D");
-	shader->AddAndCreateShader<VertexShader>("Shader/LightTextureShader.fx", "VS", "vs_5_0");
-	shader->AddAndCreateShader<PixelShader>("Shader/LightTextureShader.fx", "PS", "ps_5_0");
-	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+	p_shader = std::make_shared<Shader>("Light2D");
+	p_shader->AddShader<VertexShader>("Shader/LightTextureShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>("Shader/LightTextureShader.fx", "PS", "ps_5_0");
+	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
-	shader->SetRenderTimePointType(RenderTimePointType::Forward);
-	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
-	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
-	shader->SetBlendType(BlendType::Alpha_Blend);
+	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
+	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	p_shader->SetDepthStencilType(DepthStencilType::Less_Equal);
+	p_shader->SetBlendType(BlendType::Alpha_Blend);
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(shader->GetResourceName(), shader));
+	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;
 
 	//Create Particle Shader
-	shader = std::make_shared<Shader>("Rain");
-	shader->AddAndCreateShader<VertexShader>("Shader/RainShader.fx", "VS_Rain", "vs_5_0");
-	shader->AddAndCreateShader<GeometryShader>("Shader/RainShader.fx", "GS_Rain", "gs_5_0");
-	shader->AddAndCreateShader<PixelShader>("Shader/RainShader.fx", "PS_Rain", "ps_5_0");
-	shader->AddAndCreateShader<ComputeShader>("Shader/RainUpdate.fx", "CS_Rain", "cs_5_0");
-	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::GS | PipelineStage::PS);
+	p_shader = std::make_shared<Shader>("Rain");
+	p_shader->AddShader<VertexShader>("Shader/RainShader.fx", "VS_Rain", "vs_5_0");
+	p_shader->AddShader<GeometryShader>("Shader/RainShader.fx", "GS_Rain", "gs_5_0");
+	p_shader->AddShader<PixelShader>("Shader/RainShader.fx", "PS_Rain", "ps_5_0");
+	p_shader->AddShader<ComputeShader>("Shader/RainUpdate.fx", "CS_Rain", "cs_5_0");
+	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::GS | PipelineStage::PS);
 
-	shader->SetRenderTimePointType(RenderTimePointType::Particle);
-	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
-	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
-	shader->SetBlendType(BlendType::Alpha_Blend);
-	shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	p_shader->SetRenderTimePointType(RenderTimePointType::Particle);
+	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	p_shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
+	p_shader->SetBlendType(BlendType::Alpha_Blend);
+	p_shader->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(shader->GetResourceName(), shader));
+	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;
 
 	//Create Post Effect Shader
-	shader = std::make_shared<Shader>("Post_Effect");
-	shader->AddAndCreateShader<VertexShader>("Shader/PostEffectShader.fx", "VS", "vs_5_0");
-	shader->AddAndCreateShader<PixelShader>("Shader/PostEffectShader.fx", "PS", "ps_5_0");
-	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+	p_shader = std::make_shared<Shader>("Post_Effect");
+	p_shader->AddShader<VertexShader>("Shader/PostEffectShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>("Shader/PostEffectShader.fx", "PS", "ps_5_0");
+	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
-	shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
-	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
-	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
-	shader->SetBlendType(BlendType::Default);
+	p_shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
+	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	p_shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
+	p_shader->SetBlendType(BlendType::Default);
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(shader->GetResourceName(), shader));
+	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;
 
 	//Create Water Shader
-	shader = std::make_shared<Shader>("Water");
-	shader->AddAndCreateShader<VertexShader>("Shader/WaterShader.fx", "VS_Water", "vs_5_0");
-	shader->AddAndCreateShader<PixelShader>("Shader/WaterShader.fx", "PS_Water", "ps_5_0");
-	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+	p_shader = std::make_shared<Shader>("Water");
+	p_shader->AddShader<VertexShader>("Shader/WaterShader.fx", "VS_Water", "vs_5_0");
+	p_shader->AddShader<PixelShader>("Shader/WaterShader.fx", "PS_Water", "ps_5_0");
+	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
-	shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
-	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
-	shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
-	shader->SetBlendType(BlendType::Default);
+	p_shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
+	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	p_shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
+	p_shader->SetBlendType(BlendType::Default);
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(shader->GetResourceName(), shader));
+	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;
 
 	//Create Tile Shader
-	shader = std::make_shared<Shader>("TileMap");
-	shader->AddAndCreateShader<VertexShader>("Shader/TileMapShader.fx", "VS", "vs_5_0");
-	shader->AddAndCreateShader<PixelShader>("Shader/TileMapShader.fx", "PS", "ps_5_0");
-	shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+	p_shader = std::make_shared<Shader>("TileMap");
+	p_shader->AddShader<VertexShader>("Shader/TileMapShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>("Shader/TileMapShader.fx", "PS", "ps_5_0");
+	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
-	shader->SetRenderTimePointType(RenderTimePointType::Forward);
-	shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
-	shader->SetDepthStencilType(DepthStencilType::Less_Equal);
-	shader->SetBlendType(BlendType::Alpha_Blend);
+	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
+	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	p_shader->SetDepthStencilType(DepthStencilType::Less_Equal);
+	p_shader->SetBlendType(BlendType::Alpha_Blend);
 
-	shader_iter = m_p_shader_map.insert(std::make_pair(shader->GetResourceName(), shader));
+	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
 	assert(result);
 	if (!result)
 		return;
-}
-
-const std::shared_ptr<Shader>& ResourceManager::GetShader(const std::string& shader_name)
-{
-	auto shader_iter = m_p_shader_map.find(shader_name);
-
-	if (shader_iter == m_p_shader_map.end())
-		return nullptr;
-
-	return std::dynamic_pointer_cast<Shader>(shader_iter->second);
 }
 
 void ResourceManager::AddComputeShader(const std::string& compute_shader_name, const std::shared_ptr<ComputeShader>& p_compute_shader)
@@ -241,146 +238,75 @@ const std::shared_ptr<ComputeShader>& ResourceManager::GetComputeShader(const st
 {
 	auto compute_shader_iter = m_p_compute_shader_map.find(compute_shader_name);
 
+#ifdef _DEBUG
 	if (compute_shader_iter == m_p_compute_shader_map.end())
 		return nullptr;
-
+#endif 
+	
 	return compute_shader_iter->second;
 }
 
 void ResourceManager::CreateDefaultMaterial()
 {
 	//=============================================
-	//Standard
+	//Default
 	//=============================================
-	//Default Material
-	std::string material_name = "Default_Material";
-	auto material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShader("Default"));
-
-	auto material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
-	auto result = material_iter.second;
-	assert(result);
-	if (!result)
-		return;
+	CreateMaterial("Default_Material", "Default");
 
 	//=============================================
 	//Collider2D
 	//=============================================
-	//Collider2D Material White
-	material_name = "Collider2D_White";
-	material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShader("Line"));
-
-	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
-	result = material_iter.second;
-	assert(result);
-	if (!result)
-		return;
-
-	//Collider2D Material Green
-	material_name = "Collider2D_Green";
-	material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShader("Line"));
-
-	int a = 1;
-	material->SetConstantBufferData(Material_Parameter::INT_0, &a, nullptr);
-
-	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
-	result = material_iter.second;
-	assert(result);
-	if (!result)
-		return;
-
-	//Collider2D Material Red
-	material_name = "Collider2D_Red";
-	material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShader("Line"));
-
-	a = 1;
-	material->SetConstantBufferData(Material_Parameter::INT_1, &a, nullptr);
-
-	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
-	result = material_iter.second;
-	assert(result);
-	if (!result)
-		return;
+	CreateMaterial("Collider2D_Material", "Line");
 
 	//=============================================
 	//Grid
 	//=============================================
-	material_name = "Grid_Material";
-	material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShader("Grid"));
-
-	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
-	result = material_iter.second;
-	assert(result);
-	if (!result)
-		return;
+	CreateMaterial("Grid_Material", "Grid");
 
 	//=============================================
 	//Rain
 	//=============================================
-	material_name = "Rain_Material";
-	material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShader("Rain"));
-
-	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
-	result = material_iter.second;
-	assert(result);
-	if (!result)
-		return;
+	CreateMaterial("Rain_Material", "Rain");
 
 	//=============================================
 	//Water
 	//=============================================
-	material_name = "Water_Material";
-	material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShader("Water"));
-
-	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
-	result = material_iter.second;
-	assert(result);
-	if (!result)
-		return;
+	CreateMaterial("Water_Material", "Water");
 
 	//=============================================
 	//Tile
 	//=============================================
-	material_name = "TileMap_Material";
-	material = std::make_shared<Material>(material_name);
-	material->SetShader(GetShader("TileMap"));
-
-	material_iter = m_p_material_map.insert(std::make_pair(material_name, material));
-	result = material_iter.second;
-	assert(result);
-	if (!result)
-		return;
+	CreateMaterial("TileMap_Material", "TileMap");
 }
 
-const std::shared_ptr<Material>& ResourceManager::GetMaterial(const std::string& material_name)
+const std::shared_ptr<Material>& ResourceManager::CreateMaterial(const std::string& material_name, const std::string& shader_name)
 {
-	auto material_iter = m_p_material_map.find(material_name);
+	auto& material_map = m_resources_map[ResourceType::Material];
 
-	if (material_iter == m_p_material_map.end())
+	auto p_material = std::make_shared<Material>(material_name);
+	p_material->SetShader(GetResource<Shader>(shader_name));
+
+	auto material_iter = material_map.insert(std::make_pair(material_name, p_material));
+	auto result = material_iter.second;
+	assert(result);
+	if (!result)
 		return nullptr;
 
-	return std::dynamic_pointer_cast<Material>(material_iter->second);
+	return std::dynamic_pointer_cast<Material>(material_iter.first->second);
 }
 
 void ResourceManager::CreateDefaultTexture()
 {
-	//Noise Texture 1
-	LoadTexture("Asset/Texture/Noise/noise_01.png", TextureType::Standard);
+	CreateTexture("Asset/Texture/Noise/noise_01.png");
 
 	//Noise Texture 2
-	LoadTexture("Asset/Texture/Noise/noise_02.png", TextureType::Standard);
+	CreateTexture("Asset/Texture/Noise/noise_02.png");
 
 	//Noise Texture 3
-	LoadTexture("Asset/Texture/Noise/noise_03.jpg", TextureType::Standard);
+	CreateTexture("Asset/Texture/Noise/noise_03.jpg");
 
 	//Noise Texture 1 사용
-	auto noise_texture = GetTexture("noise_01");
+	auto noise_texture = GetResource<Texture>("noise_01");
 
 	//Texture Bind Pipeline
 	noise_texture->SetPipelineStage(PipelineStage::Graphics_ALL | PipelineStage::CS);
@@ -394,44 +320,22 @@ void ResourceManager::CreateDefaultTexture()
 	);
 
 	//Smoke Particle Texture
-	LoadTexture("Asset/Texture/Particle/smoke_particle.png", TextureType::Standard);
+	CreateTexture("Asset/Texture/Particle/smoke_particle.png");
 
 	//Rain Particle Texture
-	LoadTexture("Asset/Texture/Particle/rain_particle.png", TextureType::Standard);
+	CreateTexture("Asset/Texture/Particle/rain_particle.png");
 }
 
-//Texture/objectname/~~/textureName.확장자
-const std::shared_ptr<Texture>& ResourceManager::LoadTexture(const std::string& texture_path, const TextureType& texture_type)
+const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string& texture_path)
 {
-	//텍스처의 순수 이름(확장자를 뺀)을 구함
-	auto file_name = FileManager::GetIntactFileNameFromPath(texture_path);
+	auto& texture_map = m_resources_map[ResourceType::Texture];
 
-	auto texture = GetTexture(file_name);
+	std::string texture_name = FileManager::GetOriginFileNameFromPath(texture_path);
 
-	//해당 이름의 texture가 존재하는 경우
-	if (texture != nullptr)
-		return texture;
+	auto p_texture = std::make_shared<Texture>(texture_name);
+	p_texture->LoadFromFile(texture_path);
 
-	auto new_texture = std::make_shared<Texture>(file_name);
-	new_texture->LoadFromFile(texture_path);
-
-	std::pair<std::map<std::string, std::shared_ptr<IResource>>::iterator, bool> texture_iter;
-
-	//해당 이름의 texture가 없는 경우 => 새로 생성
-	//확장자가 포함된 파일 이름에서 확장자 부분을 뺀 string을 해당 텍스처의 리소스 이름으로 설정
-	switch (texture_type)
-	{
-	case TextureType::Standard:
-		texture_iter = m_p_textrue_map.insert(std::make_pair(file_name, new_texture));
-		break;
-	case TextureType::Atlas:
-		texture_iter = m_p_atlas_textrue_map.insert(std::make_pair(file_name, new_texture));
-		break;
-	case TextureType::Tile_Atlas:
-		texture_iter = m_p_tile_atlas_textrue_map.insert(std::make_pair(file_name, new_texture));
-		break;
-	}
-
+	auto texture_iter = texture_map.insert(std::make_pair(texture_name, p_texture));
 	auto result = texture_iter.second;
 	assert(result);
 	if (!result)
@@ -442,17 +346,13 @@ const std::shared_ptr<Texture>& ResourceManager::LoadTexture(const std::string& 
 
 const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage)
 {
-	auto texture = GetTexture(texture_name);
+	auto& texture_map = m_resources_map[ResourceType::Texture];
 
-	//해당 이름의 texture가 존재하는 경우
-	if (texture != nullptr)
-		return texture;
-
-	auto new_texture = std::make_shared<Texture>(texture_name);
-	new_texture->Create(width, height, texture_format, bind_flage);
+	auto p_texture = std::make_shared<Texture>(texture_name);
+	p_texture->Create(width, height, texture_format, bind_flage);
 
 	//해당 이름의 texture가 없는 경우 => 새로 생성
-	auto texture_iter = m_p_textrue_map.insert(std::make_pair(texture_name, new_texture));
+	auto texture_iter = texture_map.insert(std::make_pair(texture_name, p_texture));
 	auto result = texture_iter.second;
 	assert(result);
 	if (!result)
@@ -463,17 +363,12 @@ const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string
 
 const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D)
 {
-	auto texture = GetTexture(texture_name);
+	auto& texture_map = m_resources_map[ResourceType::Texture];
 
-	//해당 이름의 texture가 존재하는 경우
-	if (texture != nullptr)
-		return texture;
+	auto p_texture = std::make_shared<Texture>(texture_name);
+	p_texture->Create(texture2D);
 
-	auto new_texture = std::make_shared<Texture>(texture_name);
-	new_texture->Create(texture2D);
-
-	//해당 이름의 texture가 없는 경우 => 새로 생성
-	auto texture_iter = m_p_textrue_map.insert(std::make_pair(texture_name, new_texture));
+	auto texture_iter = texture_map.insert(std::make_pair(texture_name, p_texture));
 	auto result = texture_iter.second;
 	assert(result);
 	if (!result)
@@ -482,84 +377,26 @@ const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string
 	return std::dynamic_pointer_cast<Texture>(texture_iter.first->second);
 }
 
-const std::shared_ptr<Texture>& ResourceManager::GetTexture(const std::string& texture_name)
-{
-	auto texture_iter = m_p_textrue_map.find(texture_name);
-
-	//해당 텍스처를 찾지 못했을 경우
-	if (texture_iter == m_p_textrue_map.end())
-		return nullptr;
-
-	return std::dynamic_pointer_cast<Texture>(texture_iter->second);
-}
-
-const std::shared_ptr<Texture>& ResourceManager::GetAtlasTexture(const std::string& atlas_texture_name)
-{
-	auto atlas_texture_iter = m_p_atlas_textrue_map.find(atlas_texture_name);
-
-	//해당 Atlas 텍스처를 찾지 못했을 경우
-	if (atlas_texture_iter == m_p_atlas_textrue_map.end())
-		return nullptr;
-
-	return std::dynamic_pointer_cast<Texture>(atlas_texture_iter->second);
-}
-
-const std::shared_ptr<Texture>& ResourceManager::GetTileAtlasTexture(const std::string& tile_atlas_texture_name)
-{
-	auto tile_atlas_texture_iter = m_p_tile_atlas_textrue_map.find(tile_atlas_texture_name);
-
-	//해당 Tile Atlas 텍스처를 찾지 못했을 경우
-	if (tile_atlas_texture_iter == m_p_tile_atlas_textrue_map.end())
-		return nullptr;
-
-	return std::dynamic_pointer_cast<Texture>(tile_atlas_texture_iter->second);
-}
-
 void ResourceManager::CreateDefaultMesh()
 {
 	//Point
-	CreateMesh(MeshType::Point);
+	CreateMesh("Point_Mesh", MeshType::Point);
 	//Triangle
-	CreateMesh(MeshType::Triangle);
+	CreateMesh("Triangle_Mesh", MeshType::Triangle);
 	//Rectangle
-	CreateMesh(MeshType::Rectangle);
+	CreateMesh("Rectangle_Mesh", MeshType::Rectangle);
 	//Circle
-	CreateMesh(MeshType::Circle);
+	CreateMesh("Circle_Mesh", MeshType::Circle);
 }
 
-const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const MeshType& mesh_type)
+const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const std::string& mesh_name, const MeshType& mesh_type)
 {
-	auto mesh = GetMesh(mesh_type);
+	auto& mesh_map = m_resources_map[ResourceType::Mesh];
 
-	//해당 종류의 mesh가 존재하는 경우
-	if (mesh != nullptr)
-		return mesh;
+	auto p_mesh = std::make_shared<Mesh>(mesh_name);
+	p_mesh->Create(mesh_type);
 
-	std::string mesh_type_str;
-
-	switch (mesh_type)
-	{
-	case MeshType::Point:
-		mesh_type_str = "Point";
-		break;
-	case MeshType::Triangle:
-		mesh_type_str = "Triangle";
-		break;
-	case MeshType::Rectangle:
-		mesh_type_str = "Rectangle";
-		break;
-	case MeshType::Circle:
-		mesh_type_str = "Circle";
-		break;
-	}
-
-	//해당 종류의 mesh가 없는 경우 => 새로 생성
-	//Create Standard Shader
-	auto new_mesh = std::make_shared<Mesh>(mesh_type_str + "_Mesh");
-
-	new_mesh->Create(mesh_type);
-
-	auto mesh_iter = m_p_mesh_map.insert(std::make_pair(mesh_type, new_mesh));
+	auto mesh_iter = mesh_map.insert(std::make_pair(mesh_name, p_mesh));
 	auto result = mesh_iter.second;
 	assert(result);
 	if (!result)
@@ -568,36 +405,38 @@ const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const MeshType& mesh_ty
 	return std::dynamic_pointer_cast<Mesh>(mesh_iter.first->second);
 }
 
-const std::shared_ptr<Mesh>& ResourceManager::GetMesh(const MeshType& mesh_type)
+const std::shared_ptr<AudioClip>& ResourceManager::CreateAudioClip(const std::string& audio_clip_path)
 {
-	auto mesh_iter = m_p_mesh_map.find(mesh_type);
+	auto& audio_clip_map = m_resources_map[ResourceType::AudioClip];
 
-	//해당 종류의 메쉬를 찾지 못했을 경우
-	if (mesh_iter == m_p_mesh_map.end())
+	std::string audio_clip_name = FileManager::GetOriginFileNameFromPath(audio_clip_path);
+
+	auto p_audio_clip = std::make_shared<AudioClip>(audio_clip_name);
+	p_audio_clip->LoadFromFile(audio_clip_path);
+	
+	auto audio_clip_iter = audio_clip_map.insert(std::make_pair(audio_clip_name, p_audio_clip));
+	auto result = audio_clip_iter.second;
+	assert(result);
+	if (!result)
 		return nullptr;
 
-	return std::dynamic_pointer_cast<Mesh>(mesh_iter->second);
+	return std::dynamic_pointer_cast<AudioClip>(audio_clip_iter.first->second);
 }
 
-void ResourceManager::AddPrefab(const std::string& prefab_object_name, GameObject* p_game_object)
+const std::shared_ptr<Prefab>& ResourceManager::CreatePrefab(GameObject* p_game_object)
 {
 	if (p_game_object == nullptr)
-		return;
-
-	//프리팹 오브젝트 생성(복사생성자 호출)
-	Prefab* p_prefab = new Prefab(p_game_object);
-	auto prefab_iter = m_p_prefab_map.insert(std::make_pair(prefab_object_name, p_prefab));
-	auto result = prefab_iter.second;
-	assert(result);
-}
-
-const std::shared_ptr<Prefab>& ResourceManager::GetPrefab(const std::string& game_object_name)
-{
-	auto prefab_iter = m_p_prefab_map.find(game_object_name);
-
-	//해당 프리팹 오브젝트를 찾지 못했을 경우
-	if (prefab_iter == m_p_prefab_map.end())
 		return nullptr;
 
-	return std::dynamic_pointer_cast<Prefab>(prefab_iter->second);
+	auto& prefab_map = m_resources_map[ResourceType::Prefab];
+
+	auto p_prefab = std::make_shared<Prefab>(p_game_object);
+
+	auto prefab_iter = prefab_map.insert(std::make_pair(p_game_object->GetGameObjectName(), p_prefab));
+	auto result = prefab_iter.second;
+	assert(result);
+	if (!result)
+		return nullptr;
+
+	return std::dynamic_pointer_cast<Prefab>(prefab_iter.first->second);
 }

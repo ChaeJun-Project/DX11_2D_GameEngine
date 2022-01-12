@@ -6,8 +6,11 @@ Collider2D::Collider2D()
 {
 	auto resource_manager = ResourceManager::GetInstance();
 
-	m_p_mesh = resource_manager->GetMesh(MeshType::Rectangle);
-	m_p_material = resource_manager->GetMaterial("Collider2D_Green");
+	m_p_mesh = resource_manager->GetResource<Mesh>("Rectangle_Mesh");
+	auto clone_material = resource_manager->GetResource<Material>("Collider2D_Material")->Clone();
+	m_p_material = std::shared_ptr<Material>(clone_material);
+
+	ChangeColliderBoxColorGreen();
 }
 
 Collider2D::Collider2D(const Collider2D& origin)
@@ -74,11 +77,33 @@ void Collider2D::UpdateColliderWorldMatrix()
 	m_collider_world_matrix = scale * translation * world_matrix;
 }
 
+void Collider2D::ChangeColliderBoxColorGreen()
+{
+    if(m_p_material == nullptr)
+	return;
+
+	int flag = 0;
+	m_p_material->SetConstantBufferData(Material_Parameter::INT_1, &flag); //Red Option을 0으로 초기화
+	flag = 1;
+	m_p_material->SetConstantBufferData(Material_Parameter::INT_0, &flag); //Green Option을 1로 초기화
+}
+
+void Collider2D::ChangeColliderBoxColorRed()
+{
+	if (m_p_material == nullptr)
+		return;
+
+	int flag = 0;
+	m_p_material->SetConstantBufferData(Material_Parameter::INT_0, &flag); //Green Option을 0으로 초기화
+	flag = 1;
+	m_p_material->SetConstantBufferData(Material_Parameter::INT_1, &flag); //Red Option을 1로 초기화
+}
+
 void Collider2D::OnCollisionEnter(Collider2D* other_collider)
 {
 	++m_collision_count;
 
-	m_p_material = ResourceManager::GetInstance()->GetMaterial("Collider2D_Red");
+	ChangeColliderBoxColorRed();
 
 	auto script = m_p_owner_game_object->GetComponent<Script>();
 	if (script != nullptr)
@@ -90,7 +115,7 @@ void Collider2D::OnCollisionExit(Collider2D* other_collider)
 	--m_collision_count;
 
 	if (m_collision_count == 0)
-		m_p_material = ResourceManager::GetInstance()->GetMaterial("Collider2D_Green");
+		ChangeColliderBoxColorGreen();
 
 	auto script = m_p_owner_game_object->GetComponent<Script>();
 	if (script != nullptr)

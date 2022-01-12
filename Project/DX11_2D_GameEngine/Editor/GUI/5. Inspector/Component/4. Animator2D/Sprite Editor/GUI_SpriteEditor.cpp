@@ -43,7 +43,7 @@ void GUI_SpriteEditor::Render()
 
 			int index = 0;
 
-			const auto& atlas_texture_map = resource_manager->GetAtlasTextureMap();
+			const auto& atlas_texture_map = resource_manager->GetResourceMap(ResourceType::Texture);
 
 			std::string current_atlas_name;
 
@@ -73,7 +73,7 @@ void GUI_SpriteEditor::Render()
 					const bool is_selected = (*(m_p_atlas_item_list->GetCurrentListID()) == i);
 					if (ImGui::Selectable(item_list_vector[i].c_str(), is_selected))
 					{
-						m_p_atlas_texture = resource_manager->GetAtlasTexture(item_list_vector[i]);
+						m_p_atlas_texture = resource_manager->GetResource<Texture>(item_list_vector[i]);
 					}
 
 					if (is_selected)

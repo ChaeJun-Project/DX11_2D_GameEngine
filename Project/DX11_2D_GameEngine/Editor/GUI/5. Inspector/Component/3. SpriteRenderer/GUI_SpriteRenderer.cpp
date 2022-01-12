@@ -83,7 +83,7 @@ void GUI_SpriteRenderer::Render()
 			{
 			case ResourceType::Material:
 			{
-				const auto material_map = resource_manager->GetMaterialMap();
+				const auto material_map = resource_manager->GetResourceMap(ResourceType::Material);
 
 				for (auto& material : material_map)
 				{
@@ -99,7 +99,7 @@ void GUI_SpriteRenderer::Render()
 			break;
 			case ResourceType::Mesh:
 			{
-				const auto& mesh_map = resource_manager->GetMeshMap();
+				const auto& mesh_map = resource_manager->GetResourceMap(ResourceType::Mesh);
 
 				for (auto& mesh : mesh_map)
 				{
@@ -160,7 +160,7 @@ void GUI_SpriteRenderer::SelectResource(SpriteRenderer* p_sprite_renderer, const
 	{
 	case ResourceType::Material:
 	{
-		const auto material_map = resource_manager->GetMaterialMap();
+		const auto material_map = resource_manager->GetResourceMap(ResourceType::Material);
 
 		for (auto& material : material_map)
 		{
@@ -175,7 +175,7 @@ void GUI_SpriteRenderer::SelectResource(SpriteRenderer* p_sprite_renderer, const
 	break;
 	case ResourceType::Mesh:
 	{
-		const auto& mesh_map = resource_manager->GetMeshMap();
+		const auto& mesh_map = resource_manager->GetResourceMap(ResourceType::Mesh);
 
 		for (auto& mesh : mesh_map)
 		{

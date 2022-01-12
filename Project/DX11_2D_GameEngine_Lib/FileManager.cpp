@@ -256,7 +256,7 @@ const std::string FileManager::GetFileNameFromPath(const std::string& path)
 	return file_name;
 }
 
-const std::string FileManager::GetIntactFileNameFromPath(const std::string& path)
+const std::string FileManager::GetOriginFileNameFromPath(const std::string& path)
 {
 	auto file_name = GetFileNameFromPath(path);
 	auto last_index = file_name.find_last_of('.');
@@ -302,9 +302,9 @@ const std::wstring FileManager::GetExtensionFromPath(const std::wstring& path)
 const std::string FileManager::GetPathWithoutExtension(const std::string& path)
 {
 	auto directory = GetDirectoryFromPath(path);
-	auto intact_file_name = GetIntactFileNameFromPath(path);
+	auto origin_file_name = GetOriginFileNameFromPath(path);
 
-	return directory + intact_file_name;
+	return directory + origin_file_name;
 }
 
 //경로->상대경로로 변환
@@ -409,9 +409,9 @@ const std::string FileManager::GetWorkingDirectory()
 
 const std::string FileManager::GetFileDataNameFromPath(const std::string& path)
 {
-	auto file_name = GetIntactFileNameFromPath(path); //순수 파일이름을 추출
-	auto first_index = file_name.find_first_of('_'); //_으로 끝
-	auto file_data_name = file_name.substr(first_index + 1, file_name.size());
+	auto origin_file_name = GetOriginFileNameFromPath(path); //순수 파일이름을 추출
+	auto first_index = origin_file_name.find_first_of('_'); //_으로 끝
+	auto file_data_name = origin_file_name.substr(first_index + 1, origin_file_name.size());
 
 	return file_data_name;
 }

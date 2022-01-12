@@ -53,6 +53,8 @@ void Core::Initialize()
 	InputManager::GetInstance()->Initialize();
 	//Initialize Graphics Manager
 	GraphicsManager::GetInstance()->Initialize();
+	//Initialize Audio Manager
+	AudioManager::GetInstance()->Initialize();
 	//Initialize Resource Manager
 	ResourceManager::GetInstance()->Initialize();
 	//Initialize Scene Manager
@@ -61,8 +63,6 @@ void Core::Initialize()
 	RenderManager::GetInstance()->Initialize();
 	//Initialize Font Manager
 	FontManager::GetInstance()->Initialize();
-	//Initialize Audio Manager
-	AudioManager::GetInstance()->Initialize();
 }
 
 void Core::Progress()

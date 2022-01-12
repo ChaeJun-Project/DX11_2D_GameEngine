@@ -31,10 +31,10 @@ void Geometry_Script::Start()
 
 	auto renderer = background->GetComponent<SpriteRenderer>();
 	auto material = renderer->GetMaterial();
-	material->SetShader(resource_manager->GetShader("Light2D"));
-	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, resource_manager->LoadTexture("Texture/Geometry/Forest.gif", TextureType::Standard));
-	auto texture = resource_manager->GetTexture("Forest");
-	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
+	material->SetShader(resource_manager->GetResource<Shader>("Light2D"));
+	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, resource_manager->CreateTexture("Texture/Geometry/Forest.gif"));
+	auto texture = resource_manager->GetResource<Texture>("Forest");
+	renderer->SetMesh(resource_manager->GetResource<Mesh>("Rectangle_Mesh"));
 
 	background->GetComponent<Transform>()->SetScale(Vector3(6.0f, 6.0f, 1.0f));
 
@@ -50,10 +50,10 @@ void Geometry_Script::Start()
 
 	renderer = ground->GetComponent<SpriteRenderer>();
 	material = renderer->GetMaterial();
-	material->SetShader(resource_manager->GetShader("Light2D"));
-	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, ResourceManager::GetInstance()->LoadTexture("Texture/Geometry/Ground.gif", TextureType::Standard));
-	texture = resource_manager->GetTexture("Ground");
-	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
+	material->SetShader(resource_manager->GetResource<Shader>("Light2D"));
+	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, ResourceManager::GetInstance()->CreateTexture("Texture/Geometry/Ground.gif"));
+	texture = resource_manager->GetResource<Texture>("Ground");
+	renderer->SetMesh(resource_manager->GetResource<Mesh>("Rectangle_Mesh"));
 
 	auto collider2D = ground->GetComponent<Collider2D>();
 	collider2D->SetOffsetPosition(Vector2(0.0f, -0.14f));
@@ -61,7 +61,7 @@ void Geometry_Script::Start()
 	ground->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 	scene_manager->CreatePrefab(ground);
 
-	auto ground_prefab = ResourceManager::GetInstance()->GetPrefab("Forest_Ground");
+	auto ground_prefab = ResourceManager::GetInstance()->GetResource<Prefab>("Forest_Ground");
 
 	for (int i = 0; i < 3; ++i)
 	{
@@ -79,10 +79,10 @@ void Geometry_Script::Start()
 	auto particle_system = particle->GetComponent<ParticleSystem>();
 
 	//Set Particle Texture
-	particle_system->SetParticleTexture(resource_manager->GetTexture("rain_particle"));
+	particle_system->SetParticleTexture(resource_manager->GetResource<Texture>("rain_particle"));
 
 	//Set Compute Shader
-	auto compute_shader = resource_manager->GetShader("Rain")->GetShader<ComputeShader>();
+	auto compute_shader = resource_manager->GetResource<Shader>("Rain")->GetShader<ComputeShader>();
 	particle_system->SetComputeShader(compute_shader);
 
 	//Set Particle Activable Count
@@ -122,15 +122,15 @@ void Geometry_Script::Start()
 	water_transform->SetTranslation(Vector3(0.0f, -(g_cbuffer_program.resolution.y * 0.5f) + 80.0f, 0.0f));
 
 	renderer = water_distortion->GetComponent<SpriteRenderer>();
-	renderer->SetMesh(resource_manager->GetMesh(MeshType::Rectangle));
+	renderer->SetMesh(resource_manager->GetResource<Mesh>("Rectangle_Mesh"));
 
-	auto water_material = ResourceManager::GetInstance()->GetMaterial("WaterEffect");
+	auto water_material = ResourceManager::GetInstance()->GetResource<Material>("WaterEffect");
 	auto water_heigiht = water_transform->GetLocalScale().y;
 	water_material->SetConstantBufferData(Material_Parameter::FLOAT_0, &water_heigiht);
 	float refract_scale = 0.01f;
 	water_material->SetConstantBufferData(Material_Parameter::FLOAT_1, &refract_scale);
-	water_material->SetConstantBufferData(Material_Parameter::TEX_1, nullptr, resource_manager->GetTexture("noise_03"));
-	renderer->SetMaterial(resource_manager->GetMaterial("WaterEffect"));
+	water_material->SetConstantBufferData(Material_Parameter::TEX_1, nullptr, resource_manager->GetResource<Texture>("noise_03"));
+	renderer->SetMaterial(resource_manager->GetResource<Material>("WaterEffect"));
 
 	m_p_owner_game_object->AddChild(water_distortion);
 }

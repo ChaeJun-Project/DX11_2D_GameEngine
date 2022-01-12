@@ -3,11 +3,6 @@
 
 #include "GameObject.h"
 
-Prefab::Prefab(const std::string& resource_name)
-	:IResource(ResourceType::Prefab, resource_name)
-{
-}
-
 Prefab::Prefab(GameObject* p_prototype_game_object)
 	: IResource(ResourceType::Prefab, p_prototype_game_object->GetGameObjectName())
 {
@@ -22,4 +17,12 @@ Prefab::~Prefab()
 GameObject* Prefab::Instantiate()
 {
 	return m_p_prototype_game_object->Clone();
+}
+
+void Prefab::LoadFromFile(const std::string& texture_path)
+{
+}
+
+void Prefab::SaveFile(const std::string& texture_path)
+{
 }

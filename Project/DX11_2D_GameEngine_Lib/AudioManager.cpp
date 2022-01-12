@@ -9,9 +9,11 @@ AudioManager::~AudioManager()
 {
 	m_p_listener_transform = nullptr;
 
-	//Release FMOD System
-	m_p_system->close();
-	m_p_system->release();
+	if (m_p_system == nullptr)
+		return;
+	
+	m_p_system->close();	//close FMOD System
+	m_p_system->release();  //Release FMOD System
 }
 
 void AudioManager::Initialize()
@@ -33,18 +35,12 @@ void AudioManager::Initialize()
 	assert(result == FMOD_OK);
 
 	//FMOD 3D 환경 설정
-	result = m_p_system->set3DSettings(1.0, m_distance_factor, 1.0f);
+	result = m_p_system->set3DSettings(1.0, m_distance_factor, 0.01f);
 	assert(result == FMOD_OK);
 }
 
 void AudioManager::Update()
 {
-	auto scene_manager = SceneManager::GetInstance();
-
-	//Editor Mode에 정지 상태일 경우
-	if (scene_manager->GetClientState() == 2 && scene_manager->GetEditorState() == EditorState::EditorState_Stop)
-		return;
-
 	m_p_system->update();
 
 	//Listener가 설정되어 있다면
@@ -62,7 +58,7 @@ void AudioManager::SetListenerTransform(Transform* p_listener_transform)
 
 void AudioManager::SetListenerAttributes()
 {
-    static Vector3 listener_last_position = Vector3::Zero; //Main Camera의 지난 프레임 위치
+	static Vector3 listener_last_position = Vector3::Zero; //Main Camera의 지난 프레임 위치
 
 	auto listener_position = m_p_listener_transform->GetTranslation(); //Main Camera의 현재 위치
 	auto velocity = Vector3::Zero;
@@ -76,7 +72,7 @@ void AudioManager::SetListenerAttributes()
 
 	listener_last_position = listener_position;
 
-	m_p_system->set3DListenerAttributes
+	auto result = m_p_system->set3DListenerAttributes
 	(
 		0,
 		reinterpret_cast<FMOD_VECTOR*>(&listener_position),

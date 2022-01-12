@@ -77,12 +77,6 @@ using namespace DirectX::PackedVector;
 //Log
 #include "LogManager.h"
 
-//Font
-#include "FontManager.h"
-
-//Audio
-#include "AudioManager.h"
-
 //InputManager
 #include "InputManager.h"
 
@@ -106,6 +100,12 @@ using namespace DirectX::PackedVector;
 
 //CollisionManager
 #include "CollisionManager.h"
+
+//Font
+#include "FontManager.h"
+
+//Audio
+#include "AudioManager.h"
 #pragma endregion
 
 #pragma region DX11ObjectID
