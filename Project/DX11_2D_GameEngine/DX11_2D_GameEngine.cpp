@@ -44,10 +44,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	auto scene_manager = SceneManager::GetInstance();
 	scene_manager->SetClientState(static_cast<UINT>(client_state));
 
-	ClientSceneManager::CreateNewScene();
+	/*auto next_scene = ClientSceneManager::LoadScene((FileManager::GetAbsoluteContentPath() + "Asset/Scene/New Scene.scene"));
+	scene_manager->SetCurrentScene(next_scene);*/
 
-	//1 Frame Update
-	core->Progress();
+	ClientSceneManager::CreateNewScene();
 
 	//Editor Manager
 	auto editor_manager = EditorManager::GetInstance();

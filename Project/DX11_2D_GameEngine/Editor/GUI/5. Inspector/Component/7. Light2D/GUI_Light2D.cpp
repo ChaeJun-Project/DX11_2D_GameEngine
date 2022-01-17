@@ -26,6 +26,9 @@ void GUI_Light2D::Render()
 	if (BeginComponent(m_component_gui_name, ComponentType::Light2D, IconType::Component_Light2D))
 	{
 		auto light2D = m_select_game_object->GetComponent<Light2D>();
+		if (light2D == nullptr)
+			return;
+
 		auto light2D_info = light2D->GetLight2DInfo();
 
 		//Light Type
@@ -33,11 +36,11 @@ void GUI_Light2D::Render()
 
 		//Light Color
 		//Color
-		ShowColorPicker("Color", (float*)(&(light2D_info.ligth_color.color)), m_color_edit_flag);
+		ShowColorPicker3("Color", (float*)(&(light2D_info.ligth_color.color)), m_color_edit_flag);
 		//Specular
-		ShowColorPicker("Specular", (float*)(&(light2D_info.ligth_color.specular)), m_color_edit_flag);
+		ShowColorPicker3("Specular", (float*)(&(light2D_info.ligth_color.specular)), m_color_edit_flag);
 		//Ambient
-		ShowColorPicker("Ambient", (float*)(&(light2D_info.ligth_color.ambient)), m_color_edit_flag);
+		ShowColorPicker3("Ambient", (float*)(&(light2D_info.ligth_color.ambient)), m_color_edit_flag);
 		
 		//Light Direction
 		ShowFloat3("Direction", light2D_info.light_direction, 50.0f, 100.0f);
@@ -127,13 +130,4 @@ void GUI_Light2D::ShowComboLightType(Light2D* p_light2D, LightType& light_type)
 	}
 	ImGui::PopItemWidth();
 	ImGui::EndGroup();
-}
-
-void GUI_Light2D::ShowColorPicker(const std::string& label_name, float* data, const ImGuiColorEditFlags& flags)
-{
-	ImGui::Text(label_name.c_str());
-	ImGui::SameLine(100.0f);
-
-	std::string label_tag = "##Light " + label_name;
-	ImGui::ColorEdit3(label_tag.c_str(), data, m_color_edit_flag);
 }

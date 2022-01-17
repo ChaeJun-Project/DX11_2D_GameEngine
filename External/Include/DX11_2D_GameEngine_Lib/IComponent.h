@@ -34,7 +34,7 @@ public:
 			fprintf(p_file, "¡Ü Camera\n");
 			break;
 		case ComponentType::SpriteRenderer:
-			fprintf(p_file, "¡Ü SpriteRenderer\n");
+			fprintf(p_file, "¡Ü Sprite Renderer\n");
 			break;
 		case ComponentType::Animator2D:
 			fprintf(p_file, "¡Ü Animator2D\n");
@@ -49,7 +49,7 @@ public:
 			fprintf(p_file, "¡Ü Light2D\n");
 			break;
 		case ComponentType::ParticleSystem:
-			fprintf(p_file, "¡Ü ParticleSystem\n");
+			fprintf(p_file, "¡Ü Particle System\n");
 			break;
 		case ComponentType::TileMap:
 			fprintf(p_file, "¡Ü TileMap\n");
@@ -60,7 +60,11 @@ public:
 		case ComponentType::Script:
 			fprintf(p_file, "¡Ü Script\n");
 			break;
-		default:
+		case ComponentType::AudioListener:
+			fprintf(p_file, "¡Ü Audio Listener\n");
+			break;
+		case ComponentType::AudioSource:
+			fprintf(p_file, "¡Ü Audio Source\n");
 			break;
 		}
 

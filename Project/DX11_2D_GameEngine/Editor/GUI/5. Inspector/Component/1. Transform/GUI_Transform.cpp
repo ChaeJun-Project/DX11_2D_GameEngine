@@ -21,6 +21,8 @@ void GUI_Transform::Render()
 	if (BeginComponent(m_component_gui_name, ComponentType::Transform, IconType::Component_Transform))
 	{
 		auto transform = m_select_game_object->GetComponent<Transform>();
+		if (transform == nullptr)
+			return;
 
 		auto position = transform->GetLocalTranslation();
 		auto rotation = transform->GetLocalRotation().ToEulerAngle();

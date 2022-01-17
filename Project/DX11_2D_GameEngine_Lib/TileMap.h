@@ -28,6 +28,7 @@ public:
 	void Render();
 
 private:
+    void CalcGridCoord();
 	void BindPipeline();
 	void DrawGrid();
 
@@ -59,11 +60,10 @@ public:
 
 private:
 	void CalcCurrentPickRect(const Vector2& current_screen_pos);
-	const bool CheckMousePositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom);
 
 public:
-	virtual void SaveToScene(FILE* p_file);
-	virtual void LoadFromScene(FILE* p_file);
+	void SaveToScene(FILE* p_file) override;
+	void LoadFromScene(FILE* p_file) override;
 
 public:
 	CLONE(TileMap);
@@ -87,14 +87,13 @@ private:
 	UINT m_tile_count_y = 0; //타일 맵의 행의 개수
 	Vector2 m_tile_size = Vector2(0.0f, 0.0f); //각 타일의 크기
 
-	//Tile Render
-	std::shared_ptr<Mesh> m_p_mesh = nullptr;
 	std::shared_ptr<Material> m_p_material = nullptr;
+	std::shared_ptr<Mesh> m_p_mesh = nullptr;
 
 	//Grid
 	bool m_is_draw_grid = true;
-	std::shared_ptr<Mesh> m_p_grid_mesh = nullptr;
 	std::shared_ptr<Material> m_p_grid_material = nullptr;
+	std::shared_ptr<Mesh> m_p_grid_mesh = nullptr;
 	std::vector<Vector2> m_grid_left_top_vector;
 };
 

@@ -84,8 +84,8 @@ public:
 	}
 
 public:
-	virtual void SaveToScene(FILE* p_file);
-	virtual void LoadFromScene(FILE* p_file);
+	void SaveToScene(FILE* p_file) override;
+	void LoadFromScene(FILE* p_file) override;
 
 public:
 	CLONE(ParticleSystem);

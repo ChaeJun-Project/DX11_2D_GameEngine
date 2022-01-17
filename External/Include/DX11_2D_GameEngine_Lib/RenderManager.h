@@ -21,9 +21,14 @@ private:
 	void RenderPlay();
 	void RenderEditor();
 
+	void CalcClientSceneRect();
+
 	void SetRenderTexture(const RenderTextureType& render_texture_type);
 
 public:
+	const bool CheckMouseWorldPositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom);
+	const bool CheckMouseClientPositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom);
+    const bool CheckClickedEditorSceneRect(const Vector2& mouse_position);
 	void CopyPostEffect();
 	void ResizePostEffectTexture();
 
@@ -59,6 +64,8 @@ private:
 	std::map<RenderTextureType, std::shared_ptr<Texture>> m_p_render_texture_map;
 	Vector2 m_resolution_size = Vector2::Zero;
 	Vector2 m_screen_offset = Vector2::Zero;
+	Vector2 m_client_rect_left_top = Vector2::Zero;
+	Vector2 m_client_rect_right_bottom = Vector2::Zero;
 
 	//Editor Camera
 	Camera* m_p_editor_camera = nullptr;

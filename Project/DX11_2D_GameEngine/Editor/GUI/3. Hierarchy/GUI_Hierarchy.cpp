@@ -14,6 +14,12 @@
 GUI_Hierarchy::GUI_Hierarchy(const std::string& hierarchy_title)
 	:IGUI(hierarchy_title)
 {
+	m_p_clicked_empty_space = std::bind
+	(
+		&GUI_Hierarchy::ClickEmptySpace,
+		this
+	);
+
 	m_p_clicked_func_2 = std::bind
 	(
 		&GUI_Hierarchy::ClickedGameObject,
@@ -90,13 +96,14 @@ void GUI_Hierarchy::UpdateTree()
 	for (const auto& root_game_object : root_game_object_vector)
 		AddGameObject(p_root_tree_item, root_game_object);
 
+	m_gui_tree.SetClickedEmptySpace(m_p_clicked_empty_space);
 	m_gui_tree.SetClickedCallBack2(m_p_clicked_func_2);
 	m_gui_tree.SetDragDropCallBack(m_p_drag_drop_func);
 }
 
 void GUI_Hierarchy::CheckClickRightButton()
 {
-	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem | ImGuiHoveredFlags_AllowWhenBlockedByPopup))
+	if(ImGui::IsWindowHovered(ImGuiHoveredFlags_None))
 	{
 		if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 			ImGui::OpenPopup("Hierarchy Menu Popup");
@@ -108,7 +115,11 @@ void GUI_Hierarchy::ShowHierarchy()
 	//ImGuiTreeNodeFlags_DefaultOpen : 시작부터 하위노드를 다 보여주는 옵션
 	if (ImGui::CollapsingHeader(m_p_current_scene->GetSceneName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 		m_gui_tree.Update();
+}
 
+void GUI_Hierarchy::ClickEmptySpace()
+{
+	SelectedGameObject(nullptr);
 }
 
 void GUI_Hierarchy::ClickedGameObject(DWORD_PTR object_address)

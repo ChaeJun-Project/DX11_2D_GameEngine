@@ -324,6 +324,9 @@ void ResourceManager::CreateDefaultTexture()
 
 	//Rain Particle Texture
 	CreateTexture("Asset/Texture/Particle/rain_particle.png");
+
+	//Test
+	CreateTexture("Asset/Texture/Map/Stage1/Stage1_Tile.png");
 }
 
 const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string& texture_path)
@@ -333,6 +336,7 @@ const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string
 	std::string texture_name = FileManager::GetOriginFileNameFromPath(texture_path);
 
 	auto p_texture = std::make_shared<Texture>(texture_name);
+	p_texture->SetResourcePath(texture_path);
 	p_texture->LoadFromFile(texture_path);
 
 	auto texture_iter = texture_map.insert(std::make_pair(texture_name, p_texture));
@@ -412,6 +416,7 @@ const std::shared_ptr<AudioClip>& ResourceManager::CreateAudioClip(const std::st
 	std::string audio_clip_name = FileManager::GetOriginFileNameFromPath(audio_clip_path);
 
 	auto p_audio_clip = std::make_shared<AudioClip>(audio_clip_name);
+	p_audio_clip->SetResourcePath(audio_clip_path);
 	p_audio_clip->LoadFromFile(audio_clip_path);
 	
 	auto audio_clip_iter = audio_clip_map.insert(std::make_pair(audio_clip_name, p_audio_clip));

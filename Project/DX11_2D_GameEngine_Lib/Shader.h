@@ -13,7 +13,8 @@ private:
 	static constexpr ShaderType GetShaderType();
 
 public:
-	Shader(const std::string resource_name);
+	Shader(const std::string& resource_name);
+	explicit Shader(const Shader& origin) = default;
 	~Shader();
 
 	void BindPipeline() override;
@@ -49,6 +50,9 @@ public:
 
 	const DepthStencilType& GetDepthStencilType() const { return m_depth_stencil_type; }
 	void SetDepthStencilType(const DepthStencilType& depth_stencil_type) { m_depth_stencil_type = depth_stencil_type; }
+
+public:
+	CLONE(Shader);
 
 private:
     std::map<ShaderType, std::shared_ptr<IShader>> m_shader_map;

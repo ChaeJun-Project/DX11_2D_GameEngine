@@ -94,6 +94,24 @@ void ShowFloat4(const char* label_name, Vector4& value, const float& size, const
 	ImGui::EndGroup(); //하나의 그룹으로 묶기 해제
 }
 
+void ShowColorPicker3(const std::string& label_name, float* data, const ImGuiColorEditFlags& flags)
+{
+	ImGui::Text(label_name.c_str());
+	ImGui::SameLine(100.0f);
+
+	std::string label_tag = "##ColorPicker_" + label_name;
+	ImGui::ColorEdit3(label_tag.c_str(), data, flags);
+}
+
+void ShowColorPicker4(const std::string& label_name, float* data, const ImGuiColorEditFlags& flags)
+{
+	ImGui::Text(label_name.c_str());
+	ImGui::SameLine(100.0f);
+
+	std::string label_tag = "##ColorPicker_" + label_name;
+	ImGui::ColorEdit4(label_tag.c_str() , data, flags);
+}
+
 const bool CheckMousePositionInRect(const ImVec2& mouse_position, const ImVec2& rect_left_top, const ImVec2& rect_right_bottom)
 {
 	//현재 마우스 커서의 위치가 Rect 내부에 있는 경우

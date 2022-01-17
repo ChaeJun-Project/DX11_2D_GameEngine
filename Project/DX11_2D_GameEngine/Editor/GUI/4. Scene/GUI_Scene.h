@@ -12,7 +12,10 @@ public:
 public:
 	void Initialize() override;
 	void Update() override;
+
+	void Begin() override;
 	void Render() override;
+	void End() override;
 
 private:
     void ShowProjectionButton();
@@ -22,5 +25,7 @@ private:
 private:
 	//Editor Camera
 	CameraEx* m_p_editor_camera = nullptr;
+
+	Vector2 m_gizmo_offset = Vector2::Zero;
 };
 

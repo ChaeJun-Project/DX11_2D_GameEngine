@@ -69,6 +69,7 @@ class InputManager final : public Singleton<InputManager>
 public:
 	void Initialize();
 	void Update();
+	void Render();
 
 	const bool BtnDown(const KeyCode& button) const { return buttonMap[static_cast<unsigned long>(button)] == static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_DOWN); }
 	const bool BtnUp(const KeyCode& button) const { return buttonMap[static_cast<unsigned long>(button)] == static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_UP); }
@@ -127,4 +128,6 @@ private:
 	Vector3 wheelStatus;
 	Vector3 wheelOldStatus;
 	Vector3 wheelMoveValue;
+
+	std::string m_render_str;
 };

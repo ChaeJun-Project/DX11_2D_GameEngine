@@ -37,7 +37,7 @@ void TimeManager::Update()
 
 void TimeManager::Render()
 {
-	FontManager::GetInstance()->DrawFont(render_str, 20.0f, FONT_RGBA(0, 255, 0, 255), 10.0f, 10.0f);
+	FontManager::GetInstance()->DrawFont(m_render_str, 20.0f, FONT_RGBA(0, 255, 0, 255), 10.0f, 10.0f);
 }
 
 void TimeManager::CalcCurrentTime()
@@ -49,7 +49,7 @@ void TimeManager::CalcCurrentTime()
 
 	date_time = *localtime(&now);
 
-	current_time = "[" + std::to_string(date_time.tm_year + 1900) + "/"
+	m_current_time = "[" + std::to_string(date_time.tm_year + 1900) + "/"
 		+ std::to_string(date_time.tm_mon + 1) + "/"
 		+ std::to_string(date_time.tm_mday) + "/"
 		+ std::to_string(date_time.tm_hour) + ":"
@@ -68,7 +68,7 @@ void TimeManager::CalcFps()
 		m_func_call_count = 0;
 		m_accumulate_time = 0.0;
 
-		render_str = "FPS: " + std::to_string(m_fps) + " Delta Time: " + std::to_string(m_delta_time);
+		m_render_str = "FPS: " + std::to_string(m_fps) + " Delta Time: " + std::to_string(m_delta_time);
 	}
 
 }

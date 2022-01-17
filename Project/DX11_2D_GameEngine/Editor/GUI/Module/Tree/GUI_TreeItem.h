@@ -20,6 +20,7 @@ public:
 
 private:
     void DragAndDrop();
+	const bool CheckClickEmptySpace();
 	const bool CheckClickMouseLeftButton();
 
 public:
@@ -38,6 +39,7 @@ private:
 
 	std::vector<GUI_TreeItem*> m_p_child_vector;
 
+	bool m_clicked_empty_space = false;
 	bool m_press_mouse_left_button = false;
 
 	friend class GUI_Tree;

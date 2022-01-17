@@ -15,21 +15,23 @@ GUI_Collider2D::GUI_Collider2D(const std::string& collider2D_name)
 
 void GUI_Collider2D::Render()
 {
-	auto collider2D = m_select_game_object->GetComponent<Collider2D>();
-
-	if (collider2D == nullptr)
-		return;
-
 	if (BeginComponent(m_component_gui_name, ComponentType::Collider2D, IconType::Component_Collider2D))
 	{
+		auto collider2D = m_select_game_object->GetComponent<Collider2D>();
+		if (collider2D == nullptr)
+			return;
+
 		auto offest_position = collider2D->GetOffsetPosition();
 		auto offest_scale = collider2D->GetOffsetScale();
 
 		ShowFloat2("Offset", offest_position, 70.0f, 80.0f);
 		ShowFloat2("Size", offest_scale, 70.0f, 80.0f);
 
-		collider2D->SetOffsetPosition(offest_position);
-		collider2D->SetOffsetScale(offest_scale);
+		if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+		{
+			collider2D->SetOffsetPosition(offest_position);
+			collider2D->SetOffsetScale(offest_scale);
+		}
 
 		DrawComponentEnd();
 	}

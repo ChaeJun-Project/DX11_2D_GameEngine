@@ -7,14 +7,18 @@ class Prefab : public IResource
 {
 public:
 	Prefab(GameObject* p_prototype_game_object);
+	explicit Prefab(const Prefab& origin) = default;
 	~Prefab();
 
 public:
 	GameObject* Instantiate();
 
 public:
-	void LoadFromFile(const std::string& texture_path) override;
-	void SaveFile(const std::string& texture_path) override;
+	bool SaveFile(const std::string& prefab_path) override;
+	bool LoadFromFile(const std::string& prefab_path) override;
+
+public:
+	CLONE(Prefab);
 
 private:
     GameObject* m_p_prototype_game_object = nullptr;

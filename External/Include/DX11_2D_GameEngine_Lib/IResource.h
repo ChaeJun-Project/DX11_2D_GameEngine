@@ -14,8 +14,8 @@ public:
 
     virtual ~IResource() = default;
 
-    virtual void LoadFromFile(const std::string& path) {}
-    virtual void SaveFile(const std::string& path) {}
+    virtual bool SaveFile(const std::string& resource_path) { return true; }
+    virtual bool LoadFromFile(const std::string& resource_path) { return true; }
 
     virtual void BindPipeline() {}
 
@@ -28,8 +28,11 @@ public:
     const std::string& GetResourcePath() const { return m_resource_path; }
     void SetResourcePath(const std::string& resource_path) { m_resource_path = resource_path; }
 
+public:
+    virtual IResource* Clone() = 0;
+
 protected:
     const ResourceType m_resource_type;
     std::string m_resource_name;
-    std::string m_resource_path;
+    std::string m_resource_path = "None";
 };

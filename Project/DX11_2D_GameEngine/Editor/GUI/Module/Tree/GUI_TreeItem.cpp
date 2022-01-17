@@ -30,6 +30,7 @@ void GUI_TreeItem::Update()
 		m_item_name = p_game_object->GetGameObjectName();
 	}
 
+	bool clicked_empty_space = false;
 	bool press_mouse_left_button = false;
 
 	//TreeItem이 자식을 가지고 있는 경우 더블 클릭 or 왼쪽 화살표를 눌렀을 경우 펼침
@@ -53,6 +54,7 @@ void GUI_TreeItem::Update()
 		{
 			DragAndDrop();
 
+			clicked_empty_space = CheckClickEmptySpace();
 			press_mouse_left_button = CheckClickMouseLeftButton();
 
 			for (auto& child_tree_item : m_p_child_vector)
@@ -66,6 +68,7 @@ void GUI_TreeItem::Update()
 		{
 			DragAndDrop();
 
+			clicked_empty_space = CheckClickEmptySpace();
 			press_mouse_left_button = CheckClickMouseLeftButton();
 		}
 	}
@@ -76,6 +79,7 @@ void GUI_TreeItem::Update()
 		{
 			DragAndDrop();
 
+			clicked_empty_space = CheckClickEmptySpace();
 			press_mouse_left_button = CheckClickMouseLeftButton();
 
 			for (auto& child_tree_item : m_p_child_vector)
@@ -89,18 +93,20 @@ void GUI_TreeItem::Update()
 		{
 			DragAndDrop();
 
+			clicked_empty_space = CheckClickEmptySpace();
 			press_mouse_left_button = CheckClickMouseLeftButton();
 		}
+	}
+
+	if (clicked_empty_space)
+	{
+		m_p_owner_tree->ExcuteClickedEmptySpaceCallBack();
+		m_clicked_empty_space = false;
 	}
 
 	if (press_mouse_left_button)
 	{
 		m_p_owner_tree->ExcuteClickedCallBack(this);
-	}
-
-	//마우스 뗐을 때 눌린 상태 되돌려 놓기
-	if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
-	{
 		m_press_mouse_left_button = false;
 	}
 }
@@ -129,14 +135,25 @@ void GUI_TreeItem::DragAndDrop()
 	}
 }
 
+const bool GUI_TreeItem::CheckClickEmptySpace()
+{
+	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_None))
+	{
+		//어떠한 아이템 위에도 커서가 올라가 있지 않은 상태에서 마우스 왼쪽 버튼을 눌렀을 경우
+		if (!ImGui::IsAnyItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		{
+			m_clicked_empty_space = true;
+		}
+	}
+
+	return m_clicked_empty_space;
+}
+
 const bool GUI_TreeItem::CheckClickMouseLeftButton()
 {
 	//아이템 왼쪽 클릭 된 경우
-	if (ImGui::IsItemHovered(ImGuiHoveredFlags_None) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-	{
+	if (ImGui::IsItemClicked(ImGuiMouseButton_Left) || ImGui::IsItemClicked(ImGuiMouseButton_Right))
 		m_press_mouse_left_button = true;
-		return true;
-	}
 
-	return false;
+	return m_press_mouse_left_button;
 }

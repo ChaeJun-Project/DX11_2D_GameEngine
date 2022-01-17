@@ -10,7 +10,7 @@ Main Camera
 [Layer]
 1
 [Component Count]
-2
+3
 ¡Ü Transform
 1
 [Position]
@@ -35,6 +35,8 @@ Main Camera
 0.300000
 [Far]
 1000.000000
+¡Ü Audio Listener
+11
 [Child GameObject Count]
 0
 =================================================================================
@@ -83,7 +85,7 @@ Default
 [Layer]
 0
 [Component Count]
-1
+2
 ¡Ü Transform
 1
 [Position]
@@ -92,28 +94,18 @@ Default
 0.000000 0.000000 0.000000 1.000000
 [Scale]
 1.000000 1.000000 1.000000
-[Child GameObject Count]
-1
-[Child GameObject]
-=================================================================================
-¡ß GameObject
-GameObject
-[Tag]
-Default
-[Layer]
+¡Ü Audio Source
+12
+[Audio]
+[Resource Name]
+None
+[Resource Path]
+None
+[Loop]
 0
-[Component Count]
-1
-¡Ü Transform
-1
-[Position]
-0.000000 0.000000 0.000000
-[Rotation]
-0.000000 0.000000 0.000000 1.000000
-[Scale]
-1.000000 1.000000 1.000000
+[m_volume]
+1.000000
 [Child GameObject Count]
 0
-=================================================================================
 =================================================================================
 

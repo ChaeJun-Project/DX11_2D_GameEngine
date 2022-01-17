@@ -5,6 +5,8 @@
 
 #include "Helper/IconProvider.h"
 
+#include <DX11_2D_GameEngine_Lib/SceneManager.h>
+
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/Camera.h>
 
@@ -26,8 +28,10 @@ void GUI_Camera::Render()
 	if (BeginComponent(m_component_gui_name, ComponentType::Camera, IconType::Component_Camera))
 	{
 		auto camera = m_select_game_object->GetComponent<Camera>();
-		auto projection_type = camera->GetProjectionType();
+		if (camera == nullptr)
+			return;
 
+		auto projection_type = camera->GetProjectionType();
 		auto size = camera->GetSize();
 		auto fov = Math::ToDegree(camera->GetFov());
 		auto near_z = camera->GetNearZ();
@@ -54,11 +58,14 @@ void GUI_Camera::Render()
 		ShowFloat("Camera", "Far", far_z, 100.f, 100.0f);
 		ShowInt("Camera", "Index", camera_index, 100.f, 100.0f);
 
-		camera->SetSize(size);
-		camera->SetFov(Math::ToRadian(fov));
-		camera->SetNearZ(near_z);
-		camera->SetFarZ(far_z);
-		camera->SetCameraIndex(camera_index);
+		if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+		{
+			camera->SetSize(size);
+			camera->SetFov(Math::ToRadian(fov));
+			camera->SetNearZ(near_z);
+			camera->SetFarZ(far_z);
+			camera->SetCameraIndex(camera_index);
+		}
 
 		//Culling Layer
 		ImGui::Text("Culling");
@@ -84,7 +91,8 @@ void GUI_Camera::Render()
 				const bool is_selected = (culling_layer & layer);
 				if (ImGui::Selectable(culling_layer_list_vector[i].c_str(), is_selected))
 				{
-					camera->CullingLayer(bit_pos);
+					if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+						camera->CullingLayer(bit_pos);
 				}
 
 				if (is_selected)
@@ -101,14 +109,16 @@ void GUI_Camera::Render()
 
 		if (ImGui::Button("Nothing", ImVec2(80.0f, 0.0f)))
 		{
-			camera->CullingNothing();
+			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+				camera->CullingNothing();
 		}
 
 		ImGui::SameLine();
 
 		if (ImGui::Button("Everything", ImVec2(80.0f, 0.0f)))
 		{
-			camera->CullingEverything();
+			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+				camera->CullingEverything();
 		}
 
 		DrawComponentEnd();

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Material.h"
 
-Material::Material(const std::string resource_name)
+Material::Material(const std::string& resource_name)
 	:IResource(ResourceType::Material, resource_name)
 {
 	ZeroMemory(&m_material_data, sizeof(CBuffer_Material));
@@ -116,4 +116,14 @@ void Material::SetConstantBufferData(const Material_Parameter& material_paramete
 		m_p_texture_vector[static_cast<UINT>(material_parameter) - static_cast<UINT>(Material_Parameter::TEX_0)] = texture;
 		break;
 	}
+}
+
+bool Material::SaveFile(const std::string& material_path)
+{
+	return false;
+}
+
+bool Material::LoadFromFile(const std::string& material_path)
+{
+	return false;
 }

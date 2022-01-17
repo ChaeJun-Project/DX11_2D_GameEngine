@@ -16,7 +16,10 @@ AudioSource::AudioSource()
 AudioSource::AudioSource(const AudioSource& origin)
 	: IComponent(origin.GetComponentType())
 {
-
+	m_p_audio_clip = origin.m_p_audio_clip;
+	
+	m_is_loop = origin.m_is_loop;
+	m_volume = origin.m_volume;
 }
 
 AudioSource::~AudioSource()
@@ -137,4 +140,38 @@ void AudioSource::SetSourceAttributes()
 		reinterpret_cast<FMOD_VECTOR*>(&velocity)
 	);
 
+}
+
+void AudioSource::SaveToScene(FILE* p_file)
+{
+	__super::SaveToScene(p_file); //IComponent
+
+	//Audio
+	fprintf(p_file, "[Audio]\n");
+	ResourceManager::GetInstance()->SaveResource<AudioClip>(m_p_audio_clip, p_file);
+	
+	//Loop
+	fprintf(p_file, "[Loop]\n");
+	fprintf(p_file, "%d\n", m_is_loop);
+
+	//Volume
+	fprintf(p_file, "[Volume]\n");
+	fprintf(p_file, "%f\n", m_volume);
+}
+
+void AudioSource::LoadFromScene(FILE* p_file)
+{
+	char char_buffer[256] = { 0 };
+
+	//Audio
+	FileManager::FScanf(char_buffer, p_file);
+	ResourceManager::GetInstance()->LoadResource<AudioClip>(m_p_audio_clip, p_file);
+
+	//Loop
+	FileManager::FScanf(char_buffer, p_file);
+	fscanf_s(p_file, "%d\n", &m_is_loop);
+
+	//Volume
+	FileManager::FScanf(char_buffer, p_file);
+	fscanf_s(p_file, "%f\n", &m_volume);
 }

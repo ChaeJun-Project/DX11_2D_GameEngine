@@ -24,3 +24,8 @@ void AudioListener::FinalUpdate()
 {
 	AudioManager::GetInstance()->SetListenerTransform(m_p_owner_game_object->GetComponent<Transform>());
 }
+
+void AudioListener::SaveToScene(FILE* p_file)
+{
+	__super::SaveToScene(p_file); //IComponent
+}

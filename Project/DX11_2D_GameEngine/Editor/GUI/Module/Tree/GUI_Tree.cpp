@@ -69,6 +69,14 @@ void GUI_Tree::Clear()
 	m_p_dropped_item = nullptr;
 }
 
+void GUI_Tree::ExcuteClickedEmptySpaceCallBack()
+{
+	m_p_selected_item = nullptr;
+
+	if (m_p_clicked_empty_space != nullptr)
+		m_p_clicked_empty_space();
+}
+
 void GUI_Tree::ExcuteClickedCallBack(GUI_TreeItem* p_item)
 {
 	m_p_selected_item = p_item;

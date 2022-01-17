@@ -203,6 +203,7 @@ void Camera::UpdateViewMatrix()
 
 void Camera::UpdateProjectionMatrix()
 {
+	//TODO: Game Mode일 때 Editor Mode일 때 해상도가 다르므로 처리해줘야 함
 	auto resolution = RenderManager::GetInstance()->GetResolution();
 
 	switch (m_projection_type)
@@ -221,10 +222,10 @@ void Camera::UpdateProjectionMatrix()
 
 const Vector3 Camera::Picking()
 {
-	/*if (m_camera_index != 0)
-		return Vector3::Zero;*/
-
 	Vector2 mouse_position = InputManager::GetInstance()->GetMousePosition();
+
+	if (!RenderManager::GetInstance()->CheckClickedEditorSceneRect(mouse_position))
+		return Vector3::Zero;
 
 	Vector3 mouse_world_position = ScreenToWorld(mouse_position);
 
@@ -233,26 +234,15 @@ const Vector3 Camera::Picking()
 
 const Vector3 Camera::ScreenToWorld(const Vector2& mouse_position)
 {
-	/*Vector2 screen_resolution = Vector2
-	(
-		static_cast<float>(Core::GetInstance()->GetSettings()->GetWindowWidth()),
-		static_cast<float>(Core::GetInstance()->GetSettings()->GetWindowHeight())
-	);*/
-
-	auto resolution = RenderManager::GetInstance()->GetResolution();
-	auto screen_offset = RenderManager::GetInstance()->GetScreenOffset();
-	auto relative_mouse_position = mouse_position - screen_offset;
-
-	Vector2 screen_resolution = Vector2
-	(
-		resolution.x,
-		resolution.y
-	);
+	auto render_manager = RenderManager::GetInstance();
+	auto screen_resolution = render_manager->GetResolution();
+	auto screen_offset = render_manager->GetScreenOffset();
+	auto mouse_relative_position = mouse_position - screen_offset;
 
 	Vector3 pick_ray_view_space = Vector3
 	(
-		((2.0f * relative_mouse_position.x) / screen_resolution.x) - 1.0f,
-		1.0f - ((2.0f * relative_mouse_position.y) / screen_resolution.y),
+		((2.0f * mouse_relative_position.x) / screen_resolution.x) - 1.0f,
+		1.0f - ((2.0f * mouse_relative_position.y) / screen_resolution.y),
 		1.0f //투영 윈도우 값
 	);
 
@@ -282,7 +272,7 @@ void Camera::SaveToScene(FILE* p_file)
 	//Camera Index
 	fprintf(p_file, "[Index]\n");
 	fprintf(p_file, "%d\n", m_camera_index);
-	
+
 	//Camera Culling Layer
 	fprintf(p_file, "[Culling Layer]\n");
 	fprintf(p_file, "%d\n", m_culling_layer);
@@ -291,7 +281,7 @@ void Camera::SaveToScene(FILE* p_file)
 	fprintf(p_file, "[Projection]\n");
 	auto projection_type = static_cast<UINT>(m_projection_type);
 	fprintf(p_file, "%d\n", projection_type);
-	
+
 	//ProjectionType::Orthographic(직교 투영 전용)
 	//Size가 늘어남에 따라 한 화면에 보여지는 화면의 해상도 증가(커질수록 줌아웃, 작아질수록 줌인)
 	if (m_projection_type == ProjectionType::Orthographic)
@@ -313,10 +303,8 @@ void Camera::SaveToScene(FILE* p_file)
 
 void Camera::LoadFromScene(FILE* p_file)
 {
-	__super::LoadFromScene(p_file); //IComponent
-
 	char char_buffer[256] = { 0 };
-	
+
 	//Camera Index
 	FileManager::FScanf(char_buffer, p_file);
 	fscanf_s(p_file, "%d\n", &m_camera_index);
@@ -324,13 +312,13 @@ void Camera::LoadFromScene(FILE* p_file)
 	//Camera Culling Layer
 	FileManager::FScanf(char_buffer, p_file);
 	fscanf_s(p_file, "%d\n", &m_culling_layer);
-	
+
 	//카메라 투영 타입
 	FileManager::FScanf(char_buffer, p_file);
 	int projection_type = -1;
 	fscanf_s(p_file, "%d\n", &projection_type);
 	m_projection_type = static_cast<ProjectionType>(projection_type);
-	
+
 	//ProjectionType::Orthographic(직교 투영 전용)
 	//Size가 늘어남에 따라 한 화면에 보여지는 화면의 해상도 증가(커질수록 줌아웃, 작아질수록 줌인)
 	if (m_projection_type == ProjectionType::Orthographic)

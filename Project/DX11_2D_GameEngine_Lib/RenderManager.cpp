@@ -43,6 +43,10 @@ RenderManager::~RenderManager()
 
 void RenderManager::Initialize()
 {
+	auto settings = Core::GetInstance()->GetSettings();
+	m_resolution_size.x = static_cast<float>(settings->GetWindowWidth());
+	m_resolution_size.y = static_cast<float>(settings->GetWindowHeight());
+
 	//Post Effect Material에 Texture 연결
 	//auto post_effect_material = ResourceManager::GetInstance()->GetMaterial("PostEffect");
 	//post_effect_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);
@@ -63,7 +67,6 @@ void RenderManager::Render()
 	//Title = 0
 	//Game = 1
 	//Editor = 2
-
 	switch (scene_manager->GetClientState())
 	{
 	case 0:
@@ -79,6 +82,10 @@ void RenderManager::Render()
 
 	//Render Time Manager
 	TimeManager::GetInstance()->Render();
+	//Render Input Manager
+	InputManager::GetInstance()->Render();
+
+	CalcClientSceneRect();
 
 	//카메라 벡터 초기화
 	m_camera_vector.clear();
@@ -100,11 +107,12 @@ void RenderManager::RenderTitle()
 
 void RenderManager::RenderPlay()
 {
-	auto render_texture = m_p_render_texture_map.find(RenderTextureType::GameScene);
-	if (render_texture == m_p_render_texture_map.end())
-		return;
+	auto settings = Core::GetInstance()->GetSettings();
+	m_resolution_size.x = static_cast<float>(settings->GetWindowWidth());
+	m_resolution_size.y = static_cast<float>(settings->GetWindowHeight());
 
-	SetRenderTexture(RenderTextureType::GameScene);
+	//Graphics Clear Target
+	GraphicsManager::GetInstance()->BeginScene();
 
 	//메인 카메라(index 0) 기준으로 화면 그리기
 	if (m_camera_vector[0] != nullptr)
@@ -173,6 +181,15 @@ void RenderManager::RenderEditor()
 	}
 }
 
+void RenderManager::CalcClientSceneRect()
+{
+    //Left Top
+	m_client_rect_left_top = m_screen_offset;
+	
+	//Right Bottom
+	m_client_rect_right_bottom = m_client_rect_left_top + m_resolution_size;
+}
+
 void RenderManager::SetRenderTexture(const RenderTextureType& render_texture_type)
 {
 	auto render_texture = m_p_render_texture_map[render_texture_type];
@@ -196,6 +213,41 @@ void RenderManager::SetRenderTexture(const RenderTextureType& render_texture_typ
 
 		m_resolution_size = Vector2(view_port.Width, view_port.Height);
 	}
+}
+
+const bool RenderManager::CheckMouseWorldPositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom)
+{
+	//현재 마우스 커서의 위치가 Rect 내부에 있는 경우
+	if (rect_left_top.x < mouse_position.x && rect_left_top.y > mouse_position.y &&
+		rect_right_bottom.x > mouse_position.x && rect_right_bottom.y < mouse_position.y)
+		return true;
+
+	else
+		return false;
+}
+
+const bool RenderManager::CheckMouseClientPositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom)
+{
+	//현재 마우스 커서의 위치가 Rect 내부에 있는 경우
+	if (rect_left_top.x < mouse_position.x && rect_left_top.y < mouse_position.y &&
+		rect_right_bottom.x > mouse_position.x && rect_right_bottom.y > mouse_position.y)
+		return true;
+
+	else
+		return false;
+}
+
+const bool RenderManager::CheckClickedEditorSceneRect(const Vector2& mouse_position)
+{
+	if (CheckMouseClientPositionInRect(
+		mouse_position,
+		m_client_rect_left_top,
+		m_client_rect_right_bottom))
+	{
+		return true;
+	}
+ 
+	return false;
 }
 
 //Camera Component의 RenderPostEffectObjects에서 호출

@@ -3,13 +3,18 @@
 
 #include "GraphicsManager.h"
 
-Texture::Texture(const std::string resource_name)
+Texture::Texture(const std::string& resource_name)
 	:IResource(ResourceType::Texture, resource_name)
 {
 	ZeroMemory(&m_texture_desc, sizeof(D3D11_TEXTURE2D_DESC));
 }
 
-void Texture::LoadFromFile(const std::string& texture_path)
+bool Texture::SaveFile(const std::string& texture_path)
+{
+	return true;
+}
+
+bool Texture::LoadFromFile(const std::string& texture_path)
 {
 	//스크래치 이미지
 	ScratchImage image;
@@ -17,6 +22,9 @@ void Texture::LoadFromFile(const std::string& texture_path)
 	//스크래치 이미지 생성
 	auto hResult = GetScratchImage(FileManager::ConvertStringToWString(texture_path), image);
 	assert(SUCCEEDED(hResult));
+	if (!SUCCEEDED(hResult))
+		return false;
+
 	image.GetPixels();
 	//텍스처 생성
 	auto device = GraphicsManager::GetInstance()->GetDevice();
@@ -29,6 +37,8 @@ void Texture::LoadFromFile(const std::string& texture_path)
 		(ID3D11Resource**)m_p_texture.GetAddressOf()
 	);
 	assert(SUCCEEDED(hResult));
+	if (!SUCCEEDED(hResult))
+		return false;
 
 	//Shader Resource View 구조체 정의
 	D3D11_SHADER_RESOURCE_VIEW_DESC srv_desc;
@@ -49,6 +59,10 @@ void Texture::LoadFromFile(const std::string& texture_path)
 		m_p_shader_resource_view.GetAddressOf()
 	);
 	assert(SUCCEEDED(hResult));
+	if (!SUCCEEDED(hResult))
+		return false;
+
+	return true;
 }
 
 
@@ -76,10 +90,6 @@ const HRESULT& Texture::GetScratchImage(const std::wstring& texture_path, Scratc
 	}
 
 	return S_FALSE;
-}
-
-void Texture::SaveFile(const std::string& texture_path)
-{
 }
 
 void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage)

@@ -12,6 +12,10 @@ void ShowFloat3(const char* label_name, Vector3& value, const float& size, const
 
 void ShowFloat4(const char* label_name, Vector4& value, const float& size, const float& indent, ImGuiInputTextFlags flags = 0);
 
+void ShowColorPicker3(const std::string& label_name, float* data, const ImGuiColorEditFlags& flags);
+
+void ShowColorPicker4(const std::string& label_name, float* data, const ImGuiColorEditFlags& flags);
+
 const bool CheckMousePositionInRect(const ImVec2& mouse_position, const ImVec2& rect_left_top, const ImVec2& rect_right_bottom);
 
 void SaveFile(const std::string& path, const FileType& file_type);

@@ -41,6 +41,8 @@ public:
 	const std::shared_ptr<DepthStencilState>& GetDepthStencilState(const DepthStencilType& depth_stencil_type);
 	const std::shared_ptr<BlendState>& GetBlender(const BlendType& blend_type);
 
+	void Test();
+
 private:
 	void CreateDeviceAndDeviceContext();
 	void CreateSwapChain();

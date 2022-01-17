@@ -68,8 +68,6 @@ void Light2D::SaveToScene(FILE* p_file)
 
 void Light2D::LoadFromScene(FILE* p_file)
 {
-	__super::LoadFromScene(p_file); //IComponent
-
 	char char_buffer[256] = { 0 };
 
 	FileManager::FScanf(char_buffer, p_file);

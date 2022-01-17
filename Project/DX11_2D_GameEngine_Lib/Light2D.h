@@ -25,8 +25,8 @@ public:
     const LightInfo& GetLight2DInfo() const { return m_light2D_data; }
 
 public:
-	virtual void SaveToScene(FILE* p_file);
-	virtual void LoadFromScene(FILE* p_file);
+	void SaveToScene(FILE* p_file) override;
+	void LoadFromScene(FILE* p_file) override;
 
 public:
 	CLONE(Light2D);

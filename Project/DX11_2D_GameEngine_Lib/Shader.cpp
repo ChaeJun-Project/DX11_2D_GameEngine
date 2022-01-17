@@ -26,7 +26,7 @@ REGISTER_SHADER_TYPE(PixelShader, ShaderType::PS);
 
 REGISTER_SHADER_TYPE(ComputeShader, ShaderType::CS);
 
-Shader::Shader(const std::string resource_name)
+Shader::Shader(const std::string& resource_name)
 	:IResource(ResourceType::Shader, resource_name)
 {
 }
@@ -79,7 +79,7 @@ void Shader::BindPipeline()
 	}
 	else
 	{
-		device_context->GSSetShader(nullptr, 0, 0);
+		
 	}
 
 	//Geometry Shader Stage

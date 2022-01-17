@@ -4,7 +4,8 @@
 class AudioClip final : public IResource
 {
 public:
-    AudioClip(const std::string resource_name);
+    AudioClip(const std::string& resource_name);
+    explicit AudioClip(const AudioClip& origin);
     ~AudioClip();
 
 public:
@@ -22,8 +23,11 @@ private:
     void CreateAudio(const std::string& audio_clip_path);
 
 public:
-    void LoadFromFile(const std::string& audio_clip_path) override;
+    bool LoadFromFile(const std::string& audio_clip_path) override;
    
+public:
+    CLONE(AudioClip);
+
 private:
     FMOD::Sound* m_p_sound = nullptr;
     FMOD::Channel* m_p_channel = nullptr;

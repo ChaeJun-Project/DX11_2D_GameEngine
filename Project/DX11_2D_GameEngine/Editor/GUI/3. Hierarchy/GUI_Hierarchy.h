@@ -26,6 +26,7 @@ private:
 	void CheckClickRightButton();
 	void ShowHierarchy();
 	
+	void ClickEmptySpace();
     void ClickedGameObject(DWORD_PTR object_address);
     void DragDropGameObject(DWORD_PTR p_dropped_item, DWORD_PTR p_drag_start_item);
 
@@ -42,6 +43,7 @@ private:
 
 	GUI_Tree    m_gui_tree;
 
+	Event_CallBack m_p_clicked_empty_space = nullptr;
 	Clicked_CallBack2 m_p_clicked_func_2 = nullptr;
 	DragDrop_CallBack m_p_drag_drop_func = nullptr;
 };

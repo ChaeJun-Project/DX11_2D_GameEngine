@@ -65,8 +65,8 @@ public:
      const UINT& GetCullingLayer() { return m_culling_layer; }
 
 public:
-    virtual void SaveToScene(FILE* p_file) override;
-    virtual void LoadFromScene(FILE* p_file) override;
+    void SaveToScene(FILE* p_file) override;
+    void LoadFromScene(FILE* p_file) override;
 
 public:
     CLONE(Camera);

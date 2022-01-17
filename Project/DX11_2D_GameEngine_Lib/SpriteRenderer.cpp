@@ -16,11 +16,12 @@
 SpriteRenderer::SpriteRenderer()
 	:IComponent(ComponentType::SpriteRenderer)
 {
-    auto resource_manager = ResourceManager::GetInstance();
+	auto resource_manager = ResourceManager::GetInstance();
 
-	m_p_mesh = resource_manager->GetResource<Mesh>("Rectangle_Mesh");
 	auto clone_material = resource_manager->GetResource<Material>("Default_Material")->Clone();
 	m_p_material = std::shared_ptr<Material>(clone_material);
+
+	m_p_mesh = resource_manager->GetResource<Mesh>("Rectangle_Mesh");
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -57,12 +58,18 @@ void SpriteRenderer::Render()
 		}
 	}
 
-	if (m_p_owner_game_object->GetGameObjectTag() != "Water")
-		m_p_sprite_texture = m_p_material->GetTexture();
+	//Set Sprtie Texture Color
+	m_p_material->SetConstantBufferData(Material_Parameter::VEC4_0, &m_p_material);
+
+	/*if (m_p_owner_game_object->GetGameObjectTag() != "Water")
+		m_p_sprite_texture = m_p_material->GetTexture();*/
 
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 	if (m_p_sprite_texture != nullptr)
 	{
+
+		m_p_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_sprite_texture);
+
 		if (animator2D && animator2D->GetCurrentAnimation() != nullptr)
 		{
 			auto current_animation = animator2D->GetCurrentAnimation();
@@ -82,7 +89,7 @@ void SpriteRenderer::Render()
 
 void SpriteRenderer::SetMaterial(const std::shared_ptr<Material>& p_material)
 {
-    if(m_p_material != nullptr)
+	if (m_p_material != nullptr)
 		m_p_material.reset();
 
 	m_p_material = p_material;
@@ -92,30 +99,44 @@ void SpriteRenderer::SaveToScene(FILE* p_file)
 {
 	__super::SaveToScene(p_file); //IComponent
 
-	//int null_check = !!m_p_mesh.get();
-	//fwrite(&null_check, sizeof(int), 1, p_file);
+	auto resource_manager = ResourceManager::GetInstance();
 
-	//if (null_check)
-	//{
-	//	FileManager::SaveStringToFile(m_p_mesh->GetResourceName(), p_file);
-	//	FileManager::SaveStringToFile(m_p_mesh->GetResourcePath(), p_file);
-	//}
+	//Texture
+	fprintf(p_file, "[Texture]\n");
+	resource_manager->SaveResource<Texture>(m_p_sprite_texture, p_file);
 
-	//std::shared_ptr<Material> m_p_shared_material = nullptr; //°øÀ¯ Material
+	//Sprite Color
+	fprintf(p_file, "[Sprite Color]\n");
+	FileManager::FPrintf_Vector4<Vector4>(m_sprite_texture_color, p_file);
+
+	//Material
+	fprintf(p_file, "[Material]\n");
+	resource_manager->SaveResource<Material>(m_p_material, p_file);
+
+	//Mesh
+	fprintf(p_file, "[Mesh]\n");
+	resource_manager->SaveResource<Mesh>(m_p_mesh, p_file);
 }
 
 void SpriteRenderer::LoadFromScene(FILE* p_file)
 {
-	__super::LoadFromScene(p_file); //IComponent
+	auto resource_manager = ResourceManager::GetInstance();
 
-	//int null_check = !!m_p_mesh.get();
-	//fread(&null_check, sizeof(int), 1, p_file);
+	char char_buffer[256] = { 0 };
 
-	//if (null_check)
-	//{
-	//	std::string resource_name, resource_path;
-	//	FileManager::LoadStringFromFile(resource_name, p_file);
-	//	FileManager::LoadStringFromFile(resource_path, p_file);
-	//}
-	//m_p_mesh = ResourceManager::GetInstance()->CreateMesh();
+	//Texture
+	FileManager::FScanf(char_buffer, p_file);
+	resource_manager->LoadResource<Texture>(m_p_sprite_texture, p_file);
+
+	//Sprite Color
+	FileManager::FScanf(char_buffer, p_file);
+	FileManager::FScanf_Vector4<Vector4>(m_sprite_texture_color, p_file);
+
+	//Material
+	FileManager::FScanf(char_buffer, p_file);
+	resource_manager->LoadResource<Material>(m_p_material, p_file);
+
+	//Mesh
+	FileManager::FScanf(char_buffer, p_file);
+	resource_manager->LoadResource<Mesh>(m_p_mesh, p_file);
 }

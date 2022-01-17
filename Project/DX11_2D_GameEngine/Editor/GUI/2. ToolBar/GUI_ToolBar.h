@@ -13,7 +13,6 @@ public:
 
     void Begin() override;
     void Render() override;
-  
-private:
+    void End() override;
 };
 

@@ -1,10 +1,23 @@
 #include "stdafx.h"
 #include "AudioClip.h"
 
-AudioClip::AudioClip(const std::string resource_name)
+AudioClip::AudioClip(const std::string& resource_name)
 	:IResource(ResourceType::AudioClip, resource_name)
 {
 	m_loop_mode = FMOD_LOOP_OFF;
+}
+
+AudioClip::AudioClip(const AudioClip& origin)
+	: IResource(origin.GetResourceType(), origin.GetResourceName())
+{
+	if (origin.m_p_sound != nullptr)
+		m_p_sound = origin.m_p_sound;
+
+	m_min_distance = origin.m_min_distance;
+	m_max_distance = origin.m_max_distance;
+
+	m_loop_mode = origin.m_loop_mode;
+	m_audio_mode = origin.m_audio_mode;
 }
 
 AudioClip::~AudioClip()
@@ -90,7 +103,9 @@ void AudioClip::CreateAudio(const std::string& audio_clip_path)
 	m_p_sound->set3DMinMaxDistance(m_min_distance, m_max_distance);
 }
 
-void AudioClip::LoadFromFile(const std::string& audio_clip_path)
+bool AudioClip::LoadFromFile(const std::string& audio_clip_path)
 {
 	CreateAudio(audio_clip_path);
+
+	return true;
 }

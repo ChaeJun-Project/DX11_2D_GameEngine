@@ -28,6 +28,8 @@ void GUI_Animator2D::Render()
 	if (BeginComponent(m_component_gui_name, ComponentType::Animator2D, IconType::Component_Animator2D))
 	{
 		auto animator2D = m_select_game_object->GetComponent<Animator2D>();
+		if (animator2D == nullptr)
+			return;
 
 		auto animator2D_index = animator2D->GetAnimator2DID();
 		auto animation_play_speed = animator2D->GetAnimationSpeed();

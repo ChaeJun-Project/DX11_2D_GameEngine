@@ -3,6 +3,8 @@
 
 #include "Core.h"
 
+#include "FontManager.h"
+
 InputManager::InputManager()
 	: mousePosition(0, 0)
 	, wheelStatus(0, 0, 0)
@@ -60,13 +62,13 @@ void InputManager::Update()
 
 		if (oldState == 0 && state == 1)
 			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_DOWN); //이전 0, 현재 1 - KeyDown
-		
+
 		else if (oldState == 1 && state == 0)
 			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_UP); //이전 1, 현재 0 - KeyUp
-		
+
 		else if (oldState == 1 && state == 1)
 			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_PRESS); //이전 1, 현재 1 - KeyPress
-		
+
 		else
 			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_NONE);
 	}
@@ -143,12 +145,19 @@ void InputManager::Update()
 	}
 }
 
+void InputManager::Render()
+{
+	FontManager::GetInstance()->DrawFont(m_render_str, 20.0f, FONT_RGBA(0, 255, 0, 255), 10.0f, 30.0f);
+}
+
 LRESULT InputManager::MsgProc(HWND handle, const UINT& message, const WPARAM& wParam, const LPARAM& lParam)
 {
 	if (message == WM_LBUTTONDOWN || message == WM_MOUSEMOVE)
 	{
 		mousePosition.x = static_cast<float>(LOWORD(lParam));
 		mousePosition.y = static_cast<float>(HIWORD(lParam));
+
+		m_render_str = "X: " + std::to_string(mousePosition.x) + " Y: " + std::to_string(mousePosition.y);
 	}
 
 	if (message == WM_MOUSEWHEEL)

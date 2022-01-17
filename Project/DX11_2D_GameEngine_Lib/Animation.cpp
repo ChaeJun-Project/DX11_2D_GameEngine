@@ -5,7 +5,7 @@
 
 #include "ResourceManager.h"
 
-Animation::Animation(const std::string resource_name)
+Animation::Animation(const std::string& resource_name)
 	:IResource(ResourceType::Animation, resource_name)
 {
 }
@@ -49,8 +49,13 @@ Animation::~Animation()
 	m_animation_event_func_map.clear();
 }
 
+bool Animation::SaveFile(const std::string& animation_directory_path)
+{
+	return true;
+}
+
 //Texture/objectname/~~/
-void Animation::LoadFromFile(const std::string& animation_directory_path)
+bool Animation::LoadFromFile(const std::string& animation_directory_path)
 {
 	m_resource_path = animation_directory_path;
 
@@ -68,10 +73,8 @@ void Animation::LoadFromFile(const std::string& animation_directory_path)
 
 	//Create Mesh
 	m_p_mesh = resource_manager->GetResource<Mesh>("Rectangle_Mesh");
-}
 
-void Animation::SaveFile(const std::string& animation_directory_path)
-{
+	return true;
 }
 
 void Animation::Update()

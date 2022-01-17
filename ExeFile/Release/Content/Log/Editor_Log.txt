@@ -1,1 +1,1 @@
-[2022/1/9/9:18:18][Info] SaveScene : Success to Save 'New Scene'
+[2022/1/17/20:38:18][Info] TileMap::SetTileCount : Tile Size: 20x20

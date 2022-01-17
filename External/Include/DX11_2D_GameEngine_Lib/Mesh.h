@@ -6,6 +6,7 @@ class Mesh final : public IResource
 {
 public:
 	Mesh(const std::string& resource_name);
+	explicit Mesh(const Mesh& origin) = default;
 	~Mesh();
 
 	void Create(const MeshType& mesh_type, const UINT& count_x = 0, const UINT& count_y = 0);
@@ -36,6 +37,9 @@ public:
 public:
     //Grid
 	const std::vector<Vector2> GetGridLeftTopVector() const { return m_grid_left_top; }
+
+public:
+	CLONE(Mesh);
 
 private:
 	std::vector<VertexColorTexture> m_vertex_vector;

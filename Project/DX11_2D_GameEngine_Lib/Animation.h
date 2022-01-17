@@ -4,12 +4,12 @@
 class Animation : public IResource
 {
 public:
-	Animation(const std::string resource_name);
+	Animation(const std::string& resource_name);
 	explicit Animation(const Animation& origin);
 	~Animation();
 
-	void LoadFromFile(const std::string& animation_directory_path) override;
-	void SaveFile(const std::string& animation_directory_path) override;
+	bool SaveFile(const std::string& animation_directory_path) override;
+	bool LoadFromFile(const std::string& animation_directory_path) override;
 
 	void Update();
 
@@ -57,6 +57,9 @@ public:
 	const bool& GetIsLoop() const { return m_is_loop; }
 
 	void SetIsLoop(const bool& is_loop) { m_is_loop = is_loop; }
+
+public:
+	CLONE(Animation);
 
 private:
 	std::vector<std::shared_ptr<Texture>> m_p_texture_vector;

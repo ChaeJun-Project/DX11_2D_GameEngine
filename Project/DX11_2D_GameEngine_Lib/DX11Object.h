@@ -13,7 +13,6 @@ public:
 	virtual void SaveToScene(FILE* p_file)
 	{
 		fprintf(p_file, "%s\n", m_object_name.c_str());
-		//FileManager::SaveStringToFile(m_object_name, p_file);
 	}
 
 	virtual void LoadFromScene(FILE* p_file)
@@ -22,7 +21,6 @@ public:
 
 		FileManager::FScanf(char_buffer, p_file);
 		m_object_name = std::string(char_buffer);
-		//FileManager::LoadStringFromFile(m_object_name, p_file);
 	}
 
 public:

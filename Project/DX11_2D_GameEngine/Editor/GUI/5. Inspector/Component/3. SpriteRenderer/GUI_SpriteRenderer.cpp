@@ -12,6 +12,8 @@
 #include <DX11_2D_GameEngine_Lib/Mesh.h>
 #include <DX11_2D_GameEngine_Lib/Material.h>
 
+#include <DX11_2D_GameEngine_Lib/SceneManager.h>
+
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/SpriteRenderer.h>
 
@@ -28,14 +30,14 @@ GUI_SpriteRenderer::~GUI_SpriteRenderer()
 
 void GUI_SpriteRenderer::Render()
 {
-	auto sprite_renderer = m_select_game_object->GetComponent<SpriteRenderer>();
-	if (sprite_renderer == nullptr)
-		return;
-
 	if (BeginComponent(m_component_gui_name, ComponentType::SpriteRenderer, IconType::Component_SpriteRenderer))
 	{
 		auto sprite_renderer = m_select_game_object->GetComponent<SpriteRenderer>();
+		if (sprite_renderer == nullptr)
+			return;
+
 		auto sprite_texture = sprite_renderer->GetSpriteTexture();
+		auto sprite_texture_color = sprite_renderer->GetSpriteTextureColor();
 		auto material = sprite_renderer->GetMaterial();
 		auto mesh = sprite_renderer->GetMesh();
 
@@ -46,16 +48,15 @@ void GUI_SpriteRenderer::Render()
 		const auto ShowTexture = [](const char* label_name, const std::shared_ptr<Texture>& p_texture)
 		{
 			ImGui::Text(label_name);
-			ImGui::SameLine(80.0f);
+			ImGui::SameLine(100.0f);
 
 			ImGui::PushItemWidth(200.0f);
 			std::string sprite_name_str;
-			if(p_texture != nullptr)
+			if (p_texture != nullptr)
 				sprite_name_str = p_texture->GetResourceName();
 			std::string sprite_name_label_str = "##" + sprite_name_str;
 			ImGui::InputText(sprite_name_label_str.c_str(), &sprite_name_str, ImGuiInputTextFlags_ReadOnly);
 			ImGui::PopItemWidth();
-			ImGui::SameLine();
 
 			ImGui::Image
 			(
@@ -71,7 +72,7 @@ void GUI_SpriteRenderer::Render()
 		const auto ShowCombo = [&resource_manager, &sprite_renderer, this](const char* label_name, const std::shared_ptr<IResource>& p_resource)
 		{
 			ImGui::Text(label_name);
-			ImGui::SameLine(80.0f);
+			ImGui::SameLine(100.0f);
 
 			ImGui::PushItemWidth(200.0f);
 			std::string resource_name_str = p_resource->GetResourceName();
@@ -140,6 +141,11 @@ void GUI_SpriteRenderer::Render()
 
 		//Texture
 		ShowTexture("Sprite", sprite_texture);
+
+		//Sprite Color
+		ShowColorPicker4("Sprite Color", sprite_texture_color, ImGuiColorEditFlags_AlphaPreview);
+		if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+			sprite_renderer->SetSpriteTextureColor(sprite_texture_color);
 
 		//Material
 		ShowCombo("Material", material);

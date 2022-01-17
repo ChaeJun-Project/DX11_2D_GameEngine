@@ -17,7 +17,7 @@ public:
 public:
    const double& GetDeltaTime_double() { return m_delta_time; }
    const float& GetDeltaTime_float() { return static_cast<float>(m_delta_time); }
-   const std::string& GetCurrentTime_str() { return current_time; }
+   const std::string& GetCurrentTime_str() { return m_current_time; }
 
 private:
    void CalcCurrentTime();
@@ -35,6 +35,6 @@ private:
    UINT m_func_call_count = 0; //함수 호출 회수 체크
    UINT m_fps = 0; //초당 호출 횟수
 
-   std::string current_time;
-   std::string render_str;
+   std::string m_current_time;
+   std::string m_render_str;
 };

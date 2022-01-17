@@ -16,6 +16,8 @@ void GUI_AudioSource::Render()
 	if (BeginComponent(m_component_gui_name, ComponentType::AudioSource, IconType::Component_Audio_Source))
 	{
 		auto audio_source = m_select_game_object->GetComponent<AudioSource>();
+		if (audio_source == nullptr)
+			return;
 
 		auto p_audio_clip = audio_source->GetAudioClip();
 		std::string audio_clip_name;
@@ -35,7 +37,8 @@ void GUI_AudioSource::Render()
 		ImGui::SameLine(90.0f);
 		if (ImGui::Checkbox("##Audio Loop", &is_loop))
 		{
-			audio_source->SetIsLoop(is_loop);
+			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+				audio_source->SetIsLoop(is_loop);
 		}
 
 		//Volume

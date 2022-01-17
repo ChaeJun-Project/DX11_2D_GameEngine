@@ -116,21 +116,23 @@ void GUI_Project::ShowAssetHierarchy()
 void GUI_Project::ShowFilter()
 {
 	//Filter
-	m_file_filter.Draw("##File Filter", 300.0f);
+	m_file_filter.Draw("##File Filter");
 }
 
 void GUI_Project::ShowFilesInDirectory()
 {
+	ImGui::BeginGroup();
+	//Current Path
+	ImGui::InputText("##Current Path", &m_current_path, ImGuiInputTextFlags_ReadOnly);
+	ImGui::Separator();
+
 	ImGui::BeginChild("Files", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar);
 	{
-		//Current Path
-		ImGui::InputText("##Current Path", &m_current_path, ImGuiInputTextFlags_ReadOnly);
-		ImGui::Separator();
-
 		//Show Files
 
 	}
 	ImGui::EndChild();
+	ImGui::EndGroup();
 }
 
 void GUI_Project::ClickedDirectory(const std::string& current_directory)

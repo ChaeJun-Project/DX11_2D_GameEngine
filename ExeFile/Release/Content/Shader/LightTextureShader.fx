@@ -8,6 +8,7 @@
 
 #define HAS_ANIMATION2D g_int_0
 #define ANIMTATOR2D_INDEX g_int_1
+#define SPRITE_TEXTURE_COLOR g_vector4_0
 
 //RS State에서 Solid 사용
 //Vertex Shader
@@ -71,6 +72,8 @@ float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
     ps_output_color = g_texture_0.Sample(g_sampler1, ps_input.uv);
     //각 색상 성분에 맞는 rgb값을 곱함
     ps_output_color.rgb *= light_color.color.rgb;
+    
+    ps_output_color *= SPRITE_TEXTURE_COLOR;
  
     return ps_output_color;
 }

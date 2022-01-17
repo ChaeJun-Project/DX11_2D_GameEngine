@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TileMap.h"
 
+#include "SceneManager.h"
 #include "RenderManager.h"
 
 #include "ResourceManager.h"
@@ -57,12 +58,15 @@ void TileMap::Start()
 
 void TileMap::FinalUpdate()
 {
-	auto editor_camera = RenderManager::GetInstance()->GetEditorCamera();
+    auto render_manager = RenderManager::GetInstance();
+	auto screen_offset = render_manager->GetScreenOffset();
+	auto editor_camera = render_manager->GetEditorCamera();
 
-	if (editor_camera != nullptr && MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
+	//편집 상태이고 
+	if ((SceneManager::GetInstance()->GetEditorState() == EditorState_Stop) && MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
 	{
 		auto mouse_world_position = editor_camera->Picking();
-
+	
 		CalcCurrentPickRect(Vector2(mouse_world_position.x, mouse_world_position.y));
 	}
 
@@ -75,6 +79,14 @@ void TileMap::Render()
 	if (m_p_mesh == nullptr || m_p_material == nullptr || m_p_material->GetShader() == nullptr)
 		return;
 
+	CalcGridCoord();
+	BindPipeline();
+	m_p_mesh->Render();
+	DrawGrid();
+}
+
+void TileMap::CalcGridCoord()
+{
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 	if (m_tile_size != Vector2::Zero && m_tile_count != 0)
 	{
@@ -86,7 +98,7 @@ void TileMap::Render()
 		{
 			Vector3 left_top = Vector3(m_grid_left_top_vector[i].x, m_grid_left_top_vector[i].y, 0.0f);
 
-			left_top = left_top * world_matrix * g_cbuffer_wvpmatrix.view;
+			left_top = left_top * world_matrix;
 
 			m_tile_info_vector[i].left_top.x = left_top.x;
 			m_tile_info_vector[i].left_top.y = left_top.y;
@@ -103,12 +115,6 @@ void TileMap::Render()
 		}
 	}
 	transform->UpdateConstantBuffer();
-
-	BindPipeline();
-
-	m_p_mesh->Render();
-
-	DrawGrid();
 }
 
 void TileMap::BindPipeline()
@@ -132,7 +138,7 @@ void TileMap::BindPipeline()
 
 void TileMap::DrawGrid()
 {
-	if (m_is_draw_grid)
+	if (m_is_draw_grid && (SceneManager::GetInstance()->GetEditorState() == EditorState_Stop))
 	{
 		m_p_grid_material->BindPipeline();
 		m_p_grid_mesh->Render();
@@ -239,7 +245,7 @@ void TileMap::CalcCurrentPickRect(const Vector2& current_screen_pos)
 {
 	for (int i = 0; i < static_cast<int>(m_tile_info_vector.size()); ++i)
 	{
-		if (CheckMousePositionInRect(
+		if (RenderManager::GetInstance()->CheckMouseWorldPositionInRect(
 			current_screen_pos,
 			m_tile_info_vector[i].left_top,
 			m_tile_info_vector[i].right_bottom))
@@ -250,21 +256,72 @@ void TileMap::CalcCurrentPickRect(const Vector2& current_screen_pos)
 	}
 }
 
-const bool TileMap::CheckMousePositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom)
-{
-	//현재 마우스 커서의 위치가 Rect 내부에 있는 경우
-	if (rect_left_top.x < mouse_position.x && rect_left_top.y > mouse_position.y &&
-		rect_right_bottom.x > mouse_position.x && rect_right_bottom.y < mouse_position.y)
-		return true;
-
-	else
-		return false;
-}
-
 void TileMap::SaveToScene(FILE* p_file)
 {
+	__super::SaveToScene(p_file); //IComponent
+
+	auto resource_manager = ResourceManager::GetInstance();
+
+	//Tile
+	fprintf(p_file, "[Tile]\n");
+	fprintf(p_file, "[Count]\n");
+	fprintf(p_file, "%d\n", m_tile_count);
+	fprintf(p_file, "[Column]\n");
+	fprintf(p_file, "%d\n", m_tile_count_x);
+	fprintf(p_file, "[Row]\n");
+	fprintf(p_file, "%d\n", m_tile_count_y);
+	fprintf(p_file, "[Size]\n");
+	FileManager::FPrintf_Vector2(m_tile_size, p_file);
+
+	fprintf(p_file, "[Material]\n");
+	resource_manager->SaveResource<Material>(m_p_material, p_file);
+	fprintf(p_file, "[Mesh]\n");
+	resource_manager->SaveResource<Mesh>(m_p_mesh, p_file);
+
+	//Grid
+	fprintf(p_file, "[Grid]\n");
+	fprintf(p_file, "[Draw]\n");
+	fprintf(p_file, "%d\n", m_is_draw_grid);
+	fprintf(p_file, "[Material]\n");
+	resource_manager->SaveResource<Material>(m_p_grid_material, p_file);
+	fprintf(p_file, "[Mesh]\n");
+	resource_manager->SaveResource<Mesh>(m_p_grid_mesh, p_file);
+	fprintf(p_file, "[Vector]\n");
+	//TODO
 }
 
 void TileMap::LoadFromScene(FILE* p_file)
 {
+	auto resource_manager = ResourceManager::GetInstance();
+
+	char char_buffer[256] = { 0 };
+
+	//Tile
+	FileManager::FScanf(char_buffer, p_file); //[Tile]
+	FileManager::FScanf(char_buffer, p_file); //[Count]
+	fscanf_s(p_file, "%d\n", &m_tile_count);
+	FileManager::FScanf(char_buffer, p_file); //[Column]
+	fscanf_s(p_file, "%d\n", &m_tile_count_x);
+	FileManager::FScanf(char_buffer, p_file); //[Row]
+	fscanf_s(p_file, "%d\n", &m_tile_count_y);
+	FileManager::FScanf(char_buffer, p_file); //[Size]
+	FileManager::FScanf_Vector2(m_tile_size, p_file);
+
+	FileManager::FScanf(char_buffer, p_file); //[Material]
+	resource_manager->LoadResource<Material>(m_p_material, p_file);
+	FileManager::FScanf(char_buffer, p_file); //[Mesh]
+	resource_manager->LoadResource<Mesh>(m_p_mesh, p_file);
+
+	//Grid
+	FileManager::FScanf(char_buffer, p_file); //[Grid]
+	FileManager::FScanf(char_buffer, p_file); //[Draw]
+	fscanf_s(p_file, "%d\n", &m_is_draw_grid);
+	FileManager::FScanf(char_buffer, p_file); //[Material]
+	resource_manager->LoadResource<Material>(m_p_grid_material, p_file);
+	FileManager::FScanf(char_buffer, p_file); //[Mesh]
+	resource_manager->LoadResource<Mesh>(m_p_grid_mesh, p_file);
+	FileManager::FScanf(char_buffer, p_file); //[Vector]
+	//TODO
+
+	SetTileCount(m_tile_count_x, m_tile_count_y);
 }

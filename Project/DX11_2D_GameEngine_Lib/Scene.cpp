@@ -66,17 +66,25 @@ void Scene::Initialize()
 	RegisterGameObject(point_light2D);
 
 	//Test
-	auto audio_test  = new GameObject();
-	audio_test->SetGameObjectName("Audio Test");
-	audio_test->AddComponent(ComponentType::Transform);
-	audio_test->AddComponent(ComponentType::AudioSource);
+	/*auto test = new GameObject();
+	test->SetGameObjectName("SpriteRenderer");
+	test->AddComponent(ComponentType::Transform);
+	test->AddComponent(ComponentType::SpriteRenderer);
 
-	auto p_audio_clip = std::make_shared<AudioClip>("Test Audio");
-	p_audio_clip->LoadFromFile(FileManager::GetAbsoluteContentPath() + "Asset/Audio/17 - X4 - BOSS.mp3");
-	auto audio_source = audio_test->GetComponent<AudioSource>();
-	audio_source->SetAudioClip(p_audio_clip);
+	auto sprtie_renderer = test->GetComponent<SpriteRenderer>();
+	sprtie_renderer->SetSpriteTexture(ResourceManager::GetInstance()->CreateTexture((FileManager::GetAbsoluteContentPath() + "Asset/Texture/UI/PlayerSelect/Z_Texture.png")));
+	
+	RegisterGameObject(test);
 
-	RegisterGameObject(audio_test);
+	auto audio = new GameObject();
+	audio->SetGameObjectName("Audio");
+	audio->AddComponent(ComponentType::Transform);
+	audio->AddComponent(ComponentType::AudioSource);
+
+	auto audio_source = audio->GetComponent<AudioSource>();
+	audio_source->SetAudioClip(ResourceManager::GetInstance()->LoadFromFile<AudioClip>((FileManager::GetAbsoluteContentPath() + "Asset/Audio/17 - X4 - BOSS.mp3")));
+
+	RegisterGameObject(audio);*/
 }
 
 void Scene::Start()

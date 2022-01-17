@@ -174,28 +174,28 @@ void Mesh::CreateRectangleMesh()
 		//Left Top Vertex(좌상단 정점)
 		vertex.m_position = Vector3(-0.5f, 0.5f, 0.0f);
 		vertex.m_color = Vector4::White;
-		vertex.m_color.w = 0.0f;
+		vertex.m_color.w = 1.0f;
 		vertex.m_uv = Vector2(0.0f, 0.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Right Top Vertex(우상단 정점)
 		vertex.m_position = Vector3(0.5f, 0.5f, 0.0f);
 		vertex.m_color = Vector4::White;
-		vertex.m_color.w = 0.0f;
+		vertex.m_color.w = 1.0f;
 		vertex.m_uv = Vector2(1.0f, 0.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Right Bottom Vertex(우하단 정점)
 		vertex.m_position = Vector3(0.5f, -0.5f, 0.0f);
 		vertex.m_color = Vector4::White;
-		vertex.m_color.w = 0.0f;
+		vertex.m_color.w = 1.0f;
 		vertex.m_uv = Vector2(1.0f, 1.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Left Bottom Vertex(좌하단 정점)
 		vertex.m_position = Vector3(-0.5f, -0.5f, 0.0f);
 		vertex.m_color = Vector4::White;
-		vertex.m_color.w = 0.0f;
+		vertex.m_color.w = 1.0f;
 		vertex.m_uv = Vector2(0.0f, 1.0f);
 		m_vertex_vector.emplace_back(vertex);
 	}

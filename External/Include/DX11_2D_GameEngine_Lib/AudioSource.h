@@ -34,6 +34,10 @@ private:
 	void SetSourceAttributes();
 
 public:
+	void SaveToScene(FILE* p_file) override;
+	void LoadFromScene(FILE* p_file) override;
+
+public:
 	CLONE(AudioSource);
 
 private:

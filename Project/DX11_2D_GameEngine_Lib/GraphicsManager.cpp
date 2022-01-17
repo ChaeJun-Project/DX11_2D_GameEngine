@@ -751,3 +751,13 @@ const std::shared_ptr<BlendState>& GraphicsManager::GetBlender(const BlendType& 
 
 	return nullptr;
 }
+
+void GraphicsManager::Test()
+{
+	//Rasterizer 적용
+	m_p_device_context->RSSetState(m_p_rasterizer_map[RasterizerType::Cull_None_Solid]->GetRasterizerState());
+	//DepthStencil 적용
+	m_p_device_context->OMSetDepthStencilState(m_p_depth_stecil_map[DepthStencilType::Less_Equal]->GetDepthStencilState(), 0);
+	//Blender 적용
+	m_p_device_context->OMSetBlendState(m_p_blender_map[BlendType::Alpha_Blend]->GetBlendState(), nullptr, 0xFF);
+}

@@ -14,7 +14,8 @@
 class Texture : public IResource
 {
 public:
-	Texture(const std::string resource_name);
+	Texture(const std::string& resource_name);
+	explicit Texture(const Texture& origin) = default;
 	~Texture() = default;
 
 	void Create(const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
@@ -57,9 +58,11 @@ public:
 	void SetViewport(const UINT& width, const UINT& height);
 
 public:
-	void LoadFromFile(const std::string& texture_path) override;
-	void SaveFile(const std::string& texture_path) override;
+	bool SaveFile(const std::string& texture_path) override;
+	bool LoadFromFile(const std::string& texture_path) override;
 
+public:
+	CLONE(Texture);
 
 private:
 	ComPtr<ID3D11Texture2D> m_p_texture = nullptr;

@@ -15,6 +15,9 @@ public:
     GUI_TreeItem* AddItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoad& pay_load);
     void Clear();
 
+    void SetClickedEmptySpace(Event_CallBack p_clicked_empty_space) { m_p_clicked_empty_space = p_clicked_empty_space; }
+    void ExcuteClickedEmptySpaceCallBack();
+
     void SetClickedCallBack1(Clicked_CallBack1 p_clicked_func_1) { m_p_clicked_func_1 = p_clicked_func_1; }
     void SetClickedCallBack2(Clicked_CallBack2 p_clicked_func_2) { m_p_clicked_func_2 = p_clicked_func_2; }
     void ExcuteClickedCallBack(GUI_TreeItem* p_item);
@@ -29,6 +32,8 @@ public:
 
 private:
     GUI_TreeItem* m_p_root_item = nullptr;
+
+    Event_CallBack m_p_clicked_empty_space = nullptr;
 
     Clicked_CallBack1 m_p_clicked_func_1 = nullptr;
     Clicked_CallBack2 m_p_clicked_func_2 = nullptr;

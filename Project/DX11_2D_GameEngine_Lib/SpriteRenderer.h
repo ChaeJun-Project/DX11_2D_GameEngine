@@ -19,6 +19,9 @@ public:
     std::shared_ptr<Texture> GetSpriteTexture() { SAFE_GET_POINTER(m_p_sprite_texture); }
     void SetSpriteTexture(const std::shared_ptr<Texture>& p_sprite_texture) { m_p_sprite_texture = p_sprite_texture; }
 
+    const Vector4& GetSpriteTextureColor() { return m_sprite_texture_color; }
+    void SetSpriteTextureColor(const Vector4& sprite_texture_color) { m_sprite_texture_color = sprite_texture_color; }
+
     std::shared_ptr<Mesh> GetMesh() { SAFE_GET_POINTER(m_p_mesh); }
     void SetMesh(const std::shared_ptr<Mesh>& p_mesh) { m_p_mesh= p_mesh; }
 
@@ -26,16 +29,17 @@ public:
     std::shared_ptr<Material> GetMaterial() { SAFE_GET_POINTER(m_p_material); }
 
 public:
-    virtual void SaveToScene(FILE* p_file);
-    virtual void LoadFromScene(FILE* p_file);
+    void SaveToScene(FILE* p_file) override;
+    void LoadFromScene(FILE* p_file) override;
 
 public:
     CLONE(SpriteRenderer);
 
 private:
     std::shared_ptr<Texture> m_p_sprite_texture = nullptr;
+    Vector4 m_sprite_texture_color = Vector4::White;
 
-    std::shared_ptr<Mesh> m_p_mesh = nullptr;
     std::shared_ptr<Material> m_p_material = nullptr;
+    std::shared_ptr<Mesh> m_p_mesh = nullptr;
 };
 

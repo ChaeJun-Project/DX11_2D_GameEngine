@@ -40,8 +40,8 @@ void GUI_ToolBar::Begin()
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 2.0f));
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImGui::GetStyle().Colors[ImGuiCol_WindowBg]);
-	ImGui::Begin(m_gui_title.c_str(), &m_is_active, m_window_flags);
 	
+	__super::Begin();
 }
 
 void GUI_ToolBar::Render()
@@ -101,5 +101,10 @@ void GUI_ToolBar::Render()
 	ImGui::EndGroup();
 
 	ImGui::PopStyleColor();
+}
+
+void GUI_ToolBar::End()
+{
+	__super::End();
 	ImGui::PopStyleVar();
 }
