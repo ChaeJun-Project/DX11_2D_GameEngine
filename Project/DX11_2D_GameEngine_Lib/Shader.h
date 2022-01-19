@@ -13,7 +13,7 @@ private:
 	static constexpr ShaderType GetShaderType();
 
 public:
-	Shader(const std::string& resource_name);
+	Shader(const std::string& shader_resource_name);
 	explicit Shader(const Shader& origin) = default;
 	~Shader();
 

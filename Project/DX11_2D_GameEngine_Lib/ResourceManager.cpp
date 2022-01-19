@@ -14,6 +14,10 @@
 #include "AudioClip.h"
 //Prefab
 #include "Prefab.h"
+//Animation2D
+#include "Animation2D.h"
+//TileMap
+#include "TileMap.h"
 
 ResourceManager::~ResourceManager()
 {
@@ -73,7 +77,7 @@ void ResourceManager::Initialize()
 
 void ResourceManager::CreateResourceMap()
 {
-	for (UINT i = static_cast<UINT>(ResourceType::Mesh); i <= static_cast<UINT>(ResourceType::Prefab); ++i)
+	for (UINT i = static_cast<UINT>(ResourceType::Mesh); i <= static_cast<UINT>(ResourceType::TileMap); ++i)
 	{
 		m_resources_map.insert(std::make_pair(static_cast<ResourceType>(i), ResourceMap()));
 	}
@@ -208,7 +212,7 @@ void ResourceManager::CreateDefaultShader()
 		return;
 
 	//Create Tile Shader
-	p_shader = std::make_shared<Shader>("TileMap");
+	p_shader = std::make_shared<Shader>("TileMapRenderer");
 	p_shader->AddShader<VertexShader>("Shader/TileMapShader.fx", "VS", "vs_5_0");
 	p_shader->AddShader<PixelShader>("Shader/TileMapShader.fx", "PS", "ps_5_0");
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
@@ -276,7 +280,7 @@ void ResourceManager::CreateDefaultMaterial()
 	//=============================================
 	//Tile
 	//=============================================
-	CreateMaterial("TileMap_Material", "TileMap");
+	CreateMaterial("TileMapRenderer_Material", "TileMapRenderer");
 }
 
 const std::shared_ptr<Material>& ResourceManager::CreateMaterial(const std::string& material_name, const std::string& shader_name)

@@ -42,7 +42,8 @@ enum class ResourceType : UINT
 	Texture = 4,
 	AudioClip = 5,
 	Prefab = 6,
-	Animation = 7
+	Animation2D = 7,
+	TileMap = 8,
 };
 
 //Mesh Type(Mesh »ç¿ë)
@@ -135,7 +136,7 @@ enum class ComponentType : UINT
 	Collider2D = 6,
 	Light2D = 7,
 	ParticleSystem = 8,
-	TileMap = 9,
+	TileMapRenderer = 9,
 	RigidBody2D = 10,
 	AudioListener = 11,
 	AudioSource = 12,

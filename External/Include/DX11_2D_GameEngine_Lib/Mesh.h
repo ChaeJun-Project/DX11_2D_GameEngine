@@ -5,7 +5,7 @@
 class Mesh final : public IResource
 {
 public:
-	Mesh(const std::string& resource_name);
+	Mesh(const std::string& mesh_resource_name);
 	explicit Mesh(const Mesh& origin) = default;
 	~Mesh();
 
@@ -37,6 +37,10 @@ public:
 public:
     //Grid
 	const std::vector<Vector2> GetGridLeftTopVector() const { return m_grid_left_top; }
+
+public:
+	bool SaveToFile(const std::string& animation2D_path) override;
+	bool LoadFromFile(const std::string& animation2D_path) override;
 
 public:
 	CLONE(Mesh);

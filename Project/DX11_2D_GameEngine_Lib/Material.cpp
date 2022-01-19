@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Material.h"
 
-Material::Material(const std::string& resource_name)
-	:IResource(ResourceType::Material, resource_name)
+Material::Material(const std::string& material_resource_name)
+	:IResource(ResourceType::Material, material_resource_name)
 {
 	ZeroMemory(&m_material_data, sizeof(CBuffer_Material));
 
@@ -118,7 +118,7 @@ void Material::SetConstantBufferData(const Material_Parameter& material_paramete
 	}
 }
 
-bool Material::SaveFile(const std::string& material_path)
+bool Material::SaveToFile(const std::string& material_path)
 {
 	return false;
 }

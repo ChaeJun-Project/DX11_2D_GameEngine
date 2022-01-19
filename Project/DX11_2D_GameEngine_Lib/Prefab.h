@@ -14,7 +14,7 @@ public:
 	GameObject* Instantiate();
 
 public:
-	bool SaveFile(const std::string& prefab_path) override;
+	bool SaveToFile(const std::string& prefab_path) override;
 	bool LoadFromFile(const std::string& prefab_path) override;
 
 public:

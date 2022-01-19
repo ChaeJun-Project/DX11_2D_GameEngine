@@ -10,7 +10,7 @@
 #include "Camera.h"
 #include "Animator2D.h"
 #include "ParticleSystem.h"
-#include "TileMap.h"
+#include "TileMapRenderer.h"
 
 SceneManager::~SceneManager()
 {

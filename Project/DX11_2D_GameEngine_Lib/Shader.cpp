@@ -26,8 +26,8 @@ REGISTER_SHADER_TYPE(PixelShader, ShaderType::PS);
 
 REGISTER_SHADER_TYPE(ComputeShader, ShaderType::CS);
 
-Shader::Shader(const std::string& resource_name)
-	:IResource(ResourceType::Shader, resource_name)
+Shader::Shader(const std::string& shader_resource_name)
+	:IResource(ResourceType::Shader, shader_resource_name)
 {
 }
 

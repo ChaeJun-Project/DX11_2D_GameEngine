@@ -4,7 +4,7 @@
 class AudioClip final : public IResource
 {
 public:
-    AudioClip(const std::string& resource_name);
+    AudioClip(const std::string& audio_clip_resource_name);
     explicit AudioClip(const AudioClip& origin);
     ~AudioClip();
 

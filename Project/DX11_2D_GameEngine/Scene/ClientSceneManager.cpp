@@ -14,7 +14,7 @@
 #include <DX11_2D_GameEngine_Lib/Transform.h>
 #include <DX11_2D_GameEngine_Lib/Camera.h>
 #include <DX11_2D_GameEngine_Lib/Light2D.h>
-#include <DX11_2D_GameEngine_Lib/TileMap.h>
+#include <DX11_2D_GameEngine_Lib/TileMapRenderer.h>
 
 #include <Script_Lib/GameLogic_Script.h>
 
@@ -69,9 +69,9 @@ void ClientSceneManager::CreateNewScene()
 	game_object->SetGameObjectName("TileObject");
 	game_object->SetGameObjectTag("Tile");
 	game_object->AddComponent(new Transform());
-	game_object->AddComponent(new TileMap());
+	game_object->AddComponent(new TileMapRenderer());
 
-	auto tile_map = game_object->GetComponent<TileMap>();
+	auto tile_map = game_object->GetComponent<TileMapRenderer>();
 
 	new_scene->RegisterGameObject(game_object);
 }

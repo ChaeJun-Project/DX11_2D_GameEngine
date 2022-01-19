@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "AudioClip.h"
 
-AudioClip::AudioClip(const std::string& resource_name)
-	:IResource(ResourceType::AudioClip, resource_name)
+AudioClip::AudioClip(const std::string& audio_clip_resource_name)
+	:IResource(ResourceType::AudioClip, audio_clip_resource_name)
 {
 	m_loop_mode = FMOD_LOOP_OFF;
 }

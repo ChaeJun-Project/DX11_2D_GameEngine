@@ -191,7 +191,7 @@ void SaveScene(const std::string& path)
 	if (save_scene != nullptr)
 	{
 		auto scene_name = save_scene->GetSceneName();
-		EDITOR_LOG_INFO_F("Success to Save '%s'", scene_name.c_str());
+		EDITOR_LOG_INFO_F("Succeeded in Saving File: [%s]", scene_name.c_str());
 	}
 }
 
@@ -258,7 +258,7 @@ void LoadScene(const std::string& path)
 	if (next_scene != nullptr)
 	{
 		auto scene_name = next_scene->GetSceneName();
-		EDITOR_LOG_INFO_F("Success to Load %s", scene_name.c_str());
+		EDITOR_LOG_INFO_F("Succeeded in Loading File: [%s]", scene_name.c_str());
 	}
 
 	EventStruct event_struct;

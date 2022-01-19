@@ -13,7 +13,7 @@
 #include "Collider2D.h"
 #include "Light2D.h"
 #include "ParticleSystem.h"
-#include "TileMap.h"
+#include "TileMapRenderer.h"
 #include "AudioListener.h"
 #include "AudioSource.h"
 
@@ -34,7 +34,7 @@ REGISTER_COMPONENT_TYPE(Animator, ComponentType::Animator);
 REGISTER_COMPONENT_TYPE(Collider2D, ComponentType::Collider2D);
 REGISTER_COMPONENT_TYPE(Light2D, ComponentType::Light2D);
 REGISTER_COMPONENT_TYPE(ParticleSystem, ComponentType::ParticleSystem);
-REGISTER_COMPONENT_TYPE(TileMap, ComponentType::TileMap);
+REGISTER_COMPONENT_TYPE(TileMapRenderer, ComponentType::TileMapRenderer);
 REGISTER_COMPONENT_TYPE(AudioListener, ComponentType::AudioListener);
 REGISTER_COMPONENT_TYPE(AudioSource, ComponentType::AudioSource);
 
@@ -149,8 +149,8 @@ void GameObject::Render()
 	if (collider2D != nullptr)
 		collider2D->Render();
 
-	//TileMap
-	auto tile_map = GetComponent<TileMap>();
+	//TileMapRenderer
+	auto tile_map = GetComponent<TileMapRenderer>();
 	if (tile_map != nullptr)
 		tile_map->Render();
 }
@@ -183,8 +183,8 @@ void GameObject::AddComponent(const ComponentType& component_type)
 	case ComponentType::ParticleSystem:
 		AddComponent(new ParticleSystem());
 		break;
-	case ComponentType::TileMap:
-		AddComponent(new TileMap());
+	case ComponentType::TileMapRenderer:
+		AddComponent(new TileMapRenderer());
 		break;
 	case ComponentType::RigidBody2D:
 		//TODO

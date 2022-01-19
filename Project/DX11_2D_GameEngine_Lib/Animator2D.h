@@ -58,8 +58,8 @@ public:
 	void SetAnimationEvent(const std::string& animation_name, const UINT& clip_index, std::function<void(void)> event_func);
 
 public:
-	virtual void SaveToScene(FILE* p_file);
-	virtual void LoadFromScene(FILE* p_file);
+	void SaveToScene(FILE* p_file) override;
+	void LoadFromScene(FILE* p_file) override;
 
 public:
 	CLONE(Animator2D);

@@ -7,7 +7,14 @@
 
 #include "Texture.h"
 
+Animation2D::Animation2D(const std::string& animation2D_resource_name)
+	:IResource(ResourceType::Animation2D, animation2D_resource_name)
+{
+
+}
+
 Animation2D::Animation2D(const Animation2D& origin)
+	: IResource(origin.GetResourceType(), origin.GetResourceName())
 {
 }
 
@@ -15,23 +22,15 @@ Animation2D::~Animation2D()
 {
 	m_p_owner_animator2D = nullptr;
 
-	m_p_animation_frame_vector.clear();
-	m_p_animation_frame_vector.shrink_to_fit();
+	m_animation_frame_vector.clear();
+	m_animation_frame_vector.shrink_to_fit();
 
 	m_p_atlas_texture.reset();
 }
 
-void Animation2D::LoadFromFile(const std::string& animation_directory_path)
-{
-}
-
-void Animation2D::SaveFile(const std::string& animation_directory_path)
-{
-}
-
 void Animation2D::Update()
 {
-	if (m_p_owner_animator2D == nullptr || m_p_animation_frame_vector.empty()|| m_is_paused || m_is_finished)
+	if (m_p_owner_animator2D == nullptr || m_animation_frame_vector.empty() || m_is_paused || m_is_finished)
 		return;
 
 	auto animation_speed = m_p_owner_animator2D->GetAnimationSpeed();
@@ -40,7 +39,7 @@ void Animation2D::Update()
 	m_accumulate_time += (delta_time_f * animation_speed);
 
 	//해당 프레임의 유지 시간이 경과한 경우
-	if (m_p_animation_frame_vector[m_current_frame_id].duration <= m_accumulate_time)
+	if (m_animation_frame_vector[m_current_frame_id].duration <= m_accumulate_time)
 	{
 		m_accumulate_time = 0.0f;
 
@@ -51,7 +50,7 @@ void Animation2D::Update()
 			//애니메이션 역재생이 끝났을 때
 			if (m_current_frame_id <= 0)
 			{
-				m_current_frame_id = static_cast<int>(m_p_animation_frame_vector.size());
+				m_current_frame_id = static_cast<int>(m_animation_frame_vector.size());
 
 				//해당 애니메이션이 끝까지 1회 재생되었음을 알려줌
 				m_is_finished = true;
@@ -63,7 +62,7 @@ void Animation2D::Update()
 		{
 			++m_current_frame_id;
 			//애니메이션 재생이 끝났을 때
-			if (m_current_frame_id >= m_p_animation_frame_vector.size())
+			if (m_current_frame_id >= m_animation_frame_vector.size())
 			{
 				m_current_frame_id = 0;
 
@@ -78,12 +77,12 @@ void Animation2D::Update()
 
 void Animation2D::FinalUpdate()
 {
-	if (m_p_owner_animator2D == nullptr || m_p_animation_frame_vector.empty())
+	if (m_p_owner_animator2D == nullptr || m_animation_frame_vector.empty())
 		return;
 
 	auto animator2D_index = m_p_owner_animator2D->GetAnimator2DID();
 
-	Animation2D_Data animation2D_data = m_p_animation_frame_vector[m_current_frame_id].animation2D_data;
+	Animation2D_Data animation2D_data = m_animation_frame_vector[m_current_frame_id].animation2D_data;
 
 	Vector2 atlas_texture_size = Vector2(static_cast<float>(m_p_atlas_texture->GetWidth()), static_cast<float>(m_p_atlas_texture->GetHeight()));
 
@@ -110,7 +109,7 @@ void Animation2D::Play()
 
 	//역방향 재생인 경우
 	else
-		m_current_frame_id = static_cast<int>(m_p_animation_frame_vector.size());
+		m_current_frame_id = static_cast<int>(m_animation_frame_vector.size());
 }
 
 void Animation2D::Pause()
@@ -158,10 +157,120 @@ void Animation2D::ResetAnimationEventFlag()
 	}
 }
 
-void Animation2D::SaveToScene(FILE* p_file)
+bool Animation2D::SaveToFile(const std::string& animation2D_path)
 {
+	auto resource_manager = ResourceManager::GetInstance();
+
+	FILE* p_file = nullptr;
+	fopen_s(&p_file, animation2D_path.c_str(), "wb"); //파일 쓰기
+
+	if (p_file != nullptr)
+	{
+		//Animation2D Name
+		fprintf(p_file, "[Animation2D Name]\n");
+		fprintf(p_file, "%s\n", m_resource_name.c_str());
+
+		//Atlas Texture
+		fprintf(p_file, "[Atlas Texture]\n");
+		resource_manager->SaveResource<Texture>(m_p_atlas_texture, p_file);
+
+		//Animation2D Frame Count
+		fprintf(p_file, "[Animation2D Frame Count]\n");
+		fprintf(p_file, "%d\n", m_animation_frame_vector.size());
+
+		//Animation2D Frame
+		fprintf(p_file, "[Animation2D Frame]\n");
+		for (UINT i = 0; i < m_animation_frame_vector.size(); ++i)
+		{
+			auto animation2D_frame = m_animation_frame_vector[i];
+			auto animation2D_frame_data = animation2D_frame.animation2D_data;
+
+			fprintf(p_file, "[Index]\n");
+			fprintf(p_file, "%d\n", i);
+			fprintf(p_file, "[Left Top]\n");
+			FileManager::FPrintf_Vector2(animation2D_frame_data.left_top, p_file);
+			fprintf(p_file, "[Frame Size]\n");
+			FileManager::FPrintf_Vector2(animation2D_frame_data.frame_size, p_file);
+			fprintf(p_file, "[Full Frame Size]\n");
+			FileManager::FPrintf_Vector2(animation2D_frame_data.full_frame_size, p_file);
+			fprintf(p_file, "[Offset]\n");
+			FileManager::FPrintf_Vector2(animation2D_frame_data.offset, p_file);
+			fprintf(p_file, "[Duration]\n");
+			fprintf(p_file, "%f\n", animation2D_frame.duration);
+		}
+
+		fclose(p_file);
+
+		return true;
+	}
+
+	else
+		return false;
 }
 
-void Animation2D::LoadFromScene(FILE* p_file)
+bool Animation2D::LoadFromFile(const std::string& animation2D_path)
 {
+	auto resource_manager = ResourceManager::GetInstance();
+
+	FILE* p_file = nullptr;
+	fopen_s(&p_file, animation2D_path.c_str(), "rb"); //파일 읽기
+
+	if (p_file != nullptr)
+	{
+		char char_buffer[256] = {};
+
+		//Animation2D Name
+		FileManager::FScanf(char_buffer, p_file);
+		FileManager::FScanf(char_buffer, p_file);
+		m_resource_name = std::string(char_buffer);
+
+		//Atlas Texture
+		FileManager::FScanf(char_buffer, p_file);
+		resource_manager->LoadResource<Texture>(m_p_atlas_texture, p_file);
+
+		//Animation2D Frame Count
+		FileManager::FScanf(char_buffer, p_file);
+		UINT animation2D_frame_count = 0;
+		fscanf_s(p_file, "%d\n", &animation2D_frame_count);
+		m_animation_frame_vector.resize(animation2D_frame_count);
+
+		//Animation2D Frame
+		FileManager::FScanf(char_buffer, p_file);
+		for (UINT i = 0; i < animation2D_frame_count; ++i)
+		{
+			Animation2D_Frame animation2D_frame;
+			ZeroMemory(&animation2D_frame, sizeof(Animation2D_Frame));
+
+			//Index
+			FileManager::FScanf(char_buffer, p_file);
+			FileManager::FScanf(char_buffer, p_file);
+
+			//Left Top
+			FileManager::FScanf(char_buffer, p_file);
+			FileManager::FScanf_Vector2(animation2D_frame.animation2D_data.left_top, p_file);
+
+			//Frame Size
+			FileManager::FScanf(char_buffer, p_file);
+			FileManager::FScanf_Vector2(animation2D_frame.animation2D_data.frame_size, p_file);
+
+			//Full Frame Size
+			FileManager::FScanf(char_buffer, p_file);
+			FileManager::FScanf_Vector2(animation2D_frame.animation2D_data.full_frame_size, p_file);
+
+			//Offset
+			FileManager::FScanf(char_buffer, p_file);
+			FileManager::FScanf_Vector2(animation2D_frame.animation2D_data.offset, p_file);
+
+			//Duration
+			FileManager::FScanf(char_buffer, p_file);
+			fscanf_s(p_file, "%f\n", &(animation2D_frame.duration));
+		}
+
+		fclose(p_file);
+
+		return true;
+	}
+
+	else
+		return false;
 }

@@ -23,7 +23,7 @@ enum class IconType : UINT
    Component_Collider2D,
    Component_Light2D,
    Component_ParticleSystem,
-   Component_TileMap,
+   Component_TileMapRenderer,
    Component_RigidBody2D,
    Component_Audio_Listener,
    Component_Audio_Source,

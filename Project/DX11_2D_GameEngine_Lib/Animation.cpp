@@ -6,12 +6,12 @@
 #include "ResourceManager.h"
 
 Animation::Animation(const std::string& resource_name)
-	:IResource(ResourceType::Animation, resource_name)
+	:IResource(ResourceType::AudioClip, resource_name)
 {
 }
 
 Animation::Animation(const Animation& origin)
-	: IResource(ResourceType::Animation, origin.GetResourceName())
+	: IResource(ResourceType::AudioClip, origin.GetResourceName())
 {
 	//Path
 	m_resource_path = origin.GetResourcePath();
@@ -49,7 +49,7 @@ Animation::~Animation()
 	m_animation_event_func_map.clear();
 }
 
-bool Animation::SaveFile(const std::string& animation_directory_path)
+bool Animation::SaveToFile(const std::string& animation_directory_path)
 {
 	return true;
 }

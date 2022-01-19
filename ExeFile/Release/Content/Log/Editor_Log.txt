@@ -1,1 +1,1 @@
-[2022/1/17/20:38:18][Info] TileMap::SetTileCount : Tile Size: 20x20
+[2022/1/18/16:4:55][Info] TileMap::SetTileCount : Tile Size: 20x20

@@ -258,6 +258,7 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="StructuredStruct.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="TileMapRenderer.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="VertexStruct.h" />
@@ -328,6 +329,7 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="StructuredStruct.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="TileMapRenderer.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexStruct.cpp" />

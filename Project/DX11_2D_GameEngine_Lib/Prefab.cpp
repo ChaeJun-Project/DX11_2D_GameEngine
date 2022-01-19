@@ -19,12 +19,13 @@ GameObject* Prefab::Instantiate()
 	return m_p_prototype_game_object->Clone();
 }
 
+bool Prefab::SaveToFile(const std::string& prefab_path)
+{
+	return true;
+}
+
 bool Prefab::LoadFromFile(const std::string& prefab_path)
 {
    return true;
 }
 
-bool Prefab::SaveFile(const std::string& prefab_path)
-{
-	return true;
-}

@@ -3,15 +3,10 @@
 
 #include "GraphicsManager.h"
 
-Texture::Texture(const std::string& resource_name)
-	:IResource(ResourceType::Texture, resource_name)
+Texture::Texture(const std::string& texture_resource_name)
+	:IResource(ResourceType::Texture, texture_resource_name)
 {
 	ZeroMemory(&m_texture_desc, sizeof(D3D11_TEXTURE2D_DESC));
-}
-
-bool Texture::SaveFile(const std::string& texture_path)
-{
-	return true;
 }
 
 bool Texture::LoadFromFile(const std::string& texture_path)

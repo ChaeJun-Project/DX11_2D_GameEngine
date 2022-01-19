@@ -61,3 +61,11 @@ typedef unsigned long ULONG;
 #define CLONE(type) type* Clone() {return new type(*this);}
 
 #define MAX_LAYER 32
+
+#define ANIMATION_PATH FileManager::absolute_content_path + "Asset/Animation/"
+#define AUDIO_PATH     FileManager::absolute_content_path + "Asset/Audio/"
+#define MATERIAL_PATH  FileManager::absolute_content_path + "Asset/Material/"
+#define MESH_PATH      FileManager::absolute_content_path + "Asset/Mesh/"
+#define SCENE_PATH     FileManager::absolute_content_path + "Asset/Scene/"
+#define TEXTURE_PATH   FileManager::absolute_content_path + "Asset/Texture/"
+#define TILE_PATH      FileManager::absolute_content_path + "Asset/Tile/"

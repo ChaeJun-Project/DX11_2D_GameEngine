@@ -8,7 +8,7 @@ class Shader;
 class Material : public IResource
 {
 public:
-    Material(const std::string& resource_name);
+    Material(const std::string& material_resource_name);
     explicit Material(const Material& origin);
     ~Material() = default;
 
@@ -25,7 +25,7 @@ public:
     const std::vector<std::shared_ptr<Texture>>& GetTextureVector() { return m_p_texture_vector; }
 
 public:
-    bool SaveFile(const std::string& material_path) override;
+    bool SaveToFile(const std::string& material_path) override;
     bool LoadFromFile(const std::string& material_path) override;
 
 public:

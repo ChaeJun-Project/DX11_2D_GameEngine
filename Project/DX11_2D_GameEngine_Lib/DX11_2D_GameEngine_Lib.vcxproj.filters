@@ -182,10 +182,10 @@
       <Filter>Scene\Components\4. Animator2D</Filter>
     </ClInclude>
     <ClInclude Include="Animation2D.h">
-      <Filter>Scene\Components\4. Animator2D\Animation2D</Filter>
+      <Filter>Resource\Animation2D</Filter>
     </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>Scene\Components\10. TileMap</Filter>
+    <ClInclude Include="TileMapRenderer.h">
+      <Filter>Scene\Components\10. TileMap Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Animator.h">
       <Filter>Scene\Components\5. Animator</Filter>
@@ -216,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="AudioSource.h">
       <Filter>Scene\Components\12. Audio Source</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Resource\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -373,10 +376,10 @@
       <Filter>Scene\Components\4. Animator2D</Filter>
     </ClCompile>
     <ClCompile Include="Animation2D.cpp">
-      <Filter>Scene\Components\4. Animator2D\Animation2D</Filter>
+      <Filter>Resource\Animation2D</Filter>
     </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>Scene\Components\10. TileMap</Filter>
+    <ClCompile Include="TileMapRenderer.cpp">
+      <Filter>Scene\Components\10. TileMap Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>Scene\Components\5. Animator</Filter>
@@ -404,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="AudioSource.cpp">
       <Filter>Scene\Components\12. Audio Source</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Resource\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -611,12 +617,6 @@
     <Filter Include="Scene\Components\4. Animator2D">
       <UniqueIdentifier>{7defdf6b-a0f1-4cf9-a2f8-a9511e904d01}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Components\4. Animator2D\Animation2D">
-      <UniqueIdentifier>{53a4b151-9b6e-4737-83e4-6bb384577495}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\10. TileMap">
-      <UniqueIdentifier>{0da2f5f8-7d1c-429a-84e8-6bc9a24dbefc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Components\5. Animator">
       <UniqueIdentifier>{d65a88eb-fbc9-4ddf-b8bb-0c2ddd944b0b}</UniqueIdentifier>
     </Filter>
@@ -640,6 +640,18 @@
     </Filter>
     <Filter Include="Resource\AudioClip">
       <UniqueIdentifier>{bcad10b5-98c9-4000-9abc-699ae6edd49c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Animation2D">
+      <UniqueIdentifier>{53a4b151-9b6e-4737-83e4-6bb384577495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\10. TileMap Renderer">
+      <UniqueIdentifier>{0da2f5f8-7d1c-429a-84e8-6bc9a24dbefc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\TileMap">
+      <UniqueIdentifier>{276321ba-4876-4ade-80d5-8414a5373202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Thread">
+      <UniqueIdentifier>{35a1ea19-6375-4b30-bb15-f23977a245a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

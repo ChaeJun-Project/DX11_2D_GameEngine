@@ -10,6 +10,8 @@ class Texture;
 class Mesh;
 class AudioClip;
 class Prefab;
+class Animation2D;
+class TileMap;
 class GameObject;
 
 typedef std::map<std::string, std::shared_ptr<IResource>> ResourceMap;
@@ -32,7 +34,10 @@ public:
 	const ResourceMap& GetResourceMap(const ResourceType& resource_type);
 
 	template<typename T>
-	void SaveResource(std::shared_ptr<T> p_resource, FILE* p_file);
+	void SaveResource(const std::shared_ptr<T>& p_resource, FILE* p_file);
+
+	template<typename T>
+	void SaveToFile(const std::shared_ptr<T>& p_resource, const std::string& resource_path);
 
 	template<typename T>
 	void LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file);
@@ -107,20 +112,8 @@ const std::shared_ptr<T>& ResourceManager::GetResource(const std::string& resour
 }
 
 template<typename T>
-void ResourceManager::SaveResource(std::shared_ptr<T> p_resource, FILE* p_file)
+void ResourceManager::SaveResource(const std::shared_ptr<T>& p_resource, FILE* p_file)
 {
-	//리소스에 할당된 정보가 없다면
-	if (p_resource == nullptr)
-	{
-		fprintf(p_file, "[Resource Name]\n");
-		fprintf(p_file, "None\n");
-
-		fprintf(p_file, "[Resource Path]\n");
-		fprintf(p_file, "None\n");
-		return;
-	}
-
-
 	//Class T가 IResource를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IResource, T>::value;
 	assert(result);
@@ -130,10 +123,43 @@ void ResourceManager::SaveResource(std::shared_ptr<T> p_resource, FILE* p_file)
 #endif 
 
 	fprintf(p_file, "[Resource Name]\n");
+	if (p_resource == nullptr) 	//리소스에 할당된 정보가 없다면
+		fprintf(p_file, "None\n");
+
 	fprintf(p_file, "%s\n", p_resource->GetResourceName().c_str());
 
 	fprintf(p_file, "[Resource Path]\n");
+	if (p_resource == nullptr) 	//리소스에 할당된 정보가 없다면
+		fprintf(p_file, "None\n");
+
 	fprintf(p_file, "%s\n", p_resource->GetResourcePath().c_str());
+
+	//해당 리소스가 Animation2D 또는 TileMap인 경우
+	if (std::is_same<T, Animation2D>::value || std::is_same<T, TileMap>::value)
+		SaveToFile<T>(p_resource, p_resource->GetResourcePath());
+}
+
+template<typename T>
+void ResourceManager::SaveToFile(const std::shared_ptr<T>& p_resource, const std::string& resource_path)
+{
+	//Class T가 IResource를 상속받는 클래스인지 확인
+	auto result = std::is_base_of<IResource, T>::value;
+	assert(result);
+#ifdef _DEBUG
+	if (!result)
+		return;
+#endif 
+
+	auto file_name = FileManager::GetFileNameFromPath(resource_path);
+
+	//SaveToFile
+	if (!p_resource->SaveToFile(resource_path))
+	{
+		EDITOR_LOG_ERROR_F("Failed To Save File: [%s]", file_name);
+		return;
+	}
+
+	EDITOR_LOG_INFO_F("Succeeded in Saving File: [%s]", file_name);
 }
 
 template<typename T>
@@ -161,12 +187,12 @@ void ResourceManager::LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file)
 	if (resource_path._Equal("None"))
 		return;
 
-	if (std::is_same<T, Material>::value || std::is_same<T, AudioClip>::value)
+	if (std::is_same<T, Material>::value || std::is_same<T, AudioClip>::value || std::is_same<T, Animation2D>::value)
 	{
 		auto clone_resource = LoadFromFile<T>(resource_path)->Clone();
 		p_resource = std::shared_ptr<T>(clone_resource);
 	}
-	
+
 	else
 		p_resource = LoadFromFile<T>(resource_path);
 }
@@ -183,6 +209,7 @@ const std::shared_ptr<T>& ResourceManager::LoadFromFile(const std::string& resou
 	auto resource_type = GetResourceType<T>(); //타입 T에 해당하는 Resource Type 반환
 	auto& resource_map = m_resources_map[resource_type]; //Resource Type에 해당하는 Resource Map 반환
 	auto resource_name = FileManager::GetOriginFileNameFromPath(resource_path);
+	auto file_name = FileManager::GetFileNameFromPath(resource_path);
 
 	//해당 리소스가 이미 존재한다면
 	auto resource_iter = resource_map.find(resource_name);
@@ -195,7 +222,12 @@ const std::shared_ptr<T>& ResourceManager::LoadFromFile(const std::string& resou
 
 	//LoadFromFile
 	if (!p_resource->LoadFromFile(resource_path))
+	{
+		EDITOR_LOG_ERROR_F("Failed To Load File: [%s]", file_name);
 		return nullptr;
+	}
+
+	EDITOR_LOG_INFO_F("Succeeded in Loading File: [%s]", file_name);
 
 	//해당 리소스 Map에 새로 생성한 리소스 추가
 	auto resource_pair_iter = resource_map.insert(std::make_pair(resource_name, p_resource));

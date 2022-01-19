@@ -8,7 +8,7 @@ public:
 	explicit Animation(const Animation& origin);
 	~Animation();
 
-	bool SaveFile(const std::string& animation_directory_path) override;
+	bool SaveToFile(const std::string& animation_directory_path) override;
 	bool LoadFromFile(const std::string& animation_directory_path) override;
 
 	void Update();

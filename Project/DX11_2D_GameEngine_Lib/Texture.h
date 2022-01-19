@@ -14,7 +14,7 @@
 class Texture : public IResource
 {
 public:
-	Texture(const std::string& resource_name);
+	Texture(const std::string& texture_resource_name);
 	explicit Texture(const Texture& origin) = default;
 	~Texture() = default;
 
@@ -58,7 +58,6 @@ public:
 	void SetViewport(const UINT& width, const UINT& height);
 
 public:
-	bool SaveFile(const std::string& texture_path) override;
 	bool LoadFromFile(const std::string& texture_path) override;
 
 public:

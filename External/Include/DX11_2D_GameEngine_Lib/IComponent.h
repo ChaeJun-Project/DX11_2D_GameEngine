@@ -51,8 +51,8 @@ public:
 		case ComponentType::ParticleSystem:
 			fprintf(p_file, "¡Ü Particle System\n");
 			break;
-		case ComponentType::TileMap:
-			fprintf(p_file, "¡Ü TileMap\n");
+		case ComponentType::TileMapRenderer:
+			fprintf(p_file, "¡Ü TileMapRenderer\n");
 			break;
 		case ComponentType::RigidBody2D:
 			fprintf(p_file, "¡Ü RigidBody2D\n");

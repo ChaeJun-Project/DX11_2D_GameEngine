@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Mesh.h"
 
-Mesh::Mesh(const std::string& resource_name)
-	:IResource(ResourceType::Mesh, resource_name)
+Mesh::Mesh(const std::string& mesh_resource_name)
+	:IResource(ResourceType::Mesh, mesh_resource_name)
 {
 }
 
@@ -420,4 +420,14 @@ void Mesh::Clear()
 	//Index Vector ªË¡¶
 	m_index_vector.clear();
 	m_index_vector.shrink_to_fit();
+}
+
+bool Mesh::SaveToFile(const std::string& animation2D_path)
+{
+	return false;
+}
+
+bool Mesh::LoadFromFile(const std::string& animation2D_path)
+{
+	return false;
 }

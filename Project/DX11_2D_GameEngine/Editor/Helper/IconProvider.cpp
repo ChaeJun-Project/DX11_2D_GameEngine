@@ -37,7 +37,7 @@ void IconProvider::Initialize()
 	LoadIconTexture("Icon/Inspector/component_collider2d.png", IconType::Component_Collider2D);
 	LoadIconTexture("Icon/Inspector/component_light2D.png", IconType::Component_Light2D);
 	LoadIconTexture("Icon/Inspector/component_particle_system.png", IconType::Component_ParticleSystem);
-	LoadIconTexture("Icon/Inspector/component_tile_map.png", IconType::Component_TileMap);
+	LoadIconTexture("Icon/Inspector/component_tile_map.png", IconType::Component_TileMapRenderer);
 	LoadIconTexture("Icon/Inspector/component_rigid_body2D.png", IconType::Component_RigidBody2D);
 	LoadIconTexture("Icon/Inspector/component_audio_listener.png", IconType::Component_Audio_Listener);
 	LoadIconTexture("Icon/Inspector/component_audio_source.png", IconType::Component_Audio_Source);

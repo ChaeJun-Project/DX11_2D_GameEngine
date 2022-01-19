@@ -69,10 +69,10 @@
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\GUI_Function.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\9. TileMap\GUI_TileMap.cpp"
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\9. TileMapRenderer\GUI_TileMapRenderer.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\9. TileMap\MapTool\GUI_MapTool.cpp"
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\9. TileMapRenderer\MapTool\GUI_Palette.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\EditorObject\GameObject\GameObjectEx.cpp"
