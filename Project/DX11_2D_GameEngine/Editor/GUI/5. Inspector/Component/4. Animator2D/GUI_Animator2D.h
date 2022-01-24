@@ -3,7 +3,6 @@
 #include "../GUI_Component.h"
 
 class GUI_ItemList;
-class GUI_SpriteEditor;
 
 class GUI_Animator2D final : public GUI_Component
 {
@@ -17,6 +16,4 @@ public:
 private:
 	//애니메이션 List
 	GUI_ItemList* m_p_item_list = nullptr;
-
-	GUI_SpriteEditor* m_p_gui_sprite_editor = nullptr;
 };

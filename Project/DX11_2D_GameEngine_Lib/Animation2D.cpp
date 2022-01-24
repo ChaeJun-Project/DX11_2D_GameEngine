@@ -70,7 +70,7 @@ void Animation2D::Update()
 				m_is_finished = true;
 			}
 		}
-
+		
 		DoAnimationEvent(static_cast<UINT>(m_current_frame_id));
 	}
 }

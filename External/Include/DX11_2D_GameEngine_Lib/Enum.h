@@ -25,13 +25,6 @@ enum class EventType : UINT
 	Scene_Change = 3,
 };
 
-//RenderTexture Type
-enum class RenderTextureType : UINT
-{
-	GameScene = 0,
-	EditorScene = 1
-};
-
 //Resource Type(IResource »ç¿ë)
 enum class ResourceType : UINT
 {

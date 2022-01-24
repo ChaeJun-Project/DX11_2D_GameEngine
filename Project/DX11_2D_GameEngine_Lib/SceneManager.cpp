@@ -26,7 +26,6 @@ void SceneManager::Update()
 {
 	//<summary>
 	//ClientState
-	//Title = 0
 	//Game = 1
 	//Editor = 2
 	//</summary>

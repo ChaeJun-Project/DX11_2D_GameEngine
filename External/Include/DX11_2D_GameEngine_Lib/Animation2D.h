@@ -35,8 +35,9 @@ public:
 	void Stop();
 
 public:
-	//Animation Name
-	const std::string& GetAnimationName() { return m_resource_name; }
+    //Animation Atlas Texture
+	void SetAtlasTexture(const std::shared_ptr<Texture>& p_atlas_texture) { m_p_atlas_texture = p_atlas_texture; }
+	const std::shared_ptr<Texture>& GetAtlasTexture() { SAFE_GET_POINTER(m_p_atlas_texture); }
 
 	//Animation Event
 	void SetAnimationEvent(const UINT& clip_index, std::function<void(void)> event_func);

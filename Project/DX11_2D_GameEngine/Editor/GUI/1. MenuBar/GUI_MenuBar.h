@@ -2,6 +2,7 @@
 #include "GUI\IGUI.h"
 
 class GUI_StyleSelector;
+class GUI_SpriteEditor;
 
 class GUI_MenuBar : public IGUI
 {
@@ -20,11 +21,13 @@ public:
 private:
     void ShowRenameScene();
 
+    void SaveCurrentScene();
+    void LoadScene();
+
 private:
      //=========================
      // File
      //=========================
-     std::string m_scene_folder_path;
      bool m_is_show_rename_scene = false;
 
      //=========================
@@ -36,5 +39,11 @@ private:
      //Style Selector
      bool m_is_show_style = false;
      GUI_StyleSelector* m_p_gui_style_selector = nullptr;
+
+
+     //=========================
+     // Animation2D
+     //=========================
+     GUI_SpriteEditor* m_p_gui_sprite_editor = nullptr;
 };
 

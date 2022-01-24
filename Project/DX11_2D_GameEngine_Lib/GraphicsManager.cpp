@@ -231,7 +231,22 @@ void GraphicsManager::SetViewport(const UINT& width, const UINT& height)
 	m_viewport.MaxDepth = 1.0f;
 }
 
-void GraphicsManager::BeginScene()
+
+void GraphicsManager::ClearRenderTarget()
+{
+	auto p_render_target_view = m_p_render_target_view->GetRenderTargetView();
+	auto p_depth_stencil_view = m_p_depth_stencil_view->GetDepthStencilView();
+
+	if (m_p_device_context && p_render_target_view && p_depth_stencil_view)
+	{
+		//백 버퍼(render_target_view)에 그려진 내용 지우기
+		m_p_device_context->ClearRenderTargetView(p_render_target_view, Vector4::Black);
+		//깊이 버퍼 내용 지우기
+		m_p_device_context->ClearDepthStencilView(p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	}
+}
+
+void GraphicsManager::SetRenderTarget()
 {
 	auto p_render_target_view = m_p_render_target_view->GetRenderTargetView();
 	auto p_depth_stencil_view = m_p_depth_stencil_view->GetDepthStencilView();
@@ -239,17 +254,13 @@ void GraphicsManager::BeginScene()
 	if (m_p_device_context && p_render_target_view && p_depth_stencil_view)
 	{
 		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
-	    m_p_device_context->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
+		m_p_device_context->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
 		//설정한 뷰포트 등록
 		m_p_device_context->RSSetViewports(1, &m_viewport);
-		//백 버퍼(render_target_view)에 그려진 내용 지우기
-		m_p_device_context->ClearRenderTargetView(p_render_target_view, m_clear_color);
-		//깊이 버퍼 내용 지우기
-		m_p_device_context->ClearDepthStencilView(p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 }
 
-void GraphicsManager::EndScene()
+void GraphicsManager::Present()
 {
 	if (m_p_swap_chain)
 	{
@@ -687,7 +698,7 @@ void GraphicsManager::CreateBlender()
 	assert(result);
 	if (result)
 	{
-		pair_iter.first->second->Create(true, D3D11_BLEND_OP_ADD, D3D11_BLEND_SRC_ALPHA, D3D11_BLEND_INV_SRC_ALPHA);
+		pair_iter.first->second->Create(true, D3D11_BLEND_OP_ADD, D3D11_BLEND_ONE, D3D11_BLEND_INV_SRC_COLOR, D3D11_BLEND_OP_ADD, D3D11_BLEND_SRC_ALPHA, D3D11_BLEND_INV_SRC_ALPHA);
 	}
 
 	//One One Blender
@@ -750,14 +761,4 @@ const std::shared_ptr<BlendState>& GraphicsManager::GetBlender(const BlendType& 
 	}
 
 	return nullptr;
-}
-
-void GraphicsManager::Test()
-{
-	//Rasterizer 적용
-	m_p_device_context->RSSetState(m_p_rasterizer_map[RasterizerType::Cull_None_Solid]->GetRasterizerState());
-	//DepthStencil 적용
-	m_p_device_context->OMSetDepthStencilState(m_p_depth_stecil_map[DepthStencilType::Less_Equal]->GetDepthStencilState(), 0);
-	//Blender 적용
-	m_p_device_context->OMSetBlendState(m_p_blender_map[BlendType::Alpha_Blend]->GetBlendState(), nullptr, 0xFF);
 }

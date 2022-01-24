@@ -59,7 +59,7 @@ void SpriteRenderer::Render()
 	}
 
 	//Set Sprtie Texture Color
-	m_p_material->SetConstantBufferData(Material_Parameter::VEC4_0, &m_p_material);
+	m_p_material->SetConstantBufferData(Material_Parameter::VEC4_0, &m_sprite_texture_color);
 
 	/*if (m_p_owner_game_object->GetGameObjectTag() != "Water")
 		m_p_sprite_texture = m_p_material->GetTexture();*/
@@ -67,7 +67,6 @@ void SpriteRenderer::Render()
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 	if (m_p_sprite_texture != nullptr)
 	{
-
 		m_p_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_sprite_texture);
 
 		if (animator2D && animator2D->GetCurrentAnimation() != nullptr)

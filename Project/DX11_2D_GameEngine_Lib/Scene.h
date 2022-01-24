@@ -47,4 +47,3 @@ private:
    //해당 Scene에 속한 최상위 부모 오브젝트들
    std::vector<GameObject*> m_p_parent_game_object_vector;
 };
-

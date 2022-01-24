@@ -1,1 +1,2 @@
-[2022/1/18/16:4:55][Info] TileMap::SetTileCount : Tile Size: 20x20
+[2022/1/24/17:15:55][Info] FileFunction::LoadScene : Succeeded in Loading File: [MainScene]
+[2022/1/24/17:16:12][Info] FileFunction::SaveScene : Succeeded in Saving File: [MainScene]

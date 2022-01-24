@@ -22,12 +22,8 @@ RenderManager::RenderManager()
 
 RenderManager::~RenderManager()
 {
-	//Render Texture Map
-	for (auto& p_render_texture : m_p_render_texture_map)
-	{
-		p_render_texture.second.reset();
-	}
-	m_p_render_texture_map.clear();
+	//Render Texture 
+	m_p_render_texture.reset();
 
 	//Camera
 	m_camera_vector.clear();
@@ -62,28 +58,23 @@ void RenderManager::Render()
 
 	auto scene_manager = SceneManager::GetInstance();
 
+	GraphicsManager::GetInstance()->ClearRenderTarget();
+
 	//<summary>
 	//ClientState
-	//Title = 0
 	//Game = 1
 	//Editor = 2
 	switch (scene_manager->GetClientState())
 	{
-	case 0:
-		RenderTitle();
-		break;
 	case 1:
 		RenderPlay();
 		break;
 	case 2:
 		RenderEditor();
+		//윈도우 창 전체를 그릴 Render Target 연결
+		GraphicsManager::GetInstance()->SetRenderTarget();
 		break;
 	}
-
-	//Render Time Manager
-	TimeManager::GetInstance()->Render();
-	//Render Input Manager
-	InputManager::GetInstance()->Render();
 
 	CalcClientSceneRect();
 
@@ -93,16 +84,6 @@ void RenderManager::Render()
 
 	//Light2D 벡터 초기화
 	m_light2D_vector.clear();
-
-	//Graphics Clear Target
-	GraphicsManager::GetInstance()->BeginScene();
-}
-
-void RenderManager::RenderTitle()
-{
-	auto settings = Core::GetInstance()->GetSettings();
-	m_resolution_size.x = static_cast<float>(settings->GetWindowWidth());
-	m_resolution_size.y = static_cast<float>(settings->GetWindowHeight());
 }
 
 void RenderManager::RenderPlay()
@@ -112,7 +93,12 @@ void RenderManager::RenderPlay()
 	m_resolution_size.y = static_cast<float>(settings->GetWindowHeight());
 
 	//Graphics Clear Target
-	GraphicsManager::GetInstance()->BeginScene();
+	GraphicsManager::GetInstance()->SetRenderTarget();
+
+	//Render Time Manager
+	TimeManager::GetInstance()->Render();
+	//Render Input Manager
+	InputManager::GetInstance()->Render();
 
 	//메인 카메라(index 0) 기준으로 화면 그리기
 	if (m_camera_vector[0] != nullptr)
@@ -138,11 +124,13 @@ void RenderManager::RenderPlay()
 
 void RenderManager::RenderEditor()
 {
-	auto render_texture = m_p_render_texture_map.find(RenderTextureType::EditorScene);
-	if (render_texture == m_p_render_texture_map.end())
-		return;
+	ClearRenderTexture();
+	SetRenderTexture();
 
-	SetRenderTexture(RenderTextureType::EditorScene);
+	//Render Time Manager
+	TimeManager::GetInstance()->Render();
+	//Render Input Manager
+	InputManager::GetInstance()->Render();
 
 	if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
 	{
@@ -183,36 +171,43 @@ void RenderManager::RenderEditor()
 
 void RenderManager::CalcClientSceneRect()
 {
-    //Left Top
+	//Left Top
 	m_client_rect_left_top = m_screen_offset;
-	
+
 	//Right Bottom
 	m_client_rect_right_bottom = m_client_rect_left_top + m_resolution_size;
 }
 
-void RenderManager::SetRenderTexture(const RenderTextureType& render_texture_type)
+void RenderManager::ClearRenderTexture()
 {
-	auto render_texture = m_p_render_texture_map[render_texture_type];
+	if (m_p_render_texture == nullptr)
+		return;
 
-	if (render_texture != nullptr)
-	{
-		auto p_render_target_view = render_texture->GetRenderTargetView();
-		auto p_depth_stencil_view = render_texture->GetDepthStencilView();
-		auto view_port = render_texture->GetViewPort();
+	auto p_render_target_view = m_p_render_texture->GetRenderTargetView();
+	auto p_depth_stencil_view = m_p_render_texture->GetDepthStencilView();
 
-		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
-		DEVICE_CONTEXT->OMSetRenderTargets(1, &p_render_target_view, nullptr);
+	//render_target_view에 그려진 내용 지우기
+	DEVICE_CONTEXT->ClearRenderTargetView(p_render_target_view, Vector4::Black);
+	//깊이 버퍼 내용 지우기
+	DEVICE_CONTEXT->ClearDepthStencilView(p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+}
 
-		//설정한 뷰포트 등록
-		DEVICE_CONTEXT->RSSetViewports(1, &view_port);
+void RenderManager::SetRenderTexture()
+{
+	if (m_p_render_texture == nullptr)
+		return;
 
-		//render_target_view에 그려진 내용 지우기
-		DEVICE_CONTEXT->ClearRenderTargetView(p_render_target_view, Vector4::Black);
-		//깊이 버퍼 내용 지우기
-		DEVICE_CONTEXT->ClearDepthStencilView(p_depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	auto p_render_target_view = m_p_render_texture->GetRenderTargetView();
+	auto p_depth_stencil_view = m_p_render_texture->GetDepthStencilView();
+	auto view_port = m_p_render_texture->GetViewPort();
 
-		m_resolution_size = Vector2(view_port.Width, view_port.Height);
-	}
+	//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
+	DEVICE_CONTEXT->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
+
+	//설정한 뷰포트 등록
+	DEVICE_CONTEXT->RSSetViewports(1, &view_port);
+
+	m_resolution_size = Vector2(view_port.Width, view_port.Height);
 }
 
 const bool RenderManager::CheckMouseWorldPositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom)
@@ -246,7 +241,7 @@ const bool RenderManager::CheckClickedEditorSceneRect(const Vector2& mouse_posit
 	{
 		return true;
 	}
- 
+
 	return false;
 }
 
@@ -386,65 +381,59 @@ void RenderManager::UpdateConstantBuffer()
 	constant_buffer->BindPipeline();
 }
 
-void RenderManager::SetResolution(const RenderTextureType& render_texture_type, const UINT& width, const UINT& height)
+void RenderManager::SetResolution(const UINT& width, const UINT& height)
 {
 	if (width == 0 || height == 0)
 	{
 		return;
 	}
 
-	CreateRenderTexture(render_texture_type, width, height);
+	CreateRenderTexture(width, height);
 }
 
-void RenderManager::CreateRenderTexture(const RenderTextureType& render_texture_type, const UINT& width, const UINT& height)
+void RenderManager::CreateRenderTexture(const UINT& width, const UINT& height)
 {
-	auto map_iter = m_p_render_texture_map.find(render_texture_type);
-
 	//추가가 안 되어있는 경우
-	if (map_iter == m_p_render_texture_map.end())
+	if (m_p_render_texture == nullptr)
 	{
 		//Create Render Target View
-		auto render_texture = std::make_shared<Texture>("");
+		m_p_render_texture = std::make_shared<Texture>("Render Texture");
 
-		render_texture->Create
+		m_p_render_texture->Create
 		(
 			width,
 			height,
-			DXGI_FORMAT_R32G32B32A32_FLOAT,
+			DXGI_FORMAT_R8G8B8A8_UNORM,
 			D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE
 		);
 
 		//Create Depth Stencil View
-		render_texture->Create
+		m_p_render_texture->Create
 		(
 			width,
 			height,
 			DXGI_FORMAT_D24_UNORM_S8_UINT,
 			D3D11_BIND_DEPTH_STENCIL
 		);
-
-		//생성한 Render Texture를 Map에 추가
-		auto render_texture_iter = m_p_render_texture_map.insert(std::make_pair(render_texture_type, render_texture));
-		auto result = render_texture_iter.second;
-		assert(result);
 	}
 
-	//이미 추가가 된 경우
+	//이미 추가가 된 경우 -> 이미 만들어진 View 자원을 해제하고 새로운 해상도의 View 자원을 생성
 	else
 	{
-		auto render_texture = m_p_render_texture_map[render_texture_type];
+		if (static_cast<UINT>(m_resolution_size.x) == width && static_cast<UINT>(m_resolution_size.y) == height)
+			return;
 
 		//Create Render Target View
-		render_texture->Create
+		m_p_render_texture->Create
 		(
 			width,
 			height,
-			DXGI_FORMAT_R32G32B32A32_FLOAT,
+			DXGI_FORMAT_R8G8B8A8_UNORM,
 			D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE
 		);
 
 		//Create Depth Stencil View
-		render_texture->Create
+		m_p_render_texture->Create
 		(
 			width,
 			height,
@@ -452,15 +441,4 @@ void RenderManager::CreateRenderTexture(const RenderTextureType& render_texture_
 			D3D11_BIND_DEPTH_STENCIL
 		);
 	}
-}
-
-const std::shared_ptr<Texture>& RenderManager::GetRenderTexture(const RenderTextureType& render_texture_type)
-{
-	auto render_texture_iter = m_p_render_texture_map.find(render_texture_type);
-
-	//해당 Render Texture를 찾지 못했을 경우
-	if (render_texture_iter == m_p_render_texture_map.end())
-		return nullptr;
-
-	return render_texture_iter->second;
 }

@@ -1,7 +1,7 @@
 ¡Ø Scene
 MainScene
 [Parent GameObject Count]
-3
+4
 =================================================================================
 ¡ß GameObject
 Main Camera
@@ -103,8 +103,47 @@ None
 None
 [Loop]
 0
-[m_volume]
+[Volume]
 1.000000
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+GameObject
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+2
+¡Ü Transform
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Sprite Renderer
+3
+[Texture]
+[Resource Name]
+None
+[Resource Path]
+None
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+None
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+None
 [Child GameObject Count]
 0
 =================================================================================

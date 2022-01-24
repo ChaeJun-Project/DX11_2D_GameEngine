@@ -108,6 +108,8 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 
 	m_texture_desc.Usage = D3D11_USAGE_DEFAULT;
 	m_texture_desc.BindFlags = bind_flage;
+	m_texture_desc.CPUAccessFlags = 0;
+	m_texture_desc.MiscFlags = 0;
 
 	//Create Texture
 	auto device = GraphicsManager::GetInstance()->GetDevice();

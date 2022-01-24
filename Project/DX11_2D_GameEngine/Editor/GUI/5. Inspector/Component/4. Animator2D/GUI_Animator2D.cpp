@@ -5,8 +5,6 @@
 
 #include "GUI/Module/ItemList/GUI_ItemList.h"
 
-#include "Sprite Editor/GUI_SpriteEditor.h"
-
 #include <DX11_2D_GameEngine_Lib/Animator2D.h>
 #include <DX11_2D_GameEngine_Lib/Animation2D.h>
 
@@ -14,13 +12,11 @@ GUI_Animator2D::GUI_Animator2D(const std::string& animator_gui_name)
 	:GUI_Component(animator_gui_name)
 {
 	m_p_item_list = new GUI_ItemList();
-	m_p_gui_sprite_editor = new GUI_SpriteEditor();
 }
 
 GUI_Animator2D::~GUI_Animator2D()
 {
 	SAFE_DELETE(m_p_item_list);
-	SAFE_DELETE(m_p_gui_sprite_editor);
 }
 
 void GUI_Animator2D::Render()
@@ -35,15 +31,14 @@ void GUI_Animator2D::Render()
 		auto animation_play_speed = animator2D->GetAnimationSpeed();
 
 		//Sprite Editor
-		ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 110.0f);
-		if (ImGui::Button("Sprite Editor", ImVec2(110.0f, 0.0f)))
+		ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 150.0f);
+		if (ImGui::Button("Add Sprite Animation", ImVec2(150.0f, 0.0f)))
 		{
-			m_p_gui_sprite_editor->m_is_active = true;
-			m_p_gui_sprite_editor->m_p_current_animater = animator2D;
+		
 		}
 
 		//Animator Index
-		ShowInt("Animator2D", "Index", animator2D_index, 100.0f);
+		ShowInt("Animator2D", "Animator2D Index", animator2D_index, 50.0f, 150.0f);
 
 		//Current Animation
 		ImGui::Text("Current Animation2D");
@@ -60,14 +55,14 @@ void GUI_Animator2D::Render()
 
 			//현재 적용 중인 애니메이션이 있다면
 			if (current_animation != nullptr)
-				current_animation_name = current_animation->GetAnimationName();
+				current_animation_name = current_animation->GetResourceName();
 
 			for (auto& animation : animation_map)
 			{
-				m_p_item_list->AddItem(animation.second->GetAnimationName());
+				m_p_item_list->AddItem(animation.second->GetResourceName());
 
 				if (!current_animation_name.empty() &&
-					animation.second->GetAnimationName() == current_animation_name)
+					animation.second->GetResourceName() == current_animation_name)
 					m_p_item_list->SetCurrentListID(index);
 
 				else
@@ -93,9 +88,7 @@ void GUI_Animator2D::Render()
 
 				ImGui::EndCombo();
 			}
-			//Sprite Editor가 꺼져있다면 클리어
-			if (!m_p_gui_sprite_editor->m_is_active)
-				m_p_item_list->ClearItemList();
+			m_p_item_list->ClearItemList();
 
 			ImGui::PopItemWidth();
 		}
@@ -119,11 +112,5 @@ void GUI_Animator2D::Render()
 		animator2D->SetAnimationSpeed(animation_play_speed);
 
 		DrawComponentEnd();
-	}
-
-	if (m_p_gui_sprite_editor->m_is_active)
-	{
-		m_p_gui_sprite_editor->Render();
-		m_p_gui_sprite_editor->m_p_animation_item_list = m_p_item_list;
 	}
 }

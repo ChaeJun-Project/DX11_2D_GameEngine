@@ -5,6 +5,8 @@
 #include "PixelStruct.fx"
 #include "ConstantBuffer.fx"
 
+#define SPRITE_TEXTURE_COLOR g_vector4_0
+
 //RS State에서 Solid 사용
 //Vertex Shader
 VertexColorTextureOutputType VS(VertexColorTexture vs_input)
@@ -32,9 +34,11 @@ VertexColorTextureOutputType VS(VertexColorTexture vs_input)
 float4 PS(VertexColorTextureOutputType ps_input) : SV_Target
 {
     float4 ps_output_color = (float4) 0.0f;
-    
-    ps_output_color = g_texture_0.Sample(g_sampler1, ps_input.uv);
    
+    ps_output_color = g_texture_0.Sample(g_sampler1, ps_input.uv);
+    
+    ps_output_color *= SPRITE_TEXTURE_COLOR;
+ 
     return ps_output_color;
 }
 

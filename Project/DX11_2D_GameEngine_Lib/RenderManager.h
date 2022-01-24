@@ -17,13 +17,13 @@ public:
 	void Render();
 
 private:
-	void RenderTitle();
 	void RenderPlay();
 	void RenderEditor();
 
 	void CalcClientSceneRect();
 
-	void SetRenderTexture(const RenderTextureType& render_texture_type);
+	void ClearRenderTexture();
+	void SetRenderTexture();
 
 public:
 	const bool CheckMouseWorldPositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom);
@@ -48,20 +48,20 @@ public:
 	void UpdateConstantBuffer();
 
 public:
-	const std::shared_ptr<Texture>& GetRenderTexture(const RenderTextureType& render_texture_type);
+	const std::shared_ptr<Texture>& GetRenderTexture() { SAFE_GET_POINTER(m_p_render_texture); };
 
-	void SetResolution(const RenderTextureType& render_texture_type, const UINT& width, const UINT& height);
+	void SetResolution(const UINT& width, const UINT& height);
 	const Vector2& GetResolution() { return m_resolution_size; }
 	
 	void SetScreenOffset(const float& x, const float& y) { m_screen_offset.x = x; m_screen_offset.y = y;}
 	const Vector2& GetScreenOffset() { return m_screen_offset; }
 
 private:
-	void CreateRenderTexture(const RenderTextureType& render_texture_type, const UINT& width, const UINT& height);
+	void CreateRenderTexture(const UINT& width, const UINT& height);
 
 private:
 	//RenderTargetTexture
-	std::map<RenderTextureType, std::shared_ptr<Texture>> m_p_render_texture_map;
+	std::shared_ptr<Texture> m_p_render_texture = nullptr;
 	Vector2 m_resolution_size = Vector2::Zero;
 	Vector2 m_screen_offset = Vector2::Zero;
 	Vector2 m_client_rect_left_top = Vector2::Zero;

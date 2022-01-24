@@ -62,10 +62,10 @@ typedef unsigned long ULONG;
 
 #define MAX_LAYER 32
 
-#define ANIMATION_PATH FileManager::absolute_content_path + "Asset/Animation/"
-#define AUDIO_PATH     FileManager::absolute_content_path + "Asset/Audio/"
-#define MATERIAL_PATH  FileManager::absolute_content_path + "Asset/Material/"
-#define MESH_PATH      FileManager::absolute_content_path + "Asset/Mesh/"
-#define SCENE_PATH     FileManager::absolute_content_path + "Asset/Scene/"
-#define TEXTURE_PATH   FileManager::absolute_content_path + "Asset/Texture/"
-#define TILE_PATH      FileManager::absolute_content_path + "Asset/Tile/"
+#define ANIMATION_PATH FileManager::GetAbsoluteContentPath() + "Asset/Animation/"
+#define AUDIO_PATH     FileManager::GetAbsoluteContentPath() + "Asset/Audio/"
+#define MATERIAL_PATH  FileManager::GetAbsoluteContentPath() + "Asset/Material/"
+#define MESH_PATH      FileManager::GetAbsoluteContentPath() + "Asset/Mesh/"
+#define SCENE_PATH     FileManager::GetAbsoluteContentPath() + "Asset/Scene/"
+#define TEXTURE_PATH   FileManager::GetAbsoluteContentPath() + "Asset/Texture/"
+#define TILE_PATH      FileManager::GetAbsoluteContentPath() + "Asset/Tile/"

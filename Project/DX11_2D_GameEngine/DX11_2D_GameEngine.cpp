@@ -44,8 +44,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	auto scene_manager = SceneManager::GetInstance();
 	scene_manager->SetClientState(static_cast<UINT>(client_state));
 
-	/*auto next_scene = ClientSceneManager::LoadScene((FileManager::GetAbsoluteContentPath() + "Asset/Scene/New Scene.scene"));
-	scene_manager->SetCurrentScene(next_scene);*/
+	//Game Test
+	//auto next_scene = ClientSceneManager::LoadScene((FileManager::GetAbsoluteContentPath() + "Asset/Scene/New Scene.scene"));
+	//scene_manager->SetCurrentScene(next_scene);
 
 	ClientSceneManager::CreateNewScene();
 
@@ -78,8 +79,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		switch (client_state)
 		{
-		case ClientState::Title:
-			break;
 		case ClientState::Game:
 			break;
 		case ClientState::Editor:
@@ -94,7 +93,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		//Graphics Swap Chain Present
 		//Imgui의 내용도 포함해서 그린 화면을 전면 버퍼로 스왑해야하기 때문에
 		//현재의 시점에서 스왑
-		graphics_manager->EndScene();
+		graphics_manager->Present();
 	}
 
 	Window::Destroy(g_class_name);

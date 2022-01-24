@@ -55,6 +55,8 @@ REGISTER_RESOURCE_TYPE(Shader, ResourceType::Shader);
 REGISTER_RESOURCE_TYPE(Texture, ResourceType::Texture);
 REGISTER_RESOURCE_TYPE(AudioClip, ResourceType::AudioClip);
 REGISTER_RESOURCE_TYPE(Prefab, ResourceType::Prefab);
+REGISTER_RESOURCE_TYPE(Animation2D, ResourceType::Animation2D);
+REGISTER_RESOURCE_TYPE(TileMap, ResourceType::TileMap);
 
 const ResourceMap& ResourceManager::GetResourceMap(const ResourceType& resource_type)
 {
@@ -85,7 +87,7 @@ void ResourceManager::CreateResourceMap()
 
 void ResourceManager::CreateDefaultShader()
 {
-    auto& shader_map = m_resources_map[ResourceType::Shader];
+	auto& shader_map = m_resources_map[ResourceType::Shader];
 
 	//Create Default Shader
 	auto p_shader = std::make_shared<Shader>("Default");
@@ -246,7 +248,7 @@ const std::shared_ptr<ComputeShader>& ResourceManager::GetComputeShader(const st
 	if (compute_shader_iter == m_p_compute_shader_map.end())
 		return nullptr;
 #endif 
-	
+
 	return compute_shader_iter->second;
 }
 
@@ -255,7 +257,7 @@ void ResourceManager::CreateDefaultMaterial()
 	//=============================================
 	//Default
 	//=============================================
-	CreateMaterial("Default_Material", "Default");
+	CreateMaterial("Default_Material", "Light2D");
 
 	//=============================================
 	//Collider2D
@@ -331,6 +333,7 @@ void ResourceManager::CreateDefaultTexture()
 
 	//Test
 	CreateTexture("Asset/Texture/Map/Stage1/Stage1_Tile.png");
+	CreateTexture("Asset/Texture/Player/RockManZ/Animation/Z01_Ready/Z_Ready_Sprite.png");
 }
 
 const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string& texture_path)
@@ -338,10 +341,15 @@ const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string
 	auto& texture_map = m_resources_map[ResourceType::Texture];
 
 	std::string texture_name = FileManager::GetOriginFileNameFromPath(texture_path);
+	auto file_name = FileManager::GetFileNameFromPath(texture_path);
 
 	auto p_texture = std::make_shared<Texture>(texture_name);
 	p_texture->SetResourcePath(texture_path);
-	p_texture->LoadFromFile(texture_path);
+
+	if (!p_texture->LoadFromFile(texture_path))
+	{
+		return nullptr;
+	}
 
 	auto texture_iter = texture_map.insert(std::make_pair(texture_name, p_texture));
 	auto result = texture_iter.second;
@@ -422,7 +430,7 @@ const std::shared_ptr<AudioClip>& ResourceManager::CreateAudioClip(const std::st
 	auto p_audio_clip = std::make_shared<AudioClip>(audio_clip_name);
 	p_audio_clip->SetResourcePath(audio_clip_path);
 	p_audio_clip->LoadFromFile(audio_clip_path);
-	
+
 	auto audio_clip_iter = audio_clip_map.insert(std::make_pair(audio_clip_name, p_audio_clip));
 	auto result = audio_clip_iter.second;
 	assert(result);
@@ -448,4 +456,34 @@ const std::shared_ptr<Prefab>& ResourceManager::CreatePrefab(GameObject* p_game_
 		return nullptr;
 
 	return std::dynamic_pointer_cast<Prefab>(prefab_iter.first->second);
+}
+
+const std::shared_ptr<Animation2D>& ResourceManager::CreateAnimation2D(const std::string& animation2D_name)
+{
+	auto& animation2D_map = m_resources_map[ResourceType::Animation2D];
+
+	auto p_animation2D = std::make_shared<Animation2D>(animation2D_name);
+
+	auto animation2D_iter = animation2D_map.insert(std::make_pair(animation2D_name, p_animation2D));
+	auto result = animation2D_iter.second;
+	assert(result);
+	if (!result)
+		return nullptr;
+
+	return std::dynamic_pointer_cast<Animation2D>(animation2D_iter.first->second);
+}
+
+const std::shared_ptr<TileMap>& ResourceManager::CreateTileMap(const std::string& tile_map_name)
+{
+	auto& tile_map = m_resources_map[ResourceType::TileMap];
+
+	auto p_tile_map = std::make_shared<TileMap>(tile_map_name);
+
+	auto tile_map_iter = tile_map.insert(std::make_pair(tile_map_name, p_tile_map));
+	auto result = tile_map_iter.second;
+	assert(result);
+	if (!result)
+		return nullptr;
+
+	return std::dynamic_pointer_cast<TileMap>(tile_map_iter.first->second);
 }

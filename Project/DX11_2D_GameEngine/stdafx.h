@@ -55,4 +55,7 @@
 //Drag&Drop
 #include "Helper/DragDropEvent.h"
 
+//File Function
+#include "File Function/FileFunction.h"
+
 #include <limits>

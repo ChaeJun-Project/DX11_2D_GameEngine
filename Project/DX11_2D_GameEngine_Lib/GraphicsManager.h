@@ -18,9 +18,11 @@ public:
 	//DirectX11 자원 초기화
 	void Initialize();
 	//백버퍼에 그려진 내용 초기화
-	void BeginScene();
+	void ClearRenderTarget();
+	//백버퍼에 그려질 렌더타겟 설정
+	void SetRenderTarget();
 	//백버퍼에 그려진 내용을 현재 보여주고 있는 전면 버퍼와 교체
-	void EndScene();
+	void Present();
 
 	//응용 프로그램 내부에서 윈도우의 해상도를 변경할 때
 	void ResizeWindowByProgram(const UINT& width, const UINT& height);
@@ -41,6 +43,7 @@ public:
 	const std::shared_ptr<DepthStencilState>& GetDepthStencilState(const DepthStencilType& depth_stencil_type);
 	const std::shared_ptr<BlendState>& GetBlender(const BlendType& blend_type);
 
+	const std::shared_ptr<Texture>& GetRenderTexture() { return m_p_render_target_view; }
 	void Test();
 
 private:
@@ -94,9 +97,6 @@ private:
 
 	//Blender를 저장할 map
 	std::map<BlendType, std::shared_ptr<BlendState>> m_p_blender_map;
-
-	//클리어 컬러(검은색)
-	Vector4 m_clear_color = Vector4::Zero;
 
 	//GPU 관련 정보
 	UINT m_gpu_memory_size = 0;

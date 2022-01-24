@@ -9,6 +9,7 @@
 
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 
+#include <DX11_2D_GameEngine_Lib/GraphicsManager.h>
 #include <DX11_2D_GameEngine_Lib/RenderManager.h>
 #include <DX11_2D_GameEngine_Lib/Texture.h>
 
@@ -118,20 +119,16 @@ void GUI_Scene::ShowScene()
 	scene_window_height -= scene_window_height % 2 != 0 ? 1 : 0;
 
 	//현재 윈도우 사이즈가 변경된 경우
-	render_manager->SetResolution(RenderTextureType::EditorScene, scene_window_width, scene_window_height); //RTV, SRV, DSV 재생성
+	render_manager->SetResolution(scene_window_width, scene_window_height); //RTV, SRV, DSV 재생성
 
-	auto render_texture_srv = render_manager->GetRenderTexture(RenderTextureType::EditorScene)->GetShaderResourceView();
-	//ImGui::GetCurrentWindow()->DrawList->AddCallback([](const ImDrawList* parent_list, const ImDrawCmd* cmd)
-	//	{
-	//		GraphicsManager::GetInstance()->Test();
-	//	}, nullptr);
+	auto render_texture = render_manager->GetRenderTexture();
+
 	ImGui::Image
 	(
-		render_texture_srv ? render_texture_srv : nullptr,
+		render_texture ? render_texture->GetShaderResourceView() : nullptr,
 		ImVec2(static_cast<float>(scene_window_width), static_cast<float>(scene_window_height)),
 		ImVec2(0.0f, 0.0f),
-		ImVec2(1.0f, 1.0f),
-		ImVec4(1.0f, 1.0f, 1.0f, 1.0f)
+		ImVec2(1.0f, 1.0f)
 	);
 }
 

@@ -17,11 +17,3 @@ void ShowColorPicker3(const std::string& label_name, float* data, const ImGuiCol
 void ShowColorPicker4(const std::string& label_name, float* data, const ImGuiColorEditFlags& flags);
 
 const bool CheckMousePositionInRect(const ImVec2& mouse_position, const ImVec2& rect_left_top, const ImVec2& rect_right_bottom);
-
-void SaveFile(const std::string& path, const FileType& file_type);
-
-void SaveScene(const std::string& path);
-
-void LoadFile(const std::string& path, const FileType& file_type);
-
-void LoadScene(const std::string& path);

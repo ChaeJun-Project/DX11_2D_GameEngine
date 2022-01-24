@@ -79,6 +79,12 @@ public:
 	//Prefab
 	const std::shared_ptr<Prefab>& CreatePrefab(GameObject* p_game_object);
 
+	//Animation2D
+	const std::shared_ptr<Animation2D>& CreateAnimation2D(const std::string& animation2D_name);
+
+	//TileMap
+	const std::shared_ptr<TileMap>& CreateTileMap(const std::string& tile_map_name);
+
 private:
 	//<summary>
 	//ResourceMap == std::map<std::string, std::shared_ptr<IResource>>
@@ -126,13 +132,15 @@ void ResourceManager::SaveResource(const std::shared_ptr<T>& p_resource, FILE* p
 	if (p_resource == nullptr) 	//리소스에 할당된 정보가 없다면
 		fprintf(p_file, "None\n");
 
-	fprintf(p_file, "%s\n", p_resource->GetResourceName().c_str());
+	else
+		fprintf(p_file, "%s\n", p_resource->GetResourceName().c_str());
 
 	fprintf(p_file, "[Resource Path]\n");
 	if (p_resource == nullptr) 	//리소스에 할당된 정보가 없다면
 		fprintf(p_file, "None\n");
 
-	fprintf(p_file, "%s\n", p_resource->GetResourcePath().c_str());
+	else
+		fprintf(p_file, "%s\n", p_resource->GetResourcePath().c_str());
 
 	//해당 리소스가 Animation2D 또는 TileMap인 경우
 	if (std::is_same<T, Animation2D>::value || std::is_same<T, TileMap>::value)
@@ -155,11 +163,11 @@ void ResourceManager::SaveToFile(const std::shared_ptr<T>& p_resource, const std
 	//SaveToFile
 	if (!p_resource->SaveToFile(resource_path))
 	{
-		EDITOR_LOG_ERROR_F("Failed To Save File: [%s]", file_name);
+		EDITOR_LOG_ERROR_F("Failed To Save File: [%s]", file_name.c_str());
 		return;
 	}
 
-	EDITOR_LOG_INFO_F("Succeeded in Saving File: [%s]", file_name);
+	EDITOR_LOG_INFO_F("Succeeded in Saving File: [%s]", file_name.c_str());
 }
 
 template<typename T>
@@ -223,11 +231,11 @@ const std::shared_ptr<T>& ResourceManager::LoadFromFile(const std::string& resou
 	//LoadFromFile
 	if (!p_resource->LoadFromFile(resource_path))
 	{
-		EDITOR_LOG_ERROR_F("Failed To Load File: [%s]", file_name);
+		EDITOR_LOG_ERROR_F("Failed To Load File: [%s]", file_name.c_str());
 		return nullptr;
 	}
 
-	EDITOR_LOG_INFO_F("Succeeded in Loading File: [%s]", file_name);
+	EDITOR_LOG_INFO_F("Succeeded in Loading File: [%s]", file_name.c_str());
 
 	//해당 리소스 Map에 새로 생성한 리소스 추가
 	auto resource_pair_iter = resource_map.insert(std::make_pair(resource_name, p_resource));
