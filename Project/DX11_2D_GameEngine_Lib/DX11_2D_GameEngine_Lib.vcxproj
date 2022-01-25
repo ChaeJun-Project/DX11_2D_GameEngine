@@ -192,7 +192,7 @@ call GameEngineCopy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="Animation2D.h" />
+    <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Animator2D.h" />
     <ClInclude Include="AudioListener.h" />
@@ -267,7 +267,7 @@ call GameEngineCopy.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Animation2D.cpp" />
+    <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Animator2D.cpp" />
     <ClCompile Include="AudioListener.cpp" />
@@ -336,7 +336,7 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="ShaderFiles\Animation2DStruct.fx">
+    <FxCompile Include="ShaderFiles\SpriteAnimationStruct.fx">
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ObjectFileOutput>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>

@@ -120,7 +120,11 @@ void GUI_MenuBar::Render()
 		//Sprite Animation
 		if (ImGui::BeginMenu("Sprite Animation"))
 		{
-			m_p_gui_sprite_editor->m_is_active = true;
+			if (!m_p_gui_sprite_editor->m_is_active)
+			{
+				m_p_gui_sprite_editor->Initialize();
+				m_p_gui_sprite_editor->m_is_active = true;
+			}
 
 			ImGui::EndMenu();
 		}
@@ -158,7 +162,7 @@ void GUI_MenuBar::ShowRenameScene()
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(200.0f);
-		if (ImGui::InputText("##Scene Name", &scene_name, 1000))
+		if (ImGui::InputText("##Scene Name", &scene_name, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			FileManager::RenameFileName(SCENE_PATH, ".scene", current_scene->GetSceneName(), scene_name);
 			current_scene->SetSceneName(scene_name);

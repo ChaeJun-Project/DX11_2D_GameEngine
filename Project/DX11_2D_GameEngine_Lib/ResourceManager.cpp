@@ -14,8 +14,8 @@
 #include "AudioClip.h"
 //Prefab
 #include "Prefab.h"
-//Animation2D
-#include "Animation2D.h"
+//SpriteAnimation
+#include "SpriteAnimation.h"
 //TileMap
 #include "TileMap.h"
 
@@ -55,7 +55,7 @@ REGISTER_RESOURCE_TYPE(Shader, ResourceType::Shader);
 REGISTER_RESOURCE_TYPE(Texture, ResourceType::Texture);
 REGISTER_RESOURCE_TYPE(AudioClip, ResourceType::AudioClip);
 REGISTER_RESOURCE_TYPE(Prefab, ResourceType::Prefab);
-REGISTER_RESOURCE_TYPE(Animation2D, ResourceType::Animation2D);
+REGISTER_RESOURCE_TYPE(SpriteAnimation, ResourceType::SpriteAnimation);
 REGISTER_RESOURCE_TYPE(TileMap, ResourceType::TileMap);
 
 const ResourceMap& ResourceManager::GetResourceMap(const ResourceType& resource_type)
@@ -458,11 +458,11 @@ const std::shared_ptr<Prefab>& ResourceManager::CreatePrefab(GameObject* p_game_
 	return std::dynamic_pointer_cast<Prefab>(prefab_iter.first->second);
 }
 
-const std::shared_ptr<Animation2D>& ResourceManager::CreateAnimation2D(const std::string& animation2D_name)
+const std::shared_ptr<SpriteAnimation>& ResourceManager::CreateSpriteAnimation(const std::string& animation2D_name)
 {
-	auto& animation2D_map = m_resources_map[ResourceType::Animation2D];
+	auto& animation2D_map = m_resources_map[ResourceType::SpriteAnimation];
 
-	auto p_animation2D = std::make_shared<Animation2D>(animation2D_name);
+	auto p_animation2D = std::make_shared<SpriteAnimation>(animation2D_name);
 
 	auto animation2D_iter = animation2D_map.insert(std::make_pair(animation2D_name, p_animation2D));
 	auto result = animation2D_iter.second;
@@ -470,7 +470,7 @@ const std::shared_ptr<Animation2D>& ResourceManager::CreateAnimation2D(const std
 	if (!result)
 		return nullptr;
 
-	return std::dynamic_pointer_cast<Animation2D>(animation2D_iter.first->second);
+	return std::dynamic_pointer_cast<SpriteAnimation>(animation2D_iter.first->second);
 }
 
 const std::shared_ptr<TileMap>& ResourceManager::CreateTileMap(const std::string& tile_map_name)

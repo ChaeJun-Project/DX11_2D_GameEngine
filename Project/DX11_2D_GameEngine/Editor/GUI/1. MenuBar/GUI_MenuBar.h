@@ -42,7 +42,7 @@ private:
 
 
      //=========================
-     // Animation2D
+     // SpriteAnimation
      //=========================
      GUI_SpriteEditor* m_p_gui_sprite_editor = nullptr;
 };

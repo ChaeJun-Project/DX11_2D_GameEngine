@@ -9,7 +9,7 @@ public:
 
 	static void SaveTileMap(const std::string& tile_map_path);
 
-	static void SaveAnimation2D(const std::string& animation2D_path);
+	static void SaveSpriteAnimation(const std::string& animation2D_path);
 
 	static const std::string LoadFile(const std::string& load_path, const FileType& file_type);
 

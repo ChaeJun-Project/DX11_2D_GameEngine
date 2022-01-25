@@ -53,7 +53,7 @@ void GUI_Light2D::Render()
 
 		//Set Data
 		//Light Color
-		if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+		if (CAN_EDIT)
 		{
 			light2D->SetLightColor(light2D_info.ligth_color.color);
 			light2D->SetLightSpecular(light2D_info.ligth_color.specular);

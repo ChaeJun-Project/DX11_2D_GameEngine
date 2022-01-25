@@ -33,7 +33,7 @@ void GUI_Transform::Render()
 		ShowFloat3("Scale", scale, 70.0f, 80.0f);
 
 		//Set Data
-		if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+		if (CAN_EDIT)
 		{
 			transform->SetLocalTranslation(position);
 			transform->SetLocalRotation(Quaternion::QuaternionFromEulerAngle(rotation));

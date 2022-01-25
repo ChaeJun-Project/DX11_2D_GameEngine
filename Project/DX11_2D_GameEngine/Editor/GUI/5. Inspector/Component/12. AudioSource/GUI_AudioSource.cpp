@@ -33,13 +33,13 @@ void GUI_AudioSource::Render()
 		ImGui::InputText("##AudioClipName", &audio_clip_name, ImGuiInputTextFlags_ReadOnly);
 
 		//Loop
-		ImGui::Text("Loop");
-		ImGui::SameLine(90.0f);
 		if (ImGui::Checkbox("##Audio Loop", &is_loop))
 		{
-			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+			if (CAN_EDIT)
 				audio_source->SetIsLoop(is_loop);
 		}
+		ImGui::SameLine();
+		ImGui::Text("Loop");
 
 		//Volume
 		ImGui::Text("Volume");
@@ -49,7 +49,7 @@ void GUI_AudioSource::Render()
 		ImGui::PopItemWidth();
 
 		//Set Data
-		if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+		if (CAN_EDIT)
 			audio_source->SetVolume(volume);
 
 		DrawComponentEnd();

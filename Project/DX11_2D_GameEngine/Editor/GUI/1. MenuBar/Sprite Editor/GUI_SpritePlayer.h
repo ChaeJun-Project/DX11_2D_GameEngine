@@ -1,6 +1,6 @@
 #pragma once
 
-class Animation2D;
+class SpriteAnimation;
 
 enum AnimationState : UINT
 {
@@ -16,6 +16,7 @@ public:
 	~GUI_SpritePlayer();
 
 public:
+    void Initialize();
 	void Render();
 
 private:
@@ -23,8 +24,8 @@ private:
 	void ShowButtons();
 
 private:
-	//Animation2D
-	std::shared_ptr<Animation2D> m_p_current_animation2D = nullptr;
+	//SpriteAnimation
+	std::shared_ptr<SpriteAnimation> m_p_current_animation2D = nullptr;
 	int m_frame_index = 0;
 	float m_accumulate_time = 0.0f;
 

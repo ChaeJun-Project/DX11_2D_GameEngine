@@ -3,7 +3,7 @@
 
 #include "Helper/IconProvider.h"
 
-#include <DX11_2D_GameEngine_Lib/Animation2D.h>
+#include <DX11_2D_GameEngine_Lib/SpriteAnimation.h>
 
 GUI_SpritePlayer::GUI_SpritePlayer()
 {
@@ -13,6 +13,16 @@ GUI_SpritePlayer::~GUI_SpritePlayer()
 {
 	m_p_current_animation2D.reset();
 	gui_str.clear();
+}
+
+void GUI_SpritePlayer::Initialize()
+{
+	m_p_current_animation2D.reset();
+	m_frame_index = 0;
+	m_accumulate_time = 0.0f;
+
+	//Animation State
+	curret_animation_state = static_cast<UINT>(AnimationState::Stop);
 }
 
 void GUI_SpritePlayer::Render()

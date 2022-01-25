@@ -6,7 +6,7 @@ enum class CBuffer_BindSlot : UINT
 	Material = 1,
 	Program = 2,
 	Light2D = 3,
-	Animation2D = 4,
+	SpriteAnimation = 4,
 };
 
 //======================================
@@ -124,9 +124,9 @@ struct CBuffer_Light2D
 };
 
 //======================================
-//Animation2D
+//SpriteAnimation
 //======================================
-struct Animation2D_Data
+struct SpriteAnimation_Data
 {
      Vector2 left_top;
 	 Vector2 frame_size;
@@ -134,15 +134,15 @@ struct Animation2D_Data
 	 Vector2 offset;
 };
 
-struct Animation2D_Frame
+struct SpriteAnimation_Frame
 {
-	Animation2D_Data animation2D_data;
+	SpriteAnimation_Data animation2D_data;
 	float duration;
 };
 
-struct CBuffer_Animation2D
+struct CBuffer_SpriteAnimation
 {
-	Animation2D_Data animation2D_data_array[50];
+	SpriteAnimation_Data animation2D_data_array[50];
 };
 
-extern CBuffer_Animation2D g_cbuffer_animation2D;
+extern CBuffer_SpriteAnimation g_cbuffer_animation2D;

@@ -58,7 +58,7 @@ void GUI_Camera::Render()
 		ShowFloat("Camera", "Far", far_z, 100.f, 100.0f);
 		ShowInt("Camera", "Index", camera_index, 100.f, 100.0f);
 
-		if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+		if (CAN_EDIT)
 		{
 			camera->SetSize(size);
 			camera->SetFov(Math::ToRadian(fov));
@@ -91,7 +91,7 @@ void GUI_Camera::Render()
 				const bool is_selected = (culling_layer & layer);
 				if (ImGui::Selectable(culling_layer_list_vector[i].c_str(), is_selected))
 				{
-					if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+					if (CAN_EDIT)
 						camera->CullingLayer(bit_pos);
 				}
 
@@ -109,7 +109,7 @@ void GUI_Camera::Render()
 
 		if (ImGui::Button("Nothing", ImVec2(80.0f, 0.0f)))
 		{
-			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+			if (CAN_EDIT)
 				camera->CullingNothing();
 		}
 
@@ -117,7 +117,7 @@ void GUI_Camera::Render()
 
 		if (ImGui::Button("Everything", ImVec2(80.0f, 0.0f)))
 		{
-			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+			if (CAN_EDIT)
 				camera->CullingEverything();
 		}
 

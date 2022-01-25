@@ -10,7 +10,7 @@ class Texture;
 class Mesh;
 class AudioClip;
 class Prefab;
-class Animation2D;
+class SpriteAnimation;
 class TileMap;
 class GameObject;
 
@@ -79,8 +79,8 @@ public:
 	//Prefab
 	const std::shared_ptr<Prefab>& CreatePrefab(GameObject* p_game_object);
 
-	//Animation2D
-	const std::shared_ptr<Animation2D>& CreateAnimation2D(const std::string& animation2D_name);
+	//SpriteAnimation
+	const std::shared_ptr<SpriteAnimation>& CreateSpriteAnimation(const std::string& animation2D_name);
 
 	//TileMap
 	const std::shared_ptr<TileMap>& CreateTileMap(const std::string& tile_map_name);
@@ -142,8 +142,8 @@ void ResourceManager::SaveResource(const std::shared_ptr<T>& p_resource, FILE* p
 	else
 		fprintf(p_file, "%s\n", p_resource->GetResourcePath().c_str());
 
-	//해당 리소스가 Animation2D 또는 TileMap인 경우
-	if (std::is_same<T, Animation2D>::value || std::is_same<T, TileMap>::value)
+	//해당 리소스가 SpriteAnimation 또는 TileMap인 경우
+	if (std::is_same<T, SpriteAnimation>::value || std::is_same<T, TileMap>::value)
 		SaveToFile<T>(p_resource, p_resource->GetResourcePath());
 }
 
@@ -195,7 +195,7 @@ void ResourceManager::LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file)
 	if (resource_path._Equal("None"))
 		return;
 
-	if (std::is_same<T, Material>::value || std::is_same<T, AudioClip>::value || std::is_same<T, Animation2D>::value)
+	if (std::is_same<T, Material>::value || std::is_same<T, AudioClip>::value || std::is_same<T, SpriteAnimation>::value)
 	{
 		auto clone_resource = LoadFromFile<T>(resource_path)->Clone();
 		p_resource = std::shared_ptr<T>(clone_resource);

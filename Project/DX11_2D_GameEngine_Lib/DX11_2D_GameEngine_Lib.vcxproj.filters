@@ -181,8 +181,8 @@
     <ClInclude Include="Animator2D.h">
       <Filter>Scene\Components\4. Animator2D</Filter>
     </ClInclude>
-    <ClInclude Include="Animation2D.h">
-      <Filter>Resource\Animation2D</Filter>
+    <ClInclude Include="SpriteAnimation.h">
+      <Filter>Resource\SpriteAnimation</Filter>
     </ClInclude>
     <ClInclude Include="TileMapRenderer.h">
       <Filter>Scene\Components\10. TileMap Renderer</Filter>
@@ -375,8 +375,8 @@
     <ClCompile Include="Animator2D.cpp">
       <Filter>Scene\Components\4. Animator2D</Filter>
     </ClCompile>
-    <ClCompile Include="Animation2D.cpp">
-      <Filter>Resource\Animation2D</Filter>
+    <ClCompile Include="SpriteAnimation.cpp">
+      <Filter>Resource\SpriteAnimation</Filter>
     </ClCompile>
     <ClCompile Include="TileMapRenderer.cpp">
       <Filter>Scene\Components\10. TileMap Renderer</Filter>
@@ -641,9 +641,6 @@
     <Filter Include="Resource\AudioClip">
       <UniqueIdentifier>{bcad10b5-98c9-4000-9abc-699ae6edd49c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource\Animation2D">
-      <UniqueIdentifier>{53a4b151-9b6e-4737-83e4-6bb384577495}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Components\10. TileMap Renderer">
       <UniqueIdentifier>{0da2f5f8-7d1c-429a-84e8-6bc9a24dbefc}</UniqueIdentifier>
     </Filter>
@@ -652,6 +649,9 @@
     </Filter>
     <Filter Include="Core\Thread">
       <UniqueIdentifier>{35a1ea19-6375-4b30-bb15-f23977a245a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\SpriteAnimation">
+      <UniqueIdentifier>{53a4b151-9b6e-4737-83e4-6bb384577495}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -691,7 +691,7 @@
     <FxCompile Include="ShaderFiles\WaterShader.fx">
       <Filter>ShaderFiles\Shader\Post Effect</Filter>
     </FxCompile>
-    <FxCompile Include="ShaderFiles\Animation2DStruct.fx">
+    <FxCompile Include="ShaderFiles\SpriteAnimationStruct.fx">
       <Filter>ShaderFiles\Struct</Filter>
     </FxCompile>
     <FxCompile Include="ShaderFiles\TileMapShader.fx">

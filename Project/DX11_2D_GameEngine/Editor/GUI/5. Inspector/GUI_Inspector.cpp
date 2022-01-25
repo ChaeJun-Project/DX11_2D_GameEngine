@@ -166,7 +166,7 @@ void GUI_Inspector::ShowGameObjectInfo()
 	//Name
 	label_str = "##" + m_p_selected_game_object->GetGameObjectName();
 	ImGui::PushItemWidth(GAME_OBJECT_NAME_WIDTH);
-	if (ImGui::InputText(label_str.c_str(), &game_object_name, 1000))
+	if (ImGui::InputText(label_str.c_str(), &game_object_name, ImGuiInputTextFlags_EnterReturnsTrue))
 	{
 		m_p_selected_game_object->SetGameObjectName(game_object_name); //Game Object의 이름을 수정한 경우에만 수행
 	}
@@ -314,7 +314,7 @@ void GUI_Inspector::ShowTagAndLayerList()
 
 			tag_str += tag_name;
 			ImGui::PushItemWidth(INPUT_TEXT_WIDTH);
-			if (ImGui::InputText(tag_str.c_str(), &tag_name, 1000))
+			if (ImGui::InputText(tag_str.c_str(), &tag_name, ImGuiInputTextFlags_EnterReturnsTrue))
 			{
 				tag = tag_name;
 				SaveTag();
@@ -343,7 +343,7 @@ void GUI_Inspector::ShowTagAndLayerList()
 			layer_str = "##" + layer_str;
 			std::string layer_name = layer.second;
 			ImGui::PushItemWidth(INPUT_TEXT_WIDTH);
-			if (ImGui::InputText(layer_str.c_str(), &layer_name, 1000))
+			if (ImGui::InputText(layer_str.c_str(), &layer_name, ImGuiInputTextFlags_EnterReturnsTrue))
 			{
 				layer.second = layer_name;
 				SaveLayer();

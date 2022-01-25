@@ -11,7 +11,7 @@
 #include "Transform.h"
 
 #include "Animator2D.h"
-#include "Animation2D.h"
+#include "SpriteAnimation.h"
 
 SpriteRenderer::SpriteRenderer()
 	:IComponent(ComponentType::SpriteRenderer)
@@ -44,7 +44,7 @@ void SpriteRenderer::Render()
 	{
 		auto resource_manager = ResourceManager::GetInstance();
 
-		m_p_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, animator2D->GetAtlasTexture());
+		m_p_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, animator2D->GetCurrentAnimationAtlasTexture());
 
 		if (animator2D->GetCurrentAnimation() != nullptr)
 		{

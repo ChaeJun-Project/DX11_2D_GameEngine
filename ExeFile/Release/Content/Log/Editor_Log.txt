@@ -1,2 +1,1 @@
-[2022/1/24/17:15:55][Info] FileFunction::LoadScene : Succeeded in Loading File: [MainScene]
-[2022/1/24/17:16:12][Info] FileFunction::SaveScene : Succeeded in Saving File: [MainScene]
+[2022/1/25/22:6:49][Info] ResourceManager::LoadFromFile : Succeeded in Loading File: [Z_Ready.anim]

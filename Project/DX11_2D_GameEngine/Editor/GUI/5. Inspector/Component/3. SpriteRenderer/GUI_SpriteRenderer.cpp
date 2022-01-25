@@ -125,7 +125,8 @@ void GUI_SpriteRenderer::Render()
 					const bool is_selected = (*(m_p_item_list->GetCurrentListID()) == i);
 					if (ImGui::Selectable(item_list_vector[i].c_str(), is_selected))
 					{
-						SelectResource(sprite_renderer, p_resource, item_list_vector[i]);
+						if (CAN_EDIT)
+							SelectResource(sprite_renderer, p_resource, item_list_vector[i]);
 					}
 
 					if (is_selected)
@@ -144,7 +145,7 @@ void GUI_SpriteRenderer::Render()
 
 		//Sprite Color
 		ShowColorPicker4("Sprite Color", sprite_texture_color, ImGuiColorEditFlags_AlphaPreview);
-		if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+		if (CAN_EDIT)
 			sprite_renderer->SetSpriteTextureColor(sprite_texture_color);
 
 		//Material

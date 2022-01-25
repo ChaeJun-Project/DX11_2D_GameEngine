@@ -2,7 +2,7 @@
 #include "IComponent.h"
 
 class Texture;
-class Animation2D;
+class SpriteAnimation;
 
 class Animator2D final : public IComponent
 {
@@ -24,21 +24,21 @@ public:
 	void Stop();
 
 public:
-	//Animation2D Create
-	const std::shared_ptr<Animation2D>& CreateAnimation(const std::string& animation_name, const std::shared_ptr<Texture>& p_atlas_texture);
-	
-public:
+    //Current Animation Atlas Texture
+	const std::shared_ptr<Texture>& GetCurrentAnimationAtlasTexture();
+
     //Animator2D Index
 	const int& GetAnimator2DID() const { return m_animator2D_index; }
 	void SetAnimator2DID(const int& animator2D_index) { m_animator2D_index = animator2D_index; }
 
-	std::map<std::string, std::shared_ptr<Animation2D>>& GetAnimationMap() { return m_p_animation_map; }
-	const std::shared_ptr<Animation2D>& GetAnimation(const std::string& animation_name);
-	const std::shared_ptr<Animation2D>& GetCurrentAnimation() { SAFE_GET_POINTER(m_p_current_animation); }
+	//Sprite Animation
+	void AddAnimation(const std::string& sprite_animation_name);
+	void DeleteAnimation(const std::string& sprite_animation_name);
+	std::map<std::string, std::shared_ptr<SpriteAnimation>>& GetAnimationMap() { return m_p_sprite_animation_map; }
+	const bool HasAnimation(const std::string& sprite_animation_name);
+	const std::shared_ptr<SpriteAnimation>& GetCurrentAnimation() { SAFE_GET_POINTER(m_p_current_animation); }
 	void SetCurrentAnimation(const std::string& animation_name);
 
-	const std::shared_ptr<Texture>& GetAtlasTexture();
-	
 	//Animation Playing
 	const bool& GetIsPlaying() const { return m_is_playing; }
 
@@ -67,8 +67,8 @@ public:
 private:
     int m_animator2D_index = -1;
 
-	std::shared_ptr<Animation2D> m_p_current_animation = nullptr;
-	std::map<std::string, std::shared_ptr<Animation2D>> m_p_animation_map;
+	std::shared_ptr<SpriteAnimation> m_p_current_animation = nullptr;
+	std::map<std::string, std::shared_ptr<SpriteAnimation>> m_p_sprite_animation_map;
 
 	bool m_is_playing = false;
 	bool m_is_play_reverse = false;

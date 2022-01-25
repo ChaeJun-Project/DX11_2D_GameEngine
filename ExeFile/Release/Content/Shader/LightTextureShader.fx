@@ -46,10 +46,10 @@ float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
     for (uint i = 0; i < g_light2D_count; ++i)
         GetLightColor(i, ps_input.world_position, light_color);
 
-    //Animation2D
+    //SpriteAnimation
     if (HAS_ANIMATION2D)
     {
-        Animation2D_Data current_animation2D_data = g_animation2D_data_array[ANIMTATOR2D_INDEX];
+        SpriteAnimation_Data current_animation2D_data = g_animation2D_data_array[ANIMTATOR2D_INDEX];
         
         float2 animation2D_uv = (ps_input.uv * current_animation2D_data.full_frame_size);
         float2 uv_range = (current_animation2D_data.full_frame_size - current_animation2D_data.frame_size) / 2.f + current_animation2D_data.offset;

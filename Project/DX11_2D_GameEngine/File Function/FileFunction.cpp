@@ -12,7 +12,7 @@
 #include <DX11_2D_GameEngine_Lib/Scene.h>
 
 #include <DX11_2D_GameEngine_Lib/TileMap.h>
-#include <DX11_2D_GameEngine_Lib/Animation2D.h>
+#include <DX11_2D_GameEngine_Lib/SpriteAnimation.h>
 
 void FileFunction::SaveFile(const std::string& save_path, const std::string& file_name, const FileType& file_type)
 {
@@ -75,7 +75,7 @@ void FileFunction::SaveFile(const std::string& save_path, const std::string& fil
 			SaveTileMap(FileManager::ConvertWStringToString(szName));
 			break;
 		case FileType::Animation:
-			SaveAnimation2D(FileManager::ConvertWStringToString(szName));
+			SaveSpriteAnimation(FileManager::ConvertWStringToString(szName));
 			break;
 		}
 	}
@@ -103,15 +103,15 @@ void FileFunction::SaveTileMap(const std::string& tile_map_path)
 		resource_manager->SaveToFile<TileMap>(p_tile_map_resource, tile_map_path);
 }
 
-void FileFunction::SaveAnimation2D(const std::string& animation2D_path)
+void FileFunction::SaveSpriteAnimation(const std::string& animation2D_path)
 {
 	auto resource_manager = ResourceManager::GetInstance();
 
 	auto file_name_without_extension = FileManager::GetOriginFileNameFromPath(animation2D_path);
-	auto p_animation2D_resource = resource_manager->GetResource<Animation2D>(file_name_without_extension);
+	auto p_animation2D_resource = resource_manager->GetResource<SpriteAnimation>(file_name_without_extension);
 
 	if (p_animation2D_resource != nullptr)
-		resource_manager->SaveToFile<Animation2D>(p_animation2D_resource, animation2D_path);
+		resource_manager->SaveToFile<SpriteAnimation>(p_animation2D_resource, animation2D_path);
 }
 
 const std::string FileFunction::LoadFile(const std::string& load_path, const FileType& file_type)

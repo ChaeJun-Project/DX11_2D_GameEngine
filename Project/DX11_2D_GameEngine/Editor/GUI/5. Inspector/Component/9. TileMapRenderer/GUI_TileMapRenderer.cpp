@@ -55,7 +55,7 @@ void GUI_TileMapRenderer::Render()
 		ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 110.0f);
 		if (ImGui::Button("Palette", ImVec2(110.0f, 0.0f)))
 		{
-			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+			if (CAN_EDIT)
 			{
 				m_p_gui_palette->m_is_active = true;
 				m_p_gui_palette->m_p_current_tile_map = tile_map;
@@ -75,7 +75,7 @@ void GUI_TileMapRenderer::Render()
 		ShowFloat2("Tile Size", tile_size, 70.0f, 80.0f);
 
 		//Editor 상태가 Play or Pause인 경우
-		if (SceneManager::GetInstance()->GetEditorState() != EditorState::EditorState_Stop)
+		if (CAN_EDIT)
 		{
 			//Tiling Count
 			auto tile_count = tile_map->GetTileCount();
@@ -90,7 +90,7 @@ void GUI_TileMapRenderer::Render()
 		bool is_active = tile_map->GetIsDrawGrid();
 		if (ImGui::Checkbox("Draw Grid", &is_active))
 		{
-			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+			if (CAN_EDIT)
 			{
 				tile_map->SetIsDrawGrid(is_active);
 			}
@@ -98,7 +98,7 @@ void GUI_TileMapRenderer::Render()
 
 		if (ImGui::Button("Apply", ImVec2(110.0f, 0.0f)))
 		{
-			if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+			if (CAN_EDIT)
 			{
 				tile_map->SetTileCount(static_cast<UINT>(tile_count_row), static_cast<UINT>(tile_count_column));
 				tile_map->SetTileSize(tile_size);

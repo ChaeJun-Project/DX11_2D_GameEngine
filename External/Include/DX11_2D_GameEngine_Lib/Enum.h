@@ -35,7 +35,7 @@ enum class ResourceType : UINT
 	Texture = 4,
 	AudioClip = 5,
 	Prefab = 6,
-	Animation2D = 7,
+	SpriteAnimation = 7,
 	TileMap = 8,
 };
 

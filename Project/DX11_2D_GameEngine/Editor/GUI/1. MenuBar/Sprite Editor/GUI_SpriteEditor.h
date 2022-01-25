@@ -3,7 +3,7 @@
 class Animator2D;
 class GUI_ItemList;
 
-class Animation2D;
+class SpriteAnimation;
 class Texture;
 
 class GUI_SpritePlayer;
@@ -15,6 +15,7 @@ public:
 	~GUI_SpriteEditor();
 
 public:
+    void Initialize();
 	void Render();
 
 private:
@@ -24,29 +25,34 @@ private:
 private:
 	//Atlas Texture
 	std::shared_ptr<Texture> m_p_atlas_texture = nullptr;
-	//Atlas Texture List
-	GUI_ItemList* m_p_atlas_item_list = nullptr;
 	Vector2 m_atlas_texture_size = Vector2::Zero;
 
-	//Animation2D
-	std::shared_ptr<Animation2D> m_p_animation2D = nullptr;
-	//Animation2D List
-	GUI_ItemList* m_p_animation_item_list = nullptr;
+	//Atlas Texture List
+	GUI_ItemList* m_p_atlas_item_list = nullptr;
+	//Sprite Animation List
+	GUI_ItemList* m_p_sprtie_animation_item_list = nullptr;
 
-	ImVec2 canvas_left_top = ImVec2(0.0f, 0.0f);
-	ImVec2 canvas_right_bottom = ImVec2(0.0f, 0.0f);
-
+	//Sprite Animation
+	bool m_is_create_new_sprite_animation = false;
+	std::string m_animation_name;
+	std::shared_ptr<SpriteAnimation> m_p_sprite_animation = nullptr;
 	int m_frame_index = 0;
 	int m_total_frame_count = 0;
 
 	//Draw Rect
-	ImDrawList* draw_list = nullptr;
+	ImDrawList* m_draw_list = nullptr;
+	ImVec2 m_canvas_left_top = ImVec2(0.0f, 0.0f);
+	ImVec2 m_canvas_right_bottom = ImVec2(0.0f, 0.0f);
+
 	ImVec2 m_mouse_pos_in_canvas = ImVec2(0.0f, 0.0f);
+
 	ImVec2 m_start_point_in_canvas = ImVec2(0.0f, 0.0f);
 	ImVec2 m_end_point_in_canvas = ImVec2(0.0f, 0.0f);
+
 	Vector2 m_draw_left_top = Vector2(0.0f, 0.0f);
 	Vector2 m_draw_right_bottom = Vector2(0.0f, 0.0f);
 
+	//Render Sprite Editor
 	bool m_is_active = false;
 
 	//Sprite Player

@@ -1,5 +1,5 @@
 [Tag Count]
-5
+6
 
 [Tag List]
 Default
@@ -7,3 +7,4 @@ Main Camera
 Light
 Player
 Enemy
+Etc

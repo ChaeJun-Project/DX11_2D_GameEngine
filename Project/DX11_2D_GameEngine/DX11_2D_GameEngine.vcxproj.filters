@@ -65,6 +65,7 @@
     <ClInclude Include="Editor\GUI\5. Inspector\Component\12. AudioSource\GUI_AudioSource.h" />
     <ClInclude Include="File Function\FileFunction.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\Sprite Editor\GUI_SpritePlayer.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\4. Animator2D\Add Sprite Animation\GUI_AddSpriteAnimation.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowSettings\DX11_2D_GameEngine.rc">
@@ -130,6 +131,7 @@
     <ClCompile Include="Editor\GUI\5. Inspector\Component\12. AudioSource\GUI_AudioSource.cpp" />
     <ClCompile Include="File Function\FileFunction.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Sprite Editor\GUI_SpritePlayer.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\4. Animator2D\Add Sprite Animation\GUI_AddSpriteAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WindowSettings\DX11_2D_GameEngine.aps" />
