@@ -2,6 +2,9 @@
 
 #include "IResource.h"
 
+class VertexBuffer;
+class IndexBuffer;
+
 class Mesh final : public IResource
 {
 public:

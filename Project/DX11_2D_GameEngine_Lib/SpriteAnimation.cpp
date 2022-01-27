@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "SpriteAnimation.h"
 
+#include "ConstantBuffer.h"
+
 #include "GraphicsManager.h"
 
 #include "Animator2D.h"
@@ -104,7 +106,7 @@ void SpriteAnimation::FinalUpdate()
 
 	g_cbuffer_animation2D.animation2D_data_array[animator2D_index] = animation2D_data;
 
-	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::SpriteAnimation);
+	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::SpriteAnimation);
 	constant_buffer->SetConstantBufferData(&g_cbuffer_animation2D, sizeof(CBuffer_SpriteAnimation));
 	constant_buffer->SetBufferBindStage(PipelineStage::PS); //애니메이션 픽셀계산은 Pixel Shader에서만 수행
 	constant_buffer->BindPipeline();
@@ -178,7 +180,7 @@ bool SpriteAnimation::SaveToFile(const std::string& animation2D_path)
 
 	if (p_file != nullptr)
 	{
-		//SpriteAnimation Name
+		//Sprite Animation Name
 		fprintf(p_file, "[Sprite Animation Name]\n");
 		fprintf(p_file, "%s\n", m_resource_name.c_str());
 
@@ -186,11 +188,11 @@ bool SpriteAnimation::SaveToFile(const std::string& animation2D_path)
 		fprintf(p_file, "[Atlas Texture]\n");
 		resource_manager->SaveResource<Texture>(m_p_atlas_texture, p_file);
 
-		//SpriteAnimation Frame Count
+		//Sprite Animation Frame Count
 		fprintf(p_file, "[Sprite Animation Frame Count]\n");
 		fprintf(p_file, "%d\n", m_animation_frame_vector.size());
 
-		//SpriteAnimation Frame
+		//Sprite Animation Frame
 		fprintf(p_file, "[Sprite Animation Frame]\n");
 		for (UINT i = 0; i < m_animation_frame_vector.size(); ++i)
 		{
@@ -200,13 +202,13 @@ bool SpriteAnimation::SaveToFile(const std::string& animation2D_path)
 			fprintf(p_file, "[Index]\n");
 			fprintf(p_file, "%d\n", i);
 			fprintf(p_file, "[Left Top]\n");
-			FileManager::FPrintf_Vector2(animation2D_frame_data.left_top, p_file);
+			FILE_MANAGER->FPrintf_Vector2(animation2D_frame_data.left_top, p_file);
 			fprintf(p_file, "[Frame Size]\n");
-			FileManager::FPrintf_Vector2(animation2D_frame_data.frame_size, p_file);
+			FILE_MANAGER->FPrintf_Vector2(animation2D_frame_data.frame_size, p_file);
 			fprintf(p_file, "[Full Frame Size]\n");
-			FileManager::FPrintf_Vector2(animation2D_frame_data.full_frame_size, p_file);
+			FILE_MANAGER->FPrintf_Vector2(animation2D_frame_data.full_frame_size, p_file);
 			fprintf(p_file, "[Offset]\n");
-			FileManager::FPrintf_Vector2(animation2D_frame_data.offset, p_file);
+			FILE_MANAGER->FPrintf_Vector2(animation2D_frame_data.offset, p_file);
 			fprintf(p_file, "[Duration]\n");
 			fprintf(p_file, "%f\n", animation2D_frame.duration);
 		}
@@ -232,49 +234,49 @@ bool SpriteAnimation::LoadFromFile(const std::string& animation2D_path)
 		char char_buffer[256] = {};
 
 		//Sprite Animation Name
-		FileManager::FScanf(char_buffer, p_file);
-		FileManager::FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
 		m_resource_name = std::string(char_buffer);
 
 		//Atlas Texture
-		FileManager::FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
 		resource_manager->LoadResource<Texture>(m_p_atlas_texture, p_file);
 
 		//Sprite Animation Frame Count
-		FileManager::FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
 		UINT animation2D_frame_count = 0;
 		fscanf_s(p_file, "%d\n", &animation2D_frame_count);
 		m_animation_frame_vector.reserve(animation2D_frame_count);
 
 		//Sprite Animation Frame
-		FileManager::FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
 		for (UINT i = 0; i < animation2D_frame_count; ++i)
 		{
 			SpriteAnimation_Frame animation2D_frame;
 			ZeroMemory(&animation2D_frame, sizeof(SpriteAnimation_Frame));
 
 			//Index
-			FileManager::FScanf(char_buffer, p_file);
-			FileManager::FScanf(char_buffer, p_file);
+			FILE_MANAGER->FScanf(char_buffer, p_file);
+			FILE_MANAGER->FScanf(char_buffer, p_file);
 
 			//Left Top
-			FileManager::FScanf(char_buffer, p_file);
-			FileManager::FScanf_Vector2(animation2D_frame.animation2D_data.left_top, p_file);
+			FILE_MANAGER->FScanf(char_buffer, p_file);
+			FILE_MANAGER->FScanf_Vector2(animation2D_frame.animation2D_data.left_top, p_file);
 
 			//Frame Size
-			FileManager::FScanf(char_buffer, p_file);
-			FileManager::FScanf_Vector2(animation2D_frame.animation2D_data.frame_size, p_file);
+			FILE_MANAGER->FScanf(char_buffer, p_file);
+			FILE_MANAGER->FScanf_Vector2(animation2D_frame.animation2D_data.frame_size, p_file);
 
 			//Full Frame Size
-			FileManager::FScanf(char_buffer, p_file);
-			FileManager::FScanf_Vector2(animation2D_frame.animation2D_data.full_frame_size, p_file);
+			FILE_MANAGER->FScanf(char_buffer, p_file);
+			FILE_MANAGER->FScanf_Vector2(animation2D_frame.animation2D_data.full_frame_size, p_file);
 
 			//Offset
-			FileManager::FScanf(char_buffer, p_file);
-			FileManager::FScanf_Vector2(animation2D_frame.animation2D_data.offset, p_file);
+			FILE_MANAGER->FScanf(char_buffer, p_file);
+			FILE_MANAGER->FScanf_Vector2(animation2D_frame.animation2D_data.offset, p_file);
 
 			//Duration
-			FileManager::FScanf(char_buffer, p_file);
+			FILE_MANAGER->FScanf(char_buffer, p_file);
 			fscanf_s(p_file, "%f\n", &(animation2D_frame.duration));
 
 			//Add Sprite Animation Frame

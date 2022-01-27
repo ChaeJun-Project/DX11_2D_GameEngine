@@ -14,6 +14,8 @@ public:
     void Render() override;
 
 private:
+    std::string m_tile_map_name;
+
     GUI_Palette* m_p_gui_palette = nullptr;
     GameObject* m_p_current_game_object = nullptr;
 };

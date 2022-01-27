@@ -42,11 +42,11 @@ void Light2D::SaveToScene(FILE* p_file)
 	
 	//Light Color
 	fprintf(p_file, "[Color]\n");
-	FileManager::FPrintf_Vector4<Vector4>(m_light2D_data.ligth_color.color, p_file);
+	FILE_MANAGER->FPrintf_Vector4<Vector4>(m_light2D_data.ligth_color.color, p_file);
 	fprintf(p_file, "[Specular]\n");
-	FileManager::FPrintf_Vector4<Vector4>(m_light2D_data.ligth_color.specular, p_file);
+	FILE_MANAGER->FPrintf_Vector4<Vector4>(m_light2D_data.ligth_color.specular, p_file);
 	fprintf(p_file, "[Ambient]\n");
-	FileManager::FPrintf_Vector4<Vector4>(m_light2D_data.ligth_color.ambient, p_file);
+	FILE_MANAGER->FPrintf_Vector4<Vector4>(m_light2D_data.ligth_color.ambient, p_file);
 
 	//Light Type
 	fprintf(p_file, "[Type]\n");
@@ -55,7 +55,7 @@ void Light2D::SaveToScene(FILE* p_file)
 
 	//Light Direction
 	fprintf(p_file, "[Direction]\n");
-	FileManager::FPrintf_Vector3(m_light2D_data.light_direction, p_file);
+	FILE_MANAGER->FPrintf_Vector3(m_light2D_data.light_direction, p_file);
 
 	//Light Ragne
 	fprintf(p_file, "[Range]\n");
@@ -70,31 +70,31 @@ void Light2D::LoadFromScene(FILE* p_file)
 {
 	char char_buffer[256] = { 0 };
 
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 
 	//Light Color
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf_Vector4<Vector4>(m_light2D_data.ligth_color.color, p_file);
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf_Vector4<Vector4>(m_light2D_data.ligth_color.specular, p_file);
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf_Vector4<Vector4>(m_light2D_data.ligth_color.ambient, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf_Vector4<Vector4>(m_light2D_data.ligth_color.color, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf_Vector4<Vector4>(m_light2D_data.ligth_color.specular, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf_Vector4<Vector4>(m_light2D_data.ligth_color.ambient, p_file);
 
 	//Light Type
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	int light_type = -1;
 	fscanf_s(p_file, "%d\n", &light_type);
 	m_light2D_data.light_type = static_cast<LightType>(light_type);
 
 	//Light Direction
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf_Vector3(m_light2D_data.light_direction, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf_Vector3(m_light2D_data.light_direction, p_file);
 
 	//Light Ragne
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	fscanf_s(p_file, "%f\n", &m_light2D_data.light_range);
 
 	//Light Angle
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	fscanf_s(p_file, "%f\n", &m_light2D_data.light_angle);
 }

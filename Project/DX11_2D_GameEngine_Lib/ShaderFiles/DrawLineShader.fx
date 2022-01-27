@@ -28,8 +28,7 @@ float4 PS(VertexColorOuputType ps_input) : SV_Target
     float4 ps_output_color = (float4) 0.0f;
     
     ps_output_color = ps_input.color;
-    ps_output_color.a = 1.0f;
-  
+   
     //Collider2D Green Line
     if (g_int_0)
     {

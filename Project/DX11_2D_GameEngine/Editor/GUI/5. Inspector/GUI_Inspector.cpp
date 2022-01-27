@@ -24,6 +24,7 @@
 #include "Component/12. AudioSource/GUI_AudioSource.h"
 #include "Component/13. Script/GUI_Script.h"
 
+#include <DX11_2D_GameEngine_Lib/GameObject.h>
 //Script
 #include <Script_Lib/ScriptManager.h>
 
@@ -477,7 +478,7 @@ void GUI_Inspector::InitializeTag()
 	std::string path;
 	path = m_folder_path + m_tag_file_path;
 
-	if (FileManager::IsExistFile(path))
+	if (FILE_MANAGER->IsExistFile(path))
 		LoadTag();
 
 	else
@@ -524,15 +525,15 @@ void GUI_Inspector::LoadTag()
 	char char_buffer[256] = { 0 };
 
 	//Tag Count
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	int tag_count = 0;
 	fscanf_s(p_file, "%d\n", &tag_count);
 
 	//Tag List
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	for (int i = 0; i < tag_count; ++i)
 	{
-		FileManager::FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
 		m_tag_deque.emplace_back(std::string(char_buffer));
 	}
 
@@ -544,7 +545,7 @@ void GUI_Inspector::InitializeLayer()
 	std::string path;
 	path = m_folder_path + m_tag_layer_path;
 
-	if (FileManager::IsExistFile(path))
+	if (FILE_MANAGER->IsExistFile(path))
 		LoadLayer();
 
 	else
@@ -586,7 +587,7 @@ void GUI_Inspector::LoadLayer()
 	char char_buffer[256] = { 0 };
 
 	//Layer List
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		//Index
@@ -594,7 +595,7 @@ void GUI_Inspector::LoadLayer()
 		fscanf_s(p_file, "%d", &index);
 
 		//String
-		FileManager::FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
 		std::string layer_str(char_buffer);
 
 		//공백 제거

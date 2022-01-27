@@ -87,7 +87,6 @@ float4 PS(VertexColorTextureOutputType ps_input) : SV_Target
     
     if (tile_atlas_texture_index == -1 || tile_image_index == -1)
     {
-        ps_output_color = float4(1.0f, 1.0f, 1.0f, 0.0f);
         return ps_output_color;
     }
     

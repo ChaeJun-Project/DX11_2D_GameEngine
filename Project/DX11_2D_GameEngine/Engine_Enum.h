@@ -11,6 +11,6 @@ extern ClientState client_state;
 enum class FileType : UINT
 {
     Scene = 0,
-    Tile = 1,
+    TileMap = 1,
     Animation = 2,
 };

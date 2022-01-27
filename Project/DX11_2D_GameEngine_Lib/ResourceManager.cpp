@@ -6,8 +6,11 @@
 //Material
 #include "Material.h"
 //Shader
-#include "Shader.h"
+#include "VertexShader.h"
+#include "GeometryShader.h"
+#include "PixelShader.h"
 #include "ComputeShader.h"
+#include "Shader.h"
 //Texture
 #include "Texture.h"
 //AudioClip
@@ -18,6 +21,8 @@
 #include "SpriteAnimation.h"
 //TileMap
 #include "TileMap.h"
+
+#include "GameObject.h"
 
 ResourceManager::~ResourceManager()
 {
@@ -102,7 +107,7 @@ void ResourceManager::CreateDefaultShader()
 
 	auto shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	auto result = shader_iter.second;
-	assert(result);
+
 	if (!result)
 		return;
 
@@ -120,7 +125,7 @@ void ResourceManager::CreateDefaultShader()
 
 	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
-	assert(result);
+
 	if (!result)
 		return;
 
@@ -138,7 +143,7 @@ void ResourceManager::CreateDefaultShader()
 
 	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
-	assert(result);
+
 	if (!result)
 		return;
 
@@ -155,7 +160,7 @@ void ResourceManager::CreateDefaultShader()
 
 	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
-	assert(result);
+
 	if (!result)
 		return;
 
@@ -165,6 +170,7 @@ void ResourceManager::CreateDefaultShader()
 	p_shader->AddShader<GeometryShader>("Shader/RainShader.fx", "GS_Rain", "gs_5_0");
 	p_shader->AddShader<PixelShader>("Shader/RainShader.fx", "PS_Rain", "ps_5_0");
 	p_shader->AddShader<ComputeShader>("Shader/RainUpdate.fx", "CS_Rain", "cs_5_0");
+	AddComputeShader("Rain", p_shader->GetShader<ComputeShader>());
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::GS | PipelineStage::PS);
 
 	p_shader->SetRenderTimePointType(RenderTimePointType::Particle);
@@ -175,7 +181,7 @@ void ResourceManager::CreateDefaultShader()
 
 	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
-	assert(result);
+
 	if (!result)
 		return;
 
@@ -192,7 +198,7 @@ void ResourceManager::CreateDefaultShader()
 
 	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
-	assert(result);
+
 	if (!result)
 		return;
 
@@ -209,7 +215,7 @@ void ResourceManager::CreateDefaultShader()
 
 	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
-	assert(result);
+
 	if (!result)
 		return;
 
@@ -226,28 +232,22 @@ void ResourceManager::CreateDefaultShader()
 
 	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
-	assert(result);
+
 	if (!result)
 		return;
 }
 
 void ResourceManager::AddComputeShader(const std::string& compute_shader_name, const std::shared_ptr<ComputeShader>& p_compute_shader)
 {
-	auto compute_shader_iter = m_p_compute_shader_map.insert(std::make_pair(compute_shader_name, p_compute_shader));
-	auto result = compute_shader_iter.second;
-	assert(result);
-	if (!result)
-		return;
+	m_p_compute_shader_map.insert(std::make_pair(compute_shader_name, p_compute_shader));
 }
 
 const std::shared_ptr<ComputeShader>& ResourceManager::GetComputeShader(const std::string& compute_shader_name)
 {
 	auto compute_shader_iter = m_p_compute_shader_map.find(compute_shader_name);
 
-#ifdef _DEBUG
 	if (compute_shader_iter == m_p_compute_shader_map.end())
 		return nullptr;
-#endif 
 
 	return compute_shader_iter->second;
 }
@@ -294,9 +294,8 @@ const std::shared_ptr<Material>& ResourceManager::CreateMaterial(const std::stri
 
 	auto material_iter = material_map.insert(std::make_pair(material_name, p_material));
 	auto result = material_iter.second;
-	assert(result);
 	if (!result)
-		return nullptr;
+		return std::dynamic_pointer_cast<Material>(material_map.find(material_name)->second);
 
 	return std::dynamic_pointer_cast<Material>(material_iter.first->second);
 }
@@ -340,8 +339,8 @@ const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string
 {
 	auto& texture_map = m_resources_map[ResourceType::Texture];
 
-	std::string texture_name = FileManager::GetOriginFileNameFromPath(texture_path);
-	auto file_name = FileManager::GetFileNameFromPath(texture_path);
+	std::string texture_name = FILE_MANAGER->GetOriginFileNameFromPath(texture_path);
+	auto file_name = FILE_MANAGER->GetFileNameFromPath(texture_path);
 
 	auto p_texture = std::make_shared<Texture>(texture_name);
 	p_texture->SetResourcePath(texture_path);
@@ -353,9 +352,8 @@ const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string
 
 	auto texture_iter = texture_map.insert(std::make_pair(texture_name, p_texture));
 	auto result = texture_iter.second;
-	assert(result);
 	if (!result)
-		return nullptr;
+		return std::dynamic_pointer_cast<Texture>(texture_map.find(texture_name)->second);
 
 	return std::dynamic_pointer_cast<Texture>(texture_iter.first->second);
 }
@@ -370,9 +368,8 @@ const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string
 	//해당 이름의 texture가 없는 경우 => 새로 생성
 	auto texture_iter = texture_map.insert(std::make_pair(texture_name, p_texture));
 	auto result = texture_iter.second;
-	assert(result);
 	if (!result)
-		return nullptr;
+		return std::dynamic_pointer_cast<Texture>(texture_map.find(texture_name)->second);
 
 	return std::dynamic_pointer_cast<Texture>(texture_iter.first->second);
 }
@@ -386,9 +383,8 @@ const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string
 
 	auto texture_iter = texture_map.insert(std::make_pair(texture_name, p_texture));
 	auto result = texture_iter.second;
-	assert(result);
 	if (!result)
-		return nullptr;
+		return std::dynamic_pointer_cast<Texture>(texture_map.find(texture_name)->second);
 
 	return std::dynamic_pointer_cast<Texture>(texture_iter.first->second);
 }
@@ -414,9 +410,8 @@ const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const std::string& mesh
 
 	auto mesh_iter = mesh_map.insert(std::make_pair(mesh_name, p_mesh));
 	auto result = mesh_iter.second;
-	assert(result);
 	if (!result)
-		return nullptr;
+		return std::dynamic_pointer_cast<Mesh>(mesh_map.find(mesh_name)->second);
 
 	return std::dynamic_pointer_cast<Mesh>(mesh_iter.first->second);
 }
@@ -425,7 +420,7 @@ const std::shared_ptr<AudioClip>& ResourceManager::CreateAudioClip(const std::st
 {
 	auto& audio_clip_map = m_resources_map[ResourceType::AudioClip];
 
-	std::string audio_clip_name = FileManager::GetOriginFileNameFromPath(audio_clip_path);
+	std::string audio_clip_name = FILE_MANAGER->GetOriginFileNameFromPath(audio_clip_path);
 
 	auto p_audio_clip = std::make_shared<AudioClip>(audio_clip_name);
 	p_audio_clip->SetResourcePath(audio_clip_path);
@@ -433,9 +428,8 @@ const std::shared_ptr<AudioClip>& ResourceManager::CreateAudioClip(const std::st
 
 	auto audio_clip_iter = audio_clip_map.insert(std::make_pair(audio_clip_name, p_audio_clip));
 	auto result = audio_clip_iter.second;
-	assert(result);
 	if (!result)
-		return nullptr;
+		return std::dynamic_pointer_cast<AudioClip>(audio_clip_map.find(audio_clip_name)->second);
 
 	return std::dynamic_pointer_cast<AudioClip>(audio_clip_iter.first->second);
 }
@@ -451,9 +445,8 @@ const std::shared_ptr<Prefab>& ResourceManager::CreatePrefab(GameObject* p_game_
 
 	auto prefab_iter = prefab_map.insert(std::make_pair(p_game_object->GetGameObjectName(), p_prefab));
 	auto result = prefab_iter.second;
-	assert(result);
 	if (!result)
-		return nullptr;
+		return std::dynamic_pointer_cast<Prefab>(prefab_map.find(p_game_object->GetGameObjectName())->second);
 
 	return std::dynamic_pointer_cast<Prefab>(prefab_iter.first->second);
 }
@@ -466,9 +459,8 @@ const std::shared_ptr<SpriteAnimation>& ResourceManager::CreateSpriteAnimation(c
 
 	auto animation2D_iter = animation2D_map.insert(std::make_pair(animation2D_name, p_animation2D));
 	auto result = animation2D_iter.second;
-	assert(result);
 	if (!result)
-		return nullptr;
+		return std::dynamic_pointer_cast<SpriteAnimation>(animation2D_map.find(animation2D_name)->second);
 
 	return std::dynamic_pointer_cast<SpriteAnimation>(animation2D_iter.first->second);
 }
@@ -481,9 +473,12 @@ const std::shared_ptr<TileMap>& ResourceManager::CreateTileMap(const std::string
 
 	auto tile_map_iter = tile_map.insert(std::make_pair(tile_map_name, p_tile_map));
 	auto result = tile_map_iter.second;
-	assert(result);
 	if (!result)
-		return nullptr;
+	{
+		EDITOR_LOG_ERROR_F("The [%s] TileMap Already Exists", tile_map_name.c_str());
+		return std::dynamic_pointer_cast<TileMap>(tile_map.find(tile_map_name)->second);
+	}
 
+	EDITOR_LOG_INFO_F("Succeeded in Creating TileMap: [%s]", tile_map_name.c_str());
 	return std::dynamic_pointer_cast<TileMap>(tile_map_iter.first->second);
 }

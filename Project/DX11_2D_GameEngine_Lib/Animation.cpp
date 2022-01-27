@@ -61,7 +61,7 @@ bool Animation::LoadFromFile(const std::string& animation_directory_path)
 
 	auto resource_manager = ResourceManager::GetInstance();
 
-	auto file_name_vector = FileManager::GetFileNameVectorFromDirectory(animation_directory_path);
+	auto file_name_vector = FILE_MANAGER->GetFileNameVectorFromDirectory(animation_directory_path);
 
 	m_p_texture_vector.reserve(file_name_vector.size());
 

@@ -4,6 +4,7 @@
 #include <DX11_2D_GameEngine_Lib/TimeManager.h>
 #include <DX11_2D_GameEngine_Lib/InputManager.h>
 
+#include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/Transform.h>
 
 void CameraEx::FinalUpdate()

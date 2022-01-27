@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IResource.h"
+#include "SceneManager.h"
 
 class Shader;
 class ComputeShader;
@@ -12,6 +13,7 @@ class AudioClip;
 class Prefab;
 class SpriteAnimation;
 class TileMap;
+
 class GameObject;
 
 typedef std::map<std::string, std::shared_ptr<IResource>> ResourceMap;
@@ -158,7 +160,7 @@ void ResourceManager::SaveToFile(const std::shared_ptr<T>& p_resource, const std
 		return;
 #endif 
 
-	auto file_name = FileManager::GetFileNameFromPath(resource_path);
+	auto file_name = FILE_MANAGER->GetFileNameFromPath(resource_path);
 
 	//SaveToFile
 	if (!p_resource->SaveToFile(resource_path))
@@ -184,18 +186,19 @@ void ResourceManager::LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file)
 	char char_buffer[256] = {};
 
 	//Resource Name
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 
 	//Resource Path
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	std::string resource_path = std::string(char_buffer);
 
 	if (resource_path._Equal("None"))
 		return;
 
-	if (std::is_same<T, Material>::value || std::is_same<T, AudioClip>::value || std::is_same<T, SpriteAnimation>::value)
+	if (std::is_same<T, Material>::value || std::is_same<T, AudioClip>::value ||
+		std::is_same<T, SpriteAnimation>::value || std::is_same<T, TileMap>::value)
 	{
 		auto clone_resource = LoadFromFile<T>(resource_path)->Clone();
 		p_resource = std::shared_ptr<T>(clone_resource);
@@ -216,8 +219,8 @@ const std::shared_ptr<T>& ResourceManager::LoadFromFile(const std::string& resou
 
 	auto resource_type = GetResourceType<T>(); //타입 T에 해당하는 Resource Type 반환
 	auto& resource_map = m_resources_map[resource_type]; //Resource Type에 해당하는 Resource Map 반환
-	auto resource_name = FileManager::GetOriginFileNameFromPath(resource_path);
-	auto file_name = FileManager::GetFileNameFromPath(resource_path);
+	auto resource_name = FILE_MANAGER->GetOriginFileNameFromPath(resource_path);
+	auto file_name = FILE_MANAGER->GetFileNameFromPath(resource_path);
 
 	//해당 리소스가 이미 존재한다면
 	auto resource_iter = resource_map.find(resource_name);

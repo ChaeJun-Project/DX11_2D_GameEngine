@@ -6,7 +6,7 @@ void ShowInt(const std::string& label_tag, const char* label_name, int& value, c
 	ImGui::Text(label_name);
 	ImGui::SameLine(indent);
 	ImGui::PushItemWidth(size);
-	std::string label_str = "##" + label_tag + "_" + FileManager::ConvertCharToString(label_name);
+	std::string label_str = "##" + label_tag + "_" + FILE_MANAGER->ConvertCharToString(label_name);
 	ImGui::InputInt(label_str.c_str(), &value, flags);
 	ImGui::PopItemWidth();
 }
@@ -14,7 +14,7 @@ void ShowInt(const std::string& label_tag, const char* label_name, int& value, c
 void ShowInt2(const char* label_name, int& value_x, int& value_y, const float& size, const float& indent, ImGuiInputTextFlags flags)
 {
 	ImGui::BeginGroup(); //하나의 그룹으로 묶기
-	std::string label_str = FileManager::ConvertCharToString(label_name);
+	std::string label_str = FILE_MANAGER->ConvertCharToString(label_name);
 	ImGui::Text(label_name);
 	ImGui::SameLine(indent); //같은 라인에서 80만큼 떨어져서 시작
 
@@ -31,7 +31,7 @@ void ShowFloat(const std::string& label_tag, const char* label_name, float& valu
 	ImGui::Text(label_name);
 	ImGui::SameLine(indent);
 	ImGui::PushItemWidth(size);
-	std::string label_str = "##" + label_tag + "_" + FileManager::ConvertCharToString(label_name);
+	std::string label_str = "##" + label_tag + "_" + FILE_MANAGER->ConvertCharToString(label_name);
 	ImGui::InputFloat(label_str.c_str(), &value);
 	ImGui::PopItemWidth();
 }
@@ -39,7 +39,7 @@ void ShowFloat(const std::string& label_tag, const char* label_name, float& valu
 void ShowFloat2(const char* label_name, Vector2& value, const float& size, const float& indent, ImGuiInputTextFlags flags)
 {
 	ImGui::BeginGroup(); //하나의 그룹으로 묶기
-	std::string label_str = FileManager::ConvertCharToString(label_name);
+	std::string label_str = FILE_MANAGER->ConvertCharToString(label_name);
 	ImGui::Text(label_name);
 	ImGui::SameLine(indent); //같은 라인에서 80만큼 떨어져서 시작
 
@@ -55,7 +55,7 @@ void ShowFloat3(const char* label_name, Vector3& value, const float& size, const
 {
 	ImGui::BeginGroup(); //하나의 그룹으로 묶기
 	ImGui::Text(label_name);
-	std::string label_str = FileManager::ConvertCharToString(label_name);
+	std::string label_str = FILE_MANAGER->ConvertCharToString(label_name);
 	ImGui::SameLine(indent); //같은 라인에서 80만큼 떨어져서 시작
 
 	//Draw X
@@ -72,7 +72,7 @@ void ShowFloat4(const char* label_name, Vector4& value, const float& size, const
 {
 	ImGui::BeginGroup(); //하나의 그룹으로 묶기
 	ImGui::Text(label_name);
-	std::string label_str = FileManager::ConvertCharToString(label_name);
+	std::string label_str = FILE_MANAGER->ConvertCharToString(label_name);
 	ImGui::SameLine(indent); //같은 라인에서 80만큼 떨어져서 시작
 
 	//Draw X

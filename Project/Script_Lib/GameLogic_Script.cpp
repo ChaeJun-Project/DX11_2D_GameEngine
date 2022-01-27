@@ -13,6 +13,8 @@
 #include "WalkCannon_Script.h"
 #include "WalkCannon_Bullet_Script.h"
 
+#include <DX11_2D_GameEngine_Lib/GameObject.h>
+
 GameLogic_Script::GameLogic_Script()
 {
 }
@@ -26,33 +28,33 @@ void GameLogic_Script::Start()
 	auto scene_manager = SceneManager::GetInstance();
 	auto current_scene = scene_manager->GetCurrentScene();
 
-	//Geometry(2)
-	auto geometry = new GameObject();
-	geometry->SetGameObjectName("Geometry");
-	geometry->SetGameObjectTag("Geometry");
-	geometry->AddComponent(new Transform());
-	geometry->AddComponent(new Geometry_Script());
+	////Geometry(2)
+	//auto geometry = new GameObject();
+	//geometry->SetGameObjectName("Geometry");
+	//geometry->SetGameObjectTag("Geometry");
+	//geometry->AddComponent(new Transform());
+	//geometry->AddComponent(new Geometry_Script());
 
-	current_scene->RegisterGameObject(geometry);
+	//current_scene->RegisterGameObject(geometry);
 
-	//RockManZ(3)
-	auto rockmanZ = new GameObject();
-	rockmanZ->SetGameObjectName("RockManZ");
-	rockmanZ->SetGameObjectTag("Player");
-	rockmanZ->AddComponent(new Transform());
-	rockmanZ->AddComponent(new SpriteRenderer());
-	rockmanZ->AddComponent(new Animator());
-	rockmanZ->AddComponent(new Collider2D());
-	rockmanZ->AddComponent(new RockManZ_Script());
+	////RockManZ(3)
+	//auto rockmanZ = new GameObject();
+	//rockmanZ->SetGameObjectName("RockManZ");
+	//rockmanZ->SetGameObjectTag("Player");
+	//rockmanZ->AddComponent(new Transform());
+	//rockmanZ->AddComponent(new SpriteRenderer());
+	//rockmanZ->AddComponent(new Animator());
+	//rockmanZ->AddComponent(new Collider2D());
+	//rockmanZ->AddComponent(new RockManZ_Script());
 
-	auto collider2D = rockmanZ->GetComponent<Collider2D>();
-	collider2D->SetOffsetPosition(Vector2(0.0f, -0.1f));
-	collider2D->SetOffsetScale(Vector2(0.45f, 0.5f));
-	rockmanZ->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.5f));
-	auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
-	rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 33.0f - 180.0f), 0.0f));
+	//auto collider2D = rockmanZ->GetComponent<Collider2D>();
+	//collider2D->SetOffsetPosition(Vector2(0.0f, -0.1f));
+	//collider2D->SetOffsetScale(Vector2(0.45f, 0.5f));
+	//rockmanZ->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.5f));
+	//auto scale = rockmanZ->GetComponent<Transform>()->GetScale();
+	//rockmanZ->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, (scale.y * 33.0f - 180.0f), 0.0f));
 
-	current_scene->RegisterGameObject(rockmanZ);
+	//current_scene->RegisterGameObject(rockmanZ);
 
 	////Enemy(4)
 	//auto walkcannon = new GameObject();

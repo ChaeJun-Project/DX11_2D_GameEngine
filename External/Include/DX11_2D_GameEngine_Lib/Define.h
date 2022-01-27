@@ -19,12 +19,25 @@ typedef unsigned long ULONG;
 //자원 메모리 해제 매크로 정의
 #define SAFE_RELEASE(p)         { if(p) { p->Release(); p = nullptr; } }
 
+//Manager
+#define AUDIO_MANAGER		AudioManager::GetInstance()
+#define COLLISION_MANAGER   CollisionManager::GetInstance()
+#define EVENT_MANAGER		EventManager::GetInstance()
+#define FILE_MANAGER		FileManager::GetInstance()
+#define FONT_MANAGER		FontManager::GetInstance()
+#define GRAPHICS_MANAGER	GraphicsManager::GetInstance()
+#define INPUT_MANAGER		InputManager::GetInstance()
+#define LOG_MANAGER			LogManager::GetInstance()
+#define RENDER_MANAGER		RenderManager::GetInstance()
+#define RESOURCE_MANAGER	ResourceManager::GetInstance()
+#define SCENE_MANAGER		SceneManager::GetInstance()
+#define TIME_MANAGER		TimeManager::GetInstance()
+
 //Log
-#define LOG_MANAGER					LogManager::GetInstance()
 //Editor
-#define EDITOR_LOG_INFO_F(text, ...)       { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Info_Formatted(text, __VA_ARGS__); }
-#define EDITOR_LOG_WARNING_F(text, ...)    { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Warning_Formatted(text, __VA_ARGS__); }
-#define EDITOR_LOG_ERROR_F(text, ...)      { LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Error_Formatted(text, __VA_ARGS__); }
+#define EDITOR_LOG_INFO_F(text, ...)       { if(SCENE_MANAGER->GetClientState() == 2) {LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Info_Formatted(text, __VA_ARGS__); } }
+#define EDITOR_LOG_WARNING_F(text, ...)    { if(SCENE_MANAGER->GetClientState() == 2) {LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Warning_Formatted(text, __VA_ARGS__); } }
+#define EDITOR_LOG_ERROR_F(text, ...)      { if(SCENE_MANAGER->GetClientState() == 2) {LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Error_Formatted(text, __VA_ARGS__); } }
 //Play
 #define PLAY_LOG_INFO_F(text, ...)       { LOG_MANAGER->Info_Formatted(text, __VA_ARGS__); }
 #define PLAY_LOG_WARNING_F(text, ...)    { LOG_MANAGER->Warning_Formatted(text, __VA_ARGS__); }
@@ -32,40 +45,44 @@ typedef unsigned long ULONG;
 
 //Time
 //Delta Time
-#define DELTA_TIME_D TimeManager::GetInstance()->GetDeltaTime_double()
-#define DELTA_TIME_F TimeManager::GetInstance()->GetDeltaTime_float()
-#define CURRENT_TIME TimeManager::GetInstance()->GetCurrentTime_str()
+#define DELTA_TIME_D	TIME_MANAGER->GetDeltaTime_double()
+#define DELTA_TIME_F	TIME_MANAGER->GetDeltaTime_float()
+#define CURRENT_TIME	TIME_MANAGER->GetCurrentTime_str()
 
 //Input
 //Key 상태 체크 매크로 정의 
-#define KEY_PRESS(key) InputManager::GetInstance()->KeyPress(key)
-#define KEY_DOWN(key) InputManager::GetInstance()->KeyDown(key)
-#define KEY_UP(key) InputManager::GetInstance()->KeyUp(key)
+#define KEY_PRESS(key)  INPUT_MANAGER->KeyPress(key)
+#define KEY_DOWN(key)	INPUT_MANAGER->KeyDown(key)
+#define KEY_UP(key)		INPUT_MANAGER->KeyUp(key)
 
 //Mouse 상태 체크 매크로 정의
-#define MOUSE_BUTTON_DOWN(button) InputManager::GetInstance()->BtnDown(button)
-#define MOUSE_BUTTON_UP(button) InputManager::GetInstance()->BtnUp(button)
-#define MOUSE_BUTTON_PRESS(button) InputManager::GetInstance()->BtnPress(button)
+#define MOUSE_BUTTON_DOWN(button)	 INPUT_MANAGER->BtnDown(button)
+#define MOUSE_BUTTON_UP(button)		 INPUT_MANAGER->BtnUp(button)
+#define MOUSE_BUTTON_PRESS(button)   INPUT_MANAGER->BtnPress(button)
 
-#define MOUSE_MOVE InputManager::GetInstance()->GetMouseMoveValue()
+#define MOUSE_MOVE		INPUT_MANAGER->GetMouseMoveValue()
 
 //DirectX11 
 //Device & Device Context
-#define DEVICE GraphicsManager::GetInstance()->GetDevice()
-#define DEVICE_CONTEXT GraphicsManager::GetInstance()->GetDeviceContext()
+#define DEVICE			GRAPHICS_MANAGER->GetDevice()
+#define DEVICE_CONTEXT	GRAPHICS_MANAGER->GetDeviceContext()
 
 //Audio
-#define AUDIO_SYSTEM AudioManager::GetInstance()->GetAudioSystem()
+#define AUDIO_SYSTEM	AUDIO_MANAGER->GetAudioSystem()
 
 //클래스 복사 생성 매크로 정의(깊은 복사, 기존 클래스와 클론 클래스가 같은 메모리를 참조하지 않음)
 #define CLONE(type) type* Clone() {return new type(*this);}
 
+//최대 Layer 개수
 #define MAX_LAYER 32
 
-#define ANIMATION_PATH FileManager::GetAbsoluteContentPath() + "Asset/Animation/"
-#define AUDIO_PATH     FileManager::GetAbsoluteContentPath() + "Asset/Audio/"
-#define MATERIAL_PATH  FileManager::GetAbsoluteContentPath() + "Asset/Material/"
-#define MESH_PATH      FileManager::GetAbsoluteContentPath() + "Asset/Mesh/"
-#define SCENE_PATH     FileManager::GetAbsoluteContentPath() + "Asset/Scene/"
-#define TEXTURE_PATH   FileManager::GetAbsoluteContentPath() + "Asset/Texture/"
-#define TILE_PATH      FileManager::GetAbsoluteContentPath() + "Asset/Tile/"
+//Path
+#define ABSOLUTE_CONTENT_PATH  FILE_MANAGER->GetAbsoluteContentPath();
+#define ANIMATION_PATH		   "Asset/Animation/"
+#define AUDIO_PATH			   "Asset/Audio/"
+#define MATERIAL_PATH		   "Asset/Material/"
+#define MESH_PATH			   "Asset/Mesh/"
+#define SCENE_PATH			   "Asset/Scene/"
+#define TEXTURE_PATH		   "Asset/Texture/"
+#define TILEMAP_PATH		   "Asset/TileMap/"
+#define PREFAB_PATH			   "Asset/Prefab/"

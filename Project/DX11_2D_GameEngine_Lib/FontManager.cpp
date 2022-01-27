@@ -22,7 +22,7 @@ void FontManager::DrawFont(const std::string& font, const float& font_size, cons
 		m_p_fw1_font_wrapper->DrawString
 		(
 			DEVICE_CONTEXT,
-			FileManager::ConvertStringToWString(font).c_str(),
+			FILE_MANAGER->ConvertStringToWString(font).c_str(),
 			font_size,
 			window_pos_x,
 			window_pos_y,

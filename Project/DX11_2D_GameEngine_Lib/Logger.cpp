@@ -6,7 +6,7 @@
 Logger::Logger(const std::string& log_file_name)
 	:m_log_file_name(log_file_name)
 {
-	m_log_path = FileManager::GetAbsoluteContentPath() + m_log_path;
+	m_log_path = FILE_MANAGER->GetAbsoluteContentPath() + m_log_path;
 	m_log_file_name = m_log_path + m_log_file_name;
 }
 

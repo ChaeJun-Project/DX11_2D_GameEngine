@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "AudioListener.h"
 
-#include "AudioManager.h"
+#include "GameObject.h"
+#include "Transform.h"
 
 AudioListener::AudioListener()
 	:IComponent(ComponentType::AudioListener)
@@ -17,12 +18,12 @@ AudioListener::AudioListener(const AudioListener& origin)
 
 void AudioListener::Start()
 {
-	AudioManager::GetInstance()->SetListenerTransform(m_p_owner_game_object->GetComponent<Transform>());
+	AUDIO_MANAGER->SetListenerTransform(m_p_owner_game_object->GetComponent<Transform>());
 }
 
 void AudioListener::FinalUpdate()
 {
-	AudioManager::GetInstance()->SetListenerTransform(m_p_owner_game_object->GetComponent<Transform>());
+	AUDIO_MANAGER->SetListenerTransform(m_p_owner_game_object->GetComponent<Transform>());
 }
 
 void AudioListener::SaveToScene(FILE* p_file)

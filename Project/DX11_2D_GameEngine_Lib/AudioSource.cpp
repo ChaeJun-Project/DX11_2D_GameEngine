@@ -164,14 +164,14 @@ void AudioSource::LoadFromScene(FILE* p_file)
 	char char_buffer[256] = { 0 };
 
 	//Audio
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	ResourceManager::GetInstance()->LoadResource<AudioClip>(m_p_audio_clip, p_file);
 
 	//Loop
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	fscanf_s(p_file, "%d\n", &m_is_loop);
 
 	//Volume
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	fscanf_s(p_file, "%f\n", &m_volume);
 }

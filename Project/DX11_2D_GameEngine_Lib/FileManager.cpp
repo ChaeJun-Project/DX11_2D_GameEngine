@@ -3,6 +3,8 @@
 #include <filesystem> //파일을 관리하기 위한 라이브러리 포함
 #include <shellapi.h>
 
+using namespace std::filesystem;
+
 //find()                : 주어진 문자열이 존재하는 위치-> 정방향
 //rfind()               : 주어진 문자열이 존재하는 위치-> 역방향
 //find_first_of()       : 주어진 문자 중에 하나라도 걸리는 첫번째 위치
@@ -10,113 +12,44 @@
 //find_first_not_of()   : 주어진 문자가 아닌 문자가 걸리는 첫번째 위치
 //find_last_not_of()    : 주어진 문자가 아닌 문자가 걸리는 마지막 위치
 
-using namespace std::filesystem;
-
-std::string FileManager::absolute_content_path;
-
-//Texture에 지원되는 확장자들
-std::vector<std::string> FileManager::supported_texture_formats
+FileManager::~FileManager()
 {
-	".jpg",
-	".png",
-	".bmp",
-	".tga",
-	".dds",
-	".exr",
-	".raw",
-	".gif",
-	".hdr",
-	".ico",
-	".iff",
-	".jng",
-	".jpeg",
-	".koala",
-	".kodak",
-	".mng",
-	".pcx",
-	".pbm",
-	".pgm",
-	".ppm",
-	".pfm",
-	".pict",
-	".psd",
-	".raw",
-	".sgi",
-	".targa",
-	".tiff",
-	".tif",
-	".wbmp",
-	".webp",
-	".xbm",
-	".xpm"
-};
+	absolute_content_path.clear();
+	absolute_content_path.shrink_to_fit();
 
-//Model에 지원되는 확장자들
-std::vector<std::string> FileManager::supported_model_formats
-{
-	".3ds",
-	".obj",
-	".fbx",
-	".blend",
-	".dae",
-	".lwo",
-	".c4d",
-	".ase",
-	".dxf",
-	".hmp",
-	".md2",
-	".md3",
-	".md5",
-	".mdc",
-	".mdl",
-	".nff",
-	".ply",
-	".stl",
-	".x",
-	".smd",
-	".lxo",
-	".lws",
-	".ter",
-	".ac3d",
-	".ms3d",
-	".cob",
-	".q3bsp",
-	".xgl",
-	".csm",
-	".bvh",
-	".b3d",
-	".ndo"
-};
+	supported_texture_formats.clear();
+	supported_texture_formats.shrink_to_fit();
 
-//Audio에 지원되는 확장자들
-std::vector<std::string> FileManager::supported_audio_formats
-{
-	".aiff",
-	".asf",
-	".asx",
-	".dls",
-	".flac",
-	".fsb",
-	".it",
-	".m3u",
-	".midi",
-	".mod",
-	".mp2",
-	".mp3",
-	".ogg",
-	".pls",
-	".s3m",
-	".vag", // PS2/PSP
-	".wav",
-	".wax",
-	".wma",
-	".xm",
-	".xma" // XBOX 360
-};
+	supported_model_formats.clear();
+	supported_model_formats.shrink_to_fit();
+
+	supported_audio_formats.clear();
+	supported_audio_formats.shrink_to_fit();
+}
 
 void FileManager::Initialize()
 {
 	absolute_content_path = GetWorkingDirectory();
+
+	//Texture에 지원되는 확장자들
+	supported_texture_formats =
+	{
+		".jpg", ".png", ".bmp", ".tga",
+		".dds", ".exr", ".raw", ".gif",
+		".hdr", ".ico", ".jng", ".jpeg"
+	};
+
+	//Model에 지원되는 확장자들
+	supported_model_formats = 
+	{
+		".3ds", ".obj", ".fbx", ".blend"
+	};
+
+	//Audio에 지원되는 확장자들
+	supported_audio_formats = 
+	{
+		".mod", ".mp3", ".wav"
+	};
 }
 
 void FileManager::OpenDirectoryWindow(const std::string& directory)

@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Mesh.h"
 
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+
 Mesh::Mesh(const std::string& mesh_resource_name)
 	:IResource(ResourceType::Mesh, mesh_resource_name)
 {
@@ -174,28 +177,28 @@ void Mesh::CreateRectangleMesh()
 		//Left Top Vertex(좌상단 정점)
 		vertex.m_position = Vector3(-0.5f, 0.5f, 0.0f);
 		vertex.m_color = Vector4::White;
-		vertex.m_color.w = 1.0f;
+		vertex.m_color.w = 0.0f;
 		vertex.m_uv = Vector2(0.0f, 0.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Right Top Vertex(우상단 정점)
 		vertex.m_position = Vector3(0.5f, 0.5f, 0.0f);
 		vertex.m_color = Vector4::White;
-		vertex.m_color.w = 1.0f;
+		vertex.m_color.w = 0.0f;
 		vertex.m_uv = Vector2(1.0f, 0.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Right Bottom Vertex(우하단 정점)
 		vertex.m_position = Vector3(0.5f, -0.5f, 0.0f);
 		vertex.m_color = Vector4::White;
-		vertex.m_color.w = 1.0f;
+		vertex.m_color.w = 0.0f;
 		vertex.m_uv = Vector2(1.0f, 1.0f);
 		m_vertex_vector.emplace_back(vertex);
 
 		//Left Bottom Vertex(좌하단 정점)
 		vertex.m_position = Vector3(-0.5f, -0.5f, 0.0f);
 		vertex.m_color = Vector4::White;
-		vertex.m_color.w = 1.0f;
+		vertex.m_color.w = 0.0f;
 		vertex.m_uv = Vector2(0.0f, 1.0f);
 		m_vertex_vector.emplace_back(vertex);
 	}
@@ -315,7 +318,7 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Left Top Vertex(좌상단 정점)
 			vertex.m_position = Vector3(-0.5f + (column * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
 			vertex.m_color = Vector4::White;
-			vertex.m_color.w = 0.0f;
+			vertex.m_color.w = 1.0f;
 			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
@@ -327,7 +330,7 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Right Top Vertex(우상단 정점)
 			vertex.m_position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
 			vertex.m_color = Vector4::White;
-			vertex.m_color.w = 0.0f;
+			vertex.m_color.w = 1.0f;
 			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
@@ -339,7 +342,7 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Right Top Vertex(우상단 정점)
 			vertex.m_position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
 			vertex.m_color = Vector4::White;
-			vertex.m_color.w = 0.0f;
+			vertex.m_color.w = 1.0f;
 			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
@@ -348,7 +351,7 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Right Bottom Vertex(우하단 정점)
 			vertex.m_position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
 			vertex.m_color = Vector4::White;
-			vertex.m_color.w = 0.0f;
+			vertex.m_color.w = 1.0f;
 			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
@@ -360,7 +363,7 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Right Bottom Vertex(우하단 정점)
 			vertex.m_position = Vector3(-0.5f + ((column + 1) * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
 			vertex.m_color = Vector4::White;
-			vertex.m_color.w = 0.0f;
+			vertex.m_color.w = 1.0f;
 			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
@@ -369,7 +372,7 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Left Bottom Vertex(좌하단 정점)
 			vertex.m_position = Vector3(-0.5f + (column * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
 			vertex.m_color = Vector4::White;
-			vertex.m_color.w = 0.0f;
+			vertex.m_color.w = 1.0f;
 			vertex.m_uv = Vector2(0.0f, 1.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
@@ -381,7 +384,7 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Left Bottom Vertex(좌하단 정점)
 			vertex.m_position = Vector3(-0.5f + (column * tile_per_width), 0.5f - ((row + 1) * tile_per_height), 0.0f);
 			vertex.m_color = Vector4::White;
-			vertex.m_color.w = 0.0f;
+			vertex.m_color.w = 1.0f;
 			vertex.m_uv = Vector2(0.0f, 1.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);
@@ -390,7 +393,7 @@ void Mesh::CreateGridMesh(const UINT& count_x, const UINT& count_y)
 			//Left Top Vertex(좌상단 정점)
 			vertex.m_position = Vector3(-0.5f + (column * tile_per_width), 0.5f - (row * tile_per_height), 0.0f);
 			vertex.m_color = Vector4::White;
-			vertex.m_color.w = 0.0f;
+			vertex.m_color.w = 1.0f;
 			vertex.m_uv = Vector2(0.0f, 0.0f);
 			m_vertex_vector.emplace_back(vertex);
 			m_index_vector.emplace_back(index);

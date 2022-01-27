@@ -116,15 +116,15 @@ void Transform::SaveToScene(FILE* p_file)
 
 	//Position
 	fprintf(p_file, "[Position]\n");
-	FileManager::FPrintf_Vector3(m_local_translation, p_file);
+	FILE_MANAGER->FPrintf_Vector3(m_local_translation, p_file);
 
 	//Rotation
 	fprintf(p_file, "[Rotation]\n");
-	FileManager::FPrintf_Vector4<Quaternion>(m_local_rotation, p_file);
+	FILE_MANAGER->FPrintf_Vector4<Quaternion>(m_local_rotation, p_file);
 
 	//Scale
 	fprintf(p_file, "[Scale]\n");
-	FileManager::FPrintf_Vector3(m_local_scale, p_file);
+	FILE_MANAGER->FPrintf_Vector3(m_local_scale, p_file);
 }
 
 void Transform::LoadFromScene(FILE* p_file)
@@ -132,14 +132,14 @@ void Transform::LoadFromScene(FILE* p_file)
 	char char_buffer[256] = { 0 };
 
 	//Position
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf_Vector3(m_local_translation, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf_Vector3(m_local_translation, p_file);
 
 	//Rotation
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf_Vector4<Quaternion>(m_local_rotation, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf_Vector4<Quaternion>(m_local_rotation, p_file);
 
 	//Scale
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf_Vector3(m_local_scale, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf_Vector3(m_local_scale, p_file);
 }

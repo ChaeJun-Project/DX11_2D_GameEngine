@@ -15,7 +15,7 @@ bool Texture::LoadFromFile(const std::string& texture_path)
 	ScratchImage image;
 
 	//스크래치 이미지 생성
-	auto hResult = GetScratchImage(FileManager::ConvertStringToWString(texture_path), image);
+	auto hResult = GetScratchImage(FILE_MANAGER->ConvertStringToWString(texture_path), image);
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return false;
@@ -64,7 +64,7 @@ bool Texture::LoadFromFile(const std::string& texture_path)
 const HRESULT& Texture::GetScratchImage(const std::wstring& texture_path, ScratchImage& image)
 {
 	//해당 텍스처의 경로를 받아서 확장자를 받아옴(.png, .jpg 등)
-	std::wstring extension = FileManager::GetExtensionFromPath(texture_path);
+	std::wstring extension = FILE_MANAGER->GetExtensionFromPath(texture_path);
 
 	//.dds
 	if (extension._Equal(L".DDS") || extension._Equal(L".dds"))

@@ -1,6 +1,15 @@
 #include "stdafx.h"
 #include "Collider2D.h"
 
+#include "ConstantBuffer.h"
+
+#include "Material.h"
+#include "Mesh.h"
+
+#include "GameObject.h"
+#include "Transform.h"
+#include "Script.h"
+
 Collider2D::Collider2D()
 	:IComponent(ComponentType::Collider2D)
 {
@@ -135,11 +144,11 @@ void Collider2D::SaveToScene(FILE* p_file)
 
 	//Offset Position
 	fprintf(p_file, "[Offset Position]\n");
-	FileManager::FPrintf_Vector2(m_offset_position, p_file);
+	FILE_MANAGER->FPrintf_Vector2(m_offset_position, p_file);
 
 	//Offset Scale
 	fprintf(p_file, "[Offset Scale]\n");
-	FileManager::FPrintf_Vector2(m_offset_scale, p_file);
+	FILE_MANAGER->FPrintf_Vector2(m_offset_scale, p_file);
 }
 
 void Collider2D::LoadFromScene(FILE* p_file)
@@ -147,11 +156,11 @@ void Collider2D::LoadFromScene(FILE* p_file)
 	char char_buffer[256] = { 0 };
 
 	//Offset Position
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf_Vector2(m_offset_position, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf_Vector2(m_offset_position, p_file);
 
 	//Offset Scale
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf_Vector2(m_offset_scale, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf_Vector2(m_offset_scale, p_file);
 }
 	

@@ -455,9 +455,6 @@
     <Filter Include="Manager\Resource">
       <UniqueIdentifier>{69c4546d-9f19-4215-8aa6-fb86c50dba02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Manager\Stage">
-      <UniqueIdentifier>{197cb680-24e5-41e1-809b-aa302eb79124}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Manager\Input">
       <UniqueIdentifier>{285bbfeb-52a8-4e7f-9bee-3fbb323d69cc}</UniqueIdentifier>
     </Filter>

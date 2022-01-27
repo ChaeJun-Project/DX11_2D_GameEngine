@@ -3,35 +3,6 @@
 
 #include "Settings.h"
 
-#pragma region Manager
-//FileManager
-#include "FileManager.h"
-
-//TimeManager
-#include "TimeManager.h"
-
-//InputManager
-#include "InputManager.h"
-
-//GraphicsManager
-#include "GraphicsManager.h"
-
-//Resource Manager
-#include "ResourceManager.h"
-
-//SceneManager
-#include "SceneManager.h"
-
-//RenderManager
-#include "RenderManager.h"
-
-//FontManager
-#include "FontManager.h"
-
-//AudioManager
-#include "AudioManager.h"
-#pragma endregion
-
 Core::Core()
 {
 	//Create Settings
@@ -46,37 +17,37 @@ Core::~Core()
 void Core::Initialize()
 {
     //Initialize File Manager
-	FileManager::Initialize();
+	FILE_MANAGER->Initialize();
     //Initialize Time Manager 
-	TimeManager::GetInstance()->Initialize();
+	TIME_MANAGER->Initialize();
 	//Initialize Input Manager
-	InputManager::GetInstance()->Initialize();
+	INPUT_MANAGER->Initialize();
 	//Initialize Graphics Manager
-	GraphicsManager::GetInstance()->Initialize();
+	GRAPHICS_MANAGER->Initialize();
 	//Initialize Audio Manager
-	AudioManager::GetInstance()->Initialize();
+	AUDIO_MANAGER->Initialize();
 	//Initialize Resource Manager
-	ResourceManager::GetInstance()->Initialize();
+	RESOURCE_MANAGER->Initialize();
 	//Initialize Scene Manager
-	SceneManager::GetInstance()->Initialize();
+	SCENE_MANAGER->Initialize();
 	//Initialize Render Manager
-	RenderManager::GetInstance()->Initialize();
+	RENDER_MANAGER->Initialize();
 	//Initialize Font Manager
-	FontManager::GetInstance()->Initialize();
+	FONT_MANAGER->Initialize();
 }
 
 void Core::Progress()
 {
 	//Update Time Manager
-	TimeManager::GetInstance()->Update();
+	TIME_MANAGER->Update();
 	//Update Input Manager
-	InputManager::GetInstance()->Update();
+	INPUT_MANAGER->Update();
 	//Update Scene Manager
-	SceneManager::GetInstance()->Update();
+	SCENE_MANAGER->Update();
 	//Render Render Manager 
-	RenderManager::GetInstance()->Render();
+	RENDER_MANAGER->Render();
 	//Update Audio Manager
-	AudioManager::GetInstance()->Update();
+	AUDIO_MANAGER->Update();
 	//Update Event Manager
-	EventManager::GetInstance()->Update();
+	EVENT_MANAGER->Update();
 }

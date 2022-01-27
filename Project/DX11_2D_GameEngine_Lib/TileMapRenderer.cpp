@@ -7,6 +7,7 @@
 #include "ResourceManager.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "TileMap.h"
 
 #include "StructuredBuffer.h"
 
@@ -16,8 +17,6 @@
 TileMapRenderer::TileMapRenderer()
 	:IComponent(ComponentType::TileMapRenderer)
 {
-	m_p_tile_map_buffer = std::make_shared<StructuredBuffer>();
-
 	auto resource_manager = ResourceManager::GetInstance();
 
 	m_p_mesh = resource_manager->GetResource<Mesh>("Rectangle_Mesh");
@@ -37,28 +36,28 @@ TileMapRenderer::TileMapRenderer(const TileMapRenderer& origin)
 
 TileMapRenderer::~TileMapRenderer()
 {
-	//Tile Render
+	//Delete Tile Atlas Texture
+	m_p_current_tile_atlas_texture.reset();
+
+	//Delete TileMap
+	m_p_tile_map.reset();
+
+	//Delete Tile Render
 	m_p_mesh.reset();
 	m_p_material.reset();
 
-	//Tile
-	m_p_tile_map_buffer.reset();
-	m_tile_info_vector.clear();
-
-	//Grid
+	//Delete Grid Render
 	m_p_grid_mesh.reset();
 	m_p_grid_material.reset();
 	m_grid_left_top_vector.clear();
 }
 
-void TileMapRenderer::Start()
-{
-
-}
-
 void TileMapRenderer::FinalUpdate()
 {
-    auto render_manager = RenderManager::GetInstance();
+	if (m_p_tile_map == nullptr)
+		return;
+
+	auto render_manager = RenderManager::GetInstance();
 	auto screen_offset = render_manager->GetScreenOffset();
 	auto editor_camera = render_manager->GetEditorCamera();
 
@@ -66,17 +65,16 @@ void TileMapRenderer::FinalUpdate()
 	if (m_is_active_palette && (SceneManager::GetInstance()->GetEditorState() == EditorState_Stop) && MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
 	{
 		auto mouse_world_position = editor_camera->Picking();
-	
+
 		CalcCurrentPickRect(Vector2(mouse_world_position.x, mouse_world_position.y));
 	}
 
-	if (!m_tile_info_vector.empty())
-		m_p_tile_map_buffer->SetStructuredBufferData(m_tile_info_vector.data(), sizeof(TileInfo) * m_tile_count);
+	m_p_tile_map->FinalUpdate();
 }
 
 void TileMapRenderer::Render()
 {
-	if (m_p_mesh == nullptr || m_p_material == nullptr || m_p_material->GetShader() == nullptr)
+	if (m_p_tile_map == nullptr || m_p_mesh == nullptr || m_p_material == nullptr || m_p_material->GetShader() == nullptr)
 		return;
 
 	CalcGridCoord();
@@ -87,30 +85,39 @@ void TileMapRenderer::Render()
 
 void TileMapRenderer::CalcGridCoord()
 {
+	auto tile_count = m_p_tile_map->m_tile_count;
+	auto tile_size = m_p_tile_map->m_tile_size;
+	auto tile_count_x = m_p_tile_map->m_tile_count_x;
+	auto tile_count_y = m_p_tile_map->m_tile_count_y;
+
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
-	if (m_tile_size != Vector2::Zero && m_tile_count != 0)
+	if (tile_size != Vector2::Zero && tile_count != 0)
 	{
-		transform->SetMeshScale(static_cast<UINT>(m_tile_count_x * m_tile_size.x), static_cast<UINT>(m_tile_count_y * m_tile_size.y));
+		transform->SetMeshScale
+		(
+			static_cast<UINT>(tile_count_x * tile_size.x),
+			static_cast<UINT>(tile_count_y * tile_size.y)
+		);
 
 		auto world_matrix = transform->GetWorldMatrix();
 
-		for (UINT i = 0; i < m_tile_count; ++i)
+		for (UINT i = 0; i < tile_count; ++i)
 		{
 			Vector3 left_top = Vector3(m_grid_left_top_vector[i].x, m_grid_left_top_vector[i].y, 0.0f);
 
 			left_top = left_top * world_matrix;
 
-			m_tile_info_vector[i].left_top.x = left_top.x;
-			m_tile_info_vector[i].left_top.y = left_top.y;
+			m_p_tile_map->m_tile_data_vector[i].left_top.x = left_top.x;
+			m_p_tile_map->m_tile_data_vector[i].left_top.y = left_top.y;
 
-			Vector3 tile_size = Vector3(m_tile_size.x, m_tile_size.y, 0.0f);
+			Vector3 tile_size_vec3 = Vector3(m_p_tile_map->m_tile_size.x, m_p_tile_map->m_tile_size.y, 0.0f);
 
-			tile_size = tile_size * transform->GetLocalScale();
+			tile_size_vec3 = tile_size_vec3 * transform->GetLocalScale();
 
-			m_tile_info_vector[i].right_bottom = Vector2
+			m_p_tile_map->m_tile_data_vector[i].right_bottom = Vector2
 			(
-				m_tile_info_vector[i].left_top.x + tile_size.x,
-				m_tile_info_vector[i].left_top.y - tile_size.y
+				m_p_tile_map->m_tile_data_vector[i].left_top.x + tile_size_vec3.x,
+				m_p_tile_map->m_tile_data_vector[i].left_top.y - tile_size_vec3.y
 			);
 		}
 	}
@@ -120,20 +127,14 @@ void TileMapRenderer::CalcGridCoord()
 void TileMapRenderer::BindPipeline()
 {
 	//Set Tile Count X
-	m_p_material->SetConstantBufferData(Material_Parameter::INT_0, &m_tile_count_x);
+	m_p_material->SetConstantBufferData(Material_Parameter::INT_0, &(m_p_tile_map->m_tile_count_x));
 
 	//Set Tile Count Y
-	m_p_material->SetConstantBufferData(Material_Parameter::INT_1, &m_tile_count_y);
+	m_p_material->SetConstantBufferData(Material_Parameter::INT_1, &(m_p_tile_map->m_tile_count_y));
 
 	m_p_material->BindPipeline();
 
-	if (!m_tile_info_vector.empty())
-	{
-		//Set Tile Map Buffer
-		m_p_tile_map_buffer->SetBufferBindStage(PipelineStage::PS);
-		m_p_tile_map_buffer->SetBufferBindSlot(15);
-		m_p_tile_map_buffer->BindPipeline();
-	}
+	m_p_tile_map->BindPipeline();
 }
 
 void TileMapRenderer::DrawGrid()
@@ -143,6 +144,14 @@ void TileMapRenderer::DrawGrid()
 		m_p_grid_material->BindPipeline();
 		m_p_grid_mesh->Render();
 	}
+}
+
+void TileMapRenderer::CreateTileMap(const std::string& tile_map_name)
+{
+	auto p_new_tile_map = ResourceManager::GetInstance()->CreateTileMap(tile_map_name);
+
+	
+	m_p_tile_map = p_new_tile_map;
 }
 
 const std::shared_ptr<Texture>& TileMapRenderer::GetTileAtlasTexture(const UINT& tile_atlas_texture_index)
@@ -162,7 +171,7 @@ const std::shared_ptr<Texture>& TileMapRenderer::GetTileAtlasTexture(const UINT&
 
 void TileMapRenderer::SetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile_atlas_texture)
 {
-	if (m_p_material && m_tile_atlas_texture_count != 8)
+	if (m_p_tile_map && m_p_material && m_used_tile_atlas_texture_count != 8)
 	{
 		//현재 타일맵에 사용될 텍스처 저장
 		m_p_current_tile_atlas_texture = p_tile_atlas_texture;
@@ -181,7 +190,7 @@ void TileMapRenderer::SetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile
 		}
 
 		//Texture
-		UINT texture_offset = static_cast<UINT>(Material_Parameter::TEX_0) + m_tile_atlas_texture_count;
+		UINT texture_offset = static_cast<UINT>(Material_Parameter::TEX_0) + m_used_tile_atlas_texture_count;
 
 		m_p_material->SetConstantBufferData(static_cast<Material_Parameter>(texture_offset), nullptr, p_tile_atlas_texture);
 
@@ -195,63 +204,73 @@ void TileMapRenderer::SetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile
 		texture_info.y = static_cast<float>(p_tile_atlas_texture->GetHeight());
 
 		//Set Atlas Textrue UV
-		texture_info.z = m_tile_size.x / texture_info.x;
-		texture_info.w = m_tile_size.y / texture_info.y;
+		texture_info.z = m_p_tile_map->m_tile_size.x / texture_info.x;
+		texture_info.w = m_p_tile_map->m_tile_size.y / texture_info.y;
 
-		UINT texture_info_offset = static_cast<UINT>(Material_Parameter::VEC4_0) + m_tile_atlas_texture_count;
+		UINT texture_info_offset = static_cast<UINT>(Material_Parameter::VEC4_0) + m_used_tile_atlas_texture_count;
 
 		m_p_material->SetConstantBufferData(static_cast<Material_Parameter>(texture_info_offset), &texture_info);
 
-		m_current_tile_atlas_texture_index = static_cast<int>(m_tile_atlas_texture_count);
+		m_current_tile_atlas_texture_index = static_cast<int>(m_used_tile_atlas_texture_count);
 
-		++m_tile_atlas_texture_count;
+		++m_used_tile_atlas_texture_count;
 	}
+}
+
+const Vector2 TileMapRenderer::GetTileCount()
+{
+	if (m_p_tile_map == nullptr)
+		return Vector2::Zero;
+
+	return m_p_tile_map->m_tile_count;
 }
 
 void TileMapRenderer::SetTileCount(const UINT& tile_count_x, const UINT& tile_count_y)
 {
-	m_tile_count_x = tile_count_x;
-	m_tile_count_y = tile_count_y;
+	if (m_p_tile_map == nullptr)
+		return;
 
 	if (!m_grid_left_top_vector.empty())
 	{
 		m_grid_left_top_vector.clear();
 	}
 
-	//각 타일의 정보가 이미 저장되어 있다면
-	if (!m_tile_info_vector.empty())
-		m_tile_info_vector.clear(); //클리어
-
-	m_tile_count = m_tile_count_x * m_tile_count_y;
-	m_tile_info_vector.resize(m_tile_count);
-
-	m_p_grid_mesh->Create(MeshType::Grid, m_tile_count_x, m_tile_count_y);
+	m_p_grid_mesh->Create(MeshType::Grid, tile_count_x, tile_count_y);
 
 	m_grid_left_top_vector = m_p_grid_mesh->GetGridLeftTopVector();
 
-	for (UINT i = 0; i < m_tile_count; ++i)
-	{
-		m_tile_info_vector[i].tile_atlas_index = -1;
-		m_tile_info_vector[i].tile_index = -1;
-		m_tile_info_vector[i].left_top = m_grid_left_top_vector[i];
-	}
-
-	m_p_tile_map_buffer->Create(sizeof(TileInfo), m_tile_count, SBufferType::Read_Only, true, m_tile_info_vector.data());
+	m_p_tile_map->SetTileCount(tile_count_x, tile_count_y, m_grid_left_top_vector);
 
 	EDITOR_LOG_INFO_F("Tile Size: %dx%d", tile_count_x, tile_count_y);
 }
 
+const Vector2 TileMapRenderer::GetTileSize()
+{
+	if (m_p_tile_map == nullptr)
+		return Vector2::Zero;
+
+	return m_p_tile_map->m_tile_size;
+}
+
+void TileMapRenderer::SetTileSize(const Vector2& tile_size)
+{
+	if (m_p_tile_map == nullptr)
+		return;
+
+	m_p_tile_map->m_tile_size = tile_size;
+}
+
 void TileMapRenderer::CalcCurrentPickRect(const Vector2& current_screen_pos)
 {
-	for (int i = 0; i < static_cast<int>(m_tile_info_vector.size()); ++i)
+	for (int i = 0; i < static_cast<int>(m_p_tile_map->m_tile_data_vector.size()); ++i)
 	{
 		if (RenderManager::GetInstance()->CheckMouseWorldPositionInRect(
 			current_screen_pos,
-			m_tile_info_vector[i].left_top,
-			m_tile_info_vector[i].right_bottom))
+			m_p_tile_map->m_tile_data_vector[i].left_top,
+			m_p_tile_map->m_tile_data_vector[i].right_bottom))
 		{
-			m_tile_info_vector[i].tile_atlas_index = m_current_tile_atlas_texture_index;
-			m_tile_info_vector[i].tile_index = m_current_tile_index;
+			m_p_tile_map->m_tile_data_vector[i].tile_atlas_texture_index = m_current_tile_atlas_texture_index;
+			m_p_tile_map->m_tile_data_vector[i].tile_index = m_current_tile_index;
 		}
 	}
 }
@@ -262,17 +281,9 @@ void TileMapRenderer::SaveToScene(FILE* p_file)
 
 	auto resource_manager = ResourceManager::GetInstance();
 
-	//Tile
-	fprintf(p_file, "[Tile]\n");
-	fprintf(p_file, "[Count]\n");
-	fprintf(p_file, "%d\n", m_tile_count);
-	fprintf(p_file, "[Column]\n");
-	fprintf(p_file, "%d\n", m_tile_count_x);
-	fprintf(p_file, "[Row]\n");
-	fprintf(p_file, "%d\n", m_tile_count_y);
-	fprintf(p_file, "[Size]\n");
-	FileManager::FPrintf_Vector2(m_tile_size, p_file);
-
+	//TileMap
+	fprintf(p_file, "[TileMap]\n");
+	resource_manager->SaveResource<TileMap>(m_p_tile_map, p_file);
 	fprintf(p_file, "[Material]\n");
 	resource_manager->SaveResource<Material>(m_p_material, p_file);
 	fprintf(p_file, "[Mesh]\n");
@@ -296,32 +307,25 @@ void TileMapRenderer::LoadFromScene(FILE* p_file)
 
 	char char_buffer[256] = { 0 };
 
-	//Tile
-	FileManager::FScanf(char_buffer, p_file); //[Tile]
-	FileManager::FScanf(char_buffer, p_file); //[Count]
-	fscanf_s(p_file, "%d\n", &m_tile_count);
-	FileManager::FScanf(char_buffer, p_file); //[Column]
-	fscanf_s(p_file, "%d\n", &m_tile_count_x);
-	FileManager::FScanf(char_buffer, p_file); //[Row]
-	fscanf_s(p_file, "%d\n", &m_tile_count_y);
-	FileManager::FScanf(char_buffer, p_file); //[Size]
-	FileManager::FScanf_Vector2(m_tile_size, p_file);
-
-	FileManager::FScanf(char_buffer, p_file); //[Material]
+	//TileMap
+	FILE_MANAGER->FScanf(char_buffer, p_file); //[TileMap]
+	resource_manager->LoadResource<TileMap>(m_p_tile_map, p_file);
+	m_used_tile_atlas_texture_count = static_cast<UINT>(m_p_tile_map->m_used_tile_atlas_texture_vector.size());
+	FILE_MANAGER->FScanf(char_buffer, p_file); //[Material]
 	resource_manager->LoadResource<Material>(m_p_material, p_file);
-	FileManager::FScanf(char_buffer, p_file); //[Mesh]
+	FILE_MANAGER->FScanf(char_buffer, p_file); //[Mesh]
 	resource_manager->LoadResource<Mesh>(m_p_mesh, p_file);
 
 	//Grid
-	FileManager::FScanf(char_buffer, p_file); //[Grid]
-	FileManager::FScanf(char_buffer, p_file); //[Draw]
+	FILE_MANAGER->FScanf(char_buffer, p_file); //[Grid]
+	FILE_MANAGER->FScanf(char_buffer, p_file); //[Draw]
 	fscanf_s(p_file, "%d\n", &m_is_draw_grid);
-	FileManager::FScanf(char_buffer, p_file); //[Material]
+	FILE_MANAGER->FScanf(char_buffer, p_file); //[Material]
 	resource_manager->LoadResource<Material>(m_p_grid_material, p_file);
-	FileManager::FScanf(char_buffer, p_file); //[Mesh]
+	FILE_MANAGER->FScanf(char_buffer, p_file); //[Mesh]
 	resource_manager->LoadResource<Mesh>(m_p_grid_mesh, p_file);
-	FileManager::FScanf(char_buffer, p_file); //[Vector]
+	FILE_MANAGER->FScanf(char_buffer, p_file); //[Vector]
 	//TODO
 
-	SetTileCount(m_tile_count_x, m_tile_count_y);
+	SetTileCount(m_p_tile_map->m_tile_count_x, m_p_tile_map->m_tile_count_y);
 }

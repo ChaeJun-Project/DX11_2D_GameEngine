@@ -365,12 +365,12 @@ void GameObject::LoadFromScene(FILE* p_file)
 	char char_buffer[256] = {};
 
 	//Tag
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	m_game_object_tag = std::string(char_buffer);
 
 	//Layer
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	fscanf_s(p_file, "%d\n", &m_game_object_layer);
 }
 

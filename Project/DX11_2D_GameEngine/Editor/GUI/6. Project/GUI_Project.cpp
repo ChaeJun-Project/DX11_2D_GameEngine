@@ -9,7 +9,7 @@ GUI_Project::GUI_Project(const std::string& project_title)
 	:IGUI(project_title)
 {
 	//DX11_2D_GameEngine/ExeFile/Release/Content/
-	m_root_path = FileManager::GetAbsoluteContentPath();
+	m_root_path = FILE_MANAGER->GetAbsoluteContentPath();
 	m_root_path += m_root_name;
 
 	m_p_clicked_func_1 = std::bind
@@ -69,7 +69,7 @@ void GUI_Project::UpdateTree()
 
 	auto p_root_tree_item = m_gui_tree.AddItem(nullptr, m_root_name, pay_load);
 
-	auto directory_path_vector = FileManager::GetDirectoriesInDirectory(m_root_path);
+	auto directory_path_vector = FILE_MANAGER->GetDirectoriesInDirectory(m_root_path);
 	for (const auto& directory_path : directory_path_vector)
 		AddDirectory(p_root_tree_item, directory_path);
 
@@ -81,14 +81,14 @@ void GUI_Project::AddDirectory(GUI_TreeItem* p_tree_item, const std::string& dir
 	if (p_tree_item == nullptr || directory_path.empty())
 		return;
 
-	auto tree_item_name = FileManager::GetDirectoryFromPath(directory_path);
+	auto tree_item_name = FILE_MANAGER->GetDirectoryFromPath(directory_path);
 
 	PayLoad pay_load;
 	pay_load.type = PayLoadType::Folder;
 	pay_load.data = directory_path;
 
 	auto p_current_tree_item = m_gui_tree.AddItem(p_tree_item, tree_item_name, pay_load);
-	auto directory_path_vector = FileManager::GetDirectoriesInDirectory(directory_path);
+	auto directory_path_vector = FILE_MANAGER->GetDirectoriesInDirectory(directory_path);
 
 	for (const auto& directory_path : directory_path_vector)
 		AddDirectory(p_current_tree_item, directory_path);

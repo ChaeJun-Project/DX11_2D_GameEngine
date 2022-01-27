@@ -50,11 +50,11 @@ void Animator::FinalUpdate()
 	if (m_p_current_animation == nullptr)
 		return;
 
-	auto renderer = m_p_owner_game_object->GetComponent<SpriteRenderer>();
-	//renderer->SetMesh(m_p_current_animation->GetMesh());
-	auto material = renderer->GetMaterial();
-	material->SetShader(ResourceManager::GetInstance()->GetResource<Shader>("Light2D"));
-	material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_current_animation->GetCurrentTexture());
+	//auto renderer = m_p_owner_game_object->GetComponent<SpriteRenderer>();
+	////renderer->SetMesh(m_p_current_animation->GetMesh());
+	//auto material = renderer->GetMaterial();
+	//material->SetShader(ResourceManager::GetInstance()->GetResource<Shader>("Light2D"));
+	//material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_current_animation->GetCurrentTexture());
 }
 
 void Animator::Play(const bool& is_play_reverse)

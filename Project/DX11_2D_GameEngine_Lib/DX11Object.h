@@ -19,7 +19,7 @@ public:
 	{
 		char char_buffer[256] = {};
 
-		FileManager::FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
 		m_object_name = std::string(char_buffer);
 	}
 
@@ -50,7 +50,7 @@ private:
 
 		std::hash<std::string> hasher;
 
-		return static_cast<UINT>(hasher(FileManager::ConvertWStringToString(guid_wstr)));
+		return static_cast<UINT>(hasher(FILE_MANAGER->ConvertWStringToString(guid_wstr)));
 	}
 
 protected:

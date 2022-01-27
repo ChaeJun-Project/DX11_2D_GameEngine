@@ -187,7 +187,7 @@ std::shared_ptr<Scene> ClientSceneManager::LoadScene(const std::string& file_pat
 	//Parent GameObjects
 	//==================================
 	char char_buffer[256] = {};
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	UINT parent_game_object_count = 0;
 	fscanf_s(p_file, "%d\n", &parent_game_object_count); //해당 Scene에 속한 Parent GameObject 개수 읽어오기
 
@@ -207,12 +207,12 @@ GameObject* ClientSceneManager::LoadGameObject(FILE* p_file)
 {
 	char char_buffer[256] = {};
 
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 
 	//==================================
 	//GameObject
 	//==================================
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	//Create GameObject
 	GameObject* p_new_game_object = new GameObject();
 	p_new_game_object->LoadFromScene(p_file);
@@ -221,7 +221,7 @@ GameObject* ClientSceneManager::LoadGameObject(FILE* p_file)
 	//Component
 	//==================================
 	//Component Count
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	UINT component_count = 0;
 	fscanf_s(p_file, "%d\n", &component_count);
 
@@ -229,7 +229,7 @@ GameObject* ClientSceneManager::LoadGameObject(FILE* p_file)
 	for (UINT i = 0; i < component_count; ++i)
 	{
 		//Component Title
-		FileManager::FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
 
 		//Component Type
 		UINT component_type = 0;
@@ -252,14 +252,14 @@ GameObject* ClientSceneManager::LoadGameObject(FILE* p_file)
 	//Child GameObject
 	//==================================
 	//Child GameObject Count
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	UINT child_game_object_count = 0;
 	fscanf_s(p_file, "%d\n", &child_game_object_count);
 
 	//Create Child GameObject
 	if (child_game_object_count != 0)
 	{
-		FileManager::FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
 		for (UINT i = 0; i < child_game_object_count; ++i)
 		{
 			GameObject* p_new_child_game_object = LoadGameObject(p_file);
@@ -267,7 +267,7 @@ GameObject* ClientSceneManager::LoadGameObject(FILE* p_file)
 		}
 	}
 
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 
 	return p_new_game_object;
 }

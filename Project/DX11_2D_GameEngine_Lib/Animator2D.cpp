@@ -208,18 +208,18 @@ void Animator2D::LoadFromScene(FILE* p_file)
 	auto resource_manager = ResourceManager::GetInstance();
 
 	//Animation2D Map
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	//Count
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	UINT animation_count = 0;
 	fscanf_s(p_file, "%d\n", &animation_count);
 	//Data
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	for (UINT i = 0; i < animation_count; ++i)
 	{
 		//Key
-		FileManager::FScanf(char_buffer, p_file);
-		FileManager::FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
 		std::string animation_key = std::string(char_buffer);
 
 		//Load Sprite Animation Resource
@@ -229,6 +229,6 @@ void Animator2D::LoadFromScene(FILE* p_file)
 	}
 
 	//Animation Speed
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	fscanf_s(p_file, "%f\n", &m_animation_speed);
 }

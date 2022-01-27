@@ -45,7 +45,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	scene_manager->SetClientState(static_cast<UINT>(client_state));
 
 	//Game Test
-	//auto next_scene = ClientSceneManager::LoadScene((FileManager::GetAbsoluteContentPath() + "Asset/Scene/New Scene.scene"));
+	//auto next_scene = ClientSceneManager::LoadScene((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Scene/New Scene.scene"));
 	//scene_manager->SetCurrentScene(next_scene);
 
 	ClientSceneManager::CreateNewScene();

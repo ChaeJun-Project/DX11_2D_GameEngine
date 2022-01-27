@@ -106,7 +106,7 @@ void SpriteRenderer::SaveToScene(FILE* p_file)
 
 	//Sprite Color
 	fprintf(p_file, "[Sprite Color]\n");
-	FileManager::FPrintf_Vector4<Vector4>(m_sprite_texture_color, p_file);
+	FILE_MANAGER->FPrintf_Vector4<Vector4>(m_sprite_texture_color, p_file);
 
 	//Material
 	fprintf(p_file, "[Material]\n");
@@ -124,18 +124,18 @@ void SpriteRenderer::LoadFromScene(FILE* p_file)
 	char char_buffer[256] = { 0 };
 
 	//Texture
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	resource_manager->LoadResource<Texture>(m_p_sprite_texture, p_file);
 
 	//Sprite Color
-	FileManager::FScanf(char_buffer, p_file);
-	FileManager::FScanf_Vector4<Vector4>(m_sprite_texture_color, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf_Vector4<Vector4>(m_sprite_texture_color, p_file);
 
 	//Material
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	resource_manager->LoadResource<Material>(m_p_material, p_file);
 
 	//Mesh
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	resource_manager->LoadResource<Mesh>(m_p_mesh, p_file);
 }

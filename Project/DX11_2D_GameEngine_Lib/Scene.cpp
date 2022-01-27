@@ -72,7 +72,7 @@ void Scene::Initialize()
 	test->AddComponent(ComponentType::SpriteRenderer);
 
 	auto sprtie_renderer = test->GetComponent<SpriteRenderer>();
-	sprtie_renderer->SetSpriteTexture(ResourceManager::GetInstance()->CreateTexture((FileManager::GetAbsoluteContentPath() + "Asset/Texture/UI/PlayerSelect/Z_Texture.png")));
+	sprtie_renderer->SetSpriteTexture(ResourceManager::GetInstance()->CreateTexture((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Texture/UI/PlayerSelect/Z_Texture.png")));
 	
 	RegisterGameObject(test);
 
@@ -82,7 +82,7 @@ void Scene::Initialize()
 	audio->AddComponent(ComponentType::AudioSource);
 
 	auto audio_source = audio->GetComponent<AudioSource>();
-	audio_source->SetAudioClip(ResourceManager::GetInstance()->LoadFromFile<AudioClip>((FileManager::GetAbsoluteContentPath() + "Asset/Audio/17 - X4 - BOSS.mp3")));
+	audio_source->SetAudioClip(ResourceManager::GetInstance()->LoadFromFile<AudioClip>((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Audio/17 - X4 - BOSS.mp3")));
 
 	RegisterGameObject(audio);*/
 }
@@ -204,6 +204,6 @@ void Scene::LoadFromScene(FILE* p_file)
 	char char_buffer[256] = {};
 
 	//Scene Name
-	FileManager::FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
 	__super::LoadFromScene(p_file);
 }

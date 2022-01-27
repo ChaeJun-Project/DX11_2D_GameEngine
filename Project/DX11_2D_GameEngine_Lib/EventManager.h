@@ -1,5 +1,8 @@
 #pragma once
 
+class Scene;
+class GameObject;
+
 typedef std::variant<GameObject*, std::shared_ptr<Scene>> EventData;
 
 struct EventStruct
@@ -9,11 +12,10 @@ struct EventStruct
 	EventData object_address_2; //자식 GameObject를 연결할 때 필요한 자식 GameObject의 주소
 };
 
-class GameObject;
-
 class EventManager final :public Singleton<EventManager>
 {
 	SINGLETON(EventManager);
+
 	EventManager() = default;
 	~EventManager();
 

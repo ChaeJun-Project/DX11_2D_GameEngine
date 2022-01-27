@@ -49,7 +49,7 @@ void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceCont
 	//Initialize Icon Provider
 	IconProvider::GetInstance()->Initialize();
 
-	init_current_path = FileManager::GetWorkingDirectory();
+	init_current_path = FILE_MANAGER->GetWorkingDirectory();
 
 	//<summary>
 	//imgui_docking 버전의 DirectX11 Sample 코드를 보고 작성함

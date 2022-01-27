@@ -1,1 +1,4 @@
-[2022/1/25/22:6:49][Info] ResourceManager::LoadFromFile : Succeeded in Loading File: [Z_Ready.anim]
+[2022/1/27/6:5:53][Info] FileFunction::SaveScene : Succeeded in Saving File: [New Scene]
+[2022/1/27/6:6:6][Info] TileMapRenderer::CreateTileMap : Succeeded in Creating TileMap: [W]
+[2022/1/27/6:6:14][Info] TileMapRenderer::SetTileCount : Tile Size: 20x20
+[2022/1/27/6:6:16][Info] FileFunction::SaveScene : Succeeded in Saving File: [New Scene]

@@ -164,7 +164,7 @@ void GUI_MenuBar::ShowRenameScene()
 		ImGui::PushItemWidth(200.0f);
 		if (ImGui::InputText("##Scene Name", &scene_name, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			FileManager::RenameFileName(SCENE_PATH, ".scene", current_scene->GetSceneName(), scene_name);
+			FILE_MANAGER->RenameFileName(SCENE_PATH, ".scene", current_scene->GetSceneName(), scene_name);
 			current_scene->SetSceneName(scene_name);
 			EDITOR_LOG_INFO_F("Success to Rename Current Scene '%s'", scene_name.c_str());
 		}

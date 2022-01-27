@@ -50,7 +50,7 @@ private:
 
 	GameObject* m_p_player = nullptr;
 
-	Animator* m_p_animator = nullptr;
+	//Animator* m_p_animator = nullptr;
 
 	AnimationState m_current_state = AnimationState::Idle;
 };

@@ -4,10 +4,13 @@
 #include "Core.h"
 #include "Settings.h"
 
-#include "ResourceManager.h"
-#include "Texture.h"
+#include "ConstantBuffer.h"
+#include "RasterizerState.h"
+#include "SamplerState.h"
+#include "DepthStencilState.h"
+#include "BlendState.h"
 
-#include "RenderManager.h"
+#include "Texture.h"
 
 GraphicsManager::GraphicsManager()
 {

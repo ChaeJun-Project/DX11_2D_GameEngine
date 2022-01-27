@@ -21,10 +21,12 @@ void FileFunction::SaveFile(const std::string& save_path, const std::string& fil
 
 	wchar_t szName[256] = {};
 
-	std::wstring file_folder_path = FileManager::ConvertStringToWString(save_path);
+	std::string absolute_save_path = ABSOLUTE_CONTENT_PATH;
+	absolute_save_path += save_path;
+	std::wstring file_folder_path = FILE_MANAGER->ConvertStringToWString(absolute_save_path);
 	SetCurrentDirectory(file_folder_path.c_str()); //해당 경로를 현재 작업 중인 디렉토리로 설정
 
-	std::wstring file_name_wstr = FileManager::ConvertStringToWString(file_name);
+	std::wstring file_name_wstr = FILE_MANAGER->ConvertStringToWString(file_name);
 	
 	switch (file_type)
 	{
@@ -35,7 +37,7 @@ void FileFunction::SaveFile(const std::string& save_path, const std::string& fil
 		file_name_wstr += L".scene";
 	}
 	break;
-	case FileType::Tile:
+	case FileType::TileMap:
 	{
 		ofn.lpstrFilter = L"All\0*.*\0Tile\0*.tile\0";
 
@@ -69,13 +71,13 @@ void FileFunction::SaveFile(const std::string& save_path, const std::string& fil
 		switch (file_type)
 		{
 		case FileType::Scene:
-			SaveScene(FileManager::ConvertWStringToString(szName));
+			SaveScene(FILE_MANAGER->ConvertWStringToString(szName));
 			break;
-		case FileType::Tile:
-			SaveTileMap(FileManager::ConvertWStringToString(szName));
+		case FileType::TileMap:
+			SaveTileMap(FILE_MANAGER->ConvertWStringToString(szName));
 			break;
 		case FileType::Animation:
-			SaveSpriteAnimation(FileManager::ConvertWStringToString(szName));
+			SaveSpriteAnimation(FILE_MANAGER->ConvertWStringToString(szName));
 			break;
 		}
 	}
@@ -96,8 +98,9 @@ void FileFunction::SaveTileMap(const std::string& tile_map_path)
 {
 	auto resource_manager = ResourceManager::GetInstance();
 
-	auto file_name_without_extension = FileManager::GetOriginFileNameFromPath(tile_map_path);
+	auto file_name_without_extension = FILE_MANAGER->GetOriginFileNameFromPath(tile_map_path);
 	auto p_tile_map_resource = resource_manager->GetResource<TileMap>(file_name_without_extension);
+	p_tile_map_resource->SetResourcePath(tile_map_path);
 
 	if (p_tile_map_resource != nullptr)
 		resource_manager->SaveToFile<TileMap>(p_tile_map_resource, tile_map_path);
@@ -107,7 +110,7 @@ void FileFunction::SaveSpriteAnimation(const std::string& animation2D_path)
 {
 	auto resource_manager = ResourceManager::GetInstance();
 
-	auto file_name_without_extension = FileManager::GetOriginFileNameFromPath(animation2D_path);
+	auto file_name_without_extension = FILE_MANAGER->GetOriginFileNameFromPath(animation2D_path);
 	auto p_animation2D_resource = resource_manager->GetResource<SpriteAnimation>(file_name_without_extension);
 
 	if (p_animation2D_resource != nullptr)
@@ -121,7 +124,9 @@ const std::string FileFunction::LoadFile(const std::string& load_path, const Fil
 
 	wchar_t szName[256] = {};
 
-	std::wstring file_folder_path = FileManager::ConvertStringToWString(load_path);
+	std::string absolute_load_path = ABSOLUTE_CONTENT_PATH;
+	absolute_load_path += load_path;
+	std::wstring file_folder_path = FILE_MANAGER->ConvertStringToWString(absolute_load_path);
 	SetCurrentDirectory(file_folder_path.c_str()); //해당 경로를 현재 작업 중인 디렉토리로 설정
 	switch (file_type)
 	{
@@ -130,7 +135,7 @@ const std::string FileFunction::LoadFile(const std::string& load_path, const Fil
 		ofn.lpstrFilter = L"All\0*.*\0Scene\0*.scene\0";
 	}
 	break;
-	case FileType::Tile:
+	case FileType::TileMap:
 	{
 		ofn.lpstrFilter = L"All\0*.*\0Tile\0*.tile\0";
 	}
@@ -155,7 +160,7 @@ const std::string FileFunction::LoadFile(const std::string& load_path, const Fil
 	// Modal
 	if (GetOpenFileName(&ofn))
 	{
-		return FileManager::ConvertWStringToString(szName);
+		return FILE_MANAGER->ConvertWStringToString(szName);
 	}
 
 	return std::string();
