@@ -14,7 +14,7 @@
 #include <DX11_2D_GameEngine_Lib/TileMap.h>
 #include <DX11_2D_GameEngine_Lib/SpriteAnimation.h>
 
-void FileFunction::SaveFile(const std::string& save_path, const std::string& file_name, const FileType& file_type)
+void FileFunction::SaveFile(const std::string& save_resource_folder_path, const std::string& file_name, const FileType& file_type)
 {
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(OPENFILENAME));
@@ -22,7 +22,7 @@ void FileFunction::SaveFile(const std::string& save_path, const std::string& fil
 	wchar_t szName[256] = {};
 
 	std::string absolute_save_path = ABSOLUTE_CONTENT_PATH;
-	absolute_save_path += save_path;
+	absolute_save_path += save_resource_folder_path;
 	std::wstring file_folder_path = FILE_MANAGER->ConvertStringToWString(absolute_save_path);
 	SetCurrentDirectory(file_folder_path.c_str()); //해당 경로를 현재 작업 중인 디렉토리로 설정
 
@@ -74,10 +74,10 @@ void FileFunction::SaveFile(const std::string& save_path, const std::string& fil
 			SaveScene(FILE_MANAGER->ConvertWStringToString(szName));
 			break;
 		case FileType::TileMap:
-			SaveTileMap(FILE_MANAGER->ConvertWStringToString(szName));
+			SaveResource<TileMap>(FILE_MANAGER->ConvertWStringToString(szName));
 			break;
 		case FileType::Animation:
-			SaveSpriteAnimation(FILE_MANAGER->ConvertWStringToString(szName));
+			SaveResource<SpriteAnimation>(FILE_MANAGER->ConvertWStringToString(szName));
 			break;
 		}
 	}
@@ -94,30 +94,7 @@ void FileFunction::SaveScene(const std::string& scene_path)
 	}
 }
 
-void FileFunction::SaveTileMap(const std::string& tile_map_path)
-{
-	auto resource_manager = ResourceManager::GetInstance();
-
-	auto file_name_without_extension = FILE_MANAGER->GetOriginFileNameFromPath(tile_map_path);
-	auto p_tile_map_resource = resource_manager->GetResource<TileMap>(file_name_without_extension);
-	p_tile_map_resource->SetResourcePath(tile_map_path);
-
-	if (p_tile_map_resource != nullptr)
-		resource_manager->SaveToFile<TileMap>(p_tile_map_resource, tile_map_path);
-}
-
-void FileFunction::SaveSpriteAnimation(const std::string& animation2D_path)
-{
-	auto resource_manager = ResourceManager::GetInstance();
-
-	auto file_name_without_extension = FILE_MANAGER->GetOriginFileNameFromPath(animation2D_path);
-	auto p_animation2D_resource = resource_manager->GetResource<SpriteAnimation>(file_name_without_extension);
-
-	if (p_animation2D_resource != nullptr)
-		resource_manager->SaveToFile<SpriteAnimation>(p_animation2D_resource, animation2D_path);
-}
-
-const std::string FileFunction::LoadFile(const std::string& load_path, const FileType& file_type)
+const std::string FileFunction::LoadFile(const std::string& load_resource_folder_path, const FileType& file_type)
 {
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(OPENFILENAME));
@@ -125,7 +102,7 @@ const std::string FileFunction::LoadFile(const std::string& load_path, const Fil
 	wchar_t szName[256] = {};
 
 	std::string absolute_load_path = ABSOLUTE_CONTENT_PATH;
-	absolute_load_path += load_path;
+	absolute_load_path += load_resource_folder_path;
 	std::wstring file_folder_path = FILE_MANAGER->ConvertStringToWString(absolute_load_path);
 	SetCurrentDirectory(file_folder_path.c_str()); //해당 경로를 현재 작업 중인 디렉토리로 설정
 	switch (file_type)

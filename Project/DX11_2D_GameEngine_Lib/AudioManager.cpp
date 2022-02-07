@@ -63,7 +63,7 @@ void AudioManager::SetListenerAttributes()
 	auto listener_position = m_p_listener_transform->GetTranslation(); //Main Camera의 현재 위치
 	auto velocity = Vector3::Zero;
 	auto forward_vector = m_p_listener_transform->GetForwardVector();  //Main Camera의 바라보는 방향 벡터(전면 벡터)
-	auto up_vector = m_p_listener_transform->GetUpVector();			//Main Camera의 업 벡터
+	auto up_vector = m_p_listener_transform->GetUpVector();			   //Main Camera의 업 벡터
 
 	//velocity = how far we moved last FRAME (m/f), then time compensate it to SECONDS (m/s).
 	velocity.x = (listener_position.x - listener_last_position.x) * (1000 / m_interface_update_time);
@@ -71,7 +71,7 @@ void AudioManager::SetListenerAttributes()
 	velocity.z = (listener_position.z - listener_last_position.z) * (1000 / m_interface_update_time);
 
 	listener_last_position = listener_position;
-
+	
 	auto result = m_p_system->set3DListenerAttributes
 	(
 		0,

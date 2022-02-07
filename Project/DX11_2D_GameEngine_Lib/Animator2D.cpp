@@ -146,7 +146,7 @@ void Animator2D::SetCurrentAnimation(const std::string& animation_name)
 {
 	if (m_p_current_animation != nullptr)
 	{
-		if (m_p_current_animation->m_resource_name == animation_name)
+		if (m_p_current_animation->m_object_name == animation_name)
 			return;
 
 		else

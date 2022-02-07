@@ -4,16 +4,19 @@
 //Helper
 #include "Helper/EditorHelper.h"
 
-#include <DX11_2D_GameEngine_Lib/SceneManager.h>
-#include <DX11_2D_GameEngine_Lib/Scene.h>
-#include <DX11_2D_GameEngine_Lib/GameObject.h>
-
 #include <DX11_2D_GameEngine_Lib/EventManager.h>
 
+#include <DX11_2D_GameEngine_Lib/SceneManager.h>
+#include <DX11_2D_GameEngine_Lib/Scene.h>
+
+#include <DX11_2D_GameEngine_Lib/GameObject.h>
+#include <DX11_2D_GameEngine_Lib/Transform.h>
 
 GUI_Hierarchy::GUI_Hierarchy(const std::string& hierarchy_title)
 	:IGUI(hierarchy_title)
 {
+	m_scene_hierarchy_tree = std::make_unique<GUI_Tree>();
+
 	m_p_clicked_empty_space = std::bind
 	(
 		&GUI_Hierarchy::ClickEmptySpace,
@@ -38,6 +41,9 @@ GUI_Hierarchy::GUI_Hierarchy(const std::string& hierarchy_title)
 
 GUI_Hierarchy::~GUI_Hierarchy()
 {
+	m_scene_hierarchy_tree->Clear();
+	m_scene_hierarchy_tree.reset();
+
 	m_p_current_scene.reset();
 }
 
@@ -81,29 +87,29 @@ void GUI_Hierarchy::Render()
 
 void GUI_Hierarchy::UpdateTree()
 {
-	m_gui_tree.Clear();
-	m_gui_tree.SetIsVisibleRoot(false);
+	m_scene_hierarchy_tree->Clear();
+	m_scene_hierarchy_tree->SetIsVisibleRoot(false);
 
 	m_p_current_scene = SceneManager::GetInstance()->GetCurrentScene();
 
 	PayLoad pay_load;
-	pay_load.type = PayLoadType::NONE;
+	pay_load.type = PayLoadType::None;
 	pay_load.data = 0;
 
-	auto p_root_tree_item = m_gui_tree.AddItem(nullptr, m_p_current_scene->GetSceneName(), pay_load);
+	auto p_root_tree_item = m_scene_hierarchy_tree->AddItem(nullptr, m_p_current_scene->GetSceneName(), pay_load, true);
 
 	const auto& root_game_object_vector = m_p_current_scene->GetAllParentGameObjects();
 	for (const auto& root_game_object : root_game_object_vector)
 		AddGameObject(p_root_tree_item, root_game_object);
 
-	m_gui_tree.SetClickedEmptySpace(m_p_clicked_empty_space);
-	m_gui_tree.SetClickedCallBack2(m_p_clicked_func_2);
-	m_gui_tree.SetDragDropCallBack(m_p_drag_drop_func);
+	m_scene_hierarchy_tree->SetClickedEmptySpace(m_p_clicked_empty_space);
+	m_scene_hierarchy_tree->SetClickedCallBack2(m_p_clicked_func_2);
+	m_scene_hierarchy_tree->SetDragDropCallBack(m_p_drag_drop_func);
 }
 
 void GUI_Hierarchy::CheckClickRightButton()
 {
-	if(ImGui::IsWindowHovered(ImGuiHoveredFlags_None))
+	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_None))
 	{
 		if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 			ImGui::OpenPopup("Hierarchy Menu Popup");
@@ -114,7 +120,16 @@ void GUI_Hierarchy::ShowHierarchy()
 {
 	//ImGuiTreeNodeFlags_DefaultOpen : 시작부터 하위노드를 다 보여주는 옵션
 	if (ImGui::CollapsingHeader(m_p_current_scene->GetSceneName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
-		m_gui_tree.Update();
+	{
+		//Make Prefab -> GameObject
+		//드랍 된 경우
+		if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Prefab))
+		{
+		
+		}
+
+		m_scene_hierarchy_tree->Update();
+	}
 }
 
 void GUI_Hierarchy::ClickEmptySpace()
@@ -184,7 +199,7 @@ void GUI_Hierarchy::AddGameObject(GUI_TreeItem* p_tree_item, GameObject* game_ob
 	pay_load.type = PayLoadType::GameObject;
 	pay_load.data = (DWORD_PTR)game_object;
 
-	auto p_current_tree_item = m_gui_tree.AddItem(p_tree_item, game_object_name, pay_load);
+	auto p_current_tree_item = m_scene_hierarchy_tree->AddItem(p_tree_item, game_object_name, pay_load, true);
 
 	const auto& childs_vector = game_object->GetChilds();
 

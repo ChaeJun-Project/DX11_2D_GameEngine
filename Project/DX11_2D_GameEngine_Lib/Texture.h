@@ -15,7 +15,6 @@ class Texture : public IResource
 {
 public:
 	Texture(const std::string& texture_resource_name);
-	explicit Texture(const Texture& origin) = default;
 	~Texture() = default;
 
 	void Create(const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);

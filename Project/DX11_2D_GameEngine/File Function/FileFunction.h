@@ -5,18 +5,16 @@
 class FileFunction final
 {
 public:
-	static void SaveFile(const std::string& save_path, const std::string& file_name, const FileType& file_type);
+    //Save
+	static void SaveFile(const std::string& save_resource_folder_path, const std::string& file_name, const FileType& file_type);
 
 	static void SaveScene(const std::string& scene_path);
 
 	template<typename T>
 	static void SaveResource(const std::string& resource_path);
 
-	static void SaveTileMap(const std::string& tile_map_path);
-
-	static void SaveSpriteAnimation(const std::string& animation2D_path);
-
-	static const std::string LoadFile(const std::string& load_path, const FileType& file_type);
+	//Load
+	static const std::string LoadFile(const std::string& load_resource_folder_path, const FileType& file_type);
 
 	static void LoadScene(const std::string& scene_path);
 };
@@ -26,8 +24,13 @@ void FileFunction::SaveResource(const std::string& resource_path)
 {
 	auto resource_manager = ResourceManager::GetInstance();
 
+	//확장자가 포함되지 않은 순수 파일의 이름
 	auto file_name_without_extension = FILE_MANAGER->GetOriginFileNameFromPath(resource_path);
-	auto p_resource = resource_manager->GetResource<T>(file_name_without_extension);
+	auto& p_resource = resource_manager->GetResource<T>(file_name_without_extension);
+
+	//Content 폴더(프로젝트의 작업 디렉토리 경로)의 하위 폴더부터 리소스 파일이 있는 폴더까지의 경로(상대 경로)
+	auto relative_file_path = FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath(resource_path);
+	p_resource->SetResourcePath(relative_file_path);
 
 	if (p_resource != nullptr)
 		resource_manager->SaveToFile<T>(p_resource, resource_path);

@@ -12,7 +12,7 @@ public:
     void Update();
   
 public:
-    GUI_TreeItem* AddItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoad& pay_load);
+    GUI_TreeItem* AddItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoad& pay_load, const bool& use_drag_and_drop);
     void Clear();
 
     void SetClickedEmptySpace(Event_CallBack p_clicked_empty_space) { m_p_clicked_empty_space = p_clicked_empty_space; }

@@ -9,10 +9,12 @@ TileMap::TileMap(const std::string& tile_map_resource_name)
 	:IResource(ResourceType::TileMap, tile_map_resource_name)
 {
 	m_p_tile_map_buffer = std::make_unique<StructuredBuffer>();
+
+	m_used_tile_atlas_texture_vector.resize(8);
 }
 
 TileMap::TileMap(const TileMap& origin)
-	: IResource(origin.m_resource_type, origin.m_resource_name)
+	: IResource(origin.m_resource_type, origin.m_object_name)
 {
 }
 
@@ -21,10 +23,10 @@ TileMap::~TileMap()
 	//Delete Used Tile Atlas Texture
 	for (auto& used_tile_atlas_texture : m_used_tile_atlas_texture_vector)
 	{
-		if(used_tile_atlas_texture != nullptr)
+		if (used_tile_atlas_texture != nullptr)
 			used_tile_atlas_texture.reset();
 	}
-		
+
 	m_used_tile_atlas_texture_vector.clear();
 	m_used_tile_atlas_texture_vector.shrink_to_fit();
 
@@ -72,7 +74,24 @@ void TileMap::SetTileCount(const UINT& tile_count_x, const UINT& tile_count_y, c
 		m_tile_data_vector[i].left_top = grid_left_top_vector[i];
 	}
 
-	m_p_tile_map_buffer->Create(sizeof(TileData), m_tile_count, SBufferType::Read_Only, true, m_tile_data_vector.data());
+	CreateTileMapBuffer();
+}
+
+void TileMap::SetTileMapCoord(const UINT& tile_count_x, const UINT& tile_count_y, const std::vector<Vector2>& grid_left_top_vector)
+{
+	for (UINT i = 0; i < m_tile_count; ++i)
+	{
+		m_tile_data_vector[i].left_top = grid_left_top_vector[i];
+	}
+
+	CreateTileMapBuffer();
+}
+
+void TileMap::CreateTileMapBuffer()
+{
+	//각 타일의 정보가 이미 저장되어 있다면
+	if (!m_tile_data_vector.empty())
+		m_p_tile_map_buffer->Create(sizeof(TileData), m_tile_count, SBufferType::Read_Only, true, m_tile_data_vector.data());
 }
 
 bool TileMap::SaveToFile(const std::string& tile_map_path)
@@ -86,12 +105,12 @@ bool TileMap::SaveToFile(const std::string& tile_map_path)
 	{
 		//TileMap Name
 		fprintf(p_file, "[TileMap Name]\n");
-		fprintf(p_file, "%s\n", m_resource_name.c_str());
+		fprintf(p_file, "%s\n", m_object_name.c_str());
 
 		//Used Atlas Texture List
 		fprintf(p_file, "[Used Atlas Texture List]\n");
 		fprintf(p_file, "[Count]\n");
-		fprintf(p_file, "%d\n", m_used_tile_atlas_texture_vector.size());
+		fprintf(p_file, "%d\n", m_used_tile_atlas_texture_count);
 		for (UINT i = 0; i < m_used_tile_atlas_texture_vector.size(); ++i)
 		{
 			auto used_tile_atlas_texture = m_used_tile_atlas_texture_vector[i];
@@ -114,12 +133,10 @@ bool TileMap::SaveToFile(const std::string& tile_map_path)
 		fprintf(p_file, "%d\n", m_tile_data_vector.size());
 		for (UINT i = 0; i < m_tile_data_vector.size(); ++i)
 		{
-		    auto tile_data = m_tile_data_vector[i];
+			auto tile_data = m_tile_data_vector[i];
 
 			fprintf(p_file, "%d ", tile_data.tile_atlas_texture_index);
-			fprintf(p_file, "%d ", tile_data.tile_index);
-			FILE_MANAGER->FPrintf_Vector2(tile_data.left_top, p_file);
-			FILE_MANAGER->FPrintf_Vector2(tile_data.right_bottom, p_file);
+			fprintf(p_file, "%d\n", tile_data.tile_index);
 		}
 
 		fclose(p_file);
@@ -141,29 +158,21 @@ bool TileMap::LoadFromFile(const std::string& tile_map_path)
 	{
 		char char_buffer[256] = {};
 
-		fscanf_s(p_file, "%d\n", &m_tile_count_y);
-		FILE_MANAGER->FScanf(char_buffer, p_file); //[Size]
-		FILE_MANAGER->FScanf_Vector2(m_tile_size, p_file);
-
 		//TileMap Name
 		FILE_MANAGER->FScanf(char_buffer, p_file); //[TileMap Name]
 		FILE_MANAGER->FScanf(char_buffer, p_file);
-		m_resource_name = std::string(char_buffer);
+		m_object_name = std::string(char_buffer);
 
 		//Used Atlas Texture List
 		FILE_MANAGER->FScanf(char_buffer, p_file); //[Used Atlas Texture List]
 		FILE_MANAGER->FScanf(char_buffer, p_file); //[Count]
-		UINT used_atlas_texture_count = 0;
-		fscanf_s(p_file, "%d\n", &used_atlas_texture_count);
-
-		m_used_tile_atlas_texture_vector.reserve(used_atlas_texture_count);
-		for (UINT i = 0; i < used_atlas_texture_count; ++i)
+		fscanf_s(p_file, "%d\n", &m_used_tile_atlas_texture_count);
+		for (UINT i = 0; i < m_used_tile_atlas_texture_vector.size(); ++i)
 		{
 			std::shared_ptr<Texture> m_p_atlas_texture = nullptr;
 			resource_manager->LoadResource<Texture>(m_p_atlas_texture, p_file);
 
-			if(m_p_atlas_texture != nullptr)
-				m_used_tile_atlas_texture_vector.emplace_back(m_p_atlas_texture);
+			m_used_tile_atlas_texture_vector[i] = m_p_atlas_texture;
 		}
 
 		//TileMap Info
@@ -182,16 +191,16 @@ bool TileMap::LoadFromFile(const std::string& tile_map_path)
 		UINT tile_data_count = 0;
 		fscanf_s(p_file, "%d\n", &tile_data_count);
 
-		m_tile_data_vector.reserve(tile_data_count);
+		m_tile_data_vector.resize(tile_data_count);
 		for (UINT i = 0; i < tile_data_count; ++i)
 		{
 			TileData tile_data;
 			ZeroMemory(&tile_data, sizeof(TileData));
 
 			fscanf_s(p_file, "%d ", &tile_data.tile_atlas_texture_index);
-			fscanf_s(p_file, "%d ", &tile_data.tile_index);
-			FILE_MANAGER->FScanf_Vector2(tile_data.left_top, p_file);
-			FILE_MANAGER->FScanf_Vector2(tile_data.right_bottom, p_file);
+			fscanf_s(p_file, "%d\n", &tile_data.tile_index);
+			
+			m_tile_data_vector[i] = tile_data;
 		}
 
 		fclose(p_file);

@@ -33,7 +33,7 @@ public:
 	const std::shared_ptr<Texture>& GetTileAtlasTexture(const UINT& tile_atlas_texture_index);
 	void SetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile_atlas_texture);
 	
-	const UINT GetUsedTileAtlasTextureCount() { return m_used_tile_atlas_texture_count; }
+	const UINT GetUsedTileAtlasTextureCount();
 
 	//Current Tile Index
 	const UINT GetCurrentTileIndex() { return m_current_tile_index; }
@@ -52,11 +52,16 @@ public:
 	void SetIsDrawGrid(const bool& is_draw_grid) { m_is_draw_grid = is_draw_grid; }
 
 private:
+	void CreateGrid(const UINT& tile_count_x, const UINT& tile_count_y);
 	void CalcCurrentPickRect(const Vector2& current_screen_pos);
 
 public:
 	void SaveToScene(FILE* p_file) override;
 	void LoadFromScene(FILE* p_file) override;
+
+private:
+    void LoadSetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile_atlas_texture, const UINT& offset);
+    void LoadSetTileCount(const UINT& tile_count_x, const UINT& tile_count_y);
 
 public:
 	CLONE(TileMapRenderer);
@@ -65,7 +70,6 @@ private:
     bool m_is_active_palette = false;
 
 	//Tile Atlas Texture
-	UINT m_used_tile_atlas_texture_count = 0;
 	std::shared_ptr<Texture> m_p_current_tile_atlas_texture = nullptr;
 	//Tile Atlas Texture¿« Tile Index
 	int m_current_tile_atlas_texture_index = -1;

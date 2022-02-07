@@ -14,41 +14,84 @@ using namespace std::filesystem;
 
 FileManager::~FileManager()
 {
-	absolute_content_path.clear();
-	absolute_content_path.shrink_to_fit();
+	m_supported_animation_formats.clear();
+	m_supported_animation_formats.shrink_to_fit();
 
-	supported_texture_formats.clear();
-	supported_texture_formats.shrink_to_fit();
+	m_supported_audio_formats.clear();
+	m_supported_audio_formats.shrink_to_fit();
 
-	supported_model_formats.clear();
-	supported_model_formats.shrink_to_fit();
+	m_supported_material_formats.clear();
+	m_supported_material_formats.shrink_to_fit();
 
-	supported_audio_formats.clear();
-	supported_audio_formats.shrink_to_fit();
+	m_supported_mesh_formats.clear();
+	m_supported_mesh_formats.shrink_to_fit();
+
+	m_supported_prefab_formats.clear();
+	m_supported_prefab_formats.shrink_to_fit();
+
+	m_supported_scene_formats.clear();
+	m_supported_scene_formats.shrink_to_fit();
+
+	m_supported_tilemap_formats.clear();
+	m_supported_tilemap_formats.shrink_to_fit();
+
+	m_supported_texture_formats.clear();
+	m_supported_texture_formats.shrink_to_fit();
 }
 
 void FileManager::Initialize()
 {
-	absolute_content_path = GetWorkingDirectory();
+	//DX11_2D_GameEngine/ExeFile/Release/Content/
+	m_absolute_content_path = GetWorkingDirectory();
+
+	//Animation에 지원되는 확장자들
+	m_supported_animation_formats =
+	{
+		".anim"
+	};
+
+	//Material에 지원되는 확장자들
+	m_supported_material_formats =
+	{
+		".mat"
+	};
+
+	//Mesh에 지원되는 확장자들
+	m_supported_mesh_formats =
+	{
+		".mesh"
+	};
+
+	//Prefab에 지원되는 확장자들
+	m_supported_prefab_formats =
+	{
+		".prefab"
+	};
+
+	//Scene에 지원되는 확장자들
+	m_supported_scene_formats =
+	{
+		".scene"
+	};
+
+	//TileMap에 지원되는 확장자들
+	m_supported_tilemap_formats =
+	{
+		".tile"
+	};
+
+	//Audio에 지원되는 확장자들
+	m_supported_audio_formats =
+	{
+		".mod", ".mp3", ".wav"
+	};
 
 	//Texture에 지원되는 확장자들
-	supported_texture_formats =
+	m_supported_texture_formats =
 	{
 		".jpg", ".png", ".bmp", ".tga",
 		".dds", ".exr", ".raw", ".gif",
 		".hdr", ".ico", ".jng", ".jpeg"
-	};
-
-	//Model에 지원되는 확장자들
-	supported_model_formats = 
-	{
-		".3ds", ".obj", ".fbx", ".blend"
-	};
-
-	//Audio에 지원되는 확장자들
-	supported_audio_formats = 
-	{
-		".mod", ".mp3", ".wav"
 	};
 }
 
@@ -163,18 +206,18 @@ const std::vector<std::string> FileManager::GetFileNameVectorFromDirectory(const
 	std::vector<std::string> file_name_vector;
 
 	//해당 디렉토리의 각 파일들의 절대 경로 값을 받음
-	for(auto& file_absolute_path : directory_iterator(path))
-	{ 
-	   //절대 경로 값으로 부터 파일의 이름(확장자 포함)을 구함
-	   //u8string: convert path to string
-	   std::string file_name = GetFileNameFromPath(file_absolute_path.path().u8string());
-	   file_name_vector.emplace_back(file_name);
+	for (auto& file_absolute_path : directory_iterator(path))
+	{
+		//절대 경로 값으로 부터 파일의 이름(확장자 포함)을 구함
+		//u8string: convert path to string
+		std::string file_name = GetFileNameFromPath(file_absolute_path.path().u8string());
+		file_name_vector.emplace_back(file_name);
 	}
 
 	return file_name_vector;
 }
 
-const void FileManager::RenameFileName(const std::string& folder_path, const std::string& extension_name, const std::string& old_file_name, const std::string& new_file_name)
+void FileManager::RenameFileName(const std::string& folder_path, const std::string& extension_name, const std::string& old_file_name, const std::string& new_file_name)
 {
 	auto old_file_path = folder_path + old_file_name + extension_name;
 	auto new_file_path = folder_path + new_file_name + extension_name;
@@ -198,6 +241,14 @@ const std::string FileManager::GetOriginFileNameFromPath(const std::string& path
 	return intact_file_name;
 }
 
+const std::string FileManager::GetDirectoryPathFromPath(const std::string& path)
+{
+	auto last_index = path.find_last_of("\\/");
+	auto directory_path = path.substr(0, last_index + 1);
+
+	return directory_path;
+}
+
 const std::string FileManager::GetDirectoryFromPath(const std::string& path)
 {
 	auto last_index = path.find_last_of("\\/");
@@ -209,27 +260,27 @@ const std::string FileManager::GetDirectoryFromPath(const std::string& path)
 const std::string FileManager::GetExtensionFromPath(const std::string& path)
 {
 	if (path.empty())
-		return "NONE";
+		return std::string();
 
 	auto last_index = path.find_last_of('.');
 
 	if (last_index != std::string::npos)
 		return path.substr(last_index, path.length());
 
-	return "NONE";
+	return std::string();
 }
 
 const std::wstring FileManager::GetExtensionFromPath(const std::wstring& path)
 {
 	if (path.empty())
-		return L"NONE";
+		return std::wstring();
 
 	auto last_index = path.find_last_of('.');
 
 	if (last_index != std::string::npos)
 		return path.substr(last_index, path.length());
 
-	return L"NONE";
+	return std::wstring();
 }
 
 const std::string FileManager::GetPathWithoutExtension(const std::string& path)
@@ -238,6 +289,15 @@ const std::string FileManager::GetPathWithoutExtension(const std::string& path)
 	auto origin_file_name = GetOriginFileNameFromPath(path);
 
 	return directory + origin_file_name;
+}
+
+const std::string FileManager::GetRelativeResourcePathFromAbsolutePath(const std::string& absolute_path)
+{
+	std::string content_str = "Content\\";
+	auto last_index = absolute_path.find(content_str.c_str());
+	auto relative_resource_path = absolute_path.substr((last_index + content_str.length()), absolute_path.length());
+
+	return relative_resource_path;
 }
 
 //경로->상대경로로 변환
@@ -381,14 +441,11 @@ const std::vector<std::string> FileManager::GetFilesInDirectory(const std::strin
 	return files;
 }
 
-//Texture
-const bool FileManager::IsSupportedTextureFile(const std::string& path)
+const bool FileManager::IsSupportedAnimationFile(const std::string& path)
 {
-
 	auto file_extension = GetExtensionFromPath(path);
-	auto supported_formats = GetSupportedTextureFormats();
 
-	for (const auto& format : supported_formats)
+	for (const auto& format : m_supported_animation_formats)
 	{
 		//대소문자 비교포함
 		if (file_extension == format || file_extension == ToUppercase(format))
@@ -398,29 +455,11 @@ const bool FileManager::IsSupportedTextureFile(const std::string& path)
 	return false;
 }
 
-//Model
-const bool FileManager::IsSupportedModelFile(const std::string& path)
-{
-	auto file_extension = GetExtensionFromPath(path);
-	auto supported_formats = GetSupportedModelFormats();
-
-	for (const auto& format : supported_formats)
-	{
-		//대소문자 비교포함
-		if (file_extension == format || file_extension == ToUppercase(format))
-			return true;
-	}
-
-	return false;
-}
-
-//Audio
 const bool FileManager::IsSupportedAudioFile(const std::string& path)
 {
 	auto file_extension = GetExtensionFromPath(path);
-	auto supported_formats = GetSupportedAudioFormats();
 
-	for (const auto& format : supported_formats)
+	for (const auto& format : m_supported_audio_formats)
 	{
 		//대소문자 비교포함
 		if (file_extension == format || file_extension == ToUppercase(format))
@@ -429,6 +468,91 @@ const bool FileManager::IsSupportedAudioFile(const std::string& path)
 
 	return false;
 }
+
+const bool FileManager::IsSupportedMaterialFile(const std::string& path)
+{
+	auto file_extension = GetExtensionFromPath(path);
+
+	for (const auto& format : m_supported_material_formats)
+	{
+		//대소문자 비교포함
+		if (file_extension == format || file_extension == ToUppercase(format))
+			return true;
+	}
+
+	return false;
+}
+
+const bool FileManager::IsSupportedMeshFile(const std::string& path)
+{
+	auto file_extension = GetExtensionFromPath(path);
+
+	for (const auto& format : m_supported_mesh_formats)
+	{
+		//대소문자 비교포함
+		if (file_extension == format || file_extension == ToUppercase(format))
+			return true;
+	}
+
+	return false;
+}
+
+const bool FileManager::IsSupportedPrefabFile(const std::string& path)
+{
+	auto file_extension = GetExtensionFromPath(path);
+
+	for (const auto& format : m_supported_prefab_formats)
+	{
+		//대소문자 비교포함
+		if (file_extension == format || file_extension == ToUppercase(format))
+			return true;
+	}
+
+	return false;
+}
+
+const bool FileManager::IsSupportedSceneFile(const std::string& path)
+{
+	auto file_extension = GetExtensionFromPath(path);
+
+	for (const auto& format : m_supported_scene_formats)
+	{
+		//대소문자 비교포함
+		if (file_extension == format || file_extension == ToUppercase(format))
+			return true;
+	}
+
+	return false;
+}
+
+const bool FileManager::IsSupportedTileMapFile(const std::string& path)
+{
+	auto file_extension = GetExtensionFromPath(path);
+
+	for (const auto& format : m_supported_tilemap_formats)
+	{
+		//대소문자 비교포함
+		if (file_extension == format || file_extension == ToUppercase(format))
+			return true;
+	}
+
+	return false;
+}
+
+const bool FileManager::IsSupportedTextureFile(const std::string& path)
+{
+	auto file_extension = GetExtensionFromPath(path);
+
+	for (const auto& format : m_supported_texture_formats)
+	{
+		//대소문자 비교포함
+		if (file_extension == format || file_extension == ToUppercase(format))
+			return true;
+	}
+
+	return false;
+}
+
 
 const std::string FileManager::ToUppercase(const std::string& lower)
 {

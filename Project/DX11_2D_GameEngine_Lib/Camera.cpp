@@ -87,7 +87,7 @@ void Camera::SortObjects()
 		{
 			const std::vector<GameObject*>& object_vector = layer_iter.second->GetGameObjects();
 
-			RenderTimePointType render_time_point = RenderTimePointType::NONE;
+			RenderTimePointType render_time_point = RenderTimePointType::None;
 
 			for (UINT i = 0; i < object_vector.size(); ++i)
 			{

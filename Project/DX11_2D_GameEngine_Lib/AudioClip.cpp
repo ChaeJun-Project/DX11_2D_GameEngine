@@ -8,7 +8,7 @@ AudioClip::AudioClip(const std::string& audio_clip_resource_name)
 }
 
 AudioClip::AudioClip(const AudioClip& origin)
-	: IResource(origin.GetResourceType(), origin.GetResourceName())
+	: IResource(origin.m_resource_type, origin.m_object_name)
 {
 	if (origin.m_p_sound != nullptr)
 		m_p_sound = origin.m_p_sound;
@@ -87,10 +87,10 @@ void AudioClip::SetAudioType(const AudioModeType& audio_mode_type)
 	switch (audio_mode_type)
 	{
 	case AudioModeType::Audio_2D:
-		m_loop_mode = FMOD_2D;
+		m_audio_mode = FMOD_2D;
 		break;
 	case AudioModeType::Audio_3D:
-		m_loop_mode = FMOD_3D;
+		m_audio_mode = FMOD_3D;
 		break;
 	}
 }

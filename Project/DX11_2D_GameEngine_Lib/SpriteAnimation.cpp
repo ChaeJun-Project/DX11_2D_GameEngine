@@ -16,7 +16,7 @@ SpriteAnimation::SpriteAnimation(const std::string& animation2D_resource_name)
 }
 
 SpriteAnimation::SpriteAnimation(const SpriteAnimation& origin)
-	: IResource(origin.m_resource_type, origin.m_resource_name)
+	: IResource(origin.m_resource_type, origin.m_object_name)
 {
 	m_resource_path = origin.m_resource_path;
 
@@ -182,7 +182,7 @@ bool SpriteAnimation::SaveToFile(const std::string& animation2D_path)
 	{
 		//Sprite Animation Name
 		fprintf(p_file, "[Sprite Animation Name]\n");
-		fprintf(p_file, "%s\n", m_resource_name.c_str());
+		fprintf(p_file, "%s\n", m_object_name.c_str());
 
 		//Atlas Texture
 		fprintf(p_file, "[Atlas Texture]\n");
@@ -236,7 +236,7 @@ bool SpriteAnimation::LoadFromFile(const std::string& animation2D_path)
 		//Sprite Animation Name
 		FILE_MANAGER->FScanf(char_buffer, p_file);
 		FILE_MANAGER->FScanf(char_buffer, p_file);
-		m_resource_name = std::string(char_buffer);
+		m_object_name = std::string(char_buffer);
 
 		//Atlas Texture
 		FILE_MANAGER->FScanf(char_buffer, p_file);

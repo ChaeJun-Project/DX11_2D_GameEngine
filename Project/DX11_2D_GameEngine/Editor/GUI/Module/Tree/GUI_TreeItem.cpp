@@ -3,6 +3,8 @@
 
 #include "GUI_Tree.h"
 
+#include <DX11_2D_GameEngine_Lib/GameObject.h>
+
 GUI_TreeItem::GUI_TreeItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoad& pay_load)
 	: m_p_parent(p_parent),
 	m_item_name(item_name)
@@ -52,7 +54,8 @@ void GUI_TreeItem::Update()
 
 		if (ImGui::TreeNodeEx((const void*)(object->GetObjectID()), flags, m_item_name.c_str()))
 		{
-			DragAndDrop();
+			if (m_use_drag_and_drop)
+				DragAndDrop();
 
 			clicked_empty_space = CheckClickEmptySpace();
 			press_mouse_left_button = CheckClickMouseLeftButton();
@@ -66,7 +69,8 @@ void GUI_TreeItem::Update()
 
 		else
 		{
-			DragAndDrop();
+			if (m_use_drag_and_drop)
+				DragAndDrop();
 
 			clicked_empty_space = CheckClickEmptySpace();
 			press_mouse_left_button = CheckClickMouseLeftButton();
@@ -77,7 +81,8 @@ void GUI_TreeItem::Update()
 	{
 		if (ImGui::TreeNodeEx(m_item_name.c_str(), flags, m_item_name.c_str()))
 		{
-			DragAndDrop();
+			if (m_use_drag_and_drop)
+				DragAndDrop();
 
 			clicked_empty_space = CheckClickEmptySpace();
 			press_mouse_left_button = CheckClickMouseLeftButton();
@@ -91,7 +96,8 @@ void GUI_TreeItem::Update()
 
 		else
 		{
-			DragAndDrop();
+			if (m_use_drag_and_drop)
+				DragAndDrop();
 
 			clicked_empty_space = CheckClickEmptySpace();
 			press_mouse_left_button = CheckClickMouseLeftButton();
@@ -123,16 +129,8 @@ void GUI_TreeItem::DragAndDrop()
 	}
 
 	//드랍 된 경우
-	if (ImGui::BeginDragDropTarget())
-	{
-		auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(m_pay_load.type);
-		if (pay_load != nullptr)
-		{
-			m_p_owner_tree->SetDroppedItem(this);
-		}
-
-		ImGui::EndDragDropTarget();
-	}
+	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::GameObject))
+		m_p_owner_tree->SetDroppedItem(this);
 }
 
 const bool GUI_TreeItem::CheckClickEmptySpace()

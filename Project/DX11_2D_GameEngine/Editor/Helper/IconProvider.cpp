@@ -1,13 +1,11 @@
 #include "stdafx.h"
 #include "IconProvider.h"
 
-#include <DX11_2D_GameEngine_Lib/ResourceManager.h>
-
 IconProvider::~IconProvider()
 {
 	for (auto& icon : m_icon_map)
 	{
-		if(icon.second != nullptr)
+		if (icon.second != nullptr)
 			icon.second.reset();
 	}
 
@@ -16,16 +14,37 @@ IconProvider::~IconProvider()
 
 void IconProvider::Initialize()
 {
-    //Load Tool Bar Texture
+	//Load Tool Bar Texture
+	LoadToolBarIcons();
+
+	//Load GameObject Icon Texture
+	LoadGameObjectIcons();
+
+	//Load Component Icon Texture
+	LoadComponentIcons();
+
+	//Load Console Icon Texture
+	LoadConsoleIcons();
+
+	//Load FileThumbnail Texture
+	LoadFileThumbnails();
+}
+
+void IconProvider::LoadToolBarIcons()
+{
 	LoadIconTexture("Icon/ToolBar/toolbar_play.png", IconType::ToolBar_Play);
 	LoadIconTexture("Icon/ToolBar/toolbar_pause.png", IconType::ToolBar_Pause);
 	LoadIconTexture("Icon/ToolBar/toolbar_stop.png", IconType::ToolBar_Stop);
+}
 
-	//Load GameObject Icon Texture
+void IconProvider::LoadGameObjectIcons()
+{
 	LoadIconTexture("Icon/Inspector/GameObject.png", IconType::Inspector_GameObject);
 	LoadIconTexture("Icon/Inspector/Prefab_GameObject.png", IconType::Inspector_Prefab_GameObject);
+}
 
-	//Load Component Icon Texture
+void IconProvider::LoadComponentIcons()
+{
 	LoadIconTexture("Icon/Inspector/component_settings.png", IconType::Component_Settings);
 	LoadIconTexture("Icon/Inspector/component_plus.png", IconType::Component_Plus);
 	LoadIconTexture("Icon/Inspector/component_back_arrow.png", IconType::Component_Back);
@@ -41,20 +60,35 @@ void IconProvider::Initialize()
 	LoadIconTexture("Icon/Inspector/component_rigid_body2D.png", IconType::Component_RigidBody2D);
 	LoadIconTexture("Icon/Inspector/component_audio_listener.png", IconType::Component_Audio_Listener);
 	LoadIconTexture("Icon/Inspector/component_audio_source.png", IconType::Component_Audio_Source);
-	
-	LoadIconTexture("Icon/Inspector/component_script.png", IconType::Component_Script);
 
-	//Load Console Icon
+	LoadIconTexture("Icon/Inspector/component_script.png", IconType::Component_Script);
+}
+
+void IconProvider::LoadConsoleIcons()
+{
 	LoadIconTexture("Icon/Console/console_log_info.png", IconType::Console_Info);
 	LoadIconTexture("Icon/Console/console_log_warning.png", IconType::Console_Warning);
 	LoadIconTexture("Icon/Console/console_log_error.png", IconType::Console_Error);
+}
+
+void IconProvider::LoadFileThumbnails()
+{
+	LoadFileThumbnailTexture("Icon/FileDialog/filedialog_none.png", FileThumbnailType::None);
+	LoadFileThumbnailTexture("Icon/FileDialog/filedialog_folder.png", FileThumbnailType::Folder);
+	LoadFileThumbnailTexture("Icon/FileDialog/filedialog_animation.png", FileThumbnailType::Animation);
+	LoadFileThumbnailTexture("Icon/FileDialog/filedialog_audio.png", FileThumbnailType::Audio);
+	LoadFileThumbnailTexture("Icon/FileDialog/filedialog_material.png", FileThumbnailType::Material);
+	LoadFileThumbnailTexture("Icon/FileDialog/filedialog_mesh.png", FileThumbnailType::Mesh);
+	LoadFileThumbnailTexture("Icon/FileDialog/filedialog_prefab.png", FileThumbnailType::Prefab);
+	LoadFileThumbnailTexture("Icon/FileDialog/filedialog_scene.png", FileThumbnailType::Scene);
+	LoadFileThumbnailTexture("Icon/FileDialog/filedialog_tilemap.png", FileThumbnailType::TileMap);
 }
 
 void IconProvider::LoadIconTexture(const std::string& texture_path, const IconType& icon_type)
 {
 	auto resource_manager = ResourceManager::GetInstance();
 
-	auto texture = resource_manager->CreateTexture(texture_path);
+	auto texture = resource_manager->CreateIconTexture(texture_path);
 
 	if (texture != nullptr)
 	{
@@ -62,7 +96,7 @@ void IconProvider::LoadIconTexture(const std::string& texture_path, const IconTy
 		auto result = icon_iter.second;
 		assert(result);
 	}
-	
+
 	else
 		assert(false);
 }
@@ -76,6 +110,33 @@ const std::shared_ptr<Texture>& IconProvider::GetIconTexture(const IconType& ico
 		return nullptr;
 
 	return icon_iter->second;
+}
+
+void IconProvider::LoadFileThumbnailTexture(const std::string& texture_path, const FileThumbnailType& file_thumbnail_type)
+{
+	auto resource_manager = ResourceManager::GetInstance();
+
+	auto texture = resource_manager->CreateIconTexture(texture_path);
+
+	if (texture != nullptr)
+	{
+		auto file_thumbnail_iter = m_file_thumbnail_map.insert(std::make_pair(file_thumbnail_type, texture));
+		auto result = file_thumbnail_iter.second;
+		assert(result);
+	}
+
+	else
+		assert(false);
+}
+
+const std::shared_ptr<Texture>& IconProvider::GetFileThumbnail(const FileThumbnailType& file_thumbnail_type)
+{
+	auto file_thumbnail_iter = m_file_thumbnail_map.find(file_thumbnail_type);
+
+	if (file_thumbnail_iter == m_file_thumbnail_map.end())
+		return nullptr;
+
+	return file_thumbnail_iter->second;
 }
 
 void IconProvider::CreateImage(const IconType& icon_type, const ImVec2& button_size)

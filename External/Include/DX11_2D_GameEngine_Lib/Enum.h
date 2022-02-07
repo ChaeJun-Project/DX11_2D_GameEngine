@@ -28,7 +28,7 @@ enum class EventType : UINT
 //Resource Type(IResource 사용)
 enum class ResourceType : UINT
 {
-	NONE = 0,
+	None = 0,
 	Mesh = 1,
 	Material = 2,
 	Shader = 3,
@@ -52,7 +52,7 @@ enum class MeshType : UINT
 //Shader Type(Shader 사용)
 enum class ShaderType : UINT
 {
-	NONE = 0,
+	None = 0,
 	VS = 1, //VertexShader
 	HS = 2, //Hull Shader
 	DS = 3, //Domain Shader
@@ -99,7 +99,7 @@ enum class DepthStencilType : UINT
 //렌더링 시점 Type(Shader 사용)
 enum class RenderTimePointType : UINT
 {
-	NONE = 0,
+	None = 0,
 	Forward = 1,
 	Particle = 2,
 	PostEffect = 3,
@@ -120,7 +120,7 @@ enum PipelineStage : UINT
 //Component Type(IComponent 사용)
 enum class ComponentType : UINT
 {
-	NONE = 0,
+	None = 0,
 	Transform = 1,
 	Camera = 2,
 	SpriteRenderer = 3,

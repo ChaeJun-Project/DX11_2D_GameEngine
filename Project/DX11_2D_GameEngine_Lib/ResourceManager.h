@@ -67,6 +67,7 @@ public:
 
 	//Texture
 	void CreateDefaultTexture();
+	const std::shared_ptr<Texture> CreateIconTexture(const std::string& icon_texture_path);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_path);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
 	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D);
@@ -146,7 +147,12 @@ void ResourceManager::SaveResource(const std::shared_ptr<T>& p_resource, FILE* p
 
 	//해당 리소스가 SpriteAnimation 또는 TileMap인 경우
 	if (std::is_same<T, SpriteAnimation>::value || std::is_same<T, TileMap>::value)
-		SaveToFile<T>(p_resource, p_resource->GetResourcePath());
+	{
+		std::string resource_path = p_resource->GetResourcePath(); // Asset/...
+		auto absolute_content_path = ABSOLUTE_CONTENT_PATH;
+		resource_path = absolute_content_path + resource_path;
+		SaveToFile<T>(p_resource, resource_path);
+	}
 }
 
 template<typename T>
@@ -198,14 +204,16 @@ void ResourceManager::LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file)
 		return;
 
 	if (std::is_same<T, Material>::value || std::is_same<T, AudioClip>::value ||
-		std::is_same<T, SpriteAnimation>::value || std::is_same<T, TileMap>::value)
+		std::is_same<T, SpriteAnimation>::value)
 	{
 		auto clone_resource = LoadFromFile<T>(resource_path)->Clone();
 		p_resource = std::shared_ptr<T>(clone_resource);
 	}
 
 	else
+	{ 
 		p_resource = LoadFromFile<T>(resource_path);
+	}
 }
 
 template<typename T>
@@ -221,7 +229,7 @@ const std::shared_ptr<T>& ResourceManager::LoadFromFile(const std::string& resou
 	auto& resource_map = m_resources_map[resource_type]; //Resource Type에 해당하는 Resource Map 반환
 	auto resource_name = FILE_MANAGER->GetOriginFileNameFromPath(resource_path);
 	auto file_name = FILE_MANAGER->GetFileNameFromPath(resource_path);
-
+	
 	//해당 리소스가 이미 존재한다면
 	auto resource_iter = resource_map.find(resource_name);
 	if (resource_iter != resource_map.end())
@@ -230,9 +238,13 @@ const std::shared_ptr<T>& ResourceManager::LoadFromFile(const std::string& resou
 	//존재하지 않으면 새로운 리소스 생성
 	auto p_resource = std::make_shared<T>(resource_name);
 	p_resource->SetResourcePath(resource_path);
+	
+	auto absolute_resource_path = resource_path;
+	auto absolute_content_path = ABSOLUTE_CONTENT_PATH;
+	absolute_resource_path = absolute_content_path + absolute_resource_path;
 
 	//LoadFromFile
-	if (!p_resource->LoadFromFile(resource_path))
+	if (!p_resource->LoadFromFile(absolute_resource_path))
 	{
 		EDITOR_LOG_ERROR_F("Failed To Load File: [%s]", file_name.c_str());
 		return nullptr;

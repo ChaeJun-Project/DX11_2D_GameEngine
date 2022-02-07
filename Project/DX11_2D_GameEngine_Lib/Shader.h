@@ -57,7 +57,7 @@ public:
 private:
     std::map<ShaderType, std::shared_ptr<IShader>> m_shader_map;
 
-	RenderTimePointType m_render_time_point = RenderTimePointType::NONE;
+	RenderTimePointType m_render_time_point = RenderTimePointType::None;
 
 	UINT m_shader_bind_stage = 0;
 

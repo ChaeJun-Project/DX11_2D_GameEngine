@@ -57,6 +57,10 @@ void GUI_SpriteRenderer::Render()
 			std::string sprite_name_label_str = "##" + sprite_name_str;
 			ImGui::InputText(sprite_name_label_str.c_str(), &sprite_name_str, ImGuiInputTextFlags_ReadOnly);
 			ImGui::PopItemWidth();
+			if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Texture))
+			{
+				
+			}
 
 			ImGui::Image
 			(

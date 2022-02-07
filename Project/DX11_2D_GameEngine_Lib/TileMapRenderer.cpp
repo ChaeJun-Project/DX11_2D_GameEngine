@@ -1,16 +1,14 @@
 #include "stdafx.h"
 #include "TileMapRenderer.h"
 
-#include "SceneManager.h"
-#include "RenderManager.h"
+#include "StructuredBuffer.h"
 
-#include "ResourceManager.h"
 #include "Mesh.h"
 #include "Material.h"
 #include "TileMap.h"
+#include "Texture.h"
 
-#include "StructuredBuffer.h"
-
+#include "GameObject.h"
 #include "Transform.h"
 #include "Camera.h"
 
@@ -150,7 +148,7 @@ void TileMapRenderer::CreateTileMap(const std::string& tile_map_name)
 {
 	auto p_new_tile_map = ResourceManager::GetInstance()->CreateTileMap(tile_map_name);
 
-	
+
 	m_p_tile_map = p_new_tile_map;
 }
 
@@ -171,14 +169,16 @@ const std::shared_ptr<Texture>& TileMapRenderer::GetTileAtlasTexture(const UINT&
 
 void TileMapRenderer::SetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile_atlas_texture)
 {
-	if (m_p_tile_map && m_p_material && m_used_tile_atlas_texture_count != 8)
+	if (m_p_tile_map && m_p_material && m_p_tile_map->m_used_tile_atlas_texture_count != 8)
 	{
+	    auto used_texture_count = m_p_tile_map->m_used_tile_atlas_texture_count;
+
 		//현재 타일맵에 사용될 텍스처 저장
 		m_p_current_tile_atlas_texture = p_tile_atlas_texture;
+		m_current_tile_atlas_texture_index = static_cast<int>(used_texture_count);
 
 		//이미 등록된 텍스처인지 확인
-
-		auto texture_vector = m_p_material->GetTextureVector();
+		const auto& texture_vector = m_p_tile_map->m_used_tile_atlas_texture_vector;
 
 		for (UINT i = 0; i < static_cast<UINT>(texture_vector.size()); ++i)
 		{
@@ -189,10 +189,11 @@ void TileMapRenderer::SetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile
 			}
 		}
 
-		//Texture
-		UINT texture_offset = static_cast<UINT>(Material_Parameter::TEX_0) + m_used_tile_atlas_texture_count;
+		m_p_tile_map->m_used_tile_atlas_texture_vector[used_texture_count] = p_tile_atlas_texture;
 
-		m_p_material->SetConstantBufferData(static_cast<Material_Parameter>(texture_offset), nullptr, p_tile_atlas_texture);
+		//Texture
+		UINT texture_offset = static_cast<UINT>(Material_Parameter::TEX_0) + used_texture_count;
+		m_p_material->SetConstantBufferData(static_cast<Material_Parameter>(texture_offset), nullptr, m_p_tile_map->m_used_tile_atlas_texture_vector[used_texture_count]);
 
 		//Texture Info
 		//x: Texture Size X, y: Texture Size Y (Texture Size)
@@ -207,14 +208,20 @@ void TileMapRenderer::SetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile
 		texture_info.z = m_p_tile_map->m_tile_size.x / texture_info.x;
 		texture_info.w = m_p_tile_map->m_tile_size.y / texture_info.y;
 
-		UINT texture_info_offset = static_cast<UINT>(Material_Parameter::VEC4_0) + m_used_tile_atlas_texture_count;
+		UINT texture_info_offset = static_cast<UINT>(Material_Parameter::VEC4_0) + used_texture_count;
 
 		m_p_material->SetConstantBufferData(static_cast<Material_Parameter>(texture_info_offset), &texture_info);
 
-		m_current_tile_atlas_texture_index = static_cast<int>(m_used_tile_atlas_texture_count);
-
-		++m_used_tile_atlas_texture_count;
+		++m_p_tile_map->m_used_tile_atlas_texture_count;
 	}
+}
+
+const UINT TileMapRenderer::GetUsedTileAtlasTextureCount()
+{
+	if (m_p_tile_map == nullptr)
+		return 0;
+
+	return m_p_tile_map->m_used_tile_atlas_texture_count;
 }
 
 const Vector2 TileMapRenderer::GetTileCount()
@@ -222,7 +229,7 @@ const Vector2 TileMapRenderer::GetTileCount()
 	if (m_p_tile_map == nullptr)
 		return Vector2::Zero;
 
-	return m_p_tile_map->m_tile_count;
+	return 	Vector2(static_cast<float>(m_p_tile_map->m_tile_count_x), static_cast<float>(m_p_tile_map->m_tile_count_y));
 }
 
 void TileMapRenderer::SetTileCount(const UINT& tile_count_x, const UINT& tile_count_y)
@@ -230,18 +237,9 @@ void TileMapRenderer::SetTileCount(const UINT& tile_count_x, const UINT& tile_co
 	if (m_p_tile_map == nullptr)
 		return;
 
-	if (!m_grid_left_top_vector.empty())
-	{
-		m_grid_left_top_vector.clear();
-	}
-
-	m_p_grid_mesh->Create(MeshType::Grid, tile_count_x, tile_count_y);
-
-	m_grid_left_top_vector = m_p_grid_mesh->GetGridLeftTopVector();
+	CreateGrid(tile_count_x, tile_count_y);
 
 	m_p_tile_map->SetTileCount(tile_count_x, tile_count_y, m_grid_left_top_vector);
-
-	EDITOR_LOG_INFO_F("Tile Size: %dx%d", tile_count_x, tile_count_y);
 }
 
 const Vector2 TileMapRenderer::GetTileSize()
@@ -258,6 +256,18 @@ void TileMapRenderer::SetTileSize(const Vector2& tile_size)
 		return;
 
 	m_p_tile_map->m_tile_size = tile_size;
+}
+
+void TileMapRenderer::CreateGrid(const UINT& tile_count_x, const UINT& tile_count_y)
+{
+	if (!m_grid_left_top_vector.empty())
+	{
+		m_grid_left_top_vector.clear();
+	}
+
+	m_p_grid_mesh->Create(MeshType::Grid, tile_count_x, tile_count_y);
+
+	m_grid_left_top_vector = m_p_grid_mesh->GetGridLeftTopVector();
 }
 
 void TileMapRenderer::CalcCurrentPickRect(const Vector2& current_screen_pos)
@@ -282,7 +292,7 @@ void TileMapRenderer::SaveToScene(FILE* p_file)
 	auto resource_manager = ResourceManager::GetInstance();
 
 	//TileMap
-	fprintf(p_file, "[TileMap]\n");
+	fprintf(p_file, "■ TileMap\n");
 	resource_manager->SaveResource<TileMap>(m_p_tile_map, p_file);
 	fprintf(p_file, "[Material]\n");
 	resource_manager->SaveResource<Material>(m_p_material, p_file);
@@ -290,15 +300,13 @@ void TileMapRenderer::SaveToScene(FILE* p_file)
 	resource_manager->SaveResource<Mesh>(m_p_mesh, p_file);
 
 	//Grid
-	fprintf(p_file, "[Grid]\n");
+	fprintf(p_file, "■ Grid\n");
 	fprintf(p_file, "[Draw]\n");
 	fprintf(p_file, "%d\n", m_is_draw_grid);
 	fprintf(p_file, "[Material]\n");
 	resource_manager->SaveResource<Material>(m_p_grid_material, p_file);
 	fprintf(p_file, "[Mesh]\n");
 	resource_manager->SaveResource<Mesh>(m_p_grid_mesh, p_file);
-	fprintf(p_file, "[Vector]\n");
-	//TODO
 }
 
 void TileMapRenderer::LoadFromScene(FILE* p_file)
@@ -308,24 +316,60 @@ void TileMapRenderer::LoadFromScene(FILE* p_file)
 	char char_buffer[256] = { 0 };
 
 	//TileMap
-	FILE_MANAGER->FScanf(char_buffer, p_file); //[TileMap]
+	FILE_MANAGER->FScanf(char_buffer, p_file); //■ TileMap
 	resource_manager->LoadResource<TileMap>(m_p_tile_map, p_file);
-	m_used_tile_atlas_texture_count = static_cast<UINT>(m_p_tile_map->m_used_tile_atlas_texture_vector.size());
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Material]
 	resource_manager->LoadResource<Material>(m_p_material, p_file);
+	for (UINT i = 0; i < m_p_tile_map->m_used_tile_atlas_texture_count; ++i)
+	{
+		LoadSetTileAtlasTexture(m_p_tile_map->m_used_tile_atlas_texture_vector[i], i);
+	}
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Mesh]
 	resource_manager->LoadResource<Mesh>(m_p_mesh, p_file);
 
 	//Grid
-	FILE_MANAGER->FScanf(char_buffer, p_file); //[Grid]
+	FILE_MANAGER->FScanf(char_buffer, p_file); //■ Grid
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Draw]
 	fscanf_s(p_file, "%d\n", &m_is_draw_grid);
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Material]
 	resource_manager->LoadResource<Material>(m_p_grid_material, p_file);
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Mesh]
 	resource_manager->LoadResource<Mesh>(m_p_grid_mesh, p_file);
-	FILE_MANAGER->FScanf(char_buffer, p_file); //[Vector]
-	//TODO
 
-	SetTileCount(m_p_tile_map->m_tile_count_x, m_p_tile_map->m_tile_count_y);
+	LoadSetTileCount(m_p_tile_map->m_tile_count_x, m_p_tile_map->m_tile_count_y);
+}
+
+void TileMapRenderer::LoadSetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile_atlas_texture, const UINT& offset)
+{
+	UINT texture_offset = static_cast<UINT>(Material_Parameter::TEX_0) + offset;
+	m_p_material->SetConstantBufferData(static_cast<Material_Parameter>(texture_offset), nullptr, p_tile_atlas_texture);
+
+	//Texture Info
+	//x: Texture Size X, y: Texture Size Y (Texture Size)
+	//z: Texture_U , w: Texture_V (Per Tile UV Size In Texture)
+	Vector4 texture_info = Vector4::Zero;
+
+	//Set Atlas Texture Resolution
+	texture_info.x = static_cast<float>(p_tile_atlas_texture->GetWidth());
+	texture_info.y = static_cast<float>(p_tile_atlas_texture->GetHeight());
+
+	//Set Atlas Textrue UV
+	texture_info.z = m_p_tile_map->m_tile_size.x / texture_info.x;
+	texture_info.w = m_p_tile_map->m_tile_size.y / texture_info.y;
+
+	UINT texture_info_offset = static_cast<UINT>(Material_Parameter::VEC4_0) + offset;
+
+	m_p_material->SetConstantBufferData(static_cast<Material_Parameter>(texture_info_offset), &texture_info);
+}
+
+void TileMapRenderer::LoadSetTileCount(const UINT& tile_count_x, const UINT& tile_count_y)
+{
+	if (m_p_tile_map == nullptr)
+		return;
+
+	CreateGrid(tile_count_x, tile_count_y);
+
+	m_p_tile_map->SetTileMapCoord(tile_count_x, tile_count_y, m_grid_left_top_vector);
+
+	EDITOR_LOG_INFO_F("Tile Size: %dx%d", tile_count_x, tile_count_y);
 }

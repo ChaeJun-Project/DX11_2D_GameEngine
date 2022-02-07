@@ -10,6 +10,8 @@
 #include <DX11_2D_GameEngine_Lib/TileMap.h>
 
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
+
+#include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/TileMapRenderer.h>
 
 GUI_TileMapRenderer::GUI_TileMapRenderer(const std::string& tilemap_gui_name)
@@ -38,20 +40,31 @@ void GUI_TileMapRenderer::Render()
 
 		if (m_p_current_game_object != nullptr && m_p_current_game_object != m_select_game_object)
 		{
-			auto tile_map = m_select_game_object->GetComponent<TileMapRenderer>();
+			auto tile_map_renderer = m_select_game_object->GetComponent<TileMapRenderer>();
 
 			//Tiling Count
-			auto tile_count = tile_map->GetTileCount();
+			auto tile_count = tile_map_renderer->GetTileCount();
 			tile_count_row = static_cast<int>(tile_count.x);
 			tile_count_column = static_cast<int>(tile_count.y);
 
 			//Tile Size
-			tile_size = tile_map->GetTileSize();
+			tile_size = tile_map_renderer->GetTileSize();
 		}
 
 		m_p_current_game_object = m_select_game_object;
 
 		auto tile_map_renderer = m_p_current_game_object->GetComponent<TileMapRenderer>();
+		auto tile_map = tile_map_renderer->GetTileMap();
+		if (tile_map != nullptr)
+		{
+			//Tiling Count
+			auto tile_count = tile_map_renderer->GetTileCount();
+			tile_count_row = static_cast<int>(tile_count.x);
+			tile_count_column = static_cast<int>(tile_count.y);
+
+			//Tile Size
+			tile_size = tile_map_renderer->GetTileSize();
+		}
 
 		//Palette
 		ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 110.0f);
@@ -71,8 +84,6 @@ void GUI_TileMapRenderer::Render()
 		{
 			if (CAN_EDIT)
 			{
-				auto tile_map = tile_map_renderer->GetTileMap();
-
 				if (tile_map != nullptr)
 					FileFunction::SaveFile(TILEMAP_PATH, tile_map->GetResourceName(), FileType::TileMap);
 			}
@@ -92,10 +103,14 @@ void GUI_TileMapRenderer::Render()
 		//TileMap
 		ImGui::Text("TileMap");
 		ImGui::SameLine(100.0f);
+
+		if(tile_map != nullptr)
+			m_tile_map_name = tile_map->GetResourceName();
+
 		ImGui::PushItemWidth(150.0f);
 		if (ImGui::InputText("##TileMap Name", &m_tile_map_name, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			if (m_tile_map_name.size())
+			if (m_tile_map_name.size() && tile_map == nullptr)
 			{
 				tile_map_renderer->CreateTileMap(m_tile_map_name);
 			}

@@ -39,6 +39,7 @@ private:
 
 	std::vector<GUI_TreeItem*> m_p_child_vector;
 
+	bool m_use_drag_and_drop = false;
 	bool m_clicked_empty_space = false;
 	bool m_press_mouse_left_button = false;
 

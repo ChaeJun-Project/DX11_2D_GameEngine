@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "Shader.h"
 
-#include "GraphicsManager.h"
-
 #include "InputLayout.h"
+
+#include "RasterizerState.h"
+#include "DepthStencilState.h"
+#include "BlendState.h"
 
 #include "VertexShader.h"
 #include "GeometryShader.h"

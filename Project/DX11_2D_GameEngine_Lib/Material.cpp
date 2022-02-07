@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "Material.h"
 
+#include "ConstantBuffer.h"
+
+#include "Shader.h"
+#include "Texture.h"
+
 Material::Material(const std::string& material_resource_name)
 	:IResource(ResourceType::Material, material_resource_name)
 {
@@ -13,7 +18,7 @@ Material::Material(const std::string& material_resource_name)
 }
 
 Material::Material(const Material& origin)
-	:IResource(origin.GetResourceType(), origin.m_resource_name)
+	:IResource(origin.GetResourceType(), origin.m_object_name)
 {
 	//Material Data บนป็
 	m_material_data = origin.m_material_data;

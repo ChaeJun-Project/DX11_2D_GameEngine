@@ -200,6 +200,8 @@
     <ClInclude Include="File Function\FileFunction.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\Sprite Editor\GUI_SpritePlayer.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\4. Animator2D\Add Sprite Animation\GUI_AddSpriteAnimation.h" />
+    <ClInclude Include="Editor\GUI\6. Project\File\GUI_FileDialog.h" />
+    <ClInclude Include="Editor\GUI\6. Project\File\GUI_FileItem.h" />
     <ClInclude Include="Imgui\DirectX11\imgui_impl_dx11.h" />
     <ClInclude Include="Imgui\Editor\ImGuizmo.h" />
     <ClInclude Include="Imgui\imconfig.h" />
@@ -222,6 +224,7 @@
     <ClCompile Include="Editor\EditorObject\Camera\CameraEx.cpp" />
     <ClCompile Include="DX11_2D_GameEngine.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\12. AudioSource\GUI_AudioSource.cpp" />
+    <ClCompile Include="Editor\GUI\6. Project\File\GUI_FileItem.cpp" />
     <ClCompile Include="Editor\Manager\EditorObjectManager.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Style Selector\GUI_StyleSelector.cpp" />
     <ClCompile Include="Editor\Helper\EditorHelper.cpp" />
@@ -256,6 +259,7 @@
     <ClCompile Include="File Function\FileFunction.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Sprite Editor\GUI_SpritePlayer.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\4. Animator2D\Add Sprite Animation\GUI_AddSpriteAnimation.cpp" />
+    <ClCompile Include="Editor\GUI\6. Project\File\GUI_FileDialog.cpp" />
     <ClCompile Include="Imgui\DirectX11\imgui_impl_dx11.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>

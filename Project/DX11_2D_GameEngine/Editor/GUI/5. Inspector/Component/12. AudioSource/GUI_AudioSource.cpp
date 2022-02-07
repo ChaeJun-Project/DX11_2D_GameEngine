@@ -3,6 +3,7 @@
 
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 
+#include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/AudioSource.h>
 #include <DX11_2D_GameEngine_Lib/AudioClip.h>
 
@@ -31,6 +32,10 @@ void GUI_AudioSource::Render()
 		ImGui::Text("Audio Clip");
 		ImGui::SameLine(90.0f);
 		ImGui::InputText("##AudioClipName", &audio_clip_name, ImGuiInputTextFlags_ReadOnly);
+		if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Audio))
+		{
+
+		}
 
 		//Loop
 		if (ImGui::Checkbox("##Audio Loop", &is_loop))

@@ -94,9 +94,6 @@
     <ClInclude Include="SamplerState.h">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Resource\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Scene\Components\2. Camera</Filter>
     </ClInclude>
@@ -287,9 +284,6 @@
     </ClCompile>
     <ClCompile Include="SamplerState.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Resource\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Scene\Components\2. Camera</Filter>
@@ -535,9 +529,6 @@
     </Filter>
     <Filter Include="Core\Settings">
       <UniqueIdentifier>{26862a5f-43ba-4430-a84c-160341066642}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\Animation">
-      <UniqueIdentifier>{faa04c74-5769-41a7-a2e0-5bcbd46d9d56}</UniqueIdentifier>
     </Filter>
     <Filter Include="ShaderFiles\ConstantBuffer">
       <UniqueIdentifier>{f1f0f4df-29e4-4036-b5b8-bae155d7a046}</UniqueIdentifier>

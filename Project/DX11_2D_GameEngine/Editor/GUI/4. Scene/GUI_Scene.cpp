@@ -13,6 +13,7 @@
 #include <DX11_2D_GameEngine_Lib/RenderManager.h>
 #include <DX11_2D_GameEngine_Lib/Texture.h>
 
+#include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/Transform.h>
 #include <DX11_2D_GameEngine_Lib/Camera.h>
 
@@ -130,6 +131,12 @@ void GUI_Scene::ShowScene()
 		ImVec2(0.0f, 0.0f),
 		ImVec2(1.0f, 1.0f)
 	);
+
+	//드랍 된 경우
+	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Prefab))
+	{
+		
+	}
 }
 
 //<summary>

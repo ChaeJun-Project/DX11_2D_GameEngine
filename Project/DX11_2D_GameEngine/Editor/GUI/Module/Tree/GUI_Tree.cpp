@@ -23,10 +23,11 @@ void GUI_Tree::Update()
 	}
 }
 
-GUI_TreeItem* GUI_Tree::AddItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoad& pay_load)
+GUI_TreeItem* GUI_Tree::AddItem(GUI_TreeItem* p_parent, const std::string& item_name, const PayLoad& pay_load, const bool& use_drag_and_drop)
 {
 	auto p_tree_item = new GUI_TreeItem(p_parent, item_name, pay_load);
 	p_tree_item->m_p_owner_tree = this;
+	p_tree_item->m_use_drag_and_drop = use_drag_and_drop;
 
 	//최상위 TreeItem인 경우
 	if (p_parent == nullptr)
@@ -71,6 +72,7 @@ void GUI_Tree::Clear()
 
 void GUI_Tree::ExcuteClickedEmptySpaceCallBack()
 {
+	m_p_drag_start_item = nullptr;
 	m_p_selected_item = nullptr;
 
 	if (m_p_clicked_empty_space != nullptr)
@@ -79,6 +81,7 @@ void GUI_Tree::ExcuteClickedEmptySpaceCallBack()
 
 void GUI_Tree::ExcuteClickedCallBack(GUI_TreeItem* p_item)
 {
+	m_p_drag_start_item = nullptr;
 	m_p_selected_item = p_item;
 
 	if (m_p_selected_item->m_pay_load.type == PayLoadType::GameObject)

@@ -332,7 +332,24 @@ void ResourceManager::CreateDefaultTexture()
 
 	//Test
 	CreateTexture("Asset/Texture/Map/Stage1/Stage1_Tile.png");
+	CreateTexture("Asset/Texture/Map/Stage2/Stage2_Tile.png");
 	CreateTexture("Asset/Texture/Player/RockManZ/Animation/Z01_Ready/Z_Ready_Sprite.png");
+}
+
+const std::shared_ptr<Texture> ResourceManager::CreateIconTexture(const std::string& icon_texture_path)
+{
+	std::string icon_texture_name = FILE_MANAGER->GetOriginFileNameFromPath(icon_texture_path);
+	auto file_name = FILE_MANAGER->GetFileNameFromPath(icon_texture_path);
+
+	auto p_icon_texture = std::make_shared<Texture>(icon_texture_name);
+	p_icon_texture->SetResourcePath(icon_texture_path);
+
+	if (!p_icon_texture->LoadFromFile(icon_texture_path))
+	{
+		return nullptr;
+	}
+
+	return p_icon_texture;
 }
 
 const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string& texture_path)

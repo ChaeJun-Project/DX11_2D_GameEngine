@@ -24,7 +24,9 @@ public:
 	void BindPipeline() override;
 
 private:
-	void SetTileCount(const UINT& tile_count_x, const UINT& tile_count_y, const std::vector<Vector2>& grid_left_top_vector);
+	void SetTileCount(const UINT& tile_count_x, const UINT& tile_count_y, const std::vector<Vector2>& grid_left_top_vector); //최초 생성했을 경우만 사용
+	void SetTileMapCoord(const UINT& tile_count_x, const UINT& tile_count_y, const std::vector<Vector2>& grid_left_top_vector); //Load 했을 경우만 사용
+	void CreateTileMapBuffer();
 
 public:
 	bool SaveToFile(const std::string& tile_map_path) override;
@@ -36,6 +38,7 @@ public:
 private:
 	//Used Tile Atlas Texture
 	std::vector<std::shared_ptr<Texture>> m_used_tile_atlas_texture_vector;
+	UINT m_used_tile_atlas_texture_count = 0;
 
 	//TileMap Info
 	UINT m_tile_count = 0;   //타일의 총 개수

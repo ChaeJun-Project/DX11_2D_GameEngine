@@ -167,7 +167,7 @@ void GUI_Inspector::ShowGameObjectInfo()
 	//Name
 	label_str = "##" + m_p_selected_game_object->GetGameObjectName();
 	ImGui::PushItemWidth(GAME_OBJECT_NAME_WIDTH);
-	if (ImGui::InputText(label_str.c_str(), &game_object_name, ImGuiInputTextFlags_EnterReturnsTrue))
+	if (ImGui::InputText(label_str.c_str(), &game_object_name, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
 	{
 		m_p_selected_game_object->SetGameObjectName(game_object_name); //Game Object의 이름을 수정한 경우에만 수행
 	}
@@ -475,8 +475,8 @@ void GUI_Inspector::ShowAddComponentPopup()
 
 void GUI_Inspector::InitializeTag()
 {
-	std::string path;
-	path = m_folder_path + m_tag_file_path;
+	std::string path = FILE_MANAGER->GetAbsoluteContentPath();
+	path += (m_folder_path + m_tag_file_path);
 
 	if (FILE_MANAGER->IsExistFile(path))
 		LoadTag();
@@ -493,8 +493,8 @@ void GUI_Inspector::InitializeTag()
 
 void GUI_Inspector::SaveTag()
 {
-	std::string path;
-	path = m_folder_path + m_tag_file_path;
+	std::string path = FILE_MANAGER->GetAbsoluteContentPath();
+	path += (m_folder_path + m_tag_file_path);
 
 	FILE* p_file = nullptr;
 
@@ -515,8 +515,8 @@ void GUI_Inspector::SaveTag()
 
 void GUI_Inspector::LoadTag()
 {
-	std::string path;
-	path = m_folder_path + m_tag_file_path;
+	std::string path = FILE_MANAGER->GetAbsoluteContentPath();
+	path += (m_folder_path + m_tag_file_path);
 
 	FILE* p_file = nullptr;
 
@@ -542,8 +542,8 @@ void GUI_Inspector::LoadTag()
 
 void GUI_Inspector::InitializeLayer()
 {
-	std::string path;
-	path = m_folder_path + m_tag_layer_path;
+	std::string path = FILE_MANAGER->GetAbsoluteContentPath();
+	path += (m_folder_path + m_tag_layer_path);
 
 	if (FILE_MANAGER->IsExistFile(path))
 		LoadLayer();
@@ -561,8 +561,8 @@ void GUI_Inspector::InitializeLayer()
 
 void GUI_Inspector::SaveLayer()
 {
-	std::string path;
-	path = m_folder_path + m_tag_layer_path;
+	std::string path = FILE_MANAGER->GetAbsoluteContentPath();
+	path += (m_folder_path + m_tag_layer_path);
 
 	FILE* p_file = nullptr;
 
@@ -577,8 +577,8 @@ void GUI_Inspector::SaveLayer()
 
 void GUI_Inspector::LoadLayer()
 {
-	std::string path;
-	path = m_folder_path + m_tag_layer_path;
+	std::string path = FILE_MANAGER->GetAbsoluteContentPath();
+	path += (m_folder_path + m_tag_layer_path);
 
 	FILE* p_file = nullptr;
 

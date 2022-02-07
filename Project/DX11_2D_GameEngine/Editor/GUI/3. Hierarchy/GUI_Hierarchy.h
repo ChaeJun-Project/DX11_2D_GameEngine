@@ -41,7 +41,7 @@ private:
 private:
 	std::shared_ptr<Scene> m_p_current_scene = nullptr;
 
-	GUI_Tree    m_gui_tree;
+	std::unique_ptr<GUI_Tree> m_scene_hierarchy_tree = nullptr;
 
 	Event_CallBack m_p_clicked_empty_space = nullptr;
 	Clicked_CallBack2 m_p_clicked_func_2 = nullptr;

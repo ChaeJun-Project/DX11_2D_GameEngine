@@ -1,4 +1,3 @@
-[2022/1/27/6:5:53][Info] FileFunction::SaveScene : Succeeded in Saving File: [New Scene]
-[2022/1/27/6:6:6][Info] TileMapRenderer::CreateTileMap : Succeeded in Creating TileMap: [W]
-[2022/1/27/6:6:14][Info] TileMapRenderer::SetTileCount : Tile Size: 20x20
-[2022/1/27/6:6:16][Info] FileFunction::SaveScene : Succeeded in Saving File: [New Scene]
+[2022/1/28/22:2:29][Info] ResourceManager::LoadFromFile : Succeeded in Loading File: [Test.tile]
+[2022/1/28/22:2:29][Info] TileMapRenderer::LoadSetTileCount : Tile Size: 20x20
+[2022/1/28/22:2:29][Info] FileFunction::LoadScene : Succeeded in Loading File: [New Scene]
