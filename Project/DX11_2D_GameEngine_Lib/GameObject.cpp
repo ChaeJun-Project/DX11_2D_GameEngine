@@ -90,6 +90,17 @@ GameObject::~GameObject()
 	m_p_child_vector.shrink_to_fit();
 }
 
+void GameObject::Initialize()
+{
+	//컴포넌트 초기화
+	for (auto& component : m_p_component_map)
+		component.second->Initialize();
+
+	//자식 오브젝트 초기화
+	for (auto& child : m_p_child_vector)
+		child->Initialize();
+}
+
 void GameObject::Start()
 {
 	//컴포넌트 업데이트

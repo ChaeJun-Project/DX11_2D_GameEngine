@@ -11,7 +11,7 @@ public:
 	~SpriteAnimation();
 
 	void Update();
-	void FinalUpdate();
+	void UpdateConstantBuffer();
 
 public:
 	void CreateAnimationFrame(const SpriteAnimation_Frame& animation2D_frame)
@@ -62,7 +62,7 @@ public:
 			m_animation_frame_vector[frame_index] = animation_frame;
 		}
 	}
-	const SpriteAnimation_Data& GetCurrentFrameData() const { return m_animation_frame_vector[m_current_frame_id].animation2D_data; }
+	const SpriteAnimation_Frame& GetCurrentFrame() const { return m_animation_frame_vector[m_current_frame_id]; }
 
 public:
 	bool SaveToFile(const std::string& animation2D_path) override;
@@ -79,12 +79,11 @@ private:
 
 	std::map<UINT, std::pair<bool, std::function<void(void)>>> m_animation_event_func_map;
 
-	float m_accumulate_time = 0.0f;
-	float m_animation_time = 0.0f;
-	int m_current_frame_id = 0;
-
 	bool m_is_finished = false;
 	bool m_is_paused = false;
+
+	float m_accumulate_time = 0.0f;
+	int m_current_frame_id = 0;
 
 	friend class Animator2D;
 };

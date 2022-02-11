@@ -23,7 +23,7 @@ Collider2D::Collider2D()
 }
 
 Collider2D::Collider2D(const Collider2D& origin)
-	: IComponent(origin.GetComponentType())
+	: IComponent(origin.m_component_type)
 {
 	m_offset_position = origin.m_offset_position;
 	m_offset_scale = origin.m_offset_scale; //유니티에서는 Size

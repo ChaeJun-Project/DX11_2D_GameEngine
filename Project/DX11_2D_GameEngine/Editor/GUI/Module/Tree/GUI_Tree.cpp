@@ -54,7 +54,6 @@ void GUI_Tree::Clear()
 		p_tree_item_queue.pop();
 
 		auto p_child_vector = p_current_tree_item->m_p_child_vector;
-
 		for (auto& child : p_child_vector)
 		{
 			p_tree_item_queue.push(child);
@@ -94,6 +93,34 @@ void GUI_Tree::ExcuteClickedCallBack(GUI_TreeItem* p_item)
 	{
 		if (m_p_clicked_func_1 != nullptr)
 			m_p_clicked_func_1(std::get<std::string>(m_p_selected_item->m_pay_load.data));
+	}
+}
+
+void GUI_Tree::SetSelectedItem(const std::string& directory_path)
+{
+	if (m_p_root_item == nullptr)
+		return;
+
+	std::queue<GUI_TreeItem*> p_tree_item_queue;
+	p_tree_item_queue.push(m_p_root_item);
+
+	//자식 Tree Item 너비 탐색
+	while (!p_tree_item_queue.empty())
+	{
+		auto p_current_tree_item = p_tree_item_queue.front();
+		p_tree_item_queue.pop();
+
+		if (std::get<std::string>(p_current_tree_item->m_pay_load.data)._Equal(directory_path))
+		{
+			m_p_selected_item = p_current_tree_item;
+			return;
+		}
+
+		auto p_child_vector = p_current_tree_item->m_p_child_vector;
+		for (auto& child : p_child_vector)
+		{
+			p_tree_item_queue.push(child);
+		}
 	}
 }
 

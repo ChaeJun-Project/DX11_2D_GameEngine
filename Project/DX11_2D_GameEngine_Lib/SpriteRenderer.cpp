@@ -8,26 +8,43 @@
 #include "Material.h"
 #include "Texture.h"
 
+#include "GameObject.h"
 #include "Transform.h"
-
 #include "Animator2D.h"
 #include "SpriteAnimation.h"
 
 SpriteRenderer::SpriteRenderer()
 	:IComponent(ComponentType::SpriteRenderer)
 {
-	auto resource_manager = ResourceManager::GetInstance();
-
-	auto clone_material = resource_manager->GetResource<Material>("Default_Material")->Clone();
+	auto clone_material = RESOURCE_MANAGER->GetResource<Material>("Default_Material")->Clone();
 	m_p_material = std::shared_ptr<Material>(clone_material);
 
-	m_p_mesh = resource_manager->GetResource<Mesh>("Rectangle_Mesh");
+	m_p_mesh = RESOURCE_MANAGER->GetResource<Mesh>("Rectangle_Mesh");
+}
+
+SpriteRenderer::SpriteRenderer(const SpriteRenderer& origin)
+	:IComponent(origin.m_component_type)
+{
+    //Texture
+	m_p_sprite_texture = origin.m_p_sprite_texture;
+
+	//Texture Color
+	m_sprite_texture_color = origin.m_sprite_texture_color;
+
+	//Material
+	m_p_material = origin.m_p_material;
+	
+	//Mesh
+	m_p_mesh = origin.m_p_mesh;
 }
 
 SpriteRenderer::~SpriteRenderer()
 {
-	m_p_mesh.reset();
+	m_p_sprite_texture.reset();
+
 	m_p_material.reset();
+
+	m_p_mesh.reset();
 }
 
 void SpriteRenderer::Render()
@@ -35,26 +52,22 @@ void SpriteRenderer::Render()
 	if (m_p_mesh == nullptr || m_p_material == nullptr || m_p_material->GetShader() == nullptr)
 		return;
 
-	Animator2D* animator2D = nullptr;
-
-	animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
+	auto animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
 
 	//해당 GameObject가 Animator2D Component를 소유하고 있는 경우
-	if (animator2D)
+	if (animator2D != nullptr)
 	{
-		auto resource_manager = ResourceManager::GetInstance();
+		m_p_sprite_texture = animator2D->GetCurrentAnimationAtlasTexture();
 
-		m_p_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, animator2D->GetCurrentAnimationAtlasTexture());
+		auto current_animation = animator2D->GetCurrentAnimation();
 
-		if (animator2D->GetCurrentAnimation() != nullptr)
+		if (current_animation != nullptr)
 		{
 			int flag = 1;
 			//Set Has Animation
 			m_p_material->SetConstantBufferData(Material_Parameter::INT_0, &flag);
 
-			//Set Animator ID
-			flag = animator2D->GetAnimator2DID();
-			m_p_material->SetConstantBufferData(Material_Parameter::INT_1, &flag);
+			current_animation->UpdateConstantBuffer();
 		}
 	}
 
@@ -72,8 +85,8 @@ void SpriteRenderer::Render()
 		if (animator2D && animator2D->GetCurrentAnimation() != nullptr)
 		{
 			auto current_animation = animator2D->GetCurrentAnimation();
-			auto full_frame_size = current_animation->GetCurrentFrameData().full_frame_size;
-			transform->SetMeshScale(static_cast<UINT>(full_frame_size.x), static_cast<UINT>(full_frame_size.y));
+			auto frame_size = current_animation->GetCurrentFrame().frame_size;
+			transform->SetMeshScale(static_cast<UINT>(frame_size.x), static_cast<UINT>(frame_size.y));
 		}
 
 		else
@@ -98,11 +111,9 @@ void SpriteRenderer::SaveToScene(FILE* p_file)
 {
 	__super::SaveToScene(p_file); //IComponent
 
-	auto resource_manager = ResourceManager::GetInstance();
-
 	//Texture
 	fprintf(p_file, "[Texture]\n");
-	resource_manager->SaveResource<Texture>(m_p_sprite_texture, p_file);
+	RESOURCE_MANAGER->SaveResource<Texture>(m_p_sprite_texture, p_file);
 
 	//Sprite Color
 	fprintf(p_file, "[Sprite Color]\n");
@@ -110,22 +121,20 @@ void SpriteRenderer::SaveToScene(FILE* p_file)
 
 	//Material
 	fprintf(p_file, "[Material]\n");
-	resource_manager->SaveResource<Material>(m_p_material, p_file);
+	RESOURCE_MANAGER->SaveResource<Material>(m_p_material, p_file);
 
 	//Mesh
 	fprintf(p_file, "[Mesh]\n");
-	resource_manager->SaveResource<Mesh>(m_p_mesh, p_file);
+	RESOURCE_MANAGER->SaveResource<Mesh>(m_p_mesh, p_file);
 }
 
 void SpriteRenderer::LoadFromScene(FILE* p_file)
 {
-	auto resource_manager = ResourceManager::GetInstance();
-
 	char char_buffer[256] = { 0 };
 
 	//Texture
 	FILE_MANAGER->FScanf(char_buffer, p_file);
-	resource_manager->LoadResource<Texture>(m_p_sprite_texture, p_file);
+	RESOURCE_MANAGER->LoadResource<Texture>(m_p_sprite_texture, p_file);
 
 	//Sprite Color
 	FILE_MANAGER->FScanf(char_buffer, p_file);
@@ -133,9 +142,9 @@ void SpriteRenderer::LoadFromScene(FILE* p_file)
 
 	//Material
 	FILE_MANAGER->FScanf(char_buffer, p_file);
-	resource_manager->LoadResource<Material>(m_p_material, p_file);
+	RESOURCE_MANAGER->LoadResource<Material>(m_p_material, p_file);
 
 	//Mesh
 	FILE_MANAGER->FScanf(char_buffer, p_file);
-	resource_manager->LoadResource<Mesh>(m_p_mesh, p_file);
+	RESOURCE_MANAGER->LoadResource<Mesh>(m_p_mesh, p_file);
 }

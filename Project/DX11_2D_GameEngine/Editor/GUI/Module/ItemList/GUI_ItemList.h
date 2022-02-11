@@ -12,7 +12,7 @@ public:
 
 	std::vector<std::string>& GetItemList() { return m_item_list_vector; }
 
-	int* GetCurrentListID() { return &m_current_index; }
+	const int& GetCurrentListID() { return m_current_index; }
 	void SetCurrentListID(const int& current_index) { m_current_index = current_index; }
 	void SetCurrentListID(const std::string& item_str);
 

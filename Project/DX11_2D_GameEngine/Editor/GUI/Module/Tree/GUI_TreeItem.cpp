@@ -15,6 +15,9 @@ GUI_TreeItem::GUI_TreeItem(GUI_TreeItem* p_parent, const std::string& item_name,
 	{
 		p_game_object = (GameObject*)(std::get<DWORD_PTR>(m_pay_load.data));
 	}
+
+	//고유 ID 생성
+	m_guid = CreateID();
 }
 
 GUI_TreeItem::~GUI_TreeItem()
@@ -48,60 +51,32 @@ void GUI_TreeItem::Update()
 		flags |= ImGuiTreeNodeFlags_Selected;
 	}
 
-	if (m_pay_load.type == PayLoadType::GameObject)
+	//자식 TreeItem을 가지고 있는 노드일 경우
+	if (!(flags & ImGuiTreeNodeFlags_Leaf))
+		CheckOpenTreeNode(); //자식 중 선택된 아이탬이 있다면 노드를 펼침
+
+	if (ImGui::TreeNodeEx((const void*)(m_guid), flags, m_item_name.c_str()))
 	{
-		auto object = (DX11Obejct*)(std::get<DWORD_PTR>(m_pay_load.data));
+		if (m_use_drag_and_drop)
+			DragAndDrop();
 
-		if (ImGui::TreeNodeEx((const void*)(object->GetObjectID()), flags, m_item_name.c_str()))
-		{
-			if (m_use_drag_and_drop)
-				DragAndDrop();
+		clicked_empty_space = CheckClickEmptySpace();
+		press_mouse_left_button = CheckClickMouseLeftButton();
 
-			clicked_empty_space = CheckClickEmptySpace();
-			press_mouse_left_button = CheckClickMouseLeftButton();
+		for (auto& child_tree_item : m_p_child_vector)
+			child_tree_item->Update();
 
-			for (auto& child_tree_item : m_p_child_vector)
-				child_tree_item->Update();
-
-			//노드 추가를 중지함
-			ImGui::TreePop();
-		}
-
-		else
-		{
-			if (m_use_drag_and_drop)
-				DragAndDrop();
-
-			clicked_empty_space = CheckClickEmptySpace();
-			press_mouse_left_button = CheckClickMouseLeftButton();
-		}
+		//노드 추가를 중지함
+		ImGui::TreePop();
 	}
 
 	else
 	{
-		if (ImGui::TreeNodeEx(m_item_name.c_str(), flags, m_item_name.c_str()))
-		{
-			if (m_use_drag_and_drop)
-				DragAndDrop();
+		if (m_use_drag_and_drop)
+			DragAndDrop();
 
-			clicked_empty_space = CheckClickEmptySpace();
-			press_mouse_left_button = CheckClickMouseLeftButton();
-
-			for (auto& child_tree_item : m_p_child_vector)
-				child_tree_item->Update();
-
-			//노드 추가를 중지함
-			ImGui::TreePop();
-		}
-
-		else
-		{
-			if (m_use_drag_and_drop)
-				DragAndDrop();
-
-			clicked_empty_space = CheckClickEmptySpace();
-			press_mouse_left_button = CheckClickMouseLeftButton();
-		}
+		clicked_empty_space = CheckClickEmptySpace();
+		press_mouse_left_button = CheckClickMouseLeftButton();
 	}
 
 	if (clicked_empty_space)
@@ -114,6 +89,32 @@ void GUI_TreeItem::Update()
 	{
 		m_p_owner_tree->ExcuteClickedCallBack(this);
 		m_press_mouse_left_button = false;
+	}
+}
+
+void GUI_TreeItem::CheckOpenTreeNode()
+{
+	std::queue<GUI_TreeItem*> p_tree_item_queue;
+	p_tree_item_queue.push(this);
+
+	//너비 우선 탐색
+	while (!p_tree_item_queue.empty())
+	{
+		auto p_current_tree_item = p_tree_item_queue.front();
+		p_tree_item_queue.pop();
+
+		if (p_current_tree_item != this && m_p_owner_tree->GetSelectedItem() == p_current_tree_item)
+		{
+			ImGui::SetNextItemOpen(true, ImGuiCond_None);
+			return;
+		}
+
+		auto p_child_vector = p_current_tree_item->m_p_child_vector;
+		for (auto& child : p_child_vector)
+		{
+			p_tree_item_queue.push(child);
+		}
+
 	}
 }
 

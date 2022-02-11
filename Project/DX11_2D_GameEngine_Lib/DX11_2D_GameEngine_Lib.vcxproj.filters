@@ -217,6 +217,9 @@
     <ClInclude Include="TileMap.h">
       <Filter>Resource\TileMap</Filter>
     </ClInclude>
+    <ClInclude Include="Func.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

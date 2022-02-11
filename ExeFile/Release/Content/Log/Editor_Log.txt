@@ -1,3 +1,5 @@
-[2022/1/28/22:2:29][Info] ResourceManager::LoadFromFile : Succeeded in Loading File: [Test.tile]
-[2022/1/28/22:2:29][Info] TileMapRenderer::LoadSetTileCount : Tile Size: 20x20
-[2022/1/28/22:2:29][Info] FileFunction::LoadScene : Succeeded in Loading File: [New Scene]
+[2022/2/11/20:37:39][Info] ResourceManager::LoadFromFile : Succeeded in Loading File: [Z_Attack_1_Sprite.png]
+[2022/2/11/20:37:39][Info] ResourceManager::LoadFromFile : Succeeded in Loading File: [Z_Attack_1.anim]
+[2022/2/11/20:38:24][Info] ResourceManager::SaveToFile : Succeeded in Saving File: [Z_Attack_1.anim]
+[2022/2/11/20:38:57][Info] ResourceManager::LoadFromFile : Succeeded in Loading File: [Z_Ready_Sprite.png]
+[2022/2/11/20:38:57][Info] ResourceManager::LoadFromFile : Succeeded in Loading File: [Z_Ready.anim]

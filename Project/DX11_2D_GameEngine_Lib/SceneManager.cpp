@@ -19,7 +19,7 @@ SceneManager::~SceneManager()
 
 void SceneManager::Initialize()
 {
-	
+
 }
 
 void SceneManager::Update()
@@ -29,10 +29,10 @@ void SceneManager::Update()
 	//Game = 1
 	//Editor = 2
 	//</summary>
-	
+
 	//Editor State 비트값에 Play가 포함되어있고 Pause가 비포함되어있는 경우 또는 게임모드인 경우
-	if ( ((m_editor_state & EditorState::EditorState_Play) && !(m_editor_state & EditorState::EditorState_Pause))
-	|| m_client_state == 1 )
+	if (((m_editor_state & EditorState::EditorState_Play) && !(m_editor_state & EditorState::EditorState_Pause))
+		|| m_client_state == 1)
 	{
 		m_p_current_scene->Update();
 	}
@@ -53,10 +53,10 @@ void SceneManager::CreatePrefab(GameObject* p_game_object)
 
 void SceneManager::SetCurrentScene(const std::shared_ptr<Scene>& p_current_scene)
 {
-   if(m_p_current_scene != nullptr)
-	   m_p_current_scene.reset();
+	if (m_p_current_scene != nullptr)
+		m_p_current_scene.reset();
 
-   m_p_current_scene = p_current_scene;
+	m_p_current_scene = p_current_scene;
 }
 
 void SceneManager::SetEditorState(const UINT& editor_state)
@@ -65,6 +65,7 @@ void SceneManager::SetEditorState(const UINT& editor_state)
 	if (editor_state == EditorState::EditorState_Stop)
 	{
 		m_editor_state = editor_state;
+		m_p_current_scene->Initialize();
 	}
 
 	else
@@ -72,6 +73,12 @@ void SceneManager::SetEditorState(const UINT& editor_state)
 		//이미 현재 적용된 상태라면
 		if (m_editor_state & editor_state)
 		{
+			if (m_editor_state & EditorState::EditorState_Play &&
+				editor_state == EditorState::EditorState_Play)
+			{
+				m_p_current_scene->Initialize();
+			}
+
 			m_editor_state &= ~editor_state; //해당 상태 제거
 		}
 

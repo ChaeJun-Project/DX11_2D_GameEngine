@@ -64,7 +64,7 @@ void SpriteAnimation::Update()
 			//애니메이션 역재생이 끝났을 때
 			if (m_current_frame_id <= 0)
 			{
-				m_current_frame_id = static_cast<int>(m_animation_frame_vector.size());
+				m_current_frame_id = (static_cast<int>(m_animation_frame_vector.size()) - 1);
 
 				//해당 애니메이션이 끝까지 1회 재생되었음을 알려줌
 				m_is_finished = true;
@@ -84,30 +84,27 @@ void SpriteAnimation::Update()
 				m_is_finished = true;
 			}
 		}
-		
+
 		DoAnimationEvent(static_cast<UINT>(m_current_frame_id));
 	}
 }
 
-void SpriteAnimation::FinalUpdate()
+void SpriteAnimation::UpdateConstantBuffer()
 {
 	if (m_p_owner_animator2D == nullptr || m_animation_frame_vector.empty())
 		return;
 
-	auto animator2D_index = m_p_owner_animator2D->GetAnimator2DID();
-
-	SpriteAnimation_Data animation2D_data = m_animation_frame_vector[m_current_frame_id].animation2D_data;
-
 	Vector2 atlas_texture_size = Vector2(static_cast<float>(m_p_atlas_texture->GetWidth()), static_cast<float>(m_p_atlas_texture->GetHeight()));
 
-	animation2D_data.left_top = Vector2(animation2D_data.left_top.x / atlas_texture_size.x, animation2D_data.left_top.y / atlas_texture_size.y);
-	animation2D_data.frame_size = Vector2(animation2D_data.frame_size.x / atlas_texture_size.x, animation2D_data.frame_size.y / atlas_texture_size.y);
-	animation2D_data.full_frame_size = Vector2(animation2D_data.full_frame_size.x / atlas_texture_size.x, animation2D_data.full_frame_size.y / atlas_texture_size.y);
+	auto animation_frame = m_animation_frame_vector[m_current_frame_id];
 
-	g_cbuffer_animation2D.animation2D_data_array[animator2D_index] = animation2D_data;
+	animation_frame.left_top = Vector2(animation_frame.left_top.x / atlas_texture_size.x, animation_frame.left_top.y / atlas_texture_size.y);
+	animation_frame.frame_size = Vector2(animation_frame.frame_size.x / atlas_texture_size.x, animation_frame.frame_size.y / atlas_texture_size.y);
+
+	g_cbuffer_sprite_animation.sprite_animation_frame = animation_frame;
 
 	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::SpriteAnimation);
-	constant_buffer->SetConstantBufferData(&g_cbuffer_animation2D, sizeof(CBuffer_SpriteAnimation));
+	constant_buffer->SetConstantBufferData(&g_cbuffer_sprite_animation, sizeof(CBuffer_SpriteAnimation));
 	constant_buffer->SetBufferBindStage(PipelineStage::PS); //애니메이션 픽셀계산은 Pixel Shader에서만 수행
 	constant_buffer->BindPipeline();
 }
@@ -123,7 +120,7 @@ void SpriteAnimation::Play()
 
 	//역방향 재생인 경우
 	else
-		m_current_frame_id = static_cast<int>(m_animation_frame_vector.size());
+		m_current_frame_id = (static_cast<int>(m_animation_frame_vector.size()) - 1);
 }
 
 void SpriteAnimation::Pause()
@@ -136,7 +133,9 @@ void SpriteAnimation::Stop()
 	m_is_paused = false;
 	m_is_finished = false;
 
+	m_accumulate_time = 0.0f;
 	m_current_frame_id = 0;
+
 	ResetAnimationEventFlag();
 }
 
@@ -173,8 +172,6 @@ void SpriteAnimation::ResetAnimationEventFlag()
 
 bool SpriteAnimation::SaveToFile(const std::string& animation2D_path)
 {
-	auto resource_manager = ResourceManager::GetInstance();
-
 	FILE* p_file = nullptr;
 	fopen_s(&p_file, animation2D_path.c_str(), "wb"); //파일 쓰기
 
@@ -186,7 +183,7 @@ bool SpriteAnimation::SaveToFile(const std::string& animation2D_path)
 
 		//Atlas Texture
 		fprintf(p_file, "[Atlas Texture]\n");
-		resource_manager->SaveResource<Texture>(m_p_atlas_texture, p_file);
+		RESOURCE_MANAGER->SaveResource<Texture>(m_p_atlas_texture, p_file);
 
 		//Sprite Animation Frame Count
 		fprintf(p_file, "[Sprite Animation Frame Count]\n");
@@ -197,18 +194,13 @@ bool SpriteAnimation::SaveToFile(const std::string& animation2D_path)
 		for (UINT i = 0; i < m_animation_frame_vector.size(); ++i)
 		{
 			auto animation2D_frame = m_animation_frame_vector[i];
-			auto animation2D_frame_data = animation2D_frame.animation2D_data;
-
+		
 			fprintf(p_file, "[Index]\n");
 			fprintf(p_file, "%d\n", i);
 			fprintf(p_file, "[Left Top]\n");
-			FILE_MANAGER->FPrintf_Vector2(animation2D_frame_data.left_top, p_file);
+			FILE_MANAGER->FPrintf_Vector2(animation2D_frame.left_top, p_file);
 			fprintf(p_file, "[Frame Size]\n");
-			FILE_MANAGER->FPrintf_Vector2(animation2D_frame_data.frame_size, p_file);
-			fprintf(p_file, "[Full Frame Size]\n");
-			FILE_MANAGER->FPrintf_Vector2(animation2D_frame_data.full_frame_size, p_file);
-			fprintf(p_file, "[Offset]\n");
-			FILE_MANAGER->FPrintf_Vector2(animation2D_frame_data.offset, p_file);
+			FILE_MANAGER->FPrintf_Vector2(animation2D_frame.frame_size, p_file);
 			fprintf(p_file, "[Duration]\n");
 			fprintf(p_file, "%f\n", animation2D_frame.duration);
 		}
@@ -224,8 +216,6 @@ bool SpriteAnimation::SaveToFile(const std::string& animation2D_path)
 
 bool SpriteAnimation::LoadFromFile(const std::string& animation2D_path)
 {
-	auto resource_manager = ResourceManager::GetInstance();
-
 	FILE* p_file = nullptr;
 	fopen_s(&p_file, animation2D_path.c_str(), "rb"); //파일 읽기
 
@@ -240,7 +230,7 @@ bool SpriteAnimation::LoadFromFile(const std::string& animation2D_path)
 
 		//Atlas Texture
 		FILE_MANAGER->FScanf(char_buffer, p_file);
-		resource_manager->LoadResource<Texture>(m_p_atlas_texture, p_file);
+		RESOURCE_MANAGER->LoadResource<Texture>(m_p_atlas_texture, p_file);
 
 		//Sprite Animation Frame Count
 		FILE_MANAGER->FScanf(char_buffer, p_file);
@@ -261,19 +251,11 @@ bool SpriteAnimation::LoadFromFile(const std::string& animation2D_path)
 
 			//Left Top
 			FILE_MANAGER->FScanf(char_buffer, p_file);
-			FILE_MANAGER->FScanf_Vector2(animation2D_frame.animation2D_data.left_top, p_file);
+			FILE_MANAGER->FScanf_Vector2(animation2D_frame.left_top, p_file);
 
 			//Frame Size
 			FILE_MANAGER->FScanf(char_buffer, p_file);
-			FILE_MANAGER->FScanf_Vector2(animation2D_frame.animation2D_data.frame_size, p_file);
-
-			//Full Frame Size
-			FILE_MANAGER->FScanf(char_buffer, p_file);
-			FILE_MANAGER->FScanf_Vector2(animation2D_frame.animation2D_data.full_frame_size, p_file);
-
-			//Offset
-			FILE_MANAGER->FScanf(char_buffer, p_file);
-			FILE_MANAGER->FScanf_Vector2(animation2D_frame.animation2D_data.offset, p_file);
+			FILE_MANAGER->FScanf_Vector2(animation2D_frame.frame_size, p_file);
 
 			//Duration
 			FILE_MANAGER->FScanf(char_buffer, p_file);

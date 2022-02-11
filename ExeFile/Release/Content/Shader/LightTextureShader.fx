@@ -7,7 +7,6 @@
 #include "ShaderFunc.fx"
 
 #define HAS_ANIMATION2D g_int_0
-#define ANIMTATOR2D_INDEX g_int_1
 #define SPRITE_TEXTURE_COLOR g_vector4_0
 
 //RS State에서 Solid 사용
@@ -49,27 +48,18 @@ float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
     //SpriteAnimation
     if (HAS_ANIMATION2D)
     {
-        SpriteAnimation_Data current_animation2D_data = g_animation2D_data_array[ANIMTATOR2D_INDEX];
+        SpriteAnimation_Data current_animation2D_data = g_sprite_animation;
         
-        float2 animation2D_uv = (ps_input.uv * current_animation2D_data.full_frame_size);
-        float2 uv_range = (current_animation2D_data.full_frame_size - current_animation2D_data.frame_size) / 2.f + current_animation2D_data.offset;
-                
-        if (uv_range.x < animation2D_uv.x && animation2D_uv.x < uv_range.x + current_animation2D_data.frame_size.x
-            && uv_range.y < animation2D_uv.y && animation2D_uv.y < uv_range.y + current_animation2D_data.frame_size.y)
-        {
-            animation2D_uv += (current_animation2D_data.left_top - uv_range + current_animation2D_data.frame_size / 2 - current_animation2D_data.offset);
-            ps_output_color = g_texture_0.Sample(g_sampler1, animation2D_uv);
-        }
-        
-        else
-            clip(-1); // 호출 된 픽셀 쉐이더 폐기처분
+        float2 animation2D_uv = (ps_input.uv * current_animation2D_data.frame_size);
+          
+        animation2D_uv += current_animation2D_data.left_top;
+        ps_output_color = g_texture_0.Sample(g_sampler1, animation2D_uv);
     }
     else
     {
         ps_output_color = g_texture_0.Sample(g_sampler1, ps_input.uv);
     }
-    
-    ps_output_color = g_texture_0.Sample(g_sampler1, ps_input.uv);
+
     //각 색상 성분에 맞는 rgb값을 곱함
     ps_output_color.rgb *= light_color.color.rgb;
     

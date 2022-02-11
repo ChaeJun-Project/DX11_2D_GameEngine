@@ -8,8 +8,9 @@ public:
    Scene(const std::string& scene_name);
    ~Scene();
 
-   void Initialize();
+   void SetStartScene();
 
+   void Initialize();
    void Start();
    void Update();
    void FinalUpdate();

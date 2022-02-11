@@ -41,11 +41,11 @@ void GUI_SpriteRenderer::Render()
 		auto material = sprite_renderer->GetMaterial();
 		auto mesh = sprite_renderer->GetMesh();
 
-		auto resource_manager = ResourceManager::GetInstance();
+		auto resource_manager = RESOURCE_MANAGER;
 
 		//람다 함수 show_texture_slot
 		//오브젝트에 적용한 텍스처를 Inspector창에서 이미지로 보여주는 함수
-		const auto ShowTexture = [](const char* label_name, const std::shared_ptr<Texture>& p_texture)
+		const auto ShowTexture = [&resource_manager, &sprite_renderer](const char* label_name, const std::shared_ptr<Texture>& p_texture)
 		{
 			ImGui::Text(label_name);
 			ImGui::SameLine(100.0f);
@@ -59,7 +59,7 @@ void GUI_SpriteRenderer::Render()
 			ImGui::PopItemWidth();
 			if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Texture))
 			{
-				
+				sprite_renderer->SetSpriteTexture(resource_manager->LoadFromFile<Texture>(std::get<std::string>(pay_load->data)));
 			}
 
 			ImGui::Image
@@ -126,7 +126,7 @@ void GUI_SpriteRenderer::Render()
 			{
 				for (UINT i = 0; i < static_cast<UINT>(item_list_vector.size()); ++i)
 				{
-					const bool is_selected = (*(m_p_item_list->GetCurrentListID()) == i);
+					const bool is_selected = (m_p_item_list->GetCurrentListID() == i);
 					if (ImGui::Selectable(item_list_vector[i].c_str(), is_selected))
 					{
 						if (CAN_EDIT)

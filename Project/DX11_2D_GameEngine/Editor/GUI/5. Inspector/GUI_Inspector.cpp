@@ -232,7 +232,7 @@ void GUI_Inspector::ShowComboTags()
 		{
 			for (UINT i = 0; i < static_cast<UINT>(tag_list_vector.size()); ++i)
 			{
-				const bool is_selected = (*(m_p_tag_list->GetCurrentListID()) == i);
+				const bool is_selected = (m_p_tag_list->GetCurrentListID() == i);
 				if (ImGui::Selectable(tag_list_vector[i].c_str(), is_selected))
 				{
 					m_p_selected_game_object->SetGameObjectTag(tag_list_vector[i]);
@@ -280,7 +280,7 @@ void GUI_Inspector::ShowComboLayers()
 		{
 			for (UINT i = 0; i < static_cast<UINT>(layer_list_vector.size()); ++i)
 			{
-				const bool is_selected = (*(m_p_layer_list->GetCurrentListID()) == i);
+				const bool is_selected = (m_p_layer_list->GetCurrentListID() == i);
 				if (ImGui::Selectable(layer_list_vector[i].c_str(), is_selected))
 				{
 					m_p_selected_game_object->SetGameObjectLayer(i);

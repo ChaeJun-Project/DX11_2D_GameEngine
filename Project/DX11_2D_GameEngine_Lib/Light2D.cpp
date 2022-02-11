@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "Light2D.h"
 
-#include "Transform.h"
-
 #include "RenderManager.h"
+
+#include "GameObject.h"
+#include "Transform.h"
 
 Light2D::Light2D()
  :IComponent(ComponentType::Light2D)
@@ -16,9 +17,10 @@ Light2D::Light2D()
 }
 
 Light2D::Light2D(const Light2D& origin)
-	: IComponent(origin.GetComponentType())
+	: IComponent(origin.m_component_type)
 {
     m_light2D_index = origin.m_light2D_index;
+
 	m_light2D_data = origin.m_light2D_data;
 }
 

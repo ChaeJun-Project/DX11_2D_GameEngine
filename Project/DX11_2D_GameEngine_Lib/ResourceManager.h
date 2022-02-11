@@ -31,9 +31,9 @@ private:
 
 public:
 	template<typename T>
-	const std::shared_ptr<T>& GetResource(const std::string& resource_name);
+	const std::shared_ptr<T> GetResource(const std::string& resource_name);
 
-	const ResourceMap& GetResourceMap(const ResourceType& resource_type);
+	const ResourceMap GetResourceMap(const ResourceType& resource_type);
 
 	template<typename T>
 	void SaveResource(const std::shared_ptr<T>& p_resource, FILE* p_file);
@@ -45,7 +45,7 @@ public:
 	void LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file);
 
 	template<typename T>
-	const std::shared_ptr<T>& LoadFromFile(const std::string& resource_path);
+	const std::shared_ptr<T> LoadFromFile(const std::string& resource_path);
 
 public:
 	void Initialize();
@@ -63,30 +63,31 @@ public:
 
 	//Material
 	void CreateDefaultMaterial();
-	const std::shared_ptr<Material>& CreateMaterial(const std::string& material_name, const std::string& shader_name);
+	const std::shared_ptr<Material> CreateMaterial(const std::string& material_name, const std::string& shader_name);
 
 	//Texture
 	void CreateDefaultTexture();
 	const std::shared_ptr<Texture> CreateIconTexture(const std::string& icon_texture_path);
-	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_path);
-	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
-	const std::shared_ptr<Texture>& CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D);
+	const std::shared_ptr<Texture> CreateFileItemThumbnailTexture(const std::string& file_path);
+	const std::shared_ptr<Texture> CreateTexture(const std::string& texture_path);
+	const std::shared_ptr<Texture> CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
+	const std::shared_ptr<Texture> CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D);
 
 	//Mesh
 	void CreateDefaultMesh();
-	const std::shared_ptr<Mesh>& CreateMesh(const std::string& mesh_name, const MeshType& mesh_type);
+	const std::shared_ptr<Mesh> CreateMesh(const std::string& mesh_name, const MeshType& mesh_type);
 
 	//Audio
-	const std::shared_ptr<AudioClip>& CreateAudioClip(const std::string& audio_clip_path);
+	const std::shared_ptr<AudioClip> CreateAudioClip(const std::string& audio_clip_path);
 
 	//Prefab
-	const std::shared_ptr<Prefab>& CreatePrefab(GameObject* p_game_object);
+	const std::shared_ptr<Prefab> CreatePrefab(GameObject* p_game_object);
 
 	//SpriteAnimation
-	const std::shared_ptr<SpriteAnimation>& CreateSpriteAnimation(const std::string& animation2D_name);
+	const std::shared_ptr<SpriteAnimation> CreateSpriteAnimation(const std::string& animation2D_name);
 
 	//TileMap
-	const std::shared_ptr<TileMap>& CreateTileMap(const std::string& tile_map_name);
+	const std::shared_ptr<TileMap> CreateTileMap(const std::string& tile_map_name);
 
 private:
 	//<summary>
@@ -97,7 +98,7 @@ private:
 };
 
 template<typename T>
-const std::shared_ptr<T>& ResourceManager::GetResource(const std::string& resource_name)
+const std::shared_ptr<T> ResourceManager::GetResource(const std::string& resource_name)
 {
 	//Class T가 IResource를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IResource, T>::value;
@@ -112,10 +113,8 @@ const std::shared_ptr<T>& ResourceManager::GetResource(const std::string& resour
 
 	auto resource_iter = resource_map.find(resource_name);
 
-#ifdef _DEBUG
 	if (resource_iter == resource_map.end())
 		return nullptr;
-#endif 
 
 	return std::dynamic_pointer_cast<T>(resource_iter->second);
 }
@@ -217,7 +216,7 @@ void ResourceManager::LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file)
 }
 
 template<typename T>
-const std::shared_ptr<T>& ResourceManager::LoadFromFile(const std::string& resource_path)
+const std::shared_ptr<T> ResourceManager::LoadFromFile(const std::string& resource_path)
 {
 	//Class T가 IResource를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IResource, T>::value;
@@ -237,11 +236,21 @@ const std::shared_ptr<T>& ResourceManager::LoadFromFile(const std::string& resou
 
 	//존재하지 않으면 새로운 리소스 생성
 	auto p_resource = std::make_shared<T>(resource_name);
-	p_resource->SetResourcePath(resource_path);
 	
+
 	auto absolute_resource_path = resource_path;
-	auto absolute_content_path = ABSOLUTE_CONTENT_PATH;
-	absolute_resource_path = absolute_content_path + absolute_resource_path;
+	//resource_path가 상대경로로 들어왔을 경우
+	if (absolute_resource_path.find("Content") == std::string::npos) 
+	{
+		p_resource->SetResourcePath(resource_path);
+
+		auto absolute_content_path = ABSOLUTE_CONTENT_PATH;
+		absolute_resource_path = absolute_content_path + absolute_resource_path;
+	}
+
+	//resource_path가 절대경로로 들어왔을 경우
+	else
+		p_resource->SetResourcePath(FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath_2(resource_path));
 
 	//LoadFromFile
 	if (!p_resource->LoadFromFile(absolute_resource_path))

@@ -10,24 +10,37 @@
 GUI_Project::GUI_Project(const std::string& project_title)
 	:IGUI(project_title)
 {
-	m_path_tree = std::make_unique<GUI_Tree>();
+	//DX11_2D_GameEngine/ExeFile/Release/Content/
+	m_root_path = FILE_MANAGER->GetAbsoluteContentPath();
+	m_root_path += m_root_name;
+
+	m_directory_tree = std::make_unique<GUI_Tree>();
 
 	m_p_clicked_func_1 = std::bind
 	(
-		&GUI_Project::ClickedDirectory,
+		&GUI_Project::ChangeDirectory,
 		this,
 		std::placeholders::_1
 	);
 
 	m_p_file_dialog = std::make_unique<GUI_FileDialog>();
+	m_p_file_dialog->m_p_folder_double_clicked_func = std::bind
+	(
+		&GUI_Project::DoubleClickedDirectory,
+		this,
+		std::placeholders::_1
+	); 
+	
+	//초기 경로를 Root Path로 설정
+	ChangeDirectory(m_root_path);
 }
 
 GUI_Project::~GUI_Project()
 {
 	m_p_clicked_func_1 = nullptr;
 
-	m_path_tree->Clear();
-	m_path_tree.reset();
+	m_directory_tree->Clear();
+	m_directory_tree.reset();
 	m_p_file_dialog.reset();
 }
 
@@ -72,24 +85,20 @@ void GUI_Project::Render()
 
 void GUI_Project::UpdateTree()
 {
-	m_path_tree->Clear();
-	m_path_tree->SetIsVisibleRoot(false);
-
-	//DX11_2D_GameEngine/ExeFile/Release/Content/
-	std::string root_path = FILE_MANAGER->GetAbsoluteContentPath();
-	root_path += m_root_name;
+	m_directory_tree->Clear();
+	m_directory_tree->SetIsVisibleRoot(true);
 
 	PayLoad pay_load;
 	pay_load.type = PayLoadType::Folder;
-	pay_load.data = root_path; //DX11_2D_GameEngine/ExeFile/Release/Content/Asset
+	pay_load.data = m_root_path; //DX11_2D_GameEngine/ExeFile/Release/Content/Asset
 
-	auto p_root_tree_item = m_path_tree->AddItem(nullptr, m_root_name, pay_load, false);
+	auto p_root_tree_item = m_directory_tree->AddItem(nullptr, m_root_name, pay_load, false);
 
-	auto directory_path_vector = FILE_MANAGER->GetDirectoriesInDirectory(root_path);
+	auto directory_path_vector = FILE_MANAGER->GetDirectoriesInDirectory(m_root_path);
 	for (const auto& directory_path : directory_path_vector)
 		AddDirectory(p_root_tree_item, directory_path);
 
-	m_path_tree->SetClickedCallBack1(m_p_clicked_func_1);
+	m_directory_tree->SetClickedCallBack1(m_p_clicked_func_1);
 }
 
 void GUI_Project::AddDirectory(GUI_TreeItem* p_tree_item, const std::string& directory_path)
@@ -103,7 +112,7 @@ void GUI_Project::AddDirectory(GUI_TreeItem* p_tree_item, const std::string& dir
 	pay_load.type = PayLoadType::Folder;
 	pay_load.data = directory_path;
 
-	auto p_current_tree_item = m_path_tree->AddItem(p_tree_item, tree_item_name, pay_load, false);
+	auto p_current_tree_item = m_directory_tree->AddItem(p_tree_item, tree_item_name, pay_load, false);
 	auto directory_path_vector = FILE_MANAGER->GetDirectoriesInDirectory(directory_path);
 
 	for (const auto& directory_path : directory_path_vector)
@@ -123,8 +132,8 @@ void GUI_Project::ShowAssetHierarchy()
 {
 	ImGui::BeginChild("Folders", ImVec2(150, 0), true, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar);
 	{
-		if (ImGui::CollapsingHeader("Asset", ImGuiTreeNodeFlags_DefaultOpen))
-			m_path_tree->Update();
+		if (ImGui::CollapsingHeader(m_root_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+			m_directory_tree->Update();
 	}
 	ImGui::EndChild();
 }
@@ -162,12 +171,16 @@ void GUI_Project::ShowFilesInDirectory()
 
 }
 
-void GUI_Project::ClickedDirectory(const std::string& current_directory)
+void GUI_Project::ChangeDirectory(const std::string& current_directory)
 {
-	if (!m_current_path.empty())
-		m_current_path.clear();
-
 	m_current_path = current_directory;
 
 	m_p_file_dialog->Update(m_current_path);
+}
+
+void GUI_Project::DoubleClickedDirectory(const std::string& current_directory)
+{
+	m_directory_tree->SetSelectedItem(current_directory);
+
+	ChangeDirectory(current_directory);
 }

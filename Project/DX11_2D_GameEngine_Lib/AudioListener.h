@@ -5,7 +5,7 @@ class AudioListener final : public IComponent
 {
 public:
 	AudioListener();
-	explicit AudioListener(const AudioListener& origin);
+	explicit AudioListener(const AudioListener& origin) = default;
 	~AudioListener() = default;
 
 public:

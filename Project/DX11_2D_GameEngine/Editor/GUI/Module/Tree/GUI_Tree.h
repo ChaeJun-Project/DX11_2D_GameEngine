@@ -22,6 +22,7 @@ public:
     void SetClickedCallBack2(Clicked_CallBack2 p_clicked_func_2) { m_p_clicked_func_2 = p_clicked_func_2; }
     void ExcuteClickedCallBack(GUI_TreeItem* p_item);
     GUI_TreeItem* GetSelectedItem() { SAFE_GET_POINTER(m_p_selected_item); }
+    void SetSelectedItem(const std::string& directory_path);
 
     void SetDragDropCallBack(DragDrop_CallBack p_p_drag_drop_func) { m_p_drag_drop_func = p_p_drag_drop_func; }
     void SetDragStartItem(GUI_TreeItem* p_item) { m_p_drag_start_item = p_item; }

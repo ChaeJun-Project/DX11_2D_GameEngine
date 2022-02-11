@@ -166,7 +166,7 @@ void GUI_Camera::ShowComboProjectionType(Camera* p_camera, ProjectionType& proje
 		{
 			for (UINT i = 0; i < static_cast<UINT>(projection_list_vector.size()); ++i)
 			{
-				const bool is_selected = (*(m_p_projection_list->GetCurrentListID()) == i);
+				const bool is_selected = (m_p_projection_list->GetCurrentListID() == i);
 				if (ImGui::Selectable(projection_list_vector[i].c_str(), is_selected))
 				{
 					p_camera->SetProjectionType(static_cast<ProjectionType>(i));

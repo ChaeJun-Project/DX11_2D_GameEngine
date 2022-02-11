@@ -10,12 +10,6 @@ AudioListener::AudioListener()
 
 }
 
-AudioListener::AudioListener(const AudioListener& origin)
-	: IComponent(origin.GetComponentType())
-{
-
-}
-
 void AudioListener::Start()
 {
 	AUDIO_MANAGER->SetListenerTransform(m_p_owner_game_object->GetComponent<Transform>());

@@ -28,7 +28,7 @@ Camera::~Camera()
 }
 
 Camera::Camera(const Camera& origin)
-	: IComponent(origin.GetComponentType())
+	: IComponent(origin.m_component_type)
 {
 	m_camera_index = origin.m_camera_index;
 	m_projection_type = origin.m_projection_type;

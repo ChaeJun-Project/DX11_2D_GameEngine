@@ -27,16 +27,17 @@ private:
 
 	void ShowFilter();
 	void ShowFilesInDirectory();
-	void ClickedDirectory(const std::string& current_directory);
-
+	void ChangeDirectory(const std::string& current_directory);
+	void DoubleClickedDirectory(const std::string& current_directory);
+	
 private:
 	std::string m_root_name = "Asset";
-
+	std::string m_root_path;
 	std::string m_current_path;
 
 	bool m_is_update = false;
 
-	std::unique_ptr<GUI_Tree> m_path_tree = nullptr;
+	std::unique_ptr<GUI_Tree> m_directory_tree = nullptr;
 
 	ImGuiTextFilter m_file_filter;
 	Clicked_CallBack1 m_p_clicked_func_1 = nullptr;

@@ -19,6 +19,7 @@ public:
 	void Update();
 
 private:
+    void CheckOpenTreeNode();
     void DragAndDrop();
 	const bool CheckClickEmptySpace();
 	const bool CheckClickMouseLeftButton();
@@ -32,6 +33,7 @@ public:
 private:
 	GUI_Tree* m_p_owner_tree = nullptr;
 
+	UINT m_guid = 0;
 	std::string m_item_name;
 	GUI_TreeItem* m_p_parent = nullptr;
 	PayLoad m_pay_load;

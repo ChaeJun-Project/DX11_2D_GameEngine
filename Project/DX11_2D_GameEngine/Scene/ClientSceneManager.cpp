@@ -21,64 +21,14 @@
 void ClientSceneManager::CreateNewScene()
 {
 	auto new_scene = std::make_shared<Scene>("New Scene");
-	new_scene->Initialize();
+	new_scene->SetStartScene();
 
-	auto scene_manager = SceneManager::GetInstance();
-	auto resource_manager = ResourceManager::GetInstance();
-
-	scene_manager->SetCurrentScene(new_scene);
-
-	return;
-
-	//Camera(0)
-	auto camera = new GameObject();
-	camera->SetGameObjectName("Main Camera");
-	camera->SetGameObjectTag("Main Camera");
-	camera->AddComponent(new Transform());
-	camera->AddComponent(new Camera());
-
-	camera->GetComponent<Camera>()->SetMainCamera();
-
-	new_scene->RegisterGameObject(camera);
-
-	//Light2D
-	auto point_light2D = new GameObject();
-	point_light2D->SetGameObjectName("Light2D_Point");
-	point_light2D->SetGameObjectTag("Light2D_Point");
-	point_light2D->AddComponent(new Transform());
-	point_light2D->AddComponent(new Light2D());
-
-	auto point_light = point_light2D->GetComponent<Light2D>();
-	point_light->SetLightType(LightType::Point);
-	point_light->SetLightRange(2000.0f);
-	point_light->SetLightColor(Vector4::White);
-
-	new_scene->RegisterGameObject(point_light2D);
-
-	//Game Logic
-	auto game_logic = new GameObject();
-	game_logic->SetGameObjectName("Game Logic");
-	game_logic->SetGameObjectTag("Game Logic");
-	game_logic->AddComponent(new Transform());
-	game_logic->AddComponent(new GameLogic_Script());
-
-	new_scene->RegisterGameObject(game_logic);
-
-	//Tile Object
-	auto game_object = new GameObject();
-	game_object->SetGameObjectName("TileObject");
-	game_object->SetGameObjectTag("Tile");
-	game_object->AddComponent(new Transform());
-	game_object->AddComponent(new TileMapRenderer());
-
-	auto tile_map = game_object->GetComponent<TileMapRenderer>();
-
-	new_scene->RegisterGameObject(game_object);
+	SCENE_MANAGER->SetCurrentScene(new_scene);
 }
 
 std::shared_ptr<Scene> ClientSceneManager::SaveScene(const std::string& file_path)
 {
-	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
+	auto current_scene = SCENE_MANAGER->GetCurrentScene();
 
 	FILE* p_file = nullptr;
 	fopen_s(&p_file, file_path.c_str(), "wb");
@@ -169,8 +119,8 @@ void ClientSceneManager::SaveScript(GameObject* p_game_object, FILE* p_file)
 
 std::shared_ptr<Scene> ClientSceneManager::LoadScene(const std::string& file_path)
 {
-	EditorHelper::GetInstance()->SetSelectedGameObject(nullptr);
-	EditorHelper::GetInstance()->SetSelectedResource(nullptr);
+	EDITOR_HELPER->SetSelectedGameObject(nullptr);
+	EDITOR_HELPER->SetSelectedResource(nullptr);
 
 	auto p_new_scene = std::make_shared<Scene>("New Scene");
 

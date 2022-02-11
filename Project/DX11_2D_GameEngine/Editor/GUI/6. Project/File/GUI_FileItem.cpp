@@ -3,6 +3,8 @@
 
 #include "Helper/IconProvider.h"
 
+#include "GUI_FileDialog.h"
+
 GUI_FileItem::GUI_FileItem(const FileThumbnailType& file_thumbnail_type, const PayLoad& pay_load)
 	:m_file_thumbnail_type(file_thumbnail_type),
 	m_pay_load(pay_load)
@@ -10,7 +12,7 @@ GUI_FileItem::GUI_FileItem(const FileThumbnailType& file_thumbnail_type, const P
 	//Initialize Thumbnail Texture
 	if (m_file_thumbnail_type == FileThumbnailType::Texture)
 	{
-		m_p_thumbnail_texture = RESOURCE_MANAGER->CreateTexture(std::get<std::string>(m_pay_load.data));
+		m_p_thumbnail_texture = RESOURCE_MANAGER->CreateFileItemThumbnailTexture(std::get<std::string>(m_pay_load.data));
 	}
 
 	else
@@ -83,7 +85,7 @@ void GUI_FileItem::CheckClickedFileItem()
 	if (ImGui::IsItemHovered())
 	{
 		//한 번만 클릭했을 경우
-		if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 		{
 			m_is_clicked = true;
 
@@ -111,12 +113,15 @@ void GUI_FileItem::CheckClickedFileItem()
 			{
 				m_is_clicked = false;
 
+				m_p_owner_file_dialog->SetCurrentFolderPath(std::get<std::string>(m_pay_load.data));
+				m_p_owner_file_dialog->IsClearFileItem();
 			}
 			break;
 			case PayLoadType::Scene:
 			{
 				m_is_clicked = false;
 
+				FileFunction::LoadScene(std::get<std::string>(m_pay_load.data));
 			}
 			break;
 			}

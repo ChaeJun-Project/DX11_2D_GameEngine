@@ -70,5 +70,4 @@ void TimeManager::CalcFps()
 
 		m_render_str = "FPS: " + std::to_string(m_fps) + " Delta Time: " + std::to_string(m_delta_time);
 	}
-
 }

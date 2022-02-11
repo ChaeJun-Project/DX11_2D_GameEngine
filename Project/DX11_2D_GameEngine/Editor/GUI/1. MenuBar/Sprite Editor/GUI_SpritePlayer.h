@@ -21,7 +21,7 @@ public:
 
 private:
     void ShowSpriteAnimationPreview();
-	void ShowButtons();
+	void ShowButtons(const float& rect_size_width);
 
 private:
 	//SpriteAnimation

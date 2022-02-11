@@ -11,6 +11,7 @@ public:
 	explicit Animator2D(const Animator2D& origin);
 	~Animator2D();
 
+	virtual void Initialize() override;
 	virtual void Start() override;
 	virtual void Update() override;
 	virtual void FinalUpdate() override;
@@ -26,10 +27,6 @@ public:
 public:
     //Current Animation Atlas Texture
 	const std::shared_ptr<Texture>& GetCurrentAnimationAtlasTexture();
-
-    //Animator2D Index
-	const int& GetAnimator2DID() const { return m_animator2D_index; }
-	void SetAnimator2DID(const int& animator2D_index) { m_animator2D_index = animator2D_index; }
 
 	//Sprite Animation
 	void AddAnimation(const std::string& sprite_animation_name);
@@ -65,8 +62,6 @@ public:
 	CLONE(Animator2D);
 
 private:
-    int m_animator2D_index = -1;
-
 	std::shared_ptr<SpriteAnimation> m_p_current_animation = nullptr;
 	std::map<std::string, std::shared_ptr<SpriteAnimation>> m_p_sprite_animation_map;
 

@@ -5,6 +5,7 @@
 #include "Settings.h"
 
 #include "GraphicsManager.h"
+#include "ConstantBuffer.h"
 
 #include "ResourceManager.h"
 #include "Material.h"
@@ -56,15 +57,15 @@ void RenderManager::Render()
 	//Program, Light2D 데이터 업데이트
 	UpdateConstantBuffer();
 
-	auto scene_manager = SceneManager::GetInstance();
+	auto test = GRAPHICS_MANAGER;
 
-	GraphicsManager::GetInstance()->ClearRenderTarget();
+	GRAPHICS_MANAGER->ClearRenderTarget();
 
 	//<summary>
 	//ClientState
 	//Game = 1
 	//Editor = 2
-	switch (scene_manager->GetClientState())
+	switch (SCENE_MANAGER->GetClientState())
 	{
 	case 1:
 		RenderPlay();

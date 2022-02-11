@@ -40,19 +40,19 @@ void GUI_ToolBar::Begin()
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 2.0f));
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImGui::GetStyle().Colors[ImGuiCol_WindowBg]);
-	
+
 	__super::Begin();
 }
 
 void GUI_ToolBar::Render()
 {
-    ImGui::SameLine();
+	ImGui::SameLine();
 
-	ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 126.0f ) * 0.5f);
+	ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 126.0f) * 0.5f);
 
 	//Play, Pause, Stop Button을 하나의 그룹으로 묶기
 	ImGui::BeginGroup();
-	
+
 	auto icon_provider = IconProvider::GetInstance();
 	auto scene_manager = SceneManager::GetInstance();
 
@@ -65,10 +65,10 @@ void GUI_ToolBar::Render()
 
 	//Scene Play Button 그리기
 	if (icon_provider->CreateImageButton(IconType::ToolBar_Play, ImVec2(22.0f, 22.0f)))
-	{ 
+	{
 		EditorManager::GetInstance()->ExcuteEventCallBack();
 		scene_manager->SetEditorState(EditorState::EditorState_Play);
-	    ImGui::SetWindowFocus(nullptr);
+		ImGui::SetWindowFocus(nullptr);
 	}
 	ImGui::SameLine();
 
@@ -83,17 +83,20 @@ void GUI_ToolBar::Render()
 
 	//Scene Pause Button 그리기
 	if (icon_provider->CreateImageButton(IconType::ToolBar_Pause, ImVec2(22.0f, 22.0f)))
-	{ 
-		scene_manager->SetEditorState(EditorState::EditorState_Pause);
-		ImGui::SetWindowFocus(nullptr);
+	{
+		if (SCENE_MANAGER->GetEditorState() & EditorState_Play)
+		{
+			scene_manager->SetEditorState(EditorState::EditorState_Pause);
+			ImGui::SetWindowFocus(nullptr);
+		}
 	}
 	ImGui::SameLine();
 
 	ImGui::PopStyleColor();
 
-	//Scene Pause Button 그리기
+	//Scene Stop Button 그리기
 	if (icon_provider->CreateImageButton(IconType::ToolBar_Stop, ImVec2(22.0f, 22.0f)))
-	{ 
+	{
 		EditorManager::GetInstance()->ExcuteEventCallBack();
 		scene_manager->SetEditorState(EditorState::EditorState_Stop);
 		ImGui::SetWindowFocus(nullptr);

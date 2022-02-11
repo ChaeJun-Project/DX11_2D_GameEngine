@@ -27,7 +27,7 @@ void GUI_SpritePlayer::Initialize()
 
 void GUI_SpritePlayer::Render()
 {
-	if (ImGui::Begin("Sprite Player", &m_is_active))
+	if (ImGui::Begin("Sprite Player", &m_is_active, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ShowSpriteAnimationPreview();
 	
@@ -39,33 +39,44 @@ void GUI_SpritePlayer::ShowSpriteAnimationPreview()
 {
 	//Get Sprite Animation Data
 	auto animation2D_frame = m_p_current_animation2D->GetAnimationFrame(m_frame_index);
-	auto animation2D_data = animation2D_frame.animation2D_data;
 	auto p_atlas_texture = m_p_current_animation2D->GetAtlasTexture();
 	auto atlas_texture_size = Vector2(static_cast<float>(p_atlas_texture->GetWidth()), static_cast<float>(p_atlas_texture->GetHeight()));
 	
+	auto begin_cursor_screen_pos = ImGui::GetCursorScreenPos();
+	auto end_cursor_screen_pos = begin_cursor_screen_pos;
+	end_cursor_screen_pos.x += 2.0f * animation2D_frame.frame_size.x;
+	end_cursor_screen_pos.y += animation2D_frame.frame_size.y;
+
 	Vector2 uv_left_top = Vector2
 	(
-		animation2D_data.left_top.x / atlas_texture_size.x + animation2D_data.offset.x / animation2D_data.full_frame_size.x,
-		animation2D_data.left_top.y / atlas_texture_size.y + animation2D_data.offset.y / animation2D_data.full_frame_size.y
+		animation2D_frame.left_top.x / atlas_texture_size.x,
+		animation2D_frame.left_top.y / atlas_texture_size.y
 	);
 	Vector2 uv_right_bottom = Vector2
 	(
-		(animation2D_data.left_top.x + animation2D_data.full_frame_size.x) / atlas_texture_size.x + animation2D_data.offset.x / animation2D_data.full_frame_size.x,
-		(animation2D_data.left_top.y + animation2D_data.full_frame_size.y) / atlas_texture_size.y + animation2D_data.offset.y / animation2D_data.full_frame_size.y
+		(animation2D_frame.left_top.x + animation2D_frame.frame_size.x) / atlas_texture_size.x,
+		(animation2D_frame.left_top.y + animation2D_frame.frame_size.y) / atlas_texture_size.y
 	);
+
+	auto offset = animation2D_frame.frame_size.x * 0.5f;
+	ImGui::SetCursorScreenPos(ImVec2(begin_cursor_screen_pos.x + offset, begin_cursor_screen_pos.y));
 
 	ImGui::Image
 	(
 		p_atlas_texture->GetShaderResourceView(),
-		ImVec2(animation2D_data.full_frame_size.x, animation2D_data.full_frame_size.y),
+		ImVec2(animation2D_frame.frame_size.x, animation2D_frame.frame_size.y),
 		ImVec2(uv_left_top.x, uv_left_top.y),
-		ImVec2(uv_right_bottom.x, uv_right_bottom.y),
-		ImVec4(1.0f, 1.0f, 1.0f, 1.0f),
-		ImVec4(1.0f, 1.0f, 1.0f, 1.0f)
+		ImVec2(uv_right_bottom.x, uv_right_bottom.y)
 	);
 
+	//Draw Back Rect
+	auto draw_list = ImGui::GetWindowDrawList();
+	draw_list->AddRect(begin_cursor_screen_pos, end_cursor_screen_pos, IM_COL32(255, 255, 255, 255));
+
 	//Frame Slider
+	ImGui::PushItemWidth(ImGui::GetItemRectSize().x * 2.0f);
 	ImGui::SliderInt("##Sprite Animation Frame Slider", &m_frame_index, 0, m_p_current_animation2D->GetAnimationFrameCount() - 1);
+	ImGui::PopItemWidth();
 
 	//재생 중일 때
 	if ((curret_animation_state & AnimationState::Play) && !(curret_animation_state & AnimationState::Pause))
@@ -85,11 +96,16 @@ void GUI_SpritePlayer::ShowSpriteAnimationPreview()
 		}
 	}
 
-	ShowButtons();
+	ShowButtons(ImGui::GetItemRectSize().x);
 }
 
-void GUI_SpritePlayer::ShowButtons()
+void GUI_SpritePlayer::ShowButtons(const float& rect_size_width)
 {
+	auto offset_x  = (rect_size_width - 88.0f) * 0.5f; //88.0은 세 가지 버튼 그룹의 총 고정 길이 
+	
+	auto begin_cursor_screen_pos = ImGui::GetCursorScreenPos();
+	ImGui::SetCursorScreenPos(ImVec2(begin_cursor_screen_pos.x + offset_x, begin_cursor_screen_pos.y));
+
 	//Play, Pause, Stop Button을 하나의 그룹으로 묶기
 	ImGui::BeginGroup();
 
@@ -129,7 +145,11 @@ void GUI_SpritePlayer::ShowButtons()
 	ImGui::PushID(unique_str.c_str());
 	if (icon_provider->CreateImageButton(IconType::ToolBar_Pause, ImVec2(16.0f, 16.0f)))
 	{
-		curret_animation_state |= static_cast<UINT>(AnimationState::Pause);
+		if (curret_animation_state & AnimationState::Pause)
+			curret_animation_state &= ~static_cast<UINT>(AnimationState::Pause);
+
+		else
+			curret_animation_state |= static_cast<UINT>(AnimationState::Pause);
 	}
 	ImGui::PopID();
 	ImGui::SameLine();

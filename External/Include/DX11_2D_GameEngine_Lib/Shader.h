@@ -30,7 +30,7 @@ public:
 	);
 
 	template<typename T>
-	const std::shared_ptr<T>& GetShader() const;
+	const std::shared_ptr<T> GetShader() const;
 
 public:
 	RenderTimePointType GetRenderTimePointType() const { return m_render_time_point; }
@@ -97,7 +97,7 @@ void Shader::AddShader(const std::string& path, const std::string& function_name
 }
 
 template<typename T>
-const std::shared_ptr<T>& Shader::GetShader() const
+const std::shared_ptr<T> Shader::GetShader() const
 {
 	//Class T가 IShader를 상속받는 클래스인지 확인
 	auto result = std::is_base_of<IShader, T>::value;

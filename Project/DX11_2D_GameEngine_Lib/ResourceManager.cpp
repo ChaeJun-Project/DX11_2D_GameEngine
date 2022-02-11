@@ -63,7 +63,7 @@ REGISTER_RESOURCE_TYPE(Prefab, ResourceType::Prefab);
 REGISTER_RESOURCE_TYPE(SpriteAnimation, ResourceType::SpriteAnimation);
 REGISTER_RESOURCE_TYPE(TileMap, ResourceType::TileMap);
 
-const ResourceMap& ResourceManager::GetResourceMap(const ResourceType& resource_type)
+const ResourceMap ResourceManager::GetResourceMap(const ResourceType& resource_type)
 {
 	auto resource_map_iter = m_resources_map.find(resource_type);
 	if (resource_map_iter == m_resources_map.end())
@@ -285,7 +285,7 @@ void ResourceManager::CreateDefaultMaterial()
 	CreateMaterial("TileMapRenderer_Material", "TileMapRenderer");
 }
 
-const std::shared_ptr<Material>& ResourceManager::CreateMaterial(const std::string& material_name, const std::string& shader_name)
+const std::shared_ptr<Material> ResourceManager::CreateMaterial(const std::string& material_name, const std::string& shader_name)
 {
 	auto& material_map = m_resources_map[ResourceType::Material];
 
@@ -302,6 +302,7 @@ const std::shared_ptr<Material>& ResourceManager::CreateMaterial(const std::stri
 
 void ResourceManager::CreateDefaultTexture()
 {
+	//Noise Texture 1
 	CreateTexture("Asset/Texture/Noise/noise_01.png");
 
 	//Noise Texture 2
@@ -313,16 +314,19 @@ void ResourceManager::CreateDefaultTexture()
 	//Noise Texture 1 »ç¿ë
 	auto noise_texture = GetResource<Texture>("noise_01");
 
-	//Texture Bind Pipeline
-	noise_texture->SetPipelineStage(PipelineStage::Graphics_ALL | PipelineStage::CS);
-	noise_texture->SetBindSlot(13);
-	noise_texture->BindPipeline();
+	if (noise_texture != nullptr)
+	{
+		//Texture Bind Pipeline
+		noise_texture->SetPipelineStage(PipelineStage::Graphics_ALL | PipelineStage::CS);
+		noise_texture->SetBindSlot(13);
+		noise_texture->BindPipeline();
 
-	g_cbuffer_program.noise_resolution = Vector2
-	(
-		static_cast<float>(noise_texture->GetWidth()),
-		static_cast<float>(noise_texture->GetHeight())
-	);
+		g_cbuffer_program.noise_resolution = Vector2
+		(
+			static_cast<float>(noise_texture->GetWidth()),
+			static_cast<float>(noise_texture->GetHeight())
+		);
+	}
 
 	//Smoke Particle Texture
 	CreateTexture("Asset/Texture/Particle/smoke_particle.png");
@@ -333,7 +337,6 @@ void ResourceManager::CreateDefaultTexture()
 	//Test
 	CreateTexture("Asset/Texture/Map/Stage1/Stage1_Tile.png");
 	CreateTexture("Asset/Texture/Map/Stage2/Stage2_Tile.png");
-	CreateTexture("Asset/Texture/Player/RockManZ/Animation/Z01_Ready/Z_Ready_Sprite.png");
 }
 
 const std::shared_ptr<Texture> ResourceManager::CreateIconTexture(const std::string& icon_texture_path)
@@ -352,7 +355,23 @@ const std::shared_ptr<Texture> ResourceManager::CreateIconTexture(const std::str
 	return p_icon_texture;
 }
 
-const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string& texture_path)
+const std::shared_ptr<Texture> ResourceManager::CreateFileItemThumbnailTexture(const std::string& file_path)
+{
+	std::string texture_name = FILE_MANAGER->GetOriginFileNameFromPath(file_path);
+	auto file_name = FILE_MANAGER->GetFileNameFromPath(file_path);
+
+	auto p_thumbnail_texture = std::make_shared<Texture>(texture_name);
+	p_thumbnail_texture->SetResourcePath(file_path);
+
+	if (!p_thumbnail_texture->LoadFromFile(file_path))
+	{
+		return nullptr;
+	}
+
+	return p_thumbnail_texture;
+}
+
+const std::shared_ptr<Texture> ResourceManager::CreateTexture(const std::string& texture_path)
 {
 	auto& texture_map = m_resources_map[ResourceType::Texture];
 
@@ -375,7 +394,7 @@ const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string
 	return std::dynamic_pointer_cast<Texture>(texture_iter.first->second);
 }
 
-const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage)
+const std::shared_ptr<Texture> ResourceManager::CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage)
 {
 	auto& texture_map = m_resources_map[ResourceType::Texture];
 
@@ -391,7 +410,7 @@ const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string
 	return std::dynamic_pointer_cast<Texture>(texture_iter.first->second);
 }
 
-const std::shared_ptr<Texture>& ResourceManager::CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D)
+const std::shared_ptr<Texture> ResourceManager::CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D)
 {
 	auto& texture_map = m_resources_map[ResourceType::Texture];
 
@@ -418,7 +437,7 @@ void ResourceManager::CreateDefaultMesh()
 	CreateMesh("Circle_Mesh", MeshType::Circle);
 }
 
-const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const std::string& mesh_name, const MeshType& mesh_type)
+const std::shared_ptr<Mesh> ResourceManager::CreateMesh(const std::string& mesh_name, const MeshType& mesh_type)
 {
 	auto& mesh_map = m_resources_map[ResourceType::Mesh];
 
@@ -433,7 +452,7 @@ const std::shared_ptr<Mesh>& ResourceManager::CreateMesh(const std::string& mesh
 	return std::dynamic_pointer_cast<Mesh>(mesh_iter.first->second);
 }
 
-const std::shared_ptr<AudioClip>& ResourceManager::CreateAudioClip(const std::string& audio_clip_path)
+const std::shared_ptr<AudioClip> ResourceManager::CreateAudioClip(const std::string& audio_clip_path)
 {
 	auto& audio_clip_map = m_resources_map[ResourceType::AudioClip];
 
@@ -451,7 +470,7 @@ const std::shared_ptr<AudioClip>& ResourceManager::CreateAudioClip(const std::st
 	return std::dynamic_pointer_cast<AudioClip>(audio_clip_iter.first->second);
 }
 
-const std::shared_ptr<Prefab>& ResourceManager::CreatePrefab(GameObject* p_game_object)
+const std::shared_ptr<Prefab> ResourceManager::CreatePrefab(GameObject* p_game_object)
 {
 	if (p_game_object == nullptr)
 		return nullptr;
@@ -468,7 +487,7 @@ const std::shared_ptr<Prefab>& ResourceManager::CreatePrefab(GameObject* p_game_
 	return std::dynamic_pointer_cast<Prefab>(prefab_iter.first->second);
 }
 
-const std::shared_ptr<SpriteAnimation>& ResourceManager::CreateSpriteAnimation(const std::string& animation2D_name)
+const std::shared_ptr<SpriteAnimation> ResourceManager::CreateSpriteAnimation(const std::string& animation2D_name)
 {
 	auto& animation2D_map = m_resources_map[ResourceType::SpriteAnimation];
 
@@ -482,7 +501,7 @@ const std::shared_ptr<SpriteAnimation>& ResourceManager::CreateSpriteAnimation(c
 	return std::dynamic_pointer_cast<SpriteAnimation>(animation2D_iter.first->second);
 }
 
-const std::shared_ptr<TileMap>& ResourceManager::CreateTileMap(const std::string& tile_map_name)
+const std::shared_ptr<TileMap> ResourceManager::CreateTileMap(const std::string& tile_map_name)
 {
 	auto& tile_map = m_resources_map[ResourceType::TileMap];
 

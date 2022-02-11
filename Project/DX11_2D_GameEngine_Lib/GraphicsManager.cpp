@@ -139,7 +139,6 @@ void GraphicsManager::Initialize()
 	//Blender 积己
 	CreateBlender();
 
-
 	ResizeWindowByUser(settings->GetWindowWidth(), settings->GetWindowHeight());
 }
 
@@ -199,7 +198,7 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 	CreateRenderTargetView();
 
 	//Post Effect Target Texture 积己
-	RenderManager::GetInstance()->ResizePostEffectTexture();
+	RENDER_MANAGER->ResizePostEffectTexture();
 
 	//DepthStencil 包访 磊盔 积己
 	CreateDepthStencilView();
@@ -714,7 +713,7 @@ void GraphicsManager::CreateBlender()
 	}
 }
 
-const std::shared_ptr<ConstantBuffer>& GraphicsManager::GetConstantBuffer(const CBuffer_BindSlot& bind_slot)
+const std::shared_ptr<ConstantBuffer> GraphicsManager::GetConstantBuffer(const CBuffer_BindSlot& bind_slot)
 {
 	auto map_iter = m_p_constant_buffer_map.find(bind_slot);
 	auto result = (map_iter != m_p_constant_buffer_map.end());
@@ -727,7 +726,7 @@ const std::shared_ptr<ConstantBuffer>& GraphicsManager::GetConstantBuffer(const 
 	return nullptr;
 }
 
-const std::shared_ptr<RasterizerState>& GraphicsManager::GetRasterizer(const RasterizerType& rasterizer_type)
+const std::shared_ptr<RasterizerState> GraphicsManager::GetRasterizer(const RasterizerType& rasterizer_type)
 {
 	auto map_iter = m_p_rasterizer_map.find(rasterizer_type);
 	auto result = (map_iter != m_p_rasterizer_map.end());
@@ -740,7 +739,7 @@ const std::shared_ptr<RasterizerState>& GraphicsManager::GetRasterizer(const Ras
 	return nullptr;
 }
 
-const std::shared_ptr<DepthStencilState>& GraphicsManager::GetDepthStencilState(const DepthStencilType& depth_stencil_type)
+const std::shared_ptr<DepthStencilState> GraphicsManager::GetDepthStencilState(const DepthStencilType& depth_stencil_type)
 {
 	auto map_iter = m_p_depth_stecil_map.find(depth_stencil_type);
 	auto result = (map_iter != m_p_depth_stecil_map.end());
@@ -753,7 +752,7 @@ const std::shared_ptr<DepthStencilState>& GraphicsManager::GetDepthStencilState(
 	return nullptr;
 }
 
-const std::shared_ptr<BlendState>& GraphicsManager::GetBlender(const BlendType& blend_type)
+const std::shared_ptr<BlendState> GraphicsManager::GetBlender(const BlendType& blend_type)
 {
 	auto map_iter = m_p_blender_map.find(blend_type);
 	auto result = (map_iter != m_p_blender_map.end());

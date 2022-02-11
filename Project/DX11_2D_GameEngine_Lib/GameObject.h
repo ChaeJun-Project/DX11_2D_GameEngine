@@ -12,6 +12,7 @@ public:
 	explicit GameObject(const GameObject& origin); //복사생성자, 형변환 허용X
 	~GameObject();
 
+	void Initialize();
 	void Start();
 	void Update();
 	void FinalUpdate();

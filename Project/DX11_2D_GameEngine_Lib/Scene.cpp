@@ -39,7 +39,7 @@ Scene::~Scene()
 	m_p_parent_game_object_vector.shrink_to_fit();
 }
 
-void Scene::Initialize()
+void Scene::SetStartScene()
 {
 	//Camera(0)
 	auto camera = new GameObject();
@@ -62,29 +62,14 @@ void Scene::Initialize()
 
 	auto point_light = point_light2D->GetComponent<Light2D>();
 	point_light->SetLightType(LightType::Point);
-	
+
 	RegisterGameObject(point_light2D);
+}
 
-	//Test
-	/*auto test = new GameObject();
-	test->SetGameObjectName("SpriteRenderer");
-	test->AddComponent(ComponentType::Transform);
-	test->AddComponent(ComponentType::SpriteRenderer);
-
-	auto sprtie_renderer = test->GetComponent<SpriteRenderer>();
-	sprtie_renderer->SetSpriteTexture(ResourceManager::GetInstance()->CreateTexture((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Texture/UI/PlayerSelect/Z_Texture.png")));
-	
-	RegisterGameObject(test);
-
-	auto audio = new GameObject();
-	audio->SetGameObjectName("Audio");
-	audio->AddComponent(ComponentType::Transform);
-	audio->AddComponent(ComponentType::AudioSource);
-
-	auto audio_source = audio->GetComponent<AudioSource>();
-	audio_source->SetAudioClip(ResourceManager::GetInstance()->LoadFromFile<AudioClip>((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Audio/17 - X4 - BOSS.mp3")));
-
-	RegisterGameObject(audio);*/
+void Scene::Initialize()
+{
+	for (auto& layer : m_layer_map)
+		layer.second->Initialize();
 }
 
 void Scene::Start()

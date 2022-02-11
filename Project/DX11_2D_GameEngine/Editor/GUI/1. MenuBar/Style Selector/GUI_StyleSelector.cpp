@@ -40,7 +40,7 @@ void GUI_StyleSelector::Render()
 		{
 			for (UINT i = 0; i < 3; ++i)
 			{
-				const bool is_selected = (*(m_p_item_list->GetCurrentListID()) == i);
+				const bool is_selected = (m_p_item_list->GetCurrentListID() == i);
 				if (ImGui::Selectable(item_list_vector[i].c_str(), is_selected))
 				{
 					switch (i)

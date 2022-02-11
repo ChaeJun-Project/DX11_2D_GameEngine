@@ -9,6 +9,7 @@ class SpriteRenderer : public IComponent
 {
 public:
     SpriteRenderer();
+    explicit SpriteRenderer(const SpriteRenderer& origin);
     ~SpriteRenderer();
 
     void FinalUpdate() override {};

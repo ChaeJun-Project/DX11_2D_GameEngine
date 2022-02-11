@@ -3,6 +3,7 @@
 #include "../GUI_Component.h"
 
 class GUI_AddSpriteAnimation;
+class GUI_ItemList;
 
 class GUI_Animator2D final : public GUI_Component
 {
@@ -14,6 +15,6 @@ public:
 	void Render() override;
 
 private:
-	//Add Sprite Animation Window
-	std::unique_ptr<GUI_AddSpriteAnimation> m_p_add_sprite_animation = nullptr;
+	//Sprite Animation List
+	std::unique_ptr<GUI_ItemList> m_p_sprite_animation_list = nullptr;
 };

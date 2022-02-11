@@ -1,7 +1,6 @@
 #pragma once
 
 class Animator2D;
-class GUI_ItemList;
 
 class SpriteAnimation;
 class Texture;
@@ -25,12 +24,8 @@ private:
 private:
 	//Atlas Texture
 	std::shared_ptr<Texture> m_p_atlas_texture = nullptr;
+	std::string m_atlas_texture_name;
 	Vector2 m_atlas_texture_size = Vector2::Zero;
-
-	//Atlas Texture List
-	GUI_ItemList* m_p_atlas_item_list = nullptr;
-	//Sprite Animation List
-	GUI_ItemList* m_p_sprtie_animation_item_list = nullptr;
 
 	//Sprite Animation
 	bool m_is_create_new_sprite_animation = false;

@@ -5,6 +5,7 @@
 
 #include "AudioClip.h"
 
+#include "GameObject.h"
 #include "Transform.h"
 
 AudioSource::AudioSource()
@@ -14,7 +15,7 @@ AudioSource::AudioSource()
 }
 
 AudioSource::AudioSource(const AudioSource& origin)
-	: IComponent(origin.GetComponentType())
+	: IComponent(origin.m_component_type)
 {
 	m_p_audio_clip = origin.m_p_audio_clip;
 	

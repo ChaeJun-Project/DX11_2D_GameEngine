@@ -15,21 +15,36 @@
 TileMapRenderer::TileMapRenderer()
 	:IComponent(ComponentType::TileMapRenderer)
 {
-	auto resource_manager = ResourceManager::GetInstance();
-
-	m_p_mesh = resource_manager->GetResource<Mesh>("Rectangle_Mesh");
-	auto clone_material = resource_manager->GetResource<Material>("TileMapRenderer_Material")->Clone();
+	m_p_mesh = RESOURCE_MANAGER->GetResource<Mesh>("Rectangle_Mesh");
+	auto clone_material = RESOURCE_MANAGER->GetResource<Material>("TileMapRenderer_Material")->Clone();
 	m_p_material = std::shared_ptr<Material>(clone_material);
 
 	m_p_grid_mesh = std::make_shared<Mesh>("Grid_Mesh");
 	m_p_grid_mesh->Create(MeshType::Grid, 1, 1);
-	clone_material = resource_manager->GetResource<Material>("Grid_Material")->Clone();
+	clone_material = RESOURCE_MANAGER->GetResource<Material>("Grid_Material")->Clone();
 	m_p_grid_material = std::shared_ptr<Material>(clone_material);
 }
 
 TileMapRenderer::TileMapRenderer(const TileMapRenderer& origin)
-	: IComponent(origin.GetComponentType())
+	: IComponent(origin.m_component_type)
 {
+	m_p_current_tile_atlas_texture = origin.m_p_current_tile_atlas_texture;
+	//Tile Atlas Texture의 Tile Index
+	m_current_tile_atlas_texture_index = origin.m_current_tile_atlas_texture_index;
+
+	//TileMap
+	std::shared_ptr<TileMap> m_p_tile_map = nullptr;
+
+	//현재 선택된 타일 아틀라스 텍스처의 타일의 인덱스
+	int m_current_tile_index = -1;
+	std::shared_ptr<Material> m_p_material = nullptr;
+	std::shared_ptr<Mesh> m_p_mesh = nullptr;
+
+	//Grid
+	bool m_is_draw_grid = true;
+	std::shared_ptr<Material> m_p_grid_material = nullptr;
+	std::shared_ptr<Mesh> m_p_grid_mesh = nullptr;
+	std::vector<Vector2> m_grid_left_top_vector;
 }
 
 TileMapRenderer::~TileMapRenderer()
@@ -55,9 +70,8 @@ void TileMapRenderer::FinalUpdate()
 	if (m_p_tile_map == nullptr)
 		return;
 
-	auto render_manager = RenderManager::GetInstance();
-	auto screen_offset = render_manager->GetScreenOffset();
-	auto editor_camera = render_manager->GetEditorCamera();
+	auto screen_offset = RENDER_MANAGER->GetScreenOffset();
+	auto editor_camera = RENDER_MANAGER->GetEditorCamera();
 
 	//Palette가 켜진 상태 & 편집 상태 & 마우스 왼쪽 클릭을 했을 때 
 	if (m_is_active_palette && (SceneManager::GetInstance()->GetEditorState() == EditorState_Stop) && MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
@@ -146,8 +160,7 @@ void TileMapRenderer::DrawGrid()
 
 void TileMapRenderer::CreateTileMap(const std::string& tile_map_name)
 {
-	auto p_new_tile_map = ResourceManager::GetInstance()->CreateTileMap(tile_map_name);
-
+	auto p_new_tile_map = RESOURCE_MANAGER->CreateTileMap(tile_map_name);
 
 	m_p_tile_map = p_new_tile_map;
 }
@@ -274,7 +287,7 @@ void TileMapRenderer::CalcCurrentPickRect(const Vector2& current_screen_pos)
 {
 	for (int i = 0; i < static_cast<int>(m_p_tile_map->m_tile_data_vector.size()); ++i)
 	{
-		if (RenderManager::GetInstance()->CheckMouseWorldPositionInRect(
+		if (RENDER_MANAGER->CheckMouseWorldPositionInRect(
 			current_screen_pos,
 			m_p_tile_map->m_tile_data_vector[i].left_top,
 			m_p_tile_map->m_tile_data_vector[i].right_bottom))
@@ -289,52 +302,48 @@ void TileMapRenderer::SaveToScene(FILE* p_file)
 {
 	__super::SaveToScene(p_file); //IComponent
 
-	auto resource_manager = ResourceManager::GetInstance();
-
 	//TileMap
 	fprintf(p_file, "■ TileMap\n");
-	resource_manager->SaveResource<TileMap>(m_p_tile_map, p_file);
+	RESOURCE_MANAGER->SaveResource<TileMap>(m_p_tile_map, p_file);
 	fprintf(p_file, "[Material]\n");
-	resource_manager->SaveResource<Material>(m_p_material, p_file);
+	RESOURCE_MANAGER->SaveResource<Material>(m_p_material, p_file);
 	fprintf(p_file, "[Mesh]\n");
-	resource_manager->SaveResource<Mesh>(m_p_mesh, p_file);
+	RESOURCE_MANAGER->SaveResource<Mesh>(m_p_mesh, p_file);
 
 	//Grid
 	fprintf(p_file, "■ Grid\n");
 	fprintf(p_file, "[Draw]\n");
 	fprintf(p_file, "%d\n", m_is_draw_grid);
 	fprintf(p_file, "[Material]\n");
-	resource_manager->SaveResource<Material>(m_p_grid_material, p_file);
+	RESOURCE_MANAGER->SaveResource<Material>(m_p_grid_material, p_file);
 	fprintf(p_file, "[Mesh]\n");
-	resource_manager->SaveResource<Mesh>(m_p_grid_mesh, p_file);
+	RESOURCE_MANAGER->SaveResource<Mesh>(m_p_grid_mesh, p_file);
 }
 
 void TileMapRenderer::LoadFromScene(FILE* p_file)
 {
-	auto resource_manager = ResourceManager::GetInstance();
-
 	char char_buffer[256] = { 0 };
 
 	//TileMap
 	FILE_MANAGER->FScanf(char_buffer, p_file); //■ TileMap
-	resource_manager->LoadResource<TileMap>(m_p_tile_map, p_file);
+	RESOURCE_MANAGER->LoadResource<TileMap>(m_p_tile_map, p_file);
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Material]
-	resource_manager->LoadResource<Material>(m_p_material, p_file);
+	RESOURCE_MANAGER->LoadResource<Material>(m_p_material, p_file);
 	for (UINT i = 0; i < m_p_tile_map->m_used_tile_atlas_texture_count; ++i)
 	{
 		LoadSetTileAtlasTexture(m_p_tile_map->m_used_tile_atlas_texture_vector[i], i);
 	}
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Mesh]
-	resource_manager->LoadResource<Mesh>(m_p_mesh, p_file);
+	RESOURCE_MANAGER->LoadResource<Mesh>(m_p_mesh, p_file);
 
 	//Grid
 	FILE_MANAGER->FScanf(char_buffer, p_file); //■ Grid
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Draw]
 	fscanf_s(p_file, "%d\n", &m_is_draw_grid);
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Material]
-	resource_manager->LoadResource<Material>(m_p_grid_material, p_file);
+	RESOURCE_MANAGER->LoadResource<Material>(m_p_grid_material, p_file);
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Mesh]
-	resource_manager->LoadResource<Mesh>(m_p_grid_mesh, p_file);
+	RESOURCE_MANAGER->LoadResource<Mesh>(m_p_grid_mesh, p_file);
 
 	LoadSetTileCount(m_p_tile_map->m_tile_count_x, m_p_tile_map->m_tile_count_y);
 }

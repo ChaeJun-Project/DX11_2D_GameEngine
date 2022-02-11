@@ -37,15 +37,14 @@ public:
 	ID3D11Device* GetDevice() { SAFE_GET_POINTER(m_p_device.Get()); }
 	ID3D11DeviceContext* GetDeviceContext() { SAFE_GET_POINTER(m_p_device_context.Get()); }
 
-	const std::shared_ptr<ConstantBuffer>& GetConstantBuffer(const CBuffer_BindSlot& bind_slot);
-	const std::shared_ptr<RasterizerState>& GetRasterizer(const RasterizerType& rasterizer_type);
+	const std::shared_ptr<ConstantBuffer> GetConstantBuffer(const CBuffer_BindSlot& bind_slot);
+	const std::shared_ptr<RasterizerState> GetRasterizer(const RasterizerType& rasterizer_type);
 	//const std::shared_ptr<SamplerState>& GetSampler(const RasterizerType& rasterizer_type);
-	const std::shared_ptr<DepthStencilState>& GetDepthStencilState(const DepthStencilType& depth_stencil_type);
-	const std::shared_ptr<BlendState>& GetBlender(const BlendType& blend_type);
+	const std::shared_ptr<DepthStencilState> GetDepthStencilState(const DepthStencilType& depth_stencil_type);
+	const std::shared_ptr<BlendState> GetBlender(const BlendType& blend_type);
 
 	const std::shared_ptr<Texture>& GetRenderTexture() { return m_p_render_target_view; }
-	void Test();
-
+	
 private:
 	void CreateDeviceAndDeviceContext();
 	void CreateSwapChain();

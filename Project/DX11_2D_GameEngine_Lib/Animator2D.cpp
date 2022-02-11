@@ -10,7 +10,7 @@ Animator2D::Animator2D()
 }
 
 Animator2D::Animator2D(const Animator2D& origin)
-	: IComponent(origin.GetComponentType())
+	: IComponent(origin.m_component_type)
 {
 	//동일한 애니메이션의 정보를 바탕으로 새로 애니메이션 생성 및 추가
 	for (auto& animation_iter : origin.m_p_sprite_animation_map)
@@ -37,6 +37,11 @@ Animator2D::~Animator2D()
 	m_p_sprite_animation_map.clear();
 }
 
+void Animator2D::Initialize()
+{
+	Stop();
+}
+
 void Animator2D::Start()
 {
 	if (m_p_current_animation == nullptr)
@@ -61,8 +66,6 @@ void Animator2D::FinalUpdate()
 {
 	if (m_p_current_animation == nullptr)
 		return;
-
-	m_p_current_animation->FinalUpdate();
 
 	//현재 애니메이션이 끝났고 반복 재생 옵션이 켜있는 경우
 	if (m_p_current_animation->m_is_finished && m_is_loop)
@@ -178,7 +181,7 @@ void Animator2D::SaveToScene(FILE* p_file)
 {
 	__super::SaveToScene(p_file); //IComponent
 
-	auto resource_manager = ResourceManager::GetInstance();
+	//Animator2D Index
 
 	//Animation2D Map
 	fprintf(p_file, "[Animation2D Map]\n");
@@ -193,7 +196,7 @@ void Animator2D::SaveToScene(FILE* p_file)
 		fprintf(p_file, "[Key]\n");
 		fprintf(p_file, "%s\n", animation2D.first.c_str());
 		//Save Sprite Animation Resource
-		resource_manager->SaveResource<SpriteAnimation>(animation2D.second, p_file);
+		RESOURCE_MANAGER->SaveResource<SpriteAnimation>(animation2D.second, p_file);
 	}
 
 	//Animation Speed
@@ -204,8 +207,6 @@ void Animator2D::SaveToScene(FILE* p_file)
 void Animator2D::LoadFromScene(FILE* p_file)
 {
 	char char_buffer[256] = { 0 };
-
-	auto resource_manager = ResourceManager::GetInstance();
 
 	//Animation2D Map
 	FILE_MANAGER->FScanf(char_buffer, p_file);
@@ -224,7 +225,8 @@ void Animator2D::LoadFromScene(FILE* p_file)
 
 		//Load Sprite Animation Resource
 		std::shared_ptr<SpriteAnimation> p_animation2D = nullptr;
-		resource_manager->LoadResource<SpriteAnimation>(p_animation2D, p_file);
+		RESOURCE_MANAGER->LoadResource<SpriteAnimation>(p_animation2D, p_file);
+		p_animation2D->m_p_owner_animator2D = this;
 		m_p_sprite_animation_map.insert(std::make_pair(animation_key, p_animation2D));
 	}
 

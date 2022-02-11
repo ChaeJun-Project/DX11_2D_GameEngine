@@ -59,22 +59,21 @@ void GUI_MenuBar::Update()
 		//=========================
 		// Edit
 		//=========================
-		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_D))
-		{
-			m_is_show_demo = !m_is_show_demo;
-		}
-
 		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_Y))
 		{
-			m_is_show_style = !m_is_show_style;
+			m_p_gui_style_selector->m_is_active != m_p_gui_style_selector->m_is_active;
 		}
 
+		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_D))
+		{
+			m_p_gui_sprite_editor->m_is_active = !m_p_gui_sprite_editor->m_is_active;
+		}
 	}
 }
 
 void GUI_MenuBar::Render()
 {
-	if (SceneManager::GetInstance()->GetEditorState() != EditorState::EditorState_Stop)
+	if (SCENE_MANAGER->GetEditorState() != EditorState::EditorState_Stop)
 		return;
 
 	//Draw Menu Bar
@@ -104,26 +103,19 @@ void GUI_MenuBar::Render()
 		//Edit
 		if (ImGui::BeginMenu("Edit"))
 		{
-			if (ImGui::MenuItem("Show Demo", "CTRL + D", &m_is_show_demo))
+			if (ImGui::MenuItem("Show Style Selector", "CTRL + Y"))
 			{
-
+				if (!m_p_gui_style_selector->m_is_active)
+					m_p_gui_style_selector->m_is_active = true;
 			}
 
-			if (ImGui::MenuItem("Show Style Selector", "CTRL + Y", &m_is_show_style))
+			if (ImGui::MenuItem("Sprite Animation", "CTRL + D"))
 			{
-				m_p_gui_style_selector->m_is_active = m_is_show_style;
-			}
-
-			ImGui::EndMenu();
-		}
-
-		//Sprite Animation
-		if (ImGui::BeginMenu("Sprite Animation"))
-		{
-			if (!m_p_gui_sprite_editor->m_is_active)
-			{
-				m_p_gui_sprite_editor->Initialize();
-				m_p_gui_sprite_editor->m_is_active = true;
+				if (!m_p_gui_sprite_editor->m_is_active)
+				{
+					m_p_gui_sprite_editor->Initialize();
+					m_p_gui_sprite_editor->m_is_active = true;
+				}
 			}
 
 			ImGui::EndMenu();
@@ -135,16 +127,8 @@ void GUI_MenuBar::Render()
 	//Rename Scene
 	if (m_is_show_rename_scene) ShowRenameScene();
 
-	//Show Demo
-	if (m_is_show_demo) ImGui::ShowDemoWindow(&m_is_show_demo);
-
-	//Style Selector
-	if (!m_p_gui_style_selector->m_is_active)
-	{
-		m_is_show_style = false;
-	}
-
-	if (m_is_show_style) m_p_gui_style_selector->Render();
+	//Style Editor
+	if (m_p_gui_style_selector->m_is_active) m_p_gui_style_selector->Render();
 
 	//Sprite Editor
 	if (m_p_gui_sprite_editor->m_is_active) m_p_gui_sprite_editor->Render();
@@ -154,7 +138,7 @@ void GUI_MenuBar::ShowRenameScene()
 {
 	if (ImGui::Begin("Rename Scene", &m_is_show_rename_scene))
 	{
-		auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
+		auto current_scene = SCENE_MANAGER->GetCurrentScene();
 		std::string scene_name = current_scene->GetSceneName();
 
 		//Scene Name
@@ -176,7 +160,7 @@ void GUI_MenuBar::ShowRenameScene()
 
 void GUI_MenuBar::SaveCurrentScene()
 {
-	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
+	auto current_scene = SCENE_MANAGER->GetCurrentScene();
 
 	FileFunction::SaveFile(SCENE_PATH, current_scene->GetSceneName(), FileType::Scene);
 }

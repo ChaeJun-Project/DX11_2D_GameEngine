@@ -59,7 +59,7 @@ void GUI_Palette::Render()
 			{
 				for (UINT i = 0; i < static_cast<UINT>(item_list_vector.size()); ++i)
 				{
-					const bool is_selected = (*(m_p_tile_atlas_item_list->GetCurrentListID()) == i);
+					const bool is_selected = (m_p_tile_atlas_item_list->GetCurrentListID() == i);
 					if (ImGui::Selectable(item_list_vector[i].c_str(), is_selected))
 					{
 						m_p_tile_atlas_texture = resource_manager->GetResource<Texture>(item_list_vector[i]);

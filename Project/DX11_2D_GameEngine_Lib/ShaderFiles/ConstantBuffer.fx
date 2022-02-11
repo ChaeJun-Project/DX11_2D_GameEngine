@@ -76,7 +76,8 @@ cbuffer Light2D : register(b3)
 
 cbuffer SpriteAnimation : register(b4)
 {
-    SpriteAnimation_Data g_animation2D_data_array[50];
+    SpriteAnimation_Data g_sprite_animation;
+    float3 g_sprite_animation_padding;
 }
 
 //Texture2D: 텍스처 자원

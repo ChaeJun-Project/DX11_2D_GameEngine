@@ -33,17 +33,10 @@ private:
      //=========================
      // Edit
      //=========================
-     //Demo
-     bool m_is_show_demo = false;
-
      //Style Selector
-     bool m_is_show_style = false;
      GUI_StyleSelector* m_p_gui_style_selector = nullptr;
 
-
-     //=========================
-     // SpriteAnimation
-     //=========================
+     //SpriteAnimation
      GUI_SpriteEditor* m_p_gui_sprite_editor = nullptr;
 };
 

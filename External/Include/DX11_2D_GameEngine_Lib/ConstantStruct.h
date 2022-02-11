@@ -126,23 +126,17 @@ struct CBuffer_Light2D
 //======================================
 //SpriteAnimation
 //======================================
-struct SpriteAnimation_Data
-{
-     Vector2 left_top;
-	 Vector2 frame_size;
-	 Vector2 full_frame_size;
-	 Vector2 offset;
-};
-
 struct SpriteAnimation_Frame
 {
-	SpriteAnimation_Data animation2D_data;
+	Vector2 left_top;
+	Vector2 frame_size;
 	float duration;
 };
 
 struct CBuffer_SpriteAnimation
 {
-	SpriteAnimation_Data animation2D_data_array[50];
+	SpriteAnimation_Frame sprite_animation_frame;
+	Vector3 padding;
 };
 
-extern CBuffer_SpriteAnimation g_cbuffer_animation2D;
+extern CBuffer_SpriteAnimation g_cbuffer_sprite_animation;
