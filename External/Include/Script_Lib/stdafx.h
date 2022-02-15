@@ -12,3 +12,6 @@
 #else //릴리즈 모드일 때
 #pragma comment(lib, "DX11_2D_GameEngine_Lib/Release/DX11_2D_GameEngine_Lib_Release.lib")
 #endif
+
+#include <DX11_2D_GameEngine_Lib/Script.h>
+

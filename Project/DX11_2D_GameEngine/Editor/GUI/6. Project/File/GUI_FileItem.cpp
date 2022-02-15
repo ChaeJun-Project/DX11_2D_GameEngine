@@ -44,6 +44,9 @@ void GUI_FileItem::Render()
 		//Check Clicked FileItem
 		CheckClickedFileItem();
 
+		//Show Delete FileItem Popup
+		ShowMenuPopup();
+
 		//Check Drag FileItem
 		DragFileItem();
 
@@ -58,7 +61,7 @@ void GUI_FileItem::Render()
 		if (ImGui::InputText(label_str.c_str(), &file_name, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			//파일 이름 변경
-			FILE_MANAGER->RenameFileName(m_folder_path, m_file_extension, m_file_name, file_name);
+			FILE_MANAGER->RenameFile(m_folder_path, m_file_extension, m_file_name, file_name);
 			m_file_name = file_name;
 		}
 		ImGui::PopItemWidth();
@@ -84,7 +87,7 @@ void GUI_FileItem::CheckClickedFileItem()
 {
 	if (ImGui::IsItemHovered())
 	{
-		//한 번만 클릭했을 경우
+		//한 번만 클릭했을 경우(마우스 왼쪽 버튼)
 		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 		{
 			m_is_clicked = true;
@@ -102,6 +105,14 @@ void GUI_FileItem::CheckClickedFileItem()
 			case PayLoadType::Texture:
 				break;
 			}
+		}
+
+		//한 번만 클릭했을 경우(마우스 오른쪽 버튼)
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		{
+			m_is_clicked = true;
+
+			ImGui::OpenPopup("Delete FileItem Popup");
 		}
 
 		//더블 클릭했을 경우
@@ -156,4 +167,18 @@ void GUI_FileItem::DragFileItem()
 			ImGui::EndDragDropSource();
 		}
 	}
+}
+
+void GUI_FileItem::ShowMenuPopup()
+{
+	if (!ImGui::BeginPopup("Delete FileItem Popup"))
+		return;
+
+	if (ImGui::MenuItem("Delete"))
+	{
+		FILE_MANAGER->RemoveFile(std::get<std::string>(m_pay_load.data));
+		m_p_owner_file_dialog->IsClearFileItem();
+	}
+
+	ImGui::EndPopup();
 }

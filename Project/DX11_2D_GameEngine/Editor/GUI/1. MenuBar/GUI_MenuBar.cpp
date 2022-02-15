@@ -61,7 +61,7 @@ void GUI_MenuBar::Update()
 		//=========================
 		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_Y))
 		{
-			m_p_gui_style_selector->m_is_active != m_p_gui_style_selector->m_is_active;
+			m_p_gui_style_selector->m_is_active = !m_p_gui_style_selector->m_is_active;
 		}
 
 		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_D))
@@ -148,7 +148,7 @@ void GUI_MenuBar::ShowRenameScene()
 		ImGui::PushItemWidth(200.0f);
 		if (ImGui::InputText("##Scene Name", &scene_name, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			FILE_MANAGER->RenameFileName(SCENE_PATH, ".scene", current_scene->GetSceneName(), scene_name);
+			FILE_MANAGER->RenameFile(SCENE_PATH, ".scene", current_scene->GetSceneName(), scene_name);
 			current_scene->SetSceneName(scene_name);
 			EDITOR_LOG_INFO_F("Success to Rename Current Scene '%s'", scene_name.c_str());
 		}

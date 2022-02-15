@@ -58,14 +58,14 @@ public:
 		case ComponentType::RigidBody2D:
 			fprintf(p_file, "¡Ü RigidBody2D\n");
 			break;
-		case ComponentType::Script:
-			fprintf(p_file, "¡Ü Script\n");
-			break;
 		case ComponentType::AudioListener:
 			fprintf(p_file, "¡Ü Audio Listener\n");
 			break;
 		case ComponentType::AudioSource:
 			fprintf(p_file, "¡Ü Audio Source\n");
+			break;
+		case ComponentType::Script:
+			fprintf(p_file, "¡Ü Script\n");
 			break;
 		}
 

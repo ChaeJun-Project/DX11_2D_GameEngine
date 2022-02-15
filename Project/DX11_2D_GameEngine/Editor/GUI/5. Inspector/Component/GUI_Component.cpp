@@ -8,34 +8,58 @@ GUI_Component::GUI_Component(const std::string& component_gui_name)
 {
 }
 
-const bool GUI_Component::BeginComponent(const std::string& component_name, const ComponentType& component_type, const IconType& icon_type)
+const bool GUI_Component::BeginComponent(const std::string& component_name, const ComponentType& component_type, const IconType& icon_type, const std::string& script_name)
 {
 	//Component Box의 Title 만들기
 	const bool collapsed_header = ImGui::CollapsingHeader(component_name.c_str(), ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_DefaultOpen); //창을 킴과 동시에 CollapsingHeader의 내용을 Open
 	if (collapsed_header)
 	{
-		auto icon_provider = IconProvider::GetInstance();
-		
-		std::string guid_str = std::to_string(m_select_game_object->GetObjectID()) + component_name;
-		ImGui::PushID(guid_str.c_str());
-		if (component_type != ComponentType::Transform)
+		//해당 Component가 Script인 경우
+		if (component_type == ComponentType::Script)
 		{
-			ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 8.0f); //컴퍼넌트 헤더와 같은 라인
+			std::string guid_str = std::to_string(m_select_game_object->GetObjectID()) + script_name;
+			ImGui::PushID(guid_str.c_str());
+			{
+				ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 8.0f); //컴퍼넌트 헤더와 같은 라인
 
-			if (icon_provider->CreateImageButton(IconType::Component_Settings, ImVec2(13.0f, 13.0f)))
-				ImGui::OpenPopup(component_name.c_str(), ImGuiPopupFlags_MouseButtonRight);
+				if (ICON_PROVIDER->CreateImageButton(IconType::Component_Settings, ImVec2(13.0f, 13.0f)))
+					ImGui::OpenPopup(script_name.c_str(), ImGuiPopupFlags_MouseButtonRight);
 
-			ShowComponentSettingPopup(component_name, component_type);
+				ShowScriptSettingPopup(script_name);
+			}
+			ImGui::PopID();
 		}
-		ImGui::PopID();
+
+		//그 외 모든 경우
+		else
+		{
+			std::string guid_str = std::to_string(m_select_game_object->GetObjectID()) + component_name;
+			ImGui::PushID(guid_str.c_str());
+			if (component_type != ComponentType::Transform)
+			{
+				ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 8.0f); //컴퍼넌트 헤더와 같은 라인
+
+				if (ICON_PROVIDER->CreateImageButton(IconType::Component_Settings, ImVec2(13.0f, 13.0f)))
+					ImGui::OpenPopup(component_name.c_str(), ImGuiPopupFlags_MouseButtonRight);
+
+				ShowComponentSettingPopup(component_name, component_type);
+			}
+			ImGui::PopID();
+		}
 
 		//Component Icon 그리기
-		icon_provider->CreateImage(icon_type, ImVec2(14.0f, 14.0f));
+		ICON_PROVIDER->CreateImage(icon_type, ImVec2(14.0f, 14.0f));
 
 		ImGui::SameLine(); //컴퍼넌트 헤더와 같은 라인
 
-		//Component 이름
-		ImGui::Text(component_name.c_str());
+		if (component_type == ComponentType::Script)
+		{
+			std::string script_title = component_name + "(" + script_name + ")";
+			ImGui::Text(script_title.c_str()); //Script(Script 이름)
+		}
+
+		else
+			ImGui::Text(component_name.c_str()); //Component 이름
 	}
 
 	return collapsed_header;
@@ -49,6 +73,19 @@ void GUI_Component::ShowComponentSettingPopup(const std::string& component_popup
 		if (ImGui::MenuItem("Remove Component"))
 		{
 			m_select_game_object->RemoveComponent(component_type);
+		}
+		ImGui::EndPopup();
+	}
+}
+
+void GUI_Component::ShowScriptSettingPopup(const std::string& script_name)
+{
+	if (ImGui::BeginPopup(script_name.c_str()))
+	{
+		//Remove Script
+		if (ImGui::MenuItem("Remove Script"))
+		{
+			m_select_game_object->RemoveScript(script_name);
 		}
 		ImGui::EndPopup();
 	}

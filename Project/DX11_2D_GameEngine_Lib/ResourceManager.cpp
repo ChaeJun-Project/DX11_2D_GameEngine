@@ -94,10 +94,12 @@ void ResourceManager::CreateDefaultShader()
 {
 	auto& shader_map = m_resources_map[ResourceType::Shader];
 
+	auto absolute_content_path = FILE_MANAGER->GetAbsoluteContentPath();
+
 	//Create Default Shader
 	auto p_shader = std::make_shared<Shader>("Default");
-	p_shader->AddShader<VertexShader>("Shader/TextureShader.fx", "VS", "vs_5_0");
-	p_shader->AddShader<PixelShader>("Shader/TextureShader.fx", "PS", "ps_5_0");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/TextureShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/TextureShader.fx", "PS", "ps_5_0");
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
@@ -113,8 +115,8 @@ void ResourceManager::CreateDefaultShader()
 
 	//Create Line Shader
 	p_shader = std::make_shared<Shader>("Line");
-	p_shader->AddShader<VertexShader>("Shader/DrawLineShader.fx", "VS", "vs_5_0");
-	p_shader->AddShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/DrawLineShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/DrawLineShader.fx", "PS", "ps_5_0");
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
@@ -131,8 +133,8 @@ void ResourceManager::CreateDefaultShader()
 
 	//Create Grid Shader
 	p_shader = std::make_shared<Shader>("Grid");
-	p_shader->AddShader<VertexShader>("Shader/DrawLineShader.fx", "VS", "vs_5_0");
-	p_shader->AddShader<PixelShader>("Shader/DrawLineShader.fx", "PS", "ps_5_0");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/DrawLineShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/DrawLineShader.fx", "PS", "ps_5_0");
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
@@ -149,8 +151,8 @@ void ResourceManager::CreateDefaultShader()
 
 	//Create Light2D Shader
 	p_shader = std::make_shared<Shader>("Light2D");
-	p_shader->AddShader<VertexShader>("Shader/LightTextureShader.fx", "VS", "vs_5_0");
-	p_shader->AddShader<PixelShader>("Shader/LightTextureShader.fx", "PS", "ps_5_0");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/LightTextureShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/LightTextureShader.fx", "PS", "ps_5_0");
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
@@ -166,10 +168,10 @@ void ResourceManager::CreateDefaultShader()
 
 	//Create Particle Shader
 	p_shader = std::make_shared<Shader>("Rain");
-	p_shader->AddShader<VertexShader>("Shader/RainShader.fx", "VS_Rain", "vs_5_0");
-	p_shader->AddShader<GeometryShader>("Shader/RainShader.fx", "GS_Rain", "gs_5_0");
-	p_shader->AddShader<PixelShader>("Shader/RainShader.fx", "PS_Rain", "ps_5_0");
-	p_shader->AddShader<ComputeShader>("Shader/RainUpdate.fx", "CS_Rain", "cs_5_0");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/RainShader.fx", "VS_Rain", "vs_5_0");
+	p_shader->AddShader<GeometryShader>(absolute_content_path + "Shader/RainShader.fx", "GS_Rain", "gs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/RainShader.fx", "PS_Rain", "ps_5_0");
+	p_shader->AddShader<ComputeShader>(absolute_content_path + "Shader/RainUpdate.fx", "CS_Rain", "cs_5_0");
 	AddComputeShader("Rain", p_shader->GetShader<ComputeShader>());
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::GS | PipelineStage::PS);
 
@@ -187,8 +189,8 @@ void ResourceManager::CreateDefaultShader()
 
 	//Create Post Effect Shader
 	p_shader = std::make_shared<Shader>("Post_Effect");
-	p_shader->AddShader<VertexShader>("Shader/PostEffectShader.fx", "VS", "vs_5_0");
-	p_shader->AddShader<PixelShader>("Shader/PostEffectShader.fx", "PS", "ps_5_0");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/PostEffectShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/PostEffectShader.fx", "PS", "ps_5_0");
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	p_shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
@@ -204,8 +206,8 @@ void ResourceManager::CreateDefaultShader()
 
 	//Create Water Shader
 	p_shader = std::make_shared<Shader>("Water");
-	p_shader->AddShader<VertexShader>("Shader/WaterShader.fx", "VS_Water", "vs_5_0");
-	p_shader->AddShader<PixelShader>("Shader/WaterShader.fx", "PS_Water", "ps_5_0");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/WaterShader.fx", "VS_Water", "vs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/WaterShader.fx", "PS_Water", "ps_5_0");
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	p_shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
@@ -221,8 +223,8 @@ void ResourceManager::CreateDefaultShader()
 
 	//Create Tile Shader
 	p_shader = std::make_shared<Shader>("TileMapRenderer");
-	p_shader->AddShader<VertexShader>("Shader/TileMapShader.fx", "VS", "vs_5_0");
-	p_shader->AddShader<PixelShader>("Shader/TileMapShader.fx", "PS", "ps_5_0");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/TileMapShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/TileMapShader.fx", "PS", "ps_5_0");
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
@@ -302,14 +304,16 @@ const std::shared_ptr<Material> ResourceManager::CreateMaterial(const std::strin
 
 void ResourceManager::CreateDefaultTexture()
 {
+	auto absolute_content_path = FILE_MANAGER->GetAbsoluteContentPath();
+
 	//Noise Texture 1
-	CreateTexture("Asset/Texture/Noise/noise_01.png");
+	CreateTexture(absolute_content_path + "Asset/Texture/Noise/noise_01.png");
 
 	//Noise Texture 2
-	CreateTexture("Asset/Texture/Noise/noise_02.png");
+	CreateTexture(absolute_content_path + "Asset/Texture/Noise/noise_02.png");
 
 	//Noise Texture 3
-	CreateTexture("Asset/Texture/Noise/noise_03.jpg");
+	CreateTexture(absolute_content_path + "Asset/Texture/Noise/noise_03.jpg");
 
 	//Noise Texture 1 »ç¿ë
 	auto noise_texture = GetResource<Texture>("noise_01");
@@ -327,16 +331,6 @@ void ResourceManager::CreateDefaultTexture()
 			static_cast<float>(noise_texture->GetHeight())
 		);
 	}
-
-	//Smoke Particle Texture
-	CreateTexture("Asset/Texture/Particle/smoke_particle.png");
-
-	//Rain Particle Texture
-	CreateTexture("Asset/Texture/Particle/rain_particle.png");
-
-	//Test
-	CreateTexture("Asset/Texture/Map/Stage1/Stage1_Tile.png");
-	CreateTexture("Asset/Texture/Map/Stage2/Stage2_Tile.png");
 }
 
 const std::shared_ptr<Texture> ResourceManager::CreateIconTexture(const std::string& icon_texture_path)

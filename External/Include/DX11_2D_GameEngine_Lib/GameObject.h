@@ -19,12 +19,15 @@ public:
 
 	void Render();
 
+	//==============
+	// [Component]
+	//==============
 private:
 	template<typename T>
 	static constexpr ComponentType GetComponentType();
 
 public:
-    void AddComponent(const ComponentType& component_type);
+	void AddComponent(const ComponentType& component_type);
 	void AddComponent(IComponent* p_component);
 
 	template<typename T>
@@ -35,8 +38,23 @@ public:
 
 	const UINT& GetComponentCount() const { return static_cast<UINT>(m_p_component_map.size()); }
 
+	//==============
+	// [Script]
+	//==============
 public:
-    const std::list<Script*> GetScripts() { return m_p_script_list; }
+	const std::map<std::string, Script*>& GetScriptMap() { return m_p_script_map; }
+
+    Script* GetScript(const std::string& script_name);
+
+	void RemoveScript(const std::string& script_name);
+
+	const UINT& GetScriptCount() const { return static_cast<UINT>(m_p_script_map.size()); }
+
+	//==============
+	// [Prefab]
+	//==============
+public:
+	void RegisterPrefab();
 
 public:
 	//GameObject IsActive
@@ -53,7 +71,7 @@ public:
 	//GameObject Tag
 	const std::string& GetGameObjectTag() const { return m_game_object_tag; }
 	void SetGameObjectTag(const std::string& object_tag) { m_game_object_tag = object_tag; }
-	
+
 	//GameObject Layer
 	const UINT& GetGameObjectLayer() const { return m_game_object_layer; }
 	void SetGameObjectLayer(const UINT& layer_index);
@@ -66,8 +84,8 @@ public:
 	GameObject* GetRoot();
 	const bool& GetIsRoot() { return !HasParent(); }
 
-	GameObject* GetParent() const { if(m_p_parent != nullptr) return m_p_parent; return nullptr;}
-	
+	GameObject* GetParent() const { if (m_p_parent != nullptr) return m_p_parent; return nullptr; }
+
 	const std::vector<GameObject*>& GetChilds() const { return m_p_child_vector; }
 	GameObject* GetChildFromIndex(const UINT& index) const;
 	GameObject* GetChildFromObjectName(const std::string& object_name) const;
@@ -76,12 +94,12 @@ public:
 
 	void AddChild(GameObject* p_child_game_object);
 	void DetachFromParent();
-	
-	bool HasParent() { if(m_p_parent) return true; return false; }
+
+	bool HasParent() { if (m_p_parent) return true; return false; }
 	bool HasChilds() { return !(m_p_child_vector.empty()); }
 
 private:
-    void SetDead() { m_dead_check = true; }
+	void SetDead() { m_dead_check = true; }
 
 public:
 	void SaveToScene(FILE* p_file) override;
@@ -90,10 +108,8 @@ public:
 public:
 	GameObject* Clone() { return new GameObject(*this); }
 
-	void RegisterPrefab();
-
 protected:
-    //Object Active Check
+	//Object Active Check
 	bool m_active_check = true;
 	//Object Dead Check
 	bool m_dead_check = false;
@@ -102,11 +118,11 @@ protected:
 	//GameObject Layer
 	UINT m_game_object_layer = 0;
 
-	//Component List
+	//Component Map
 	std::map<ComponentType, IComponent*> m_p_component_map;
-	
-	//Script List
-	std::list<Script*> m_p_script_list;
+
+	//Script Map
+	std::map<std::string, Script*> m_p_script_map;
 
 	//Hierarchy
 	//Parent Object
@@ -124,13 +140,9 @@ protected:
 template<typename T>
 T* GameObject::GetComponent()
 {
-	//Class T가 IComponent를 상속받는 클래스인지 확인
-	auto result = std::is_base_of<IComponent, T>::value;
-	assert(result);
-	if (!result)
-	{
+	//Class T가 IComponent를 상속받는 클래스가 아니고 또는 Class T가 Script인 경우
+	if ((!std::is_base_of<IComponent, T>::value) || std::is_same<Script, T>::value)
 		return nullptr;
-	}
 
 	//타입 T에 해당하는 Shader Type 반환
 	auto component_type = GetComponentType<T>();

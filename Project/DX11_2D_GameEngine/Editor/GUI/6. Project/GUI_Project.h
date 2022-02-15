@@ -28,7 +28,7 @@ private:
 	void ShowFilter();
 	void ShowFilesInDirectory();
 	void ChangeDirectory(const std::string& current_directory);
-	void DoubleClickedDirectory(const std::string& current_directory);
+	void UpdateFileDialog(const std::string& current_directory);
 	
 private:
 	std::string m_root_name = "Asset";

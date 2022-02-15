@@ -3,81 +3,56 @@
 
 #include "GameLogic_Script.h"
 #include "Geometry_Script.h"
-#include "RockManZ_Script.h"
 #include "WalkCannon_Bullet_Script.h"
 #include "WalkCannon_Script.h"
+#include "X_Script.h"
+#include "Z_Script.h"
 
-void ScriptManager::GetScriptInfo(vector<wstring>& _vec)
+void ScriptManager::GetScriptInfo(std::vector<std::string>& script_vector)
 {
-	_vec.push_back(L"GameLogic_Script");
-	_vec.push_back(L"Geometry_Script");
-	_vec.push_back(L"RockManZ_Script");
-	_vec.push_back(L"WalkCannon_Bullet_Script");
-	_vec.push_back(L"WalkCannon_Script");
+	script_vector.emplace_back("GameLogic_Script");
+	script_vector.emplace_back("Geometry_Script");
+	script_vector.emplace_back("WalkCannon_Bullet_Script");
+	script_vector.emplace_back("WalkCannon_Script");
+	script_vector.emplace_back("X_Script");
+	script_vector.emplace_back("Z_Script");
 }
 
-Script * ScriptManager::GetScript(const wstring& _strScriptName)
+Script* ScriptManager::GetScript(const std::string& script_name)
 {
-	if (L"GameLogic_Script" == _strScriptName)
+	if(script_name._Equal("GameLogic_Script"))
 		return new GameLogic_Script;
-	if (L"Geometry_Script" == _strScriptName)
+	if(script_name._Equal("Geometry_Script"))
 		return new Geometry_Script;
-	if (L"RockManZ_Script" == _strScriptName)
-		return new RockManZ_Script;
-	if (L"WalkCannon_Bullet_Script" == _strScriptName)
+	if(script_name._Equal("WalkCannon_Bullet_Script"))
 		return new WalkCannon_Bullet_Script;
-	if (L"WalkCannon_Script" == _strScriptName)
+	if(script_name._Equal("WalkCannon_Script"))
 		return new WalkCannon_Script;
+	if(script_name._Equal("X_Script"))
+		return new X_Script;
+	if(script_name._Equal("Z_Script"))
+		return new Z_Script;
+
 	return nullptr;
 }
 
-Script * ScriptManager::GetScript(UINT _iScriptType)
+Script* ScriptManager::GetScript(const UINT& script_type)
 {
-	switch (_iScriptType)
+	switch (script_type)
 	{
-	case (UINT)SCRIPT_TYPE::GAMELOGIC_SCRIPT:
+	case (UINT)Script_Type::GameLogic_Script:
 		return new GameLogic_Script;
-		break;
-	case (UINT)SCRIPT_TYPE::GEOMETRY_SCRIPT:
+	case (UINT)Script_Type::Geometry_Script:
 		return new Geometry_Script;
-		break;
-	case (UINT)SCRIPT_TYPE::ROCKMANZ_SCRIPT:
-		return new RockManZ_Script;
-		break;
-	case (UINT)SCRIPT_TYPE::WALKCANNON_BULLET_SCRIPT:
+	case (UINT)Script_Type::WalkCannon_Bullet_Script:
 		return new WalkCannon_Bullet_Script;
-		break;
-	case (UINT)SCRIPT_TYPE::WALKCANNON_SCRIPT:
+	case (UINT)Script_Type::WalkCannon_Script:
 		return new WalkCannon_Script;
-		break;
+	case (UINT)Script_Type::X_Script:
+		return new X_Script;
+	case (UINT)Script_Type::Z_Script:
+		return new Z_Script;
 	}
-	return nullptr;
+	return nullptr; 
 }
 
-const wchar_t * ScriptManager::GetScriptName(Script * _pScript)
-{
-	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
-	{
-	case SCRIPT_TYPE::GAMELOGIC_SCRIPT:
-		return L"GameLogic_Script";
-		break;
-
-	case SCRIPT_TYPE::GEOMETRY_SCRIPT:
-		return L"Geometry_Script";
-		break;
-
-	case SCRIPT_TYPE::ROCKMANZ_SCRIPT:
-		return L"RockManZ_Script";
-		break;
-
-	case SCRIPT_TYPE::WALKCANNON_BULLET_SCRIPT:
-		return L"WalkCannon_Bullet_Script";
-		break;
-
-	case SCRIPT_TYPE::WALKCANNON_SCRIPT:
-		return L"WalkCannon_Script";
-		break;
-
-	}
-	return nullptr;
-}

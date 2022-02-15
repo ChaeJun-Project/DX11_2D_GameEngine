@@ -9,6 +9,7 @@
 #include "WalkCannon_Bullet_Script.h"
 
 WalkCannon_Script::WalkCannon_Script()
+	:Script("WalkCannon_Script")
 {
 }
 

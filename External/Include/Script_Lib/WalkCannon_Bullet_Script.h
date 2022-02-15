@@ -1,10 +1,12 @@
 #pragma once
 #include <DX11_2D_GameEngine_Lib/Script.h>
 
+class Animator2D;
+
 class WalkCannon_Bullet_Script : public Script
 {
 public:
-	WalkCannon_Bullet_Script() = default;
+	WalkCannon_Bullet_Script();
 	~WalkCannon_Bullet_Script();
 
 	void Start() override;
@@ -24,7 +26,7 @@ public:
 private:
 	float m_speed = 300.f;
 
-	Animator* m_p_animator = nullptr;
+	Animator2D* m_p_animator = nullptr;
 
 	Vector3 m_fire_direction = Vector3::Zero;
 };

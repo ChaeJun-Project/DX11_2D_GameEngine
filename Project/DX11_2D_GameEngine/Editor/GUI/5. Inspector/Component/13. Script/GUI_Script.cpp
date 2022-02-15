@@ -13,13 +13,12 @@ GUI_Script::GUI_Script(const std::string& script_gui_name)
 
 void GUI_Script::Render()
 {
-	if (BeginComponent("Script", ComponentType::Script, IconType::Component_Script))
+	if (BeginComponent(m_component_gui_name, ComponentType::Script, IconType::Component_Script, m_script_name))
 	{
+		auto script = m_select_game_object->GetScript(m_script_name);
+		if (script == nullptr)
+			return;
 
-
-		//ImGui::Text("Script");
-		//ImGui::SameLine(80.0f);
-		//ImGui::InputText("##Script", , ImGuiInputTextFlags_ReadOnly);
 		DrawComponentEnd();
 	}
 }

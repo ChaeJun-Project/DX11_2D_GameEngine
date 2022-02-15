@@ -43,7 +43,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -51,7 +51,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -146,7 +146,7 @@
     <PreBuildEvent>
       <Command>cd $(SolutionDir) 
 call ScriptCopy.bat
-cd $(SolutionDir)ExeFile\Debug\ 
+cd $(SolutionDir)ExeFile\Debug\
 call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -172,14 +172,16 @@ call CodeGen.exe</Command>
     <PreBuildEvent>
       <Command>cd $(SolutionDir) 
 call ScriptCopy.bat
-cd $(SolutionDir)ExeFile\Debug\ 
+cd $(SolutionDir)ExeFile\Debug\
 call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GameLogic_Script.h" />
     <ClInclude Include="Geometry_Script.h" />
-    <ClInclude Include="RockManZ_Script.h" />
+    <ClInclude Include="PlayerController.h" />
+    <ClInclude Include="X_Script.h" />
+    <ClInclude Include="Z_Script.h" />
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WalkCannon_Bullet_Script.h" />
@@ -188,9 +190,9 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClCompile Include="GameLogic_Script.cpp" />
     <ClCompile Include="Geometry_script.cpp" />
-    <ClCompile Include="RockManZ_Script.cpp" />
+    <ClCompile Include="X_Script.cpp" />
+    <ClCompile Include="Z_Script.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
-    <ClCompile Include="Script_Lib.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>

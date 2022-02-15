@@ -21,6 +21,7 @@ public:
 private:
 	void CheckClickedFileItem();
 	void DragFileItem();
+	void ShowMenuPopup();
 
 public:
     void SetFileDialog(GUI_FileDialog* p_owner_file_dialog) { m_p_owner_file_dialog = p_owner_file_dialog; }

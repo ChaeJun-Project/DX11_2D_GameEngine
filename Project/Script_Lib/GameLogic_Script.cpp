@@ -6,9 +6,6 @@
 //Geometry
 #include "Geometry_script.h"
 
-//Player
-#include "RockManZ_Script.h"
-
 //Enemy
 #include "WalkCannon_Script.h"
 #include "WalkCannon_Bullet_Script.h"
@@ -16,6 +13,7 @@
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
 
 GameLogic_Script::GameLogic_Script()
+	:Script("GameLogic_Script")
 {
 }
 

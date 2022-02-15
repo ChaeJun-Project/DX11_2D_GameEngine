@@ -11,7 +11,7 @@ GUI_FileDialog::~GUI_FileDialog()
 {
 	Clear();
 
-	m_p_folder_double_clicked_func = nullptr;
+	m_p_update_file_dialog_func = nullptr;
 }
 
 void GUI_FileDialog::Update(const std::string& folder_path)
@@ -121,6 +121,7 @@ void GUI_FileDialog::Update(const std::string& folder_path)
 			p_file_item = new GUI_FileItem(FileThumbnailType::None, pay_load);
 		}
 
+		p_file_item->SetFileDialog(this);
 		m_file_item_vector.emplace_back(p_file_item);
 	}
 }
@@ -151,7 +152,7 @@ void GUI_FileDialog::Render(const ImGuiTextFilter& file_item_filter)
 
 	if (m_is_clear_file_item)
 	{
-		m_p_folder_double_clicked_func(m_current_folder_path);
+		m_p_update_file_dialog_func(m_current_folder_path);
 		m_is_clear_file_item = false;
 	}
 }

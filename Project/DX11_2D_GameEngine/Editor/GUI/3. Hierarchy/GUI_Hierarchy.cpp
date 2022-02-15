@@ -54,16 +54,8 @@ void GUI_Hierarchy::Initialize()
 
 void GUI_Hierarchy::Update()
 {
-	if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
-	{
-		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_H))
-		{
-			m_is_active = !m_is_active;
-		}
-	}
-
 	//Scene내의 GameObject 변경점이 있는 경우 
-	if (EventManager::GetInstance()->IsUpdate())
+	if (EVENT_MANAGER->IsUpdate())
 	{
 		UpdateTree();
 	}
@@ -73,7 +65,7 @@ void GUI_Hierarchy::Render()
 {
 	ShowHierarchy();
 
-	if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+	if (SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Stop)
 	{
 		CheckClickRightButton();
 
@@ -90,7 +82,7 @@ void GUI_Hierarchy::UpdateTree()
 	m_scene_hierarchy_tree->Clear();
 	m_scene_hierarchy_tree->SetIsVisibleRoot(false);
 
-	m_p_current_scene = SceneManager::GetInstance()->GetCurrentScene();
+	m_p_current_scene = SCENE_MANAGER->GetCurrentScene();
 
 	PayLoad pay_load;
 	pay_load.type = PayLoadType::None;
@@ -125,7 +117,7 @@ void GUI_Hierarchy::ShowHierarchy()
 		//드랍 된 경우
 		if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Prefab))
 		{
-		
+
 		}
 
 		m_scene_hierarchy_tree->Update();
@@ -146,7 +138,7 @@ void GUI_Hierarchy::ClickedGameObject(DWORD_PTR object_address)
 
 void GUI_Hierarchy::DragDropGameObject(DWORD_PTR p_dropped_item, DWORD_PTR p_drag_start_item)
 {
-	if (SceneManager::GetInstance()->GetEditorState() != EditorState::EditorState_Stop)
+	if (SCENE_MANAGER->GetEditorState() != EditorState::EditorState_Stop)
 		return;
 
 	GUI_TreeItem* p_dest_item = (GUI_TreeItem*)p_dropped_item;
@@ -159,20 +151,20 @@ void GUI_Hierarchy::DragDropGameObject(DWORD_PTR p_dropped_item, DWORD_PTR p_dra
 	event_struct.object_address_1 = (GameObject*)p_dest_item->GetPayLoadData();
 	event_struct.object_address_2 = (GameObject*)p_src_item->GetPayLoadData();
 
-	EventManager::GetInstance()->AddEvent(event_struct);
+	EVENT_MANAGER->AddEvent(event_struct);
 }
 
 void GUI_Hierarchy::CheckEvnetKey()
 {
 	if (KEY_DOWN(KeyCode::KEY_DELETE))
 	{
-		auto select_game_object = EditorHelper::GetInstance()->GetSelectedGameObject();
+		auto select_game_object = EDITOR_HELPER->GetSelectedGameObject();
 		if (select_game_object == nullptr)
 			return;
 
 		DeleteGameObject(select_game_object);
 
-		EditorHelper::GetInstance()->SetSelectedGameObject(nullptr);
+		EDITOR_HELPER->SetSelectedGameObject(nullptr);
 	}
 }
 
@@ -184,7 +176,7 @@ void GUI_Hierarchy::DeleteGameObject(GameObject* game_object)
 	event_struct.event_type = EventType::Delete_Object;
 	event_struct.object_address_1 = game_object;
 
-	EventManager::GetInstance()->AddEvent(event_struct);
+	EVENT_MANAGER->AddEvent(event_struct);
 }
 
 
@@ -227,7 +219,7 @@ void GUI_Hierarchy::ShowMenuPopup()
 
 void GUI_Hierarchy::SelectedGameObject(GameObject* game_object)
 {
-	EditorHelper::GetInstance()->SetSelectedGameObject(game_object);
+	EDITOR_HELPER->SetSelectedGameObject(game_object);
 }
 
 void GUI_Hierarchy::CreateGameObject()
@@ -243,11 +235,11 @@ void GUI_Hierarchy::CreateGameObject()
 	event_struct.event_type = EventType::Create_Object;
 	event_struct.object_address_1 = p_new_game_object;
 
-	EventManager::GetInstance()->AddEvent(event_struct);
+	EVENT_MANAGER->AddEvent(event_struct);
 
 	//현재 선택된 GameObject가 있다면
 	//Add Child GameObject
-	auto p_parent_game_object = EditorHelper::GetInstance()->GetSelectedGameObject();
+	auto p_parent_game_object = EDITOR_HELPER->GetSelectedGameObject();
 
 	if (p_parent_game_object != nullptr)
 	{
@@ -257,7 +249,7 @@ void GUI_Hierarchy::CreateGameObject()
 		event_struct.object_address_1 = p_parent_game_object;
 		event_struct.object_address_2 = p_new_game_object;
 
-		EventManager::GetInstance()->AddEvent(event_struct);
+		EVENT_MANAGER->AddEvent(event_struct);
 	}
 }
 

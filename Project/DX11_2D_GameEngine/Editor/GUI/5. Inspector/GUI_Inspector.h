@@ -3,8 +3,11 @@
 
 class GameObject;
 class IResource;
+
 class GUI_ItemList;
+
 class GUI_Component;
+class GUI_Script;
 
 class GUI_Inspector final : public IGUI
 {
@@ -19,6 +22,7 @@ public:
 
 private:
 	void ShowGameObjectInfo();
+	void CreateScriptGUI(const std::string& script_name);
 	void ShowComboTags();
 	void ShowComboLayers();
 	void ShowTagAndLayerList();
@@ -59,6 +63,7 @@ private:
 	std::map<ComponentType, std::unique_ptr<GUI_Component>> m_component_gui_map;
 
 	//Script
-	//std::list<std::pair<ComponentType, std::unique_ptr<GUI_Component>>> m_component_gui_list;
+	std::vector<std::string> m_script_name_vector;
+	std::map<std::string, std::unique_ptr<GUI_Script>> m_script_gui_map;
 };
 

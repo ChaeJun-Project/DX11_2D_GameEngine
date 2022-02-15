@@ -1,13 +1,19 @@
 #include "stdafx.h"
 #include "Script.h"
 
-Script::Script()
-	:IComponent(ComponentType::Script)
+#include "Prefab.h"
+
+#include "GameObject.h"
+#include "Transform.h"
+
+Script::Script(const std::string& script_name)
+	:IComponent(ComponentType::Script),
+	m_script_name(script_name)
 {
 }
 
 Script::Script(const Script& origin)
-    : IComponent(origin.GetComponentType())
+	: IComponent(origin.m_component_type)
 {
 }
 

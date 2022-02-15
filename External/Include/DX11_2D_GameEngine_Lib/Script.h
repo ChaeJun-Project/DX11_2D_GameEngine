@@ -7,9 +7,9 @@ class GameObject;
 class Script : public IComponent
 {
 public:
-	Script();
+	Script(const std::string& script_name);
 	explicit Script(const Script& origin);
-	~Script() = default;
+	virtual ~Script() = default;
 
 	virtual void Start() {}
 	void Update() override {}
@@ -28,13 +28,16 @@ public:
 	virtual void OnCollision(GameObject* other_game_object) {}
 
 public:
-    const int& GetScriptType() { return m_script_type; }
+	const std::string& GetScriptName() const { return m_script_name; }
 
 public:
 	virtual void SaveToScene(FILE* p_file);
 	virtual void LoadFromScene(FILE* p_file);
 
-private:
-    int m_script_type = -1;
+public:
+	virtual Script* Clone() = 0;
+
+protected:
+	const std::string m_script_name;
 };
 

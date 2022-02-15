@@ -24,9 +24,12 @@
 #include "Component/12. AudioSource/GUI_AudioSource.h"
 #include "Component/13. Script/GUI_Script.h"
 
+//GameObject
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
+
 //Script
 #include <Script_Lib/ScriptManager.h>
+#include <DX11_2D_GameEngine_Lib/Script.h>
 
 //Define
 #define GAME_OBJECT_NAME_WIDTH		200.0f
@@ -45,6 +48,8 @@ GUI_Inspector::GUI_Inspector(const std::string& inspector_title)
 {
 	m_p_tag_list = std::make_unique<GUI_ItemList>();
 	m_p_layer_list = std::make_unique<GUI_ItemList>();
+
+	ScriptManager::GetScriptInfo(m_script_name_vector);
 }
 
 GUI_Inspector::~GUI_Inspector()
@@ -64,13 +69,24 @@ GUI_Inspector::~GUI_Inspector()
 	m_p_layer_list.reset();
 	m_layer_map.clear();
 
-	for (auto& gui_component : m_component_gui_map)
+	//Component
+	for (auto& component_gui : m_component_gui_map)
 	{
-		if (gui_component.second != nullptr)
-			gui_component.second.reset();
+		if (component_gui.second != nullptr)
+			component_gui.second.reset();
 	}
-
 	m_component_gui_map.clear();
+
+	//Script
+	m_script_name_vector.clear();
+	m_script_name_vector.shrink_to_fit();
+
+	for (auto& script_gui : m_script_gui_map)
+	{
+		if (script_gui.second != nullptr)
+			script_gui.second.reset();
+	}
+	m_script_gui_map.clear();
 }
 
 void GUI_Inspector::Initialize()
@@ -104,8 +120,6 @@ void GUI_Inspector::Initialize()
 	m_component_gui_map.insert(std::make_pair(ComponentType::AudioListener, std::make_unique<GUI_AudioListener>("Audio Listener")));
 	//AudioSource
 	m_component_gui_map.insert(std::make_pair(ComponentType::AudioSource, std::make_unique<GUI_AudioSource>("Audio Source")));
-
-	//Script º¸·ù
 }
 
 void GUI_Inspector::Update()
@@ -198,8 +212,27 @@ void GUI_Inspector::ShowGameObjectInfo()
 		}
 
 		m_component_gui_map[static_cast<ComponentType>(i)]->SetGameObject(m_p_selected_game_object);
+
 		m_component_gui_map[static_cast<ComponentType>(i)]->Render();
 	}
+
+	//Script GUI
+	const auto script_map = m_p_selected_game_object->GetScriptMap();
+	for (const auto& script : script_map)
+	{
+		const auto script_name = script.first;
+		CreateScriptGUI(script_name);
+
+		m_script_gui_map[script_name]->SetGameObject(m_p_selected_game_object);
+		m_script_gui_map[script_name]->SetScriptName(script_name);
+
+		m_script_gui_map[script_name]->Render();
+	}
+}
+
+void GUI_Inspector::CreateScriptGUI(const std::string& script_name)
+{
+	m_script_gui_map.insert(std::make_pair(script_name, std::make_unique<GUI_Script>("Script")));
 }
 
 void GUI_Inspector::ShowComboTags()
@@ -466,6 +499,14 @@ void GUI_Inspector::ShowAddComponentPopup()
 		//Script
 		if (ImGui::BeginMenu("Script"))
 		{
+			for (UINT i = 0; i < static_cast<UINT>(m_script_name_vector.size()); ++i)
+			{
+				if (ImGui::MenuItem(m_script_name_vector[i].c_str()))
+				{
+					m_p_selected_game_object->AddComponent(ScriptManager::GetScript(m_script_name_vector[i]));
+				}
+			}
+
 			ImGui::EndMenu();
 		}
 

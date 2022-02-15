@@ -9,4 +9,10 @@ public:
 	~GUI_Script() = default;
 
 	void Render() override;
+
+public:
+    void SetScriptName(const std::string& script_name) { m_script_name = script_name; }
+
+private:
+	std::string m_script_name;
 };

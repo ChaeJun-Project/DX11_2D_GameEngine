@@ -3,25 +3,22 @@
 #include <vector>
 #include <string>
 
-enum class SCRIPT_TYPE
+enum class Script_Type : UINT
 {
-	GAMELOGIC_SCRIPT,
-	GEOMETRY_SCRIPT,
-	ROCKMANZ_SCRIPT,
-	WALKCANNON_BULLET_SCRIPT,
-	WALKCANNON_SCRIPT,
-	END,
+	GameLogic_Script,
+	Geometry_Script,
+	WalkCannon_Bullet_Script,
+	WalkCannon_Script,
+	X_Script,
+	Z_Script,
 };
-
-using namespace std;
 
 class Script;
 
-class ScriptManager
+class ScriptManager final
 {
 public:
-	static void GetScriptInfo(vector<wstring>& _vec);
-	static Script * GetScript(const wstring& _strScriptName);
-	static Script * GetScript(UINT _iScriptType);
-	static const wchar_t * GetScriptName(Script * _pScript);
+	static void GetScriptInfo(std::vector<std::string>& script_vector);
+	static Script* GetScript(const std::string& script_name);
+	static Script* GetScript(const UINT& script_type);
 };

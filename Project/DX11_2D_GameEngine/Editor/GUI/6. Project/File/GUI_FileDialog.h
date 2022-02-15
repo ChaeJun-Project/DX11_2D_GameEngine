@@ -23,7 +23,7 @@ public:
 
 	std::vector<GUI_FileItem*> m_file_item_vector;
 
-	Clicked_CallBack1 m_p_folder_double_clicked_func = nullptr;
+	Clicked_CallBack1 m_p_update_file_dialog_func = nullptr;
 
 	bool m_is_clear_file_item = false;
 

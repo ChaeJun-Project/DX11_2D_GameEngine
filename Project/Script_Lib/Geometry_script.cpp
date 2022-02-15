@@ -8,6 +8,7 @@
 #include <DX11_2D_GameEngine_Lib/RenderManager.h>
 
 Geometry_Script::Geometry_Script()
+	:Script("Geometry_Script")
 {
 }
 

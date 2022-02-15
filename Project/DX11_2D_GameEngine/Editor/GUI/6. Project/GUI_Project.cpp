@@ -24,9 +24,9 @@ GUI_Project::GUI_Project(const std::string& project_title)
 	);
 
 	m_p_file_dialog = std::make_unique<GUI_FileDialog>();
-	m_p_file_dialog->m_p_folder_double_clicked_func = std::bind
+	m_p_file_dialog->m_p_update_file_dialog_func = std::bind
 	(
-		&GUI_Project::DoubleClickedDirectory,
+		&GUI_Project::UpdateFileDialog,
 		this,
 		std::placeholders::_1
 	); 
@@ -151,7 +151,8 @@ void GUI_Project::ShowFilesInDirectory()
 	ImGui::BeginGroup();
 	//Current Path
 	ImGui::PushItemWidth(300.0f);
-	ImGui::InputText("##Current Path", &m_current_path, ImGuiInputTextFlags_ReadOnly);
+	std::string relative_current_path = FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath_2(m_current_path);
+	ImGui::InputText("##Current Path", &relative_current_path, ImGuiInputTextFlags_ReadOnly);
 	ImGui::PopItemWidth();
 	ImGui::Separator();
 
@@ -178,7 +179,7 @@ void GUI_Project::ChangeDirectory(const std::string& current_directory)
 	m_p_file_dialog->Update(m_current_path);
 }
 
-void GUI_Project::DoubleClickedDirectory(const std::string& current_directory)
+void GUI_Project::UpdateFileDialog(const std::string& current_directory)
 {
 	m_directory_tree->SetSelectedItem(current_directory);
 

@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "WalkCannon_Bullet_Script.h"
 
+WalkCannon_Bullet_Script::WalkCannon_Bullet_Script()
+	:Script("WalkCannon_Bullet_Script")
+{
+}
+
 WalkCannon_Bullet_Script::~WalkCannon_Bullet_Script()
 {
 	m_p_animator = nullptr;

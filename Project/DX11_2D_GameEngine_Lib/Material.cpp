@@ -18,7 +18,7 @@ Material::Material(const std::string& material_resource_name)
 }
 
 Material::Material(const Material& origin)
-	:IResource(origin.GetResourceType(), origin.m_object_name)
+	:IResource(origin.m_resource_type, origin.m_object_name)
 {
 	//Material Data บนป็
 	m_material_data = origin.m_material_data;

@@ -217,11 +217,16 @@ const std::vector<std::string> FileManager::GetFileNameVectorFromDirectory(const
 	return file_name_vector;
 }
 
-void FileManager::RenameFileName(const std::string& folder_path, const std::string& extension_name, const std::string& old_file_name, const std::string& new_file_name)
+void FileManager::RenameFile(const std::string& folder_path, const std::string& extension_name, const std::string& old_file_name, const std::string& new_file_name)
 {
 	auto old_file_path = folder_path + old_file_name + extension_name;
 	auto new_file_path = folder_path + new_file_name + extension_name;
 	rename(old_file_path.c_str(), new_file_path.c_str());
+}
+
+void FileManager::RemoveFile(const std::string& file_path)
+{
+    remove(file_path.c_str());
 }
 
 const std::string FileManager::GetFileNameFromPath(const std::string& path)

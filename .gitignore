@@ -1,6 +1,6 @@
-ExeFile/Debug/
+ExeFile/Debug/*.{exe, pdb}
 
 ExeFile/Release/*.{exe, pdb}
-ExeFile/Release/Content/Asset/
+ExeFile/Content/Asset/
 
 External/Library/

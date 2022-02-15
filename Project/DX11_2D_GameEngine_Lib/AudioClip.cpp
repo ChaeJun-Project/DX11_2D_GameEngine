@@ -10,8 +10,7 @@ AudioClip::AudioClip(const std::string& audio_clip_resource_name)
 AudioClip::AudioClip(const AudioClip& origin)
 	: IResource(origin.m_resource_type, origin.m_object_name)
 {
-	if (origin.m_p_sound != nullptr)
-		m_p_sound = origin.m_p_sound;
+	m_p_sound = origin.m_p_sound;
 
 	m_min_distance = origin.m_min_distance;
 	m_max_distance = origin.m_max_distance;

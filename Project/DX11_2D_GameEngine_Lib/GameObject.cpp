@@ -22,9 +22,10 @@
 template<typename T>
 constexpr ComponentType GameObject::GetComponentType()
 {
-	return ComponentType::NONE;
+	return ComponentType::None;
 }
 
+//Script는 하나 이상을 가질 수 있기 때문에 추가하지 않음
 #define REGISTER_COMPONENT_TYPE(T, component_type) template<> ComponentType GameObject::GetComponentType<T>() { return component_type; }
 REGISTER_COMPONENT_TYPE(Transform, ComponentType::Transform);
 REGISTER_COMPONENT_TYPE(Camera, ComponentType::Camera);
@@ -37,8 +38,6 @@ REGISTER_COMPONENT_TYPE(ParticleSystem, ComponentType::ParticleSystem);
 REGISTER_COMPONENT_TYPE(TileMapRenderer, ComponentType::TileMapRenderer);
 REGISTER_COMPONENT_TYPE(AudioListener, ComponentType::AudioListener);
 REGISTER_COMPONENT_TYPE(AudioSource, ComponentType::AudioSource);
-
-REGISTER_COMPONENT_TYPE(Script, ComponentType::Script);
 
 GameObject::GameObject(const GameObject& origin)
 {
@@ -74,10 +73,10 @@ GameObject::~GameObject()
 	m_p_component_map.clear();
 
 	//Script
-	for (auto& script : m_p_script_list)
-		SAFE_DELETE(script);
+	for (auto& script : m_p_script_map)
+		SAFE_DELETE(script.second);
 
-	m_p_script_list.clear();
+	m_p_script_map.clear();
 
 	//Parent
 	m_p_parent = nullptr;
@@ -92,20 +91,28 @@ GameObject::~GameObject()
 
 void GameObject::Initialize()
 {
-	//컴포넌트 초기화
+	//Component 초기화
 	for (auto& component : m_p_component_map)
 		component.second->Initialize();
 
-	//자식 오브젝트 초기화
+	//Script 초기화
+	/*for (auto& script : m_p_script_map)
+		m_p_script_map.second->Initialize();*/
+
+		//자식 오브젝트 초기화
 	for (auto& child : m_p_child_vector)
 		child->Initialize();
 }
 
 void GameObject::Start()
 {
-	//컴포넌트 업데이트
+	//Component 시작
 	for (auto& component : m_p_component_map)
 		component.second->Start();
+
+	//Script 시작
+	/*for (auto& script : m_p_script_map)
+		m_p_script_map.second->Start();*/
 
 	//자식 오브젝트 업데이트
 	for (auto& child : m_p_child_vector)
@@ -117,9 +124,13 @@ void GameObject::Update()
 	if (m_dead_check)
 		return;
 
-	//컴포넌트 업데이트
+	//Component 업데이트
 	for (auto& component : m_p_component_map)
 		component.second->Update();
+
+	//Script 업데이트
+	//for (auto& script : m_p_script_map)
+	//	m_p_script_map.second->Update();
 
 	//자식 오브젝트 업데이트
 	for (auto& child : m_p_child_vector)
@@ -216,8 +227,11 @@ void GameObject::AddComponent(IComponent* p_component)
 
 	//해당 Component가 Script인 경우
 	if (p_component->GetComponentType() == ComponentType::Script)
-		m_p_script_list.push_back(dynamic_cast<Script*>(p_component));
-	
+	{
+		auto p_script = dynamic_cast<Script*>(p_component); //다운 캐스팅
+		m_p_script_map.insert(std::make_pair(p_script->GetScriptName(), p_script));
+	}
+
 	//그 외의 경우
 	else
 		m_p_component_map.insert(std::make_pair(p_component->GetComponentType(), p_component));
@@ -240,11 +254,35 @@ void GameObject::RemoveComponent(const ComponentType& component_type)
 	if (component_iter == m_p_component_map.end())
 		return;
 
-    //해당 Component 메모리 해제
+	//해당 Component 메모리 해제
 	SAFE_DELETE(component_iter->second);
 
 	//해당 Component 삭제
 	m_p_component_map.erase(component_type);
+}
+
+Script* GameObject::GetScript(const std::string& script_name)
+{
+	auto script_iter = m_p_script_map.find(script_name);
+
+	if (script_iter == m_p_script_map.end())
+		return nullptr;
+
+	return script_iter->second;
+}
+
+void GameObject::RemoveScript(const std::string& script_name)
+{
+	auto script_iter = m_p_script_map.find(script_name);
+
+	if (script_iter == m_p_script_map.end())
+		return;
+
+	//해당 Script 메모리 해제
+	SAFE_DELETE(script_iter->second);
+
+	//해당 Script 삭제
+	m_p_script_map.erase(script_name);
 }
 
 void GameObject::SetGameObjectLayer(const UINT& layer_index)
@@ -264,7 +302,7 @@ void GameObject::SetGameObjectLayer(const UINT& layer_index)
 		//Register to Current Layer
 		auto p_current_layer = p_current_scene->GetLayer(m_game_object_layer);
 		p_current_layer->RegisterGameObject(this);
-   }
+	}
 }
 
 //=====================================================================

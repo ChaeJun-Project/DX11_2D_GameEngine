@@ -10,16 +10,27 @@
     <Filter Include="Stdafx">
       <UniqueIdentifier>{0b31d502-28cc-4edb-9113-f8772b9d29e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Player">
+      <UniqueIdentifier>{53991344-1f0e-4e39-98a5-43d19c3820fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Player\Z">
+      <UniqueIdentifier>{984ee7ac-60f3-47f6-be21-e892db6fd8f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Player\X">
+      <UniqueIdentifier>{32c0d190-1f48-4da8-99a0-a8df1f917110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Enemy">
+      <UniqueIdentifier>{75173743-5a4e-46b4-bccb-75afde7ed7e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Enemy\Colonel">
+      <UniqueIdentifier>{09998413-8681-4021-ac14-f77bfa1e81c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Script_Lib.cpp" />
     <ClCompile Include="GameLogic_Script.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="Geometry_script.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="RockManZ_Script.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="WalkCannon_Bullet_Script.cpp">
@@ -34,15 +45,18 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Stdafx</Filter>
     </ClCompile>
+    <ClCompile Include="Z_Script.cpp">
+      <Filter>Scripts\Player\Z</Filter>
+    </ClCompile>
+    <ClCompile Include="X_Script.cpp">
+      <Filter>Scripts\Player\X</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameLogic_Script.h">
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="Geometry_Script.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="RockManZ_Script.h">
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="WalkCannon_Bullet_Script.h">
@@ -56,6 +70,15 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Scripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Z_Script.h">
+      <Filter>Scripts\Player\Z</Filter>
+    </ClInclude>
+    <ClInclude Include="X_Script.h">
+      <Filter>Scripts\Player\X</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
