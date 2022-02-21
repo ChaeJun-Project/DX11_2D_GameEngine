@@ -177,8 +177,7 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GameLogic_Script.h" />
-    <ClInclude Include="Geometry_Script.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="X_Script.h" />
     <ClInclude Include="Z_Script.h" />
@@ -188,8 +187,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="WalkCannon_Script.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameLogic_Script.cpp" />
-    <ClCompile Include="Geometry_script.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="X_Script.cpp" />
     <ClCompile Include="Z_Script.cpp" />
     <ClCompile Include="ScriptManager.cpp" />

@@ -103,9 +103,6 @@
     <ClInclude Include="Scene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>Scene\GameStage</Filter>
-    </ClInclude>
     <ClInclude Include="Layer.h">
       <Filter>Scene\Layer</Filter>
     </ClInclude>
@@ -167,10 +164,10 @@
       <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
-      <Filter>Scene\Components\8. ParticleSystem</Filter>
+      <Filter>Scene\Components\8. Particle System</Filter>
     </ClInclude>
     <ClInclude Include="ParticleUpdateShader.h">
-      <Filter>Scene\Components\8. ParticleSystem\ParticleUpdateShader</Filter>
+      <Filter>Scene\Components\8. Particle System\ParticleUpdateShader</Filter>
     </ClInclude>
     <ClInclude Include="GeometryShader.h">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader</Filter>
@@ -219,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="Func.h">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody2D.h">
+      <Filter>Scene\Components\9. Rigid Body2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -297,9 +297,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>Scene\GameStage</Filter>
-    </ClCompile>
     <ClCompile Include="Layer.cpp">
       <Filter>Scene\Layer</Filter>
     </ClCompile>
@@ -361,10 +358,10 @@
       <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
-      <Filter>Scene\Components\8. ParticleSystem</Filter>
+      <Filter>Scene\Components\8. Particle System</Filter>
     </ClCompile>
     <ClCompile Include="ParticleUpdateShader.cpp">
-      <Filter>Scene\Components\8. ParticleSystem\ParticleUpdateShader</Filter>
+      <Filter>Scene\Components\8. Particle System\ParticleUpdateShader</Filter>
     </ClCompile>
     <ClCompile Include="GeometryShader.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader</Filter>
@@ -407,6 +404,9 @@
     </ClCompile>
     <ClCompile Include="TileMap.cpp">
       <Filter>Resource\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody2D.cpp">
+      <Filter>Scene\Components\9. Rigid Body2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -515,9 +515,6 @@
     <Filter Include="Scene\Components">
       <UniqueIdentifier>{6421e76f-148d-406a-ae49-9e542ef7b9e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\GameStage">
-      <UniqueIdentifier>{c6f3a3f5-7761-4aeb-9189-b3844b0801b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Layer">
       <UniqueIdentifier>{562d4610-3b24-4194-8640-6c05e295a2d9}</UniqueIdentifier>
     </Filter>
@@ -557,20 +554,11 @@
     <Filter Include="Scene\Components\7. Light2D">
       <UniqueIdentifier>{770b0f97-b957-4c96-99c2-3917a381147d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Components\8. ParticleSystem">
-      <UniqueIdentifier>{40af64c4-72d9-41b2-910c-26d40443fc6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\9. RigidBody2D">
-      <UniqueIdentifier>{d2d07f09-99cb-4b37-87e9-883f49dd265f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\DX11_Graphics_Pipeline\StructuredBuffer">
       <UniqueIdentifier>{f87f1054-5c4d-400a-a634-c90e18d639f9}</UniqueIdentifier>
     </Filter>
     <Filter Include="ShaderFiles\Shader\Compute">
       <UniqueIdentifier>{4d303201-7b81-4aaa-9cf2-fbe82126c340}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\8. ParticleSystem\ParticleUpdateShader">
-      <UniqueIdentifier>{57283146-6d7c-4513-9fde-3df2dd509368}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics">
       <UniqueIdentifier>{5b137a67-6267-4e25-a16b-8d0bc48bf945}</UniqueIdentifier>
@@ -643,6 +631,15 @@
     </Filter>
     <Filter Include="Resource\SpriteAnimation">
       <UniqueIdentifier>{53a4b151-9b6e-4737-83e4-6bb384577495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\9. Rigid Body2D">
+      <UniqueIdentifier>{d2d07f09-99cb-4b37-87e9-883f49dd265f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\8. Particle System">
+      <UniqueIdentifier>{40af64c4-72d9-41b2-910c-26d40443fc6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\8. Particle System\ParticleUpdateShader">
+      <UniqueIdentifier>{57283146-6d7c-4513-9fde-3df2dd509368}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

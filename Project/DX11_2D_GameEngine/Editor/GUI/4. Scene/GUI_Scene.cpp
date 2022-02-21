@@ -20,16 +20,12 @@
 GUI_Scene::GUI_Scene(const std::string& scene_title)
 	:IGUI(scene_title)
 {
-	m_window_flags |= ImGuiWindowFlags_NoScrollbar;
+	m_window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar;
 }
 
 GUI_Scene::~GUI_Scene()
 {
-}
-
-void GUI_Scene::Initialize()
-{
-	m_window_flags |= ImGuiWindowFlags_MenuBar;
+	m_p_editor_camera = nullptr;
 }
 
 void GUI_Scene::Update()
@@ -110,7 +106,7 @@ void GUI_Scene::ShowScene()
 	auto window_position_y = (ImGui::GetWindowPos().y - viewport_position.y + ImGui::GetWindowContentRegionMin().y);
 
 	render_manager->SetScreenOffset(window_position_x, window_position_y);
-	
+
 	//Scene 윈도우창의 크기를 받아옴
 	auto scene_window_width = static_cast<UINT>(ImGui::GetWindowContentRegionMax().x - ImGui::GetWindowContentRegionMin().x);
 	auto scene_window_height = static_cast<UINT>(ImGui::GetWindowContentRegionMax().y - ImGui::GetWindowContentRegionMin().y);
@@ -135,7 +131,7 @@ void GUI_Scene::ShowScene()
 	//드랍 된 경우
 	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Prefab))
 	{
-		
+
 	}
 }
 

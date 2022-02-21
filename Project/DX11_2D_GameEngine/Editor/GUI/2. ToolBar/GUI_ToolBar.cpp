@@ -10,25 +10,12 @@
 GUI_ToolBar::GUI_ToolBar(const std::string& toolbar_title)
 	:IGUI(toolbar_title)
 {
-	m_window_flags = 0
-		| ImGuiWindowFlags_NoDocking
+	m_window_flags = ImGuiWindowFlags_NoDocking
 		| ImGuiWindowFlags_NoTitleBar
 		| ImGuiWindowFlags_NoResize
 		| ImGuiWindowFlags_NoMove
 		| ImGuiWindowFlags_NoScrollbar
 		| ImGuiWindowFlags_NoSavedSettings;
-}
-
-void GUI_ToolBar::Initialize()
-{
-}
-
-void GUI_ToolBar::Update()
-{
-	if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_T))
-	{
-		m_is_active = !m_is_active;
-	}
 }
 
 void GUI_ToolBar::Begin()

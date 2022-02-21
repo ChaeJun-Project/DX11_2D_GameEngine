@@ -17,3 +17,12 @@ void ShowColorPicker3(const std::string& label_name, float* data, const ImGuiCol
 void ShowColorPicker4(const std::string& label_name, float* data, const ImGuiColorEditFlags& flags);
 
 const bool CheckMousePositionInRect(const ImVec2& mouse_position, const ImVec2& rect_left_top, const ImVec2& rect_right_bottom);
+
+//DataInput
+void DataInputInt(const std::string& data_name, int* p_data);
+void DataInputFloat(const std::string& data_name, float* p_data);
+void DataInputVector2(const std::string& data_name, Vector2* p_data);
+void DataInputVector3(const std::string& data_name, Vector3* p_data);
+void DataInputVector4(const std::string& data_name, Vector4* p_data);
+void DataInputTexture(const std::string& data_name, Texture* p_data);
+void DataInputGameObject(const std::string& data_name, GameObject* p_data);

@@ -22,17 +22,15 @@ void GUI_SpritePlayer::Initialize()
 	m_accumulate_time = 0.0f;
 
 	//Animation State
-	curret_animation_state = static_cast<UINT>(AnimationState::Stop);
+	m_curret_animation_state = static_cast<UINT>(AnimationState::Stop);
 }
 
 void GUI_SpritePlayer::Render()
 {
 	if (ImGui::Begin("Sprite Player", &m_is_active, ImGuiWindowFlags_AlwaysAutoResize))
-	{
 		ShowSpriteAnimationPreview();
-	
-		ImGui::End();
-	}
+
+	ImGui::End();
 }
 
 void GUI_SpritePlayer::ShowSpriteAnimationPreview()
@@ -41,7 +39,7 @@ void GUI_SpritePlayer::ShowSpriteAnimationPreview()
 	auto animation2D_frame = m_p_current_animation2D->GetAnimationFrame(m_frame_index);
 	auto p_atlas_texture = m_p_current_animation2D->GetAtlasTexture();
 	auto atlas_texture_size = Vector2(static_cast<float>(p_atlas_texture->GetWidth()), static_cast<float>(p_atlas_texture->GetHeight()));
-	
+
 	auto begin_cursor_screen_pos = ImGui::GetCursorScreenPos();
 	auto end_cursor_screen_pos = begin_cursor_screen_pos;
 	end_cursor_screen_pos.x += 2.0f * animation2D_frame.frame_size.x;
@@ -79,7 +77,7 @@ void GUI_SpritePlayer::ShowSpriteAnimationPreview()
 	ImGui::PopItemWidth();
 
 	//재생 중일 때
-	if ((curret_animation_state & AnimationState::Play) && !(curret_animation_state & AnimationState::Pause))
+	if ((m_curret_animation_state & AnimationState::Play) && !(m_curret_animation_state & AnimationState::Pause))
 	{
 		auto delta_time_f = DELTA_TIME_F;
 		m_accumulate_time += delta_time_f;
@@ -101,8 +99,8 @@ void GUI_SpritePlayer::ShowSpriteAnimationPreview()
 
 void GUI_SpritePlayer::ShowButtons(const float& rect_size_width)
 {
-	auto offset_x  = (rect_size_width - 88.0f) * 0.5f; //88.0은 세 가지 버튼 그룹의 총 고정 길이 
-	
+	auto offset_x = (rect_size_width - 88.0f) * 0.5f; //88.0은 세 가지 버튼 그룹의 총 고정 길이 
+
 	auto begin_cursor_screen_pos = ImGui::GetCursorScreenPos();
 	ImGui::SetCursorScreenPos(ImVec2(begin_cursor_screen_pos.x + offset_x, begin_cursor_screen_pos.y));
 
@@ -116,18 +114,22 @@ void GUI_SpritePlayer::ShowButtons(const float& rect_size_width)
 	ImGui::PushStyleColor
 	(
 		ImGuiCol_Button,
-		ImGui::GetStyle().Colors[curret_animation_state & AnimationState::Play ? ImGuiCol_ButtonActive : ImGuiCol_Button]
+		ImGui::GetStyle().Colors[m_curret_animation_state & AnimationState::Play ? ImGuiCol_ButtonActive : ImGuiCol_Button]
 	);
 
 	std::string unique_str = gui_str + "Play";
 	ImGui::PushID(unique_str.c_str());
 	if (icon_provider->CreateImageButton(IconType::ToolBar_Play, ImVec2(16.0f, 16.0f)))
 	{
-		if (curret_animation_state & AnimationState::Play)
-			curret_animation_state = static_cast<UINT>(AnimationState::Stop);
-		
+		if (m_curret_animation_state & AnimationState::Play)
+		{
+			m_frame_index = 0;
+			m_accumulate_time = 0.0f;
+			m_curret_animation_state = static_cast<UINT>(AnimationState::Stop);
+		}
+
 		else
-			curret_animation_state |= static_cast<UINT>(AnimationState::Play);
+			m_curret_animation_state |= static_cast<UINT>(AnimationState::Play);
 	}
 	ImGui::PopID();
 	ImGui::SameLine();
@@ -138,18 +140,18 @@ void GUI_SpritePlayer::ShowButtons(const float& rect_size_width)
 	ImGui::PushStyleColor
 	(
 		ImGuiCol_Button,
-		ImGui::GetStyle().Colors[curret_animation_state & AnimationState::Pause ? ImGuiCol_ButtonActive : ImGuiCol_Button]
+		ImGui::GetStyle().Colors[m_curret_animation_state & AnimationState::Pause ? ImGuiCol_ButtonActive : ImGuiCol_Button]
 	);
 
 	unique_str = gui_str + "Pause";
 	ImGui::PushID(unique_str.c_str());
 	if (icon_provider->CreateImageButton(IconType::ToolBar_Pause, ImVec2(16.0f, 16.0f)))
 	{
-		if (curret_animation_state & AnimationState::Pause)
-			curret_animation_state &= ~static_cast<UINT>(AnimationState::Pause);
+		if (m_curret_animation_state & AnimationState::Pause)
+			m_curret_animation_state &= ~static_cast<UINT>(AnimationState::Pause);
 
 		else
-			curret_animation_state |= static_cast<UINT>(AnimationState::Pause);
+			m_curret_animation_state |= static_cast<UINT>(AnimationState::Pause);
 	}
 	ImGui::PopID();
 	ImGui::SameLine();
@@ -160,9 +162,9 @@ void GUI_SpritePlayer::ShowButtons(const float& rect_size_width)
 	ImGui::PushID(unique_str.c_str());
 	if (icon_provider->CreateImageButton(IconType::ToolBar_Stop, ImVec2(16.0f, 16.0f)))
 	{
-		curret_animation_state = static_cast<UINT>(AnimationState::Stop);
 		m_frame_index = 0;
 		m_accumulate_time = 0.0f;
+		m_curret_animation_state = static_cast<UINT>(AnimationState::Stop);
 	}
 	ImGui::PopID();
 	ImGui::EndGroup();

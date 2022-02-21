@@ -73,10 +73,10 @@ GameObject::~GameObject()
 	m_p_component_map.clear();
 
 	//Script
-	for (auto& script : m_p_script_map)
+	for (auto& script : m_p_script_un_map)
 		SAFE_DELETE(script.second);
 
-	m_p_script_map.clear();
+	m_p_script_un_map.clear();
 
 	//Parent
 	m_p_parent = nullptr;
@@ -93,13 +93,19 @@ void GameObject::Initialize()
 {
 	//Component 초기화
 	for (auto& component : m_p_component_map)
-		component.second->Initialize();
+	{
+		if (component.second->GetIsActive())
+			component.second->Initialize();
+	}
 
 	//Script 초기화
-	/*for (auto& script : m_p_script_map)
-		m_p_script_map.second->Initialize();*/
+	for (auto& script : m_p_script_un_map)
+	{
+		if (script.second->GetIsActive())
+			script.second->Initialize();
+	}
 
-		//자식 오브젝트 초기화
+	//자식 오브젝트 초기화
 	for (auto& child : m_p_child_vector)
 		child->Initialize();
 }
@@ -108,11 +114,17 @@ void GameObject::Start()
 {
 	//Component 시작
 	for (auto& component : m_p_component_map)
-		component.second->Start();
+	{
+		if (component.second->GetIsActive())
+			component.second->Start();
+	}
 
 	//Script 시작
-	/*for (auto& script : m_p_script_map)
-		m_p_script_map.second->Start();*/
+	for (auto& script : m_p_script_un_map)
+	{
+		if (script.second->GetIsActive())
+			script.second->Start();
+	}
 
 	//자식 오브젝트 업데이트
 	for (auto& child : m_p_child_vector)
@@ -126,11 +138,17 @@ void GameObject::Update()
 
 	//Component 업데이트
 	for (auto& component : m_p_component_map)
-		component.second->Update();
+	{
+		if (component.second->GetIsActive())
+			component.second->Update();
+	}
 
 	//Script 업데이트
-	//for (auto& script : m_p_script_map)
-	//	m_p_script_map.second->Update();
+	for (auto& script : m_p_script_un_map)
+	{
+		if (script.second->GetIsActive())
+			script.second->Update();
+	}
 
 	//자식 오브젝트 업데이트
 	for (auto& child : m_p_child_vector)
@@ -144,7 +162,10 @@ void GameObject::FinalUpdate()
 
 	//컴포넌트 최종 업데이트
 	for (auto& component : m_p_component_map)
-		component.second->FinalUpdate();
+	{
+		if (component.second->GetIsActive())
+			component.second->FinalUpdate();
+	}
 
 	//자식 오브젝트 최종 업데이트(transform)
 	for (auto& child : m_p_child_vector)
@@ -153,27 +174,27 @@ void GameObject::FinalUpdate()
 
 void GameObject::Render()
 {
-	if (!m_active_check)
+	if (m_dead_check)
 		return;
 
 	//SpriteRenderer
 	auto renderer = GetComponent<SpriteRenderer>();
-	if (renderer != nullptr)
+	if (renderer != nullptr && renderer->GetIsActive())
 		renderer->Render();
 
 	//Particle System
 	auto particle_system = GetComponent<ParticleSystem>();
-	if (particle_system != nullptr)
+	if (particle_system != nullptr && particle_system->GetIsActive())
 		particle_system->Render();
 
 	//Collider
 	auto collider2D = GetComponent<Collider2D>();
-	if (collider2D != nullptr)
+	if (collider2D != nullptr && collider2D->GetIsActive())
 		collider2D->Render();
 
 	//TileMapRenderer
 	auto tile_map = GetComponent<TileMapRenderer>();
-	if (tile_map != nullptr)
+	if (tile_map != nullptr && tile_map->GetIsActive())
 		tile_map->Render();
 }
 
@@ -229,7 +250,12 @@ void GameObject::AddComponent(IComponent* p_component)
 	if (p_component->GetComponentType() == ComponentType::Script)
 	{
 		auto p_script = dynamic_cast<Script*>(p_component); //다운 캐스팅
-		m_p_script_map.insert(std::make_pair(p_script->GetScriptName(), p_script));
+		auto script_iter = m_p_script_un_map.insert(std::make_pair(p_script->GetScriptName(), p_script));
+
+		//이미 추가된 스크립트라면(스크립트를 중복으로 추가할 경우)
+		//다운 캐스팅된 포인터 또는 매개변수 값으로 들어온 부모 포인터 메모리 해제(하지 않으면 메모리 누수 발생)
+		if (!script_iter.second)
+			SAFE_DELETE(p_script);
 	}
 
 	//그 외의 경우
@@ -263,9 +289,9 @@ void GameObject::RemoveComponent(const ComponentType& component_type)
 
 Script* GameObject::GetScript(const std::string& script_name)
 {
-	auto script_iter = m_p_script_map.find(script_name);
+	auto script_iter = m_p_script_un_map.find(script_name);
 
-	if (script_iter == m_p_script_map.end())
+	if (script_iter == m_p_script_un_map.end())
 		return nullptr;
 
 	return script_iter->second;
@@ -273,16 +299,16 @@ Script* GameObject::GetScript(const std::string& script_name)
 
 void GameObject::RemoveScript(const std::string& script_name)
 {
-	auto script_iter = m_p_script_map.find(script_name);
+	auto script_iter = m_p_script_un_map.find(script_name);
 
-	if (script_iter == m_p_script_map.end())
+	if (script_iter == m_p_script_un_map.end())
 		return;
 
 	//해당 Script 메모리 해제
 	SAFE_DELETE(script_iter->second);
 
 	//해당 Script 삭제
-	m_p_script_map.erase(script_name);
+	m_p_script_un_map.erase(script_name);
 }
 
 void GameObject::SetGameObjectLayer(const UINT& layer_index)
@@ -395,7 +421,7 @@ void GameObject::DetachFromParent()
 void GameObject::SaveToScene(FILE* p_file)
 {
 	//GameObject Name
-	__super::SaveToScene(p_file);
+	__super::SaveToScene(p_file); //DX11Obejct
 
 	//Tag
 	fprintf(p_file, "[Tag]\n");
@@ -409,7 +435,7 @@ void GameObject::SaveToScene(FILE* p_file)
 void GameObject::LoadFromScene(FILE* p_file)
 {
 	//GameObject Name
-	__super::LoadFromScene(p_file);
+	__super::LoadFromScene(p_file); //DX11Obejct
 
 	char char_buffer[256] = {};
 

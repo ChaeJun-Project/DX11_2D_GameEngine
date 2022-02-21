@@ -23,7 +23,7 @@ GUI_Palette::~GUI_Palette()
 
 void GUI_Palette::Render()
 {
-	if (ImGui::Begin("Palette", &m_is_active))
+	if (ImGui::Begin("Palette", &m_is_active, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		//Show Tile Altas Texture Combo
 		ImGui::PushItemWidth(150.0f);
@@ -92,9 +92,8 @@ void GUI_Palette::Render()
 
 		//Show Tile Atlas Texture
 		RenderTileAtlasTexture();
-
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
 void GUI_Palette::RenderTileAtlasTexture()

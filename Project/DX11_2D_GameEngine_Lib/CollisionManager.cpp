@@ -10,30 +10,27 @@
 
 CollisionManager::CollisionManager()
 {
-	m_check_vector.reserve(32);
-	m_check_vector.resize(32);
-
-	ResetCheckVector();
+	m_collision_check_vector.resize(MAX_LAYER, 0);
 }
 
 CollisionManager::~CollisionManager()
 {
-	m_check_vector.clear();
-	m_check_vector.shrink_to_fit();
+	m_collision_check_vector.clear();
+	m_collision_check_vector.shrink_to_fit();
 
 	m_collision_check_map.clear();
 }
 
 void CollisionManager::Update()
 {
-	//행 개수만큼 반복
+	//행 개수만큼 반복(MAX_LAYER: 32)
 	for (UINT row = 0; row < MAX_LAYER; ++row)
 	{
 		//중복되는 경우를 뺀 열의 개수만큼 반복
 		for (UINT column = row; column < MAX_LAYER; ++column)
 		{
-			//이미 체크가 된 경우
-			if (m_check_vector[row] & (1 << column))
+			//미리 충돌 체크 설정을 한 경우만
+			if (m_collision_check_vector[row] & (1 << column))
 				CollisionLayerUpdate(row, column);
 		}
 	}
@@ -201,12 +198,12 @@ void CollisionManager::CheckLayer(const UINT& left_layer, const UINT& right_laye
 	}
 	
 	//이미 체크가 된 경우
-	if (m_check_vector[row] & (1 << column))
+	if (m_collision_check_vector[row] & (1 << column))
 	{
 		//해당 행렬의 비트값을 뺌
-		m_check_vector[row] &= ~(1 << column);
+		m_collision_check_vector[row] &= ~(1 << column);
 	}
 
 	else
-		m_check_vector[row] |= (1 << column);
+		m_collision_check_vector[row] |= (1 << column);
 }

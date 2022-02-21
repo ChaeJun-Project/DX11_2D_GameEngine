@@ -14,7 +14,7 @@ WalkCannon_Script::WalkCannon_Script()
 }
 
 WalkCannon_Script::WalkCannon_Script(const WalkCannon_Script& origin)
-	:Script(origin)
+	:Script(origin.m_script_name)
 {
 	m_p_player = origin.m_p_player;
 	m_current_state = AnimationState::Idle;
@@ -175,11 +175,10 @@ void WalkCannon_Script::OnCollisionEnter(GameObject* other_game_object)
 {
 }
 
+void WalkCannon_Script::OnCollisionStay(GameObject* other_game_object)
+{
+}
+
 void WalkCannon_Script::OnCollisionExit(GameObject* other_game_object)
 {
 }
-
-void WalkCannon_Script::OnCollision(GameObject* other_game_object)
-{
-}
-

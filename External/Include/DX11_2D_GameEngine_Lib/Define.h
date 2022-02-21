@@ -77,12 +77,12 @@ typedef unsigned long ULONG;
 #define MAX_LAYER 32
 
 //Path
-#define ABSOLUTE_CONTENT_PATH  FILE_MANAGER->GetAbsoluteContentPath();
-#define ANIMATION_PATH		   "Asset/Animation/"
-#define AUDIO_PATH			   "Asset/Audio/"
-#define MATERIAL_PATH		   "Asset/Material/"
-#define MESH_PATH			   "Asset/Mesh/"
-#define SCENE_PATH			   "Asset/Scene/"
-#define TEXTURE_PATH		   "Asset/Texture/"
-#define TILEMAP_PATH		   "Asset/TileMap/"
-#define PREFAB_PATH			   "Asset/Prefab/"
+#define ABSOLUTE_CONTENT_PATH  FILE_MANAGER->GetAbsoluteContentPath()
+#define ANIMATION_PATH		   FILE_MANAGER->GetAbsoluteAnimationPath()
+#define AUDIO_PATH			   FILE_MANAGER->GetAbsoluteAudioPath()
+#define MATERIAL_PATH		   FILE_MANAGER->GetAbsoluteMaterialPath()
+#define MESH_PATH			   FILE_MANAGER->GetAbsoluteMeshPath()
+#define SCENE_PATH			   FILE_MANAGER->GetAbsoluteScenePath()
+#define TEXTURE_PATH		   FILE_MANAGER->GetAbsoluteTexturePath()
+#define TILEMAP_PATH		   FILE_MANAGER->GetAbsoluteTileMapPath()
+#define PREFAB_PATH			   FILE_MANAGER->GetAbsolutePrefabPath()

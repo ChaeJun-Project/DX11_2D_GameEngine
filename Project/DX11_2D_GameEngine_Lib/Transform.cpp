@@ -1,7 +1,11 @@
 #include "stdafx.h"
 #include "Transform.h"
 
+#include "ConstantBuffer.h"
+
 #include "SpriteRenderer.h"
+
+#include "GameObject.h"
 
 Transform::Transform()
 	:IComponent(ComponentType::Transform)
@@ -16,16 +20,6 @@ void Transform::FinalUpdate()
 
 void Transform::UpdateWorldMatrix()
 {
-	/*switch (m_game_object_side_state)
-	{
-	case GameObjectSideState::Right:
-		SetRotation(Quaternion::Identity);
-		break;
-	case GameObjectSideState::Left:
-		SetRotation(Quaternion::QuaternionFromEulerAngle(Vector3(0.0f, 180.0f, 0.0f)));
-		break;
-	}*/
-
 	//SRT 연산
 	//해당 transform을 소유한 오브젝트가 부모 오브젝트가 있다면
 	//해당 월드 행렬은 부모 오브젝트 기준의 월드 행렬

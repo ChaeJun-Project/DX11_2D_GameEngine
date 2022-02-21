@@ -1,13 +1,17 @@
 #include "stdafx.h"
 #include "ParticleSystem.h"
 
-#include "TimeManager.h"
-#include "ResourceManager.h"
-
 #include "ComputeShader.h"
 #include "ParticleUpdateShader.h"
 #include "StructuredBuffer.h"
 
+#include "TimeManager.h"
+
+#include "ResourceManager.h"
+#include "Material.h"
+#include "Mesh.h"
+
+#include "GameObject.h"
 #include "Transform.h"
 
 ParticleSystem::ParticleSystem()
@@ -30,7 +34,7 @@ ParticleSystem::ParticleSystem()
 }
 
 ParticleSystem::ParticleSystem(const ParticleSystem& origin)
-	: IComponent(origin.GetComponentType())
+	: IComponent(origin.m_component_type)
 {
 
 }

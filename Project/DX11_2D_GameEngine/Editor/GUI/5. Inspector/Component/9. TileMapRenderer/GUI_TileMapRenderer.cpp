@@ -29,42 +29,54 @@ GUI_TileMapRenderer::~GUI_TileMapRenderer()
 
 void GUI_TileMapRenderer::Render()
 {
-	if (BeginComponent(m_component_gui_name, ComponentType::TileMapRenderer, IconType::Component_TileMapRenderer))
+	TileMapRenderer* tile_map_renderer = nullptr;
+
+	//Tiling Count
+	static int tile_count_row = 0;
+	static int tile_count_column = 0;
+
+	//Tile Size
+	static Vector2 tile_size = Vector2::Zero;
+
+	if (m_p_current_game_object != nullptr && m_p_current_game_object != m_select_game_object)
 	{
+		tile_map_renderer = m_select_game_object->GetComponent<TileMapRenderer>();
+
 		//Tiling Count
-		static int tile_count_row = 0;
-		static int tile_count_column = 0;
+		auto tile_count = tile_map_renderer->GetTileCount();
+		tile_count_row = static_cast<int>(tile_count.x);
+		tile_count_column = static_cast<int>(tile_count.y);
 
 		//Tile Size
-		static Vector2 tile_size = Vector2::Zero;
+		tile_size = tile_map_renderer->GetTileSize();
+	}
 
-		if (m_p_current_game_object != nullptr && m_p_current_game_object != m_select_game_object)
-		{
-			auto tile_map_renderer = m_select_game_object->GetComponent<TileMapRenderer>();
+	m_p_current_game_object = m_select_game_object;
 
-			//Tiling Count
-			auto tile_count = tile_map_renderer->GetTileCount();
-			tile_count_row = static_cast<int>(tile_count.x);
-			tile_count_column = static_cast<int>(tile_count.y);
+	tile_map_renderer = m_p_current_game_object->GetComponent<TileMapRenderer>();
+	auto tile_map = tile_map_renderer->GetTileMap();
+	if (tile_map != nullptr)
+	{
+		//Tiling Count
+		auto tile_count = tile_map_renderer->GetTileCount();
+		tile_count_row = static_cast<int>(tile_count.x);
+		tile_count_column = static_cast<int>(tile_count.y);
 
-			//Tile Size
-			tile_size = tile_map_renderer->GetTileSize();
-		}
+		//Tile Size
+		tile_size = tile_map_renderer->GetTileSize();
+	}
 
-		m_p_current_game_object = m_select_game_object;
+	if (tile_map_renderer == nullptr)
+		return;
 
+	auto is_active = tile_map_renderer->GetIsActive();
+	if (BeginComponent(m_component_gui_name, ComponentType::TileMapRenderer, is_active, IconType::Component_TileMapRenderer))
+	{
 		auto tile_map_renderer = m_p_current_game_object->GetComponent<TileMapRenderer>();
-		auto tile_map = tile_map_renderer->GetTileMap();
-		if (tile_map != nullptr)
-		{
-			//Tiling Count
-			auto tile_count = tile_map_renderer->GetTileCount();
-			tile_count_row = static_cast<int>(tile_count.x);
-			tile_count_column = static_cast<int>(tile_count.y);
+		if (tile_map_renderer == nullptr)
+			return;
 
-			//Tile Size
-			tile_size = tile_map_renderer->GetTileSize();
-		}
+		tile_map_renderer->SetIsActive(is_active);
 
 		//Palette
 		ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 110.0f);

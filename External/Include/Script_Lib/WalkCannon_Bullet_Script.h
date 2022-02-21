@@ -14,8 +14,8 @@ public:
 
 public:
 	virtual void OnCollisionEnter(GameObject* other_game_object) override;
+	virtual void OnCollisionStay(GameObject* other_game_object) override;
 	virtual void OnCollisionExit(GameObject* other_game_object) override;
-	virtual void OnCollision(GameObject* other_game_object) override;
 
 public:
     void SetDirection(const Vector3& fire_direction);

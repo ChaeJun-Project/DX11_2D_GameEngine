@@ -18,12 +18,13 @@ GUI_Transform::GUI_Transform(const std::string& transform_gui_name)
 
 void GUI_Transform::Render()
 {
-	if (BeginComponent(m_component_gui_name, ComponentType::Transform, IconType::Component_Transform))
-	{
-		auto transform = m_select_game_object->GetComponent<Transform>();
-		if (transform == nullptr)
-			return;
+	auto transform = m_select_game_object->GetComponent<Transform>();
+	if (transform == nullptr)
+		return;
 
+	auto is_active = transform->GetIsActive();
+	if (BeginComponent(m_component_gui_name, ComponentType::Transform, is_active, IconType::Component_Transform))
+	{
 		auto position = transform->GetLocalTranslation();
 		auto rotation = transform->GetLocalRotation().ToEulerAngle();
 		auto scale = transform->GetLocalScale();

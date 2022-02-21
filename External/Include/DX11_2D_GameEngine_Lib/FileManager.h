@@ -14,6 +14,15 @@ public:
     void Initialize();
 	const std::string& GetAbsoluteContentPath() { return m_absolute_content_path; }
 
+	const std::string& GetAbsoluteAnimationPath() { return m_absolute_animation_path; }
+	const std::string& GetAbsoluteAudioPath()	  { return m_absolute_audio_path; }
+	const std::string& GetAbsoluteMaterialPath()  { return m_absolute_material_path; }
+	const std::string& GetAbsoluteMeshPath()	  { return m_absolute_mesh_path; }
+	const std::string& GetAbsoluteScenePath()	  { return m_absolute_scene_path; }
+	const std::string& GetAbsoluteTexturePath()	  { return m_absolute_texture_path; }
+	const std::string& GetAbsoluteTileMapPath()	  { return m_absolute_tilemap_path; }
+	const std::string& GetAbsolutePrefabPath()	  { return m_absolute_prefab_path; }
+	
 public:
 	void OpenDirectoryWindow(const std::string& directory);
 	const bool Create_Directory(const std::string& path); //특정 경로에 폴더를 생성
@@ -99,7 +108,16 @@ public:
 	}
 
 private:
-	std::string m_absolute_content_path;					//현재 작업 디텍토리 경로
+	std::string m_absolute_content_path;		//Content폴더 절대경로
+
+	std::string m_absolute_animation_path;		//Animation폴더 절대경로
+	std::string m_absolute_audio_path;			//Audio폴더 절대경로
+	std::string m_absolute_material_path;		//Material폴더 절대경로
+	std::string m_absolute_mesh_path;			//Mesh폴더 절대경로
+	std::string m_absolute_scene_path;			//Scene폴더 절대경로
+	std::string m_absolute_texture_path;		//Texture폴더 절대경로
+	std::string m_absolute_tilemap_path;		//TileMap폴더 절대경로
+	std::string m_absolute_prefab_path;			//Prefab폴더 절대경로
 
 	std::vector<std::string> m_supported_animation_formats;	//Animation에 지원되는 확장자들
 	std::vector<std::string> m_supported_audio_formats;		//Audio에 지원되는 확장자들

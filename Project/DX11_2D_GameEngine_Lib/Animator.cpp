@@ -8,7 +8,7 @@ Animator::Animator()
 }
 
 Animator::Animator(const Animator& origin)
-	: IComponent(origin.GetComponentType())
+	: IComponent(origin.m_component_type)
 {
 	
 }
@@ -26,4 +26,12 @@ void Animator::Update()
 void Animator::FinalUpdate()
 {
 
+}
+
+void Animator::SaveToScene(FILE* p_file)
+{
+}
+
+void Animator::LoadFromScene(FILE* p_file)
+{
 }

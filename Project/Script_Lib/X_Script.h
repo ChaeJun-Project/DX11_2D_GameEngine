@@ -10,15 +10,19 @@ class X_Script final : public Script, public PlayerController
 public:
 	X_Script();
 	explicit X_Script(const X_Script& origin);
-	~X_Script();
+	virtual ~X_Script();
 
 	void Start() override;
 	void Update() override;
 
 public:
 	virtual void OnCollisionEnter(GameObject* other_game_object) override;
+	virtual void OnCollisionStay(GameObject* other_game_object) override;
 	virtual void OnCollisionExit(GameObject* other_game_object) override;
-	virtual void OnCollision(GameObject* other_game_object) override;
+
+private:
+	virtual void SaveToScene(FILE* p_file) override;
+	virtual void LoadFromScene(FILE* p_file) override;
 
 public:
 	CLONE(X_Script);

@@ -72,19 +72,25 @@ public:
 		//Component Type
 		fprintf(p_file, "%d\n", static_cast<UINT>(m_component_type));
 	}
-	void LoadFromScene(FILE* p_file) override {}
+	virtual void LoadFromScene(FILE* p_file) override = 0;
 	
 public:
     virtual IComponent* Clone() = 0;
 
 public:
-	const ComponentType& GetComponentType() const { return m_component_type; }
+	const ComponentType& GetComponentType() { return m_component_type; }
 
 	GameObject* GetGameObject() { SAFE_GET_POINTER(m_p_owner_game_object); }
 	void SetGameObject(GameObject* p_game_object) { m_p_owner_game_object = p_game_object; }
 
+	const bool& GetIsActive() { return m_is_active; }
+	void SetIsActive(const bool& is_active) { m_is_active = is_active; }
+
 protected:
 	const ComponentType m_component_type;
+
 	//해당 컴포넌트를 소유하고 있는 오브젝트의 주소
 	GameObject* m_p_owner_game_object;
+
+	bool m_is_active = true;
 };

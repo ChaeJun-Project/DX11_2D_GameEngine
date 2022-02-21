@@ -51,14 +51,6 @@ void GUI_Project::Initialize()
 
 void GUI_Project::Update()
 {
-	if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
-	{
-		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_P))
-		{
-			m_is_active = !m_is_active;
-		}
-	}
-
 	//Asset 폴더 포함 하위 폴더에 변경이 있는 경우 
 	if (m_is_update)
 	{

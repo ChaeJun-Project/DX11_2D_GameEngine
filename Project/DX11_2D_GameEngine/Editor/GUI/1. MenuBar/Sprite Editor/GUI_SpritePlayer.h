@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GUI/IGUI_Popup.h"
+
 class SpriteAnimation;
 
 enum AnimationState : UINT
@@ -9,15 +11,15 @@ enum AnimationState : UINT
 	Pause = 1U << 1,	//0010, 편집_정지 모드
 };
 
-class GUI_SpritePlayer final
+class GUI_SpritePlayer final : public IGUI_Popup
 {
 public:
 	GUI_SpritePlayer();
-	~GUI_SpritePlayer();
+	virtual ~GUI_SpritePlayer();
 
 public:
     void Initialize();
-	void Render();
+	virtual void Render() override;
 
 private:
     void ShowSpriteAnimationPreview();
@@ -30,11 +32,9 @@ private:
 	float m_accumulate_time = 0.0f;
 
 	//Animation State
-	UINT curret_animation_state = static_cast<UINT>(AnimationState::Stop);
+	UINT m_curret_animation_state = static_cast<UINT>(AnimationState::Stop);
 
 	std::string gui_str = "SpritePlayer_";
-
-	bool m_is_active = false;
 
 	friend class GUI_SpriteEditor;
 };

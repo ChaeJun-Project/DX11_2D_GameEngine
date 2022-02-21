@@ -99,9 +99,6 @@
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\Module\Tree\GUI_TreeItem.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\GUI_ColorPicker.cpp"
-
-
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\11. AudioListener\GUI_AudioListener.cpp"
 
 
@@ -115,6 +112,12 @@
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\6. Project\File\GUI_FileDialog.cpp"
+
+
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\1. MenuBar\Physics\GUI_Physics.cpp"
+
+
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\1. MenuBar\Scene Rename\GUI_SceneRename.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Imgui\Editor\ImGuizmo.cpp"

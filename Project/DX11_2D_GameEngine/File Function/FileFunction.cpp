@@ -159,5 +159,5 @@ void FileFunction::LoadScene(const std::string& scene_path)
 	event_struct.event_type = EventType::Scene_Change;
 	event_struct.object_address_1 = next_scene;
 
-	EventManager::GetInstance()->AddEvent(event_struct);
+	EVENT_MANAGER->AddEvent(event_struct);
 }

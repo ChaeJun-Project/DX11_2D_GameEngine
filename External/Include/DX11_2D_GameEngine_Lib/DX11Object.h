@@ -20,7 +20,7 @@ public:
 		char char_buffer[256] = {};
 
 		FILE_MANAGER->FScanf(char_buffer, p_file);
-		m_object_name = std::string(char_buffer);
+		m_object_name = char_buffer;
 	}
 
 public:

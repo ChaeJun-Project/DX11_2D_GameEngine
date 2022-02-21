@@ -52,7 +52,7 @@ void GUI_SpriteEditor::Initialize()
 
 void GUI_SpriteEditor::Render()
 {
-	if (ImGui::Begin("Sprite Editor", &m_is_active))
+	if (ImGui::Begin("Sprite Editor", &m_is_active, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		//Atlas Texture
 		ImGui::BulletText("Atlas Texture");
@@ -176,9 +176,8 @@ void GUI_SpriteEditor::Render()
 
 		if (m_p_gui_sprite_player->m_is_active)
 			m_p_gui_sprite_player->Render();
-
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
 void GUI_SpriteEditor::ShowAnimationEditor()

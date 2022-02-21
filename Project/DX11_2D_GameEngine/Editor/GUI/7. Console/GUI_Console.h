@@ -10,12 +10,10 @@ public:
     ~GUI_Console();
 
 public:
-    void Initialize() override;
-    void Update() override;
-    void Render() override;
+    virtual void Initialize() override;
+    virtual void Render() override;
 
 private:
-    void CheckEditorState();
     void DisplayButton(const IconType& type, const ImVec2& button_size, bool& is_show);
     void ShowButtons();
     void ShowFilter();

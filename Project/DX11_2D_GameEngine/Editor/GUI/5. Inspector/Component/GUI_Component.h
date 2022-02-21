@@ -18,6 +18,7 @@ protected:
 	(
 		const std::string& component_name,
 		const ComponentType& component_type,
+		bool& is_active,
 		const IconType& icon_type,
 		const std::string& script_name = std::string() //자식 클래스가 GUI_Script인 경우에만 매개변수 사용
 	);

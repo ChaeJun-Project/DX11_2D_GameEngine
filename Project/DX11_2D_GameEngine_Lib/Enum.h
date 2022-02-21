@@ -159,3 +159,15 @@ enum class LightType : UINT
 	Point = 1,
 	Spot = 2,
 };
+
+//Script Param Type(Script을 상속받는 자식 클래스 사용)
+enum class ScriptParamType : UINT
+{
+	Int = 0,
+	Float = 1,
+	Vector2 = 2,
+	Vector3 = 3,
+	Vector4 = 4,
+	Texture = 5,
+	Prefab = 6,
+};

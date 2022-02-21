@@ -10,12 +10,11 @@ public:
 	~GUI_Scene();
 
 public:
-	void Initialize() override;
-	void Update() override;
+	virtual void Update() override;
 
-	void Begin() override;
-	void Render() override;
-	void End() override;
+	virtual void Begin() override;
+	virtual void Render() override;
+	virtual void End() override;
 
 private:
     void ShowProjectionButton();

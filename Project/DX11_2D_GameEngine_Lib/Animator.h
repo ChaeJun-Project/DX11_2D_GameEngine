@@ -13,6 +13,10 @@ public:
 	void FinalUpdate() override;
 
 public:
+	void SaveToScene(FILE* p_file) override;
+	void LoadFromScene(FILE* p_file) override;
+
+public:
     CLONE(Animator);
 
 private:

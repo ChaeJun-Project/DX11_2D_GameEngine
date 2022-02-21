@@ -15,12 +15,19 @@ GUI_Collider2D::GUI_Collider2D(const std::string& collider2D_name)
 
 void GUI_Collider2D::Render()
 {
-	if (BeginComponent(m_component_gui_name, ComponentType::Collider2D, IconType::Component_Collider2D))
+	auto collider2D = m_select_game_object->GetComponent<Collider2D>();
+	if (collider2D == nullptr)
+		return;
+
+	auto is_active = collider2D->GetIsActive();
+	if (BeginComponent(m_component_gui_name, ComponentType::Collider2D, is_active, IconType::Component_Collider2D))
 	{
 		auto collider2D = m_select_game_object->GetComponent<Collider2D>();
 		if (collider2D == nullptr)
 			return;
 
+		collider2D->SetIsActive(is_active);
+		
 		auto offest_position = collider2D->GetOffsetPosition();
 		auto offest_scale = collider2D->GetOffsetScale();
 

@@ -25,12 +25,19 @@ GUI_Camera::~GUI_Camera()
 
 void GUI_Camera::Render()
 {
-	if (BeginComponent(m_component_gui_name, ComponentType::Camera, IconType::Component_Camera))
+	auto camera = m_select_game_object->GetComponent<Camera>();
+	if (camera == nullptr)
+		return;
+
+	auto is_active = camera->GetIsActive();
+	if (BeginComponent(m_component_gui_name, ComponentType::Camera, is_active, IconType::Component_Camera))
 	{
 		auto camera = m_select_game_object->GetComponent<Camera>();
 		if (camera == nullptr)
 			return;
 
+		camera->SetIsActive(is_active);
+		
 		auto projection_type = camera->GetProjectionType();
 		auto size = camera->GetSize();
 		auto fov = Math::ToDegree(camera->GetFov());

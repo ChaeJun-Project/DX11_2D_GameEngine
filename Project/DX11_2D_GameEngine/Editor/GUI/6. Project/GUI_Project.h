@@ -14,9 +14,9 @@ public:
 	~GUI_Project();
 
 public:
-	void Initialize() override;
-	void Update() override;
-	void Render() override;
+	virtual void Initialize() override;
+	virtual void Update() override;
+	virtual void Render() override;
 
 private:
 	void UpdateTree();

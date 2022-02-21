@@ -30,11 +30,18 @@ GUI_SpriteRenderer::~GUI_SpriteRenderer()
 
 void GUI_SpriteRenderer::Render()
 {
-	if (BeginComponent(m_component_gui_name, ComponentType::SpriteRenderer, IconType::Component_SpriteRenderer))
+	auto sprite_renderer = m_select_game_object->GetComponent<SpriteRenderer>();
+	if (sprite_renderer == nullptr)
+		return;
+
+	auto is_active = sprite_renderer->GetIsActive();
+	if (BeginComponent(m_component_gui_name, ComponentType::SpriteRenderer, is_active, IconType::Component_SpriteRenderer))
 	{
 		auto sprite_renderer = m_select_game_object->GetComponent<SpriteRenderer>();
 		if (sprite_renderer == nullptr)
 			return;
+
+		sprite_renderer->SetIsActive(is_active);
 
 		auto sprite_texture = sprite_renderer->GetSpriteTexture();
 		auto sprite_texture_color = sprite_renderer->GetSpriteTextureColor();

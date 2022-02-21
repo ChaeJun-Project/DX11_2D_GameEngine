@@ -23,11 +23,18 @@ GUI_Light2D::~GUI_Light2D()
 
 void GUI_Light2D::Render()
 {
-	if (BeginComponent(m_component_gui_name, ComponentType::Light2D, IconType::Component_Light2D))
+	auto light2D = m_select_game_object->GetComponent<Light2D>();
+	if (light2D == nullptr)
+		return;
+
+	auto is_active = light2D->GetIsActive();
+	if (BeginComponent(m_component_gui_name, ComponentType::Light2D, is_active, IconType::Component_Light2D))
 	{
 		auto light2D = m_select_game_object->GetComponent<Light2D>();
 		if (light2D == nullptr)
 			return;
+
+		light2D->SetIsActive(is_active);
 
 		auto light2D_info = light2D->GetLight2DInfo();
 

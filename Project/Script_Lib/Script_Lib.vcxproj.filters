@@ -25,14 +25,11 @@
     <Filter Include="Scripts\Enemy\Colonel">
       <UniqueIdentifier>{09998413-8681-4021-ac14-f77bfa1e81c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Manager">
+      <UniqueIdentifier>{b8b8d87a-73b0-4698-8eac-a765a64a69d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameLogic_Script.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="Geometry_script.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="WalkCannon_Bullet_Script.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
@@ -51,14 +48,11 @@
     <ClCompile Include="X_Script.cpp">
       <Filter>Scripts\Player\X</Filter>
     </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Scripts\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameLogic_Script.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry_Script.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="WalkCannon_Bullet_Script.h">
       <Filter>Scripts</Filter>
     </ClInclude>
@@ -79,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="X_Script.h">
       <Filter>Scripts\Player\X</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Scripts\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

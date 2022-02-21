@@ -10,7 +10,7 @@ Layer::Layer(const UINT& layer_index)
 
 Layer::~Layer()
 {
-    //Clear Parent GameObject Vector
+	//Clear Parent GameObject Vector
 	m_p_parent_game_object_vector.clear();
 	m_p_parent_game_object_vector.shrink_to_fit();
 
@@ -22,31 +22,41 @@ Layer::~Layer()
 void Layer::Initialize()
 {
 	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
-		p_parent_game_object->Initialize();
+	{
+		if (p_parent_game_object->m_is_active)
+			p_parent_game_object->Initialize();
+	}
 }
 
 void Layer::Start()
 {
 	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
-		p_parent_game_object->Start();
+	{
+		if (p_parent_game_object->m_is_active)
+			p_parent_game_object->Start();
+	}
 }
 
 void Layer::Update()
 {
 	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
-		p_parent_game_object->Update();
+	{
+		if (p_parent_game_object->m_is_active)
+			p_parent_game_object->Update();
+	}
 }
 
 void Layer::FinalUpdate()
 {
 	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
 	{
-		p_parent_game_object->FinalUpdate();
+		if (p_parent_game_object->m_is_active)
+			p_parent_game_object->FinalUpdate();
 
-		if (p_parent_game_object->IsDead())
+		if (p_parent_game_object->m_dead_check)
 		{
 			//해당 Layer에 속한 자식 GameObject들 제거
-			const auto& child_game_object_vector = p_parent_game_object->GetChilds();
+			const auto& child_game_object_vector = p_parent_game_object->m_p_child_vector;
 			for (const auto& p_child_game_object : child_game_object_vector)
 				DeregisterGameObject(p_child_game_object);
 
@@ -59,7 +69,10 @@ void Layer::FinalUpdate()
 void Layer::Render()
 {
 	for (const auto& p_game_object : m_p_game_object_vector)
-		p_game_object->Render();
+	{
+		if (p_game_object->m_is_active)
+			p_game_object->Render();
+	}
 }
 
 void Layer::AddGameObject(GameObject* p_game_object, bool is_move)

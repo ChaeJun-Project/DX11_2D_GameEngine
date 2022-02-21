@@ -227,7 +227,7 @@ void GUI_Hierarchy::CreateGameObject()
 	//Create New GameObject
 	auto p_new_game_object = new GameObject();
 	p_new_game_object->SetGameObjectName("GameObject");
-	p_new_game_object->AddComponent(new Transform());
+	p_new_game_object->AddComponent(ComponentType::Transform);
 
 	EventStruct event_struct;
 	ZeroMemory(&event_struct, sizeof(EventStruct));

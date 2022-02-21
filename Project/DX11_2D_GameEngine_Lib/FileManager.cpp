@@ -41,8 +41,28 @@ FileManager::~FileManager()
 
 void FileManager::Initialize()
 {
-	//DX11_2D_GameEngine/ExeFile/Release/Content/
+	//GetWorkingDirectory()
+	//Debug or Release => DX11_2D_GameEngine/ExeFile/Release/Content/
+	//Exe
+	//Debug: DX11_2D_GameEngine/ExeFile/Debug/
+	//Release: DX11_2D_GameEngine/ExeFile/Release/
 	m_absolute_content_path = GetWorkingDirectory();
+	{
+		std::string exe_file_str = "ExeFile";
+		auto index = m_absolute_content_path.find(exe_file_str.c_str());
+		std::string absolute_exe_file_path = m_absolute_content_path.substr(0, (index + exe_file_str.length()));
+		absolute_exe_file_path += "/";
+		m_absolute_content_path = absolute_exe_file_path + "Content/";
+	}
+
+	m_absolute_animation_path = m_absolute_content_path + "Asset/Animation/";	//Animation폴더 절대경로
+	m_absolute_audio_path	  = m_absolute_content_path + "Asset/Audio/";	//Audio폴더 절대경로
+	m_absolute_material_path  = m_absolute_content_path + "Asset/Material/";	//Material폴더 절대경로
+	m_absolute_mesh_path	  = m_absolute_content_path + "Asset/Mesh/";	//Mesh폴더 절대경로
+	m_absolute_scene_path	  = m_absolute_content_path + "Asset/Scene/";	//Scene폴더 절대경로
+	m_absolute_texture_path	  = m_absolute_content_path + "Asset/Texture/";	//Texture폴더 절대경로
+	m_absolute_tilemap_path	  = m_absolute_content_path + "Asset/TileMap/";	//TileMap폴더 절대경로
+	m_absolute_prefab_path	  = m_absolute_content_path + "Asset/Prefab/";	//Prefab폴더 절대경로
 
 	//Animation에 지원되는 확장자들
 	m_supported_animation_formats =
@@ -226,7 +246,7 @@ void FileManager::RenameFile(const std::string& folder_path, const std::string& 
 
 void FileManager::RemoveFile(const std::string& file_path)
 {
-    remove(file_path.c_str());
+	remove(file_path.c_str());
 }
 
 const std::string FileManager::GetFileNameFromPath(const std::string& path)

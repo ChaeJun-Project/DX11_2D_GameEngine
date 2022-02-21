@@ -1,22 +1,22 @@
 #pragma once
 
+#include "GUI/IGUI_Popup.h"
+
 class GUI_ItemList;
 
-class GUI_StyleSelector final
+class GUI_StyleSelector final : public IGUI_Popup
 {
 public:
 	GUI_StyleSelector();
-	~GUI_StyleSelector();
+	virtual ~GUI_StyleSelector();
 
 public:
-	void Render();
+	virtual void Render() override;
 
 private:
     std::string current_style = "Dark";
 
 	GUI_ItemList* m_p_item_list = nullptr;
-
-	bool m_is_active = false;
 
 	friend class GUI_MenuBar;
 };

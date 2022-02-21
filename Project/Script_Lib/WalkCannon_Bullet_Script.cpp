@@ -52,11 +52,11 @@ void WalkCannon_Bullet_Script::OnCollisionEnter(GameObject* other_game_object)
 	}*/
 }
 
-void WalkCannon_Bullet_Script::OnCollisionExit(GameObject* other_game_object)
+void WalkCannon_Bullet_Script::OnCollisionStay(GameObject* other_game_object)
 {
 }
 
-void WalkCannon_Bullet_Script::OnCollision(GameObject* other_game_object)
+void WalkCannon_Bullet_Script::OnCollisionExit(GameObject* other_game_object)
 {
 }
 

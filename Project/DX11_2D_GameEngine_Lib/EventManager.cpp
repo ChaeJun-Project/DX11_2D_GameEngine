@@ -93,7 +93,7 @@ void EventManager::Excute(const EventStruct& event_struct)
 	case EventType::Scene_Change:
 	{
 	   auto next_scene = std::get<std::shared_ptr<Scene>>(event_struct.object_address_1);
-	   SceneManager::GetInstance()->SetCurrentScene(next_scene);
+	   SCENE_MANAGER->SetCurrentScene(next_scene);
 
 	   m_is_update = true;
 	}

@@ -62,6 +62,7 @@ void Scene::SetStartScene()
 
 	auto point_light = point_light2D->GetComponent<Light2D>();
 	point_light->SetLightType(LightType::Point);
+	point_light->SetLightRange(5000.0f);
 
 	RegisterGameObject(point_light2D);
 }

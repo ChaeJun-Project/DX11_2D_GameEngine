@@ -51,7 +51,7 @@ void Camera::FinalUpdate()
 	UpdateProjectionMatrix();
 
 	//매 프레임마다 RenderManager에 카메라 등록
-	RenderManager::GetInstance()->RegisterCamera(this, m_camera_index);
+	RENDER_MANAGER->RegisterCamera(this, m_camera_index);
 
 	if (m_camera_index == 0)
 	{
@@ -72,7 +72,7 @@ void Camera::SortObjects()
 	m_particle_object_vector.clear();
 	m_post_effect_object_vector.clear();
 
-	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
+	auto current_scene = SCENE_MANAGER->GetCurrentScene();
 	auto layer_map = current_scene->GetLayerMap();
 
 	for (auto& layer_iter : layer_map)
@@ -172,7 +172,7 @@ void Camera::RenderPostEffectObjects()
 	for (UINT i = 0; i < m_post_effect_object_vector.size(); ++i)
 	{
 		//Post Effect가 적용된 텍스처를 누적으로 복사하는 부분
-		RenderManager::GetInstance()->CopyPostEffect();
+		RENDER_MANAGER->CopyPostEffect();
 		m_post_effect_object_vector[i]->Render();
 	}
 }
@@ -204,7 +204,7 @@ void Camera::UpdateViewMatrix()
 void Camera::UpdateProjectionMatrix()
 {
 	//TODO: Game Mode일 때 Editor Mode일 때 해상도가 다르므로 처리해줘야 함
-	auto resolution = RenderManager::GetInstance()->GetResolution();
+	auto resolution = RENDER_MANAGER->GetResolution();
 
 	switch (m_projection_type)
 	{
@@ -222,9 +222,9 @@ void Camera::UpdateProjectionMatrix()
 
 const Vector3 Camera::Picking()
 {
-	Vector2 mouse_position = InputManager::GetInstance()->GetMousePosition();
+	Vector2 mouse_position = INPUT_MANAGER->GetMousePosition();
 
-	if (!RenderManager::GetInstance()->CheckClickedEditorSceneRect(mouse_position))
+	if (!RENDER_MANAGER->CheckClickedEditorSceneRect(mouse_position))
 		return Vector3::Zero;
 
 	Vector3 mouse_world_position = ScreenToWorld(mouse_position);
@@ -234,9 +234,8 @@ const Vector3 Camera::Picking()
 
 const Vector3 Camera::ScreenToWorld(const Vector2& mouse_position)
 {
-	auto render_manager = RenderManager::GetInstance();
-	auto screen_resolution = render_manager->GetResolution();
-	auto screen_offset = render_manager->GetScreenOffset();
+	auto screen_resolution = RENDER_MANAGER->GetResolution();
+	auto screen_offset = RENDER_MANAGER->GetScreenOffset();
 	auto mouse_relative_position = mouse_position - screen_offset;
 
 	Vector3 pick_ray_view_space = Vector3

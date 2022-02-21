@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GUI/IGUI_Popup.h"
+
 class GUI_ItemList;
 
 class Texture;
@@ -13,14 +15,14 @@ struct TilePositionInfo
 	ImVec2 right_bottom;	//월드 공간상의 오른쪽 하단 좌표
 };
 
-class GUI_Palette
+class GUI_Palette final : public IGUI_Popup
 {
 public:
 	GUI_Palette();
-	~GUI_Palette();
+	virtual ~GUI_Palette();
 
 public:
-    void Render();
+	virtual void Render() override;
 
 private:
     void RenderTileAtlasTexture();
@@ -52,8 +54,6 @@ private:
 
 	std::vector<TilePositionInfo> m_tile_position_info_vector;
 	int m_current_tile_index = -1;
-
-	bool m_is_active = false;
 
 	friend class GUI_TileMapRenderer;
 };

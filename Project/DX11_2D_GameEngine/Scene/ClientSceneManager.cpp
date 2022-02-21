@@ -15,19 +15,46 @@
 #include <DX11_2D_GameEngine_Lib/Camera.h>
 #include <DX11_2D_GameEngine_Lib/Light2D.h>
 #include <DX11_2D_GameEngine_Lib/TileMapRenderer.h>
+#include <DX11_2D_GameEngine_Lib/Script.h>
 
-#include <Script_Lib/GameLogic_Script.h>
+//Script
+#include <Script_Lib/ScriptManager.h>
 
 void ClientSceneManager::CreateNewScene()
 {
+	EDITOR_HELPER->SetSelectedGameObject(nullptr);
+	EDITOR_HELPER->SetSelectedResource(nullptr);
+
+	//Current Scene
+	auto current_scene = SCENE_MANAGER->GetCurrentScene();
+
+	//New Scene
 	auto new_scene = std::make_shared<Scene>("New Scene");
 	new_scene->SetStartScene();
 
-	SCENE_MANAGER->SetCurrentScene(new_scene);
+	//Current Scene이 존재하지 않은 경우 => 최초 Scene 생성
+	if (current_scene == nullptr)
+		SCENE_MANAGER->SetCurrentScene(new_scene);
+
+	//Current Scene이 존재하는 경우 => Scene 변경
+	else
+	{
+		//Scene Change
+		EventStruct event_struct;
+		ZeroMemory(&event_struct, sizeof(EventStruct));
+
+		event_struct.event_type = EventType::Scene_Change;
+		event_struct.object_address_1 = new_scene;
+
+		EVENT_MANAGER->AddEvent(event_struct);
+	}
 }
 
 std::shared_ptr<Scene> ClientSceneManager::SaveScene(const std::string& file_path)
 {
+	EDITOR_HELPER->SetSelectedGameObject(nullptr);
+	EDITOR_HELPER->SetSelectedResource(nullptr);
+
 	auto current_scene = SCENE_MANAGER->GetCurrentScene();
 
 	FILE* p_file = nullptr;
@@ -78,7 +105,7 @@ void ClientSceneManager::SaveGameObject(GameObject* p_game_object, FILE* p_file)
 	fprintf(p_file, "%d\n", component_count);
 
 	//Save Component
-	for (UINT i = 1; i < static_cast<UINT>(ComponentType::END); ++i)
+	for (UINT i = static_cast<UINT>(ComponentType::None); i < static_cast<UINT>(ComponentType::END); ++i)
 	{
 		IComponent* p_component = p_game_object->GetComponent(static_cast<ComponentType>(i));
 
@@ -86,8 +113,8 @@ void ClientSceneManager::SaveGameObject(GameObject* p_game_object, FILE* p_file)
 			p_component->SaveToScene(p_file);
 	}
 
-	//Script
-	//SaveScript(p_game_object, p_file);
+	//Save Script
+	SaveScript(p_game_object, p_file);
 
 	//==================================
 	//Child GameObject
@@ -113,8 +140,16 @@ void ClientSceneManager::SaveGameObject(GameObject* p_game_object, FILE* p_file)
 
 void ClientSceneManager::SaveScript(GameObject* p_game_object, FILE* p_file)
 {
-	fprintf(p_file, "[Script]\n");
-	//const auto& script_vector;
+	const auto& script_un_map = p_game_object->GetScriptUnMap();
+
+	fprintf(p_file, "[Script Count]\n");
+	auto script_count = script_un_map.size();
+	fprintf(p_file, "%d\n", script_count);
+
+	for (const auto& script : script_un_map)
+	{
+		script.second->SaveToScene(p_file);
+	}
 }
 
 std::shared_ptr<Scene> ClientSceneManager::LoadScene(const std::string& file_path)
@@ -196,7 +231,7 @@ GameObject* ClientSceneManager::LoadGameObject(FILE* p_file)
 	//==================================
 	//Script
 	//==================================
-	//LoadScript(p_new_game_object, p_file);
+	LoadScript(p_new_game_object, p_file);
 
 	//==================================
 	//Child GameObject
@@ -224,6 +259,36 @@ GameObject* ClientSceneManager::LoadGameObject(FILE* p_file)
 
 void ClientSceneManager::LoadScript(GameObject* p_game_object, FILE* p_file)
 {
+	char char_buffer[256] = {};
+
+	//Script Count
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	UINT script_count = 0;
+	fscanf_s(p_file, "%d\n", &script_count);
+
+	//Create Script
+	for (UINT i = 0; i < script_count; ++i)
+	{
+		//Component Title
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+
+		//Component Type
+		UINT component_type = 0;
+		fscanf_s(p_file, "%d\n", &component_type);
+
+		//Script Name
+		FILE_MANAGER->FScanf(char_buffer, p_file); //[Name]
+		FILE_MANAGER->FScanf(char_buffer, p_file); //Script Name
+		std::string script_name = char_buffer;
+
+		//Add Script
+		p_game_object->AddComponent(ScriptManager::GetScript(script_name));
+
+		auto p_script = p_game_object->GetScript(script_name);
+
+		if (p_script != nullptr)
+			p_script->LoadFromScene(p_file);
+	}
 }
 
 void ClientSceneManager::CreatePrefab()

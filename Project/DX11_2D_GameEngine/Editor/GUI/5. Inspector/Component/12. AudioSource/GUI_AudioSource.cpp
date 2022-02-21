@@ -14,11 +14,18 @@ GUI_AudioSource::GUI_AudioSource(const std::string& audio_source_gui_name)
 
 void GUI_AudioSource::Render()
 {
-	if (BeginComponent(m_component_gui_name, ComponentType::AudioSource, IconType::Component_Audio_Source))
+	auto audio_source = m_select_game_object->GetComponent<AudioSource>();
+	if (audio_source == nullptr)
+		return;
+
+	auto is_active = audio_source->GetIsActive();
+	if (BeginComponent(m_component_gui_name, ComponentType::AudioSource, is_active, IconType::Component_Audio_Source))
 	{
 		auto audio_source = m_select_game_object->GetComponent<AudioSource>();
 		if (audio_source == nullptr)
 			return;
+
+		audio_source->SetIsActive(is_active);
 
 		auto p_audio_clip = audio_source->GetAudioClip();
 		std::string audio_clip_name;

@@ -48,6 +48,7 @@ public:
 	PlayerController() = default;
 	virtual ~PlayerController() = default;
 
-private:
+protected:
+	float m_speed = 200.f;
 
 };

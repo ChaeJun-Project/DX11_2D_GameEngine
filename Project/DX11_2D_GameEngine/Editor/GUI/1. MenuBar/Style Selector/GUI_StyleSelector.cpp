@@ -15,7 +15,7 @@ GUI_StyleSelector::~GUI_StyleSelector()
 
 void GUI_StyleSelector::Render()
 {
-	if (ImGui::Begin("Style Selector", &m_is_active, ImGuiWindowFlags_NoResize))
+	if (ImGui::Begin("Style Selector", &m_is_active, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ImGui::Text("Style");
 		ImGui::SameLine();
@@ -65,7 +65,6 @@ void GUI_StyleSelector::Render()
 			ImGui::EndCombo();
 		}
 		ImGui::PopItemWidth();
-
-		ImGui::End();
 	}
+	ImGui::End();
 }

@@ -27,10 +27,12 @@ private:
 
 public:
 	void CheckLayer(const UINT& left_layer, const UINT& right_layer);
-	void ResetCheckVector() { std::fill(m_check_vector.begin(), m_check_vector.end(), 0); };
+
+public:
+	const std::vector<UINT>& GetCollisionCheckVector() { return m_collision_check_vector; }
 
 private:
-    std::vector<UINT> m_check_vector; //Layer 간의 충돌 체크 매트릭스
+    std::vector<UINT> m_collision_check_vector; //Layer 간의 충돌 체크 매트릭스
 
 	std::map<ULONGLONG, bool> m_collision_check_map; //충돌체 간의 이전 프레임 충돌 정보 
 };

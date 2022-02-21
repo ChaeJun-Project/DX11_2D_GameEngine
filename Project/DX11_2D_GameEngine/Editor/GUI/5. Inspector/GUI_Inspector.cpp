@@ -122,14 +122,6 @@ void GUI_Inspector::Initialize()
 	m_component_gui_map.insert(std::make_pair(ComponentType::AudioSource, std::make_unique<GUI_AudioSource>("Audio Source")));
 }
 
-void GUI_Inspector::Update()
-{
-	if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_I))
-	{
-		m_is_active = !m_is_active;
-	}
-}
-
 void GUI_Inspector::Render()
 {
 	m_p_selected_game_object = EditorHelper::GetInstance()->GetSelectedGameObject();
@@ -171,10 +163,10 @@ void GUI_Inspector::ShowGameObjectInfo()
 	ImGui::BeginGroup();
 	//Render Check
 	std::string label_str = "##" + m_p_selected_game_object->GetGameObjectName() + "_is_active";
-	bool is_active = m_p_selected_game_object->IsActive();
+	bool is_active = m_p_selected_game_object->GetIsActive();
 	if (ImGui::Checkbox(label_str.c_str(), &is_active))
 	{
-		m_p_selected_game_object->SetGameObjectActive(is_active);
+		m_p_selected_game_object->SetIsActive(is_active);
 	}
 	ImGui::SameLine();
 
@@ -217,8 +209,8 @@ void GUI_Inspector::ShowGameObjectInfo()
 	}
 
 	//Script GUI
-	const auto script_map = m_p_selected_game_object->GetScriptMap();
-	for (const auto& script : script_map)
+	const auto script_unmap = m_p_selected_game_object->GetScriptUnMap();
+	for (const auto& script : script_unmap)
 	{
 		const auto script_name = script.first;
 		CreateScriptGUI(script_name);

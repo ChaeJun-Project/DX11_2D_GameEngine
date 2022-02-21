@@ -5,14 +5,11 @@ class GUI_ToolBar : public IGUI
 {
 public:
     GUI_ToolBar(const std::string& toolbar_title);
-    ~GUI_ToolBar() = default;
+    virtual ~GUI_ToolBar() = default;
 
 public:
-    void Initialize() override;
-    void Update() override;
-
-    void Begin() override;
-    void Render() override;
-    void End() override;
+    virtual void Begin() override;
+    virtual void Render() override;
+    virtual void End() override;
 };
 

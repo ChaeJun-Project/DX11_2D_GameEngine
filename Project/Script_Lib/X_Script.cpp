@@ -27,10 +27,18 @@ void X_Script::OnCollisionEnter(GameObject* other_game_object)
 {
 }
 
+void X_Script::OnCollisionStay(GameObject* other_game_object)
+{
+}
+
 void X_Script::OnCollisionExit(GameObject* other_game_object)
 {
 }
 
-void X_Script::OnCollision(GameObject* other_game_object)
+void X_Script::SaveToScene(FILE* p_file)
+{
+}
+
+void X_Script::LoadFromScene(FILE* p_file)
 {
 }

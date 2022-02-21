@@ -92,6 +92,8 @@ void SpriteRenderer::Render()
 		else
 			transform->SetMeshScale(m_p_sprite_texture->GetWidth(), m_p_sprite_texture->GetHeight());
 	}
+	else
+		transform->SetMeshScale(0, 0); //설정된 Texture가 없다면 다시 0으로 초기화
 	transform->UpdateConstantBuffer();
 
 	m_p_material->BindPipeline();

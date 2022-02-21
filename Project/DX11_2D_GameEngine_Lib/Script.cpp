@@ -17,7 +17,13 @@ Script::Script(const Script& origin)
 {
 }
 
-GameObject* Script::Instantiate(std::shared_ptr<Prefab>& p_game_object_prefab, const Vector3& position, const UINT& layer_index, const bool& use_event)
+Script::~Script()
+{
+	m_script_param_vector.clear();
+	m_script_param_vector.shrink_to_fit();
+}
+
+GameObject* Script::Instantiate(std::shared_ptr<Prefab>& p_game_object_prefab, const Vector3& position, const bool& use_event)
 {
 	GameObject* p_game_object = p_game_object_prefab->Instantiate();
 
@@ -32,7 +38,7 @@ GameObject* Script::Instantiate(std::shared_ptr<Prefab>& p_game_object_prefab, c
 	transform->SetTranslation(position);
 
 	if (use_event)
-		CreateGameObject(p_game_object, layer_index);
+		CreateGameObject(p_game_object);
 
 	return p_game_object;
 }
@@ -48,7 +54,7 @@ void Script::Destroy(GameObject* p_delete_game_object)
 	EventManager::GetInstance()->AddEvent(event_struct);
 }
 
-void Script::CreateGameObject(GameObject* p_new_game_object, const UINT& layer_index)
+void Script::CreateGameObject(GameObject* p_new_game_object)
 {
 	EventStruct event_struct;
 	ZeroMemory(&event_struct, sizeof(EventStruct));
@@ -61,9 +67,9 @@ void Script::CreateGameObject(GameObject* p_new_game_object, const UINT& layer_i
 
 void Script::SaveToScene(FILE* p_file)
 {
-}
+    __super::SaveToScene(p_file); //IComponent
 
-void Script::LoadFromScene(FILE* p_file)
-{
+	//Script Name
+	fprintf(p_file, "[Name]\n");
+	fprintf(p_file, "%s\n", m_script_name.c_str());
 }
-

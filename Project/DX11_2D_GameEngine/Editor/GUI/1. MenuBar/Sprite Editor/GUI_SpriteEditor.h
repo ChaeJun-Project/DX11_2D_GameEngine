@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GUI/IGUI_Popup.h"
+
 class Animator2D;
 
 class SpriteAnimation;
@@ -7,15 +9,15 @@ class Texture;
 
 class GUI_SpritePlayer;
 
-class GUI_SpriteEditor final
+class GUI_SpriteEditor final : public IGUI_Popup
 {
 public:
 	GUI_SpriteEditor();
-	~GUI_SpriteEditor();
+	virtual ~GUI_SpriteEditor();
 
 public:
     void Initialize();
-	void Render();
+	virtual void Render() override;
 
 private:
 	void ShowAnimationEditor();
@@ -46,9 +48,6 @@ private:
 
 	Vector2 m_draw_left_top = Vector2(0.0f, 0.0f);
 	Vector2 m_draw_right_bottom = Vector2(0.0f, 0.0f);
-
-	//Render Sprite Editor
-	bool m_is_active = false;
 
 	//Sprite Player
 	GUI_SpritePlayer* m_p_gui_sprite_player = nullptr;

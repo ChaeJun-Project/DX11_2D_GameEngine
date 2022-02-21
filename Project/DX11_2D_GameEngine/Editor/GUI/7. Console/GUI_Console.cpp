@@ -34,14 +34,6 @@ void GUI_Console::Initialize()
 	LOG_MANAGER->SetLogger(m_p_console_logger);
 }
 
-void GUI_Console::Update()
-{
-	if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_C))
-	{
-		m_is_active = !m_is_active;
-	}
-}
-
 void GUI_Console::Render()
 {
     //Show Buttons(Clear, Info, Warning, Error)

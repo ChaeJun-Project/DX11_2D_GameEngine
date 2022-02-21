@@ -22,7 +22,7 @@ void EditorObjectManager::Initialize()
 {
     //Create Editor Camera 
     auto editor_camera = new GameObjectEx();
-    editor_camera->AddComponent(new Transform());
+    editor_camera->AddComponent(ComponentType::Transform);
     editor_camera->AddComponent(new CameraEx());
 
     editor_camera->GetComponent<Transform>()->SetTranslation(Vector3(0.0f, 0.0f, -1000.0f));

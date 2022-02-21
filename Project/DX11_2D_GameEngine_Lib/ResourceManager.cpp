@@ -304,16 +304,16 @@ const std::shared_ptr<Material> ResourceManager::CreateMaterial(const std::strin
 
 void ResourceManager::CreateDefaultTexture()
 {
-	auto absolute_content_path = FILE_MANAGER->GetAbsoluteContentPath();
+	auto absolute_texture_path = TEXTURE_PATH;
 
 	//Noise Texture 1
-	CreateTexture(absolute_content_path + "Asset/Texture/Noise/noise_01.png");
+	CreateTexture(absolute_texture_path + "Noise/noise_01.png");
 
 	//Noise Texture 2
-	CreateTexture(absolute_content_path + "Asset/Texture/Noise/noise_02.png");
+	CreateTexture(absolute_texture_path + "Noise/noise_02.png");
 
 	//Noise Texture 3
-	CreateTexture(absolute_content_path + "Asset/Texture/Noise/noise_03.jpg");
+	CreateTexture(absolute_texture_path + "Noise/noise_03.jpg");
 
 	//Noise Texture 1 »ç¿ë
 	auto noise_texture = GetResource<Texture>("noise_01");

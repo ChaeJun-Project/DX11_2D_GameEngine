@@ -5,8 +5,7 @@
 
 enum class Script_Type : UINT
 {
-	GameLogic_Script,
-	Geometry_Script,
+	GameManager,
 	WalkCannon_Bullet_Script,
 	WalkCannon_Script,
 	X_Script,
@@ -21,5 +20,4 @@ public:
 	static void GetScriptInfo(std::vector<std::string>& script_vector);
 	static Script* GetScript(const std::string& script_name);
 	static Script* GetScript(const UINT& script_type);
-	static std::string GetScriptName(Script* p_script);
 };

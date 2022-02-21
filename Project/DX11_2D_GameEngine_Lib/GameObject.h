@@ -42,13 +42,13 @@ public:
 	// [Script]
 	//==============
 public:
-	const std::map<std::string, Script*>& GetScriptMap() { return m_p_script_map; }
+	const std::unordered_map<std::string, Script*>& GetScriptUnMap() { return m_p_script_un_map; }
 
     Script* GetScript(const std::string& script_name);
 
 	void RemoveScript(const std::string& script_name);
 
-	const UINT& GetScriptCount() const { return static_cast<UINT>(m_p_script_map.size()); }
+	const UINT& GetScriptCount() const { return static_cast<UINT>(m_p_script_un_map.size()); }
 
 	//==============
 	// [Prefab]
@@ -58,8 +58,8 @@ public:
 
 public:
 	//GameObject IsActive
-	const bool& IsActive() { return m_active_check; }
-	void SetGameObjectActive(const bool& is_active) { m_active_check = is_active; }
+	const bool& GetIsActive() { return m_is_active; }
+	void SetIsActive(const bool& is_active) { m_is_active = is_active; }
 
 	//Dead Check
 	const bool IsDead() { return m_dead_check; }
@@ -110,7 +110,7 @@ public:
 
 protected:
 	//Object Active Check
-	bool m_active_check = true;
+	bool m_is_active = true;
 	//Object Dead Check
 	bool m_dead_check = false;
 	//GameObject Tag
@@ -122,7 +122,7 @@ protected:
 	std::map<ComponentType, IComponent*> m_p_component_map;
 
 	//Script Map
-	std::map<std::string, Script*> m_p_script_map;
+	std::unordered_map<std::string, Script*> m_p_script_un_map;
 
 	//Hierarchy
 	//Parent Object

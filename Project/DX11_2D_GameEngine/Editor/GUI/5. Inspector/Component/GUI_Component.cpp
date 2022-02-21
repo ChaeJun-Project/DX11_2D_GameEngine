@@ -8,7 +8,7 @@ GUI_Component::GUI_Component(const std::string& component_gui_name)
 {
 }
 
-const bool GUI_Component::BeginComponent(const std::string& component_name, const ComponentType& component_type, const IconType& icon_type, const std::string& script_name)
+const bool GUI_Component::BeginComponent(const std::string& component_name, const ComponentType& component_type, bool& is_active, const IconType& icon_type, const std::string& script_name)
 {
 	//Component Box의 Title 만들기
 	const bool collapsed_header = ImGui::CollapsingHeader(component_name.c_str(), ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_DefaultOpen); //창을 킴과 동시에 CollapsingHeader의 내용을 Open
@@ -26,6 +26,10 @@ const bool GUI_Component::BeginComponent(const std::string& component_name, cons
 					ImGui::OpenPopup(script_name.c_str(), ImGuiPopupFlags_MouseButtonRight);
 
 				ShowScriptSettingPopup(script_name);
+
+				//Active Check Box
+				ImGui::Checkbox("", &is_active);
+				ImGui::SameLine();
 			}
 			ImGui::PopID();
 		}
@@ -43,21 +47,23 @@ const bool GUI_Component::BeginComponent(const std::string& component_name, cons
 					ImGui::OpenPopup(component_name.c_str(), ImGuiPopupFlags_MouseButtonRight);
 
 				ShowComponentSettingPopup(component_name, component_type);
+
+				//Active Check Box
+				ImGui::Checkbox("", &is_active);
+				ImGui::SameLine();
 			}
 			ImGui::PopID();
 		}
 
 		//Component Icon 그리기
 		ICON_PROVIDER->CreateImage(icon_type, ImVec2(14.0f, 14.0f));
-
-		ImGui::SameLine(); //컴퍼넌트 헤더와 같은 라인
-
+		ImGui::SameLine();
+		//Component Name
 		if (component_type == ComponentType::Script)
 		{
 			std::string script_title = component_name + "(" + script_name + ")";
 			ImGui::Text(script_title.c_str()); //Script(Script 이름)
 		}
-
 		else
 			ImGui::Text(component_name.c_str()); //Component 이름
 	}
