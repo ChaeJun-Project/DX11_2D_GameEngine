@@ -23,7 +23,11 @@ public:
 
 private:
     void InitializeGUI();
-    void ImGuiNewFrame();
+
+	void SetKoreanFont();
+	void AddFont(const std::string& font_name, const float& size);
+    
+	void ImGuiNewFrame();
 	void BeginDockWindow();
 	void EndDockWindow();
 

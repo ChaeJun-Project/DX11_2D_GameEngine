@@ -31,7 +31,7 @@ GUI_Scene::~GUI_Scene()
 void GUI_Scene::Update()
 {
 	if (m_p_editor_camera == nullptr)
-		m_p_editor_camera = dynamic_cast<CameraEx*>(RenderManager::GetInstance()->GetEditorCamera());
+		m_p_editor_camera = dynamic_cast<CameraEx*>(RENDER_MANAGER->GetEditorCamera());
 }
 
 void GUI_Scene::Begin()
@@ -71,7 +71,7 @@ void GUI_Scene::ShowProjectionButton()
 
 			if (ImGui::Button("2D", ImVec2(50.0f, 0.0f)))
 			{
-				if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+				if (SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Stop)
 				{
 					//직교투영 -> 원근투영
 					if (m_p_editor_camera->GetProjectionType() == ProjectionType::Orthographic)
@@ -97,15 +97,13 @@ void GUI_Scene::ShowScene()
 	m_gizmo_offset.x = (ImGui::GetWindowPos().x + ImGui::GetCursorPos().x);
 	m_gizmo_offset.y = (ImGui::GetWindowPos().y + ImGui::GetCursorPos().y);
 
-	auto render_manager = RenderManager::GetInstance();
-
 	auto viewport_position = ImGui::GetCurrentWindow()->ViewportPos;
 
 	//Scene 윈도우창을 그릴 위치를 받아옴
 	auto window_position_x = (ImGui::GetWindowPos().x - viewport_position.x);
 	auto window_position_y = (ImGui::GetWindowPos().y - viewport_position.y + ImGui::GetWindowContentRegionMin().y);
 
-	render_manager->SetScreenOffset(window_position_x, window_position_y);
+	RENDER_MANAGER->SetScreenOffset(window_position_x, window_position_y);
 
 	//Scene 윈도우창의 크기를 받아옴
 	auto scene_window_width = static_cast<UINT>(ImGui::GetWindowContentRegionMax().x - ImGui::GetWindowContentRegionMin().x);
@@ -116,9 +114,9 @@ void GUI_Scene::ShowScene()
 	scene_window_height -= scene_window_height % 2 != 0 ? 1 : 0;
 
 	//현재 윈도우 사이즈가 변경된 경우
-	render_manager->SetResolution(scene_window_width, scene_window_height); //RTV, SRV, DSV 재생성
+	RENDER_MANAGER->SetResolution(scene_window_width, scene_window_height); //RTV, SRV, DSV 재생성
 
-	auto render_texture = render_manager->GetRenderTexture();
+	auto render_texture = RENDER_MANAGER->GetRenderTexture();
 
 	ImGui::Image
 	(
@@ -128,10 +126,10 @@ void GUI_Scene::ShowScene()
 		ImVec2(1.0f, 1.0f)
 	);
 
-	//드랍 된 경우
+	//Make Prefab -> GameObject
 	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Prefab))
 	{
-
+		FileFunction::CreatePrefabGameObject(std::get<std::string>(pay_load->data));
 	}
 }
 
@@ -143,14 +141,13 @@ void GUI_Scene::ShowGizmo()
 	if (SceneManager::GetInstance()->GetEditorState() != EditorState::EditorState_Stop)
 		return;
 
-	auto render_manager = RenderManager::GetInstance();
-	auto p_editor_camera = render_manager->GetEditorCamera();
+	auto p_editor_camera = RENDER_MANAGER->GetEditorCamera();
 
 	//Editor Camera가 없고 선택된 GameObject가 nullptr인 경우
-	if (p_editor_camera == nullptr || EditorHelper::GetInstance()->GetSelectedGameObject() == nullptr)
+	if (p_editor_camera == nullptr || EDITOR_HELPER->GetSelectedGameObject() == nullptr)
 		return;
 
-	auto p_game_object = EditorHelper::GetInstance()->GetSelectedGameObject();
+	auto p_game_object = EDITOR_HELPER->GetSelectedGameObject();
 
 	auto transform = p_game_object->GetComponent<Transform>();
 
@@ -177,7 +174,7 @@ void GUI_Scene::ShowGizmo()
 	else
 		mode = ImGuizmo::WORLD;
 
-	auto size = render_manager->GetResolution();
+	auto size = RENDER_MANAGER->GetResolution();
 	auto view = p_editor_camera->GetViewMatrix();
 	auto proj = p_editor_camera->GetProjectionMatrix();
 	auto world = transform->GetOriginWorldMatrix();

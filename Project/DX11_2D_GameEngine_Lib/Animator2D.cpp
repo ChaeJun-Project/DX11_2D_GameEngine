@@ -12,29 +12,39 @@ Animator2D::Animator2D()
 Animator2D::Animator2D(const Animator2D& origin)
 	: IComponent(origin.m_component_type)
 {
-	//동일한 애니메이션의 정보를 바탕으로 새로 애니메이션 생성 및 추가
-	for (auto& animation_iter : origin.m_p_sprite_animation_map)
-	{
-		/*auto animation = animation_iter.second;
+	m_is_active = origin.m_is_active;
 
-		auto copy_animation = std::make_shared<Animation2D>(*animation.get());
-		auto copy_animation_iter = m_p_sprite_animation_map.insert(std::make_pair(copy_animation->m_resource_name, copy_animation));
+	//동일한 애니메이션의 정보를 바탕으로 복사 애니메이션 생성 및 추가
+	for (const auto& animation_iter : origin.m_p_sprite_animation_map)
+	{
+	    auto p_origin_sprite_animation = animation_iter.second;
+
+		auto p_clone_sprite_animation_raw = p_origin_sprite_animation->Clone();
+		auto p_clone_sprite_animation = std::shared_ptr<SpriteAnimation>(p_clone_sprite_animation_raw);
+		p_clone_sprite_animation->m_p_owner_animator2D = this;
+
+		auto copy_animation_iter = m_p_sprite_animation_map.insert(std::make_pair(p_clone_sprite_animation->m_object_name, p_clone_sprite_animation));
 		auto result = copy_animation_iter.second;
-		assert(result);*/
+		assert(result);
 	}
 
-	//m_p_current_animation = GetAnimation(origin.m_p_current_animation->m_resource_name);
+	//Current Animation
+	m_p_current_animation = m_p_sprite_animation_map[origin.m_p_current_animation->m_object_name];
+
+	//Animation Speed
+	m_animation_speed = origin.m_animation_speed;
 }
 
 Animator2D::~Animator2D()
 {
-	m_p_current_animation.reset();
-
 	for (auto& animation_iter : m_p_sprite_animation_map)
 	{
 		animation_iter.second.reset();
 	}
 	m_p_sprite_animation_map.clear();
+
+	//Current Animation
+	m_p_current_animation.reset();
 }
 
 void Animator2D::Initialize()
@@ -181,8 +191,6 @@ void Animator2D::SaveToScene(FILE* p_file)
 {
 	__super::SaveToScene(p_file); //IComponent
 
-	//Animator2D Index
-
 	//Animation2D Map
 	fprintf(p_file, "[Animation2D Map]\n");
 	//Count
@@ -199,6 +207,10 @@ void Animator2D::SaveToScene(FILE* p_file)
 		RESOURCE_MANAGER->SaveResource<SpriteAnimation>(animation2D.second, p_file);
 	}
 
+	//Current Animation
+	fprintf(p_file, "[Current Animation]\n");
+	fprintf(p_file, "%s\n", m_p_current_animation->m_object_name.c_str());
+
 	//Animation Speed
 	fprintf(p_file, "[Animation Speed]\n");
 	fprintf(p_file, "%f\n", m_animation_speed);
@@ -206,6 +218,8 @@ void Animator2D::SaveToScene(FILE* p_file)
 
 void Animator2D::LoadFromScene(FILE* p_file)
 {
+	__super::LoadFromScene(p_file); //IComponent
+
 	char char_buffer[256] = { 0 };
 
 	//Animation2D Map
@@ -230,6 +244,12 @@ void Animator2D::LoadFromScene(FILE* p_file)
 		m_p_sprite_animation_map.insert(std::make_pair(animation_key, p_animation2D));
 	}
 
+	//Current Animation
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	std::string current_animation_key = std::string(char_buffer);
+	m_p_current_animation = m_p_sprite_animation_map[current_animation_key];
+	
 	//Animation Speed
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	fscanf_s(p_file, "%f\n", &m_animation_speed);

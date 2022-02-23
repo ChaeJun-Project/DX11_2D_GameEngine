@@ -30,6 +30,8 @@ Camera::~Camera()
 Camera::Camera(const Camera& origin)
 	: IComponent(origin.m_component_type)
 {
+	m_is_active = origin.m_is_active;
+
 	m_camera_index = origin.m_camera_index;
 	m_projection_type = origin.m_projection_type;
 
@@ -155,7 +157,8 @@ void Camera::RenderForwardObjects()
 {
 	for (UINT i = 0; i < m_forward_object_vector.size(); ++i)
 	{
-		m_forward_object_vector[i]->Render();
+		if (m_forward_object_vector[i]->GetIsActive())
+			m_forward_object_vector[i]->Render();
 	}
 }
 
@@ -163,7 +166,8 @@ void Camera::RenderParticleObjects()
 {
 	for (UINT i = 0; i < m_particle_object_vector.size(); ++i)
 	{
-		m_particle_object_vector[i]->Render();
+		if (m_particle_object_vector[i]->GetIsActive())
+			m_particle_object_vector[i]->Render();
 	}
 }
 
@@ -173,7 +177,8 @@ void Camera::RenderPostEffectObjects()
 	{
 		//Post Effect가 적용된 텍스처를 누적으로 복사하는 부분
 		RENDER_MANAGER->CopyPostEffect();
-		m_post_effect_object_vector[i]->Render();
+		if (m_post_effect_object_vector[i]->GetIsActive())
+			m_post_effect_object_vector[i]->Render();
 	}
 }
 
@@ -302,6 +307,8 @@ void Camera::SaveToScene(FILE* p_file)
 
 void Camera::LoadFromScene(FILE* p_file)
 {
+	__super::LoadFromScene(p_file); //IComponent
+
 	char char_buffer[256] = { 0 };
 
 	//Camera Index

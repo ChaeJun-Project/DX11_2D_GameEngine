@@ -13,14 +13,14 @@ GUI_Script::GUI_Script(const std::string& script_gui_name)
 
 void GUI_Script::Render()
 {
-	auto script = m_select_game_object->GetScript(m_script_name);
+	auto script = m_p_selected_game_object->GetScript(m_script_name);
 	if (script == nullptr)
 		return;
 
 	auto is_active = script->GetIsActive();
 	if (BeginComponent(m_component_gui_name, ComponentType::Script, is_active, IconType::Component_Script, m_script_name))
 	{
-		auto script = m_select_game_object->GetScript(m_script_name);
+		auto script = m_p_selected_game_object->GetScript(m_script_name);
 		if (script == nullptr)
 			return;
 

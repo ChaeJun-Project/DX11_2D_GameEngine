@@ -26,14 +26,14 @@ GUI_Animator2D::~GUI_Animator2D()
 
 void GUI_Animator2D::Render()
 {
-	auto animator2D = m_select_game_object->GetComponent<Animator2D>();
+	auto animator2D = m_p_selected_game_object->GetComponent<Animator2D>();
 	if (animator2D == nullptr)
 		return;
 
 	auto is_active = animator2D->GetIsActive();
 	if (BeginComponent(m_component_gui_name, ComponentType::Animator2D, is_active, IconType::Component_Animator2D))
 	{
-		auto animator2D = m_select_game_object->GetComponent<Animator2D>();
+		auto animator2D = m_p_selected_game_object->GetComponent<Animator2D>();
 		if (animator2D == nullptr)
 			return;
 

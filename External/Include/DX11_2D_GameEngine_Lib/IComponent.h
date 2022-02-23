@@ -71,8 +71,19 @@ public:
 
 		//Component Type
 		fprintf(p_file, "%d\n", static_cast<UINT>(m_component_type));
+
+		//Active
+		fprintf(p_file, "[Active]\n");
+		fprintf(p_file, "%d\n", m_is_active);
 	}
-	virtual void LoadFromScene(FILE* p_file) override = 0;
+	virtual void LoadFromScene(FILE* p_file) override
+	{
+		char char_buffer[256] = {};
+
+		//Active 
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+		fscanf_s(p_file, "%d\n", &m_is_active);
+	}
 	
 public:
     virtual IComponent* Clone() = 0;

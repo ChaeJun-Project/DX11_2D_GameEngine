@@ -22,14 +22,16 @@ public:
 private:
 	void ShowGameObjectInfo();
 	void CreateScriptGUI(const std::string& script_name);
-	void ShowComboTags();
-	void ShowComboLayers();
+	
+	void ShowComboTags(GameObject* p_game_object);
+	void ShowComboLayers(GameObject* p_game_object);
 	void ShowTagAndLayerList();
 
 	void ShowResourceInfo();
+	void ShowPrefabInfo();
 
-	void ShowAddComponent();
-	void ShowAddComponentPopup();
+	void ShowAddComponent(GameObject* p_game_object);
+	void ShowAddComponentPopup(GameObject* p_game_object);
 
 private:
 	void InitializeTag();

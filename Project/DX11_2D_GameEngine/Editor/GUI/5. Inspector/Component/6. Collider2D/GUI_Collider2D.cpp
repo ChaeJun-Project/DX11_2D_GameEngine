@@ -15,14 +15,14 @@ GUI_Collider2D::GUI_Collider2D(const std::string& collider2D_name)
 
 void GUI_Collider2D::Render()
 {
-	auto collider2D = m_select_game_object->GetComponent<Collider2D>();
+	auto collider2D = m_p_selected_game_object->GetComponent<Collider2D>();
 	if (collider2D == nullptr)
 		return;
 
 	auto is_active = collider2D->GetIsActive();
 	if (BeginComponent(m_component_gui_name, ComponentType::Collider2D, is_active, IconType::Component_Collider2D))
 	{
-		auto collider2D = m_select_game_object->GetComponent<Collider2D>();
+		auto collider2D = m_p_selected_game_object->GetComponent<Collider2D>();
 		if (collider2D == nullptr)
 			return;
 

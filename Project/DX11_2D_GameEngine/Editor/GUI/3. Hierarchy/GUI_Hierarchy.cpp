@@ -6,6 +6,9 @@
 
 #include <DX11_2D_GameEngine_Lib/EventManager.h>
 
+#include <DX11_2D_GameEngine_Lib/ResourceManager.h>
+#include <DX11_2D_GameEngine_Lib/Prefab.h>
+
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 #include <DX11_2D_GameEngine_Lib/Scene.h>
 
@@ -114,10 +117,9 @@ void GUI_Hierarchy::ShowHierarchy()
 	if (ImGui::CollapsingHeader(m_p_current_scene->GetSceneName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		//Make Prefab -> GameObject
-		//드랍 된 경우
 		if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Prefab))
 		{
-
+			FileFunction::CreatePrefabGameObject(std::get<std::string>(pay_load->data));
 		}
 
 		m_scene_hierarchy_tree->Update();
@@ -168,32 +170,32 @@ void GUI_Hierarchy::CheckEvnetKey()
 	}
 }
 
-void GUI_Hierarchy::DeleteGameObject(GameObject* game_object)
+void GUI_Hierarchy::DeleteGameObject(GameObject* p_game_object)
 {
 	EventStruct event_struct;
 	ZeroMemory(&event_struct, sizeof(EventStruct));
 
 	event_struct.event_type = EventType::Delete_Object;
-	event_struct.object_address_1 = game_object;
+	event_struct.object_address_1 = p_game_object;
 
 	EVENT_MANAGER->AddEvent(event_struct);
 }
 
 
-void GUI_Hierarchy::AddGameObject(GUI_TreeItem* p_tree_item, GameObject* game_object)
+void GUI_Hierarchy::AddGameObject(GUI_TreeItem* p_tree_item, GameObject* p_game_object)
 {
-	if (p_tree_item == nullptr || game_object == nullptr || game_object->IsDead())
+	if (p_tree_item == nullptr || p_game_object == nullptr || p_game_object->IsDead())
 		return;
 
-	std::string game_object_name = game_object->GetGameObjectName();
+	std::string game_object_name = p_game_object->GetGameObjectName();
 
 	PayLoad pay_load;
 	pay_load.type = PayLoadType::GameObject;
-	pay_load.data = (DWORD_PTR)game_object;
+	pay_load.data = (DWORD_PTR)p_game_object;
 
 	auto p_current_tree_item = m_scene_hierarchy_tree->AddItem(p_tree_item, game_object_name, pay_load, true);
 
-	const auto& childs_vector = game_object->GetChilds();
+	const auto& childs_vector = p_game_object->GetChilds();
 
 	for (const auto& child_game_object : childs_vector)
 		AddGameObject(p_current_tree_item, child_game_object);
@@ -217,9 +219,9 @@ void GUI_Hierarchy::ShowMenuPopup()
 	ImGui::EndPopup();
 }
 
-void GUI_Hierarchy::SelectedGameObject(GameObject* game_object)
+void GUI_Hierarchy::SelectedGameObject(GameObject* p_game_object)
 {
-	EDITOR_HELPER->SetSelectedGameObject(game_object);
+	EDITOR_HELPER->SetSelectedGameObject(p_game_object);
 }
 
 void GUI_Hierarchy::CreateGameObject()
@@ -252,5 +254,3 @@ void GUI_Hierarchy::CreateGameObject()
 		EVENT_MANAGER->AddEvent(event_struct);
 	}
 }
-
-

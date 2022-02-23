@@ -9,6 +9,7 @@ X_Script::X_Script()
 X_Script::X_Script(const X_Script& origin)
 	: Script(origin.m_script_name)
 {
+	m_is_active = origin.m_is_active;
 }
 
 X_Script::~X_Script()

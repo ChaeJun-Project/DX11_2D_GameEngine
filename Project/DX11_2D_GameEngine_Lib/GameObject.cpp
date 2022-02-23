@@ -41,6 +41,8 @@ REGISTER_COMPONENT_TYPE(AudioSource, ComponentType::AudioSource);
 
 GameObject::GameObject(const GameObject& origin)
 {
+	//GameObject Active Check
+	m_is_active = origin.m_is_active;
 	//GameObject name
 	m_object_name = origin.m_object_name;
 	//GameObject Tag
@@ -48,20 +50,26 @@ GameObject::GameObject(const GameObject& origin)
 	//GameObject Layer
 	m_game_object_layer = origin.m_game_object_layer;
 
-	m_dead_check = false;
-
-	//해당 오브젝트로 프리팹을 만든 횟수
-	m_prefab_count = origin.m_prefab_count;
-
-	for (auto& origin_component : origin.m_p_component_map)
+	//Component
+	for (const auto& origin_component : origin.m_p_component_map)
 	{
 		AddComponent(origin_component.second->Clone());
 	}
 
-	for (auto& child : origin.m_p_child_vector)
+	//Script
+	for (const auto& origin_script : origin.m_p_script_un_map)
+	{
+		AddComponent(origin_script.second->Clone());
+	}
+
+	//Child GameObject
+	for (const auto& child : origin.m_p_child_vector)
 	{
 		AddChild(child->Clone());
 	}
+
+	//해당 오브젝트로 프리팹을 만든 횟수
+	m_prefab_count = origin.m_prefab_count;
 }
 
 GameObject::~GameObject()
@@ -423,6 +431,10 @@ void GameObject::SaveToScene(FILE* p_file)
 	//GameObject Name
 	__super::SaveToScene(p_file); //DX11Obejct
 
+	//Active 
+	fprintf(p_file, "[Active]\n");
+	fprintf(p_file, "%d\n", m_is_active);
+
 	//Tag
 	fprintf(p_file, "[Tag]\n");
 	fprintf(p_file, "%s\n", m_game_object_tag.c_str());
@@ -439,6 +451,10 @@ void GameObject::LoadFromScene(FILE* p_file)
 
 	char char_buffer[256] = {};
 
+	//Active 
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	fscanf_s(p_file, "%d\n", &m_is_active);
+	
 	//Tag
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	FILE_MANAGER->FScanf(char_buffer, p_file);

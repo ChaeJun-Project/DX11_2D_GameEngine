@@ -33,6 +33,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Window::Create(hInstance, 1600, 900, g_class_name, IDI_ZERO, false);
 	Window::Show(nCmdShow);
 
+	ClientSceneManager::Initialize();
 	core->Initialize();
 
 	//Settings

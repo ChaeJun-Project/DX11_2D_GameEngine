@@ -67,6 +67,7 @@ public:
 	const std::string ToLowercase(const std::string& upper); //대문자 -> 소문자
 	const std::string ConvertWStringToString(const std::wstring& wstr); //유니코드 -> 멀티바이트
 	const std::wstring ConvertStringToWString(const std::string& str); //멀티바이트 -> 유니코드
+	const char* ConvertStringToUTF8(const std::string& str); //멀티바이트 -> UTF8
 	const char* ConvertStringToChar(const std::string& message); //String -> Char 변환
 	const std::string ConvertCharToString(const char* message); //Char -> String 변환
 

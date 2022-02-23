@@ -14,14 +14,14 @@ GUI_AudioSource::GUI_AudioSource(const std::string& audio_source_gui_name)
 
 void GUI_AudioSource::Render()
 {
-	auto audio_source = m_select_game_object->GetComponent<AudioSource>();
+	auto audio_source = m_p_selected_game_object->GetComponent<AudioSource>();
 	if (audio_source == nullptr)
 		return;
 
 	auto is_active = audio_source->GetIsActive();
 	if (BeginComponent(m_component_gui_name, ComponentType::AudioSource, is_active, IconType::Component_Audio_Source))
 	{
-		auto audio_source = m_select_game_object->GetComponent<AudioSource>();
+		auto audio_source = m_p_selected_game_object->GetComponent<AudioSource>();
 		if (audio_source == nullptr)
 			return;
 

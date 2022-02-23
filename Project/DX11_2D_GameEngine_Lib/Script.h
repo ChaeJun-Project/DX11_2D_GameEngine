@@ -22,7 +22,6 @@ class Script : public IComponent
 {
 public:
 	Script(const std::string& script_name);
-	explicit Script(const Script& origin);
 	virtual ~Script();
 
 	virtual void Initialize() override {}
@@ -51,14 +50,13 @@ public:
 
 public:
 	virtual void SaveToScene(FILE* p_file) override;
-	virtual void LoadFromScene(FILE* p_file) override {}
+	virtual void LoadFromScene(FILE* p_file) override;
 
 public:
 	virtual Script* Clone() = 0;
 
 protected:
 	const std::string m_script_name;
-
 	std::vector<ScriptParamStruct> m_script_param_vector;
 };
 

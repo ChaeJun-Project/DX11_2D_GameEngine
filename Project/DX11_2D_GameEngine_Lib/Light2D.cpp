@@ -19,6 +19,8 @@ Light2D::Light2D()
 Light2D::Light2D(const Light2D& origin)
 	: IComponent(origin.m_component_type)
 {
+	m_is_active = origin.m_is_active;
+
     m_light2D_index = origin.m_light2D_index;
 
 	m_light2D_data = origin.m_light2D_data;
@@ -70,6 +72,8 @@ void Light2D::SaveToScene(FILE* p_file)
 
 void Light2D::LoadFromScene(FILE* p_file)
 {
+	__super::LoadFromScene(p_file); //IComponent
+
 	char char_buffer[256] = { 0 };
 
 	FILE_MANAGER->FScanf(char_buffer, p_file);

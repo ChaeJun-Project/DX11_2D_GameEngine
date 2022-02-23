@@ -114,7 +114,6 @@ void GUI_TreeItem::CheckOpenTreeNode()
 		{
 			p_tree_item_queue.push(child);
 		}
-
 	}
 }
 

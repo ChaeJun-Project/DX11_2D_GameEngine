@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GUI_Project.h"
 
+#include "Scene/ClientSceneManager.h"
+
 #include "File/GUI_FileDialog.h"
 
 #include <DX11_2D_GameEngine_Lib/FileManager.h>
@@ -115,7 +117,7 @@ void GUI_Project::ShowUpdateButton()
 {
 	if (ImGui::Button("Update Directories", ImVec2(150.0f, 0.0f)))
 	{
-		if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+		if (SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Stop)
 			m_is_update = true;
 	}
 }
@@ -154,14 +156,14 @@ void GUI_Project::ShowFilesInDirectory()
 		m_p_file_dialog->Render(m_file_filter);
 	}
 	ImGui::EndChild();
-	//Make GameObject -> Prefab
+
 	//드랍 된 경우
+	//Make GameObject -> Prefab
 	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::GameObject))
 	{
-		
+		FileFunction::CreatePrefabResource(std::get<DWORD_PTR>(pay_load->data));
 	}
 	ImGui::EndGroup();
-
 }
 
 void GUI_Project::ChangeDirectory(const std::string& current_directory)

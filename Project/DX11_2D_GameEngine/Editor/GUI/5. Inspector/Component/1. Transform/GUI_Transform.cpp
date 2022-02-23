@@ -18,7 +18,7 @@ GUI_Transform::GUI_Transform(const std::string& transform_gui_name)
 
 void GUI_Transform::Render()
 {
-	auto transform = m_select_game_object->GetComponent<Transform>();
+	auto transform = m_p_selected_game_object->GetComponent<Transform>();
 	if (transform == nullptr)
 		return;
 

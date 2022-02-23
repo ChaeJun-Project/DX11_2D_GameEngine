@@ -73,7 +73,7 @@ void RenderManager::Render()
 	case 2:
 		RenderEditor();
 		//윈도우 창 전체를 그릴 Render Target 연결
-		GraphicsManager::GetInstance()->SetRenderTarget();
+		GRAPHICS_MANAGER->SetRenderTarget();
 		break;
 	}
 
@@ -94,12 +94,12 @@ void RenderManager::RenderPlay()
 	m_resolution_size.y = static_cast<float>(settings->GetWindowHeight());
 
 	//Graphics Clear Target
-	GraphicsManager::GetInstance()->SetRenderTarget();
+	GRAPHICS_MANAGER->SetRenderTarget();
 
 	//Render Time Manager
-	TimeManager::GetInstance()->Render();
+	TIME_MANAGER->Render();
 	//Render Input Manager
-	InputManager::GetInstance()->Render();
+	INPUT_MANAGER->Render();
 
 	//메인 카메라(index 0) 기준으로 화면 그리기
 	if (m_camera_vector[0] != nullptr)

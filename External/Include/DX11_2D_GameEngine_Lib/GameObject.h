@@ -109,9 +109,9 @@ public:
 	GameObject* Clone() { return new GameObject(*this); }
 
 protected:
-	//Object Active Check
+	//GameObject Active Check
 	bool m_is_active = true;
-	//Object Dead Check
+	//GameObject Dead Check
 	bool m_dead_check = false;
 	//GameObject Tag
 	std::string m_game_object_tag = "Default";
@@ -125,9 +125,9 @@ protected:
 	std::unordered_map<std::string, Script*> m_p_script_un_map;
 
 	//Hierarchy
-	//Parent Object
+	//Parent GameObject
 	GameObject* m_p_parent = nullptr;
-	//Child Object
+	//Child GameObject
 	std::vector<GameObject*> m_p_child_vector;
 
 	//해당 오브젝트로 프리팹을 만든 횟수

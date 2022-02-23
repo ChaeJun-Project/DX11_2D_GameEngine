@@ -28,6 +28,8 @@ TileMapRenderer::TileMapRenderer()
 TileMapRenderer::TileMapRenderer(const TileMapRenderer& origin)
 	: IComponent(origin.m_component_type)
 {
+	m_is_active = origin.m_is_active;
+
 	m_p_current_tile_atlas_texture = origin.m_p_current_tile_atlas_texture;
 	//Tile Atlas Texture¿« Tile Index
 	m_current_tile_atlas_texture_index = origin.m_current_tile_atlas_texture_index;
@@ -322,6 +324,8 @@ void TileMapRenderer::SaveToScene(FILE* p_file)
 
 void TileMapRenderer::LoadFromScene(FILE* p_file)
 {
+	__super::LoadFromScene(p_file); //IComponent
+
 	char char_buffer[256] = { 0 };
 
 	//TileMap

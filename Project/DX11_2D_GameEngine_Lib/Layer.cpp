@@ -66,15 +66,6 @@ void Layer::FinalUpdate()
 	}
 }
 
-void Layer::Render()
-{
-	for (const auto& p_game_object : m_p_game_object_vector)
-	{
-		if (p_game_object->m_is_active)
-			p_game_object->Render();
-	}
-}
-
 void Layer::AddGameObject(GameObject* p_game_object, bool is_move)
 {
 	if (p_game_object == nullptr)

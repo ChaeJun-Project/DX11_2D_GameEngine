@@ -6,6 +6,11 @@ WalkCannon_Bullet_Script::WalkCannon_Bullet_Script()
 {
 }
 
+WalkCannon_Bullet_Script::WalkCannon_Bullet_Script(const WalkCannon_Bullet_Script& origin)
+	: Script(origin.m_script_name)
+{
+}
+
 WalkCannon_Bullet_Script::~WalkCannon_Bullet_Script()
 {
 	m_p_animator = nullptr;

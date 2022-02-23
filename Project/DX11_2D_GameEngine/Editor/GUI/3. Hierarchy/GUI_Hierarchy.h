@@ -22,7 +22,7 @@ public:
 
 private:
     void UpdateTree();
-	void AddGameObject(GUI_TreeItem* p_tree_item, GameObject* game_object);
+	void AddGameObject(GUI_TreeItem* p_tree_item, GameObject* p_game_object);
 
 	void CheckClickRightButton();
 	void ShowHierarchy();
@@ -32,11 +32,11 @@ private:
     void DragDropGameObject(DWORD_PTR p_dropped_item, DWORD_PTR p_drag_start_item);
 
     void CheckEvnetKey();
-	void DeleteGameObject(GameObject* game_object);
+	void DeleteGameObject(GameObject* p_game_object);
 	
 private:
 	void ShowMenuPopup();
-	void SelectedGameObject(GameObject* game_object);
+	void SelectedGameObject(GameObject* p_game_object);
 	void CreateGameObject();
 
 private:

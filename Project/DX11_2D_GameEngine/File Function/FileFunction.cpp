@@ -11,6 +11,8 @@
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 #include <DX11_2D_GameEngine_Lib/Scene.h>
 
+#include <DX11_2D_GameEngine_Lib/EventManager.h>
+
 #include <DX11_2D_GameEngine_Lib/TileMap.h>
 #include <DX11_2D_GameEngine_Lib/SpriteAnimation.h>
 
@@ -27,7 +29,7 @@ void FileFunction::SaveFile(const std::string& save_resource_folder_path, const 
 	SetCurrentDirectory(file_folder_path.c_str()); //해당 경로를 현재 작업 중인 디렉토리로 설정
 
 	std::wstring file_name_wstr = FILE_MANAGER->ConvertStringToWString(file_name);
-	
+
 	switch (file_type)
 	{
 	case FileType::Scene:
@@ -85,13 +87,13 @@ void FileFunction::SaveFile(const std::string& save_resource_folder_path, const 
 
 void FileFunction::SaveScene(const std::string& scene_path)
 {
+	auto scene_name = FILE_MANAGER->GetOriginFileNameFromPath(scene_path);
 	auto p_save_scene = ClientSceneManager::SaveScene(scene_path);
 
 	if (p_save_scene != nullptr)
-	{
-		auto scene_name = p_save_scene->GetSceneName();
-		EDITOR_LOG_INFO_F("Succeeded in Saving File: [%s]", scene_name.c_str());
-	}
+		EDITOR_LOG_INFO_F("Scene 파일 저장에 성공했습니다: [%s]", scene_name.c_str())
+	else
+		EDITOR_LOG_ERROR_F("Scene 파일 저장에 실패했습니다: [%s]", scene_name.c_str())
 }
 
 const std::string FileFunction::LoadFile(const std::string& load_resource_folder_path, const FileType& file_type)
@@ -145,19 +147,43 @@ const std::string FileFunction::LoadFile(const std::string& load_resource_folder
 
 void FileFunction::LoadScene(const std::string& scene_path)
 {
+	auto scene_name = FILE_MANAGER->GetOriginFileNameFromPath(scene_path);
 	auto next_scene = ClientSceneManager::LoadScene(scene_path);
 
 	if (next_scene != nullptr)
-	{
-		auto scene_name = next_scene->GetSceneName();
-		EDITOR_LOG_INFO_F("Succeeded in Loading File: [%s]", scene_name.c_str());
-	}
+		EDITOR_LOG_INFO_F("Scene 파일 로드에 성공했습니다: [%s]", scene_name.c_str())
+	else
+		EDITOR_LOG_ERROR_F("Scene 파일 로드에 실패했습니다: [%s]", scene_name.c_str())
 
+	//Change Scene
 	EventStruct event_struct;
 	ZeroMemory(&event_struct, sizeof(EventStruct));
 
 	event_struct.event_type = EventType::Scene_Change;
 	event_struct.object_address_1 = next_scene;
+
+	EVENT_MANAGER->AddEvent(event_struct);
+}
+
+#include <DX11_2D_GameEngine_Lib/Prefab.h>
+void FileFunction::CreatePrefabResource(DWORD_PTR p_game_object)
+{
+	GameObject* p_src_game_object = (GameObject*)(p_game_object);
+	auto p_prefab = RESOURCE_MANAGER->CreatePrefab(p_src_game_object);
+	RESOURCE_MANAGER->SaveToFile<Prefab>(p_prefab, p_prefab->GetResourcePath());
+}
+
+void FileFunction::CreatePrefabGameObject(const std::string& prefab_resource_path)
+{
+	auto prefab_name = FILE_MANAGER->GetOriginFileNameFromPath(prefab_resource_path);
+	auto p_prefab = RESOURCE_MANAGER->GetResource<Prefab>(prefab_name);
+
+	//Create Prefab GameObject
+	EventStruct event_struct;
+	ZeroMemory(&event_struct, sizeof(EventStruct));
+
+	event_struct.event_type = EventType::Create_Object;
+	event_struct.object_address_1 = p_prefab->Instantiate(); //Prefab의 GameObject 정보를 복사하여 새로운 GameObject 메모리 할당
 
 	EVENT_MANAGER->AddEvent(event_struct);
 }

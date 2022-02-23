@@ -62,8 +62,8 @@ public:
 	CLONE(Animator2D);
 
 private:
-	std::shared_ptr<SpriteAnimation> m_p_current_animation = nullptr;
 	std::map<std::string, std::shared_ptr<SpriteAnimation>> m_p_sprite_animation_map;
+	std::shared_ptr<SpriteAnimation> m_p_current_animation = nullptr;
 
 	bool m_is_playing = false;
 	bool m_is_play_reverse = false;

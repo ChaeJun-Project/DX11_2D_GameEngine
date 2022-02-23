@@ -13,8 +13,7 @@ public:
 	void Start();
 	void Update();
 	void FinalUpdate();
-	void Render();
-
+	
 public:
     void AddGameObject(GameObject* p_game_object, bool is_move);
 

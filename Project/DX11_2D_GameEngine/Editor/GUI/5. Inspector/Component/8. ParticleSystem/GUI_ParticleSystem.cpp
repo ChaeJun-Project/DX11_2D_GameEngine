@@ -15,14 +15,14 @@ GUI_ParticleSystem::GUI_ParticleSystem(const std::string& particle_system_gui_na
 
 void GUI_ParticleSystem::Render()
 {
-	auto particle_system = m_select_game_object->GetComponent<ParticleSystem>();
+	auto particle_system = m_p_selected_game_object->GetComponent<ParticleSystem>();
 	if (particle_system == nullptr)
 		return;
 
 	auto is_active = particle_system->GetIsActive();
 	if (BeginComponent(m_component_gui_name, ComponentType::ParticleSystem, is_active ,IconType::Component_ParticleSystem))
 	{
-		auto particle_system = m_select_game_object->GetComponent<ParticleSystem>();
+		auto particle_system = m_p_selected_game_object->GetComponent<ParticleSystem>();
 		if (particle_system == nullptr)
 			return;
 

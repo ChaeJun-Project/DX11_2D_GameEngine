@@ -5,7 +5,7 @@ class AudioListener final : public IComponent
 {
 public:
 	AudioListener();
-	explicit AudioListener(const AudioListener& origin) = default;
+	explicit AudioListener(const AudioListener& origin);
 	~AudioListener() = default;
 
 public:
@@ -14,7 +14,7 @@ public:
 
 public:
 	void SaveToScene(FILE* p_file) override;
-	void LoadFromScene(FILE* p_file) override {};
+	void LoadFromScene(FILE* p_file) override;
 
 public:
 	CLONE(AudioListener);

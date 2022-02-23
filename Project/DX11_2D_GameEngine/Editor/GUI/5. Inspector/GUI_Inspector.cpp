@@ -24,6 +24,9 @@
 #include "Component/12. AudioSource/GUI_AudioSource.h"
 #include "Component/13. Script/GUI_Script.h"
 
+//Resource
+#include <DX11_2D_GameEngine_Lib/Prefab.h>
+
 //GameObject
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
 
@@ -124,26 +127,26 @@ void GUI_Inspector::Initialize()
 
 void GUI_Inspector::Render()
 {
-	m_p_selected_game_object = EditorHelper::GetInstance()->GetSelectedGameObject();
+	if (m_is_show_tag_and_layer_list)
+		ShowTagAndLayerList();
+
+	m_p_selected_game_object = EDITOR_HELPER->GetSelectedGameObject();
 
 	if (m_p_selected_game_object != nullptr)
 	{
-		if (m_is_show_tag_and_layer_list)
-			ShowTagAndLayerList();
-
-		else
-		{
+		if (!m_is_show_tag_and_layer_list)
 			ShowGameObjectInfo();
-			ShowAddComponent();
-		}
 	}
 
 	else
 	{
-		m_p_select_resource = EditorHelper::GetInstance()->GetSelectedResource();
+		m_p_select_resource = EDITOR_HELPER->GetSelectedResource();
 
 		if (m_p_select_resource != nullptr)
-			ShowResourceInfo();
+		{
+			if (!m_is_show_tag_and_layer_list)
+				ShowResourceInfo();
+		}
 	}
 }
 
@@ -154,8 +157,8 @@ void GUI_Inspector::ShowGameObjectInfo()
 		return;
 
 	//GameObject Name, Tag, Layer GUI
-	//Object Icon 
-	IconProvider::GetInstance()->CreateImage(IconType::Inspector_GameObject, ImVec2(32.0f, 32.0f));
+	//GameObject Icon 
+	ICON_PROVIDER->CreateImage(IconType::Inspector_GameObject, ImVec2(32.0f, 32.0f));
 	ImGui::SameLine();
 
 	std::string game_object_name = m_p_selected_game_object->GetGameObjectName();
@@ -180,15 +183,15 @@ void GUI_Inspector::ShowGameObjectInfo()
 	ImGui::PopItemWidth();
 
 	//Tag
-	ShowComboTags();
+	ShowComboTags(m_p_selected_game_object);
 	ImGui::SameLine();
 
 	//Layer
-	ShowComboLayers();
+	ShowComboLayers(m_p_selected_game_object);
 	ImGui::SameLine();
 
 	//Plus Button
-	if (IconProvider::GetInstance()->CreateImageButton(IconType::Component_Plus, ImVec2(13.0f, 13.0f)))
+	if (ICON_PROVIDER->CreateImageButton(IconType::Component_Plus, ImVec2(13.0f, 13.0f)))
 	{
 		m_is_show_tag_and_layer_list = true;
 	}
@@ -220,6 +223,9 @@ void GUI_Inspector::ShowGameObjectInfo()
 
 		m_script_gui_map[script_name]->Render();
 	}
+
+	//Show Add Component
+	ShowAddComponent(m_p_selected_game_object);
 }
 
 void GUI_Inspector::CreateScriptGUI(const std::string& script_name)
@@ -227,7 +233,7 @@ void GUI_Inspector::CreateScriptGUI(const std::string& script_name)
 	m_script_gui_map.insert(std::make_pair(script_name, std::make_unique<GUI_Script>("Script")));
 }
 
-void GUI_Inspector::ShowComboTags()
+void GUI_Inspector::ShowComboTags(GameObject* p_game_object)
 {
 	ImGui::BeginGroup();
 	ImGui::Text("Tag");
@@ -238,7 +244,7 @@ void GUI_Inspector::ShowComboTags()
 	{
 		int index = 0;
 
-		auto current_tag_name = m_p_selected_game_object->GetGameObjectTag();
+		auto current_tag_name = p_game_object->GetGameObjectTag();
 
 		for (auto& tag : m_tag_deque)
 		{
@@ -260,7 +266,7 @@ void GUI_Inspector::ShowComboTags()
 				const bool is_selected = (m_p_tag_list->GetCurrentListID() == i);
 				if (ImGui::Selectable(tag_list_vector[i].c_str(), is_selected))
 				{
-					m_p_selected_game_object->SetGameObjectTag(tag_list_vector[i]);
+					p_game_object->SetGameObjectTag(tag_list_vector[i]);
 				}
 
 				if (is_selected)
@@ -274,7 +280,7 @@ void GUI_Inspector::ShowComboTags()
 	ImGui::EndGroup();
 }
 
-void GUI_Inspector::ShowComboLayers()
+void GUI_Inspector::ShowComboLayers(GameObject* p_game_object)
 {
 	ImGui::BeginGroup();
 	ImGui::Text("Layer");
@@ -285,7 +291,7 @@ void GUI_Inspector::ShowComboLayers()
 	{
 		int index = 0;
 
-		auto current_layer = m_p_selected_game_object->GetGameObjectLayer();
+		auto current_layer = p_game_object->GetGameObjectLayer();
 
 		for (auto& layer : m_layer_map)
 		{
@@ -308,7 +314,7 @@ void GUI_Inspector::ShowComboLayers()
 				const bool is_selected = (m_p_layer_list->GetCurrentListID() == i);
 				if (ImGui::Selectable(layer_list_vector[i].c_str(), is_selected))
 				{
-					m_p_selected_game_object->SetGameObjectLayer(i);
+					p_game_object->SetGameObjectLayer(i);
 				}
 
 				if (is_selected)
@@ -325,7 +331,7 @@ void GUI_Inspector::ShowComboLayers()
 void GUI_Inspector::ShowTagAndLayerList()
 {
 	//Back Button
-	if (IconProvider::GetInstance()->CreateImageButton(IconType::Component_Back, ImVec2(24.0f, 24.0f)))
+	if (ICON_PROVIDER->CreateImageButton(IconType::Component_Back, ImVec2(24.0f, 24.0f)))
 	{
 		m_is_show_tag_and_layer_list = false;
 	}
@@ -382,32 +388,124 @@ void GUI_Inspector::ShowTagAndLayerList()
 
 void GUI_Inspector::ShowResourceInfo()
 {
+	switch (m_p_select_resource->GetResourceType())
+	{
+	case ResourceType::Mesh:
+		break;
+	case ResourceType::Material:
+		break;
+	case ResourceType::Texture:
+		break;
+	case ResourceType::AudioClip:
+		break;
+	case ResourceType::Prefab:
+		ShowPrefabInfo();
+		break;
+	}
 }
 
-void GUI_Inspector::ShowAddComponent()
+void GUI_Inspector::ShowPrefabInfo()
+{
+	//다운 캐스팅 IResource* -> Prefab*
+	auto p_prefab = dynamic_cast<Prefab*>(m_p_select_resource);
+	auto p_game_object = p_prefab->GetGameObject();
+
+	//Prefab GameObject Name, Tag, Layer GUI
+	//Prefab GameObject Icon 
+	ICON_PROVIDER->CreateImage(IconType::Inspector_Prefab_GameObject, ImVec2(32.0f, 32.0f));
+	ImGui::SameLine();
+
+	std::string game_object_name = p_game_object->GetGameObjectName();
+
+	ImGui::BeginGroup();
+	//Render Check
+	std::string label_str = "##" + p_game_object->GetGameObjectName() + "_is_active";
+	bool is_active = p_game_object->GetIsActive();
+	if (ImGui::Checkbox(label_str.c_str(), &is_active))
+	{
+		p_game_object->SetIsActive(is_active);
+	}
+	ImGui::SameLine();
+
+	//Name
+	label_str = "##" + p_game_object->GetGameObjectName();
+	ImGui::PushItemWidth(GAME_OBJECT_NAME_WIDTH);
+	if (ImGui::InputText(label_str.c_str(), &game_object_name, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
+	{
+		p_game_object->SetGameObjectName(game_object_name); //Game Object의 이름을 수정한 경우에만 수행
+	}
+	ImGui::PopItemWidth();
+
+	//Tag
+	ShowComboTags(p_game_object);
+	ImGui::SameLine();
+
+	//Layer
+	ShowComboLayers(p_game_object);
+	ImGui::SameLine();
+
+	//Plus Button
+	if (ICON_PROVIDER->CreateImageButton(IconType::Component_Plus, ImVec2(13.0f, 13.0f)))
+	{
+		m_is_show_tag_and_layer_list = true;
+	}
+
+	ImGui::EndGroup();
+
+	//Component GUI
+	for (UINT i = static_cast<UINT>(ComponentType::Transform); i < static_cast<UINT>(ComponentType::END); ++i)
+	{
+		if (!p_game_object->GetComponent(static_cast<ComponentType>(i)))
+		{
+			continue;
+		}
+
+		m_component_gui_map[static_cast<ComponentType>(i)]->SetGameObject(p_game_object);
+
+		m_component_gui_map[static_cast<ComponentType>(i)]->Render();
+	}
+
+	//Script GUI
+	const auto script_unmap = p_game_object->GetScriptUnMap();
+	for (const auto& script : script_unmap)
+	{
+		const auto script_name = script.first;
+		CreateScriptGUI(script_name);
+
+		m_script_gui_map[script_name]->SetGameObject(p_game_object);
+		m_script_gui_map[script_name]->SetScriptName(script_name);
+
+		m_script_gui_map[script_name]->Render();
+	}
+
+	//Show Add Component
+	ShowAddComponent(p_game_object);
+}
+
+void GUI_Inspector::ShowAddComponent(GameObject* p_game_object)
 {
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.0f);
 	ImGui::SetCursorPosX(ImGui::GetWindowContentRegionWidth() * 0.5f - ADD_COMPONENT_BUTTON_WIDTH * 0.5f);
 	if (ImGui::Button("Add Component", ImVec2(ADD_COMPONENT_BUTTON_WIDTH, 0.0f)))
 		ImGui::OpenPopup("##ComponentPopup");
 
-	ShowAddComponentPopup();
+	ShowAddComponentPopup(p_game_object);
 }
 
-void GUI_Inspector::ShowAddComponentPopup()
+void GUI_Inspector::ShowAddComponentPopup(GameObject* p_game_object)
 {
 	if (ImGui::BeginPopup("##ComponentPopup"))
 	{
 		//Camera
 		if (ImGui::MenuItem("Camera"))
 		{
-			m_p_selected_game_object->AddComponent(ComponentType::Camera);
+			p_game_object->AddComponent(ComponentType::Camera);
 		}
 
 		//Sprite Renderer
 		if (ImGui::MenuItem("Sprite Renderer"))
 		{
-			m_p_selected_game_object->AddComponent(ComponentType::SpriteRenderer);
+			p_game_object->AddComponent(ComponentType::SpriteRenderer);
 		}
 
 		//Animator
@@ -416,7 +514,7 @@ void GUI_Inspector::ShowAddComponentPopup()
 			//Animator2D
 			if (ImGui::MenuItem("Animator2D"))
 			{
-				m_p_selected_game_object->AddComponent(ComponentType::Animator2D);
+				p_game_object->AddComponent(ComponentType::Animator2D);
 			}
 
 			ImGui::EndMenu();
@@ -428,7 +526,7 @@ void GUI_Inspector::ShowAddComponentPopup()
 			//Collider2D
 			if (ImGui::MenuItem("Collider2D"))
 			{
-				m_p_selected_game_object->AddComponent(ComponentType::Collider2D);
+				p_game_object->AddComponent(ComponentType::Collider2D);
 			}
 
 			ImGui::EndMenu();
@@ -440,7 +538,7 @@ void GUI_Inspector::ShowAddComponentPopup()
 			//Light2D
 			if (ImGui::MenuItem("Light2D"))
 			{
-				m_p_selected_game_object->AddComponent(ComponentType::Light2D);
+				p_game_object->AddComponent(ComponentType::Light2D);
 			}
 
 			ImGui::EndMenu();
@@ -449,7 +547,7 @@ void GUI_Inspector::ShowAddComponentPopup()
 		//ParticleSystem
 		if (ImGui::MenuItem("ParticleSystem"))
 		{
-			m_p_selected_game_object->AddComponent(ComponentType::ParticleSystem);
+			p_game_object->AddComponent(ComponentType::ParticleSystem);
 		}
 
 		//RigidBody
@@ -458,7 +556,7 @@ void GUI_Inspector::ShowAddComponentPopup()
 			//RigidBody2D
 			if (ImGui::MenuItem("RigidBody2D"))
 			{
-				
+
 			}
 
 			ImGui::EndMenu();
@@ -467,7 +565,7 @@ void GUI_Inspector::ShowAddComponentPopup()
 		//TileMapRenderer
 		if (ImGui::MenuItem("TileMapRenderer"))
 		{
-			m_p_selected_game_object->AddComponent(ComponentType::TileMapRenderer);
+			p_game_object->AddComponent(ComponentType::TileMapRenderer);
 		}
 
 		//Audio
@@ -476,13 +574,13 @@ void GUI_Inspector::ShowAddComponentPopup()
 			//Audio Listener
 			if (ImGui::MenuItem("Audio Listener"))
 			{
-				m_p_selected_game_object->AddComponent(ComponentType::AudioListener);
+				p_game_object->AddComponent(ComponentType::AudioListener);
 			}
 
 			//Audio Source
 			if (ImGui::MenuItem("Audio Source"))
 			{
-				m_p_selected_game_object->AddComponent(ComponentType::AudioSource);
+				p_game_object->AddComponent(ComponentType::AudioSource);
 			}
 
 			ImGui::EndMenu();
@@ -495,7 +593,7 @@ void GUI_Inspector::ShowAddComponentPopup()
 			{
 				if (ImGui::MenuItem(m_script_name_vector[i].c_str()))
 				{
-					m_p_selected_game_object->AddComponent(ScriptManager::GetScript(m_script_name_vector[i]));
+					p_game_object->AddComponent(ScriptManager::GetScript(m_script_name_vector[i]));
 				}
 			}
 

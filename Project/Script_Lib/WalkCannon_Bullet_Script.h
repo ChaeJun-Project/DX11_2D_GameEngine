@@ -7,6 +7,7 @@ class WalkCannon_Bullet_Script : public Script
 {
 public:
 	WalkCannon_Bullet_Script();
+	explicit WalkCannon_Bullet_Script(const WalkCannon_Bullet_Script& origin);
 	~WalkCannon_Bullet_Script();
 
 	void Start() override;

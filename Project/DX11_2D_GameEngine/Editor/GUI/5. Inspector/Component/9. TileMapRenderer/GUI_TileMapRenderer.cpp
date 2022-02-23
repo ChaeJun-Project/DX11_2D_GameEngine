@@ -38,9 +38,9 @@ void GUI_TileMapRenderer::Render()
 	//Tile Size
 	static Vector2 tile_size = Vector2::Zero;
 
-	if (m_p_current_game_object != nullptr && m_p_current_game_object != m_select_game_object)
+	if (m_p_current_game_object != nullptr && m_p_current_game_object != m_p_selected_game_object)
 	{
-		tile_map_renderer = m_select_game_object->GetComponent<TileMapRenderer>();
+		tile_map_renderer = m_p_selected_game_object->GetComponent<TileMapRenderer>();
 
 		//Tiling Count
 		auto tile_count = tile_map_renderer->GetTileCount();
@@ -51,7 +51,7 @@ void GUI_TileMapRenderer::Render()
 		tile_size = tile_map_renderer->GetTileSize();
 	}
 
-	m_p_current_game_object = m_select_game_object;
+	m_p_current_game_object = m_p_selected_game_object;
 
 	tile_map_renderer = m_p_current_game_object->GetComponent<TileMapRenderer>();
 	auto tile_map = tile_map_renderer->GetTileMap();

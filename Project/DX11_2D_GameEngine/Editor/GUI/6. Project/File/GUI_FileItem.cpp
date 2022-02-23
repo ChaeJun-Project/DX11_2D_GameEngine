@@ -1,9 +1,12 @@
 #include "stdafx.h"
 #include "GUI_FileItem.h"
 
+#include "Helper/EditorHelper.h"
 #include "Helper/IconProvider.h"
 
 #include "GUI_FileDialog.h"
+
+#include <DX11_2D_GameEngine_Lib/Prefab.h>
 
 GUI_FileItem::GUI_FileItem(const FileThumbnailType& file_thumbnail_type, const PayLoad& pay_load)
 	:m_file_thumbnail_type(file_thumbnail_type),
@@ -61,8 +64,9 @@ void GUI_FileItem::Render()
 		if (ImGui::InputText(label_str.c_str(), &file_name, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			//파일 이름 변경
-			FILE_MANAGER->RenameFile(m_folder_path, m_file_extension, m_file_name, file_name);
-			m_file_name = file_name;
+			//파일 이름 변경 시 저장된 리소스의 이름도 변경하는 작업이 필요
+			//FILE_MANAGER->RenameFile(m_folder_path, m_file_extension, m_file_name, file_name);
+			//m_file_name = file_name;
 		}
 		ImGui::PopItemWidth();
 
@@ -101,7 +105,11 @@ void GUI_FileItem::CheckClickedFileItem()
 			case PayLoadType::Mesh:
 				break;
 			case PayLoadType::Prefab:
-				break;
+			{
+				auto p_prefab = RESOURCE_MANAGER->GetResource<Prefab>(m_file_name);
+				EDITOR_HELPER->SetSelectedResource(p_prefab.get());
+			}
+			break;
 			case PayLoadType::Texture:
 				break;
 			}

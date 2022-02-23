@@ -25,14 +25,14 @@ GUI_Camera::~GUI_Camera()
 
 void GUI_Camera::Render()
 {
-	auto camera = m_select_game_object->GetComponent<Camera>();
+	auto camera = m_p_selected_game_object->GetComponent<Camera>();
 	if (camera == nullptr)
 		return;
 
 	auto is_active = camera->GetIsActive();
 	if (BeginComponent(m_component_gui_name, ComponentType::Camera, is_active, IconType::Component_Camera))
 	{
-		auto camera = m_select_game_object->GetComponent<Camera>();
+		auto camera = m_p_selected_game_object->GetComponent<Camera>();
 		if (camera == nullptr)
 			return;
 

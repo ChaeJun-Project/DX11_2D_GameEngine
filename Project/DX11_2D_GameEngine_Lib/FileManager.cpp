@@ -2,6 +2,7 @@
 #include "FileManager.h"
 #include <filesystem> //파일을 관리하기 위한 라이브러리 포함
 #include <shellapi.h>
+#include <codecvt>
 
 using namespace std::filesystem;
 
@@ -616,8 +617,7 @@ const std::string FileManager::ConvertWStringToString(const std::wstring& wstr)
 	//함수의 중간인자에 -1은 처음부터 끝까지 복사한다는 것을 의미
 	len = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
 
-	//문자열의 길이만큼 char형으로 동적할당
-	char* buf = new char[len];
+	char buf[1024] = {};
 
 	//유니코드에서 멀티바이트 코드로 변환한 문자열을 buf에 len값 만큼 복사
 	WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, buf, len, NULL, NULL);
@@ -625,19 +625,42 @@ const std::string FileManager::ConvertWStringToString(const std::wstring& wstr)
 	//복사한 문자열을 가지고 있는 buf의 데이터로 string객체 생성
 	std::string result(buf);
 
-	//필요가 없어진 버퍼 해제
-	delete[] buf;
-
 	//string 객체 반환
 	return result;
 }
 
 const std::wstring FileManager::ConvertStringToWString(const std::string& str)
 {
-	std::wstring result;
-	result.assign(str.begin(), str.end());
+	int len = 0;
+	//MultiByteToWideChar은 멀티바이트 코드를 유니코드로 바꿔줌
+	//동시에 문자열의 길이 값을 반환
+	//함수의 중간인자에 -1은 처음부터 끝까지 복사한다는 것을 의미
+	len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, NULL, 0);
+
+	wchar_t buf[1024] = {};
+
+	//멀티바이트 코드에서 유니코드로 변환한 문자열을 buf에 len값 만큼 복사
+	MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, buf, len);
+
+	//복사한 문자열을 가지고 있는 buf의 데이터로 string객체 생성
+	std::wstring result(buf);
 
 	return result;
+}
+
+const char* FileManager::ConvertStringToUTF8(const std::string& str)
+{
+	int len = 0;
+	//멀티바이트 -> 유니코드
+	auto wstring = ConvertStringToWString(str);
+
+	char buf[1024] = {};
+
+	//유니코드 -> UTF8
+	len = WideCharToMultiByte(CP_UTF8, 0, wstring.c_str(), -1, NULL, 0, NULL, NULL);
+	WideCharToMultiByte(CP_UTF8, 0, wstring.c_str(), -1, buf, len, NULL, NULL);
+
+	return buf;
 }
 
 const char* FileManager::ConvertStringToChar(const std::string& message)

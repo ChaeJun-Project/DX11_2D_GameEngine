@@ -16,8 +16,8 @@
 SpriteRenderer::SpriteRenderer()
 	:IComponent(ComponentType::SpriteRenderer)
 {
-	auto clone_material = RESOURCE_MANAGER->GetResource<Material>("Default_Material")->Clone();
-	m_p_material = std::shared_ptr<Material>(clone_material);
+	auto p_clone_material_raw = RESOURCE_MANAGER->GetResource<Material>("Default_Material")->Clone();
+	m_p_material = std::shared_ptr<Material>(p_clone_material_raw);
 
 	m_p_mesh = RESOURCE_MANAGER->GetResource<Mesh>("Rectangle_Mesh");
 }
@@ -25,25 +25,28 @@ SpriteRenderer::SpriteRenderer()
 SpriteRenderer::SpriteRenderer(const SpriteRenderer& origin)
 	:IComponent(origin.m_component_type)
 {
-    //Texture
+    m_is_active = origin.m_is_active;
+	
+	//Sprite Texture
 	m_p_sprite_texture = origin.m_p_sprite_texture;
-
 	//Texture Color
 	m_sprite_texture_color = origin.m_sprite_texture_color;
 
 	//Material
-	m_p_material = origin.m_p_material;
-	
+	auto p_clone_material_raw = origin.m_p_material->Clone();
+	m_p_material = std::shared_ptr<Material>(p_clone_material_raw);
 	//Mesh
 	m_p_mesh = origin.m_p_mesh;
 }
 
 SpriteRenderer::~SpriteRenderer()
 {
+	//Sprite Texture
 	m_p_sprite_texture.reset();
 
+	//Material
 	m_p_material.reset();
-
+	//Mesh
 	m_p_mesh.reset();
 }
 
@@ -132,6 +135,8 @@ void SpriteRenderer::SaveToScene(FILE* p_file)
 
 void SpriteRenderer::LoadFromScene(FILE* p_file)
 {
+	__super::LoadFromScene(p_file); //IComponent
+
 	char char_buffer[256] = { 0 };
 
 	//Texture

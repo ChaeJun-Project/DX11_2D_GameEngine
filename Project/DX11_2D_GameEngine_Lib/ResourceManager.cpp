@@ -80,6 +80,8 @@ void ResourceManager::Initialize()
 	CreateDefaultMaterial();
 	CreateDefaultMesh();
 	CreateDefaultTexture();
+
+	CreateAddedPrefab();
 }
 
 void ResourceManager::CreateResourceMap()
@@ -307,13 +309,13 @@ void ResourceManager::CreateDefaultTexture()
 	auto absolute_texture_path = TEXTURE_PATH;
 
 	//Noise Texture 1
-	CreateTexture(absolute_texture_path + "Noise/noise_01.png");
+	LoadFromFile<Texture>(absolute_texture_path + "Noise/noise_01.png");
 
 	//Noise Texture 2
-	CreateTexture(absolute_texture_path + "Noise/noise_02.png");
+	LoadFromFile<Texture>(absolute_texture_path + "Noise/noise_02.png");
 
 	//Noise Texture 3
-	CreateTexture(absolute_texture_path + "Noise/noise_03.jpg");
+	LoadFromFile<Texture>(absolute_texture_path + "Noise/noise_03.jpg");
 
 	//Noise Texture 1 »ç¿ë
 	auto noise_texture = GetResource<Texture>("noise_01");
@@ -363,29 +365,6 @@ const std::shared_ptr<Texture> ResourceManager::CreateFileItemThumbnailTexture(c
 	}
 
 	return p_thumbnail_texture;
-}
-
-const std::shared_ptr<Texture> ResourceManager::CreateTexture(const std::string& texture_path)
-{
-	auto& texture_map = m_resources_map[ResourceType::Texture];
-
-	std::string texture_name = FILE_MANAGER->GetOriginFileNameFromPath(texture_path);
-	auto file_name = FILE_MANAGER->GetFileNameFromPath(texture_path);
-
-	auto p_texture = std::make_shared<Texture>(texture_name);
-	p_texture->SetResourcePath(texture_path);
-
-	if (!p_texture->LoadFromFile(texture_path))
-	{
-		return nullptr;
-	}
-
-	auto texture_iter = texture_map.insert(std::make_pair(texture_name, p_texture));
-	auto result = texture_iter.second;
-	if (!result)
-		return std::dynamic_pointer_cast<Texture>(texture_map.find(texture_name)->second);
-
-	return std::dynamic_pointer_cast<Texture>(texture_iter.first->second);
 }
 
 const std::shared_ptr<Texture> ResourceManager::CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage)
@@ -446,22 +425,12 @@ const std::shared_ptr<Mesh> ResourceManager::CreateMesh(const std::string& mesh_
 	return std::dynamic_pointer_cast<Mesh>(mesh_iter.first->second);
 }
 
-const std::shared_ptr<AudioClip> ResourceManager::CreateAudioClip(const std::string& audio_clip_path)
+void ResourceManager::CreateAddedPrefab()
 {
-	auto& audio_clip_map = m_resources_map[ResourceType::AudioClip];
-
-	std::string audio_clip_name = FILE_MANAGER->GetOriginFileNameFromPath(audio_clip_path);
-
-	auto p_audio_clip = std::make_shared<AudioClip>(audio_clip_name);
-	p_audio_clip->SetResourcePath(audio_clip_path);
-	p_audio_clip->LoadFromFile(audio_clip_path);
-
-	auto audio_clip_iter = audio_clip_map.insert(std::make_pair(audio_clip_name, p_audio_clip));
-	auto result = audio_clip_iter.second;
-	if (!result)
-		return std::dynamic_pointer_cast<AudioClip>(audio_clip_map.find(audio_clip_name)->second);
-
-	return std::dynamic_pointer_cast<AudioClip>(audio_clip_iter.first->second);
+	auto prefab_path = FILE_MANAGER->GetAbsolutePrefabPath();
+	auto directory_path_vector = FILE_MANAGER->GetFilesInDirectory(prefab_path);
+	for (const auto& directory_path : directory_path_vector)
+		LoadFromFile<Prefab>(directory_path);
 }
 
 const std::shared_ptr<Prefab> ResourceManager::CreatePrefab(GameObject* p_game_object)
@@ -472,6 +441,10 @@ const std::shared_ptr<Prefab> ResourceManager::CreatePrefab(GameObject* p_game_o
 	auto& prefab_map = m_resources_map[ResourceType::Prefab];
 
 	auto p_prefab = std::make_shared<Prefab>(p_game_object);
+	std::string resource_path = FILE_MANAGER->GetAbsolutePrefabPath();
+	resource_path += (p_game_object->GetGameObjectName() + ".prefab");
+	resource_path = FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath_2(resource_path);
+	p_prefab->SetResourcePath(resource_path);
 
 	auto prefab_iter = prefab_map.insert(std::make_pair(p_game_object->GetGameObjectName(), p_prefab));
 	auto result = prefab_iter.second;

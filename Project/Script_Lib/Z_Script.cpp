@@ -15,6 +15,9 @@ Z_Script::Z_Script()
 Z_Script::Z_Script(const Z_Script& origin)
 	: Script(origin.m_script_name)
 {
+	m_is_active = origin.m_is_active;
+
+    m_speed = origin.m_speed;
 }
 
 Z_Script::~Z_Script()
@@ -118,6 +121,8 @@ void Z_Script::SaveToScene(FILE* p_file)
 
 void Z_Script::LoadFromScene(FILE* p_file)
 {
+	__super::SaveToScene(p_file); //Script
+
 	//Speed
 	fscanf(p_file, "%f\n", &m_speed);
 }

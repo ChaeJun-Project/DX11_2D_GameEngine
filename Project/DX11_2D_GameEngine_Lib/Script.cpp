@@ -12,11 +12,6 @@ Script::Script(const std::string& script_name)
 {
 }
 
-Script::Script(const Script& origin)
-	: IComponent(origin.m_component_type)
-{
-}
-
 Script::~Script()
 {
 	m_script_param_vector.clear();
@@ -72,4 +67,9 @@ void Script::SaveToScene(FILE* p_file)
 	//Script Name
 	fprintf(p_file, "[Name]\n");
 	fprintf(p_file, "%s\n", m_script_name.c_str());
+}
+
+void Script::LoadFromScene(FILE* p_file)
+{
+	__super::LoadFromScene(p_file); //IComponent
 }

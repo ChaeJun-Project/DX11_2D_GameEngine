@@ -10,7 +10,7 @@ Animator::Animator()
 Animator::Animator(const Animator& origin)
 	: IComponent(origin.m_component_type)
 {
-	
+	m_is_active = origin.m_is_active;
 }
 
 Animator::~Animator()

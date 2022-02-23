@@ -10,23 +10,29 @@ class EditorHelper final : public Singleton<EditorHelper>
 	SINGLETON(EditorHelper);
 
 	EditorHelper() = default;
-	~EditorHelper();
-
-public:
-	GameObject* GetSelectedGameObject() const { SAFE_GET_POINTER(m_selected_game_object); }
-	void SetSelectedGameObject(GameObject* selected_game_object)
+	~EditorHelper()
 	{
-		m_selected_game_object = selected_game_object;
+		m_p_selected_game_object = nullptr;
+		m_p_select_resource= nullptr;
 	}
 
-	IResource* GetSelectedResource() const { SAFE_GET_POINTER(m_p_select_resource); }
-	void SetSelectedResource(GameObject* selected_game_object)
+public:
+	GameObject* GetSelectedGameObject() const { SAFE_GET_POINTER(m_p_selected_game_object); }
+	void SetSelectedGameObject(GameObject* p_selected_game_object)
 	{
-		m_selected_game_object = selected_game_object;
+		m_p_select_resource = nullptr;
+		m_p_selected_game_object = p_selected_game_object;
+	}
+
+	IResource* GetSelectedResource() const { return m_p_select_resource; }
+	void SetSelectedResource(IResource* p_selected_resource)
+	{
+		m_p_selected_game_object = nullptr;
+		m_p_select_resource = p_selected_resource;
 	}
 
 private:
-	GameObject* m_selected_game_object = nullptr;
+	GameObject* m_p_selected_game_object = nullptr;
 	IResource* m_p_select_resource = nullptr;
 };
 

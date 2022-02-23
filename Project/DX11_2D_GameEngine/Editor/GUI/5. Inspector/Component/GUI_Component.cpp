@@ -17,12 +17,12 @@ const bool GUI_Component::BeginComponent(const std::string& component_name, cons
 		//해당 Component가 Script인 경우
 		if (component_type == ComponentType::Script)
 		{
-			std::string guid_str = std::to_string(m_select_game_object->GetObjectID()) + script_name;
+			std::string guid_str = std::to_string(m_p_selected_game_object->GetObjectID()) + script_name;
 			ImGui::PushID(guid_str.c_str());
 			{
 				ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 8.0f); //컴퍼넌트 헤더와 같은 라인
 
-				if (ICON_PROVIDER->CreateImageButton(IconType::Component_Settings, ImVec2(13.0f, 13.0f)))
+				if (ICON_PROVIDER->CreateImageButton(IconType::Component_Settings, ImVec2(15.0f, 15.0f)))
 					ImGui::OpenPopup(script_name.c_str(), ImGuiPopupFlags_MouseButtonRight);
 
 				ShowScriptSettingPopup(script_name);
@@ -37,13 +37,13 @@ const bool GUI_Component::BeginComponent(const std::string& component_name, cons
 		//그 외 모든 경우
 		else
 		{
-			std::string guid_str = std::to_string(m_select_game_object->GetObjectID()) + component_name;
+			std::string guid_str = std::to_string(m_p_selected_game_object->GetObjectID()) + component_name;
 			ImGui::PushID(guid_str.c_str());
 			if (component_type != ComponentType::Transform)
 			{
 				ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 8.0f); //컴퍼넌트 헤더와 같은 라인
 
-				if (ICON_PROVIDER->CreateImageButton(IconType::Component_Settings, ImVec2(13.0f, 13.0f)))
+				if (ICON_PROVIDER->CreateImageButton(IconType::Component_Settings, ImVec2(15.0f, 15.0f)))
 					ImGui::OpenPopup(component_name.c_str(), ImGuiPopupFlags_MouseButtonRight);
 
 				ShowComponentSettingPopup(component_name, component_type);
@@ -56,7 +56,7 @@ const bool GUI_Component::BeginComponent(const std::string& component_name, cons
 		}
 
 		//Component Icon 그리기
-		ICON_PROVIDER->CreateImage(icon_type, ImVec2(14.0f, 14.0f));
+		ICON_PROVIDER->CreateImage(icon_type, ImVec2(20.0f, 20.0f));
 		ImGui::SameLine();
 		//Component Name
 		if (component_type == ComponentType::Script)
@@ -78,7 +78,7 @@ void GUI_Component::ShowComponentSettingPopup(const std::string& component_popup
 		//Remove Component
 		if (ImGui::MenuItem("Remove Component"))
 		{
-			m_select_game_object->RemoveComponent(component_type);
+			m_p_selected_game_object->RemoveComponent(component_type);
 		}
 		ImGui::EndPopup();
 	}
@@ -91,7 +91,7 @@ void GUI_Component::ShowScriptSettingPopup(const std::string& script_name)
 		//Remove Script
 		if (ImGui::MenuItem("Remove Script"))
 		{
-			m_select_game_object->RemoveScript(script_name);
+			m_p_selected_game_object->RemoveScript(script_name);
 		}
 		ImGui::EndPopup();
 	}

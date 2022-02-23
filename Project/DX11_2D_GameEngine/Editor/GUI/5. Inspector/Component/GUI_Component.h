@@ -29,11 +29,11 @@ protected:
 public:
 	void SetGameObject(GameObject* select_game_object)
 	{
-		m_select_game_object = select_game_object;
+		m_p_selected_game_object = select_game_object;
 	}
 
 protected:
 	std::string m_component_gui_name;
 
-	GameObject* m_select_game_object = nullptr;
+	GameObject* m_p_selected_game_object = nullptr;
 };

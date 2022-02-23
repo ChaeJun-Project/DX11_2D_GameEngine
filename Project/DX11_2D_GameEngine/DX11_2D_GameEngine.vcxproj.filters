@@ -111,7 +111,6 @@
     <ClCompile Include="Editor\GUI\5. Inspector\Component\6. Collider2D\GUI_Collider2D.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\7. Light2D\GUI_Light2D.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\8. ParticleSystem\GUI_ParticleSystem.cpp" />
-    <ClCompile Include="Editor\Helper\EditorHelper.cpp" />
     <ClCompile Include="Imgui\imgui_stdlib.cpp" />
     <ClCompile Include="Editor\GUI\Module\ItemList\GUI_ItemList.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Style Selector\GUI_StyleSelector.cpp" />

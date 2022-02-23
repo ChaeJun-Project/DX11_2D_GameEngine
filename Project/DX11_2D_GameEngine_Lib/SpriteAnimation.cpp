@@ -18,17 +18,21 @@ SpriteAnimation::SpriteAnimation(const std::string& animation2D_resource_name)
 SpriteAnimation::SpriteAnimation(const SpriteAnimation& origin)
 	: IResource(origin.m_resource_type, origin.m_object_name)
 {
+    //Resource Path
 	m_resource_path = origin.m_resource_path;
 
+	//Animator2D
+	m_p_owner_animator2D = nullptr;
+
+	//Animation Frame
 	auto animation_frame_count = origin.m_animation_frame_vector.size();
-
 	m_animation_frame_vector.reserve(animation_frame_count);
-
 	for (const auto& animation_frame : origin.m_animation_frame_vector)
 	{
 		m_animation_frame_vector.emplace_back(animation_frame);
 	}
 
+	//Atlas Texture
 	m_p_atlas_texture = origin.m_p_atlas_texture;
 }
 
@@ -40,6 +44,8 @@ SpriteAnimation::~SpriteAnimation()
 	m_animation_frame_vector.shrink_to_fit();
 
 	m_p_atlas_texture.reset();
+
+	m_animation_event_func_map.clear();
 }
 
 void SpriteAnimation::Update()

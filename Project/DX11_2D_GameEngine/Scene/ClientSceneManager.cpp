@@ -4,6 +4,7 @@
 #include "Helper/EditorHelper.h"
 
 #include <DX11_2D_GameEngine_Lib/ResourceManager.h>
+#include <DX11_2D_GameEngine_Lib/Prefab.h>
 
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 #include <DX11_2D_GameEngine_Lib/Scene.h>
@@ -19,6 +20,22 @@
 
 //Script
 #include <Script_Lib/ScriptManager.h>
+
+void ClientSceneManager::Initialize()
+{
+	Prefab::p_save_game_object_func = std::bind
+	(
+	   &ClientSceneManager::SaveGameObject,
+		std::placeholders::_1,
+		std::placeholders::_2
+	);
+
+	Prefab::p_load_game_object_func = std::bind
+	(
+		&ClientSceneManager::LoadGameObject,
+		std::placeholders::_1
+	);
+}
 
 void ClientSceneManager::CreateNewScene()
 {
@@ -289,8 +306,4 @@ void ClientSceneManager::LoadScript(GameObject* p_game_object, FILE* p_file)
 		if (p_script != nullptr)
 			p_script->LoadFromScene(p_file);
 	}
-}
-
-void ClientSceneManager::CreatePrefab()
-{
 }

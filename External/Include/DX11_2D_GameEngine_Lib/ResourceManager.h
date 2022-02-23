@@ -69,7 +69,6 @@ public:
 	void CreateDefaultTexture();
 	const std::shared_ptr<Texture> CreateIconTexture(const std::string& icon_texture_path);
 	const std::shared_ptr<Texture> CreateFileItemThumbnailTexture(const std::string& file_path);
-	const std::shared_ptr<Texture> CreateTexture(const std::string& texture_path);
 	const std::shared_ptr<Texture> CreateTexture(const std::string& texture_name, const UINT& width, const UINT& height, const DXGI_FORMAT& texture_format, const UINT& bind_flage);
 	const std::shared_ptr<Texture> CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D);
 
@@ -77,10 +76,8 @@ public:
 	void CreateDefaultMesh();
 	const std::shared_ptr<Mesh> CreateMesh(const std::string& mesh_name, const MeshType& mesh_type);
 
-	//Audio
-	const std::shared_ptr<AudioClip> CreateAudioClip(const std::string& audio_clip_path);
-
 	//Prefab
+	void CreateAddedPrefab();
 	const std::shared_ptr<Prefab> CreatePrefab(GameObject* p_game_object);
 
 	//SpriteAnimation
@@ -165,16 +162,24 @@ void ResourceManager::SaveToFile(const std::shared_ptr<T>& p_resource, const std
 		return;
 #endif 
 
-	auto file_name = FILE_MANAGER->GetFileNameFromPath(resource_path);
+	//resource_path가 상대경로로 들어왔을 경우
+	auto absolute_resource_path = resource_path;
+	if (absolute_resource_path.find("Content") == std::string::npos)
+	{
+		auto absolute_content_path = ABSOLUTE_CONTENT_PATH;
+		absolute_resource_path = absolute_content_path + absolute_resource_path;
+	}
+
+	auto file_name = FILE_MANAGER->GetFileNameFromPath(absolute_resource_path);
 
 	//SaveToFile
-	if (!p_resource->SaveToFile(resource_path))
+	if (!p_resource->SaveToFile(absolute_resource_path))
 	{
-		EDITOR_LOG_ERROR_F("Failed To Save File: [%s]", file_name.c_str());
+		EDITOR_LOG_ERROR_F("리소스 파일 저장에 실패했습니다: [%s]", file_name.c_str());
 		return;
 	}
 
-	EDITOR_LOG_INFO_F("Succeeded in Saving File: [%s]", file_name.c_str());
+	EDITOR_LOG_INFO_F("리소스 파일 저장에 성공했습니다: [%s]", file_name.c_str());
 }
 
 template<typename T>
@@ -210,7 +215,7 @@ void ResourceManager::LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file)
 	}
 
 	else
-	{ 
+	{
 		p_resource = LoadFromFile<T>(resource_path);
 	}
 }
@@ -228,19 +233,17 @@ const std::shared_ptr<T> ResourceManager::LoadFromFile(const std::string& resour
 	auto& resource_map = m_resources_map[resource_type]; //Resource Type에 해당하는 Resource Map 반환
 	auto resource_name = FILE_MANAGER->GetOriginFileNameFromPath(resource_path);
 	auto file_name = FILE_MANAGER->GetFileNameFromPath(resource_path);
-	
+
 	//해당 리소스가 이미 존재한다면
 	auto resource_iter = resource_map.find(resource_name);
 	if (resource_iter != resource_map.end())
 		return std::dynamic_pointer_cast<T>(resource_iter->second);
 
-	//존재하지 않으면 새로운 리소스 생성
 	auto p_resource = std::make_shared<T>(resource_name);
-	
 
 	auto absolute_resource_path = resource_path;
 	//resource_path가 상대경로로 들어왔을 경우
-	if (absolute_resource_path.find("Content") == std::string::npos) 
+	if (absolute_resource_path.find("Content") == std::string::npos)
 	{
 		p_resource->SetResourcePath(resource_path);
 
@@ -255,11 +258,11 @@ const std::shared_ptr<T> ResourceManager::LoadFromFile(const std::string& resour
 	//LoadFromFile
 	if (!p_resource->LoadFromFile(absolute_resource_path))
 	{
-		EDITOR_LOG_ERROR_F("Failed To Load File: [%s]", file_name.c_str());
+		EDITOR_LOG_ERROR_F("리소스 파일 로드에 실패했습니다: [%s]", file_name.c_str());
 		return nullptr;
 	}
 
-	EDITOR_LOG_INFO_F("Succeeded in Loading File: [%s]", file_name.c_str());
+	EDITOR_LOG_INFO_F("리소스 파일 로드에 성공했습니다: [%s] ", file_name.c_str());
 
 	//해당 리소스 Map에 새로 생성한 리소스 추가
 	auto resource_pair_iter = resource_map.insert(std::make_pair(resource_name, p_resource));

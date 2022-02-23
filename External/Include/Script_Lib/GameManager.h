@@ -5,7 +5,8 @@ class GameManager final : public Script
 {
 public:
 	GameManager();
-	~GameManager();
+	explicit GameManager(const GameManager& origin);
+	virtual ~GameManager();
 
 	void Initialize() override;
 	void Start() override;
@@ -15,6 +16,8 @@ public:
 	CLONE(GameManager);
 
 private:
+	virtual void SaveToScene(FILE* p_file) override;
+	virtual void LoadFromScene(FILE* p_file) override;
 
 };
 

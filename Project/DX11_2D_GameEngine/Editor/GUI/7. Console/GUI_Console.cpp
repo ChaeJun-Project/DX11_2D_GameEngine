@@ -107,9 +107,7 @@ void GUI_Console::ShowLog()
 				(log.type == LogType::Warning && is_show_warning) ||
 				(log.type == LogType::Error && is_show_error))
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, m_log_color_vector[static_cast<UINT>(log.type)]);
-				ImGui::BulletText(log.text.c_str());
-				ImGui::PopStyleColor();
+				ImGui::TextColored(m_log_color_vector[static_cast<UINT>(log.type)], FILE_MANAGER->ConvertStringToUTF8(log.text));
 			}
 		}
 

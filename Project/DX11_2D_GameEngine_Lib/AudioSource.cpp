@@ -17,6 +17,8 @@ AudioSource::AudioSource()
 AudioSource::AudioSource(const AudioSource& origin)
 	: IComponent(origin.m_component_type)
 {
+	m_is_active = origin.m_is_active;
+
 	m_p_audio_clip = origin.m_p_audio_clip;
 	
 	m_is_loop = origin.m_is_loop;
@@ -162,6 +164,8 @@ void AudioSource::SaveToScene(FILE* p_file)
 
 void AudioSource::LoadFromScene(FILE* p_file)
 {
+	__super::LoadFromScene(p_file); //IComponent
+
 	char char_buffer[256] = { 0 };
 
 	//Audio

@@ -30,7 +30,7 @@ public:
 	void SetResourcePath(const std::string& resource_path) { m_resource_path = resource_path; }
 
 public:
-	virtual IResource* Clone() = 0;
+	virtual IResource* Clone() { return nullptr; }
 
 protected:
 	const ResourceType m_resource_type;

@@ -83,6 +83,9 @@ void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceCont
 
 	//Initialize GUI
 	InitializeGUI();
+
+	//Add Korean Font
+	SetKoreanFont();
 }
 
 void EditorManager::Update()
@@ -170,6 +173,20 @@ void EditorManager::InitializeGUI()
 			}
 		}
 	}
+}
+
+void EditorManager::SetKoreanFont()
+{
+	AddFont("malgunbd.ttf", 15.0f);
+}
+
+void EditorManager::AddFont(const std::string& font_name, const float& size)
+{
+	auto absolute_content_path = FILE_MANAGER->GetAbsoluteContentPath();
+	absolute_content_path += ("Font/" + font_name);
+	
+	ImGuiIO& io = ImGui::GetIO();
+	io.Fonts->AddFontFromFileTTF(absolute_content_path.c_str(), size, nullptr, io.Fonts->GetGlyphRangesKorean());
 }
 
 void EditorManager::ImGuiNewFrame()

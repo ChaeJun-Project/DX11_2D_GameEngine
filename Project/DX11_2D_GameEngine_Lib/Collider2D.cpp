@@ -13,10 +13,8 @@
 Collider2D::Collider2D()
 	:IComponent(ComponentType::Collider2D)
 {
-	auto resource_manager = ResourceManager::GetInstance();
-
-	m_p_mesh = resource_manager->GetResource<Mesh>("Rectangle_Mesh");
-	auto clone_material = resource_manager->GetResource<Material>("Collider2D_Material")->Clone();
+	m_p_mesh = RESOURCE_MANAGER->GetResource<Mesh>("Rectangle_Mesh");
+	auto clone_material = RESOURCE_MANAGER->GetResource<Material>("Collider2D_Material")->Clone();
 	m_p_material = std::shared_ptr<Material>(clone_material);
 
 	ChangeColliderBoxColorGreen();
@@ -25,6 +23,8 @@ Collider2D::Collider2D()
 Collider2D::Collider2D(const Collider2D& origin)
 	: IComponent(origin.m_component_type)
 {
+	m_is_active = origin.m_is_active;
+
 	m_offset_position = origin.m_offset_position;
 	m_offset_scale = origin.m_offset_scale; //유니티에서는 Size
 
@@ -63,7 +63,7 @@ void Collider2D::UpdateConstantBuffer()
 {
 	g_cbuffer_wvpmatrix.world = m_collider_world_matrix;
 
-	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);
+	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);
 	constant_buffer->SetConstantBufferData(&g_cbuffer_wvpmatrix, sizeof(CBuffer_WVPMatrix));
 	constant_buffer->SetBufferBindStage(PipelineStage::VS);
 	constant_buffer->BindPipeline();
@@ -153,6 +153,8 @@ void Collider2D::SaveToScene(FILE* p_file)
 
 void Collider2D::LoadFromScene(FILE* p_file)
 {
+	__super::LoadFromScene(p_file); //IComponent
+
 	char char_buffer[256] = { 0 };
 
 	//Offset Position
