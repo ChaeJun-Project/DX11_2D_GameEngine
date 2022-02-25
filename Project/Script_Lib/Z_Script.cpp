@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Z_Script.h"
 
+#include <DX11_2D_GameEngine_Lib/Texture.h>
+#include <DX11_2D_GameEngine_Lib/Prefab.h>
+
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/Transform.h>
 #include <DX11_2D_GameEngine_Lib/Animator2D.h>
@@ -8,8 +11,14 @@
 Z_Script::Z_Script()
 	:Script("Z_Script")
 {
-   
-   //AddScriptParamData()
+	AddScriptParamData(ScriptParamStruct("Speed", ScriptParamType::Float, reinterpret_cast<void*>(&m_speed)));
+	//Test
+	AddScriptParamData(ScriptParamStruct("Test1", ScriptParamType::Int, reinterpret_cast<void*>(&test1)));
+	AddScriptParamData(ScriptParamStruct("Test2", ScriptParamType::Vector2, reinterpret_cast<void*>(&test2)));
+	AddScriptParamData(ScriptParamStruct("Test3", ScriptParamType::Vector3, reinterpret_cast<void*>(&test3)));
+	AddScriptParamData(ScriptParamStruct("Test4", ScriptParamType::Vector4, reinterpret_cast<void*>(&test4)));
+	AddScriptParamData(ScriptParamStruct("Test5", ScriptParamType::Texture, reinterpret_cast<void*>(&p_texture)));
+	AddScriptParamData(ScriptParamStruct("Test6", ScriptParamType::Prefab, reinterpret_cast<void*>(&p_prefab)));
 }
 
 Z_Script::Z_Script(const Z_Script& origin)
@@ -17,12 +26,16 @@ Z_Script::Z_Script(const Z_Script& origin)
 {
 	m_is_active = origin.m_is_active;
 
-    m_speed = origin.m_speed;
+	m_speed = origin.m_speed;
+
 }
 
 Z_Script::~Z_Script()
 {
 	m_p_animator = nullptr;
+
+	p_texture = nullptr;
+	p_prefab = nullptr;
 }
 
 void Z_Script::Initialize()
@@ -39,10 +52,22 @@ void Z_Script::Start()
 
 void Z_Script::Update()
 {
+	if (m_p_animator == nullptr)
+		return;
+
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 	auto position = transform->GetLocalTranslation();
 
 	Vector3 move_speed = Vector3::Zero;
+
+	//Test
+	if (KEY_DOWN(KeyCode::KEY_K))
+	{
+		if (p_prefab != nullptr)
+		{
+			Instantiate(p_prefab, Vector3(0.0f, 0.0f, 0.0f), true);
+		}
+	}
 
 	//오른쪽 이동
 	if (KEY_PRESS(KeyCode::KEY_ARROW_RIGHT))
@@ -113,16 +138,14 @@ void Z_Script::OnCollisionExit(GameObject* other_game_object)
 
 void Z_Script::SaveToScene(FILE* p_file)
 {
-   __super::SaveToScene(p_file); //Script
+	__super::SaveToScene(p_file); //Script
 
-   //Speed
-   fprintf(p_file, "%f\n", m_speed);
+	//Speed
+	fprintf_s(p_file, "%f\n", m_speed);
 }
 
 void Z_Script::LoadFromScene(FILE* p_file)
 {
-	__super::SaveToScene(p_file); //Script
-
 	//Speed
-	fscanf(p_file, "%f\n", &m_speed);
+	fscanf_s(p_file, "%f\n", &m_speed);
 }

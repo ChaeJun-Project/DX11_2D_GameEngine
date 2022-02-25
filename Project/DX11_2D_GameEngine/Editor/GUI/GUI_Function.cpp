@@ -118,28 +118,89 @@ const bool CheckMousePositionInRect(const ImVec2& mouse_position, const ImVec2& 
 
 void DataInputInt(const std::string& data_name, int* p_data)
 {
+	ImGui::Text(data_name.c_str());
+	ImGui::SameLine();
+
+	auto label_str = data_name;
+	label_str = "##" + label_str;
+	ImGui::InputInt(label_str.c_str(), p_data);
 }
 
 void DataInputFloat(const std::string& data_name, float* p_data)
 {
+	ImGui::Text(data_name.c_str());
+	ImGui::SameLine();
+
+	auto label_str = data_name;
+	label_str = "##" + label_str;
+	ImGui::InputFloat(label_str.c_str(), p_data);
 }
 
 void DataInputVector2(const std::string& data_name, Vector2* p_data)
 {
+	ImGui::Text(data_name.c_str());
+	ImGui::SameLine();
+
+	auto label_str = data_name;
+	label_str = "##" + label_str;
+	ImGui::InputFloat2(label_str.c_str(), (float*)(p_data));
 }
 
 void DataInputVector3(const std::string& data_name, Vector3* p_data)
 {
+	ImGui::Text(data_name.c_str());
+	ImGui::SameLine();
+
+	auto label_str = data_name;
+	label_str = "##" + label_str;
+	ImGui::InputFloat3(label_str.c_str(), (float*)(p_data));
 }
 
 void DataInputVector4(const std::string& data_name, Vector4* p_data)
 {
+	ImGui::Text(data_name.c_str());
+	ImGui::SameLine();
+
+	auto label_str = data_name;
+	label_str = "##" + label_str;
+	ImGui::InputFloat4(label_str.c_str(), (float*)(p_data));
 }
 
-void DataInputTexture(const std::string& data_name, Texture* p_data)
+void DataInputResource(const std::string& data_name, const IResource* p_resource)
 {
+	ImGui::Text(data_name.c_str());
+	ImGui::SameLine();
+
+	auto label_str = data_name;
+	label_str = "##" + label_str;
+
+	std::string resource_name;
+	if (p_resource != nullptr)
+		resource_name = p_resource->GetResourceName();
+
+	ImGui::InputText(label_str.c_str(), &resource_name, ImGuiInputTextFlags_ReadOnly);
 }
 
-void DataInputGameObject(const std::string& data_name, GameObject* p_data)
+#include <DX11_2D_GameEngine_Lib/Texture.h>
+void DataInputTexture(const std::string& data_name, Texture** pp_texture)
 {
+	DataInputResource(data_name, *pp_texture);
+
+	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Texture))
+	{
+		auto p_texture = RESOURCE_MANAGER->LoadFromFile<Texture>(std::get<std::string>(pay_load->data));
+		(*pp_texture) = p_texture.get();
+	}
+}
+
+#include <DX11_2D_GameEngine_Lib/Prefab.h>
+void DataInputPrefab(const std::string& data_name, Prefab** pp_prefab)
+{
+	DataInputResource(data_name, *pp_prefab);
+
+	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Prefab))
+	{
+		auto p_prefab = RESOURCE_MANAGER->LoadFromFile<Prefab>(std::get<std::string>(pay_load->data));
+		(*pp_prefab) = p_prefab.get();
+	}
 }

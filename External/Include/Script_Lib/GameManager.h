@@ -12,12 +12,12 @@ public:
 	void Start() override;
 	void Update() override;
 
+private:
+	void SaveToScene(FILE* p_file) override;
+	void LoadFromScene(FILE* p_file) override;
+
 public:
 	CLONE(GameManager);
-
-private:
-	virtual void SaveToScene(FILE* p_file) override;
-	virtual void LoadFromScene(FILE* p_file) override;
 
 };
 

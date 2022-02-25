@@ -1,9 +1,10 @@
 #pragma once
 #include "IComponent.h"
 
+typedef std::variant<void*> ScriptParamData;
 struct ScriptParamStruct
 {
-	ScriptParamStruct(const std::string& param_name, const ScriptParamType& param_type, void* p_param_data)
+	ScriptParamStruct(const std::string& param_name, const ScriptParamType& param_type, ScriptParamData p_param_data)
 		: m_param_name(param_name),
 		m_param_type(param_type),
 		m_p_param_data(p_param_data)
@@ -12,7 +13,7 @@ struct ScriptParamStruct
 
 	std::string		m_param_name;
 	ScriptParamType m_param_type;
-	void*			m_p_param_data;
+	ScriptParamData	m_p_param_data;
 };
 
 class Prefab;
@@ -34,7 +35,7 @@ protected:
 	void AddScriptParamData(const ScriptParamStruct& script_param_data) { m_script_param_vector.emplace_back(script_param_data); }
 
 	//GameObject
-	GameObject* Instantiate(std::shared_ptr<Prefab>& p_game_object_prefab, const Vector3& position, const bool& use_event = false);
+	GameObject* Instantiate(Prefab* p_game_object_prefab, const Vector3& position, const bool& use_event = false);
 	void Destroy(GameObject* p_delete_game_object);
 	void CreateGameObject(GameObject* p_new_game_object);
 
@@ -50,7 +51,7 @@ public:
 
 public:
 	virtual void SaveToScene(FILE* p_file) override;
-	virtual void LoadFromScene(FILE* p_file) override;
+	virtual void LoadFromScene(FILE* p_file) override = 0;
 
 public:
 	virtual Script* Clone() = 0;

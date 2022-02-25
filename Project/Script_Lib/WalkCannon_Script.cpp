@@ -171,6 +171,14 @@ void WalkCannon_Script::CreateBullet()
 	m_current_state = AnimationState::Idle;*/
 }
 
+void WalkCannon_Script::SaveToScene(FILE* p_file)
+{
+}
+
+void WalkCannon_Script::LoadFromScene(FILE* p_file)
+{
+}
+
 void WalkCannon_Script::OnCollisionEnter(GameObject* other_game_object)
 {
 }

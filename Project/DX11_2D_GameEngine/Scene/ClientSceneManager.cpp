@@ -293,6 +293,11 @@ void ClientSceneManager::LoadScript(GameObject* p_game_object, FILE* p_file)
 		UINT component_type = 0;
 		fscanf_s(p_file, "%d\n", &component_type);
 
+		//Script Active
+		FILE_MANAGER->FScanf(char_buffer, p_file); //[Active]
+		int boolen_num = -1;
+		fscanf_s(p_file, "%d\n", &boolen_num);
+
 		//Script Name
 		FILE_MANAGER->FScanf(char_buffer, p_file); //[Name]
 		FILE_MANAGER->FScanf(char_buffer, p_file); //Script Name
@@ -302,6 +307,7 @@ void ClientSceneManager::LoadScript(GameObject* p_game_object, FILE* p_file)
 		p_game_object->AddComponent(ScriptManager::GetScript(script_name));
 
 		auto p_script = p_game_object->GetScript(script_name);
+		p_script->SetIsActive(boolen_num); //Set Is Active
 
 		if (p_script != nullptr)
 			p_script->LoadFromScene(p_file);

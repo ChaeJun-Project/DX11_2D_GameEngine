@@ -5,6 +5,9 @@
 
 class Animator2D;
 
+class Texture;
+class Prefab;
+
 class Z_Script final : public Script, public PlayerController
 {
 public:
@@ -17,19 +20,27 @@ public:
 	void Update() override;
 	
 public:
-	virtual void OnCollisionEnter(GameObject* other_game_object) override;
-	virtual void OnCollisionStay(GameObject* other_game_object) override;
-	virtual void OnCollisionExit(GameObject* other_game_object) override;
+	void OnCollisionEnter(GameObject* other_game_object) override;
+	void OnCollisionStay(GameObject* other_game_object) override;
+	void OnCollisionExit(GameObject* other_game_object) override;
 
 private:
-	virtual void SaveToScene(FILE* p_file) override;
-	virtual void LoadFromScene(FILE* p_file) override;
+	void SaveToScene(FILE* p_file) override;
+	void LoadFromScene(FILE* p_file) override;
 
 public:
 	CLONE(Z_Script);
 
 private: 
+
+    int      test1;
+    Vector2  test2;
+	Vector3  test3;
+	Vector4  test4;
+
+	Texture* p_texture;
+	Prefab* p_prefab;
+
 	Animator2D* m_p_animator = nullptr;
 	AnimationState m_current_state = AnimationState::Idle;
 };
-

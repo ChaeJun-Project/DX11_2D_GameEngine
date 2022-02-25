@@ -104,12 +104,6 @@ void GUI_FileItem::CheckClickedFileItem()
 				break;
 			case PayLoadType::Mesh:
 				break;
-			case PayLoadType::Prefab:
-			{
-				auto p_prefab = RESOURCE_MANAGER->GetResource<Prefab>(m_file_name);
-				EDITOR_HELPER->SetSelectedResource(p_prefab.get());
-			}
-			break;
 			case PayLoadType::Texture:
 				break;
 			}
@@ -141,6 +135,12 @@ void GUI_FileItem::CheckClickedFileItem()
 				m_is_clicked = false;
 
 				FileFunction::LoadScene(std::get<std::string>(m_pay_load.data));
+			}
+			break;
+			case PayLoadType::Prefab:
+			{
+				auto p_prefab = RESOURCE_MANAGER->GetResource<Prefab>(m_file_name);
+				EDITOR_HELPER->SetSelectedResource(p_prefab.get());
 			}
 			break;
 			}

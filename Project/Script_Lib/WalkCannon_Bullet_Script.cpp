@@ -72,3 +72,11 @@ void WalkCannon_Bullet_Script::SetDirection(const Vector3& fire_direction)
 
 	m_fire_direction = fire_direction;
 }
+
+void WalkCannon_Bullet_Script::SaveToScene(FILE* p_file)
+{
+}
+
+void WalkCannon_Bullet_Script::LoadFromScene(FILE* p_file)
+{
+}

@@ -74,7 +74,7 @@ public:
 
 		//Active
 		fprintf(p_file, "[Active]\n");
-		fprintf(p_file, "%d\n", m_is_active);
+	    fprintf(p_file, "%d\n", m_is_active);
 	}
 	virtual void LoadFromScene(FILE* p_file) override
 	{
@@ -82,11 +82,13 @@ public:
 
 		//Active 
 		FILE_MANAGER->FScanf(char_buffer, p_file);
-		fscanf_s(p_file, "%d\n", &m_is_active);
+		int boolen_num = -1;
+		fscanf_s(p_file, "%d\n", &boolen_num);
+		m_is_active = boolen_num;
 	}
-	
+
 public:
-    virtual IComponent* Clone() = 0;
+	virtual IComponent* Clone() = 0;
 
 public:
 	const ComponentType& GetComponentType() { return m_component_type; }

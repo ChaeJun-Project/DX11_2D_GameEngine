@@ -453,7 +453,9 @@ void GameObject::LoadFromScene(FILE* p_file)
 
 	//Active 
 	FILE_MANAGER->FScanf(char_buffer, p_file);
-	fscanf_s(p_file, "%d\n", &m_is_active);
+	int boolen_num = -1;
+	fscanf_s(p_file, "%d\n", &boolen_num);
+	m_is_active = boolen_num;
 	
 	//Tag
 	FILE_MANAGER->FScanf(char_buffer, p_file);

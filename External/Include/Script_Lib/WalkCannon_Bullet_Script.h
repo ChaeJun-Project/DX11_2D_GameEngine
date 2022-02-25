@@ -14,12 +14,16 @@ public:
 	void Update() override;
 
 public:
-	virtual void OnCollisionEnter(GameObject* other_game_object) override;
-	virtual void OnCollisionStay(GameObject* other_game_object) override;
-	virtual void OnCollisionExit(GameObject* other_game_object) override;
+	void OnCollisionEnter(GameObject* other_game_object) override;
+	void OnCollisionStay(GameObject* other_game_object) override;
+	void OnCollisionExit(GameObject* other_game_object) override;
 
 public:
     void SetDirection(const Vector3& fire_direction);
+
+private:
+	void SaveToScene(FILE* p_file) override;
+	void LoadFromScene(FILE* p_file) override;
 
 public:
 	CLONE(WalkCannon_Bullet_Script);

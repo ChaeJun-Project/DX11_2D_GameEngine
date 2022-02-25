@@ -18,7 +18,7 @@ Script::~Script()
 	m_script_param_vector.shrink_to_fit();
 }
 
-GameObject* Script::Instantiate(std::shared_ptr<Prefab>& p_game_object_prefab, const Vector3& position, const bool& use_event)
+GameObject* Script::Instantiate(Prefab* p_game_object_prefab, const Vector3& position, const bool& use_event)
 {
 	GameObject* p_game_object = p_game_object_prefab->Instantiate();
 
@@ -67,9 +67,4 @@ void Script::SaveToScene(FILE* p_file)
 	//Script Name
 	fprintf(p_file, "[Name]\n");
 	fprintf(p_file, "%s\n", m_script_name.c_str());
-}
-
-void Script::LoadFromScene(FILE* p_file)
-{
-	__super::LoadFromScene(p_file); //IComponent
 }
