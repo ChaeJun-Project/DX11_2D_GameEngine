@@ -38,11 +38,11 @@ public:
 	Vector3 GetDefaultSize() { return Vector3(m_default_size.x, m_default_size.y, 1.0f); }
 	const Matrix& GetColliderWorldMatrix() { return m_collider_world_matrix; }
 
-public:
+private:
 	void SaveToScene(FILE* p_file) override;
 	void LoadFromScene(FILE* p_file) override;
 
-public:
+private:
 	CLONE(Collider2D);
 
 private:

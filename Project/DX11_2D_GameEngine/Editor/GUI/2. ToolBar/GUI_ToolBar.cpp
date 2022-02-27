@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "GUI_ToolBar.h"
 
+//Client Scene
+#include "Scene/ClientSceneManager.h"
+
 //Helper
 #include "Helper/IconProvider.h"
 #include "Manager/EditorManager.h"
@@ -40,21 +43,21 @@ void GUI_ToolBar::Render()
 	//Play, Pause, Stop Button을 하나의 그룹으로 묶기
 	ImGui::BeginGroup();
 
-	auto icon_provider = IconProvider::GetInstance();
-	auto scene_manager = SceneManager::GetInstance();
-
 	//현재 Editor 상태가 Play라면 Play Button의 색상을 Active 색상으로 유지
 	ImGui::PushStyleColor
 	(
 		ImGuiCol_Button,
-		ImGui::GetStyle().Colors[scene_manager->GetEditorState() & EditorState::EditorState_Play ? ImGuiCol_ButtonActive : ImGuiCol_Button]
+		ImGui::GetStyle().Colors[SCENE_MANAGER->GetEditorState() & EditorState::EditorState_Play ? ImGuiCol_ButtonActive : ImGuiCol_Button]
 	);
 
 	//Scene Play Button 그리기
-	if (icon_provider->CreateImageButton(IconType::ToolBar_Play, ImVec2(22.0f, 22.0f)))
+	if (ICON_PROVIDER->CreateImageButton(IconType::ToolBar_Play, ImVec2(22.0f, 22.0f)))
 	{
-		EditorManager::GetInstance()->ExcuteEventCallBack();
-		scene_manager->SetEditorState(EditorState::EditorState_Play);
+		EDITOR_MANAGER->ExcuteEventCallBack(); //로그 삭제
+		if (SCENE_MANAGER->GetEditorState() & EditorState::EditorState_Play) //Play 중인데 다시 Play 버튼을 누른 경우 => Play -> Stop
+			ClientSceneManager::InitializeCurrentScene(); //현재 Scene 초기화(다시 로드)
+
+		SCENE_MANAGER->SetEditorState(EditorState::EditorState_Play);
 		ImGui::SetWindowFocus(nullptr);
 	}
 	ImGui::SameLine();
@@ -65,15 +68,15 @@ void GUI_ToolBar::Render()
 	ImGui::PushStyleColor
 	(
 		ImGuiCol_Button,
-		ImGui::GetStyle().Colors[scene_manager->GetEditorState() & EditorState::EditorState_Pause ? ImGuiCol_ButtonActive : ImGuiCol_Button]
+		ImGui::GetStyle().Colors[SCENE_MANAGER->GetEditorState() & EditorState::EditorState_Pause ? ImGuiCol_ButtonActive : ImGuiCol_Button]
 	);
 
 	//Scene Pause Button 그리기
-	if (icon_provider->CreateImageButton(IconType::ToolBar_Pause, ImVec2(22.0f, 22.0f)))
+	if (ICON_PROVIDER->CreateImageButton(IconType::ToolBar_Pause, ImVec2(22.0f, 22.0f)))
 	{
 		if (SCENE_MANAGER->GetEditorState() & EditorState_Play)
 		{
-			scene_manager->SetEditorState(EditorState::EditorState_Pause);
+			SCENE_MANAGER->SetEditorState(EditorState::EditorState_Pause);
 			ImGui::SetWindowFocus(nullptr);
 		}
 	}
@@ -82,10 +85,12 @@ void GUI_ToolBar::Render()
 	ImGui::PopStyleColor();
 
 	//Scene Stop Button 그리기
-	if (icon_provider->CreateImageButton(IconType::ToolBar_Stop, ImVec2(22.0f, 22.0f)))
+	if (ICON_PROVIDER->CreateImageButton(IconType::ToolBar_Stop, ImVec2(22.0f, 22.0f)))
 	{
-		EditorManager::GetInstance()->ExcuteEventCallBack();
-		scene_manager->SetEditorState(EditorState::EditorState_Stop);
+		EDITOR_MANAGER->ExcuteEventCallBack(); //로그 삭제
+		ClientSceneManager::InitializeCurrentScene(); //현재 Scene 초기화(다시 로드)
+
+		SCENE_MANAGER->SetEditorState(EditorState::EditorState_Stop);
 		ImGui::SetWindowFocus(nullptr);
 	}
 	ImGui::EndGroup();

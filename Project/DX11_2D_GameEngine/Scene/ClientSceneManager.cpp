@@ -37,6 +37,31 @@ void ClientSceneManager::Initialize()
 	);
 }
 
+void ClientSceneManager::InitializeCurrentScene()
+{
+	EDITOR_HELPER->SetSelectedGameObject(nullptr);
+	EDITOR_HELPER->SetSelectedResource(nullptr);
+
+	//Current Scene
+	auto current_scene = SCENE_MANAGER->GetCurrentScene();
+
+	std::string absolute_scene_path = SCENE_PATH;
+	absolute_scene_path += current_scene->GetSceneName();
+	absolute_scene_path += ".scene";
+
+	//현재 Scene을 다시 Load하여 초기상태로 변경
+	auto init_scene = LoadScene(absolute_scene_path);
+
+	//Scene Change
+	EventStruct event_struct;
+	ZeroMemory(&event_struct, sizeof(EventStruct));
+
+	event_struct.event_type = EventType::Scene_Change;
+	event_struct.object_address_1 = init_scene;
+
+	EVENT_MANAGER->AddEvent(event_struct);
+}
+
 void ClientSceneManager::CreateNewScene()
 {
 	EDITOR_HELPER->SetSelectedGameObject(nullptr);
@@ -64,6 +89,8 @@ void ClientSceneManager::CreateNewScene()
 		event_struct.object_address_1 = new_scene;
 
 		EVENT_MANAGER->AddEvent(event_struct);
+
+		EDITOR_LOG_INFO_F("새로운 Scene을 성공적으로 만들었습니다.");
 	}
 }
 

@@ -88,7 +88,7 @@ public:
 	}
 
 public:
-	virtual IComponent* Clone() = 0;
+	virtual IComponent* Clone() const = 0;
 
 public:
 	const ComponentType& GetComponentType() { return m_component_type; }

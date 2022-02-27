@@ -6,6 +6,7 @@ class ClientSceneManager final
 {
 public:
     static void Initialize();
+	static void InitializeCurrentScene();
 
 public:
 	static void CreateNewScene();

@@ -196,7 +196,7 @@ call GameEngineCopy.bat</Command>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Func.h" />
+    <ClInclude Include="Inline.h" />
     <ClInclude Include="RigidBody2D.h" />
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="Animator.h" />

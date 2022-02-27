@@ -29,11 +29,11 @@ public:
     void SetMaterial(const std::shared_ptr<Material>& p_material);
     std::shared_ptr<Material> GetMaterial() { SAFE_GET_POINTER(m_p_material); }
 
-public:
+private:
     void SaveToScene(FILE* p_file) override;
     void LoadFromScene(FILE* p_file) override;
 
-public:
+private:
     CLONE(SpriteRenderer);
 
 private:

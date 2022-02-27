@@ -1,1 +1,3 @@
-[2022/2/25/19:21:46][Info] FileFunction::LoadScene : Scene 파일 로드에 성공했습니다: [Script Test]
+[2022/2/27/23:13:17][Info] FileFunction::LoadScene : Scene 파일 로드에 성공했습니다: [Script Test]
+[2022/2/27/23:13:53][Info] ClientSceneManager::CreateNewScene : 새로운 Scene을 성공적으로 만들었습니다.
+[2022/2/27/23:13:56][Info] FileFunction::LoadScene : Scene 파일 로드에 성공했습니다: [Script Test]

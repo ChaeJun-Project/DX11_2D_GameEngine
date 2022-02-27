@@ -23,8 +23,7 @@ void FileFunction::SaveFile(const std::string& save_resource_folder_path, const 
 
 	wchar_t szName[256] = {};
 
-	std::string absolute_save_path = ABSOLUTE_CONTENT_PATH;
-	absolute_save_path += save_resource_folder_path;
+	std::string absolute_save_path = save_resource_folder_path;
 	std::wstring file_folder_path = FILE_MANAGER->ConvertStringToWString(absolute_save_path);
 	SetCurrentDirectory(file_folder_path.c_str()); //해당 경로를 현재 작업 중인 디렉토리로 설정
 
@@ -87,6 +86,9 @@ void FileFunction::SaveFile(const std::string& save_resource_folder_path, const 
 
 void FileFunction::SaveScene(const std::string& scene_path)
 {
+	if (scene_path.empty())
+		return;
+
 	auto scene_name = FILE_MANAGER->GetOriginFileNameFromPath(scene_path);
 	auto p_save_scene = ClientSceneManager::SaveScene(scene_path);
 
@@ -103,8 +105,7 @@ const std::string FileFunction::LoadFile(const std::string& load_resource_folder
 
 	wchar_t szName[256] = {};
 
-	std::string absolute_load_path = ABSOLUTE_CONTENT_PATH;
-	absolute_load_path += load_resource_folder_path;
+	std::string absolute_load_path = load_resource_folder_path;
 	std::wstring file_folder_path = FILE_MANAGER->ConvertStringToWString(absolute_load_path);
 	SetCurrentDirectory(file_folder_path.c_str()); //해당 경로를 현재 작업 중인 디렉토리로 설정
 	switch (file_type)
@@ -147,6 +148,9 @@ const std::string FileFunction::LoadFile(const std::string& load_resource_folder
 
 void FileFunction::LoadScene(const std::string& scene_path)
 {
+	if (scene_path.empty())
+		return;
+
 	auto scene_name = FILE_MANAGER->GetOriginFileNameFromPath(scene_path);
 	auto next_scene = ClientSceneManager::LoadScene(scene_path);
 

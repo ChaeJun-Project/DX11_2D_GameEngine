@@ -25,6 +25,9 @@ public:
 	void OnCollisionExit(GameObject* other_game_object) override;
 
 private:
+	void RegisterScriptParamData() override;
+
+private:
 	void SaveToScene(FILE* p_file) override;
 	void LoadFromScene(FILE* p_file) override;
 

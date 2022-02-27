@@ -27,7 +27,7 @@ public:
 	const UINT& GetObjectID() const { return m_id; }
 
 public:
-    virtual DX11Obejct* Clone() { return nullptr; }
+    virtual DX11Obejct* Clone() const { return nullptr; }
 
 protected:
 	UINT m_id = 0;

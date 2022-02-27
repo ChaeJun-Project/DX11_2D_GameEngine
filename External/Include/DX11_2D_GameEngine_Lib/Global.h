@@ -54,7 +54,7 @@ using namespace DirectX::PackedVector;
 #pragma region Enum & Define & Function
 #include "Enum.h"
 #include "Define.h"
-#include "Func.h"
+#include "Inline.h"
 #pragma endregion
 
 #pragma region D3D11BufferStruct

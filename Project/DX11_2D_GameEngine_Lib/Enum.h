@@ -1,5 +1,8 @@
 #pragma once
 
+//Unsigned typedef
+typedef unsigned long ULONG;
+
 //Editor의 상태를 정의(Editor 사용)
 enum EditorState : UINT
 {

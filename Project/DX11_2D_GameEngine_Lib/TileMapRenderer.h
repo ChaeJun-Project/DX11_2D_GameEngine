@@ -55,7 +55,7 @@ private:
 	void CreateGrid(const UINT& tile_count_x, const UINT& tile_count_y);
 	void CalcCurrentPickRect(const Vector2& current_screen_pos);
 
-public:
+private:
 	void SaveToScene(FILE* p_file) override;
 	void LoadFromScene(FILE* p_file) override;
 
@@ -63,7 +63,7 @@ private:
     void LoadSetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile_atlas_texture, const UINT& offset);
     void LoadSetTileCount(const UINT& tile_count_x, const UINT& tile_count_y);
 
-public:
+private:
 	CLONE(TileMapRenderer);
 
 private:

@@ -24,11 +24,11 @@ public:
 public:
     const LightInfo& GetLight2DInfo() const { return m_light2D_data; }
 
-public:
+private:
 	void SaveToScene(FILE* p_file) override;
 	void LoadFromScene(FILE* p_file) override;
 
-public:
+private:
 	CLONE(Light2D);
 
 private:

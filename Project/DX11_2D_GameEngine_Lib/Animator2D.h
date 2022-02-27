@@ -54,11 +54,11 @@ public:
 	//Animation Event
 	void SetAnimationEvent(const std::string& animation_name, const UINT& clip_index, std::function<void(void)> event_func);
 
-public:
+private:
 	void SaveToScene(FILE* p_file) override;
 	void LoadFromScene(FILE* p_file) override;
 
-public:
+private:
 	CLONE(Animator2D);
 
 private:

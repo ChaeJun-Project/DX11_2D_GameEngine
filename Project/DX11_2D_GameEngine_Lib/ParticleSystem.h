@@ -83,11 +83,11 @@ public:
 		m_spawn_frequency = draw_frequency;
 	}
 
-public:
+private:
 	void SaveToScene(FILE* p_file) override;
 	void LoadFromScene(FILE* p_file) override;
 
-public:
+private:
 	CLONE(ParticleSystem);
 
 private:

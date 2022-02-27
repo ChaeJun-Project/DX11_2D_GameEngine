@@ -1,13 +1,9 @@
 #pragma once
 
-//Unsigned typedef
-typedef unsigned long ULONG;
-
 //싱글톤 매크로 정의
 //Singleton를 상속받는 type 클래스의 모든 멤버에 접근하여 사용하기 위해 friend 사용
 #define SINGLETON(type) private:\
 						friend class Singleton<type>;\
-
 
 //메모리 해제 관련 매크로 정의
 #define SAFE_DELETE(p)			{ if(p) { delete p; p = nullptr; } }
@@ -39,9 +35,9 @@ typedef unsigned long ULONG;
 #define EDITOR_LOG_WARNING_F(text, ...)    { if(SCENE_MANAGER->GetClientState() == 2) {LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Warning_Formatted(text, __VA_ARGS__); } }
 #define EDITOR_LOG_ERROR_F(text, ...)      { if(SCENE_MANAGER->GetClientState() == 2) {LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Error_Formatted(text, __VA_ARGS__); } }
 //Play
-#define PLAY_LOG_INFO_F(text, ...)       { LOG_MANAGER->Info_Formatted(text, __VA_ARGS__); }
-#define PLAY_LOG_WARNING_F(text, ...)    { LOG_MANAGER->Warning_Formatted(text, __VA_ARGS__); }
-#define PLAY_LOG_ERROR_F(text, ...)      { LOG_MANAGER->Error_Formatted(text, __VA_ARGS__); }
+#define PLAY_LOG_INFO_F(text, ...)       { if(SCENE_MANAGER->GetClientState() == 1) {LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Info_Formatted(text, __VA_ARGS__); }
+#define PLAY_LOG_WARNING_F(text, ...)    { if(SCENE_MANAGER->GetClientState() == 1) {LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Warning_Formatted(text, __VA_ARGS__); }
+#define PLAY_LOG_ERROR_F(text, ...)      { if(SCENE_MANAGER->GetClientState() == 1) {LOG_MANAGER->SetCallerName(__FUNCTION__); LOG_MANAGER->Error_Formatted(text, __VA_ARGS__); }
 
 //Time
 //Delta Time
@@ -71,7 +67,7 @@ typedef unsigned long ULONG;
 #define AUDIO_SYSTEM	AUDIO_MANAGER->GetAudioSystem()
 
 //클래스 복사 생성 매크로 정의(깊은 복사, 기존 클래스와 클론 클래스가 같은 메모리를 참조하지 않음)
-#define CLONE(type) type* Clone() {return new type(*this);}
+#define CLONE(type) type* Clone() const {return new type(*this);}
 
 //최대 Layer 개수
 #define MAX_LAYER 32

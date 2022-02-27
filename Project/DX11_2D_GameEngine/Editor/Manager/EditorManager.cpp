@@ -162,6 +162,8 @@ void EditorManager::InitializeGUI()
 			if (gui.first == GUIType::Console)
 			{
 				auto p_console = dynamic_cast<GUI_Console*>(gui.second.get());
+
+				//Add Event CallBack Func
 				m_event_callBack_vector.emplace_back
 				(
 					std::bind

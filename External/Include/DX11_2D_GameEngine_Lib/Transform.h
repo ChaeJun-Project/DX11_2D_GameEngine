@@ -71,11 +71,11 @@ public:
 	void SetMeshScale(const UINT& width, const UINT& height) { m_mesh_scale = Vector3(static_cast<float>(width), static_cast<float>(height), 1.0f); }
 	const Vector3& GetMeshScale() const { return m_mesh_scale; }
 
-public:
+private:
 	void SaveToScene(FILE* p_file) override;
 	void LoadFromScene(FILE* p_file) override;
 
-public:
+private:
 	CLONE(Transform);
 
 private:

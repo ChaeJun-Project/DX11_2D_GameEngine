@@ -64,11 +64,11 @@ public:
 
      const UINT& GetCullingLayer() { return m_culling_layer; }
 
-public:
+private:
     void SaveToScene(FILE* p_file) override;
     void LoadFromScene(FILE* p_file) override;
 
-public:
+private:
     CLONE(Camera);
 
 protected:

@@ -18,22 +18,17 @@ Script::~Script()
 	m_script_param_vector.shrink_to_fit();
 }
 
-GameObject* Script::Instantiate(Prefab* p_game_object_prefab, const Vector3& position, const bool& use_event)
+GameObject* Script::Instantiate(Prefab* p_game_object_prefab, const Vector3& position)
 {
 	GameObject* p_game_object = p_game_object_prefab->Instantiate();
 
-	auto transform = p_game_object->GetComponent<Transform>();
-
-	if (transform == nullptr)
-	{
-		assert(false);
+	if (p_game_object == nullptr)
 		return nullptr;
-	}
 
+	auto transform = p_game_object->GetComponent<Transform>();
 	transform->SetTranslation(position);
 
-	if (use_event)
-		CreateGameObject(p_game_object);
+	CreateGameObject(p_game_object);
 
 	return p_game_object;
 }
@@ -41,12 +36,12 @@ GameObject* Script::Instantiate(Prefab* p_game_object_prefab, const Vector3& pos
 void Script::Destroy(GameObject* p_delete_game_object)
 {
 	EventStruct event_struct;
-	ZeroMemory(&event_struct, sizeof(EventStruct));
+	ZeroMemory(&event_struct, sizeof(EventStruct));                            
 
 	event_struct.event_type = EventType::Delete_Object;
 	event_struct.object_address_1 = p_delete_game_object;
 
-	EventManager::GetInstance()->AddEvent(event_struct);
+	EVENT_MANAGER->AddEvent(event_struct);
 }
 
 void Script::CreateGameObject(GameObject* p_new_game_object)
@@ -57,12 +52,12 @@ void Script::CreateGameObject(GameObject* p_new_game_object)
 	event_struct.event_type = EventType::Create_Object;
 	event_struct.object_address_1 = p_new_game_object;
 
-	EventManager::GetInstance()->AddEvent(event_struct);
+	EVENT_MANAGER->AddEvent(event_struct);
 }
 
 void Script::SaveToScene(FILE* p_file)
 {
-    __super::SaveToScene(p_file); //IComponent
+	__super::SaveToScene(p_file); //IComponent
 
 	//Script Name
 	fprintf(p_file, "[Name]\n");

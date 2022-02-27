@@ -11,23 +11,17 @@
 Z_Script::Z_Script()
 	:Script("Z_Script")
 {
-	AddScriptParamData(ScriptParamStruct("Speed", ScriptParamType::Float, reinterpret_cast<void*>(&m_speed)));
-	//Test
-	AddScriptParamData(ScriptParamStruct("Test1", ScriptParamType::Int, reinterpret_cast<void*>(&test1)));
-	AddScriptParamData(ScriptParamStruct("Test2", ScriptParamType::Vector2, reinterpret_cast<void*>(&test2)));
-	AddScriptParamData(ScriptParamStruct("Test3", ScriptParamType::Vector3, reinterpret_cast<void*>(&test3)));
-	AddScriptParamData(ScriptParamStruct("Test4", ScriptParamType::Vector4, reinterpret_cast<void*>(&test4)));
-	AddScriptParamData(ScriptParamStruct("Test5", ScriptParamType::Texture, reinterpret_cast<void*>(&p_texture)));
-	AddScriptParamData(ScriptParamStruct("Test6", ScriptParamType::Prefab, reinterpret_cast<void*>(&p_prefab)));
+	RegisterScriptParamData();
 }
 
 Z_Script::Z_Script(const Z_Script& origin)
 	: Script(origin.m_script_name)
 {
+	RegisterScriptParamData();
+
 	m_is_active = origin.m_is_active;
 
 	m_speed = origin.m_speed;
-
 }
 
 Z_Script::~Z_Script()
@@ -65,7 +59,7 @@ void Z_Script::Update()
 	{
 		if (p_prefab != nullptr)
 		{
-			Instantiate(p_prefab, Vector3(0.0f, 0.0f, 0.0f), true);
+			Instantiate(p_prefab, Vector3(0.0f, 0.0f, 0.0f));
 		}
 	}
 
@@ -134,6 +128,18 @@ void Z_Script::OnCollisionExit(GameObject* other_game_object)
 	{
 		m_current_state = AnimationState::Idle;
 	}*/
+}
+
+void Z_Script::RegisterScriptParamData()
+{
+	AddScriptParamData(ScriptParamStruct("Speed", ScriptParamType::Float, reinterpret_cast<void*>(&m_speed)));
+	//Test
+	AddScriptParamData(ScriptParamStruct("Test1", ScriptParamType::Int, reinterpret_cast<void*>(&test1)));
+	AddScriptParamData(ScriptParamStruct("Test2", ScriptParamType::Vector2, reinterpret_cast<void*>(&test2)));
+	AddScriptParamData(ScriptParamStruct("Test3", ScriptParamType::Vector3, reinterpret_cast<void*>(&test3)));
+	AddScriptParamData(ScriptParamStruct("Test4", ScriptParamType::Vector4, reinterpret_cast<void*>(&test4)));
+	AddScriptParamData(ScriptParamStruct("Test5", ScriptParamType::Texture, reinterpret_cast<void*>(&p_texture)));
+	AddScriptParamData(ScriptParamStruct("Test6", ScriptParamType::Prefab, reinterpret_cast<void*>(&p_prefab)));
 }
 
 void Z_Script::SaveToScene(FILE* p_file)
