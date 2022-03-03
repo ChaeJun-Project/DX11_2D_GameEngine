@@ -86,7 +86,7 @@ void IconProvider::LoadFileThumbnails()
 
 void IconProvider::LoadIconTexture(const std::string& texture_path, const IconType& icon_type)
 {
-	auto resource_manager = ResourceManager::GetInstance();
+	auto resource_manager = RESOURCE_MANAGER;
 
 	auto texture = resource_manager->CreateIconTexture(texture_path);
 
@@ -114,7 +114,7 @@ const std::shared_ptr<Texture>& IconProvider::GetIconTexture(const IconType& ico
 
 void IconProvider::LoadFileThumbnailTexture(const std::string& texture_path, const FileThumbnailType& file_thumbnail_type)
 {
-	auto resource_manager = ResourceManager::GetInstance();
+	auto resource_manager = RESOURCE_MANAGER;
 
 	auto texture = resource_manager->CreateIconTexture(texture_path);
 

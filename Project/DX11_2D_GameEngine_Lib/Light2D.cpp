@@ -31,7 +31,7 @@ void Light2D::FinalUpdate()
 	auto position = m_p_owner_game_object->GetComponent<Transform>()->GetTranslation();
 	m_light2D_data.light_position = position;
 
-	RenderManager::GetInstance()->RegisterLight2D(this , m_light2D_index);
+	RENDER_MANAGER->RegisterLight2D(this , m_light2D_index);
 }
 
 //<summary>

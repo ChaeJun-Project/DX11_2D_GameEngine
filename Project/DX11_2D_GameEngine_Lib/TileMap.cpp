@@ -55,10 +55,11 @@ void TileMap::BindPipeline()
 	}
 }
 
-void TileMap::SetTileCount(const UINT& tile_count_x, const UINT& tile_count_y, const std::vector<Vector2>& grid_left_top_vector)
+void TileMap::CreateTileData(const std::vector<Vector2>& grid_left_top_vector)
 {
-	m_tile_count_x = tile_count_x;
-	m_tile_count_y = tile_count_y;
+    //TileMap의 Tile Count가 설정되지 않은 경우
+    if(m_tile_count_x <= 0 || m_tile_count_y <= 0)
+	  return;
 
 	//각 타일의 정보가 이미 저장되어 있다면
 	if (!m_tile_data_vector.empty())
@@ -96,7 +97,7 @@ void TileMap::CreateTileMapBuffer()
 
 bool TileMap::SaveToFile(const std::string& tile_map_path)
 {
-	auto resource_manager = ResourceManager::GetInstance();
+	auto resource_manager = RESOURCE_MANAGER;
 
 	FILE* p_file = nullptr;
 	fopen_s(&p_file, tile_map_path.c_str(), "wb"); //파일 쓰기
@@ -149,8 +150,6 @@ bool TileMap::SaveToFile(const std::string& tile_map_path)
 
 bool TileMap::LoadFromFile(const std::string& tile_map_path)
 {
-	auto resource_manager = ResourceManager::GetInstance();
-
 	FILE* p_file = nullptr;
 	fopen_s(&p_file, tile_map_path.c_str(), "rb"); //파일 읽기
 
@@ -170,7 +169,7 @@ bool TileMap::LoadFromFile(const std::string& tile_map_path)
 		for (UINT i = 0; i < m_used_tile_atlas_texture_vector.size(); ++i)
 		{
 			std::shared_ptr<Texture> m_p_atlas_texture = nullptr;
-			resource_manager->LoadResource<Texture>(m_p_atlas_texture, p_file);
+			RESOURCE_MANAGER->LoadResource<Texture>(m_p_atlas_texture, p_file);
 
 			m_used_tile_atlas_texture_vector[i] = m_p_atlas_texture;
 		}
@@ -199,9 +198,11 @@ bool TileMap::LoadFromFile(const std::string& tile_map_path)
 
 			fscanf_s(p_file, "%d ", &tile_data.tile_atlas_texture_index);
 			fscanf_s(p_file, "%d\n", &tile_data.tile_index);
-			
+
 			m_tile_data_vector[i] = tile_data;
 		}
+
+		CreateTileMapBuffer();
 
 		fclose(p_file);
 

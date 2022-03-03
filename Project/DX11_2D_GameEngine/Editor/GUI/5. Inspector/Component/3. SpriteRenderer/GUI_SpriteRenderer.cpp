@@ -172,7 +172,7 @@ void GUI_SpriteRenderer::Render()
 
 void GUI_SpriteRenderer::SelectResource(SpriteRenderer* p_sprite_renderer, const std::shared_ptr<IResource>& p_resource, const std::string& selected_item)
 {
-	auto resource_manager = ResourceManager::GetInstance();
+	auto resource_manager = RESOURCE_MANAGER;
 
 	switch (p_resource->GetResourceType())
 	{

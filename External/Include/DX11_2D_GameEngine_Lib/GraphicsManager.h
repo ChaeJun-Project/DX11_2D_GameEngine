@@ -39,7 +39,6 @@ public:
 
 	const std::shared_ptr<ConstantBuffer> GetConstantBuffer(const CBuffer_BindSlot& bind_slot);
 	const std::shared_ptr<RasterizerState> GetRasterizer(const RasterizerType& rasterizer_type);
-	//const std::shared_ptr<SamplerState>& GetSampler(const RasterizerType& rasterizer_type);
 	const std::shared_ptr<DepthStencilState> GetDepthStencilState(const DepthStencilType& depth_stencil_type);
 	const std::shared_ptr<BlendState> GetBlender(const BlendType& blend_type);
 

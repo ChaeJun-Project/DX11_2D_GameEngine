@@ -157,8 +157,22 @@ void Camera::RenderForwardObjects()
 {
 	for (UINT i = 0; i < m_forward_object_vector.size(); ++i)
 	{
-		if (m_forward_object_vector[i]->GetIsActive())
-			m_forward_object_vector[i]->Render();
+		//최상위 부모 GameObject인 경우
+		if (!m_forward_object_vector[i]->HasParent())
+		{
+			//활성화가 되어있다면 렌더링
+			if (m_forward_object_vector[i]->GetIsActive())
+				m_forward_object_vector[i]->Render();
+		}
+
+		//부모 GameObject를 가지고 있는 경우
+		else
+		{
+			//부모 GameObject가 활성화 되어있고 
+			//자신도 활성화가 되어있다면 렌더링
+			if (m_forward_object_vector[i]->GetParent()->GetIsActive() && m_forward_object_vector[i]->GetIsActive())
+				m_forward_object_vector[i]->Render();
+		}
 	}
 }
 
@@ -166,8 +180,22 @@ void Camera::RenderParticleObjects()
 {
 	for (UINT i = 0; i < m_particle_object_vector.size(); ++i)
 	{
-		if (m_particle_object_vector[i]->GetIsActive())
-			m_particle_object_vector[i]->Render();
+		//최상위 부모 GameObject인 경우
+		if (!m_particle_object_vector[i]->HasParent())
+		{
+			//활성화가 되어있다면 렌더링
+			if (m_particle_object_vector[i]->GetIsActive())
+				m_particle_object_vector[i]->Render();
+		}
+
+		//부모 GameObject를 가지고 있는 경우
+		else
+		{
+			//부모 GameObject가 활성화 되어있고 
+			//자신도 활성화가 되어있다면 렌더링
+			if (m_particle_object_vector[i]->GetParent()->GetIsActive() && m_particle_object_vector[i]->GetIsActive())
+				m_particle_object_vector[i]->Render();
+		}
 	}
 }
 

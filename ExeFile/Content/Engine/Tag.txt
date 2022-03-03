@@ -5,8 +5,8 @@
 Default
 Main Camera
 Light
-Player
-Enemy
-Etc
+Z
+Colonel
 Stage1
-Stage2
+Test1
+Test3

@@ -85,7 +85,7 @@ void VertexBuffer::Create(const std::vector<T>& vertex_vector, const D3D11_USAGE
 	sub_data.pSysMem = vertex_vector.data();
 
 	//Vertex Buffer »ý¼º
-	auto device = GraphicsManager::GetInstance()->GetDevice();
+	auto device = GRAPHICS_MANAGER->GetDevice();
 	auto hResult = device->CreateBuffer(&desc, &sub_data, m_p_buffer.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))

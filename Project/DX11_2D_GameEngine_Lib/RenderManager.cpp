@@ -45,19 +45,23 @@ void RenderManager::Initialize()
 	m_resolution_size.y = static_cast<float>(settings->GetWindowHeight());
 
 	//Post Effect Material에 Texture 연결
-	//auto post_effect_material = ResourceManager::GetInstance()->GetMaterial("PostEffect");
+	//auto post_effect_material = RESOURCE_MANAGER->GetMaterial("PostEffect");
 	//post_effect_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);
 
-	/*auto water_material = ResourceManager::GetInstance()->GetMaterial("Water");
+	/*auto water_material = RESOURCE_MANAGER->GetMaterial("Water");
 	water_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);*/
 }
 
 void RenderManager::Render()
 {
+	//Render Debug Mode 
+	if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_T))
+	{
+		m_is_debug_mode = !m_is_debug_mode;
+	}
+
 	//Program, Light2D 데이터 업데이트
 	UpdateConstantBuffer();
-
-	auto test = GRAPHICS_MANAGER;
 
 	GRAPHICS_MANAGER->ClearRenderTarget();
 
@@ -79,12 +83,7 @@ void RenderManager::Render()
 
 	CalcClientSceneRect();
 
-	//카메라 벡터 초기화
-	m_camera_vector.clear();
-	m_camera_vector.resize(1);
-
-	//Light2D 벡터 초기화
-	m_light2D_vector.clear();
+	ClearCameraAndLight();
 }
 
 void RenderManager::RenderPlay()
@@ -95,11 +94,6 @@ void RenderManager::RenderPlay()
 
 	//Graphics Clear Target
 	GRAPHICS_MANAGER->SetRenderTarget();
-
-	//Render Time Manager
-	TIME_MANAGER->Render();
-	//Render Input Manager
-	INPUT_MANAGER->Render();
 
 	//메인 카메라(index 0) 기준으로 화면 그리기
 	if (m_camera_vector[0] != nullptr)
@@ -121,6 +115,8 @@ void RenderManager::RenderPlay()
 		m_camera_vector[i]->SortObjects();
 		m_camera_vector[i]->RenderForwardObjects();
 	}
+
+	RenderDebugMode();
 }
 
 void RenderManager::RenderEditor()
@@ -128,12 +124,7 @@ void RenderManager::RenderEditor()
 	ClearRenderTexture();
 	SetRenderTexture();
 
-	//Render Time Manager
-	TimeManager::GetInstance()->Render();
-	//Render Input Manager
-	InputManager::GetInstance()->Render();
-
-	if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+	if (SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Stop)
 	{
 		//Editor Camera 기준으로 화면 그리기
 		if (m_p_editor_camera != nullptr)
@@ -167,6 +158,19 @@ void RenderManager::RenderEditor()
 
 		m_camera_vector[i]->SortObjects();
 		m_camera_vector[i]->RenderForwardObjects();
+	}
+
+	RenderDebugMode();
+}
+
+void RenderManager::RenderDebugMode()
+{
+	if (m_is_debug_mode)
+	{
+		//Render Time Manager
+		TIME_MANAGER->Render();
+		//Render Input Manager
+		INPUT_MANAGER->Render();
 	}
 }
 
@@ -250,7 +254,7 @@ const bool RenderManager::CheckClickedEditorSceneRect(const Vector2& mouse_posit
 void RenderManager::CopyPostEffect()
 {
 	//Render Target Texture
-	auto render_target_textre = ResourceManager::GetInstance()->GetResource<Texture>("RenderTargetView");
+	auto render_target_textre = RESOURCE_MANAGER->GetResource<Texture>("RenderTargetView");
 
 	//Render Target Texture의 이미지를 카피
 	DEVICE_CONTEXT->CopyResource(m_p_post_effect_target_texture->GetTexture(), render_target_textre->GetTexture());
@@ -259,13 +263,12 @@ void RenderManager::CopyPostEffect()
 void RenderManager::ResizePostEffectTexture()
 {
 	auto settings = Core::GetInstance()->GetSettings();
-	auto resource_manager = ResourceManager::GetInstance();
 
 	//최초 생성    
 	if (m_p_post_effect_target_texture == nullptr)
 	{
 		//현재 해상도에 맞게 Post Effect Target텍스처 생성
-		m_p_post_effect_target_texture = resource_manager->CreateTexture
+		m_p_post_effect_target_texture = RESOURCE_MANAGER->CreateTexture
 		(
 			"PostEffectTarget",
 			settings->GetWindowWidth(),
@@ -357,7 +360,7 @@ void RenderManager::UpdateConstantBuffer()
 	//=============================================
 	//Program
 	//=============================================
-	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Program);
+	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::Program);
 	constant_buffer->SetConstantBufferData(&g_cbuffer_program, sizeof(CBuffer_Program));
 	constant_buffer->SetBufferBindStage(PipelineStage::Graphics_ALL | PipelineStage::CS);
 	constant_buffer->BindPipeline();
@@ -376,10 +379,20 @@ void RenderManager::UpdateConstantBuffer()
 	//Light2D 개수 업데이트
 	m_light2Ds_data.light_count = static_cast<UINT>(m_light2D_vector.size());
 
-	constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Light2D);
+	constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::Light2D);
 	constant_buffer->SetConstantBufferData(&m_light2Ds_data, sizeof(CBuffer_Light2D));
 	constant_buffer->SetBufferBindStage(PipelineStage::Graphics_ALL);
 	constant_buffer->BindPipeline();
+}
+
+void RenderManager::ClearCameraAndLight()
+{
+	//카메라 벡터 초기화
+	m_camera_vector.clear();
+	m_camera_vector.resize(1);
+
+	//Light2D 벡터 초기화
+	m_light2D_vector.clear();
 }
 
 void RenderManager::SetResolution(const UINT& width, const UINT& height)

@@ -45,7 +45,7 @@ void AudioSource::FinalUpdate()
 	if (m_p_audio_clip == nullptr || m_p_audio_clip->m_p_channel == nullptr)
 		return;
 
-	auto scene_manager = SceneManager::GetInstance();
+	auto scene_manager = SCENE_MANAGER;
 
 	//Editor Mode에 정지 상태일 경우
 	if ((scene_manager->GetClientState() == 2 && scene_manager->GetEditorState() == EditorState::EditorState_Stop))
@@ -151,7 +151,7 @@ void AudioSource::SaveToScene(FILE* p_file)
 
 	//Audio
 	fprintf(p_file, "[Audio]\n");
-	ResourceManager::GetInstance()->SaveResource<AudioClip>(m_p_audio_clip, p_file);
+	RESOURCE_MANAGER->SaveResource<AudioClip>(m_p_audio_clip, p_file);
 	
 	//Loop
 	fprintf(p_file, "[Loop]\n");
@@ -170,7 +170,7 @@ void AudioSource::LoadFromScene(FILE* p_file)
 
 	//Audio
 	FILE_MANAGER->FScanf(char_buffer, p_file);
-	ResourceManager::GetInstance()->LoadResource<AudioClip>(m_p_audio_clip, p_file);
+	RESOURCE_MANAGER->LoadResource<AudioClip>(m_p_audio_clip, p_file);
 
 	//Loop
 	FILE_MANAGER->FScanf(char_buffer, p_file);

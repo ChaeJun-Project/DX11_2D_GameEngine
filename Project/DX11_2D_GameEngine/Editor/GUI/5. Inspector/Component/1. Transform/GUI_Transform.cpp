@@ -18,16 +18,16 @@ GUI_Transform::GUI_Transform(const std::string& transform_gui_name)
 
 void GUI_Transform::Render()
 {
-	auto transform = m_p_selected_game_object->GetComponent<Transform>();
-	if (transform == nullptr)
+	auto p_transform = m_p_selected_game_object->GetComponent<Transform>();
+	if (p_transform == nullptr)
 		return;
 
-	auto is_active = transform->GetIsActive();
+	auto is_active = p_transform->GetIsActive();
 	if (BeginComponent(m_component_gui_name, ComponentType::Transform, is_active, IconType::Component_Transform))
 	{
-		auto position = transform->GetLocalTranslation();
-		auto rotation = transform->GetLocalRotation().ToEulerAngle();
-		auto scale = transform->GetLocalScale();
+		auto position = p_transform->GetLocalTranslation();
+		auto rotation = p_transform->GetLocalRotation().ToEulerAngle();
+		auto scale = p_transform->GetLocalScale();
 
 		ShowFloat3("Position", position, 70.0f, 80.0f);
 		ShowFloat3("Rotation", rotation, 70.0f, 80.0f);
@@ -36,9 +36,9 @@ void GUI_Transform::Render()
 		//Set Data
 		if (CAN_EDIT)
 		{
-			transform->SetLocalTranslation(position);
-			transform->SetLocalRotation(Quaternion::QuaternionFromEulerAngle(rotation));
-			transform->SetLocalScale(scale);
+			p_transform->SetLocalTranslation(position);
+			p_transform->SetLocalRotation(Quaternion::QuaternionFromEulerAngle(rotation));
+			p_transform->SetLocalScale(scale);
 		}
 
 		DrawComponentEnd();

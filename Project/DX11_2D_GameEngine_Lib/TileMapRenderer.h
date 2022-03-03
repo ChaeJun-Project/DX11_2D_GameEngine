@@ -16,43 +16,52 @@ public:
 	void FinalUpdate() override;
 	void Render();
 
+public:
+    void EditTileMap();
+
 private:
     void CalcGridCoord();
 	void BindPipeline();
 	void DrawGrid();
 
 public:
-    void SetIsActivePalette(const bool& is_active_palette) { m_is_active_palette = is_active_palette; }
+	void SetIsResizeTileMap(const bool& is_resize_tile_map) { m_is_resize_tile_map = is_resize_tile_map; }
 
-	void CreateTileMap(const std::string& tile_map_name);
+    void SetIsActivePalette(const bool& is_active_palette) { m_is_active_palette = is_active_palette; }
 	
-	const std::shared_ptr<TileMap>& GetTileMap() { SAFE_GET_POINTER(m_p_tile_map); }
-	void SetTileMap(const std::shared_ptr<TileMap>& p_tile_map) { m_p_tile_map = p_tile_map; }
+	void CreateTileMap(const std::string& tile_map_name);
+	void CreateGrid(const UINT& tile_count_x, const UINT& tile_count_y);
+	void CreateTileMapData();
+	
+	std::shared_ptr<TileMap>& GetTileMap() { return m_p_tile_map; }
+	void SetTileMap(const std::shared_ptr<TileMap>& p_tile_map);
 
     //Atlas Texture
-	const std::shared_ptr<Texture>& GetTileAtlasTexture(const UINT& tile_atlas_texture_index);
+	std::shared_ptr<Texture> GetTileAtlasTexture(const UINT& tile_atlas_texture_index);
 	void SetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile_atlas_texture);
 	
 	const UINT GetUsedTileAtlasTextureCount();
 
 	//Current Tile Index
-	const UINT GetCurrentTileIndex() { return m_current_tile_index; }
+	UINT GetCurrentTileIndex() const { return m_current_tile_index; }
 	void SetCurrentTileIndex(const UINT& current_tile_index) { m_current_tile_index = current_tile_index; }
 
 	//Tile Count
-	const Vector2 GetTileCount();
-	void SetTileCount(const UINT& tile_count_x, const UINT& tile_count_y);
+	UINT GetTileCountX() const;
+	UINT GetTileCountY() const;
+	void SetTileCountX(const UINT& tile_count_x);
+	void SetTileCountY(const UINT& tile_count_y);
 
 	//Tile Size
-	const Vector2 GetTileSize();
-	void SetTileSize(const Vector2& tile_size);
+	Vector2 GetTileSize() const;
+	void SetTileSizeX(const float& tile_size_x);
+	void SetTileSizeY(const float& tile_size_y);
 
 	//Grid
 	const bool& GetIsDrawGrid() { return m_is_draw_grid; }
 	void SetIsDrawGrid(const bool& is_draw_grid) { m_is_draw_grid = is_draw_grid; }
 
 private:
-	void CreateGrid(const UINT& tile_count_x, const UINT& tile_count_y);
 	void CalcCurrentPickRect(const Vector2& current_screen_pos);
 
 private:
@@ -67,6 +76,8 @@ private:
 	CLONE(TileMapRenderer);
 
 private:
+    bool m_is_resize_tile_map = false;
+
     bool m_is_active_palette = false;
 
 	//Tile Atlas Texture

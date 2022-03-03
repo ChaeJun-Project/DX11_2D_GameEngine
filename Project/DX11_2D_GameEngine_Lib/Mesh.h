@@ -42,8 +42,8 @@ public:
 	const std::vector<Vector2> GetGridLeftTopVector() const { return m_grid_left_top; }
 
 public:
-	bool SaveToFile(const std::string& animation2D_path) override;
-	bool LoadFromFile(const std::string& animation2D_path) override;
+	bool SaveToFile(const std::string& mesh_path) override;
+	bool LoadFromFile(const std::string& mesh_path) override;
 
 public:
 	CLONE(Mesh);

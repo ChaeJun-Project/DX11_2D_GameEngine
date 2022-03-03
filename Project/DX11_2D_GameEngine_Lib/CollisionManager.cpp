@@ -38,7 +38,7 @@ void CollisionManager::Update()
 
 void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& right_layer)
 {
-	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
+	auto current_scene = SCENE_MANAGER->GetCurrentScene();
 
 	const auto& left_layer_game_objects = current_scene->GetLayer(left_layer)->GetGameObjects();
 	const auto& right_layer_game_objects = current_scene->GetLayer(right_layer)->GetGameObjects();
@@ -47,14 +47,15 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 
 	for (UINT i = 0; i < static_cast<UINT>(left_layer_game_objects.size()); ++i)
 	{
-
-		if (left_layer_game_objects[i]->GetComponent<Collider2D>() == nullptr)
+		if (left_layer_game_objects[i]->GetComponent<Collider2D>() == nullptr
+			|| !left_layer_game_objects[i]->GetIsActive())
 			continue;
 
 		for (UINT j = 0; j < static_cast<UINT>(right_layer_game_objects.size()); ++j)
 		{
 			if (right_layer_game_objects[j]->GetComponent<Collider2D>() == nullptr
-				|| left_layer_game_objects[i] == right_layer_game_objects[j])
+				|| left_layer_game_objects[i] == right_layer_game_objects[j]
+				|| !right_layer_game_objects[i]->GetIsActive())
 				continue;
 
 			auto left_collider = left_layer_game_objects[i]->GetComponent<Collider2D>();
@@ -83,7 +84,7 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 					//둘중 하나 또는 모두 삭제 예정인 경우
 					if (left_layer_game_objects[i]->IsDead() || right_layer_game_objects[j]->IsDead())
 					{
-					    //충돌처리 해제
+						//충돌처리 해제
 						left_collider->OnCollisionExit(right_collider);
 						right_collider->OnCollisionExit(left_collider);
 						iter->second = false;
@@ -93,8 +94,8 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 					//계속 충돌하고 있음
 					else
 					{
-						left_collider->OnCollision(right_collider);
-						right_collider->OnCollision(left_collider);
+						left_collider->OnCollisionStay(right_collider);
+						right_collider->OnCollisionStay(left_collider);
 					}
 				}
 
@@ -104,7 +105,7 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 					//둘 다 삭제 예정이 아닌 경우
 					if (!left_layer_game_objects[i]->IsDead() && !right_layer_game_objects[j]->IsDead())
 					{
-					    //충돌처리
+						//충돌처리
 						left_collider->OnCollisionEnter(right_collider);
 						right_collider->OnCollisionEnter(left_collider);
 						iter->second = true;
@@ -196,7 +197,7 @@ void CollisionManager::CheckLayer(const UINT& left_layer, const UINT& right_laye
 		row = right_layer;
 		column = left_layer;
 	}
-	
+
 	//이미 체크가 된 경우
 	if (m_collision_check_vector[row] & (1 << column))
 	{

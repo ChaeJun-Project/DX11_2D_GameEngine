@@ -25,31 +25,31 @@ GUI_Camera::~GUI_Camera()
 
 void GUI_Camera::Render()
 {
-	auto camera = m_p_selected_game_object->GetComponent<Camera>();
-	if (camera == nullptr)
+	auto p_camera = m_p_selected_game_object->GetComponent<Camera>();
+	if (p_camera == nullptr)
 		return;
 
-	auto is_active = camera->GetIsActive();
+	auto is_active = p_camera->GetIsActive();
 	if (BeginComponent(m_component_gui_name, ComponentType::Camera, is_active, IconType::Component_Camera))
 	{
-		auto camera = m_p_selected_game_object->GetComponent<Camera>();
-		if (camera == nullptr)
+		auto p_camera = m_p_selected_game_object->GetComponent<Camera>();
+		if (p_camera == nullptr)
 			return;
 
-		camera->SetIsActive(is_active);
+		p_camera->SetIsActive(is_active);
 		
-		auto projection_type = camera->GetProjectionType();
-		auto size = camera->GetSize();
-		auto fov = Math::ToDegree(camera->GetFov());
-		auto near_z = camera->GetNearZ();
-		auto far_z = camera->GetFarZ();
-		auto camera_index = camera->GetCameraIndex();
-		auto culling_layer = camera->GetCullingLayer();
+		auto projection_type = p_camera->GetProjectionType();
+		auto size = p_camera->GetSize();
+		auto fov = Math::ToDegree(p_camera->GetFov());
+		auto near_z = p_camera->GetNearZ();
+		auto far_z = p_camera->GetFarZ();
+		auto camera_index = p_camera->GetCameraIndex();
+		auto culling_layer = p_camera->GetCullingLayer();
 
 		//Projection
-		ShowComboProjectionType(camera, projection_type);
+		ShowComboProjectionType(p_camera, projection_type);
 
-		switch (camera->GetProjectionType())
+		switch (p_camera->GetProjectionType())
 		{
 		case ProjectionType::Orthographic:
 			ShowFloat2("Size", size, 100.0f, 100.0f);
@@ -67,11 +67,11 @@ void GUI_Camera::Render()
 
 		if (CAN_EDIT)
 		{
-			camera->SetSize(size);
-			camera->SetFov(Math::ToRadian(fov));
-			camera->SetNearZ(near_z);
-			camera->SetFarZ(far_z);
-			camera->SetCameraIndex(camera_index);
+			p_camera->SetSize(size);
+			p_camera->SetFov(Math::ToRadian(fov));
+			p_camera->SetNearZ(near_z);
+			p_camera->SetFarZ(far_z);
+			p_camera->SetCameraIndex(camera_index);
 		}
 
 		//Culling Layer
@@ -99,7 +99,7 @@ void GUI_Camera::Render()
 				if (ImGui::Selectable(culling_layer_list_vector[i].c_str(), is_selected))
 				{
 					if (CAN_EDIT)
-						camera->CullingLayer(bit_pos);
+						p_camera->CullingLayer(bit_pos);
 				}
 
 				if (is_selected)
@@ -117,7 +117,7 @@ void GUI_Camera::Render()
 		if (ImGui::Button("Nothing", ImVec2(80.0f, 0.0f)))
 		{
 			if (CAN_EDIT)
-				camera->CullingNothing();
+				p_camera->CullingNothing();
 		}
 
 		ImGui::SameLine();
@@ -125,7 +125,7 @@ void GUI_Camera::Render()
 		if (ImGui::Button("Everything", ImVec2(80.0f, 0.0f)))
 		{
 			if (CAN_EDIT)
-				camera->CullingEverything();
+				p_camera->CullingEverything();
 		}
 
 		DrawComponentEnd();

@@ -80,7 +80,6 @@ void ResourceManager::Initialize()
 	CreateDefaultMaterial();
 	CreateDefaultMesh();
 	CreateDefaultTexture();
-
 	CreateAddedPrefab();
 }
 

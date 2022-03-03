@@ -12,7 +12,7 @@ void ConstantBuffer::SetConstantBufferData(const void* buffer_data, const UINT& 
 	D3D11_MAPPED_SUBRESOURCE mapped_sub_data;
 	ZeroMemory(&mapped_sub_data, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 	auto hResult = device_context->Map
 	(
 		m_p_buffer.Get(),
@@ -33,7 +33,7 @@ void ConstantBuffer::SetConstantBufferData(const void* buffer_data, const UINT& 
 
 void ConstantBuffer::BindPipeline()
 {
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 	if (m_buffer_bind_stage & PipelineStage::VS)
 	{
 		device_context->VSSetConstantBuffers(m_buffer_bind_slot, 1, m_p_buffer.GetAddressOf()); // b0 레지스터에 상수버퍼 바인딩(vertex shader 실행 시)	

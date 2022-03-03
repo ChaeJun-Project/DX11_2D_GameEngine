@@ -149,8 +149,20 @@ void GUI_Hierarchy::DragDropGameObject(DWORD_PTR p_dropped_item, DWORD_PTR p_dra
 	EventStruct event_struct;
 	ZeroMemory(&event_struct, sizeof(EventStruct));
 
-	event_struct.event_type = EventType::Add_Child_Object;
-	event_struct.object_address_1 = (GameObject*)p_dest_item->GetPayLoadData();
+	//GameObject TreeItem을 허공에 드랍한 경우
+	if (p_dest_item == nullptr)
+	{ 
+		event_struct.event_type = EventType::Detach_Child_Object;
+		event_struct.object_address_1 = nullptr;
+	}
+
+	//GameObject TreeItem을 다른 GameObject TreeItem에 드랍한 경우
+	else
+	{
+		event_struct.event_type = EventType::Add_Child_Object;
+		event_struct.object_address_1 = (GameObject*)p_dest_item->GetPayLoadData();
+	}
+
 	event_struct.object_address_2 = (GameObject*)p_src_item->GetPayLoadData();
 
 	EVENT_MANAGER->AddEvent(event_struct);

@@ -34,7 +34,7 @@ void GUI_AddSpriteAnimation::Render()
 {
 	if (ImGui::Begin("Add Sprite Animation", &m_is_active))
 	{
-		auto resource_manager = ResourceManager::GetInstance();
+		auto resource_manager = RESOURCE_MANAGER;
 
 		//Sprite Animation List
 		ImGui::BulletText("Sprite Animation List");

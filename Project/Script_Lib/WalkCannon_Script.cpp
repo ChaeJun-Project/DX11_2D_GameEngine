@@ -67,13 +67,13 @@ void WalkCannon_Script::Start()
 
 	//m_p_animator->SetCurrentAnimation("WalkCannon_Idle");
 
-	//m_p_bullet_prefab = ResourceManager::GetInstance()->GetResource<Prefab>("WalkCannon_Bullet");
+	//m_p_bullet_prefab = RESOURCE_MANAGER->GetResource<Prefab>("WalkCannon_Bullet");
 
-	//auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
+	//auto current_scene = SCENE_MANAGER->GetCurrentScene();
 	//auto game_object_vector = current_scene->GetLayer(3)->GetParentGameObjects();
 	//m_p_player = game_object_vector[0];
 
-	//CollisionManager::GetInstance()->CheckLayer(3, 4);
+	//COLLISION_MANAGER->CheckLayer(3, 4);
 }
 
 void WalkCannon_Script::Update()
@@ -83,12 +83,12 @@ void WalkCannon_Script::Update()
 
 	//if (m_p_player == nullptr)
 	//{
-	//	auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
+	//	auto current_scene = SCENE_MANAGER->GetCurrentScene();
 	//	auto game_object_vector = current_scene->GetLayer(3)->GetParentGameObjects();
 	//	m_p_player = game_object_vector[0];
 	//}
 
-	//auto timer = TimeManager::GetInstance();
+	//auto timer = TIME_MANAGER;
 	////시간 누적
 	//m_accumulate_time += timer->GetDeltaTime_float();
 
@@ -160,7 +160,7 @@ void WalkCannon_Script::CreateBullet()
 	auto direction = player_position - position;
 	direction.Normalize();
 
-	auto scene_manager = SceneManager::GetInstance();
+	auto scene_manager = SCENE_MANAGER;
 	auto current_scene = scene_manager->GetCurrentScene();
 
 	auto bullet = Instantiate(m_p_bullet_prefab, position, 4, true);

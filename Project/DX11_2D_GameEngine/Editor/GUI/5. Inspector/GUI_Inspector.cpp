@@ -339,20 +339,42 @@ void GUI_Inspector::ShowTagAndLayerList()
 	//Tag List
 	if (ImGui::TreeNodeEx("##Tag List", ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow, "Tags"))
 	{
-		for (auto& tag : m_tag_deque)
+	    int index = 0;
+		
+		std::deque<std::string>::iterator iter = m_tag_deque.begin();
+
+		for (; iter != m_tag_deque.end(); )
 		{
 			std::string tag_str = "##Tag";
-			std::string tag_name = tag;
+			tag_str += std::to_string(index);
+			std::string tag_name = *iter;
 
 			tag_str += tag_name;
 			ImGui::PushItemWidth(INPUT_TEXT_WIDTH);
 			if (ImGui::InputText(tag_str.c_str(), &tag_name, ImGuiInputTextFlags_EnterReturnsTrue))
 			{
-				tag = tag_name;
+				*iter = tag_name;
 				SaveTag();
 			}
 			ImGui::PopItemWidth();
+			ImGui::SameLine();
+
+			//Delete Tag Button
+			ImGui::PushID(tag_str.c_str());
+			if (ImGui::Button("Delete"))
+			{
+				iter = m_tag_deque.erase(iter);
+				SaveTag();
+			}
+
+			else
+			{
+				++iter;
+				++index;
+			}
+			ImGui::PopID();
 		}
+
 		ImGui::TreePop();
 	}
 
@@ -361,7 +383,7 @@ void GUI_Inspector::ShowTagAndLayerList()
 	{
 		m_tag_deque.emplace_back(std::string());
 	}
-
+	
 	//Layer List
 	if (ImGui::TreeNodeEx("##Layer List", ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow, "Layers"))
 	{

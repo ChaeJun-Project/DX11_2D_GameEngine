@@ -33,7 +33,7 @@ void WalkCannon_Bullet_Script::Update()
 	//	m_p_animator->Play();
 	//}
 
-	//auto timer = TimeManager::GetInstance();
+	//auto timer = TIME_MANAGER;
 
 	//auto transform = m_p_owner_game_object->GetComponent<Transform>();
 

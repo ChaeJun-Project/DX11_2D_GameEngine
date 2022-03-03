@@ -124,7 +124,7 @@ void GUI_Light2D::ShowComboLightType(Light2D* p_light2D, LightType& light_type)
 				const bool is_selected = (m_p_light_type_list->GetCurrentListID() == i);
 				if (ImGui::Selectable(light_type_list_vector[i].c_str(), is_selected))
 				{
-					if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+					if (SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Stop)
 						p_light2D->SetLightType(static_cast<LightType>(i));
 				}
 

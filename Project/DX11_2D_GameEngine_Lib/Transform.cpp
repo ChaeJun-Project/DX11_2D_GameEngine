@@ -98,7 +98,7 @@ void Transform::UpdateConstantBuffer()
 {
 	g_cbuffer_wvpmatrix.world = m_world_matrix;
 
-	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);
+	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);
 	constant_buffer->SetConstantBufferData(&g_cbuffer_wvpmatrix, sizeof(CBuffer_WVPMatrix));
 	constant_buffer->SetBufferBindStage(PipelineStage::VS | PipelineStage::GS);
 	constant_buffer->BindPipeline();

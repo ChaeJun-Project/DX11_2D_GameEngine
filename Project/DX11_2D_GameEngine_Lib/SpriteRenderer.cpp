@@ -25,8 +25,8 @@ SpriteRenderer::SpriteRenderer()
 SpriteRenderer::SpriteRenderer(const SpriteRenderer& origin)
 	:IComponent(origin.m_component_type)
 {
-    m_is_active = origin.m_is_active;
-	
+	m_is_active = origin.m_is_active;
+
 	//Sprite Texture
 	m_p_sprite_texture = origin.m_p_sprite_texture;
 	//Texture Color
@@ -55,14 +55,34 @@ void SpriteRenderer::Render()
 	if (m_p_mesh == nullptr || m_p_material == nullptr || m_p_material->GetShader() == nullptr)
 		return;
 
-	auto animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
+	/*if (m_p_owner_game_object->GetGameObjectTag() != "Water")
+		m_p_sprite_texture = m_p_material->GetTexture();*/
+
+	SetMeshScale();
+
+	m_p_material->BindPipeline();
+
+	m_p_mesh->Render();
+}
+
+void SpriteRenderer::SetMaterial(const std::shared_ptr<Material>& p_material)
+{
+	if (m_p_material != nullptr)
+		m_p_material.reset();
+
+	m_p_material = p_material;
+}
+
+void SpriteRenderer::SetMeshScale()
+{
+	auto p_animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
 
 	//해당 GameObject가 Animator2D Component를 소유하고 있는 경우
-	if (animator2D != nullptr)
+	if (p_animator2D != nullptr)
 	{
-		m_p_sprite_texture = animator2D->GetCurrentAnimationAtlasTexture();
+		m_p_sprite_texture = p_animator2D->GetCurrentAnimationAtlasTexture();
 
-		auto current_animation = animator2D->GetCurrentAnimation();
+		auto current_animation = p_animator2D->GetCurrentAnimation();
 
 		if (current_animation != nullptr)
 		{
@@ -77,17 +97,16 @@ void SpriteRenderer::Render()
 	//Set Sprtie Texture Color
 	m_p_material->SetConstantBufferData(Material_Parameter::VEC4_0, &m_sprite_texture_color);
 
-	/*if (m_p_owner_game_object->GetGameObjectTag() != "Water")
-		m_p_sprite_texture = m_p_material->GetTexture();*/
-
+	//Set Mesh Scale
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
+
 	if (m_p_sprite_texture != nullptr)
 	{
 		m_p_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_sprite_texture);
 
-		if (animator2D && animator2D->GetCurrentAnimation() != nullptr)
+		if (p_animator2D && p_animator2D->GetCurrentAnimation() != nullptr)
 		{
-			auto current_animation = animator2D->GetCurrentAnimation();
+			auto current_animation = p_animator2D->GetCurrentAnimation();
 			auto frame_size = current_animation->GetCurrentFrame().frame_size;
 			transform->SetMeshScale(static_cast<UINT>(frame_size.x), static_cast<UINT>(frame_size.y));
 		}
@@ -97,19 +116,8 @@ void SpriteRenderer::Render()
 	}
 	else
 		transform->SetMeshScale(0, 0); //설정된 Texture가 없다면 다시 0으로 초기화
-	transform->UpdateConstantBuffer();
 
-	m_p_material->BindPipeline();
-
-	m_p_mesh->Render();
-}
-
-void SpriteRenderer::SetMaterial(const std::shared_ptr<Material>& p_material)
-{
-	if (m_p_material != nullptr)
-		m_p_material.reset();
-
-	m_p_material = p_material;
+	transform->UpdateConstantBuffer(); //Transform Update
 }
 
 void SpriteRenderer::SaveToScene(FILE* p_file)

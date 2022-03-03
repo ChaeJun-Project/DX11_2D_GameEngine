@@ -32,14 +32,14 @@ void EditorObjectManager::Initialize()
     camera->SetProjectionType(ProjectionType::Perspective);
     camera->CullingNothing();
 
-    RenderManager::GetInstance()->RegisterEditorCamera(camera);
+    RENDER_MANAGER->RegisterEditorCamera(camera);
 
     m_game_object_ex_vector.emplace_back(editor_camera);
 }
 
 void EditorObjectManager::Update()
 {
-    if (SceneManager::GetInstance()->GetEditorState() == EditorState::EditorState_Stop)
+    if (SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Stop)
     {
         for (auto& game_object : m_game_object_ex_vector)
             game_object->Update();

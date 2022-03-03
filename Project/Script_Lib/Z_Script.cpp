@@ -92,11 +92,11 @@ void Z_Script::Update()
 
 	//대쉬
 	if (KEY_PRESS(KeyCode::KEY_Z))
-		position -= m_speed * TIME_MANAGER->GetDeltaTime_float();
+		move_speed.y -= m_speed * TIME_MANAGER->GetDeltaTime_float();
 
 	//점프
 	if (KEY_PRESS(KeyCode::KEY_X))
-		position += m_speed * TIME_MANAGER->GetDeltaTime_float();
+		move_speed.y += m_speed * TIME_MANAGER->GetDeltaTime_float();
 
 	//공격
 	if (KEY_PRESS(KeyCode::KEY_C))
@@ -111,23 +111,30 @@ void Z_Script::Update()
 
 void Z_Script::OnCollisionEnter(GameObject* other_game_object)
 {
-	/*if (other_game_object->GetGameObjectTag() == "Enemy")
+	if (other_game_object->GetGameObjectTag() == "Default")
 	{
 		m_current_state = AnimationState::Damaged;
-	}*/
+		m_p_animator->SetCurrentAnimation("Z_Damaged");
+		m_p_animator->SetIsLoop(true);
+	}
 }
 
 void Z_Script::OnCollisionStay(GameObject* other_game_object)
 {
-
+	if (other_game_object->GetGameObjectTag() == "Colonel")
+	{
+		m_current_state = AnimationState::Damaged;
+		m_p_animator->SetCurrentAnimation("Z_Damaged");
+		m_p_animator->SetIsLoop(true);
+	}
 }
 
 void Z_Script::OnCollisionExit(GameObject* other_game_object)
 {
-	/*if (other_game_object->GetGameObjectTag() == "Enemy")
+	if (other_game_object->GetGameObjectTag() == "Colonel")
 	{
 		m_current_state = AnimationState::Idle;
-	}*/
+	}
 }
 
 void Z_Script::RegisterScriptParamData()

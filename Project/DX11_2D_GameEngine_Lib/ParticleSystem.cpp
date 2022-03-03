@@ -17,7 +17,7 @@
 ParticleSystem::ParticleSystem()
 	:IComponent(ComponentType::ParticleSystem)
 {
-	auto resource_manager = ResourceManager::GetInstance();
+	auto resource_manager = RESOURCE_MANAGER;
 
 	m_p_mesh = resource_manager->GetResource<Mesh>("Point_Mesh");
 	auto clone_material = resource_manager->GetResource<Material>("Default_Material")->Clone();
@@ -61,7 +61,7 @@ void ParticleSystem::FinalUpdate()
 	//========================================================
 	//m_p_particle_shared_buffer 업데이트
 	//========================================================
-	m_accumulate_time += TimeManager::GetInstance()->GetDeltaTime_float();
+	m_accumulate_time += TIME_MANAGER->GetDeltaTime_float();
 
 	//파티클 활성화 빈도 시간만큼 시간이 누적되었다면
 	if (m_accumulate_time >= m_spawn_frequency)

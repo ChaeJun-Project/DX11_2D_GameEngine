@@ -31,7 +31,7 @@ void StructuredBuffer::Create(const UINT& element_size, const UINT& element_coun
 	desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 	desc.StructureByteStride = element_size; //구조적 버퍼 요소당 크기
 
-	auto device = GraphicsManager::GetInstance()->GetDevice();
+	auto device = GRAPHICS_MANAGER->GetDevice();
 	HRESULT hResult;
 
 	//초기 데이터가 있다면
@@ -122,7 +122,7 @@ void StructuredBuffer::SetStructuredBufferData(const void* buffer_data, const UI
 	D3D11_MAPPED_SUBRESOURCE mapped_sub_data;
 	ZeroMemory(&mapped_sub_data, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 	auto hResult = device_context->Map
 	(
 		m_p_cpu_write_buffer.Get(),
@@ -151,7 +151,7 @@ void StructuredBuffer::GetStructuredBufferData(void* buffer_data, const UINT& bu
 	//=============================================
 	//m_p_buffer -> m_p_cpu_read_buffer 데이터 전달
 	//=============================================
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 	device_context->CopyResource(m_p_cpu_read_buffer.Get(), m_p_buffer.Get());
 
 	//=============================================
@@ -189,7 +189,7 @@ void StructuredBuffer::CreateSRV()
 	srv_desc.ViewDimension = D3D_SRV_DIMENSION_BUFFEREX;
 	srv_desc.BufferEx.NumElements = m_element_count;
 
-	auto device = GraphicsManager::GetInstance()->GetDevice();
+	auto device = GRAPHICS_MANAGER->GetDevice();
 	auto hResult = device->CreateShaderResourceView(m_p_buffer.Get(), &srv_desc, m_p_shader_resource_view.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
@@ -207,7 +207,7 @@ void StructuredBuffer::CreateUAV()
 	uav_desc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 	uav_desc.Buffer.NumElements = m_element_count;
 
-	auto device = GraphicsManager::GetInstance()->GetDevice();
+	auto device = GRAPHICS_MANAGER->GetDevice();
 	auto hResult = device->CreateUnorderedAccessView(m_p_buffer.Get(), &uav_desc, m_p_unordered_access_view.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
@@ -216,7 +216,7 @@ void StructuredBuffer::CreateUAV()
 
 void StructuredBuffer::BindPipeline()
 {
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 
 	//Vertex Shader Stage
 	if (m_buffer_bind_stage & PipelineStage::VS)
@@ -265,14 +265,14 @@ void StructuredBuffer::BindPipelineRW(const UINT& unordered_bind_slot)
 
 	m_unordered_bind_slot = unordered_bind_slot;
 
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 	UINT i = -1;
 	device_context->CSSetUnorderedAccessViews(m_unordered_bind_slot, 1, m_p_unordered_access_view.GetAddressOf(), &i);
 }
 
 void StructuredBuffer::Clear()
 {
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 
 	//Clear Shader Resource View
 	ID3D11ShaderResourceView* p_shader_resource_view = nullptr;

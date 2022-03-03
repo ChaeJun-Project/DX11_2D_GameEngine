@@ -55,6 +55,9 @@ public:
 	void SetAnimationEvent(const std::string& animation_name, const UINT& clip_index, std::function<void(void)> event_func);
 
 private:
+    void SetMeshScale(); //SetCurrentAnimation에서 애니메이션이 변경될 때 호출
+
+private:
 	void SaveToScene(FILE* p_file) override;
 	void LoadFromScene(FILE* p_file) override;
 

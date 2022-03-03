@@ -46,7 +46,7 @@ void Material::BindPipeline()
 {
 	m_p_shader->BindPipeline();
 
-	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Material);
+	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::Material);
 	constant_buffer->SetConstantBufferData(&m_material_data, sizeof(CBuffer_Material));
 	constant_buffer->SetBufferBindStage(PipelineStage::Graphics_ALL);
 	constant_buffer->BindPipeline();

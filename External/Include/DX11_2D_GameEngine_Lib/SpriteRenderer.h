@@ -5,6 +5,8 @@ class Texture;
 class Mesh;
 class Material;
 
+class Animator2D;
+
 class SpriteRenderer : public IComponent
 {
 public:
@@ -28,6 +30,9 @@ public:
 
     void SetMaterial(const std::shared_ptr<Material>& p_material);
     std::shared_ptr<Material> GetMaterial() { SAFE_GET_POINTER(m_p_material); }
+
+private:
+    void SetMeshScale();
 
 private:
     void SaveToScene(FILE* p_file) override;

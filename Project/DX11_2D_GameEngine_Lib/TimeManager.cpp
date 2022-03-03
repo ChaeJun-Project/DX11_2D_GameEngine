@@ -37,7 +37,7 @@ void TimeManager::Update()
 
 void TimeManager::Render()
 {
-	FontManager::GetInstance()->DrawFont(m_render_str, 20.0f, FONT_RGBA(0, 255, 0, 255), 10.0f, 10.0f);
+	FONT_MANAGER->DrawFont(m_render_str, 20.0f, FONT_RGBA(0, 255, 0, 255), 10.0f, 10.0f);
 }
 
 void TimeManager::CalcCurrentTime()

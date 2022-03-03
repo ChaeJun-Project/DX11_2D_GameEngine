@@ -72,17 +72,6 @@ void TileMapRenderer::FinalUpdate()
 	if (m_p_tile_map == nullptr)
 		return;
 
-	auto screen_offset = RENDER_MANAGER->GetScreenOffset();
-	auto editor_camera = RENDER_MANAGER->GetEditorCamera();
-
-	//Palette가 켜진 상태 & 편집 상태 & 마우스 왼쪽 클릭을 했을 때 
-	if (m_is_active_palette && (SceneManager::GetInstance()->GetEditorState() == EditorState_Stop) && MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
-	{
-		auto mouse_world_position = editor_camera->Picking();
-
-		CalcCurrentPickRect(Vector2(mouse_world_position.x, mouse_world_position.y));
-	}
-
 	m_p_tile_map->FinalUpdate();
 }
 
@@ -97,6 +86,21 @@ void TileMapRenderer::Render()
 	DrawGrid();
 }
 
+void TileMapRenderer::EditTileMap()
+{
+	auto screen_offset = RENDER_MANAGER->GetScreenOffset();
+	auto editor_camera = RENDER_MANAGER->GetEditorCamera();
+
+	//Palette가 켜진 상태 & 편집 상태 & 마우스 왼쪽 클릭을 했을 때 
+	if (m_is_active_palette && (SCENE_MANAGER->GetEditorState() == EditorState_Stop) && MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
+	{
+		auto mouse_world_position = editor_camera->Picking();
+
+		if (mouse_world_position != Vector3::Zero)
+			CalcCurrentPickRect(Vector2(mouse_world_position.x, mouse_world_position.y));
+	}
+}
+
 void TileMapRenderer::CalcGridCoord()
 {
 	auto tile_count = m_p_tile_map->m_tile_count;
@@ -107,11 +111,16 @@ void TileMapRenderer::CalcGridCoord()
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
 	if (tile_size != Vector2::Zero && tile_count != 0)
 	{
-		transform->SetMeshScale
-		(
-			static_cast<UINT>(tile_count_x * tile_size.x),
-			static_cast<UINT>(tile_count_y * tile_size.y)
-		);
+		if (m_is_resize_tile_map)
+		{
+			transform->SetMeshScale
+			(
+				static_cast<UINT>(tile_count_x * tile_size.x),
+				static_cast<UINT>(tile_count_y * tile_size.y)
+			);
+
+			m_is_resize_tile_map = false;
+		}
 
 		auto world_matrix = transform->GetWorldMatrix();
 
@@ -153,7 +162,7 @@ void TileMapRenderer::BindPipeline()
 
 void TileMapRenderer::DrawGrid()
 {
-	if (m_is_draw_grid && (SceneManager::GetInstance()->GetEditorState() == EditorState_Stop))
+	if (m_is_draw_grid && (SCENE_MANAGER->GetEditorState() == EditorState_Stop))
 	{
 		m_p_grid_material->BindPipeline();
 		m_p_grid_mesh->Render();
@@ -167,7 +176,39 @@ void TileMapRenderer::CreateTileMap(const std::string& tile_map_name)
 	m_p_tile_map = p_new_tile_map;
 }
 
-const std::shared_ptr<Texture>& TileMapRenderer::GetTileAtlasTexture(const UINT& tile_atlas_texture_index)
+void TileMapRenderer::CreateGrid(const UINT& tile_count_x, const UINT& tile_count_y)
+{
+	if (!m_grid_left_top_vector.empty())
+	{
+		m_grid_left_top_vector.clear();
+	}
+
+	m_p_grid_mesh->Create(MeshType::Grid, tile_count_x, tile_count_y);
+
+	m_grid_left_top_vector = m_p_grid_mesh->GetGridLeftTopVector();
+}
+
+void TileMapRenderer::CreateTileMapData()
+{
+	if (m_p_tile_map == nullptr || m_grid_left_top_vector.empty())
+		return;
+
+	m_p_tile_map->CreateTileData(m_grid_left_top_vector);
+}
+
+void TileMapRenderer::SetTileMap(const std::shared_ptr<TileMap>& p_tile_map)
+{
+	m_p_tile_map = p_tile_map;
+
+	for (UINT i = 0; i < m_p_tile_map->m_used_tile_atlas_texture_count; ++i)
+	{
+		LoadSetTileAtlasTexture(m_p_tile_map->m_used_tile_atlas_texture_vector[i], i);
+	}
+
+	LoadSetTileCount(m_p_tile_map->m_tile_count_x, m_p_tile_map->m_tile_count_y);
+}
+
+std::shared_ptr<Texture> TileMapRenderer::GetTileAtlasTexture(const UINT& tile_atlas_texture_index)
 {
 	if (m_p_material)
 	{
@@ -186,7 +227,7 @@ void TileMapRenderer::SetTileAtlasTexture(const std::shared_ptr<Texture>& p_tile
 {
 	if (m_p_tile_map && m_p_material && m_p_tile_map->m_used_tile_atlas_texture_count != 8)
 	{
-	    auto used_texture_count = m_p_tile_map->m_used_tile_atlas_texture_count;
+		auto used_texture_count = m_p_tile_map->m_used_tile_atlas_texture_count;
 
 		//현재 타일맵에 사용될 텍스처 저장
 		m_p_current_tile_atlas_texture = p_tile_atlas_texture;
@@ -239,25 +280,39 @@ const UINT TileMapRenderer::GetUsedTileAtlasTextureCount()
 	return m_p_tile_map->m_used_tile_atlas_texture_count;
 }
 
-const Vector2 TileMapRenderer::GetTileCount()
+UINT TileMapRenderer::GetTileCountX() const
 {
 	if (m_p_tile_map == nullptr)
-		return Vector2::Zero;
+		return 0;
 
-	return 	Vector2(static_cast<float>(m_p_tile_map->m_tile_count_x), static_cast<float>(m_p_tile_map->m_tile_count_y));
+	return m_p_tile_map->m_tile_count_x;
 }
 
-void TileMapRenderer::SetTileCount(const UINT& tile_count_x, const UINT& tile_count_y)
+UINT TileMapRenderer::GetTileCountY() const
 {
 	if (m_p_tile_map == nullptr)
+		return 0;
+
+	return m_p_tile_map->m_tile_count_y;
+}
+
+void TileMapRenderer::SetTileCountX(const UINT& tile_count_x)
+{
+	if (m_p_tile_map == nullptr || tile_count_x <= 0)
 		return;
 
-	CreateGrid(tile_count_x, tile_count_y);
-
-	m_p_tile_map->SetTileCount(tile_count_x, tile_count_y, m_grid_left_top_vector);
+	m_p_tile_map->m_tile_count_x = tile_count_x;
 }
 
-const Vector2 TileMapRenderer::GetTileSize()
+void TileMapRenderer::SetTileCountY(const UINT& tile_count_y)
+{
+	if (m_p_tile_map == nullptr || tile_count_y <= 0)
+		return;
+
+	m_p_tile_map->m_tile_count_y = tile_count_y;
+}
+
+Vector2 TileMapRenderer::GetTileSize() const
 {
 	if (m_p_tile_map == nullptr)
 		return Vector2::Zero;
@@ -265,24 +320,20 @@ const Vector2 TileMapRenderer::GetTileSize()
 	return m_p_tile_map->m_tile_size;
 }
 
-void TileMapRenderer::SetTileSize(const Vector2& tile_size)
+void TileMapRenderer::SetTileSizeX(const float& tile_size_x)
 {
-	if (m_p_tile_map == nullptr)
+	if (m_p_tile_map == nullptr || tile_size_x <= 0.0f)
 		return;
 
-	m_p_tile_map->m_tile_size = tile_size;
+	m_p_tile_map->m_tile_size.x = tile_size_x;
 }
 
-void TileMapRenderer::CreateGrid(const UINT& tile_count_x, const UINT& tile_count_y)
+void TileMapRenderer::SetTileSizeY(const float& tile_size_y)
 {
-	if (!m_grid_left_top_vector.empty())
-	{
-		m_grid_left_top_vector.clear();
-	}
+	if (m_p_tile_map == nullptr || tile_size_y <= 0.0f)
+		return;
 
-	m_p_grid_mesh->Create(MeshType::Grid, tile_count_x, tile_count_y);
-
-	m_grid_left_top_vector = m_p_grid_mesh->GetGridLeftTopVector();
+	m_p_tile_map->m_tile_size.y = tile_size_y;
 }
 
 void TileMapRenderer::CalcCurrentPickRect(const Vector2& current_screen_pos)
@@ -343,7 +394,9 @@ void TileMapRenderer::LoadFromScene(FILE* p_file)
 	//Grid
 	FILE_MANAGER->FScanf(char_buffer, p_file); //■ Grid
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Draw]
-	fscanf_s(p_file, "%d\n", &m_is_draw_grid);
+	int boolen_num = -1;
+	fscanf_s(p_file, "%d\n", &boolen_num);
+	m_is_draw_grid = boolen_num;
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Material]
 	RESOURCE_MANAGER->LoadResource<Material>(m_p_grid_material, p_file);
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Mesh]
@@ -380,9 +433,9 @@ void TileMapRenderer::LoadSetTileCount(const UINT& tile_count_x, const UINT& til
 	if (m_p_tile_map == nullptr)
 		return;
 
+	m_is_resize_tile_map = true;
+
 	CreateGrid(tile_count_x, tile_count_y);
 
 	m_p_tile_map->SetTileMapCoord(tile_count_x, tile_count_y, m_grid_left_top_vector);
-
-	EDITOR_LOG_INFO_F("Tile Size: %dx%d", tile_count_x, tile_count_y);
 }

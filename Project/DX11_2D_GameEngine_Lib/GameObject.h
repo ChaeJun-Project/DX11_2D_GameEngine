@@ -50,12 +50,6 @@ public:
 
 	const UINT& GetScriptCount() const { return static_cast<UINT>(m_p_script_un_map.size()); }
 
-	//==============
-	// [Prefab]
-	//==============
-public:
-	void RegisterPrefab();
-
 public:
 	//GameObject IsActive
 	const bool& GetIsActive() { return m_is_active; }
@@ -129,9 +123,6 @@ protected:
 	GameObject* m_p_parent = nullptr;
 	//Child GameObject
 	std::vector<GameObject*> m_p_child_vector;
-
-	//해당 오브젝트로 프리팹을 만든 횟수
-	UINT m_prefab_count = 0;
 
 	friend class Layer;
 	friend class EventManager;

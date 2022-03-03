@@ -29,7 +29,7 @@ void ParticleUpdateShader::Excute()
 	m_particle_system_data.i_array[0] = particle_max_count;
 
 	// 상수버퍼 업데이트
-	auto constant_buffer = GraphicsManager::GetInstance()->GetConstantBuffer(CBuffer_BindSlot::Material);
+	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::Material);
 	constant_buffer->SetConstantBufferData(&m_particle_system_data, sizeof(CBuffer_Material));
 	constant_buffer->SetBufferBindStage(PipelineStage::CS);
 	constant_buffer->BindPipeline();

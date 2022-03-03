@@ -19,6 +19,7 @@ public:
 private:
 	void RenderPlay();
 	void RenderEditor();
+	void RenderDebugMode();
 
 	void CalcClientSceneRect();
 
@@ -48,6 +49,8 @@ public:
 	void UpdateConstantBuffer();
 
 public:
+    void ClearCameraAndLight();
+
 	const std::shared_ptr<Texture>& GetRenderTexture() { SAFE_GET_POINTER(m_p_render_texture); };
 
 	void SetResolution(const UINT& width, const UINT& height);
@@ -76,4 +79,6 @@ private:
 
 	//Post Effect Àü¿ë Texture
 	std::shared_ptr<Texture> m_p_post_effect_target_texture;
+
+	bool m_is_debug_mode = true;
 };

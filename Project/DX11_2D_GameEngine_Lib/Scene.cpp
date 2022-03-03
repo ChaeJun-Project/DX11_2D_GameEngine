@@ -132,6 +132,11 @@ void Scene::DeregisterGameObject(GameObject* p_game_object)
 
 	auto layer = p_game_object->GetGameObjectLayer();
 	m_layer_map[layer]->DeregisterGameObject(p_game_object);
+
+	//해당 GameObject가 자식을 가지고 있을 경우
+	const auto& child_game_object_vector = p_game_object->GetChilds();
+	for (const auto& p_child_game_object : child_game_object_vector)
+		DeregisterGameObject(p_child_game_object);
 }
 
 void Scene::DeregisterFromParentGameObject(GameObject* p_game_object)

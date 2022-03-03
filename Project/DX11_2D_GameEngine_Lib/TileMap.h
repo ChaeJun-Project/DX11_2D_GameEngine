@@ -24,7 +24,8 @@ public:
 	void BindPipeline() override;
 
 private:
-	void SetTileCount(const UINT& tile_count_x, const UINT& tile_count_y, const std::vector<Vector2>& grid_left_top_vector); //최초 생성했을 경우만 사용
+	//Create Tile Data
+	void CreateTileData(const std::vector<Vector2>& grid_left_top_vector); //최초 생성했을 경우만 사용
 	void SetTileMapCoord(const UINT& tile_count_x, const UINT& tile_count_y, const std::vector<Vector2>& grid_left_top_vector); //Load 했을 경우만 사용
 	void CreateTileMapBuffer();
 
@@ -42,7 +43,7 @@ private:
 
 	//TileMap Info
 	UINT m_tile_count = 0;   //타일의 총 개수
-	Vector2 m_tile_size = Vector2(0.0f, 0.0f); //각 타일의 크기
+	Vector2 m_tile_size = Vector2::Zero; //각 타일의 크기
 	UINT m_tile_count_x = 0; //타일 맵의 한 행의 열의 개수
 	UINT m_tile_count_y = 0; //타일 맵의 행의 개수
 

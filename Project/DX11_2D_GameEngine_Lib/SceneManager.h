@@ -11,10 +11,8 @@ class SceneManager final : public Singleton<SceneManager>
 
 public:
 	void Initialize();
+	void Start();
 	void Update();
-
-	//юс╫ц
-	void CreatePrefab(GameObject* p_game_object);
 
 public:
     void SetCurrentScene(const std::shared_ptr<Scene>& p_current_scene);

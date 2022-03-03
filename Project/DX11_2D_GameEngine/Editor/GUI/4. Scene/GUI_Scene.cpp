@@ -138,7 +138,7 @@ void GUI_Scene::ShowScene()
 //</summary>
 void GUI_Scene::ShowGizmo()
 {
-	if (SceneManager::GetInstance()->GetEditorState() != EditorState::EditorState_Stop)
+	if (SCENE_MANAGER->GetEditorState() != EditorState::EditorState_Stop)
 		return;
 
 	auto p_editor_camera = RENDER_MANAGER->GetEditorCamera();
@@ -154,18 +154,21 @@ void GUI_Scene::ShowGizmo()
 	static ImGuizmo::OPERATION operation(ImGuizmo::TRANSLATE);
 	static ImGuizmo::MODE mode(ImGuizmo::WORLD);
 
-	//Change Gizmo Mode
-	if (KEY_PRESS(KeyCode::KEY_1))
-		operation = ImGuizmo::TRANSLATE; //Transform Mode
+	if (ImGui::IsWindowFocused())
+	{
+		//Change Gizmo Mode
+		if (KEY_PRESS(KeyCode::KEY_1))
+			operation = ImGuizmo::TRANSLATE; //Transform Mode
 
-	if (KEY_PRESS(KeyCode::KEY_2))
-		operation = ImGuizmo::ROTATE; //Rotation Mode
+		if (KEY_PRESS(KeyCode::KEY_2))
+			operation = ImGuizmo::ROTATE; //Rotation Mode
 
-	if (KEY_PRESS(KeyCode::KEY_3))
-		operation = ImGuizmo::SCALE; //Scale Mode
+		if (KEY_PRESS(KeyCode::KEY_3))
+			operation = ImGuizmo::SCALE; //Scale Mode
 
-	if (KEY_PRESS(KeyCode::KEY_4))
-		operation = ImGuizmo::UNIVERSAL; //Universal Mode(Transform + Rotation + Scale)
+		if (KEY_PRESS(KeyCode::KEY_4))
+			operation = ImGuizmo::UNIVERSAL; //Universal Mode(Transform + Rotation + Scale)
+	}
 
 	//선택된 GameObject에 부모 GameObject가 있는 경우 Gizmo Mode를 Local로 변경
 	if (p_game_object->HasParent())

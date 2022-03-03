@@ -259,7 +259,7 @@ void EditorManager::EndDockWindow()
 
 void EditorManager::ResizeEditor(const UINT& width, const UINT& height)
 {
-	auto graphics_manager = GraphicsManager::GetInstance();
+	auto graphics_manager = GRAPHICS_MANAGER;
 	graphics_manager->ResizeWindowByUser(width, height);
 
 	ImGui_ImplDX11_InvalidateDeviceObjects();

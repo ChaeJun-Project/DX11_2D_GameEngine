@@ -23,60 +23,33 @@ GUI_TileMapRenderer::GUI_TileMapRenderer(const std::string& tilemap_gui_name)
 GUI_TileMapRenderer::~GUI_TileMapRenderer()
 {
 	SAFE_DELETE(m_p_gui_palette);
-
-	m_p_current_game_object = nullptr;
 }
 
 void GUI_TileMapRenderer::Render()
 {
-	TileMapRenderer* tile_map_renderer = nullptr;
-
-	//Tiling Count
-	static int tile_count_row = 0;
-	static int tile_count_column = 0;
-
-	//Tile Size
-	static Vector2 tile_size = Vector2::Zero;
-
-	if (m_p_current_game_object != nullptr && m_p_current_game_object != m_p_selected_game_object)
-	{
-		tile_map_renderer = m_p_selected_game_object->GetComponent<TileMapRenderer>();
-
-		//Tiling Count
-		auto tile_count = tile_map_renderer->GetTileCount();
-		tile_count_row = static_cast<int>(tile_count.x);
-		tile_count_column = static_cast<int>(tile_count.y);
-
-		//Tile Size
-		tile_size = tile_map_renderer->GetTileSize();
-	}
-
-	m_p_current_game_object = m_p_selected_game_object;
-
-	tile_map_renderer = m_p_current_game_object->GetComponent<TileMapRenderer>();
-	auto tile_map = tile_map_renderer->GetTileMap();
-	if (tile_map != nullptr)
-	{
-		//Tiling Count
-		auto tile_count = tile_map_renderer->GetTileCount();
-		tile_count_row = static_cast<int>(tile_count.x);
-		tile_count_column = static_cast<int>(tile_count.y);
-
-		//Tile Size
-		tile_size = tile_map_renderer->GetTileSize();
-	}
-
-	if (tile_map_renderer == nullptr)
+	//TileMapRenderer
+	auto p_tile_map_renderer = m_p_selected_game_object->GetComponent<TileMapRenderer>();
+	if (p_tile_map_renderer == nullptr)
 		return;
 
-	auto is_active = tile_map_renderer->GetIsActive();
+	auto is_active = p_tile_map_renderer->GetIsActive();
 	if (BeginComponent(m_component_gui_name, ComponentType::TileMapRenderer, is_active, IconType::Component_TileMapRenderer))
 	{
-		auto tile_map_renderer = m_p_current_game_object->GetComponent<TileMapRenderer>();
-		if (tile_map_renderer == nullptr)
+		auto p_tile_map_renderer = m_p_selected_game_object->GetComponent<TileMapRenderer>();
+		if (p_tile_map_renderer == nullptr)
 			return;
 
-		tile_map_renderer->SetIsActive(is_active);
+		p_tile_map_renderer->SetIsActive(is_active);
+
+		//TileMap
+		auto p_tile_map = p_tile_map_renderer->GetTileMap();
+
+		//Tiling Count
+		auto tile_count_x = static_cast<int>(p_tile_map_renderer->GetTileCountX()); //타일의 열의 개수(X축 타일 개수)
+		auto tile_count_y = static_cast<int>(p_tile_map_renderer->GetTileCountY()); //타일의 행의 개수(Y축 타일 개수)
+
+		//Tile Size
+		auto tile_size = p_tile_map_renderer->GetTileSize();
 
 		//Palette
 		ImGui::SameLine(ImGui::GetWindowContentRegionWidth() - 110.0f);
@@ -84,89 +57,102 @@ void GUI_TileMapRenderer::Render()
 		{
 			if (CAN_EDIT)
 			{
-				m_p_gui_palette->m_is_active = true;
-				m_p_gui_palette->m_p_current_tile_map = tile_map_renderer;
+				if (!m_p_gui_palette->m_is_active)
+				{
+					m_p_gui_palette->Initialize();
+					m_p_gui_palette->m_is_active = true;
+					m_p_gui_palette->m_p_current_tile_map = p_tile_map_renderer;
 
-				tile_map_renderer->SetIsActivePalette(m_p_gui_palette->m_is_active);
+					p_tile_map_renderer->SetIsActivePalette(m_p_gui_palette->m_is_active);
+				}
 			}
 		}
 
-		//Show Save TileMap Button
+		//Save TileMap Button
 		if (ImGui::Button("Save TileMap", ImVec2(100.0f, 0.0f)))
 		{
 			if (CAN_EDIT)
 			{
-				if (tile_map != nullptr)
-					FileFunction::SaveFile(TILEMAP_PATH, tile_map->GetResourceName(), FileType::TileMap);
+				if (p_tile_map != nullptr)
+					FileFunction::SaveFile(TILEMAP_PATH, p_tile_map->GetResourceName(), FileType::TileMap);
 			}
 		}
 		ImGui::SameLine();
 
-		//Show Load TileMap Button
+		//Load TileMap Button
 		if (ImGui::Button("Load TileMap", ImVec2(100.0f, 0.0f)))
 		{
 			if (CAN_EDIT)
 			{
+				auto tile_map_path = FileFunction::LoadFile(TILEMAP_PATH, FileType::TileMap);
 
+				if (!tile_map_path.empty())
+				{
+					auto p_tile_map = RESOURCE_MANAGER->LoadFromFile<TileMap>(tile_map_path);
+					p_tile_map_renderer->SetTileMap(p_tile_map);
+				}
 			}
-			//std::string animation2D_path = FileFunction::LoadFile(ANIMATION_PATH, FileType::Animation);
 		}
 
 		//TileMap
 		ImGui::Text("TileMap");
 		ImGui::SameLine(100.0f);
 
-		if(tile_map != nullptr)
-			m_tile_map_name = tile_map->GetResourceName();
+		std::string tile_map_name;
+		if (p_tile_map != nullptr)
+			tile_map_name = p_tile_map->GetResourceName();
 
 		ImGui::PushItemWidth(150.0f);
-		if (ImGui::InputText("##TileMap Name", &m_tile_map_name, ImGuiInputTextFlags_EnterReturnsTrue))
+		if (ImGui::InputText("##TileMap Name", &tile_map_name, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			if (m_tile_map_name.size() && tile_map == nullptr)
+			if (tile_map_name.size())
 			{
-				tile_map_renderer->CreateTileMap(m_tile_map_name);
+				p_tile_map_renderer->CreateTileMap(tile_map_name);
 			}
 		}
 		ImGui::PopItemWidth();
 
 		//Use Tile Texture Count
-		int use_count = static_cast<int>(tile_map_renderer->GetUsedTileAtlasTextureCount());
+		int use_count = static_cast<int>(p_tile_map_renderer->GetUsedTileAtlasTextureCount());
 		ShowInt("TileMapRenderer", "Used Texture Count", use_count, 150.0f, 0.0f, ImGuiInputTextFlags_ReadOnly);
 
 		//Tiling Count
-		ShowInt2("Tiling", tile_count_row, tile_count_column, 70.0f, 80.0f);
+		ShowInt2("Tiling", tile_count_x, tile_count_y, 70.0f, 80.0f);
 
 		//Tile Size
 		ShowFloat2("Tile Size", tile_size, 70.0f, 80.0f);
 
-		////Editor 상태가 Play or Pause인 경우
-		//if (CAN_EDIT)
-		//{
-		//	//Tiling Count
-		//	auto tile_count = tile_map_renderer->GetTileCount();
-		//	tile_count_row = static_cast<int>(tile_count.x);
-		//	tile_count_column = static_cast<int>(tile_count.y);
+		//Editor 상태가 Play or Pause인 경우
+		//Update TileMap Property
+		if (CAN_EDIT)
+		{
+			//Tiling Count
+			p_tile_map_renderer->SetTileCountX(tile_count_x);
+			p_tile_map_renderer->SetTileCountY(tile_count_y);
 
-		//	//Tile Size
-		//	tile_size = tile_map_renderer->GetTileSize();
-		//}
+			//Tile Size
+			p_tile_map_renderer->SetTileSizeX(tile_size.x);
+			p_tile_map_renderer->SetTileSizeY(tile_size.y);
+		}
 
-		//Draw Grid Check
-		bool is_active = tile_map_renderer->GetIsDrawGrid();
+		//Grid Check
+		bool is_active = p_tile_map_renderer->GetIsDrawGrid();
 		if (ImGui::Checkbox("Draw Grid", &is_active))
 		{
 			if (CAN_EDIT)
 			{
-				tile_map_renderer->SetIsDrawGrid(is_active);
+				p_tile_map_renderer->SetIsDrawGrid(is_active);
 			}
 		}
 
+		//TileMap Property Apply
 		if (ImGui::Button("Apply", ImVec2(110.0f, 0.0f)))
 		{
 			if (CAN_EDIT)
 			{
-				tile_map_renderer->SetTileCount(static_cast<UINT>(tile_count_row), static_cast<UINT>(tile_count_column));
-				tile_map_renderer->SetTileSize(tile_size);
+				p_tile_map_renderer->SetIsResizeTileMap(true);
+				p_tile_map_renderer->CreateGrid(tile_count_x, tile_count_y);
+				p_tile_map_renderer->CreateTileMapData();
 			}
 		}
 
@@ -175,9 +161,10 @@ void GUI_TileMapRenderer::Render()
 		if (m_p_gui_palette->m_is_active)
 		{
 			m_p_gui_palette->Render();
+			p_tile_map_renderer->EditTileMap();
 		}
 
 		else
-			tile_map_renderer->SetIsActivePalette(m_p_gui_palette->m_is_active);
+			p_tile_map_renderer->SetIsActivePalette(m_p_gui_palette->m_is_active);
 	}
 }

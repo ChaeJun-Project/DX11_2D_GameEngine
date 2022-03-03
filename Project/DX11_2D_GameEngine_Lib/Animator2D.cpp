@@ -4,6 +4,9 @@
 #include "ResourceManager.h"
 #include "SpriteAnimation.h"
 
+#include "GameObject.h"
+#include "Transform.h"
+
 Animator2D::Animator2D()
 	:IComponent(ComponentType::Animator2D)
 {
@@ -17,7 +20,7 @@ Animator2D::Animator2D(const Animator2D& origin)
 	//동일한 애니메이션의 정보를 바탕으로 복사 애니메이션 생성 및 추가
 	for (const auto& animation_iter : origin.m_p_sprite_animation_map)
 	{
-	    auto p_origin_sprite_animation = animation_iter.second;
+		auto p_origin_sprite_animation = animation_iter.second;
 
 		auto p_clone_sprite_animation_raw = p_origin_sprite_animation->Clone();
 		auto p_clone_sprite_animation = std::shared_ptr<SpriteAnimation>(p_clone_sprite_animation_raw);
@@ -124,7 +127,7 @@ const std::shared_ptr<Texture>& Animator2D::GetCurrentAnimationAtlasTexture()
 
 void Animator2D::AddAnimation(const std::string& sprite_animation_name)
 {
-	auto p_sprtie_animation = ResourceManager::GetInstance()->GetResource<SpriteAnimation>(sprite_animation_name);
+	auto p_sprtie_animation = RESOURCE_MANAGER->GetResource<SpriteAnimation>(sprite_animation_name);
 
 	if (p_sprtie_animation == nullptr)
 		return;
@@ -172,6 +175,7 @@ void Animator2D::SetCurrentAnimation(const std::string& animation_name)
 		return;
 
 	m_p_current_animation = animation_iter->second;
+	SetMeshScale();
 
 	Play();
 }
@@ -185,6 +189,16 @@ void Animator2D::SetAnimationEvent(const std::string& animation_name, const UINT
 		return;
 
 	animation_iter->second->SetAnimationEvent(clip_index, event_func);
+}
+
+void Animator2D::SetMeshScale()
+{
+	auto transform = m_p_owner_game_object->GetComponent<Transform>();
+
+	auto frame_size = m_p_current_animation->GetCurrentFrame().frame_size;
+	transform->SetMeshScale(static_cast<UINT>(frame_size.x), static_cast<UINT>(frame_size.y));
+	
+	transform->UpdateConstantBuffer();
 }
 
 void Animator2D::SaveToScene(FILE* p_file)
@@ -249,7 +263,7 @@ void Animator2D::LoadFromScene(FILE* p_file)
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	std::string current_animation_key = std::string(char_buffer);
 	m_p_current_animation = m_p_sprite_animation_map[current_animation_key];
-	
+
 	//Animation Speed
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	fscanf_s(p_file, "%f\n", &m_animation_speed);

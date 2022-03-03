@@ -22,7 +22,7 @@ bool Texture::LoadFromFile(const std::string& texture_path)
 
 	image.GetPixels();
 	//咆胶贸 积己
-	auto device = GraphicsManager::GetInstance()->GetDevice();
+	auto device = GRAPHICS_MANAGER->GetDevice();
 	hResult = CreateTexture
 	(
 		device,
@@ -112,7 +112,7 @@ void Texture::Create(const UINT& width, const UINT& height, const DXGI_FORMAT& t
 	m_texture_desc.MiscFlags = 0;
 
 	//Create Texture
-	auto device = GraphicsManager::GetInstance()->GetDevice();
+	auto device = GRAPHICS_MANAGER->GetDevice();
 	auto hResult = device->CreateTexture2D
 	(
 		&m_texture_desc,
@@ -223,7 +223,7 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D, const UINT& bind_
 
 	m_texture_desc.BindFlags |= bind_flage;
 
-	auto device = GraphicsManager::GetInstance()->GetDevice();
+	auto device = GRAPHICS_MANAGER->GetDevice();
 	HRESULT hResult;
 
 	//View Resource 积己
@@ -318,7 +318,7 @@ void Texture::Create(const ComPtr<ID3D11Texture2D>& texture2D, const UINT& bind_
 
 void Texture::BindPipeline()
 {
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 
 	//Vertex Shader Stage
 	if (m_texture_bind_stage & PipelineStage::VS)
@@ -361,7 +361,7 @@ void Texture::BindPipelineRW(const UINT& unordered_bind_slot)
 {
 	m_unordered_bind_slot = unordered_bind_slot;
 
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 
 	//Compute Shader Stage
 	ID3D11UnorderedAccessView* p_unordered_access_view = nullptr;
@@ -371,7 +371,7 @@ void Texture::BindPipelineRW(const UINT& unordered_bind_slot)
 
 void Texture::Clear()
 {
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 
 	//Clear Shader Resource View
 	ID3D11ShaderResourceView* p_shader_resource_view = nullptr;

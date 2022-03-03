@@ -3,13 +3,13 @@
 1 Camera
 2 Light
 3 UI
-4 Geometry
-5 Player
+4 BackGround
+5 Map
 6 Enemy
-7 
-8 
-9 
-10 
+7 Player
+8 Wall
+9 Floor
+10 Door
 11 
 12 
 13 

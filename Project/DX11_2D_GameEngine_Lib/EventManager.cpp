@@ -65,6 +65,11 @@ void EventManager::Excute(const EventStruct& event_struct)
 		AddChildGameObject(event_struct);
 	}
 	break;
+	case EventType::Detach_Child_Object:
+	{
+		DetachChildGameObject(event_struct);
+	}
+	break;
 	case EventType::Scene_Change:
 	{
 		ChangeScene(event_struct);
@@ -97,28 +102,58 @@ void EventManager::AddChildGameObject(const EventStruct& event_struct)
 	auto p_parent_game_object = std::get<GameObject*>(event_struct.object_address_1);
 	auto p_child_game_object = std::get<GameObject*>(event_struct.object_address_2);
 
+	//현재 Scene
+	auto current_scene = SCENE_MANAGER->GetCurrentScene();
+
 	//이미 해당 GameObject를 자식으로 소유하고 있는 경우
 	if (p_parent_game_object->GetHasChild(p_child_game_object))
 		return;
 
+	current_scene->DeregisterGameObject(p_child_game_object); //현재 Scene에서 등록 해제(Layer 포함)
+
 	//연결할 자식 GameObject가 부모 GameObject를 소유하고 있는 경우
 	if (p_child_game_object->HasParent())
-		p_child_game_object->DetachFromParent(); //부모로부터 분리
+		p_child_game_object->DetachFromParent(); //기존 부모로부터 분리
 
-	//연결할 자식 GameObject가 최상위 부모인 경우
-	else
+	//새로운 자식 GameObject를 부모 GameObject에 연결
+	p_parent_game_object->AddChild(p_child_game_object);
+	//새로운 자식 GameObject 연결 후 현재 Scene에서 등록 해제(Layer 포함)
+	current_scene->DeregisterGameObject(p_parent_game_object); 
+	//새로운 자식 GameObject 연결 후 현재 Scene에 다시 등록(Layer 포함)
+	current_scene->RegisterGameObject(p_parent_game_object);
+
+	m_is_update = true;
+}
+
+void EventManager::DetachChildGameObject(const EventStruct& event_struct)
+{
+	//object_address_1은 nullptr
+	auto p_game_object = std::get<GameObject*>(event_struct.object_address_2);
+
+	//현재 Scene
+	auto current_scene = SCENE_MANAGER->GetCurrentScene();
+
+	//현재 GameObject가 부모 GameObject를 가지고 있는 경우
+	if (p_game_object->HasParent())
 	{
-		auto current_scene = SceneManager::GetInstance()->GetCurrentScene();
-		current_scene->DeregisterFromParentGameObject(p_child_game_object);
+		current_scene->DeregisterGameObject(p_game_object); //현재 Scene에서 등록 해제(Layer 포함)
+		p_game_object->DetachFromParent(); //현재 부모 GameObject로부터 분리
 	}
 
-	p_parent_game_object->AddChild(p_child_game_object);
+	//현재 GameObject가 부모 GameObject를 가지고 있지 않은 경우
+	//아무런 변화 없음
+	else
+		return;
+
+	current_scene->RegisterGameObject(p_game_object); //현재 Scene에 다시 등록(최상위 부모 GameObject로, Layer 포함)
 
 	m_is_update = true;
 }
 
 void EventManager::ChangeScene(const EventStruct& event_struct)
 {
+	RENDER_MANAGER->ClearCameraAndLight(); //등록된 Camera 및 Light 제거
+
 	auto next_scene = std::get<std::shared_ptr<Scene>>(event_struct.object_address_1);
 	SCENE_MANAGER->SetCurrentScene(next_scene);
 

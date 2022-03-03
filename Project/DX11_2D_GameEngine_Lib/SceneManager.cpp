@@ -19,8 +19,14 @@ SceneManager::~SceneManager()
 
 void SceneManager::Initialize()
 {
-
+  
 }
+
+void SceneManager::Start()
+{
+    if(m_client_state == 1)
+		m_p_current_scene->Start();
+} 
 
 void SceneManager::Update()
 {
@@ -43,12 +49,7 @@ void SceneManager::Update()
 	if (((m_editor_state & EditorState::EditorState_Play) && !(m_editor_state & EditorState::EditorState_Pause))
 		|| m_client_state == 1)
 		//Update Collisio Manager
-		CollisionManager::GetInstance()->Update();
-}
-
-void SceneManager::CreatePrefab(GameObject* p_game_object)
-{
-	p_game_object->RegisterPrefab();
+		COLLISION_MANAGER->Update();
 }
 
 void SceneManager::SetCurrentScene(const std::shared_ptr<Scene>& p_current_scene)
@@ -57,6 +58,8 @@ void SceneManager::SetCurrentScene(const std::shared_ptr<Scene>& p_current_scene
 		m_p_current_scene.reset();
 
 	m_p_current_scene = p_current_scene;
+
+	Start();
 }
 
 void SceneManager::SetEditorState(const UINT& editor_state)

@@ -23,8 +23,8 @@ private:
 
 public:
     void OnCollisionEnter(Collider2D* other_collider);
+	void OnCollisionStay(Collider2D* other_collider);
 	void OnCollisionExit(Collider2D* other_collider);
-	void OnCollision(Collider2D* other_collider);
 
 public:
     //Offset Position

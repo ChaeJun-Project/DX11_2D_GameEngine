@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
-#include "SceneManager.h"
 #include "Scene.h"
 #include "Layer.h"
 
@@ -67,9 +66,6 @@ GameObject::GameObject(const GameObject& origin)
 	{
 		AddChild(child->Clone());
 	}
-
-	//해당 오브젝트로 프리팹을 만든 횟수
-	m_prefab_count = origin.m_prefab_count;
 }
 
 GameObject::~GameObject()
@@ -324,7 +320,7 @@ void GameObject::SetGameObjectLayer(const UINT& layer_index)
 	if (m_game_object_layer != layer_index)
 	{
 		//Current Scene
-		auto p_current_scene = SceneManager::GetInstance()->GetCurrentScene();
+		auto p_current_scene = SCENE_MANAGER->GetCurrentScene();
 
 		//Deregister from Pre Layer
 		auto p_pre_layer = p_current_scene->GetLayer(m_game_object_layer);
@@ -417,7 +413,7 @@ void GameObject::DetachFromParent()
 		if ((*iter) == this)
 		{
 			iter = m_p_parent->m_p_child_vector.erase(iter);
-
+			this->m_p_parent = nullptr;
 			return;
 		}
 
@@ -465,23 +461,4 @@ void GameObject::LoadFromScene(FILE* p_file)
 	//Layer
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	fscanf_s(p_file, "%d\n", &m_game_object_layer);
-}
-
-#include "Prefab.h"
-
-void GameObject::RegisterPrefab()
-{
-	auto resource_manager = ResourceManager::GetInstance();
-
-	std::string prefab_name = m_object_name;
-	assert(!prefab_name.empty());
-
-	//이미 해당 이름으로 프리팹 오브젝트가 존재하는 경우
-	if (resource_manager->GetResource<Prefab>(prefab_name) != nullptr)
-	{
-		prefab_name += std::to_string(m_prefab_count);
-	}
-
-	resource_manager->CreatePrefab(this);
-	++m_prefab_count;
 }

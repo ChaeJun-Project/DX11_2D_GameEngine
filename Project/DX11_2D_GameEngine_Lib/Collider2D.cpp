@@ -114,9 +114,20 @@ void Collider2D::OnCollisionEnter(Collider2D* other_collider)
 
 	ChangeColliderBoxColorRed();
 
-	auto script = m_p_owner_game_object->GetComponent<Script>();
-	if (script != nullptr)
-		script->OnCollisionEnter(other_collider->GetGameObject());
+	const auto& script_unmap = m_p_owner_game_object->GetScriptUnMap();
+	for (const auto& script : script_unmap)
+	{
+		script.second->OnCollisionEnter(other_collider->GetGameObject());
+	}
+}
+
+void Collider2D::OnCollisionStay(Collider2D* other_collider)
+{
+	const auto& script_unmap = m_p_owner_game_object->GetScriptUnMap();
+	for (const auto& script : script_unmap)
+	{
+		script.second->OnCollisionStay(other_collider->GetGameObject());
+	}
 }
 
 void Collider2D::OnCollisionExit(Collider2D* other_collider)
@@ -126,16 +137,11 @@ void Collider2D::OnCollisionExit(Collider2D* other_collider)
 	if (m_collision_count == 0)
 		ChangeColliderBoxColorGreen();
 
-	auto script = m_p_owner_game_object->GetComponent<Script>();
-	if (script != nullptr)
-		script->OnCollisionEnter(other_collider->GetGameObject());
-}
-
-void Collider2D::OnCollision(Collider2D* other_collider)
-{
-	auto script = m_p_owner_game_object->GetComponent<Script>();
-	if (script != nullptr)
-		script->OnCollisionEnter(other_collider->GetGameObject());
+	const auto& script_unmap = m_p_owner_game_object->GetScriptUnMap();
+	for (const auto& script : script_unmap)
+	{
+		script.second->OnCollisionExit(other_collider->GetGameObject());
+	}
 }
 
 void Collider2D::SaveToScene(FILE* p_file)

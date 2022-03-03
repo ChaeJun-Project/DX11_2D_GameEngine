@@ -22,7 +22,7 @@ void SamplerState::Create
 	desc.ComparisonFunc = comparison_func;
 
 	//Sampler State »ý¼º
-	auto device = GraphicsManager::GetInstance()->GetDevice();
+	auto device = GRAPHICS_MANAGER->GetDevice();
 	auto hResult = device->CreateSamplerState(&desc, m_p_sampler_state.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 }

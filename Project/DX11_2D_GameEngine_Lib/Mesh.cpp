@@ -50,7 +50,7 @@ void Mesh::BindPipeline()
 	auto stride = m_p_vertex_buffer->GetStride();
 	auto offset = m_p_vertex_buffer->GetOffset();
 
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 	device_context->IASetVertexBuffers
 	(
 		0,
@@ -68,7 +68,7 @@ void Mesh::Render()
 {
 	BindPipeline();
 
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 	device_context->DrawIndexed(static_cast<UINT>(m_index_vector.size()), 0, 0);
 }
 
@@ -76,7 +76,7 @@ void Mesh::RenderInstance(const UINT& render_count)
 {
 	BindPipeline();
 
-	auto device_context = GraphicsManager::GetInstance()->GetDeviceContext();
+	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 	device_context->DrawIndexedInstanced(static_cast<UINT>(m_index_vector.size()), render_count, 0, 0, 0);
 }
 
@@ -425,12 +425,36 @@ void Mesh::Clear()
 	m_index_vector.shrink_to_fit();
 }
 
-bool Mesh::SaveToFile(const std::string& animation2D_path)
+bool Mesh::SaveToFile(const std::string& mesh_path)
 {
-	return false;
+	FILE* p_file = nullptr;
+	fopen_s(&p_file, mesh_path.c_str(), "wb"); //파일 쓰기
+
+	if (p_file != nullptr)
+	{
+		
+		fclose(p_file);
+
+		return true;
+	}
+
+	else
+		return false;
 }
 
-bool Mesh::LoadFromFile(const std::string& animation2D_path)
+bool Mesh::LoadFromFile(const std::string& mesh_path)
 {
-	return false;
+	FILE* p_file = nullptr;
+	fopen_s(&p_file, mesh_path.c_str(), "rb"); //파일 읽기
+
+	if (p_file != nullptr)
+	{
+		
+		fclose(p_file);
+
+		return true;
+	}
+
+	else
+		return false;
 }

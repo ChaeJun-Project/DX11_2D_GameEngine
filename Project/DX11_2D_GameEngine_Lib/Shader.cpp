@@ -49,7 +49,7 @@ Shader::~Shader()
 //</summary>
 void Shader::BindPipeline()
 {
-	auto graphics_manager = GraphicsManager::GetInstance();
+	auto graphics_manager = GRAPHICS_MANAGER;
 
 	auto device_context = graphics_manager->GetDeviceContext();
 

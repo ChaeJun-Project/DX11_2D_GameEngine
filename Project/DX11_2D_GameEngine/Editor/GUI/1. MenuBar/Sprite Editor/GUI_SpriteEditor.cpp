@@ -211,7 +211,7 @@ void GUI_SpriteEditor::ShowAnimationEditor()
 		{
 			if (!m_animation_name.empty())
 			{
-				m_p_sprite_animation = ResourceManager::GetInstance()->CreateSpriteAnimation(m_animation_name); //Game Object의 이름을 수정한 경우에만 수행
+				m_p_sprite_animation = RESOURCE_MANAGER->CreateSpriteAnimation(m_animation_name); //Game Object의 이름을 수정한 경우에만 수행
 				m_p_sprite_animation->SetAtlasTexture(m_p_atlas_texture);
 			}
 		}

@@ -28,6 +28,7 @@ private:
 	void CreateGameObject(const EventStruct& event_struct);
 	void DeleteGameObject(const EventStruct& event_struct);
 	void AddChildGameObject(const EventStruct& event_struct);
+	void DetachChildGameObject(const EventStruct& event_struct);
 	void ChangeScene(const EventStruct& event_struct);
 
 public:

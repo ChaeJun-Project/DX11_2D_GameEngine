@@ -22,13 +22,14 @@ public:
 	virtual ~GUI_Palette();
 
 public:
+    void Initialize();
 	virtual void Render() override;
 
 private:
     void RenderTileAtlasTexture();
-	void ShowSelectedTile(const Vector2& per_tile_size);
+	void ShowSelectedTile(const Vector2& tile_size);
 	void CalcCurrentPickRect(const ImVec2& current_screen_pos);
-	void AddTilePosition(const Vector2& per_tile_size);
+	void AddTilePosition(const Vector2& tile_size);
 	void ShowMousePosition(const bool& is_hovered);
 
 private:
@@ -40,6 +41,9 @@ private:
 	ImVec2 m_canvas_left_top = ImVec2(0.0f, 0.0f);
 	ImVec2 m_canvas_right_bottom = ImVec2(0.0f, 0.0f);
 
+	//Tile Size
+	Vector2 m_tile_size = Vector2::Zero;
+
 	//Tile Atlas Texture List
 	GUI_ItemList* m_p_tile_atlas_item_list = nullptr;
  
@@ -47,7 +51,7 @@ private:
 	TileMapRenderer* m_p_current_tile_map = nullptr;
 
 	//Draw Rect
-	ImDrawList* draw_list = nullptr;
+	ImDrawList* m_draw_list = nullptr;
 
 	int m_tile_count_row = 0; //타일 맵의 행의 개수
 	int m_tile_count_column = 0; //타일 맵의 열의 개수

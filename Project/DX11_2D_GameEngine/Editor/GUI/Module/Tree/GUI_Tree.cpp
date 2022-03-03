@@ -126,9 +126,6 @@ void GUI_Tree::SetSelectedItem(const std::string& directory_path)
 
 void GUI_Tree::SetDroppedItem(GUI_TreeItem* p_item)
 {
-	if (p_item == nullptr)
-		return;
-
 	m_p_dropped_item = p_item;
 
 	if (m_p_drag_start_item != nullptr && m_p_drag_drop_func != nullptr)
