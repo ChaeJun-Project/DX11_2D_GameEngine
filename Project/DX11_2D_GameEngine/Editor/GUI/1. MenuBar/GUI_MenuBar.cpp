@@ -8,6 +8,8 @@
 
 #include "Scene/ClientSceneManager.h"
 
+#include "Manager/EditorManager.h"
+
 #include <DX11_2D_GameEngine_Lib/FileManager.h>
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 #include <DX11_2D_GameEngine_Lib/Scene.h>
@@ -147,7 +149,7 @@ void GUI_MenuBar::Render()
 			if (ImGui::MenuItem("Physics", "CTRL + P"))
 			{
 				if (!m_p_gui_physics->m_is_active)
-				{	
+				{
 					m_p_gui_physics->m_is_active = true;
 				}
 			}
@@ -171,13 +173,43 @@ void GUI_MenuBar::Render()
 	if (m_p_gui_physics->m_is_active) m_p_gui_physics->Render();
 }
 
+#include "Helper/EditorHelper.h"
 void GUI_MenuBar::NewScene()
 {
-	ClientSceneManager::CreateNewScene();
+	EDITOR_HELPER->SetSelectedGameObject(nullptr);
+	EDITOR_HELPER->SetSelectedResource(nullptr);
+
+	//Current Scene
+	auto current_scene = SCENE_MANAGER->GetCurrentScene();
+
+	//New Scene
+	auto new_scene = std::make_shared<Scene>("New Scene");
+	new_scene->SetStartScene();
+	SCENE_MANAGER->SetCurrentScene(new_scene);
+
+	if (FileFunction::SaveFile(SCENE_PATH, "New Scene", FileType::Scene))
+	{
+		EDITOR_MANAGER->ExcuteEventCallBack(); //로그 삭제
+
+		//Scene Change
+		EventStruct event_struct;
+		ZeroMemory(&event_struct, sizeof(EventStruct));
+
+		event_struct.event_type = EventType::Scene_Change;
+		event_struct.object_address_1 = new_scene;
+
+		EVENT_MANAGER->AddEvent(event_struct);
+
+		EDITOR_LOG_INFO_F("새로운 Scene을 성공적으로 만들었습니다.");
+	}
+
+	else
+		SCENE_MANAGER->SetCurrentScene(current_scene);
 }
 
 void GUI_MenuBar::LoadScene()
 {
+	EDITOR_MANAGER->ExcuteEventCallBack(); //로그 삭제
 	FileFunction::LoadScene(FileFunction::LoadFile(SCENE_PATH, FileType::Scene));
 }
 
@@ -185,5 +217,14 @@ void GUI_MenuBar::SaveScene()
 {
 	auto current_scene = SCENE_MANAGER->GetCurrentScene();
 
-	FileFunction::SaveFile(SCENE_PATH, current_scene->GetSceneName(), FileType::Scene);
+	auto current_scene_path = SCENE_PATH;
+	current_scene_path += (current_scene->GetSceneName() + ".scene");
+
+	//현재 Edit중인 Scene이 Scene 폴더에 이미 저장되어 있다면
+	//Modal Window를 띄우지않고 저장
+	if (FILE_MANAGER->IsExistFile(current_scene_path))
+		ClientSceneManager::SaveScene(current_scene_path);
+
+	else
+		FileFunction::SaveFile(SCENE_PATH, current_scene->GetSceneName(), FileType::Scene);
 }

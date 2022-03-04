@@ -5,9 +5,6 @@
 #include "ParticleUpdateShader.h"
 #include "StructuredBuffer.h"
 
-#include "TimeManager.h"
-
-#include "ResourceManager.h"
 #include "Material.h"
 #include "Mesh.h"
 
@@ -17,10 +14,8 @@
 ParticleSystem::ParticleSystem()
 	:IComponent(ComponentType::ParticleSystem)
 {
-	auto resource_manager = RESOURCE_MANAGER;
-
-	m_p_mesh = resource_manager->GetResource<Mesh>("Point_Mesh");
-	auto clone_material = resource_manager->GetResource<Material>("Default_Material")->Clone();
+	m_p_mesh = RESOURCE_MANAGER->GetResource<Mesh>("Point_Mesh");
+	auto clone_material = RESOURCE_MANAGER->GetResource<Material>("Default_Material")->Clone();
 	m_p_material = std::shared_ptr<Material>(clone_material);
 
 	//Create Paritcle Update Shader

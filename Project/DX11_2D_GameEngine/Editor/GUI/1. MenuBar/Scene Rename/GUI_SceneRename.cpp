@@ -20,6 +20,9 @@ void GUI_SceneRename::Render()
 		{
 			FILE_MANAGER->RenameFile(SCENE_PATH, ".scene", current_scene->GetSceneName(), scene_name);
 			current_scene->SetSceneName(scene_name);
+
+			UpdateScene();
+
 			EDITOR_LOG_INFO_F("Success to Rename Current Scene '%s'", scene_name.c_str());
 		}
 		ImGui::PopItemWidth();

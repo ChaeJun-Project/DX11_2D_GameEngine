@@ -16,7 +16,7 @@
 #include <DX11_2D_GameEngine_Lib/TileMap.h>
 #include <DX11_2D_GameEngine_Lib/SpriteAnimation.h>
 
-void FileFunction::SaveFile(const std::string& save_resource_folder_path, const std::string& file_name, const FileType& file_type)
+bool FileFunction::SaveFile(const std::string& save_resource_folder_path, const std::string& file_name, const FileType& file_type)
 {
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(OPENFILENAME));
@@ -33,21 +33,24 @@ void FileFunction::SaveFile(const std::string& save_resource_folder_path, const 
 	{
 	case FileType::Scene:
 	{
-		ofn.lpstrFilter = L"All\0*.*\0Scene\0*.scene\0";
+		ofn.lpstrFilter = L"Scene\0*.scene\0All\0*.*\0"; //필터
+		ofn.lpstrDefExt = L"scene";						 //디폴트 확장자
 
 		file_name_wstr += L".scene";
 	}
 	break;
 	case FileType::TileMap:
 	{
-		ofn.lpstrFilter = L"All\0*.*\0Tile\0*.tile\0";
+		ofn.lpstrFilter = L"Tile\0*.tile\0All\0*.*\0";	//필터
+		ofn.lpstrDefExt = L"tile";						//디폴트 확장자
 
 		file_name_wstr += L".tile";
 	}
 	break;
 	case FileType::Animation:
 	{
-		ofn.lpstrFilter = L"All\0*.*\0Animation\0*.anim\0";
+		ofn.lpstrFilter = L"Animation\0*.anim\0All\0*.*\0"; //필터
+		ofn.lpstrDefExt = L"anim";							//디폴트 확장자
 
 		file_name_wstr += L".anim";
 	}
@@ -81,7 +84,11 @@ void FileFunction::SaveFile(const std::string& save_resource_folder_path, const 
 			SaveResource<SpriteAnimation>(FILE_MANAGER->ConvertWStringToString(szName));
 			break;
 		}
+
+		return true;
 	}
+
+	   return false;
 }
 
 void FileFunction::SaveScene(const std::string& scene_path)
@@ -90,9 +97,8 @@ void FileFunction::SaveScene(const std::string& scene_path)
 		return;
 
 	auto scene_name = FILE_MANAGER->GetOriginFileNameFromPath(scene_path);
-	auto p_save_scene = ClientSceneManager::SaveScene(scene_path);
 
-	if (p_save_scene != nullptr)
+	if (ClientSceneManager::SaveScene(scene_path))
 		EDITOR_LOG_INFO_F("Scene 파일 저장에 성공했습니다: [%s]", scene_name.c_str())
 	else
 		EDITOR_LOG_ERROR_F("Scene 파일 저장에 실패했습니다: [%s]", scene_name.c_str())

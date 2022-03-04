@@ -197,6 +197,7 @@
     <ClInclude Include="Editor\GUI\Module\Tree\GUI_Tree.h" />
     <ClInclude Include="Editor\GUI\Module\Tree\GUI_TreeItem.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\11. AudioListener\GUI_AudioListener.h" />
+    <ClInclude Include="Engine_Func.h" />
     <ClInclude Include="File Function\FileFunction.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\Sprite Editor\GUI_SpritePlayer.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\4. Animator2D\Add Sprite Animation\GUI_AddSpriteAnimation.h" />

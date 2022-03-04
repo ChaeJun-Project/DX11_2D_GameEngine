@@ -6,7 +6,7 @@ class FileFunction final
 {
 public:
     //Save
-	static void SaveFile(const std::string& save_resource_folder_path, const std::string& file_name, const FileType& file_type);
+	static bool SaveFile(const std::string& save_resource_folder_path, const std::string& file_name, const FileType& file_type);
 
 	static void SaveScene(const std::string& scene_path);
 

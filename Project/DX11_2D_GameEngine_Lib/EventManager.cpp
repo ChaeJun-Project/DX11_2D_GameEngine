@@ -75,6 +75,11 @@ void EventManager::Excute(const EventStruct& event_struct)
 		ChangeScene(event_struct);
 	}
 	break;
+	case EventType::Update:
+	{
+		m_is_update = true;
+	}
+	break;
 	}
 }
 

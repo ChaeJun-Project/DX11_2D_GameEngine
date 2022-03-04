@@ -20,7 +20,7 @@ public:
 
 public:
     void ExcuteEventCallBack();
-
+	
 private:
     void InitializeGUI();
 

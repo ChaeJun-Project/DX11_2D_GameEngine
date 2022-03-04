@@ -27,6 +27,7 @@ enum class EventType : UINT
 	Add_Child_Object = 2,
 	Detach_Child_Object = 3,
 	Scene_Change = 4,
+	Update = 5,
 };
 
 //Resource Type(IResource »ç¿ë)

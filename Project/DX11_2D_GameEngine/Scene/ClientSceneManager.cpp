@@ -25,7 +25,7 @@ void ClientSceneManager::Initialize()
 {
 	Prefab::p_save_game_object_func = std::bind
 	(
-	   &ClientSceneManager::SaveGameObject,
+		&ClientSceneManager::SaveGameObject,
 		std::placeholders::_1,
 		std::placeholders::_2
 	);
@@ -94,40 +94,52 @@ void ClientSceneManager::CreateNewScene()
 	}
 }
 
-std::shared_ptr<Scene> ClientSceneManager::SaveScene(const std::string& file_path)
+bool ClientSceneManager::SaveScene(const std::string& file_path)
 {
 	EDITOR_HELPER->SetSelectedGameObject(nullptr);
 	EDITOR_HELPER->SetSelectedResource(nullptr);
 
+	auto scene_name = FILE_MANAGER->GetOriginFileNameFromPath(file_path);
 	auto current_scene = SCENE_MANAGER->GetCurrentScene();
+	if (!current_scene->GetSceneName()._Equal(scene_name))
+	{
+		current_scene->SetSceneName(scene_name);
+		UpdateScene();
+	}
 
 	FILE* p_file = nullptr;
 	fopen_s(&p_file, file_path.c_str(), "wb");
-	assert(p_file);
 
-	//==================================
-	//Scene
-	//==================================
-	current_scene->SaveToScene(p_file);
-
-	//==================================
-	//Parent GameObjects
-	//==================================
-	fprintf(p_file, "[Parent GameObject Count]\n");
-	const auto& parent_game_object_vector = current_scene->GetAllParentGameObjects();
-	auto parent_game_object_count = parent_game_object_vector.size();
-	fprintf(p_file, "%d\n", parent_game_object_count); //해당 Scene에 속한 Parent GameObject 개수
-
-	for (auto& parent_game_object : parent_game_object_vector)
+	if (p_file != nullptr)
 	{
-		SaveGameObject(parent_game_object, p_file);
+
+		//==================================
+		//Scene
+		//==================================
+		current_scene->SaveToScene(p_file);
+
+		//==================================
+		//Parent GameObjects
+		//==================================
+		fprintf(p_file, "[Parent GameObject Count]\n");
+		const auto& parent_game_object_vector = current_scene->GetAllParentGameObjects();
+		auto parent_game_object_count = parent_game_object_vector.size();
+		fprintf(p_file, "%d\n", parent_game_object_count); //해당 Scene에 속한 Parent GameObject 개수
+
+		for (auto& parent_game_object : parent_game_object_vector)
+		{
+			SaveGameObject(parent_game_object, p_file);
+		}
+
+		fprintf(p_file, "\n");
+
+		fclose(p_file);
+
+		return true;
 	}
 
-	fprintf(p_file, "\n");
-
-	fclose(p_file);
-
-	return current_scene;
+	else
+	   return false;
 }
 
 void ClientSceneManager::SaveGameObject(GameObject* p_game_object, FILE* p_file)

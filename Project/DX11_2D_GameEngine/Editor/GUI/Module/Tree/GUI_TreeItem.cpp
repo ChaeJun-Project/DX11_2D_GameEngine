@@ -45,9 +45,6 @@ void GUI_TreeItem::Update()
 	if (m_p_child_vector.empty())
 		flags |= ImGuiTreeNodeFlags_Leaf;  //해당 TreeItem는 잎으로 그림
 
-	else
-		ImGui::SetNextItemOpen(true, ImGuiCond_None);
-
 	//현재 선택된 아이탬이 자신 또는 현재 드래그 시작 아이탬이 자신일 경우
 	if (m_p_owner_tree->GetSelectedItem() == this || m_p_owner_tree->GetDragStartItem() == this)
 	{

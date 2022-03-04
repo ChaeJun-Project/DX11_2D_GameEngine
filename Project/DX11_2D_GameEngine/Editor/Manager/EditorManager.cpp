@@ -47,7 +47,7 @@ EditorManager::~EditorManager()
 void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceContext* device_context)
 {
 	//Initialize Icon Provider
-	IconProvider::GetInstance()->Initialize();
+	ICON_PROVIDER->Initialize();
 
 	init_current_path = FILE_MANAGER->GetWorkingDirectory();
 

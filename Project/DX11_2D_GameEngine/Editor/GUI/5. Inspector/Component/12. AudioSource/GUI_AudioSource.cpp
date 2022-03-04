@@ -41,7 +41,10 @@ void GUI_AudioSource::Render()
 		ImGui::InputText("##AudioClipName", &audio_clip_name, ImGuiInputTextFlags_ReadOnly);
 		if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Audio))
 		{
+			auto p_audio_clip = RESOURCE_MANAGER->LoadFromFile<AudioClip>(std::get<std::string>(pay_load->data));
 
+			if (p_audio_clip != nullptr)
+				audio_source->SetAudioClip(p_audio_clip);
 		}
 
 		//Loop

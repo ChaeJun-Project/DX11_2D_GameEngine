@@ -70,6 +70,7 @@
     <ClInclude Include="Editor\GUI\1. MenuBar\Physics\GUI_Physics.h" />
     <ClInclude Include="Editor\GUI\IGUI_Popup.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\Scene Rename\GUI_SceneRename.h" />
+    <ClInclude Include="Engine_Func.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowSettings\DX11_2D_GameEngine.rc">
