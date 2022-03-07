@@ -55,7 +55,7 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 		{
 			if (right_layer_game_objects[j]->GetComponent<Collider2D>() == nullptr
 				|| left_layer_game_objects[i] == right_layer_game_objects[j]
-				|| !right_layer_game_objects[i]->GetIsActive())
+				|| !right_layer_game_objects[j]->GetIsActive())
 				continue;
 
 			auto left_collider = left_layer_game_objects[i]->GetComponent<Collider2D>();

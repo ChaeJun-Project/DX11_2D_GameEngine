@@ -22,6 +22,7 @@ EditorManager::~EditorManager()
 	//<summary>
 	//imgui ShutDown 직전에 imgui.ini가 저장될 위치를 프로그램 시작했을 때 경로로 맞춤
 	//</summary>
+	init_current_path = ABSOLUTE_CONTENT_PATH;
 	std::string init_directory_path = init_current_path + "Imgui/imgui.ini";
 	ImGui::GetIO().IniFilename = init_directory_path.c_str();
 
@@ -49,8 +50,6 @@ void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceCont
 	//Initialize Icon Provider
 	ICON_PROVIDER->Initialize();
 
-	init_current_path = FILE_MANAGER->GetWorkingDirectory();
-
 	//<summary>
 	//imgui_docking 버전의 DirectX11 Sample 코드를 보고 작성함
 	//</summary>
@@ -66,7 +65,7 @@ void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceCont
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  //키보드 입력 사용
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      //도킹 시스템 사용
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;    //멀티 뷰포트 사용(윈도우 플랫폼)
-
+	
 	//Set GUI Style(Current: Dark Color)
 	ImGui::StyleColorsDark();
 	ImGuiStyle& style = ImGui::GetStyle();

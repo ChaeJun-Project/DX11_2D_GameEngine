@@ -19,7 +19,7 @@
 #include "Component/7. Light2D/GUI_Light2D.h"
 #include "Component/8. ParticleSystem/GUI_ParticleSystem.h"
 #include "Component/9. TileMapRenderer/GUI_TileMapRenderer.h"
-//RigidBody2D
+#include "Component/10. RigidBody2D/GUI_RigidBody2D.h"
 #include "Component/11. AudioListener/GUI_AudioListener.h"
 #include "Component/12. AudioSource/GUI_AudioSource.h"
 #include "Component/13. Script/GUI_Script.h"
@@ -119,6 +119,7 @@ void GUI_Inspector::Initialize()
 	//TileMapRenderer
 	m_component_gui_map.insert(std::make_pair(ComponentType::TileMapRenderer, std::make_unique<GUI_TileMapRenderer>("TileMapRenderer")));
 	//RigidBody2D
+	m_component_gui_map.insert(std::make_pair(ComponentType::RigidBody2D, std::make_unique<GUI_RigidBody2D>("RigidBody2D")));
 	//AudioListener
 	m_component_gui_map.insert(std::make_pair(ComponentType::AudioListener, std::make_unique<GUI_AudioListener>("Audio Listener")));
 	//AudioSource
@@ -572,22 +573,22 @@ void GUI_Inspector::ShowAddComponentPopup(GameObject* p_game_object)
 			p_game_object->AddComponent(ComponentType::ParticleSystem);
 		}
 
+		//TileMapRenderer
+		if (ImGui::MenuItem("TileMapRenderer"))
+		{
+			p_game_object->AddComponent(ComponentType::TileMapRenderer);
+		}
+
 		//RigidBody
 		if (ImGui::BeginMenu("RigidBody"))
 		{
 			//RigidBody2D
 			if (ImGui::MenuItem("RigidBody2D"))
 			{
-
+				p_game_object->AddComponent(ComponentType::RigidBody2D);
 			}
 
 			ImGui::EndMenu();
-		}
-
-		//TileMapRenderer
-		if (ImGui::MenuItem("TileMapRenderer"))
-		{
-			p_game_object->AddComponent(ComponentType::TileMapRenderer);
 		}
 
 		//Audio

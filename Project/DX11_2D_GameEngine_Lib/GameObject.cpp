@@ -13,9 +13,9 @@
 #include "Light2D.h"
 #include "ParticleSystem.h"
 #include "TileMapRenderer.h"
+#include "RigidBody2D.h"
 #include "AudioListener.h"
 #include "AudioSource.h"
-
 #include "Script.h"
 
 template<typename T>
@@ -35,6 +35,7 @@ REGISTER_COMPONENT_TYPE(Collider2D, ComponentType::Collider2D);
 REGISTER_COMPONENT_TYPE(Light2D, ComponentType::Light2D);
 REGISTER_COMPONENT_TYPE(ParticleSystem, ComponentType::ParticleSystem);
 REGISTER_COMPONENT_TYPE(TileMapRenderer, ComponentType::TileMapRenderer);
+REGISTER_COMPONENT_TYPE(RigidBody2D, ComponentType::RigidBody2D);
 REGISTER_COMPONENT_TYPE(AudioListener, ComponentType::AudioListener);
 REGISTER_COMPONENT_TYPE(AudioSource, ComponentType::AudioSource);
 
@@ -234,7 +235,7 @@ void GameObject::AddComponent(const ComponentType& component_type)
 		AddComponent(new TileMapRenderer());
 		break;
 	case ComponentType::RigidBody2D:
-		//TODO
+		AddComponent(new RigidBody2D());
 		break;
 	case ComponentType::AudioListener:
 		AddComponent(new AudioListener());

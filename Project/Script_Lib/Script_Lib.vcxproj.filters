@@ -28,6 +28,21 @@
     <Filter Include="Scripts\Manager">
       <UniqueIdentifier>{b8b8d87a-73b0-4698-8eac-a765a64a69d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Geometry">
+      <UniqueIdentifier>{e82a5119-20b4-4923-b94c-6fbb0090a818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Geometry\Wall">
+      <UniqueIdentifier>{26872b85-0d53-43ae-b288-6be90207864b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Geometry\Ground">
+      <UniqueIdentifier>{87b47d06-9063-4690-ab73-5bb84d282a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Geometry\Ceiling">
+      <UniqueIdentifier>{27771bc1-086e-4f38-bee4-81cc07806fc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Camera">
+      <UniqueIdentifier>{4b43394c-8131-495f-a807-f46f039c05c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WalkCannon_Bullet_Script.cpp">
@@ -50,6 +65,18 @@
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Scripts\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground_Script.cpp">
+      <Filter>Scripts\Geometry\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera_Script.cpp">
+      <Filter>Scripts\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall_Script.cpp">
+      <Filter>Scripts\Geometry\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="Ceiling_Script.cpp">
+      <Filter>Scripts\Geometry\Ceiling</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +103,18 @@
     </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Scripts\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground_Script.h">
+      <Filter>Scripts\Geometry\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera_Script.h">
+      <Filter>Scripts\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall_Script.h">
+      <Filter>Scripts\Geometry\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="Ceiling_Script.h">
+      <Filter>Scripts\Geometry\Ceiling</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,12 +1,10 @@
 [Tag Count]
-8
+6
 
 [Tag List]
 Default
 Main Camera
 Light
-Z
+Player
 Colonel
 Stage1
-Test1
-Test3

@@ -68,7 +68,7 @@ void SceneManager::SetEditorState(const UINT& editor_state)
 	if (editor_state == EditorState::EditorState_Stop)
 	{
 		m_editor_state = editor_state;
-		m_p_current_scene->Initialize();
+		//m_p_current_scene->Initialize();
 	}
 
 	else

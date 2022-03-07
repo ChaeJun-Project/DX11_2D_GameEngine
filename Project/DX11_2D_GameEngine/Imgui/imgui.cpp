@@ -1100,6 +1100,7 @@ void ImGuiStyle::ScaleAllSizes(float scale_factor)
     MouseCursorScale = ImFloor(MouseCursorScale * scale_factor);
 }
 
+#include <DX11_2D_GameEngine_Lib/stdafx.h>
 ImGuiIO::ImGuiIO()
 {
     // Most fields are initialized with zero
@@ -1112,7 +1113,12 @@ ImGuiIO::ImGuiIO()
     DisplaySize = ImVec2(-1.0f, -1.0f);
     DeltaTime = 1.0f / 60.0f;
     IniSavingRate = 5.0f;
-    IniFilename = "Imgui/imgui.ini"; // Important: "imgui.ini" is relative to current working dir, most apps will want to lock this to an absolute path (e.g. same path as executables).
+
+    static std::string init_file_path;
+    init_file_path = ABSOLUTE_CONTENT_PATH;
+    init_file_path += "Imgui/imgui.ini";
+
+    IniFilename = init_file_path.c_str(); // Important: "imgui.ini" is relative to current working dir, most apps will want to lock this to an absolute path (e.g. same path as executables).
     LogFilename = "imgui_log.txt";
     MouseDoubleClickTime = 0.30f;
     MouseDoubleClickMaxDist = 6.0f;

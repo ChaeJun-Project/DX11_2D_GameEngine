@@ -206,6 +206,7 @@
     <ClInclude Include="Editor\GUI\1. MenuBar\Physics\GUI_Physics.h" />
     <ClInclude Include="Editor\GUI\IGUI_Popup.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\Scene Rename\GUI_SceneRename.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\10. RigidBody2D\GUI_RigidBody2D.h" />
     <ClInclude Include="Imgui\DirectX11\imgui_impl_dx11.h" />
     <ClInclude Include="Imgui\Editor\ImGuizmo.h" />
     <ClInclude Include="Imgui\imconfig.h" />
@@ -264,6 +265,7 @@
     <ClCompile Include="Editor\GUI\6. Project\File\GUI_FileDialog.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Physics\GUI_Physics.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Scene Rename\GUI_SceneRename.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\10. RigidBody2D\GUI_RigidBody2D.cpp" />
     <ClCompile Include="Imgui\DirectX11\imgui_impl_dx11.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>

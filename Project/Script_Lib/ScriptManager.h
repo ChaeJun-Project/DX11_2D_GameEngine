@@ -5,9 +5,13 @@
 
 enum class Script_Type : UINT
 {
+	Camera_Script,
+	Ceiling_Script,
 	GameManager,
+	Ground_Script,
 	WalkCannon_Bullet_Script,
 	WalkCannon_Script,
+	Wall_Script,
 	X_Script,
 	Z_Script,
 };

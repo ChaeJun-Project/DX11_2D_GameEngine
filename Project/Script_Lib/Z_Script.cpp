@@ -7,6 +7,7 @@
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/Transform.h>
 #include <DX11_2D_GameEngine_Lib/Animator2D.h>
+#include <DX11_2D_GameEngine_Lib/RigidBody2D.h>
 
 Z_Script::Z_Script()
 	:Script("Z_Script")
@@ -50,7 +51,7 @@ void Z_Script::Update()
 		return;
 
 	auto transform = m_p_owner_game_object->GetComponent<Transform>();
-	auto position = transform->GetLocalTranslation();
+	auto p_rigidbody2D = m_p_owner_game_object->GetComponent<RigidBody2D>();
 
 	Vector3 move_speed = Vector3::Zero;
 
@@ -66,21 +67,23 @@ void Z_Script::Update()
 	//오른쪽 이동
 	if (KEY_PRESS(KeyCode::KEY_ARROW_RIGHT))
 	{
-		m_current_state = AnimationState::Walk_Run;
-		move_speed.x += m_speed * TIME_MANAGER->GetDeltaTime_float();
 		transform->SetRotation(Quaternion::Identity);
+		m_current_state = AnimationState::Walk_Run;
 		m_p_animator->SetCurrentAnimation("Z_Walk_Run");
 		m_p_animator->SetIsLoop(true);
+		if (!p_rigidbody2D->GetIsRightWall())
+			p_rigidbody2D->SetVelocity(Vector2(m_speed, p_rigidbody2D->GetVelocity().y));
 	}
 
 	//왼쪽이동
-	else if (KEY_PRESS(KeyCode::KEY_ARROW_LEFT))
+	if (KEY_PRESS(KeyCode::KEY_ARROW_LEFT))
 	{
-		m_current_state = AnimationState::Walk_Run;
-		move_speed.x -= m_speed * TIME_MANAGER->GetDeltaTime_float();
 		transform->SetRotation(Quaternion::QuaternionFromEulerAngle(Vector3(0.0f, 180.0f, 0.0f)));
+		m_current_state = AnimationState::Walk_Run;
 		m_p_animator->SetCurrentAnimation("Z_Walk_Run");
 		m_p_animator->SetIsLoop(true);
+		if (!p_rigidbody2D->GetIsLeftWall())
+			p_rigidbody2D->SetVelocity(Vector2(-m_speed, p_rigidbody2D->GetVelocity().y));
 	}
 
 	//앉기
@@ -92,11 +95,16 @@ void Z_Script::Update()
 
 	//대쉬
 	if (KEY_PRESS(KeyCode::KEY_Z))
-		move_speed.y -= m_speed * TIME_MANAGER->GetDeltaTime_float();
+	{
+		p_rigidbody2D->SetVelocity(Vector2(-m_speed, 0.0f));
+	}
 
 	//점프
-	if (KEY_PRESS(KeyCode::KEY_X))
-		move_speed.y += m_speed * TIME_MANAGER->GetDeltaTime_float();
+	if (KEY_DOWN(KeyCode::KEY_X))
+	{
+		p_rigidbody2D->SetVelocity(Vector2(p_rigidbody2D->GetVelocity().x, 400.0f));
+		p_rigidbody2D->SetGround(false);
+	}
 
 	//공격
 	if (KEY_PRESS(KeyCode::KEY_C))
@@ -104,14 +112,11 @@ void Z_Script::Update()
 		m_current_state = AnimationState::Attack_1;
 		m_p_animator->SetCurrentAnimation("Z_Attack_1");
 	}
-
-	//캐릭터 위치 변경
-	transform->SetTranslation(position + move_speed);
 }
 
 void Z_Script::OnCollisionEnter(GameObject* other_game_object)
 {
-	if (other_game_object->GetGameObjectTag() == "Default")
+	if (other_game_object->GetGameObjectTag() == "Enemy")
 	{
 		m_current_state = AnimationState::Damaged;
 		m_p_animator->SetCurrentAnimation("Z_Damaged");
@@ -121,7 +126,7 @@ void Z_Script::OnCollisionEnter(GameObject* other_game_object)
 
 void Z_Script::OnCollisionStay(GameObject* other_game_object)
 {
-	if (other_game_object->GetGameObjectTag() == "Colonel")
+	if (other_game_object->GetGameObjectTag() == "Enemy")
 	{
 		m_current_state = AnimationState::Damaged;
 		m_p_animator->SetCurrentAnimation("Z_Damaged");
@@ -131,7 +136,7 @@ void Z_Script::OnCollisionStay(GameObject* other_game_object)
 
 void Z_Script::OnCollisionExit(GameObject* other_game_object)
 {
-	if (other_game_object->GetGameObjectTag() == "Colonel")
+	if (other_game_object->GetGameObjectTag() == "Enemy")
 	{
 		m_current_state = AnimationState::Idle;
 	}

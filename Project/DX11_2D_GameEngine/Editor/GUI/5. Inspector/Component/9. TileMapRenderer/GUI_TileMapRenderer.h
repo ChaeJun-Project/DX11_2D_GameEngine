@@ -4,7 +4,7 @@
 class GUI_Palette;
 class GameObject;
 
-class GUI_TileMapRenderer : public GUI_Component
+class GUI_TileMapRenderer final : public GUI_Component
 {
 public:
     GUI_TileMapRenderer(const std::string& tilemap_gui_name);

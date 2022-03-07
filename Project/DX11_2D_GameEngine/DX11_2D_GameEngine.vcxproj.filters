@@ -71,6 +71,7 @@
     <ClInclude Include="Editor\GUI\IGUI_Popup.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\Scene Rename\GUI_SceneRename.h" />
     <ClInclude Include="Engine_Func.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\10. RigidBody2D\GUI_RigidBody2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowSettings\DX11_2D_GameEngine.rc">
@@ -139,6 +140,7 @@
     <ClCompile Include="Editor\GUI\6. Project\File\GUI_FileItem.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Physics\GUI_Physics.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Scene Rename\GUI_SceneRename.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\10. RigidBody2D\GUI_RigidBody2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WindowSettings\DX11_2D_GameEngine.aps" />
