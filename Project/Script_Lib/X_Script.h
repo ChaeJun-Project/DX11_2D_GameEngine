@@ -1,11 +1,12 @@
 #pragma once
 
 #include <DX11_2D_GameEngine_Lib/Script.h>
-#include "PlayerController.h"
+#include "GameObjectController.h"
+#include "PlayerState_Enum.h"
 
 class Animator2D;
 
-class X_Script final : public Script, public PlayerController
+class X_Script final : public Script, public GameObjectController
 {
 public:
 	X_Script();
@@ -14,6 +15,11 @@ public:
 
 	void Start() override;
 	void Update() override;
+
+private:
+	void Update_Move() override;
+	void Update_State() override;
+	void Update_Animation() override;
 
 public:
 	void OnCollisionEnter(GameObject* other_game_object) override;
@@ -32,6 +38,6 @@ private:
 
 	Animator2D* m_p_animator = nullptr;
 
-	AnimationState m_current_state = AnimationState::Idle;
+	PlayerState m_current_state = PlayerState::Idle;
 };
 

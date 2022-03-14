@@ -28,11 +28,11 @@ public:
 
 public:
     //Offset Position
-    const Vector2 GetOffsetPosition() { return m_offset_position; }
+    Vector2 GetOffsetPosition() const { return m_offset_position; }
     void SetOffsetPosition(const Vector2& offset_position) { m_offset_position = offset_position; }
 
 	//Offset Scale
-	const Vector2 GetOffsetScale() { return m_offset_scale; }
+	Vector2 GetOffsetScale() const { return m_offset_scale; }
 	void SetOffsetScale(const Vector2& offset_scale) { m_offset_scale = offset_scale; }
 
 	Vector3 GetDefaultSize() { return Vector3(m_default_size.x, m_default_size.y, 1.0f); }

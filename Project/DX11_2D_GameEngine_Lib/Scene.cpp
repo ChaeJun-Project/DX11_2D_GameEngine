@@ -21,7 +21,7 @@ Scene::Scene(const std::string& scene_name)
 
 Scene::~Scene()
 {
-    //Clear Layer Map
+	//Clear Layer Map
 	for (auto& layer : m_layer_map)
 		layer.second.reset();
 
@@ -67,12 +67,6 @@ void Scene::SetStartScene()
 	RegisterGameObject(point_light2D);
 }
 
-void Scene::Initialize()
-{
-	for (auto& layer : m_layer_map)
-		layer.second->Initialize();
-}
-
 void Scene::Start()
 {
 	for (auto& layer : m_layer_map)
@@ -110,7 +104,7 @@ void Scene::RegisterGameObject(GameObject* p_game_object)
 		RegisterGameObject(p_child_game_object);
 }
 
-void Scene::DeregisterGameObject(GameObject* p_game_object)
+void Scene::DeregisterGameObject(GameObject* p_game_object, const bool& is_with_layer)
 {
 	//해당 GameObject 부모가 없는 최상위 오브젝트라면
 	if (!p_game_object->HasParent())
@@ -130,13 +124,16 @@ void Scene::DeregisterGameObject(GameObject* p_game_object)
 			++iter;
 	}
 
-	auto layer = p_game_object->GetGameObjectLayer();
-	m_layer_map[layer]->DeregisterGameObject(p_game_object);
+	if (is_with_layer)
+	{
+		auto layer = p_game_object->GetGameObjectLayer();
+		m_layer_map[layer]->DeregisterGameObject(p_game_object);
+	}
 
 	//해당 GameObject가 자식을 가지고 있을 경우
 	const auto& child_game_object_vector = p_game_object->GetChilds();
 	for (const auto& p_child_game_object : child_game_object_vector)
-		DeregisterGameObject(p_child_game_object);
+		DeregisterGameObject(p_child_game_object, is_with_layer);
 }
 
 void Scene::DeregisterFromParentGameObject(GameObject* p_game_object)

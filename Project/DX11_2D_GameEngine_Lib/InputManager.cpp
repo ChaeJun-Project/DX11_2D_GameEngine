@@ -6,10 +6,6 @@
 #include "FontManager.h"
 
 InputManager::InputManager()
-	: mousePosition(0, 0)
-	, wheelStatus(0, 0, 0)
-	, wheelOldStatus(0, 0, 0)
-	, wheelMoveValue(0, 0, 0)
 {
 	MouseProc = std::bind
 	(
@@ -24,123 +20,236 @@ InputManager::InputManager()
 
 void InputManager::Initialize()
 {
-	ZeroMemory(keyState, sizeof(keyState));
-	ZeroMemory(keyOldState, sizeof(keyOldState));
-	ZeroMemory(keyMap, sizeof(keyMap));
-	ZeroMemory(buttonStatus, sizeof(byte) * MAX_INPUT_MOUSE);
-	ZeroMemory(buttonOldStatus, sizeof(byte) * MAX_INPUT_MOUSE);
-	ZeroMemory(buttonMap, sizeof(byte) * MAX_INPUT_MOUSE);
-	ZeroMemory(startDblClk, sizeof(DWORD) * MAX_INPUT_MOUSE);
-	ZeroMemory(buttonCount, sizeof(int) * MAX_INPUT_MOUSE);
+	//Key
+	m_virtual_key_vector =
+	{
+		 VK_LEFT,	//Arrow Left,
+		 VK_UP,		//Arrow Up,
+		 VK_RIGHT,	//Arrow Right,
+		 VK_DOWN,	//Arrow Down,
 
-	timeDblClk = GetDoubleClickTime();
-	startDblClk[0] = GetTickCount();
+		 0x30, //0
+		 0x31, //1
+		 0x32, //2
+		 0x33, //3
+		 0x34, //4
+		 0x35, //5
+		 0x36, //6
+		 0x37, //7
+		 0x38, //8
+		 0x39, //9
+		 0x41, //A
+		 0x42, //B
+		 0x43, //C
+		 0x44, //D
+		 0x45, //E
+		 0x46, //F
+		 0x47, //G
+		 0x48, //H
+		 0x49, //I
+		 0x4A, //J
+		 0x4B, //K
+		 0x4C, //L
+		 0x4D, //M
+		 0x4E, //N
+		 0x4F, //O
+		 0x50, //P
+		 0x51, //Q
+		 0x52, //R
+		 0x53, //S
+		 0x54, //T
+		 0x55, //U
+		 0x56, //V
+		 0x57, //W
+		 0x58, //X
+		 0x59, //Y
+		 0x5A, //Z
 
-	for (int i = 1; i < MAX_INPUT_MOUSE; i++)
-		startDblClk[i] = startDblClk[0];
+		 VK_SHIFT,	 //Shift
+		 VK_CONTROL, //Control
+		 VK_MENU,	 //Alt
+		 VK_SPACE,	 //Space
+		 VK_RETURN,	 //Enter
+		 VK_DELETE,	 //Delete
+	};
 
-	DWORD tLine = 0;
-	SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &tLine, 0);
+	for (UINT i = 0; i < static_cast<UINT>(Key::END); ++i)
+	{
+		m_key_vector.emplace_back(KeyInfo{ KeyState::KEY_INPUT_STATE_NONE, false });
+	}
+
+	//Mouse
+	m_virtual_button_vector =
+	{
+		VK_LBUTTON,//Mouse Left Button
+		VK_RBUTTON,//Mouse Right Button 
+	};
+
+	for (UINT i = 0; i < static_cast<UINT>(Button::END); ++i)
+	{
+		m_button_vector.emplace_back(ButtonInfo{ ButtonState::BUTTON_INPUT_STATE_NONE, 0, 0 });
+	}
+
+	m_time_double_click = GetDoubleClickTime();
 }
 
 void InputManager::Update()
 {
-	memcpy(keyOldState, keyState, sizeof(keyOldState));
+	//윈도우 포커싱 여부 확인
+	HWND hWnd = GetFocus();
 
-	ZeroMemory(keyState, sizeof(keyState));
-	ZeroMemory(keyMap, sizeof(keyMap));
-
-	GetKeyboardState(keyState);
-
-	for (DWORD i = 0; i < MAX_INPUT_KEY; i++)
+	//윈도우 포커싱 중일 때 키 이벤트 동작
+	if (hWnd != nullptr)
 	{
-		byte key = keyState[i] & 0x80;
-		keyState[i] = key ? 1 : 0;
-
-		int oldState = keyOldState[i];
-		int state = keyState[i];
-
-		if (oldState == 0 && state == 1)
-			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_DOWN); //이전 0, 현재 1 - KeyDown
-
-		else if (oldState == 1 && state == 0)
-			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_UP); //이전 1, 현재 0 - KeyUp
-
-		else if (oldState == 1 && state == 1)
-			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_PRESS); //이전 1, 현재 1 - KeyPress
-
-		else
-			keyMap[i] = static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_NONE);
-	}
-
-	memcpy(buttonOldStatus, buttonStatus, sizeof(byte) * MAX_INPUT_MOUSE);
-
-	ZeroMemory(buttonStatus, sizeof(byte) * MAX_INPUT_MOUSE);
-	ZeroMemory(buttonMap, sizeof(byte) * MAX_INPUT_MOUSE);
-
-	buttonStatus[0] = GetAsyncKeyState(VK_LBUTTON) & 0x8000 ? 1 : 0;
-	buttonStatus[1] = GetAsyncKeyState(VK_RBUTTON) & 0x8000 ? 1 : 0;
-	buttonStatus[2] = GetAsyncKeyState(VK_MBUTTON) & 0x8000 ? 1 : 0;
-
-	for (DWORD i = 0; i < MAX_INPUT_MOUSE; i++)
-	{
-		int tOldStatus = buttonOldStatus[i];
-		int tStatus = buttonStatus[i];
-
-		if (tOldStatus == 0 && tStatus == 1)
-			buttonMap[i] = static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_DOWN);
-		else if (tOldStatus == 1 && tStatus == 0)
-			buttonMap[i] = static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_UP);
-		else if (tOldStatus == 1 && tStatus == 1)
-			buttonMap[i] = static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_PRESS);
-		else
-			buttonMap[i] = static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_NONE);
-	}
-
-	POINT point = { 0, 0 };
-	GetCursorPos(&point);
-	auto settings = Core::GetInstance()->GetSettings();
-	ScreenToClient(settings->GetWindowHandle(), &point);
-
-	wheelOldStatus.x = wheelStatus.x;
-	wheelOldStatus.y = wheelStatus.y;
-
-	wheelStatus.x = static_cast<float>(point.x);
-	wheelStatus.y = static_cast<float>(point.y);
-
-	wheelMoveValue = wheelStatus - wheelOldStatus;
-	wheelOldStatus.z = wheelStatus.z;
-
-	DWORD tButtonStatus = GetTickCount();
-	for (DWORD i = 0; i < MAX_INPUT_MOUSE; i++)
-	{
-		if (buttonMap[i] == static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_DOWN))
+		//Key
+		for (UINT i = 0; i < static_cast<UINT>(Key::END); ++i)
 		{
-			if (buttonCount[i] == 1)
+			//현재 키가 눌려있을 경우
+			if (GetAsyncKeyState(m_virtual_key_vector[i]) & 0x8000)
 			{
-				if ((tButtonStatus - startDblClk[i]) >= timeDblClk)
-					buttonCount[i] = 0;
-			}
-			buttonCount[i]++;
+				//이전 프레임에 눌려있었을 경우
+				if (m_key_vector[i].m_is_pre_input)
+					m_key_vector[i].m_key_state = KeyState::KEY_INPUT_STATE_PRESS;
 
-			if (buttonCount[i] == 1)
-				startDblClk[i] = tButtonStatus;
+				//이전 프레임에 눌려있지 않았을 경우
+				else
+					m_key_vector[i].m_key_state = KeyState::KEY_INPUT_STATE_DOWN;
+
+				m_key_vector[i].m_is_pre_input = true;
+			}
+
+			//현재 키가 안 눌려있을 경우
+			else
+			{
+				//이전 프레임에 눌려있었을 경우
+				if (m_key_vector[i].m_is_pre_input)
+					m_key_vector[i].m_key_state = KeyState::KEY_INPUT_STATE_UP;
+
+				//이전 프레임에 눌려있지 않았을 경우
+				else
+					m_key_vector[i].m_key_state = KeyState::KEY_INPUT_STATE_NONE;
+
+				m_key_vector[i].m_is_pre_input = false;
+			}
 		}
 
-		if (buttonMap[i] == static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_UP))
+		//Mouse Button
+		for (UINT i = 0; i < static_cast<UINT>(Button::END); ++i)
 		{
-			if (buttonCount[i] == 1)
+			//현재 마우스 버튼이 눌려있을 경우
+			if (GetAsyncKeyState(m_virtual_button_vector[i]) & 0x8000)
 			{
-				if ((tButtonStatus - startDblClk[i]) >= timeDblClk)
-					buttonCount[i] = 0;
-			}
-			else if (buttonCount[i] == 2)
-			{
-				if ((tButtonStatus - startDblClk[i]) <= timeDblClk)
-					buttonMap[i] = static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_DBLCLK);
+				//마우스 버튼이 처음 클릭된 상태라면
+				if (m_button_vector[i].m_click_count == 0)
+				{
+					m_button_vector[i].m_button_state = ButtonState::BUTTON_INPUT_STATE_DOWN;
+					++m_button_vector[i].m_click_count;
+				}
 
-				buttonCount[i] = 0;
+				//이전 프레임에 마우스 버튼이 눌려져 있었을 경우
+				else if (m_button_vector[i].m_click_count == 1)
+					m_button_vector[i].m_button_state = ButtonState::BUTTON_INPUT_STATE_PRESS;
+
 			}
+
+			//현재 마우스 버튼이 안 눌려있을 경우
+			else
+			{
+				//이전 프레임에 마우스 버튼이 눌려져 있었을 경우
+				if (m_button_vector[i].m_click_count == 1)
+				{
+					m_button_vector[i].m_button_state = ButtonState::BUTTON_INPUT_STATE_UP;
+					--m_button_vector[i].m_click_count;
+				}
+
+				//이전 프레임에 눌려있지 않았을 경우
+				else if (m_button_vector[i].m_click_count == 0)
+					m_button_vector[i].m_button_state = ButtonState::BUTTON_INPUT_STATE_NONE;
+			}
+		}
+
+		//Check Mouse Double Click
+		DWORD button_state = GetTickCount();
+		for (UINT i = 0; i < static_cast<UINT>(Button::END); ++i)
+		{
+			if (m_button_vector[i].m_button_state == ButtonState::BUTTON_INPUT_STATE_DOWN)
+			{
+				if (m_button_vector[i].m_click_count == 1)
+				{
+					if ((button_state - m_button_vector[i].m_start_double_click) >= m_time_double_click)
+						m_button_vector[i].m_click_count = 0;
+				}
+				++m_button_vector[i].m_click_count;
+
+				if (m_button_vector[i].m_click_count == 1)
+					m_button_vector[i].m_start_double_click = button_state;
+			}
+
+			if (m_button_vector[i].m_button_state == ButtonState::BUTTON_INPUT_STATE_UP)
+			{
+				if (m_button_vector[i].m_click_count == 1)
+				{
+					if ((button_state - m_button_vector[i].m_start_double_click) >= m_time_double_click)
+						m_button_vector[i].m_click_count = 0;
+				}
+				else if (m_button_vector[i].m_click_count == 2)
+				{
+					if ((button_state - m_button_vector[i].m_start_double_click) <= m_time_double_click)
+						m_button_vector[i].m_button_state = ButtonState::BUTTON_INPUT_STATE_DBLCLK;
+
+					m_button_vector[i].m_click_count = 0;
+				}
+			}
+		}
+
+		//Mouse Wheel
+		POINT point = { 0, 0 };
+		GetCursorPos(&point);
+		auto settings = Core::GetInstance()->GetSettings();
+		ScreenToClient(settings->GetWindowHandle(), &point);
+
+		m_mouse_wheel_old_state.x = m_mouse_wheel_state.x;
+		m_mouse_wheel_old_state.y = m_mouse_wheel_state.y;
+
+		m_mouse_wheel_state.x = static_cast<float>(point.x);
+		m_mouse_wheel_state.y = static_cast<float>(point.y);
+
+		m_mouse_wheel_move_value = m_mouse_wheel_state - m_mouse_wheel_old_state;
+		m_mouse_wheel_old_state.z = m_mouse_wheel_state.z;
+	}
+
+	//윈도우 포커싱 해제상태
+	else
+	{
+		//Key
+		for (UINT i = 0; i < static_cast<UINT>(Key::END); ++i)
+		{
+			m_key_vector[i].m_is_pre_input = false;
+
+			if (m_key_vector[i].m_key_state == KeyState::KEY_INPUT_STATE_DOWN
+				|| m_key_vector[i].m_key_state == KeyState::KEY_INPUT_STATE_PRESS
+				)
+				m_key_vector[i].m_key_state = KeyState::KEY_INPUT_STATE_UP;
+
+			else if (m_key_vector[i].m_key_state == KeyState::KEY_INPUT_STATE_UP)
+				m_key_vector[i].m_key_state = KeyState::KEY_INPUT_STATE_NONE;
+		}
+
+		//Mouse
+		for (UINT i = 0; i < static_cast<UINT>(Button::END); ++i)
+		{
+			if (m_button_vector[i].m_button_state == ButtonState::BUTTON_INPUT_STATE_DOWN
+				|| m_button_vector[i].m_button_state == ButtonState::BUTTON_INPUT_STATE_PRESS
+				|| m_button_vector[i].m_button_state == ButtonState::BUTTON_INPUT_STATE_DBLCLK)
+			
+				m_button_vector[i].m_button_state = ButtonState::BUTTON_INPUT_STATE_UP;
+			
+			//이전 프레임에 눌려있지 않았을 경우
+			else if (m_button_vector[i].m_button_state == ButtonState::BUTTON_INPUT_STATE_UP)
+				m_button_vector[i].m_button_state = ButtonState::BUTTON_INPUT_STATE_NONE;
+
+			m_button_vector[i].m_click_count = 0;
+			m_button_vector[i].m_start_double_click = 0;
 		}
 	}
 }
@@ -154,18 +263,18 @@ LRESULT InputManager::MsgProc(HWND handle, const UINT& message, const WPARAM& wP
 {
 	if (message == WM_LBUTTONDOWN || message == WM_MOUSEMOVE)
 	{
-		mousePosition.x = static_cast<float>(LOWORD(lParam));
-		mousePosition.y = static_cast<float>(HIWORD(lParam));
+		m_mouse_position.x = static_cast<float>(LOWORD(lParam));
+		m_mouse_position.y = static_cast<float>(HIWORD(lParam));
 
-		m_render_str = "X: " + std::to_string(mousePosition.x) + " Y: " + std::to_string(mousePosition.y);
+		m_render_str = "X: " + std::to_string(m_mouse_position.x) + " Y: " + std::to_string(m_mouse_position.y);
 	}
 
 	if (message == WM_MOUSEWHEEL)
 	{
-		short tWheelValue = static_cast<short>(HIWORD(wParam));
+		short wheel_value = static_cast<short>(HIWORD(wParam));
 
-		wheelOldStatus.z = wheelStatus.z;
-		wheelStatus.z += static_cast<float>(tWheelValue);
+		m_mouse_wheel_old_state.z = m_mouse_wheel_state.z;
+		m_mouse_wheel_state.z += static_cast<float>(wheel_value);
 	}
 
 	return TRUE;

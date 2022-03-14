@@ -131,18 +131,6 @@ void GUI_TreeItem::DragAndDrop()
 	//드랍 된 경우
 	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::GameObject))
 		m_p_owner_tree->SetDroppedItem(this);
-
-	//허공에 드랍된 경우(자식 GameObject라면 현재 부모 GameObject로부터 분리)
-	else
-	{
-		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_None))
-		{
-			if (m_p_owner_tree->GetDragStartItem() == this && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
-			{
-				m_p_owner_tree->SetDroppedItem(nullptr);
-			}
-		}
-	}
 }
 
 const bool GUI_TreeItem::CheckClickEmptySpace()

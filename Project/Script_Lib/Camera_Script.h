@@ -9,7 +9,6 @@ public:
 	explicit Camera_Script(const Camera_Script& origin);
 	virtual ~Camera_Script();
 
-	void Initialize() override;
 	void Start() override;
 	void Update() override;
 

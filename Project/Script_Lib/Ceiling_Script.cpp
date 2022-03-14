@@ -33,6 +33,7 @@ void Ceiling_Script::OnCollisionEnter(GameObject* other_game_object)
 
 			auto p_rigidbody2D = other_game_object->GetComponent<RigidBody2D>();
 			p_rigidbody2D->SetCeiling(m_is_ceiling);
+			p_rigidbody2D->SetVelocity(Vector2(p_rigidbody2D->GetVelocity().x, 0.0f));
 		}
 
 		position.y = m_player_position_y;
@@ -50,7 +51,6 @@ void Ceiling_Script::OnCollisionStay(GameObject* other_game_object)
 		m_is_ceiling = false;
 		m_player_position_y = 0.0f;
 		p_rigidbody2D->SetCeiling(m_is_ceiling);
-		p_rigidbody2D->SetVelocity(Vector2(p_rigidbody2D->GetVelocity().x, -10.0f));
 	}
 }
 

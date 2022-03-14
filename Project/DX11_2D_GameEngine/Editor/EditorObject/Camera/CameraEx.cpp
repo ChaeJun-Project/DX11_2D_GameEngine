@@ -22,7 +22,7 @@ void CameraEx::FinalUpdate()
 void CameraEx::ControlEditorCamera()
 {
 	//마우스 오른쪽 버튼을 눌렀을 때만 움직임
-	if (MOUSE_BUTTON_PRESS(KeyCode::CLICK_RIGHT))
+	if (MOUSE_BUTTON_PRESS(Button::CLICK_RIGHT))
 	{
 		switch (m_projection_type)
 		{
@@ -52,27 +52,27 @@ void CameraEx::Control3DViewMode()
 	Vector3 movement_speed = Vector3::Zero;
 
 	//편집전용 카메라가 바라보는 방향으로 전진
-	if (KEY_PRESS(KeyCode::KEY_W))
+	if (KEY_PRESS(Key::KEY_W))
 		movement_speed += forward * m_speed * DELTA_TIME_F;
 
 	//편집전용 카메라가 바라보는 방향으로 후진
-	else if (KEY_PRESS(KeyCode::KEY_S))
+	else if (KEY_PRESS(Key::KEY_S))
 		movement_speed -= forward * m_speed * DELTA_TIME_F;
 
 	//편집전용 카메라가 바라보는 방향에서 오른쪽으로 이동
-	if (KEY_PRESS(KeyCode::KEY_D))
+	if (KEY_PRESS(Key::KEY_D))
 		movement_speed += right * m_speed * DELTA_TIME_F;
 
 	//편집전용 카메라가 바라보는 방향에서 왼쪽으로 이동
-	else if (KEY_PRESS(KeyCode::KEY_A))
+	else if (KEY_PRESS(Key::KEY_A))
 		movement_speed -= right * m_speed * DELTA_TIME_F;
 
 	//편집전용 카메라가 바라보는 방향에서 위쪽으로 이동
-	if (KEY_PRESS(KeyCode::KEY_E))
+	if (KEY_PRESS(Key::KEY_E))
 		movement_speed += up * m_speed * DELTA_TIME_F;
 
 	//편집전용 카메라가 바라보는 방향에서 아래쪽으로 이동
-	else if (KEY_PRESS(KeyCode::KEY_Q))
+	else if (KEY_PRESS(Key::KEY_Q))
 		movement_speed -= up * m_speed * DELTA_TIME_F;
 
 	//마우스 휠 동작 값
@@ -106,19 +106,19 @@ void CameraEx::Control2DViewMode()
 	Vector3 movement_speed = Vector3::Zero;
 
 	//편집전용 카메라가 바라보는 방향에서 위쪽으로 이동
-	if (KEY_PRESS(KeyCode::KEY_W))
+	if (KEY_PRESS(Key::KEY_W))
 		movement_speed += up * m_speed * DELTA_TIME_F;
 
 	//편집전용 카메라가 바라보는 방향에서 아래쪽으로 이동
-	else if (KEY_PRESS(KeyCode::KEY_S))
+	else if (KEY_PRESS(Key::KEY_S))
 		movement_speed -= up * m_speed * DELTA_TIME_F;
 
 	//편집전용 카메라가 바라보는 방향에서 오른쪽으로 이동
-	if (KEY_PRESS(KeyCode::KEY_D))
+	if (KEY_PRESS(Key::KEY_D))
 		movement_speed += right * m_speed * DELTA_TIME_F;
 
 	//편집전용 카메라가 바라보는 방향에서 왼쪽으로 이동
-	else if (KEY_PRESS(KeyCode::KEY_A))
+	else if (KEY_PRESS(Key::KEY_A))
 		movement_speed -= right * m_speed * DELTA_TIME_F;
 
 	//카메라 위치 변경

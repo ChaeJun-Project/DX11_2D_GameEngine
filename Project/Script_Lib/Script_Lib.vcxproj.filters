@@ -43,6 +43,12 @@
     <Filter Include="Scripts\Camera">
       <UniqueIdentifier>{4b43394c-8131-495f-a807-f46f039c05c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enum">
+      <UniqueIdentifier>{0d7dd277-7810-43d9-8853-1a044f14ceff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Enemy\Behaviour Tree">
+      <UniqueIdentifier>{5edce94d-a9d3-4776-9f5f-77b8a07c5f0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WalkCannon_Bullet_Script.cpp">
@@ -78,6 +84,21 @@
     <ClCompile Include="Ceiling_Script.cpp">
       <Filter>Scripts\Geometry\Ceiling</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjectController.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Z_State_Collection.cpp">
+      <Filter>Scripts\Player\Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Colonel_Script.cpp">
+      <Filter>Scripts\Enemy\Colonel</Filter>
+    </ClCompile>
+    <ClCompile Include="Colonel_Behaviour_Node.cpp">
+      <Filter>Scripts\Enemy\Colonel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WalkCannon_Bullet_Script.h">
@@ -91,9 +112,6 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Stdafx</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerController.h">
-      <Filter>Scripts\Player</Filter>
     </ClInclude>
     <ClInclude Include="Z_Script.h">
       <Filter>Scripts\Player\Z</Filter>
@@ -115,6 +133,36 @@
     </ClInclude>
     <ClInclude Include="Ceiling_Script.h">
       <Filter>Scripts\Geometry\Ceiling</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectController.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState_Enum.h">
+      <Filter>Scripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Enum.h">
+      <Filter>Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="IState.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Z_State_Collection.h">
+      <Filter>Scripts\Player\Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Colonel_Script.h">
+      <Filter>Scripts\Enemy\Colonel</Filter>
+    </ClInclude>
+    <ClInclude Include="ColonelState_Enum.h">
+      <Filter>Scripts\Enemy\Colonel</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourTree.h">
+      <Filter>Scripts\Enemy\Behaviour Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Colonel_Behaviour_Node.h">
+      <Filter>Scripts\Enemy\Colonel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

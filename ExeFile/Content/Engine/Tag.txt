@@ -1,5 +1,5 @@
 [Tag Count]
-6
+8
 
 [Tag List]
 Default
@@ -8,3 +8,5 @@ Light
 Player
 Colonel
 Stage1
+PlayerAttack
+Enemy

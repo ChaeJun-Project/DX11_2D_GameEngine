@@ -50,11 +50,6 @@ Animator2D::~Animator2D()
 	m_p_current_animation.reset();
 }
 
-void Animator2D::Initialize()
-{
-	Stop();
-}
-
 void Animator2D::Start()
 {
 	if (m_p_current_animation == nullptr)

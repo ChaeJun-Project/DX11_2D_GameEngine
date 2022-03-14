@@ -29,6 +29,7 @@ void Transform::UpdateWorldMatrix()
 
 	//Origin World Matrix
 	m_origin_world_matrix = scale * rotation * translation;
+	//m_local_martix = m_origin_world_matrix;
 
 	scale = Matrix::Scaling(m_local_scale * m_mesh_scale);
 	//World Matrix
@@ -39,10 +40,10 @@ void Transform::UpdateWorldMatrix()
 	//부모 오브젝트 기준의 월드 행렬에 부모 오브젝트의 월드 행렬을 곱함
 	if (m_p_owner_game_object->HasParent())
 	{
-		auto parent_origin_world_matrix = m_p_owner_game_object->GetParent()->GetComponent<Transform>()->m_origin_world_matrix;
-
-		m_origin_world_matrix = m_origin_world_matrix * parent_origin_world_matrix;
-		m_world_matrix = m_world_matrix * parent_origin_world_matrix;
+		m_parent_world_matrix = m_p_owner_game_object->GetParent()->GetComponent<Transform>()->m_origin_world_matrix;
+		
+		m_origin_world_matrix = m_origin_world_matrix * m_parent_world_matrix;
+		m_world_matrix = m_world_matrix * m_parent_world_matrix;
 	}
 }
 
@@ -102,6 +103,13 @@ void Transform::UpdateConstantBuffer()
 	constant_buffer->SetConstantBufferData(&g_cbuffer_wvpmatrix, sizeof(CBuffer_WVPMatrix));
 	constant_buffer->SetBufferBindStage(PipelineStage::VS | PipelineStage::GS);
 	constant_buffer->BindPipeline();
+}
+
+void Transform::InitialzieProperty()	
+{
+	m_local_translation = m_origin_world_matrix.GetTranslation();
+	m_local_scale = m_origin_world_matrix.GetScale();
+	m_local_rotation = m_origin_world_matrix.GetRotation();
 }
 
 void Transform::SaveToScene(FILE* p_file)

@@ -25,7 +25,6 @@ public:
 	Script(const std::string& script_name);
 	virtual ~Script();
 
-	virtual void Initialize() override {}
 	virtual void Start() override {}
 	virtual void Update() override {}
 	virtual void FinalUpdate() final {} //Script를 상속받는 자식 클래스는 사용하지 않음

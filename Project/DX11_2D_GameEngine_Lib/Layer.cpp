@@ -19,15 +19,6 @@ Layer::~Layer()
 	m_p_game_object_vector.shrink_to_fit();
 }
 
-void Layer::Initialize()
-{
-	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
-	{
-		if (p_parent_game_object->m_is_active)
-			p_parent_game_object->Initialize();
-	}
-}
-
 void Layer::Start()
 {
 	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)

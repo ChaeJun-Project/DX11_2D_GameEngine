@@ -34,6 +34,10 @@ void GUI_Collider2D::Render()
 		ShowFloat2("Offset", offest_position, 70.0f, 80.0f);
 		ShowFloat2("Size", offest_scale, 70.0f, 80.0f);
 
+		//Test
+		//collider2D->SetOffsetPosition(offest_position);
+		//collider2D->SetOffsetScale(offest_scale);
+
 		if (CAN_EDIT)
 		{
 			collider2D->SetOffsetPosition(offest_position);

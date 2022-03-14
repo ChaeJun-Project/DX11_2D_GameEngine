@@ -25,7 +25,7 @@ void EventManager::Update()
 		p_dead_game_object->DetachFromParent(); //부모 오브젝트가 있다면 연결 해제
 
 		auto p_current_scene = SCENE_MANAGER->GetCurrentScene();
-		p_current_scene->DeregisterGameObject(p_dead_game_object);
+		p_current_scene->DeregisterGameObject(p_dead_game_object, true); //현재 Scene에서 등록 해제(Layer 포함)
 
 		SAFE_DELETE(p_dead_game_object);
 
@@ -114,7 +114,7 @@ void EventManager::AddChildGameObject(const EventStruct& event_struct)
 	if (p_parent_game_object->GetHasChild(p_child_game_object))
 		return;
 
-	current_scene->DeregisterGameObject(p_child_game_object); //현재 Scene에서 등록 해제(Layer 포함)
+	current_scene->DeregisterGameObject(p_child_game_object); //현재 Scene에서 등록 해제(Layer 미포함)
 
 	//연결할 자식 GameObject가 부모 GameObject를 소유하고 있는 경우
 	if (p_child_game_object->HasParent())
@@ -122,10 +122,12 @@ void EventManager::AddChildGameObject(const EventStruct& event_struct)
 
 	//새로운 자식 GameObject를 부모 GameObject에 연결
 	p_parent_game_object->AddChild(p_child_game_object);
-	//새로운 자식 GameObject 연결 후 현재 Scene에서 등록 해제(Layer 포함)
-	current_scene->DeregisterGameObject(p_parent_game_object); 
-	//새로운 자식 GameObject 연결 후 현재 Scene에 다시 등록(Layer 포함)
-	current_scene->RegisterGameObject(p_parent_game_object);
+
+	//필요없는 부분
+	////새로운 자식 GameObject 연결 후 현재 Scene에서 등록 해제(Layer 포함)
+	//current_scene->DeregisterGameObject(p_parent_game_object); 
+	////새로운 자식 GameObject 연결 후 현재 Scene에 다시 등록(Layer 포함)
+	//current_scene->RegisterGameObject(p_parent_game_object);
 
 	m_is_update = true;
 }
@@ -141,7 +143,7 @@ void EventManager::DetachChildGameObject(const EventStruct& event_struct)
 	//현재 GameObject가 부모 GameObject를 가지고 있는 경우
 	if (p_game_object->HasParent())
 	{
-		current_scene->DeregisterGameObject(p_game_object); //현재 Scene에서 등록 해제(Layer 포함)
+		current_scene->DeregisterGameObject(p_game_object); //현재 Scene에서 등록 해제(Layer 미포함)
 		p_game_object->DetachFromParent(); //현재 부모 GameObject로부터 분리
 	}
 

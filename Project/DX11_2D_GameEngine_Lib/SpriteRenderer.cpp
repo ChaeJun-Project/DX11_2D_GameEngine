@@ -89,7 +89,6 @@ void SpriteRenderer::SetMeshScale()
 			int flag = 1;
 			//Set Has Animation
 			m_p_material->SetConstantBufferData(Material_Parameter::INT_0, &flag);
-
 			current_animation->UpdateConstantBuffer();
 		}
 	}

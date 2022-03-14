@@ -15,3 +15,5 @@
 
 #include <DX11_2D_GameEngine_Lib/Script.h>
 
+#include "Enum.h"
+

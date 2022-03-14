@@ -197,6 +197,7 @@ call GameEngineCopy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Inline.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="RigidBody2D.h" />
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="Animator.h" />
@@ -225,7 +226,6 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputLayout.h" />
-    <ClInclude Include="InputManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IResource.h" />
     <ClInclude Include="IShader.h" />
@@ -271,6 +271,7 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="RigidBody2D.cpp" />
     <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="Animator.cpp" />
@@ -294,7 +295,6 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="GraphicsManager.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputLayout.cpp" />
-    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IShader.cpp" />
     <ClCompile Include="Layer.cpp" />

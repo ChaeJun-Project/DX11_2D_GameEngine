@@ -19,11 +19,11 @@ void ShowColorPicker4(const std::string& label_name, float* data, const ImGuiCol
 const bool CheckMousePositionInRect(const ImVec2& mouse_position, const ImVec2& rect_left_top, const ImVec2& rect_right_bottom);
 
 //DataInput
-void DataInputInt(const std::string& data_name, int* p_data);
-void DataInputFloat(const std::string& data_name, float* p_data);
-void DataInputVector2(const std::string& data_name, Vector2* p_data);
-void DataInputVector3(const std::string& data_name, Vector3* p_data);
-void DataInputVector4(const std::string& data_name, Vector4* p_data);
-void DataInputResource(const std::string& data_name, const IResource* p_resource);
-void DataInputTexture(const std::string& data_name, Texture** pp_texture);
-void DataInputPrefab(const std::string& data_name, Prefab** pp_prefab);
+void DataInputInt(const std::string& data_name, int* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags = 0);
+void DataInputFloat(const std::string& data_name, float* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags = 0);
+void DataInputVector2(const std::string& data_name, Vector2* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags = 0);
+void DataInputVector3(const std::string& data_name, Vector3* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags = 0);
+void DataInputVector4(const std::string& data_name, Vector4* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags = 0);
+void DataInputResource(const std::string& data_name, const IResource* p_resource, const float& size, const float& indent);
+void DataInputTexture(const std::string& data_name, Texture** pp_texture, const float& size, const float& indent);
+void DataInputPrefab(const std::string& data_name, Prefab** pp_prefab, const float& size, const float& indent);

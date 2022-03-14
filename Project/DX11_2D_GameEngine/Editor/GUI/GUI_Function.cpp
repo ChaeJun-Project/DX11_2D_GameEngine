@@ -116,60 +116,35 @@ const bool CheckMousePositionInRect(const ImVec2& mouse_position, const ImVec2& 
 		return false;
 }
 
-void DataInputInt(const std::string& data_name, int* p_data)
+void DataInputInt(const std::string& data_name, int* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags)
 {
-	ImGui::Text(data_name.c_str());
-	ImGui::SameLine();
-
-	auto label_str = data_name;
-	label_str = "##" + label_str;
-	ImGui::InputInt(label_str.c_str(), p_data);
+	ShowInt("Script", data_name.c_str(), *p_data, size, indent, flags);
 }
 
-void DataInputFloat(const std::string& data_name, float* p_data)
+void DataInputFloat(const std::string& data_name, float* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags)
 {
-	ImGui::Text(data_name.c_str());
-	ImGui::SameLine();
-
-	auto label_str = data_name;
-	label_str = "##" + label_str;
-	ImGui::InputFloat(label_str.c_str(), p_data);
+	ShowFloat("Script", data_name.c_str(), *p_data, size, indent, flags);
 }
 
-void DataInputVector2(const std::string& data_name, Vector2* p_data)
+void DataInputVector2(const std::string& data_name, Vector2* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags)
 {
-	ImGui::Text(data_name.c_str());
-	ImGui::SameLine();
-
-	auto label_str = data_name;
-	label_str = "##" + label_str;
-	ImGui::InputFloat2(label_str.c_str(), (float*)(p_data));
+	ShowFloat2(data_name.c_str(), *p_data, size, indent, flags);
 }
 
-void DataInputVector3(const std::string& data_name, Vector3* p_data)
+void DataInputVector3(const std::string& data_name, Vector3* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags)
 {
-	ImGui::Text(data_name.c_str());
-	ImGui::SameLine();
-
-	auto label_str = data_name;
-	label_str = "##" + label_str;
-	ImGui::InputFloat3(label_str.c_str(), (float*)(p_data));
+	ShowFloat3(data_name.c_str(), *p_data, size, indent, flags);
 }
 
-void DataInputVector4(const std::string& data_name, Vector4* p_data)
+void DataInputVector4(const std::string& data_name, Vector4* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags)
 {
-	ImGui::Text(data_name.c_str());
-	ImGui::SameLine();
-
-	auto label_str = data_name;
-	label_str = "##" + label_str;
-	ImGui::InputFloat4(label_str.c_str(), (float*)(p_data));
+	ShowFloat4(data_name.c_str(), *p_data, size, indent, flags);
 }
 
-void DataInputResource(const std::string& data_name, const IResource* p_resource)
+void DataInputResource(const std::string& data_name, const IResource* p_resource, const float& size, const float& indent)
 {
 	ImGui::Text(data_name.c_str());
-	ImGui::SameLine();
+	ImGui::SameLine(indent);
 
 	auto label_str = data_name;
 	label_str = "##" + label_str;
@@ -178,13 +153,15 @@ void DataInputResource(const std::string& data_name, const IResource* p_resource
 	if (p_resource != nullptr)
 		resource_name = p_resource->GetResourceName();
 
+	ImGui::PushItemWidth(size);
 	ImGui::InputText(label_str.c_str(), &resource_name, ImGuiInputTextFlags_ReadOnly);
+	ImGui::PopItemWidth();
 }
 
 #include <DX11_2D_GameEngine_Lib/Texture.h>
-void DataInputTexture(const std::string& data_name, Texture** pp_texture)
+void DataInputTexture(const std::string& data_name, Texture** pp_texture, const float& size, const float& indent)
 {
-	DataInputResource(data_name, *pp_texture);
+	DataInputResource(data_name, *pp_texture, size, indent);
 
 	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Texture))
 	{
@@ -194,9 +171,9 @@ void DataInputTexture(const std::string& data_name, Texture** pp_texture)
 }
 
 #include <DX11_2D_GameEngine_Lib/Prefab.h>
-void DataInputPrefab(const std::string& data_name, Prefab** pp_prefab)
+void DataInputPrefab(const std::string& data_name, Prefab** pp_prefab, const float& size, const float& indent)
 {
-	DataInputResource(data_name, *pp_prefab);
+	DataInputResource(data_name, *pp_prefab, size, indent);
 
 	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Prefab))
 	{

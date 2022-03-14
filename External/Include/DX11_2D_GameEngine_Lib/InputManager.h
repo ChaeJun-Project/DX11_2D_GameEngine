@@ -2,61 +2,66 @@
 
 #include "Singleton.h"
 
-#define MAX_INPUT_KEY 255
-#define MAX_INPUT_MOUSE 8
-
-enum KeyCode : unsigned long
+enum class Key
 {
-	CLICK_LEFT = 0x00,
-	CLICK_RIGHT = 0x01,
+	KEY_ARROW_LEFT,
+	KEY_ARROW_UP,
+	KEY_ARROW_RIGHT,
+	KEY_ARROW_DOWN,
 
-	KEY_ARROW_LEFT = 0x25,
-	KEY_ARROW_UP = 0x26,
-	KEY_ARROW_RIGHT = 0x27,
-	KEY_ARROW_DOWN = 0x28,
+	KEY_0,
+	KEY_1,
+	KEY_2,
+	KEY_3,
+	KEY_4,
+	KEY_5,
+	KEY_6,
+	KEY_7,
+	KEY_8,
+	KEY_9,
+	KEY_A,
+	KEY_B,
+	KEY_C,
+	KEY_D,
+	KEY_E,
+	KEY_F,
+	KEY_G,
+	KEY_H,
+	KEY_I,
+	KEY_J,
+	KEY_K,
+	KEY_L,
+	KEY_M,
+	KEY_N,
+	KEY_O,
+	KEY_P,
+	KEY_Q,
+	KEY_R,
+	KEY_S,
+	KEY_T,
+	KEY_U,
+	KEY_V,
+	KEY_W,
+	KEY_X,
+	KEY_Y,
+	KEY_Z,
 
-	KEY_0 = 0x30,
-	KEY_1 = 0x31,
-	KEY_2 = 0x32,
-	KEY_3 = 0x33,
-	KEY_4 = 0x34,
-	KEY_5 = 0x35,
-	KEY_6 = 0x36,
-	KEY_7 = 0x37,
-	KEY_8 = 0x38,
-	KEY_9 = 0x39,
-	KEY_A = 0x41,
-	KEY_B = 0x42,
-	KEY_C = 0x43,
-	KEY_D = 0x44,
-	KEY_E = 0x45,
-	KEY_F = 0x46,
-	KEY_G = 0x47,
-	KEY_H = 0x48,
-	KEY_I = 0x49,
-	KEY_J = 0x4A,
-	KEY_K = 0x4B,
-	KEY_L = 0x4C,
-	KEY_M = 0x4D,
-	KEY_N = 0x4E,
-	KEY_O = 0x4F,
-	KEY_P = 0x50,
-	KEY_Q = 0x51,
-	KEY_R = 0x52,
-	KEY_S = 0x53,
-	KEY_T = 0x54,
-	KEY_U = 0x55,
-	KEY_V = 0x56,
-	KEY_W = 0x57,
-	KEY_X = 0x58,
-	KEY_Y = 0x59,
-	KEY_Z = 0x5A,
+	KEY_SHIFT,
+	KEY_CONTROL,
+	KEY_ALT,
+	KEY_SPACE,
+	KEY_ENTER,
+	KEY_DELETE,
 
-	KEY_SHIFT = 0x10,
-	KEY_CONTROL = 0x11,
-	KEY_SPACE = 0x20,
-	KEY_ENTER = 0x0D,
-	KEY_DELETE = 0x2E,
+	END,
+};
+
+enum class Button
+{
+	CLICK_LEFT,
+	CLICK_RIGHT,
+
+	END,
 };
 
 class InputManager final : public Singleton<InputManager>
@@ -71,63 +76,75 @@ public:
 	void Update();
 	void Render();
 
-	const bool BtnDown(const KeyCode& button) const { return buttonMap[static_cast<unsigned long>(button)] == static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_DOWN); }
-	const bool BtnUp(const KeyCode& button) const { return buttonMap[static_cast<unsigned long>(button)] == static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_UP); }
-	const bool BtnPress(const KeyCode& button) const { return buttonMap[static_cast<unsigned long>(button)] == static_cast<UINT>(ButtonStatus::BUTTON_INPUT_STATUS_PRESS); }
+	//Key
+public:
+	bool KeyDown(const Key& key) const { return m_key_vector[static_cast<UINT>(key)].m_key_state == KeyState::KEY_INPUT_STATE_DOWN; }
+	bool KeyUp(const Key& key) const { return m_key_vector[static_cast<UINT>(key)].m_key_state == KeyState::KEY_INPUT_STATE_UP; }
+	bool KeyPress(const Key& key) const { return m_key_vector[static_cast<UINT>(key)].m_key_state == KeyState::KEY_INPUT_STATE_PRESS; }
 
-	const bool KeyDown(const KeyCode& key) const { return keyMap[static_cast<unsigned long>(key)] == static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_DOWN); }
-	const bool KeyUp(const KeyCode& key) const { return keyMap[static_cast<unsigned long>(key)] == static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_UP); }
-	const bool KeyPress(const KeyCode& key) const { return keyMap[static_cast<unsigned long>(key)] == static_cast<UINT>(KeyStatus::KEY_INPUT_STATUS_PRESS); }
+	//Button
+public:
+	bool BtnDown(const Button& button) const { return m_button_vector[static_cast<UINT>(button)].m_button_state == ButtonState::BUTTON_INPUT_STATE_DOWN; }
+	bool BtnUp(const Button& button) const { return m_button_vector[static_cast<UINT>(button)].m_button_state == ButtonState::BUTTON_INPUT_STATE_UP; }
+	bool BtnPress(const Button& button) const { return m_button_vector[static_cast<UINT>(button)].m_button_state == ButtonState::BUTTON_INPUT_STATE_PRESS; }
 
 public:
 	std::function<LRESULT(HWND, const UINT&, const WPARAM&, const LPARAM&)> MouseProc = nullptr;
 
-	const Vector2& GetMousePosition() const { return mousePosition; }
-	const Vector3& GetMouseMoveValue() const { return wheelMoveValue; }
+	Vector2 GetMousePosition() const { return m_mouse_position; }
+	Vector3 GetMouseMoveValue() const { return m_mouse_wheel_move_value; }
 
 private:
 	LRESULT MsgProc(HWND handle, const UINT& message, const WPARAM& wParam, const LPARAM& lParam);
 
 private:
-	enum class MouseRotationState
+	enum class KeyState
 	{
-		MOUSE_ROTATION_NONE = 0,
-		MOUSE_ROTATION_LEFT,
-		MOUSE_ROTATION_RIGHT
+		KEY_INPUT_STATE_NONE		 = 0,
+		KEY_INPUT_STATE_DOWN		 = 1,
+		KEY_INPUT_STATE_UP			 = 2,
+		KEY_INPUT_STATE_PRESS		 = 3,
 	};
 
-	enum class ButtonStatus
+	struct KeyInfo
 	{
-		BUTTON_INPUT_STATUS_NONE = 0,
-		BUTTON_INPUT_STATUS_DOWN,
-		BUTTON_INPUT_STATUS_UP,
-		BUTTON_INPUT_STATUS_PRESS,
-		BUTTON_INPUT_STATUS_DBLCLK
+		KeyState m_key_state;		//키의 상태값
+		bool	 m_is_pre_input;	//이전 프레임에서 눌렸는지 여부
 	};
 
-	enum class KeyStatus
+	enum class ButtonState
 	{
-		KEY_INPUT_STATUS_NONE = 0,
-		KEY_INPUT_STATUS_DOWN,
-		KEY_INPUT_STATUS_UP,
-		KEY_INPUT_STATUS_PRESS,
+		BUTTON_INPUT_STATE_NONE		= 0,
+		BUTTON_INPUT_STATE_DOWN		= 1,
+		BUTTON_INPUT_STATE_UP		= 2,
+		BUTTON_INPUT_STATE_PRESS	= 3,
+		BUTTON_INPUT_STATE_DBLCLK	= 4,
+	};
+
+	struct ButtonInfo
+	{
+		ButtonState  m_button_state;	   //마우스 버튼 상태값
+		UINT         m_click_count;		   //마우스 버튼 클릭 횟수
+		DWORD        m_start_double_click; //마우스 더블 클릭 시작 시간
 	};
 
 private:
-	byte keyState[MAX_INPUT_KEY];
-	byte keyOldState[MAX_INPUT_KEY];
-	byte keyMap[MAX_INPUT_KEY];
-	byte buttonStatus[MAX_INPUT_MOUSE];
-	byte buttonOldStatus[MAX_INPUT_MOUSE];
-	byte buttonMap[MAX_INPUT_MOUSE];
+    //Key
+	std::vector<int> m_virtual_key_vector;
+	std::vector<KeyInfo> m_key_vector;
 
-	DWORD startDblClk[MAX_INPUT_MOUSE];
-	int buttonCount[MAX_INPUT_MOUSE];
-	DWORD timeDblClk;
-	Vector2 mousePosition; //마우스 위치
-	Vector3 wheelStatus;
-	Vector3 wheelOldStatus;
-	Vector3 wheelMoveValue;
+	//Mouse Button
+	std::vector<int> m_virtual_button_vector;
+	std::vector<ButtonInfo> m_button_vector;
+	DWORD m_time_double_click;
+
+	//Mouse Position
+    Vector2 m_mouse_position		 = Vector2::Zero;
+
+	//Mouse Wheel
+	Vector3 m_mouse_wheel_state		 = Vector3::Zero;
+	Vector3 m_mouse_wheel_old_state	 = Vector3::Zero;
+	Vector3 m_mouse_wheel_move_value = Vector3::Zero;
 
 	std::string m_render_str;
 };

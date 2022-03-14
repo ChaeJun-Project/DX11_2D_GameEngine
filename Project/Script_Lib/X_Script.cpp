@@ -24,6 +24,18 @@ void X_Script::Update()
 {
 }
 
+void X_Script::Update_Move()
+{
+}
+
+void X_Script::Update_State()
+{
+}
+
+void X_Script::Update_Animation()
+{
+}
+
 void X_Script::OnCollisionEnter(GameObject* other_game_object)
 {
 }

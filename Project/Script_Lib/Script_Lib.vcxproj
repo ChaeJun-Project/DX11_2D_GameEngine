@@ -177,11 +177,19 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BehaviourTree.h" />
     <ClInclude Include="Camera_Script.h" />
     <ClInclude Include="Ceiling_Script.h" />
+    <ClInclude Include="ColonelState_Enum.h" />
+    <ClInclude Include="Colonel_Behaviour_Node.h" />
+    <ClInclude Include="Colonel_Script.h" />
+    <ClInclude Include="Enum.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Ground_Script.h" />
-    <ClInclude Include="PlayerController.h" />
+    <ClInclude Include="GameObjectController.h" />
+    <ClInclude Include="IState.h" />
+    <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="PlayerState_Enum.h" />
     <ClInclude Include="Wall_Script.h" />
     <ClInclude Include="X_Script.h" />
     <ClInclude Include="Z_Script.h" />
@@ -189,12 +197,17 @@ call CodeGen.exe</Command>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WalkCannon_Bullet_Script.h" />
     <ClInclude Include="WalkCannon_Script.h" />
+    <ClInclude Include="Z_State_Collection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera_Script.cpp" />
     <ClCompile Include="Ceiling_Script.cpp" />
+    <ClCompile Include="Colonel_Behaviour_Node.cpp" />
+    <ClCompile Include="Colonel_Script.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Ground_Script.cpp" />
+    <ClCompile Include="GameObjectController.cpp" />
+    <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="Wall_Script.cpp" />
     <ClCompile Include="X_Script.cpp" />
     <ClCompile Include="Z_Script.cpp" />
@@ -208,6 +221,7 @@ call CodeGen.exe</Command>
     </ClCompile>
     <ClCompile Include="WalkCannon_Bullet_Script.cpp" />
     <ClCompile Include="WalkCannon_Script.cpp" />
+    <ClCompile Include="Z_State_Collection.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

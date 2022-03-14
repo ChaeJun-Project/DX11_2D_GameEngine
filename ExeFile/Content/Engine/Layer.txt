@@ -7,9 +7,9 @@
 5 Map
 6 Enemy
 7 Player
-8 Wall
-9 Floor
-10 Door
+8 PlayerAttack
+9 
+10 
 11 
 12 
 13 

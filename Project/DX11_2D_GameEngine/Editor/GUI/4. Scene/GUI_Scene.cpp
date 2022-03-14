@@ -157,16 +157,16 @@ void GUI_Scene::ShowGizmo()
 	if (ImGui::IsWindowFocused())
 	{
 		//Change Gizmo Mode
-		if (KEY_PRESS(KeyCode::KEY_1))
+		if (KEY_PRESS(Key::KEY_1))
 			operation = ImGuizmo::TRANSLATE; //Transform Mode
 
-		if (KEY_PRESS(KeyCode::KEY_2))
+		if (KEY_PRESS(Key::KEY_2))
 			operation = ImGuizmo::ROTATE; //Rotation Mode
 
-		if (KEY_PRESS(KeyCode::KEY_3))
+		if (KEY_PRESS(Key::KEY_3))
 			operation = ImGuizmo::SCALE; //Scale Mode
 
-		if (KEY_PRESS(KeyCode::KEY_4))
+		if (KEY_PRESS(Key::KEY_4))
 			operation = ImGuizmo::UNIVERSAL; //Universal Mode(Transform + Rotation + Scale)
 	}
 
@@ -180,7 +180,7 @@ void GUI_Scene::ShowGizmo()
 	auto size = RENDER_MANAGER->GetResolution();
 	auto view = p_editor_camera->GetViewMatrix();
 	auto proj = p_editor_camera->GetProjectionMatrix();
-	auto world = transform->GetOriginWorldMatrix();
+	auto world = transform->GetOriginWorldMatrix(); //자식 GameObject의 경우 부모 GameObject의 World Matrix를 곱한 상태
 
 	ImGuizmo::SetDrawlist();
 	ImGuizmo::SetRect(m_gizmo_offset.x, m_gizmo_offset.y, size.x, size.y);
@@ -192,6 +192,15 @@ void GUI_Scene::ShowGizmo()
 		mode,
 		world
 	);
+
+	//부모 GameObject가 존재하는 경우
+	//Gizmo에 의해 값이 변한 World에 부모 GameObject의 OriginWorldMatrix의 역행렬을 곱해주면
+	//순수하게 자식 GameObject의 Local 변환량을 구할 수 있음
+	if (p_game_object->HasParent())
+	{
+		auto parent_world = p_game_object->GetParent()->GetComponent<Transform>()->GetOriginWorldMatrix();
+	    world = world * parent_world.Inverse();
+	}
 
 	transform->SetTranslation(world.GetTranslation());
 	transform->SetRotation(world.GetRotation());

@@ -11,7 +11,6 @@ public:
 	explicit Animator2D(const Animator2D& origin);
 	~Animator2D();
 
-	virtual void Initialize() override;
 	virtual void Start() override;
 	virtual void Update() override;
 	virtual void FinalUpdate() override;

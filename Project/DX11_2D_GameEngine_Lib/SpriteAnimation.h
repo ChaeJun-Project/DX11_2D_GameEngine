@@ -64,6 +64,8 @@ public:
 	}
 	const SpriteAnimation_Frame& GetCurrentFrame() const { return m_animation_frame_vector[m_current_frame_id]; }
 
+	const bool GetIsFinished() { return m_is_finished; }
+
 public:
 	bool SaveToFile(const std::string& animation2D_path) override;
 	bool LoadFromFile(const std::string& animation2D_path) override;

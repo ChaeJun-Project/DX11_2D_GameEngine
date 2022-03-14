@@ -68,7 +68,6 @@ void SceneManager::SetEditorState(const UINT& editor_state)
 	if (editor_state == EditorState::EditorState_Stop)
 	{
 		m_editor_state = editor_state;
-		//m_p_current_scene->Initialize();
 	}
 
 	else
@@ -80,7 +79,6 @@ void SceneManager::SetEditorState(const UINT& editor_state)
 				editor_state == EditorState::EditorState_Play)
 			{
 				m_editor_state = EditorState::EditorState_Stop;
-				m_p_current_scene->Initialize();
 			}
 
 			m_editor_state &= ~editor_state; //해당 상태 제거

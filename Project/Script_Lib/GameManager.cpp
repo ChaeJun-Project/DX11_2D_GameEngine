@@ -16,10 +16,6 @@ GameManager::~GameManager()
 {
 }
 
-void GameManager::Initialize()
-{
-}
-
 void GameManager::Start()
 {
 }

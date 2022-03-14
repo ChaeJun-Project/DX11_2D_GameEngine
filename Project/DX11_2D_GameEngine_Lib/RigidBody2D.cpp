@@ -12,6 +12,8 @@ RigidBody2D::RigidBody2D()
 RigidBody2D::RigidBody2D(const RigidBody2D& origin)
 	: IComponent(origin.m_component_type)
 {
+     m_gravity = origin.m_gravity;
+	 m_mass = origin.m_mass;
 }
 
 RigidBody2D::~RigidBody2D()
@@ -20,27 +22,27 @@ RigidBody2D::~RigidBody2D()
 
 void RigidBody2D::Update()
 {
-	////힘의 크기
-	//float force = m_force.Length();
+	//힘의 크기
+	float force = m_force.Length();
 
-	////힘이 0이 아니라면
-	//if (force != 0.0f)
-	//{
-	//	//힘의 방향
-	//	m_force.Normalize();
+	//힘이 0이 아니라면
+	if (force != 0.0f)
+	{
+		//힘의 방향
+		m_force.Normalize();
 
-	//	//가속도의 크기 (a = F/m)
-	//	float accel = force / m_mass;
+		//가속도의 크기 (a = F/m)
+		float accel = force / m_mass;
 
-	//	// 가속도
-	//	m_accel = m_force * accel;
-	//}
+		// 가속도
+		m_accel = m_force * accel;
+	}
 
-	/*if (!m_is_wall)
-		m_velocity += m_accel;*/
+	if (!m_is_right_wall && !m_is_left_wall)
+		m_velocity += m_accel;
 
 	if (!m_is_ground)
-		m_velocity.y -= m_mass * m_gravity * TIME_MANAGER->GetDeltaTime_float();
+		m_velocity.y -= m_mass * m_gravity * DELTA_TIME_F;
 
 	Move();
 
@@ -56,9 +58,9 @@ void RigidBody2D::Move()
 		auto transform = m_p_owner_game_object->GetComponent<Transform>();
 		auto position = transform->GetLocalTranslation();
 
-		position.x += (m_velocity.x / m_mass)* TIME_MANAGER->GetDeltaTime_float();
+		position.x += (m_velocity.x / m_mass)* DELTA_TIME_F;
 		if (!m_is_ceiling)
-			position.y += m_velocity.y * TIME_MANAGER->GetDeltaTime_float();
+			position.y += m_velocity.y * DELTA_TIME_F;
 
 		//캐릭터 위치 변경
 		transform->SetTranslation(position);
@@ -94,12 +96,12 @@ void RigidBody2D::SaveToScene(FILE* p_file)
 	__super::SaveToScene(p_file); //IComponent
 
 	//Gravity
-	fprintf(p_file, "[Gravity]\n");
-	fprintf(p_file, "%f\n", m_gravity);
+	fprintf_s(p_file, "[Gravity]\n");
+	fprintf_s(p_file, "%f\n", m_gravity);
 
 	//Mass
-	fprintf(p_file, "[Mass]\n");
-	fprintf(p_file, "%f\n", m_mass);
+	fprintf_s(p_file, "[Mass]\n");
+	fprintf_s(p_file, "%f\n", m_mass);
 }
 
 void RigidBody2D::LoadFromScene(FILE* p_file)

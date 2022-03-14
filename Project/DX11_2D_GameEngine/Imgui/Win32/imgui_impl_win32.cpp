@@ -499,15 +499,15 @@ IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARA
     case WM_SYSKEYDOWN:
     case WM_SYSKEYUP:
     {
-        bool down = (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN);
+      bool down = (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN);
         if (wParam < 256)
             io.KeysDown[wParam] = down;
-        if (wParam == VK_CONTROL)
+       if (wParam == VK_CONTROL)
             io.KeyCtrl = down;
         if (wParam == VK_SHIFT)
             io.KeyShift = down;
-        if (wParam == VK_MENU)
-            io.KeyAlt = down;
+      /*  if (wParam == VK_MENU)
+            io.KeyAlt = down;*/
         return 0;
     }
     case WM_SETFOCUS:

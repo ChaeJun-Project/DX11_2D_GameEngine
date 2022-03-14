@@ -58,9 +58,6 @@
     <ClInclude Include="TimeManager.h">
       <Filter>Manager\Time</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Manager\Input</Filter>
-    </ClInclude>
     <ClInclude Include="IndexBuffer.h">
       <Filter>Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\IndexBuffer</Filter>
     </ClInclude>
@@ -220,6 +217,9 @@
     <ClInclude Include="Inline.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Manager\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -263,9 +263,6 @@
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
       <Filter>Manager\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Manager\Input</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\IndexBuffer</Filter>
@@ -407,6 +404,9 @@
     </ClCompile>
     <ClCompile Include="RigidBody2D.cpp">
       <Filter>Scene\Components\10. Rigid Body2D</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Manager\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

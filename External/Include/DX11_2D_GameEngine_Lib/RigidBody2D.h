@@ -17,9 +17,11 @@ private:
 
 public:
 	void SetGround(const bool& is_ground);
+	bool GetIsGround() const { return m_is_ground; }
+
 	void SetWall(const bool& is_right, const bool& is_wall);
-	const bool GetIsRightWall() { return m_is_right_wall; }
-	const bool GetIsLeftWall() { return m_is_left_wall; }
+	bool GetIsRightWall() const { return m_is_right_wall; }
+	bool GetIsLeftWall() const { return m_is_left_wall; }
 
 	void SetCeiling(const bool& is_ceiling);
 

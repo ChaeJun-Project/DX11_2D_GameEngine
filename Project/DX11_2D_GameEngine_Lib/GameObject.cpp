@@ -94,27 +94,6 @@ GameObject::~GameObject()
 	m_p_child_vector.shrink_to_fit();
 }
 
-void GameObject::Initialize()
-{
-	//Component 초기화
-	for (auto& component : m_p_component_map)
-	{
-		if (component.second->GetIsActive())
-			component.second->Initialize();
-	}
-
-	//Script 초기화
-	for (auto& script : m_p_script_un_map)
-	{
-		if (script.second->GetIsActive())
-			script.second->Initialize();
-	}
-
-	//자식 오브젝트 초기화
-	for (auto& child : m_p_child_vector)
-		child->Initialize();
-}
-
 void GameObject::Start()
 {
 	//Component 시작
@@ -415,6 +394,7 @@ void GameObject::DetachFromParent()
 		{
 			iter = m_p_parent->m_p_child_vector.erase(iter);
 			this->m_p_parent = nullptr;
+			GetComponent<Transform>()->InitialzieProperty();
 			return;
 		}
 

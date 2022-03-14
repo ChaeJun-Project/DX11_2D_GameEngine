@@ -8,7 +8,6 @@ public:
 	explicit GameManager(const GameManager& origin);
 	virtual ~GameManager();
 
-	void Initialize() override;
 	void Start() override;
 	void Update() override;
 

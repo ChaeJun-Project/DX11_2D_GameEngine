@@ -10,14 +10,13 @@ public:
 
    void SetStartScene();
 
-   void Initialize();
    void Start();
    void Update();
    void FinalUpdate();
 
 public:
    void RegisterGameObject(GameObject* p_game_object);
-   void DeregisterGameObject(GameObject* p_game_object);
+   void DeregisterGameObject(GameObject* p_game_object, const bool& is_with_layer = false);
    void DeregisterFromParentGameObject(GameObject* p_game_object);
 
    GameObject* FindGameObject(const std::string& game_object_name);

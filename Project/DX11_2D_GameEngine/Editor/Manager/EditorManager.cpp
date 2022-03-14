@@ -65,7 +65,7 @@ void EditorManager::Initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceCont
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  //키보드 입력 사용
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      //도킹 시스템 사용
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;    //멀티 뷰포트 사용(윈도우 플랫폼)
-	
+
 	//Set GUI Style(Current: Dark Color)
 	ImGui::StyleColorsDark();
 	ImGuiStyle& style = ImGui::GetStyle();

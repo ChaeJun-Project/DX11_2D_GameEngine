@@ -92,7 +92,7 @@ void TileMapRenderer::EditTileMap()
 	auto editor_camera = RENDER_MANAGER->GetEditorCamera();
 
 	//Palette가 켜진 상태 & 편집 상태 & 마우스 왼쪽 클릭을 했을 때 
-	if (m_is_active_palette && (SCENE_MANAGER->GetEditorState() == EditorState_Stop) && MOUSE_BUTTON_DOWN(KeyCode::CLICK_LEFT))
+	if (m_is_active_palette && (SCENE_MANAGER->GetEditorState() == EditorState_Stop) && MOUSE_BUTTON_DOWN(Button::CLICK_LEFT))
 	{
 		auto mouse_world_position = editor_camera->Picking();
 

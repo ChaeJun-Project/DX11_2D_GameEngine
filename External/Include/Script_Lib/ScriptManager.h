@@ -7,8 +7,10 @@ enum class Script_Type : UINT
 {
 	Camera_Script,
 	Ceiling_Script,
+	Colonel_Script,
 	GameManager,
 	Ground_Script,
+	resource,
 	WalkCannon_Bullet_Script,
 	WalkCannon_Script,
 	Wall_Script,

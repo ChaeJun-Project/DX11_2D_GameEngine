@@ -3,6 +3,7 @@
 
 #include "Camera_Script.h"
 #include "Ceiling_Script.h"
+#include "Colonel_Script.h"
 #include "GameManager.h"
 #include "Ground_Script.h"
 #include "WalkCannon_Bullet_Script.h"
@@ -15,8 +16,10 @@ void ScriptManager::GetScriptInfo(std::vector<std::string>& script_vector)
 {
 	script_vector.emplace_back("Camera_Script");
 	script_vector.emplace_back("Ceiling_Script");
+	script_vector.emplace_back("Colonel_Script");
 	script_vector.emplace_back("GameManager");
 	script_vector.emplace_back("Ground_Script");
+	script_vector.emplace_back("resource");
 	script_vector.emplace_back("WalkCannon_Bullet_Script");
 	script_vector.emplace_back("WalkCannon_Script");
 	script_vector.emplace_back("Wall_Script");
@@ -30,6 +33,8 @@ Script* ScriptManager::GetScript(const std::string& script_name)
 		return new Camera_Script;
 	if(script_name._Equal("Ceiling_Script"))
 		return new Ceiling_Script;
+	if(script_name._Equal("Colonel_Script"))
+		return new Colonel_Script;
 	if(script_name._Equal("GameManager"))
 		return new GameManager;
 	if(script_name._Equal("Ground_Script"))
@@ -56,6 +61,8 @@ Script* ScriptManager::GetScript(const UINT& script_type)
 		return new Camera_Script;
 	case (UINT)Script_Type::Ceiling_Script:
 		return new Ceiling_Script;
+	case (UINT)Script_Type::Colonel_Script:
+		return new Colonel_Script;
 	case (UINT)Script_Type::GameManager:
 		return new GameManager;
 	case (UINT)Script_Type::Ground_Script:

@@ -70,7 +70,7 @@ void SpriteAnimation::Update()
 			//애니메이션 역재생이 끝났을 때
 			if (m_current_frame_id <= 0)
 			{
-				m_current_frame_id = (static_cast<int>(m_animation_frame_vector.size()) - 1);
+				m_current_frame_id = (static_cast<int>(m_animation_frame_vector.size()) - 2);
 
 				//해당 애니메이션이 끝까지 1회 재생되었음을 알려줌
 				m_is_finished = true;
@@ -84,7 +84,7 @@ void SpriteAnimation::Update()
 			//애니메이션 재생이 끝났을 때
 			if (m_current_frame_id >= m_animation_frame_vector.size())
 			{
-				m_current_frame_id = 0;
+				--m_current_frame_id;
 
 				//해당 애니메이션이 끝까지 1회 재생되었음을 알려줌
 				m_is_finished = true;

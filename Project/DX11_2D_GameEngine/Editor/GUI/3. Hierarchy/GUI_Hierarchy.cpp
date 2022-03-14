@@ -149,20 +149,8 @@ void GUI_Hierarchy::DragDropGameObject(DWORD_PTR p_dropped_item, DWORD_PTR p_dra
 	EventStruct event_struct;
 	ZeroMemory(&event_struct, sizeof(EventStruct));
 
-	//GameObject TreeItem을 허공에 드랍한 경우
-	if (p_dest_item == nullptr)
-	{ 
-		event_struct.event_type = EventType::Detach_Child_Object;
-		event_struct.object_address_1 = nullptr;
-	}
-
-	//GameObject TreeItem을 다른 GameObject TreeItem에 드랍한 경우
-	else
-	{
-		event_struct.event_type = EventType::Add_Child_Object;
-		event_struct.object_address_1 = (GameObject*)p_dest_item->GetPayLoadData();
-	}
-
+	event_struct.event_type = EventType::Add_Child_Object;
+	event_struct.object_address_1 = (GameObject*)p_dest_item->GetPayLoadData();
 	event_struct.object_address_2 = (GameObject*)p_src_item->GetPayLoadData();
 
 	EVENT_MANAGER->AddEvent(event_struct);
@@ -170,7 +158,7 @@ void GUI_Hierarchy::DragDropGameObject(DWORD_PTR p_dropped_item, DWORD_PTR p_dra
 
 void GUI_Hierarchy::CheckEvnetKey()
 {
-	if (KEY_DOWN(KeyCode::KEY_DELETE))
+	if (KEY_DOWN(Key::KEY_DELETE))
 	{
 		auto select_game_object = EDITOR_HELPER->GetSelectedGameObject();
 		if (select_game_object == nullptr)
@@ -218,7 +206,7 @@ void GUI_Hierarchy::ShowMenuPopup()
 	if (!ImGui::BeginPopup("Hierarchy Menu Popup"))
 		return;
 
-	if (ImGui::BeginMenu("Create Object"))
+	if (ImGui::BeginMenu("Create GameObject"))
 	{
 		if (ImGui::MenuItem("Empty"))
 		{
@@ -226,6 +214,19 @@ void GUI_Hierarchy::ShowMenuPopup()
 		}
 
 		ImGui::EndMenu();
+	}
+
+	//<summary>
+	//상속관계 제거
+	//현재 선택된 GameObject가 자식 GameObject인 경우에만 보여줌
+	//</summary>
+	auto p_selected_game_object = EDITOR_HELPER->GetSelectedGameObject();
+	if (p_selected_game_object != nullptr && p_selected_game_object->HasParent())
+	{
+		if (ImGui::MenuItem("Remove Inheritance"))
+		{
+			RemoveInheritance(p_selected_game_object);
+		}
 	}
 
 	ImGui::EndPopup();
@@ -265,4 +266,19 @@ void GUI_Hierarchy::CreateGameObject()
 
 		EVENT_MANAGER->AddEvent(event_struct);
 	}
+}
+
+void GUI_Hierarchy::RemoveInheritance(GameObject* p_game_object)
+{
+	if (SCENE_MANAGER->GetEditorState() != EditorState::EditorState_Stop)
+		return;
+
+	EventStruct event_struct;
+	ZeroMemory(&event_struct, sizeof(EventStruct));
+
+	event_struct.event_type = EventType::Detach_Child_Object;
+	event_struct.object_address_1 = nullptr;
+	event_struct.object_address_2 = p_game_object;
+
+	EVENT_MANAGER->AddEvent(event_struct);
 }

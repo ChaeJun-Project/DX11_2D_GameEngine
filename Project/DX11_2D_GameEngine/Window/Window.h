@@ -67,6 +67,14 @@ namespace Window
 			}*/
 		}
 		break;
+		case WM_SYSKEYDOWN:
+		{
+			if (wParam == VK_MENU || wParam == VK_F10) //Alt, F10 막기
+			{
+
+			}
+		}
+		break;
 		case WM_DISPLAYCHANGE:
 		case WM_SIZE:
 			//이벤트 함수가 등록되어 있는 경우

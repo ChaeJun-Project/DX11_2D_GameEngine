@@ -19,10 +19,6 @@ Camera_Script::~Camera_Script()
 {
 }
 
-void Camera_Script::Initialize()
-{
-}
-
 void Camera_Script::Start()
 {
 }

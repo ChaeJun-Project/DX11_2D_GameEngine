@@ -18,7 +18,6 @@ public:
 		m_p_owner_game_object = nullptr;
 	}
 
-	virtual void Initialize() {}
 	virtual void Start() {}
 	virtual void Update() {} //업데이트
 	virtual void FinalUpdate() = 0; //최종 업데이트 => 오브젝트가 움직이면 안됨

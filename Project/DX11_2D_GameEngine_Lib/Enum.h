@@ -150,13 +150,6 @@ enum class ProjectionType : UINT
 	Perspective = 1, //원근투영
 };
 
-//GameObject SideType(Transform 사용)
-enum class GameObjectSideState : UINT
-{
-	Right = 0,
-	Left = 1,
-};
-
 //Light Type(Light2D, Light3D 사용)
 enum class LightType : UINT
 {

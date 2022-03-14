@@ -33,25 +33,25 @@ void GUI_Script::Render()
 			switch (script_param_vector[i].m_param_type)
 			{
 			case ScriptParamType::Int:
-				DataInputInt(script_param_vector[i].m_param_name, reinterpret_cast<int*>(std::get<void*>(script_param_vector[i].m_p_param_data)));
+				DataInputInt(script_param_vector[i].m_param_name, reinterpret_cast<int*>(std::get<void*>(script_param_vector[i].m_p_param_data)), 60.0f, 80.0f);
 				break;
 			case ScriptParamType::Float:
-				DataInputFloat(script_param_vector[i].m_param_name, reinterpret_cast<float*>(std::get<void*>(script_param_vector[i].m_p_param_data)));
+				DataInputFloat(script_param_vector[i].m_param_name, reinterpret_cast<float*>(std::get<void*>(script_param_vector[i].m_p_param_data)), 60.0f, 80.0f);
 				break;
 			case ScriptParamType::Vector2:
-				DataInputVector2(script_param_vector[i].m_param_name, reinterpret_cast<Vector2*>(std::get<void*>(script_param_vector[i].m_p_param_data)));
+				DataInputVector2(script_param_vector[i].m_param_name, reinterpret_cast<Vector2*>(std::get<void*>(script_param_vector[i].m_p_param_data)), 60.0f, 70.0f);
 				break;
 			case ScriptParamType::Vector3:
-				DataInputVector3(script_param_vector[i].m_param_name, reinterpret_cast<Vector3*>(std::get<void*>(script_param_vector[i].m_p_param_data)));
+				DataInputVector3(script_param_vector[i].m_param_name, reinterpret_cast<Vector3*>(std::get<void*>(script_param_vector[i].m_p_param_data)), 60.0f, 70.0f);
 				break;
 			case ScriptParamType::Vector4:
-				DataInputVector4(script_param_vector[i].m_param_name, reinterpret_cast<Vector4*>(std::get<void*>(script_param_vector[i].m_p_param_data)));
+				DataInputVector4(script_param_vector[i].m_param_name, reinterpret_cast<Vector4*>(std::get<void*>(script_param_vector[i].m_p_param_data)), 60.0f, 70.0f);
 			    break;
 			case ScriptParamType::Texture:
-				DataInputTexture(script_param_vector[i].m_param_name, reinterpret_cast<Texture**>(std::get<void*>(script_param_vector[i].m_p_param_data)));
+				DataInputTexture(script_param_vector[i].m_param_name, reinterpret_cast<Texture**>(std::get<void*>(script_param_vector[i].m_p_param_data)), 100.0f, 80.0f);
 				break;
 			case ScriptParamType::Prefab:
-				DataInputPrefab(script_param_vector[i].m_param_name, reinterpret_cast<Prefab**>(std::get<void*>(script_param_vector[i].m_p_param_data)));
+				DataInputPrefab(script_param_vector[i].m_param_name, reinterpret_cast<Prefab**>(std::get<void*>(script_param_vector[i].m_p_param_data)), 100.0f, 80.0f);
 				break;
 			}
 		}

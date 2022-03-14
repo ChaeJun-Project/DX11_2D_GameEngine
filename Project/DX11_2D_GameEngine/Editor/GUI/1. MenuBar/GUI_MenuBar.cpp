@@ -36,7 +36,7 @@ void GUI_MenuBar::Update()
 	if (SCENE_MANAGER->GetEditorState() != EditorState::EditorState_Stop)
 		return;
 
-	if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_M))
+	if (KEY_PRESS(Key::KEY_CONTROL) && KEY_DOWN(Key::KEY_M))
 	{
 		m_is_active = !m_is_active;
 	}
@@ -47,25 +47,25 @@ void GUI_MenuBar::Update()
 		// File
 		//=========================
 		//New Scene
-		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_N))
+		if (KEY_PRESS(Key::KEY_CONTROL) && KEY_DOWN(Key::KEY_N))
 		{
 			NewScene();
 		}
 
 		//Load Scene
-		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_A))
+		if (KEY_PRESS(Key::KEY_CONTROL) && KEY_DOWN(Key::KEY_A))
 		{
 			LoadScene();
 		}
 
 		//Save Scene
-		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_S))
+		if (KEY_PRESS(Key::KEY_CONTROL) && KEY_DOWN(Key::KEY_S))
 		{
 			SaveScene();
 		}
 
 		//Rename Scene  
-		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_R))
+		if (KEY_PRESS(Key::KEY_CONTROL) && KEY_DOWN(Key::KEY_R))
 		{
 			m_p_gui_scene_rename->m_is_active = !m_p_gui_scene_rename->m_is_active;
 		}
@@ -74,19 +74,19 @@ void GUI_MenuBar::Update()
 		// Edit
 		//=========================
 		//Style Editor
-		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_Y))
+		if (KEY_PRESS(Key::KEY_CONTROL) && KEY_DOWN(Key::KEY_Y))
 		{
 			m_p_gui_style_selector->m_is_active = !m_p_gui_style_selector->m_is_active;
 		}
 
 		//Sprite Editor
-		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_D))
+		if (KEY_PRESS(Key::KEY_CONTROL) && KEY_DOWN(Key::KEY_D))
 		{
 			m_p_gui_sprite_editor->m_is_active = !m_p_gui_sprite_editor->m_is_active;
 		}
 
 		//Physics Editor
-		if (KEY_PRESS(KeyCode::KEY_CONTROL) && KEY_DOWN(KeyCode::KEY_P))
+		if (KEY_PRESS(Key::KEY_CONTROL) && KEY_DOWN(Key::KEY_P))
 		{
 			m_p_gui_physics->m_is_active = !m_p_gui_physics->m_is_active;
 		}
