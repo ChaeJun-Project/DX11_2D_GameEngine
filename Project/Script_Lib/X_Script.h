@@ -21,6 +21,9 @@ private:
 	void Update_State() override;
 	void Update_Animation() override;
 
+private:
+	void RegisterScriptParamData() override;
+
 public:
 	void OnCollisionEnter(GameObject* other_game_object) override;
 	void OnCollisionStay(GameObject* other_game_object) override;
@@ -34,10 +37,9 @@ public:
 	CLONE(X_Script);
 
 private:
-	float m_speed = 200.f;
+	Transform* m_p_transform = nullptr;
+	RigidBody2D* m_p_rigidbody2D = nullptr;
 
-	Animator2D* m_p_animator = nullptr;
 
-	PlayerState m_current_state = PlayerState::Idle;
 };
 

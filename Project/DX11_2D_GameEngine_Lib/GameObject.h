@@ -28,13 +28,16 @@ private:
 public:
 	void AddComponent(const ComponentType& component_type);
 	void AddComponent(IComponent* p_component);
+	void AddRectTransform();
+	void AddImageRendererComponent();
 
 	template<typename T>
 	T* GetComponent();
 	IComponent* GetComponent(const ComponentType& component_type) const;
 
 	void RemoveComponent(const ComponentType& component_type);
-
+	void RemoveAllComponent();
+	
 	const UINT& GetComponentCount() const { return static_cast<UINT>(m_p_component_map.size()); }
 
 	//==============

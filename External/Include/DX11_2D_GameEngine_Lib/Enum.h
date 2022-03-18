@@ -138,9 +138,10 @@ enum class ComponentType : UINT
 	RigidBody2D = 10,
 	AudioListener = 11,
 	AudioSource = 12,
-	END = 13,
-
-	Script = 14,
+	Canvas = 13,
+	RectTransform = 14,
+	ImageRenderer = 15,
+	Script = 16,
 };
 
 //Projection Type(Camera »ç¿ë)

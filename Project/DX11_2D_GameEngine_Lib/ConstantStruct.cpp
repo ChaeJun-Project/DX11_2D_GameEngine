@@ -6,3 +6,5 @@ CBuffer_WVPMatrix g_cbuffer_wvpmatrix = { };
 CBuffer_Program g_cbuffer_program = { };
 
 CBuffer_SpriteAnimation g_cbuffer_sprite_animation = { };
+
+CBuffer_Widget_WVPMatrix g_cbuffer_widget_wvpmatrix = { };

@@ -55,7 +55,7 @@ private:
 
 	UINT m_collision_count = 0;
 
-	std::shared_ptr<Mesh> m_p_mesh;
 	std::shared_ptr<Material> m_p_material;
+	std::shared_ptr<Mesh> m_p_mesh;
 };
 

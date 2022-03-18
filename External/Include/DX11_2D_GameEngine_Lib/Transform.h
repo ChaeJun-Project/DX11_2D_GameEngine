@@ -2,14 +2,18 @@
 
 #include "IComponent.h"
 
+class RectTransform;
+
 class Transform final : public IComponent
 {
 public:
 	Transform();
-	explicit Transform(const Transform& origin) = default; //=> 복사 생성자 호출 시 얕은 복사 사용
 	~Transform() = default;
 
 	void FinalUpdate() override;
+
+public:
+    void operator=(const RectTransform& rect_transform);
 
 public:
 	//=====================================================================
@@ -39,9 +43,6 @@ public:
 	const Vector3& GetLocalScale() const { return m_local_scale; }
 	void SetLocalScale(const Vector3& local_scale);
 
-	//자식 GameObject에서 상속관계가 해제되었을 경우 호출
-	void InitialzieProperty();
-
 public:
 	//=====================================================================
 	// [World]
@@ -64,9 +65,14 @@ public:
 	const Vector3 GetForwardVector() const { return Vector3::Forward * m_local_rotation; }
 
 	//World Matrix
+	const Matrix& GetParentOriginWorldMatrix() const { return m_parent_origin_world_matrix; }
 	const Matrix& GetOriginWorldMatrix() const { return m_origin_world_matrix; }
 	const Matrix& GetWorldMatrix() const { return m_world_matrix; }
 	
+public:
+	//자식 GameObject에서 상속관계가 해제되었을 경우 호출
+	void InitialzieProperty();
+
 public:
 	//Mesh Scale
 	void SetMeshScale(const UINT& width, const UINT& height) { m_mesh_scale = Vector3(static_cast<float>(width), static_cast<float>(height), 1.0f); }
@@ -80,13 +86,12 @@ private:
 	CLONE(Transform);
 
 private:
-	Vector3 m_mesh_scale = Vector3::One;
-
 	Vector3 m_local_translation = Vector3::Zero; //xyz 모두 0.0f로 초기화
 	Quaternion m_local_rotation = Quaternion::Identity;
 	Vector3 m_local_scale = Vector3::One; //xyz 모두 1.0f로 초기화
+	Vector3 m_mesh_scale = Vector3::One;
 
-	Matrix m_parent_world_matrix = Matrix::Identity;
+	Matrix m_parent_origin_world_matrix = Matrix::Identity;
 	Matrix m_origin_world_matrix = Matrix::Identity; //m_mesh_scale을 곱하지 않은 원본 World Matrix => 자식 GameObject의 World Matrix 연산에 필요
 	Matrix m_world_matrix = Matrix::Identity;		 //m_mesh_scale을 곱한 실제 사용되는 World Matrix => 실제 렌더링에 사용되는 World Matrix
 };

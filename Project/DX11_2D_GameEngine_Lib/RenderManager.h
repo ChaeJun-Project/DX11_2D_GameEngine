@@ -41,6 +41,8 @@ public:
 	void RegisterCamera(Camera* p_camera, int& camera_index);
 	Camera* GetMainCamera();
 
+	Camera* GetCamera(const UINT& camera_index);
+
 public:
 	//Light2D
 	void RegisterLight2D(Light2D* p_light2D, int& light2D_index);

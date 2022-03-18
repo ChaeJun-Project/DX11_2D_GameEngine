@@ -67,7 +67,7 @@
 #define AUDIO_SYSTEM	AUDIO_MANAGER->GetAudioSystem()
 
 //클래스 복사 생성 매크로 정의(깊은 복사, 기존 클래스와 클론 클래스가 같은 메모리를 참조하지 않음)
-#define CLONE(type) type* Clone() const {return new type(*this);}
+#define CLONE(type) virtual type* Clone() const {return new type(*this);}
 
 //최대 Layer 개수
 #define MAX_LAYER 32

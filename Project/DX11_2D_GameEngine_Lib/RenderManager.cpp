@@ -112,6 +112,8 @@ void RenderManager::RenderPlay()
 		if (m_camera_vector[i] == nullptr)
 			continue;
 
+		m_camera_vector[i]->UpdateMatrix();
+
 		m_camera_vector[i]->SortObjects();
 		m_camera_vector[i]->RenderForwardObjects();
 	}
@@ -139,6 +141,7 @@ void RenderManager::RenderEditor()
 	}
 
 	else
+	{
 		//메인 카메라(index 0) 기준으로 화면 그리기
 		if (m_camera_vector[0] != nullptr)
 		{
@@ -150,16 +153,19 @@ void RenderManager::RenderEditor()
 			m_camera_vector[0]->RenderPostEffectObjects();
 		}
 
-	//서브 카메라 화면 그리기(index 1부터)
-	for (UINT i = 1; i < static_cast<UINT>(m_camera_vector.size()); ++i)
-	{
-		if (m_camera_vector[i] == nullptr)
-			continue;
+		//서브 카메라 화면 그리기(index 1부터)
+		for (UINT i = 1; i < static_cast<UINT>(m_camera_vector.size()); ++i)
+		{
+			if (m_camera_vector[i] == nullptr)
+				continue;
 
-		m_camera_vector[i]->SortObjects();
-		m_camera_vector[i]->RenderForwardObjects();
+			m_camera_vector[i]->UpdateMatrix();
+
+			m_camera_vector[i]->SortObjects();
+			m_camera_vector[i]->RenderForwardObjects();
+		}
 	}
-
+		
 	RenderDebugMode();
 }
 
@@ -311,7 +317,7 @@ void RenderManager::RegisterCamera(Camera* p_camera, int& camera_index)
 		if (m_camera_vector.size() <= camera_index)
 		{
 			//카메라 벡터 사이즈를 증가
-			m_camera_vector.resize(camera_index);
+			m_camera_vector.resize(m_camera_vector.size() + camera_index);
 			m_camera_vector[camera_index] = p_camera;
 			return;
 		}
@@ -347,6 +353,14 @@ Camera* RenderManager::GetMainCamera()
 		return nullptr;
 
 	return m_camera_vector[0];
+}
+
+Camera* RenderManager::GetCamera(const UINT& camera_index)
+{
+	if (m_camera_vector.size() <= camera_index || m_camera_vector[camera_index] == nullptr)
+		return nullptr;
+
+	return m_camera_vector[camera_index];
 }
 
 void RenderManager::RegisterLight2D(Light2D* p_light2D, int& light2D_index)

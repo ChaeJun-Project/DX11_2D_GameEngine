@@ -1,6 +1,15 @@
 #include "stdafx.h"
 
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\Canvas.cpp"
+
+
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\ImageRenderer.cpp"
+
+
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\InputManager.cpp"
+
+
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\RectTransform.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine_Lib\RigidBody2D.cpp"

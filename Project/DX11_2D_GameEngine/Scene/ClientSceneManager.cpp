@@ -161,7 +161,7 @@ void ClientSceneManager::SaveGameObject(GameObject* p_game_object, FILE* p_file)
 	fprintf(p_file, "%d\n", component_count);
 
 	//Save Component
-	for (UINT i = static_cast<UINT>(ComponentType::None); i < static_cast<UINT>(ComponentType::END); ++i)
+	for (UINT i = static_cast<UINT>(ComponentType::None); i < static_cast<UINT>(ComponentType::Script); ++i)
 	{
 		IComponent* p_component = p_game_object->GetComponent(static_cast<ComponentType>(i));
 

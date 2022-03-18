@@ -153,11 +153,22 @@ void Scene::DeregisterFromParentGameObject(GameObject* p_game_object)
 	}
 }
 
-GameObject* Scene::FindGameObject(const std::string& game_object_name)
+GameObject* Scene::FindGameObjectWithName(const std::string& game_object_name)
 {
 	for (const auto& p_game_object : m_p_game_object_vector)
 	{
-		if (p_game_object->GetGameObjectName() == game_object_name)
+		if (p_game_object->GetGameObjectName()._Equal(game_object_name))
+			return p_game_object;
+	}
+
+	return nullptr;
+}
+
+GameObject* Scene::FindGameObjectWithTag(const std::string& game_object_tag)
+{
+	for (const auto& p_game_object : m_p_game_object_vector)
+	{
+		if (p_game_object->GetGameObjectTag()._Equal(game_object_tag))
 			return p_game_object;
 	}
 

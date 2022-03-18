@@ -43,11 +43,14 @@ void CameraEx::Control3DViewMode()
 	auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
 	rotation.z = 0.0f;
 
-	auto position = transform->GetLocalTranslation();
+	auto position = transform->GetTranslation();
 
 	auto right = transform->GetRightVector(); //카메라의 오른 방향 벡터
 	auto up = transform->GetUpVector(); //카메라의 위쪽 방향 벡터
 	auto forward = transform->GetForwardVector(); //카메라의 정면 방향 벡터
+
+	//마우스 동작 값
+	auto delta = MOUSE_MOVE;
 
 	Vector3 movement_speed = Vector3::Zero;
 
@@ -75,18 +78,22 @@ void CameraEx::Control3DViewMode()
 	else if (KEY_PRESS(Key::KEY_Q))
 		movement_speed -= up * m_speed * DELTA_TIME_F;
 
-	//마우스 휠 동작 값
-	auto delta = MOUSE_MOVE;
-
-	//마우스 휠로 카메라 회전
-	//마우스 휠의 움직임이라 서로 반대 좌표가 들어가야 함.
+	//마우스로 카메라 회전
+	//마우스의 움직임이라 서로 반대 좌표가 들어가야 함.
 	rotation.x += delta.y * 0.1f;
 	rotation.y += delta.x * 0.1f;
 
 	transform->SetRotation(Quaternion::QuaternionFromEulerAngle(rotation));
 
+	//마우스 휠로 카메라 줌인 또는 줌아웃
+	if (delta.z > 0) //줌인
+		movement_speed += forward * m_zoom_speed * DELTA_TIME_F;
+
+	else if (delta.z < 0) //줌아웃
+		movement_speed -= forward * m_zoom_speed * DELTA_TIME_F;
+
 	//카메라 위치 변경
-	transform->SetLocalTranslation(position + movement_speed);
+	transform->SetTranslation(position + movement_speed);
 	movement_speed *= m_drag;
 }
 
@@ -97,7 +104,7 @@ void CameraEx::Control2DViewMode()
 	auto rotation = transform->GetRotation().ToEulerAngle(); //카메라 회전 값
 	rotation.z = 0.0f;
 
-	auto position = transform->GetLocalTranslation();
+	auto position = transform->GetTranslation();
 
 	auto right = transform->GetRightVector(); //카메라의 오른 방향 벡터
 	auto up = transform->GetUpVector(); //카메라의 위쪽 방향 벡터
@@ -121,7 +128,21 @@ void CameraEx::Control2DViewMode()
 	else if (KEY_PRESS(Key::KEY_A))
 		movement_speed -= right * m_speed * DELTA_TIME_F;
 
+	//마우스 동작 값
+	auto delta = MOUSE_MOVE;
+	//마우스 휠로 카메라 줌인 또는 줌아웃
+	if (delta.z > 0) //줌인
+	{
+		m_size -= 0.1f;
+
+		if (m_size.x <= 0.0f || m_size.y <= 0.0f)
+			m_size = Vector2(0.1f, 0.1f);
+	}
+
+	else if (delta.z < 0) //줌아웃
+		m_size += 0.1f;
+
 	//카메라 위치 변경
-	transform->SetLocalTranslation(position + movement_speed);
+	transform->SetTranslation(position + movement_speed);
 	movement_speed *= m_drag;
 }

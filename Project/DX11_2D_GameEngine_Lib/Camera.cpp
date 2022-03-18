@@ -236,7 +236,6 @@ void Camera::UpdateViewMatrix()
 
 void Camera::UpdateProjectionMatrix()
 {
-	//TODO: Game Mode일 때 Editor Mode일 때 해상도가 다르므로 처리해줘야 함
 	auto resolution = RENDER_MANAGER->GetResolution();
 
 	switch (m_projection_type)

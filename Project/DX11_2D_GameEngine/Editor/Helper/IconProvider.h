@@ -27,6 +27,9 @@ enum class IconType : UINT
    Component_RigidBody2D,
    Component_Audio_Listener,
    Component_Audio_Source,
+   Component_Canvas,
+   Component_Rect_Transform,
+   Component_Image_Renderer,
 
    Component_Script,
 

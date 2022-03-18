@@ -19,7 +19,8 @@ public:
 private:
     bool m_is_active = false;
 
-    float m_speed = 200.0f;
+    float m_speed = 1000.0f;
+    float m_zoom_speed = 10000.0f;
     float m_drag = m_speed * 0.8f;
 };
 

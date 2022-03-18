@@ -4,16 +4,18 @@
 typedef std::variant<void*> ScriptParamData;
 struct ScriptParamStruct
 {
-	ScriptParamStruct(const std::string& param_name, const ScriptParamType& param_type, ScriptParamData p_param_data)
+	ScriptParamStruct(const std::string& param_name, const ScriptParamType& param_type, ScriptParamData p_param_data, const float& indent)
 		: m_param_name(param_name),
 		m_param_type(param_type),
-		m_p_param_data(p_param_data)
+		m_p_param_data(p_param_data),
+		m_indent(indent)
 	{
 	}
 
 	std::string		m_param_name;
 	ScriptParamType m_param_type;
 	ScriptParamData	m_p_param_data;
+	float			m_indent = 0.0f; //파라미터 이름과 입력칸 사이의 여백 너비
 };
 
 class Prefab;

@@ -104,7 +104,7 @@
       <Filter>Scene\Layer</Filter>
     </ClInclude>
     <ClInclude Include="Script.h">
-      <Filter>Scene\Components\13. Script</Filter>
+      <Filter>Scene\Components\16. Script</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Resource\Material</Filter>
@@ -220,6 +220,15 @@
     <ClInclude Include="InputManager.h">
       <Filter>Manager\Input</Filter>
     </ClInclude>
+    <ClInclude Include="Canvas.h">
+      <Filter>Scene\Components\13. Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="RectTransform.h">
+      <Filter>Scene\Components\14. Rect Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageRenderer.h">
+      <Filter>Scene\Components\15. Image Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -301,7 +310,7 @@
       <Filter>Scene\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Script.cpp">
-      <Filter>Scene\Components\13. Script</Filter>
+      <Filter>Scene\Components\16. Script</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Resource\Material</Filter>
@@ -407,6 +416,15 @@
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Manager\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Canvas.cpp">
+      <Filter>Scene\Components\13. Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="RectTransform.cpp">
+      <Filter>Scene\Components\14. Rect Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageRenderer.cpp">
+      <Filter>Scene\Components\15. Image Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -638,8 +656,23 @@
     <Filter Include="Scene\Components\9. TileMap Renderer">
       <UniqueIdentifier>{0da2f5f8-7d1c-429a-84e8-6bc9a24dbefc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Components\13. Script">
+    <Filter Include="Scene\Components\13. Canvas">
+      <UniqueIdentifier>{9c2520fc-326a-4e63-b53b-89e863a0207d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\14. Rect Transform">
+      <UniqueIdentifier>{4ac0927f-66a0-4b55-a620-2a09d97a2ece}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\16. Script">
       <UniqueIdentifier>{45b73adf-3a03-4022-97d9-4cd397f02347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Components\15. Image Renderer">
+      <UniqueIdentifier>{83587203-a56a-4278-af3f-55b581ee17f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderFiles\Shader\Widget">
+      <UniqueIdentifier>{1196e466-0e00-4433-9950-8efa8f66a37d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderFiles\Shader\Widget\Func">
+      <UniqueIdentifier>{b97ecf24-c6d3-4c13-bb64-a43ca105e385}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -687,6 +720,12 @@
     </FxCompile>
     <FxCompile Include="ShaderFiles\PixelStruct.fx">
       <Filter>ShaderFiles\Struct</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\ImageShader.fx">
+      <Filter>ShaderFiles\Shader\Widget</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\ImageFunc.fx">
+      <Filter>ShaderFiles\Shader\Widget\Func</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

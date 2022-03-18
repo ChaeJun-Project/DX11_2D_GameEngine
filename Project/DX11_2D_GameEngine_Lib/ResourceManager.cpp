@@ -238,6 +238,23 @@ void ResourceManager::CreateDefaultShader()
 
 	if (!result)
 		return;
+
+	//Create Widget Image Shader
+	p_shader = std::make_shared<Shader>("ImageRenderer");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/ImageShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/ImageShader.fx", "PS", "ps_5_0");
+	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+
+	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
+	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	p_shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
+	p_shader->SetBlendType(BlendType::Alpha_Blend);
+
+	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
+	result = shader_iter.second;
+
+	if (!result)
+		return;
 }
 
 void ResourceManager::AddComputeShader(const std::string& compute_shader_name, const std::shared_ptr<ComputeShader>& p_compute_shader)
@@ -268,6 +285,11 @@ void ResourceManager::CreateDefaultMaterial()
 	CreateMaterial("Collider2D_Material", "Line");
 
 	//=============================================
+	//Canvas Resolution
+	//=============================================
+	CreateMaterial("Canvas_Material", "Line");
+
+	//=============================================
 	//Grid
 	//=============================================
 	CreateMaterial("Grid_Material", "Grid");
@@ -286,6 +308,11 @@ void ResourceManager::CreateDefaultMaterial()
 	//Tile
 	//=============================================
 	CreateMaterial("TileMapRenderer_Material", "TileMapRenderer");
+
+	//=============================================
+	//Image Renderer
+	//=============================================
+	CreateMaterial("ImageRenderer_Material", "ImageRenderer");
 }
 
 const std::shared_ptr<Material> ResourceManager::CreateMaterial(const std::string& material_name, const std::string& shader_name)

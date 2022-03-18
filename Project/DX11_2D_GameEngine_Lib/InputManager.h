@@ -93,7 +93,7 @@ public:
 
 	Vector2 GetMousePosition() const { return m_mouse_position; }
 	Vector3 GetMouseMoveValue() const { return m_mouse_wheel_move_value; }
-
+	
 private:
 	LRESULT MsgProc(HWND handle, const UINT& message, const WPARAM& wParam, const LPARAM& lParam);
 
@@ -144,7 +144,7 @@ private:
 	//Mouse Wheel
 	Vector3 m_mouse_wheel_state		 = Vector3::Zero;
 	Vector3 m_mouse_wheel_old_state	 = Vector3::Zero;
-	Vector3 m_mouse_wheel_move_value = Vector3::Zero;
+	Vector3 m_mouse_wheel_move_value = Vector3::Zero; //z값은 마우스 휠의 동작과 관련
 
 	std::string m_render_str;
 };

@@ -6,7 +6,7 @@
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\DX11_2D_GameEngine.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\12. AudioSource\GUI_AudioSource.cpp"
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\12. Audio Source\GUI_AudioSource.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\6. Project\File\GUI_FileItem.cpp"
@@ -42,10 +42,10 @@
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\2. Camera\GUI_Camera.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\3. SpriteRenderer\GUI_SpriteRenderer.cpp"
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\3. Sprite Renderer\GUI_SpriteRenderer.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\13. Script\GUI_Script.cpp"
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\16. Script\GUI_Script.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\4. Animator2D\GUI_Animator2D.cpp"
@@ -57,7 +57,7 @@
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\7. Light2D\GUI_Light2D.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\8. ParticleSystem\GUI_ParticleSystem.cpp"
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\8. Particle System\GUI_ParticleSystem.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\Module\ItemList\GUI_ItemList.cpp"
@@ -72,10 +72,10 @@
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\GUI_Function.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\9. TileMapRenderer\GUI_TileMapRenderer.cpp"
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\9. TileMap Renderer\GUI_TileMapRenderer.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\9. TileMapRenderer\Palette\GUI_Palette.cpp"
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\9. TileMap Renderer\Palette\GUI_Palette.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\EditorObject\GameObject\GameObjectEx.cpp"
@@ -96,7 +96,7 @@
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\Module\Tree\GUI_TreeItem.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\11. AudioListener\GUI_AudioListener.cpp"
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\11. Audio Listener\GUI_AudioListener.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\File Function\FileFunction.cpp"
@@ -118,6 +118,15 @@
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\10. RigidBody2D\GUI_RigidBody2D.cpp"
+
+
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\13. Canvas\GUI_Canvas.cpp"
+
+
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\14. Rect Transform\GUI_RectTransform.cpp"
+
+
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\15. Image Renderer\GUI_ImageRenderer.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Imgui\Editor\ImGuizmo.cpp"

@@ -30,29 +30,29 @@ GUI_SpriteRenderer::~GUI_SpriteRenderer()
 
 void GUI_SpriteRenderer::Render()
 {
-	auto sprite_renderer = m_p_selected_game_object->GetComponent<SpriteRenderer>();
-	if (sprite_renderer == nullptr)
+	auto p_sprite_renderer = m_p_selected_game_object->GetComponent<SpriteRenderer>();
+	if (p_sprite_renderer == nullptr)
 		return;
 
-	auto is_active = sprite_renderer->GetIsActive();
+	auto is_active = p_sprite_renderer->GetIsActive();
 	if (BeginComponent(m_component_gui_name, ComponentType::SpriteRenderer, is_active, IconType::Component_SpriteRenderer))
 	{
-		auto sprite_renderer = m_p_selected_game_object->GetComponent<SpriteRenderer>();
-		if (sprite_renderer == nullptr)
+		auto p_sprite_renderer = m_p_selected_game_object->GetComponent<SpriteRenderer>();
+		if (p_sprite_renderer == nullptr)
 			return;
 
-		sprite_renderer->SetIsActive(is_active);
+		p_sprite_renderer->SetIsActive(is_active);
 
-		auto sprite_texture = sprite_renderer->GetSpriteTexture();
-		auto sprite_texture_color = sprite_renderer->GetSpriteTextureColor();
-		auto material = sprite_renderer->GetMaterial();
-		auto mesh = sprite_renderer->GetMesh();
+		auto sprite_texture = p_sprite_renderer->GetSpriteTexture();
+		auto sprite_texture_color = p_sprite_renderer->GetSpriteTextureColor();
+		auto material = p_sprite_renderer->GetMaterial();
+		auto mesh = p_sprite_renderer->GetMesh();
 
 		auto resource_manager = RESOURCE_MANAGER;
 
 		//람다 함수 show_texture_slot
 		//오브젝트에 적용한 텍스처를 Inspector창에서 이미지로 보여주는 함수
-		const auto ShowTexture = [&resource_manager, &sprite_renderer](const char* label_name, const std::shared_ptr<Texture>& p_texture)
+		const auto ShowTexture = [&resource_manager, &p_sprite_renderer](const char* label_name, const std::shared_ptr<Texture>& p_texture)
 		{
 			ImGui::Text(label_name);
 			ImGui::SameLine(100.0f);
@@ -66,7 +66,7 @@ void GUI_SpriteRenderer::Render()
 			ImGui::PopItemWidth();
 			if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Texture))
 			{
-				sprite_renderer->SetSpriteTexture(resource_manager->LoadFromFile<Texture>(std::get<std::string>(pay_load->data)));
+				p_sprite_renderer->SetSpriteTexture(resource_manager->LoadFromFile<Texture>(std::get<std::string>(pay_load->data)));
 			}
 
 			ImGui::Image
@@ -80,7 +80,7 @@ void GUI_SpriteRenderer::Render()
 			);
 		};
 
-		const auto ShowCombo = [&resource_manager, &sprite_renderer, this](const char* label_name, const std::shared_ptr<IResource>& p_resource)
+		const auto ShowCombo = [&resource_manager, &p_sprite_renderer, this](const char* label_name, const std::shared_ptr<IResource>& p_resource)
 		{
 			ImGui::Text(label_name);
 			ImGui::SameLine(100.0f);
@@ -137,7 +137,7 @@ void GUI_SpriteRenderer::Render()
 					if (ImGui::Selectable(item_list_vector[i].c_str(), is_selected))
 					{
 						if (CAN_EDIT)
-							SelectResource(sprite_renderer, p_resource, item_list_vector[i]);
+							SelectResource(p_sprite_renderer, p_resource, item_list_vector[i]);
 					}
 
 					if (is_selected)
@@ -157,7 +157,7 @@ void GUI_SpriteRenderer::Render()
 		//Sprite Color
 		ShowColorPicker4("Sprite Color", sprite_texture_color, ImGuiColorEditFlags_AlphaPreview);
 		if (CAN_EDIT)
-			sprite_renderer->SetSpriteTextureColor(sprite_texture_color);
+			p_sprite_renderer->SetSpriteTextureColor(sprite_texture_color);
 
 		//Material
 		ShowCombo("Material", material);

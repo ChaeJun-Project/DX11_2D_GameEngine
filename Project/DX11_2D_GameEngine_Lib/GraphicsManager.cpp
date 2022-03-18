@@ -503,6 +503,15 @@ void GraphicsManager::CreateConstantBuffers()
 	{
 		pair_iter.first->second->Create<CBuffer_SpriteAnimation>(static_cast<UINT>(CBuffer_BindSlot::SpriteAnimation));
 	}
+
+	//Widget WVPMatrix
+	pair_iter = m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::WidgetWVPMatrix, std::make_shared<ConstantBuffer>()));
+	result = pair_iter.second;
+	assert(result);
+	if (result)
+	{
+		pair_iter.first->second->Create<CBuffer_Widget_WVPMatrix>(static_cast<UINT>(CBuffer_BindSlot::WidgetWVPMatrix));
+	}
 }
 
 void GraphicsManager::CreateRasterizer()

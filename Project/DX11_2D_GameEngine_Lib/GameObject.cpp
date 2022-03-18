@@ -16,6 +16,9 @@
 #include "RigidBody2D.h"
 #include "AudioListener.h"
 #include "AudioSource.h"
+#include "Canvas.h"
+#include "RectTransform.h"
+#include "ImageRenderer.h"
 #include "Script.h"
 
 template<typename T>
@@ -38,6 +41,9 @@ REGISTER_COMPONENT_TYPE(TileMapRenderer, ComponentType::TileMapRenderer);
 REGISTER_COMPONENT_TYPE(RigidBody2D, ComponentType::RigidBody2D);
 REGISTER_COMPONENT_TYPE(AudioListener, ComponentType::AudioListener);
 REGISTER_COMPONENT_TYPE(AudioSource, ComponentType::AudioSource);
+REGISTER_COMPONENT_TYPE(Canvas, ComponentType::Canvas);
+REGISTER_COMPONENT_TYPE(RectTransform, ComponentType::RectTransform);
+REGISTER_COMPONENT_TYPE(ImageRenderer, ComponentType::ImageRenderer);
 
 GameObject::GameObject(const GameObject& origin)
 {
@@ -72,10 +78,7 @@ GameObject::GameObject(const GameObject& origin)
 GameObject::~GameObject()
 {
 	//Component
-	for (auto& component : m_p_component_map)
-		SAFE_DELETE(component.second);
-
-	m_p_component_map.clear();
+	RemoveAllComponent();
 
 	//Script
 	for (auto& script : m_p_script_un_map)
@@ -161,25 +164,35 @@ void GameObject::Render()
 	if (m_dead_check)
 		return;
 
-	//SpriteRenderer
-	auto renderer = GetComponent<SpriteRenderer>();
-	if (renderer != nullptr && renderer->GetIsActive())
-		renderer->Render();
+	//Sprite Renderer
+	auto p_sprite_renderer = GetComponent<SpriteRenderer>();
+	if (p_sprite_renderer != nullptr && p_sprite_renderer->GetIsActive())
+		p_sprite_renderer->Render();
 
 	//Particle System
-	auto particle_system = GetComponent<ParticleSystem>();
-	if (particle_system != nullptr && particle_system->GetIsActive())
-		particle_system->Render();
+	auto p_particle_system = GetComponent<ParticleSystem>();
+	if (p_particle_system != nullptr && p_particle_system->GetIsActive())
+		p_particle_system->Render();
 
 	//Collider
-	auto collider2D = GetComponent<Collider2D>();
-	if (collider2D != nullptr && collider2D->GetIsActive())
-		collider2D->Render();
+	auto p_collider2D = GetComponent<Collider2D>();
+	if (p_collider2D != nullptr && p_collider2D->GetIsActive())
+		p_collider2D->Render();
 
-	//TileMapRenderer
-	auto tile_map = GetComponent<TileMapRenderer>();
-	if (tile_map != nullptr && tile_map->GetIsActive())
-		tile_map->Render();
+	//TileMap Renderer
+	auto p_tile_map_renderer = GetComponent<TileMapRenderer>();
+	if (p_tile_map_renderer != nullptr && p_tile_map_renderer->GetIsActive())
+		p_tile_map_renderer->Render();
+
+	//Canvas
+	auto p_canvas = GetComponent<Canvas>();
+	if (p_canvas != nullptr && p_canvas->GetIsActive())
+		p_canvas->Render();
+
+	//Image Renderer
+	auto p_image_renderer = GetComponent<ImageRenderer>();
+	if (p_image_renderer != nullptr && p_image_renderer->GetIsActive())
+		p_image_renderer->Render();
 }
 
 void GameObject::AddComponent(const ComponentType& component_type)
@@ -222,6 +235,15 @@ void GameObject::AddComponent(const ComponentType& component_type)
 	case ComponentType::AudioSource:
 		AddComponent(new AudioSource());
 		break;
+	case ComponentType::Canvas:
+		AddComponent(new Canvas());
+		break;
+	case ComponentType::RectTransform:
+		AddRectTransform();
+		break;
+	case ComponentType::ImageRenderer:
+		AddImageRendererComponent();
+		break;
 	}
 }
 
@@ -247,6 +269,32 @@ void GameObject::AddComponent(IComponent* p_component)
 		m_p_component_map.insert(std::make_pair(p_component->GetComponentType(), p_component));
 }
 
+void GameObject::AddRectTransform()
+{
+	auto p_transform = GetComponent<Transform>();
+
+	auto p_rect_transform = new RectTransform();
+
+	*p_rect_transform = *p_transform; //Transform의 Property를 복사
+
+	RemoveAllComponent(); //현재 GameObject가 포함하고 있는 모든 Component 삭제 => 해당 GameObject를 UI로 사용
+
+	AddComponent(p_rect_transform); //RectTransform Component 추가
+}
+
+void GameObject::AddImageRendererComponent()
+{
+	//현재 GameObject가 Rect Transform을 가지고 있지 않은 경우
+	if (GetComponent(ComponentType::RectTransform) == nullptr)
+	{
+		//Rect Transform 추가
+		AddComponent(ComponentType::RectTransform);
+	}
+
+	//Image Renderer 추가
+	AddComponent(new ImageRenderer());
+}
+
 IComponent* GameObject::GetComponent(const ComponentType& component_type) const
 {
 	auto component_iter = m_p_component_map.find(component_type);
@@ -264,11 +312,41 @@ void GameObject::RemoveComponent(const ComponentType& component_type)
 	if (component_iter == m_p_component_map.end())
 		return;
 
-	//해당 Component 메모리 해제
-	SAFE_DELETE(component_iter->second);
+	//삭제하려는 Component가 RectTransform인 경우
+	if (component_type == ComponentType::RectTransform)
+	{
+	    auto p_transform = new Transform(); //새로운 Transform Component 생성
 
-	//해당 Component 삭제
-	m_p_component_map.erase(component_type);
+		auto p_rect_transform = dynamic_cast<RectTransform*>(component_iter->second); //업 캐스팅
+
+		*p_transform = *p_rect_transform;
+
+		//새로 생성한 Transform Component 추가
+		AddComponent(p_transform);
+
+		//해당 Component 메모리 해제
+		SAFE_DELETE(p_rect_transform);
+
+		//해당 Component 삭제
+		m_p_component_map.erase(component_type);
+	}
+
+	else
+	{
+		//해당 Component 메모리 해제
+		SAFE_DELETE(component_iter->second);
+
+		//해당 Component 삭제
+		m_p_component_map.erase(component_type);
+	}
+}
+
+void GameObject::RemoveAllComponent()
+{
+	for (auto& p_component : m_p_component_map)
+		SAFE_DELETE(p_component.second);
+
+	m_p_component_map.clear();
 }
 
 Script* GameObject::GetScript(const std::string& script_name)
@@ -433,7 +511,7 @@ void GameObject::LoadFromScene(FILE* p_file)
 	int boolen_num = -1;
 	fscanf_s(p_file, "%d\n", &boolen_num);
 	m_is_active = boolen_num;
-	
+
 	//Tag
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	FILE_MANAGER->FScanf(char_buffer, p_file);

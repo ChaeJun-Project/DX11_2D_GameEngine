@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "SpriteRenderer.h"
 
-#include "FileManager.h"
-#include "ResourceManager.h"
-
 #include "Mesh.h"
 #include "Material.h"
 #include "Texture.h"
@@ -65,14 +62,6 @@ void SpriteRenderer::Render()
 	m_p_mesh->Render();
 }
 
-void SpriteRenderer::SetMaterial(const std::shared_ptr<Material>& p_material)
-{
-	if (m_p_material != nullptr)
-		m_p_material.reset();
-
-	m_p_material = p_material;
-}
-
 void SpriteRenderer::SetMeshScale()
 {
 	auto p_animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
@@ -117,6 +106,30 @@ void SpriteRenderer::SetMeshScale()
 		transform->SetMeshScale(0, 0); //설정된 Texture가 없다면 다시 0으로 초기화
 
 	transform->UpdateConstantBuffer(); //Transform Update
+}
+
+void SpriteRenderer::SetSpriteTexture(const std::shared_ptr<Texture>& p_sprite_texture)
+{
+	if (m_p_sprite_texture != nullptr)
+		m_p_sprite_texture.reset();
+
+	m_p_sprite_texture = p_sprite_texture;
+}
+
+void SpriteRenderer::SetMaterial(const std::shared_ptr<Material>& p_material)
+{
+	if (m_p_material != nullptr)
+		m_p_material.reset();
+
+	m_p_material = p_material;
+}
+
+void SpriteRenderer::SetMesh(const std::shared_ptr<Mesh>& p_mesh)
+{
+	if (m_p_mesh != nullptr)
+		m_p_mesh.reset();
+
+	m_p_mesh = p_mesh;
 }
 
 void SpriteRenderer::SaveToScene(FILE* p_file)

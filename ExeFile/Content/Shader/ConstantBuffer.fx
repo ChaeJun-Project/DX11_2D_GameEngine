@@ -80,6 +80,13 @@ cbuffer SpriteAnimation : register(b4)
     float3 g_sprite_animation_padding;
 }
 
+cbuffer WidgetWVPMatrix : register(b5)
+{
+    row_major matrix widget_world;
+    row_major matrix widget_view;
+    row_major matrix widget_projection;
+}
+
 //Texture2D: 텍스처 자원
 Texture2D g_texture_0 : register(t0);
 Texture2D g_texture_1 : register(t1);

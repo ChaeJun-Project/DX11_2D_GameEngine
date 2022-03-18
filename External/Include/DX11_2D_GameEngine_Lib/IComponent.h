@@ -63,6 +63,15 @@ public:
 		case ComponentType::AudioSource:
 			fprintf(p_file, "¡Ü Audio Source\n");
 			break;
+		case ComponentType::Canvas:
+			fprintf(p_file, "¡Ü Canvas\n");
+			break;
+		case ComponentType::RectTransform:
+			fprintf(p_file, "¡Ü Rect Transform\n");
+			break;
+		case ComponentType::ImageRenderer:
+			fprintf(p_file, "¡Ü Image Renderer\n");
+			break;
 		case ComponentType::Script:
 			fprintf(p_file, "¡Ü Script\n");
 			break;

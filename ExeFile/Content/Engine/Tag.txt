@@ -1,12 +1,13 @@
 [Tag Count]
-8
+9
 
 [Tag List]
 Default
 Main Camera
-Light
+UI Camera
 Player
 Colonel
 Stage1
 PlayerAttack
 Enemy
+Light

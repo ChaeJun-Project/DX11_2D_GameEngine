@@ -196,8 +196,11 @@ call GameEngineCopy.bat</Command>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Canvas.h" />
+    <ClInclude Include="ImageRenderer.h" />
     <ClInclude Include="Inline.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="RectTransform.h" />
     <ClInclude Include="RigidBody2D.h" />
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="Animator.h" />
@@ -271,7 +274,10 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="RectTransform.cpp" />
     <ClCompile Include="RigidBody2D.cpp" />
     <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="Animator.cpp" />
@@ -340,6 +346,13 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="ShaderFiles\ImageFunc.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+    </FxCompile>
     <FxCompile Include="ShaderFiles\SpriteAnimationStruct.fx">
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ObjectFileOutput>
@@ -449,6 +462,13 @@ call GameEngineCopy.bat</Command>
       </ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="ShaderFiles\WaterShader.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\ImageShader.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ObjectFileOutput>

@@ -3,14 +3,12 @@
 
 #include "ConstantBuffer.h"
 
-#include "SpriteRenderer.h"
-
 #include "GameObject.h"
+#include "RectTransform.h"
 
 Transform::Transform()
 	:IComponent(ComponentType::Transform)
 {
-
 }
 
 void Transform::FinalUpdate()
@@ -18,32 +16,56 @@ void Transform::FinalUpdate()
 	UpdateWorldMatrix();
 }
 
+void Transform::operator=(const RectTransform& rect_transform)
+{
+	m_local_translation = rect_transform.GetLocalTranslation();
+	m_local_rotation = rect_transform.GetLocalRotation();
+	m_local_scale = rect_transform.GetLocalScale();
+
+	m_parent_origin_world_matrix = rect_transform.GetParentOriginWorldMatrix();
+	m_origin_world_matrix = rect_transform.GetOriginWorldMatrix();
+	m_world_matrix = rect_transform.GetWorldMatrix();
+}
+
+void Transform::UpdateConstantBuffer()
+{
+	g_cbuffer_wvpmatrix.world = m_world_matrix;
+
+	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);
+	constant_buffer->SetConstantBufferData(&g_cbuffer_wvpmatrix, sizeof(CBuffer_WVPMatrix));
+	constant_buffer->SetBufferBindStage(PipelineStage::VS | PipelineStage::GS);
+	constant_buffer->BindPipeline();
+}
+
 void Transform::UpdateWorldMatrix()
 {
 	//SRT 연산
 	//해당 transform을 소유한 오브젝트가 부모 오브젝트가 있다면
 	//해당 월드 행렬은 부모 오브젝트 기준의 월드 행렬
-	auto scale = Matrix::Scaling(m_local_scale);
-	auto rotation = Matrix::RotationQuaternion(m_local_rotation);
-	auto translation = Matrix::Translation(m_local_translation);
+	auto scale_matrix = Matrix::Scaling(m_local_scale);
+	auto rotation_matrix = Matrix::RotationQuaternion(m_local_rotation);
+	auto translation_matrix = Matrix::Translation(m_local_translation);
 
 	//Origin World Matrix
-	m_origin_world_matrix = scale * rotation * translation;
-	//m_local_martix = m_origin_world_matrix;
+	m_origin_world_matrix = scale_matrix * rotation_matrix * translation_matrix;
 
-	scale = Matrix::Scaling(m_local_scale * m_mesh_scale);
+	scale_matrix = Matrix::Scaling(m_local_scale * m_mesh_scale);
 	//World Matrix
-	m_world_matrix = scale * rotation * translation;
+	m_world_matrix = scale_matrix * rotation_matrix * translation_matrix;
 
-	//부모 오브젝트의 transform이 있다면
+	//부모 오브젝트에 transform이 있다면
 	//현재 오브젝트의 월드 행렬에 부모 오브젝트의 월드 행렬을 곱함
 	//부모 오브젝트 기준의 월드 행렬에 부모 오브젝트의 월드 행렬을 곱함
 	if (m_p_owner_game_object->HasParent())
 	{
-		m_parent_world_matrix = m_p_owner_game_object->GetParent()->GetComponent<Transform>()->m_origin_world_matrix;
-		
-		m_origin_world_matrix = m_origin_world_matrix * m_parent_world_matrix;
-		m_world_matrix = m_world_matrix * m_parent_world_matrix;
+		auto p_parent_transform = m_p_owner_game_object->GetParent()->GetComponent<Transform>();
+		if (p_parent_transform == nullptr)
+			return;
+
+		m_parent_origin_world_matrix = p_parent_transform->m_origin_world_matrix;
+
+		m_origin_world_matrix = m_origin_world_matrix * m_parent_origin_world_matrix;
+		m_world_matrix = m_world_matrix * m_parent_origin_world_matrix;
 	}
 }
 
@@ -95,21 +117,15 @@ void Transform::SetLocalScale(const Vector3& local_scale)
 	m_local_scale = local_scale;
 }
 
-void Transform::UpdateConstantBuffer()
-{
-	g_cbuffer_wvpmatrix.world = m_world_matrix;
-
-	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);
-	constant_buffer->SetConstantBufferData(&g_cbuffer_wvpmatrix, sizeof(CBuffer_WVPMatrix));
-	constant_buffer->SetBufferBindStage(PipelineStage::VS | PipelineStage::GS);
-	constant_buffer->BindPipeline();
-}
-
-void Transform::InitialzieProperty()	
+void Transform::InitialzieProperty()
 {
 	m_local_translation = m_origin_world_matrix.GetTranslation();
 	m_local_scale = m_origin_world_matrix.GetScale();
 	m_local_rotation = m_origin_world_matrix.GetRotation();
+
+	m_parent_origin_world_matrix = Matrix::Identity;
+	m_origin_world_matrix = Matrix::Identity;
+	m_world_matrix = Matrix::Identity;
 }
 
 void Transform::SaveToScene(FILE* p_file)

@@ -3,8 +3,6 @@
 
 #include "Helper/IconProvider.h"
 
-#include <DX11_2D_GameEngine_Lib/FileManager.h>
-
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
@@ -33,7 +31,6 @@ void GUI_Transform::Render()
 		ShowFloat3("Rotation", rotation, 70.0f, 80.0f);
 		ShowFloat3("Scale", scale, 70.0f, 80.0f);
 
-		//Set Data
 		if (CAN_EDIT)
 		{
 			p_transform->SetLocalTranslation(position);

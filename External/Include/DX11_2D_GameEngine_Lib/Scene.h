@@ -19,7 +19,8 @@ public:
    void DeregisterGameObject(GameObject* p_game_object, const bool& is_with_layer = false);
    void DeregisterFromParentGameObject(GameObject* p_game_object);
 
-   GameObject* FindGameObject(const std::string& game_object_name);
+   GameObject* FindGameObjectWithName(const std::string& game_object_name);
+   GameObject* FindGameObjectWithTag(const std::string& game_object_tag);
 
 public:
    const std::string& GetSceneName() { return m_object_name; }

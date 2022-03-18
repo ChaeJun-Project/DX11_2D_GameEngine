@@ -12,17 +12,20 @@
 #include "Component/GUI_Component.h"
 #include "Component/1. Transform/GUI_Transform.h"
 #include "Component/2. Camera/GUI_Camera.h"
-#include "Component/3. SpriteRenderer/GUI_SpriteRenderer.h"
+#include "Component/3. Sprite Renderer/GUI_SpriteRenderer.h"
 #include "Component/4. Animator2D/GUI_Animator2D.h"
 //Animator
 #include "Component/6. Collider2D/GUI_Collider2D.h"
 #include "Component/7. Light2D/GUI_Light2D.h"
-#include "Component/8. ParticleSystem/GUI_ParticleSystem.h"
-#include "Component/9. TileMapRenderer/GUI_TileMapRenderer.h"
+#include "Component/8. Particle System/GUI_ParticleSystem.h"
+#include "Component/9. TileMap Renderer/GUI_TileMapRenderer.h"
 #include "Component/10. RigidBody2D/GUI_RigidBody2D.h"
-#include "Component/11. AudioListener/GUI_AudioListener.h"
-#include "Component/12. AudioSource/GUI_AudioSource.h"
-#include "Component/13. Script/GUI_Script.h"
+#include "Component/11. Audio Listener/GUI_AudioListener.h"
+#include "Component/12. Audio Source/GUI_AudioSource.h"
+#include "Component/13. Canvas/GUI_Canvas.h"
+#include "Component/14. Rect Transform/GUI_RectTransform.h"
+#include "Component/15. Image Renderer/GUI_ImageRenderer.h"
+#include "Component/16. Script/GUI_Script.h"
 
 //Resource
 #include <DX11_2D_GameEngine_Lib/Prefab.h>
@@ -104,7 +107,7 @@ void GUI_Inspector::Initialize()
 	m_component_gui_map.insert(std::make_pair(ComponentType::Transform, std::make_unique<GUI_Transform>("Transform")));
 	//Camera
 	m_component_gui_map.insert(std::make_pair(ComponentType::Camera, std::make_unique<GUI_Camera>("Camera")));
-	//SpriteRenderer
+	//Sprite Renderer
 	m_component_gui_map.insert(std::make_pair(ComponentType::SpriteRenderer, std::make_unique<GUI_SpriteRenderer>("Sprite Renderer")));
 	//Animator2D
 	m_component_gui_map.insert(std::make_pair(ComponentType::Animator2D, std::make_unique<GUI_Animator2D>("Animator2D")));
@@ -114,16 +117,22 @@ void GUI_Inspector::Initialize()
 	m_component_gui_map.insert(std::make_pair(ComponentType::Collider2D, std::make_unique<GUI_Collider2D>("Collider2D")));
 	//Light2D
 	m_component_gui_map.insert(std::make_pair(ComponentType::Light2D, std::make_unique<GUI_Light2D>("Light2D")));
-	//ParticleSystem
+	//Particle System
 	m_component_gui_map.insert(std::make_pair(ComponentType::ParticleSystem, std::make_unique<GUI_ParticleSystem>("ParticleSystem")));
-	//TileMapRenderer
+	//TileMap Renderer
 	m_component_gui_map.insert(std::make_pair(ComponentType::TileMapRenderer, std::make_unique<GUI_TileMapRenderer>("TileMapRenderer")));
 	//RigidBody2D
 	m_component_gui_map.insert(std::make_pair(ComponentType::RigidBody2D, std::make_unique<GUI_RigidBody2D>("RigidBody2D")));
-	//AudioListener
+	//Audio Listener
 	m_component_gui_map.insert(std::make_pair(ComponentType::AudioListener, std::make_unique<GUI_AudioListener>("Audio Listener")));
-	//AudioSource
+	//Audio Source
 	m_component_gui_map.insert(std::make_pair(ComponentType::AudioSource, std::make_unique<GUI_AudioSource>("Audio Source")));
+	//Canvas
+	m_component_gui_map.insert(std::make_pair(ComponentType::Canvas, std::make_unique<GUI_Canvas>("Canvas")));
+	//Rect Transform
+	m_component_gui_map.insert(std::make_pair(ComponentType::RectTransform, std::make_unique<GUI_RectTransform>("Rect Transform")));
+	//Image Renderer
+	m_component_gui_map.insert(std::make_pair(ComponentType::ImageRenderer, std::make_unique<GUI_ImageRenderer>("Image Renderer")));
 }
 
 void GUI_Inspector::Render()
@@ -200,7 +209,7 @@ void GUI_Inspector::ShowGameObjectInfo()
 	ImGui::EndGroup();
 
 	//Component GUI
-	for (UINT i = static_cast<UINT>(ComponentType::Transform); i < static_cast<UINT>(ComponentType::END); ++i)
+	for (UINT i = static_cast<UINT>(ComponentType::Transform); i < static_cast<UINT>(ComponentType::Script); ++i)
 	{
 		if (!m_p_selected_game_object->GetComponent(static_cast<ComponentType>(i)))
 		{
@@ -476,7 +485,7 @@ void GUI_Inspector::ShowPrefabInfo()
 	ImGui::EndGroup();
 
 	//Component GUI
-	for (UINT i = static_cast<UINT>(ComponentType::Transform); i < static_cast<UINT>(ComponentType::END); ++i)
+	for (UINT i = static_cast<UINT>(ComponentType::Transform); i < static_cast<UINT>(ComponentType::Script); ++i)
 	{
 		if (!p_game_object->GetComponent(static_cast<ComponentType>(i)))
 		{
@@ -604,6 +613,30 @@ void GUI_Inspector::ShowAddComponentPopup(GameObject* p_game_object)
 			if (ImGui::MenuItem("Audio Source"))
 			{
 				p_game_object->AddComponent(ComponentType::AudioSource);
+			}
+
+			ImGui::EndMenu();
+		}
+
+		//UI
+		if (ImGui::BeginMenu("UI"))
+		{
+			//Canvas
+			if (ImGui::MenuItem("Canvas"))
+			{
+				p_game_object->AddComponent(ComponentType::Canvas);
+			}
+
+			//Rect Transform
+			if (ImGui::MenuItem("Rect Transform"))
+			{
+				p_game_object->AddComponent(ComponentType::RectTransform);
+			}
+
+			//Image Renderer
+			if (ImGui::MenuItem("Image Renderer"))
+			{
+				p_game_object->AddComponent(ComponentType::ImageRenderer);
 			}
 
 			ImGui::EndMenu();

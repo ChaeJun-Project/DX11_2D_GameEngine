@@ -371,12 +371,12 @@ void Z_Script::Update_Animation()
 
 void Z_Script::RegisterScriptParamData()
 {
-	AddScriptParamData(ScriptParamStruct("Hp", ScriptParamType::Int, reinterpret_cast<void*>(&m_hp)));
-	AddScriptParamData(ScriptParamStruct("Run Speed", ScriptParamType::Float, reinterpret_cast<void*>(&m_run_speed)));
-	AddScriptParamData(ScriptParamStruct("Jump Speed", ScriptParamType::Float, reinterpret_cast<void*>(&m_jump_speed)));
-	AddScriptParamData(ScriptParamStruct("Dash Speed", ScriptParamType::Float, reinterpret_cast<void*>(&m_dash_speed)));
+	AddScriptParamData(ScriptParamStruct("Hp", ScriptParamType::Int, reinterpret_cast<void*>(&m_hp), 100.0f));
+	AddScriptParamData(ScriptParamStruct("Run Speed", ScriptParamType::Float, reinterpret_cast<void*>(&m_run_speed), 100.0f));
+	AddScriptParamData(ScriptParamStruct("Jump Speed", ScriptParamType::Float, reinterpret_cast<void*>(&m_jump_speed), 100.0f));
+	AddScriptParamData(ScriptParamStruct("Dash Speed", ScriptParamType::Float, reinterpret_cast<void*>(&m_dash_speed), 100.0f));
 
-	AddScriptParamData(ScriptParamStruct("Current State", ScriptParamType::Int, reinterpret_cast<void*>(&m_current_state)));
+	AddScriptParamData(ScriptParamStruct("Current State", ScriptParamType::Int, reinterpret_cast<void*>(&m_current_state), 100.f));
 }
 
 void Z_Script::InitializePlayerStateDetailMap()

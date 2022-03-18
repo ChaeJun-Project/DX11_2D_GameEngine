@@ -16,6 +16,7 @@
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/Transform.h>
 #include <DX11_2D_GameEngine_Lib/Camera.h>
+#include <DX11_2D_GameEngine_Lib/RectTransform.h>
 
 GUI_Scene::GUI_Scene(const std::string& scene_title)
 	:IGUI(scene_title)
@@ -143,13 +144,13 @@ void GUI_Scene::ShowGizmo()
 
 	auto p_editor_camera = RENDER_MANAGER->GetEditorCamera();
 
-	//Editor Camera가 없고 선택된 GameObject가 nullptr인 경우
-	if (p_editor_camera == nullptr || EDITOR_HELPER->GetSelectedGameObject() == nullptr)
-		return;
-
 	auto p_game_object = EDITOR_HELPER->GetSelectedGameObject();
 
-	auto transform = p_game_object->GetComponent<Transform>();
+	//Editor Camera가 없고 선택된 GameObject가 nullptr인 경우
+	if (p_editor_camera == nullptr || p_game_object == nullptr)
+		return;
+
+	auto p_transform = p_game_object->GetComponent<Transform>();
 
 	static ImGuizmo::OPERATION operation(ImGuizmo::TRANSLATE);
 	static ImGuizmo::MODE mode(ImGuizmo::WORLD);
@@ -180,7 +181,7 @@ void GUI_Scene::ShowGizmo()
 	auto size = RENDER_MANAGER->GetResolution();
 	auto view = p_editor_camera->GetViewMatrix();
 	auto proj = p_editor_camera->GetProjectionMatrix();
-	auto world = transform->GetOriginWorldMatrix(); //자식 GameObject의 경우 부모 GameObject의 World Matrix를 곱한 상태
+	auto world = p_transform->GetOriginWorldMatrix(); //자식 GameObject의 경우 부모 GameObject의 World Matrix를 곱한 상태
 
 	ImGuizmo::SetDrawlist();
 	ImGuizmo::SetRect(m_gizmo_offset.x, m_gizmo_offset.y, size.x, size.y);
@@ -199,10 +200,10 @@ void GUI_Scene::ShowGizmo()
 	if (p_game_object->HasParent())
 	{
 		auto parent_world = p_game_object->GetParent()->GetComponent<Transform>()->GetOriginWorldMatrix();
-	    world = world * parent_world.Inverse();
+		world = world * parent_world.Inverse();
 	}
 
-	transform->SetTranslation(world.GetTranslation());
-	transform->SetRotation(world.GetRotation());
-	transform->SetScale(world.GetScale());
+	p_transform->SetTranslation(world.GetTranslation());
+	p_transform->SetRotation(world.GetRotation());
+	p_transform->SetScale(world.GetScale());
 }
