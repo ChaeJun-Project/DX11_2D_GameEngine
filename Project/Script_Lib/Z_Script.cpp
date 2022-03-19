@@ -46,8 +46,8 @@ void Z_Script::Start()
 	GameObjectController::m_p_animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
 	m_p_rigidbody2D = m_p_owner_game_object->GetComponent<RigidBody2D>();
 
-	m_p_attack_hit = m_p_owner_game_object->GetChildFromObjectName("Z_Attack_Hit_Box");
-	m_p_attack_hit_box = m_p_attack_hit->GetComponent<Collider2D>();
+	auto p_attack_hit = m_p_owner_game_object->GetChildFromObjectName("Z_Attack_Hit_Box");
+	m_p_attack_hit_box = p_attack_hit->GetComponent<Collider2D>();
 
 	AddAnimationEvent();
 
@@ -79,10 +79,13 @@ void Z_Script::Update()
 		m_next_attck_time_limit = NEXT_ATTACK_TIME_LIMIT;
 	}
 
+	if (!(m_current_state & PlayerState::Attack))
+		m_p_attack_hit_box->SetIsActive(false);
+
 	if (is_hit)
 	{
 		hit_delay -= DELTA_TIME_F;
-		if(hit_delay <= 0.0f)
+		if (hit_delay <= 0.0f)
 		{
 			hit_delay = 2.0f;
 			is_hit = false;
@@ -470,7 +473,7 @@ void Z_Script::AddAnimationEvent()
 
 void Z_Script::SetAttack1HitBox()
 {
-	m_p_attack_hit->SetIsActive(true);
+	m_p_attack_hit_box->SetIsActive(true);
 
 	m_p_attack_hit_box->SetOffsetPosition(Vector2(0.35f, -0.1f));
 	m_p_attack_hit_box->SetOffsetScale(Vector2(0.45f, 0.5f));
@@ -478,7 +481,7 @@ void Z_Script::SetAttack1HitBox()
 
 void Z_Script::SetAttack2HitBox()
 {
-	m_p_attack_hit->SetIsActive(true);
+	m_p_attack_hit_box->SetIsActive(true);
 
 	m_p_attack_hit_box->SetOffsetPosition(Vector2(0.35f, -0.1f));
 	m_p_attack_hit_box->SetOffsetScale(Vector2(0.45f, 0.2f));
@@ -486,7 +489,7 @@ void Z_Script::SetAttack2HitBox()
 
 void Z_Script::SetAttack3HitBox()
 {
-	m_p_attack_hit->SetIsActive(true);
+	m_p_attack_hit_box->SetIsActive(true);
 
 	m_p_attack_hit_box->SetOffsetPosition(Vector2(0.5f, -0.1f));
 	m_p_attack_hit_box->SetOffsetScale(Vector2(0.7f, 0.5f));
@@ -494,7 +497,7 @@ void Z_Script::SetAttack3HitBox()
 
 void Z_Script::SetJumpAttackHitBox()
 {
-	m_p_attack_hit->SetIsActive(true);
+	m_p_attack_hit_box->SetIsActive(true);
 
 	m_p_attack_hit_box->SetOffsetPosition(Vector2(0.4f, 0.0f));
 	m_p_attack_hit_box->SetOffsetScale(Vector2(0.5f, 0.5f));
@@ -502,7 +505,7 @@ void Z_Script::SetJumpAttackHitBox()
 
 void Z_Script::SetCrouchAttackHitBox()
 {
-	m_p_attack_hit->SetIsActive(true);
+	m_p_attack_hit_box->SetIsActive(true);
 
 	m_p_attack_hit_box->SetOffsetPosition(Vector2(0.35f, -0.1f));
 	m_p_attack_hit_box->SetOffsetScale(Vector2(0.45f, 0.3f));
@@ -510,7 +513,7 @@ void Z_Script::SetCrouchAttackHitBox()
 
 void Z_Script::SetSlideAttackHitBox()
 {
-	m_p_attack_hit->SetIsActive(true);
+	m_p_attack_hit_box->SetIsActive(true);
 
 	m_p_attack_hit_box->SetOffsetPosition(Vector2(-0.4f, 0.0f));
 	m_p_attack_hit_box->SetOffsetScale(Vector2(0.5f, 0.5f));
@@ -518,8 +521,6 @@ void Z_Script::SetSlideAttackHitBox()
 
 void Z_Script::SetEndAttackHitBox()
 {
-	m_p_attack_hit->SetIsActive(false);
-
 	m_p_attack_hit_box->SetOffsetPosition(Vector2::Zero);
 	m_p_attack_hit_box->SetOffsetScale(Vector2::Zero);
 }
@@ -568,7 +569,9 @@ void Z_Script::OnCollisionEnter(GameObject* other_game_object)
 		{
 			is_hit = true;
 			m_hp -= 20;
-	    }
+			if (m_hp <= 0)
+				m_hp = 0;
+		}
 		m_current_state = PlayerState::Damaged;
 	}
 }

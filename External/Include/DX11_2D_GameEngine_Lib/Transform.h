@@ -4,16 +4,18 @@
 
 class RectTransform;
 
-class Transform final : public IComponent
+class Transform : public IComponent
 {
 public:
 	Transform();
+	Transform(RectTransform& rect_transform);
 	~Transform() = default;
 
-	void FinalUpdate() override;
+protected:
+	Transform(const ComponentType& component_type);
 
 public:
-    void operator=(const RectTransform& rect_transform);
+	void FinalUpdate() override;
 
 public:
 	//=====================================================================
@@ -78,21 +80,24 @@ public:
 	void SetMeshScale(const UINT& width, const UINT& height) { m_mesh_scale = Vector3(static_cast<float>(width), static_cast<float>(height), 1.0f); }
 	const Vector3& GetMeshScale() const { return m_mesh_scale; }
 
-private:
+public:
 	void SaveToScene(FILE* p_file) override;
 	void LoadFromScene(FILE* p_file) override;
 
 private:
 	CLONE(Transform);
 
-private:
+protected:
 	Vector3 m_local_translation = Vector3::Zero; //xyz 모두 0.0f로 초기화
 	Quaternion m_local_rotation = Quaternion::Identity;
 	Vector3 m_local_scale = Vector3::One; //xyz 모두 1.0f로 초기화
-	Vector3 m_mesh_scale = Vector3::One;
 
 	Matrix m_parent_origin_world_matrix = Matrix::Identity;
 	Matrix m_origin_world_matrix = Matrix::Identity; //m_mesh_scale을 곱하지 않은 원본 World Matrix => 자식 GameObject의 World Matrix 연산에 필요
 	Matrix m_world_matrix = Matrix::Identity;		 //m_mesh_scale을 곱한 실제 사용되는 World Matrix => 실제 렌더링에 사용되는 World Matrix
+
+private:
+	Vector3 m_mesh_scale = Vector3::One;
+
 };
 

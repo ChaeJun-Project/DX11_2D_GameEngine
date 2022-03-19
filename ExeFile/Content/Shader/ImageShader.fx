@@ -22,9 +22,9 @@ VertexColorTextureOutputType VS(VertexColorTexture vs_input)
 {
     VertexColorTextureOutputType vs_output;
     
-    vs_output.position = mul(float4(vs_input.position, 1.0f), widget_world);
-    vs_output.position = mul(vs_output.position, widget_view);
-    vs_output.position = mul(vs_output.position, widget_projection);
+    vs_output.position = mul(float4(vs_input.position, 1.0f), world);
+    vs_output.position = mul(vs_output.position, view);
+    vs_output.position = mul(vs_output.position, projection);
     
     //Color°ª º¹»ç
     vs_output.color = vs_input.color;

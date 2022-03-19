@@ -10,6 +10,7 @@ enum class Script_Type : UINT
 	Colonel_Script,
 	GameManager,
 	Ground_Script,
+	Hp_Script,
 	resource,
 	WalkCannon_Bullet_Script,
 	WalkCannon_Script,

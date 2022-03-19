@@ -24,8 +24,8 @@ ImageRenderer::ImageRenderer(const ImageRenderer& origin)
 
 	//Texture
 	m_p_texture = origin.m_p_texture;
-	//Texture Color
-	m_texture_color = origin.m_texture_color;
+	//Image Color
+	m_image_color = origin.m_image_color;
 
 	//Material
 	auto p_clone_material_raw = origin.m_p_material->Clone();
@@ -51,6 +51,10 @@ void ImageRenderer::Render()
 		return;
 
 	SetImageRendererInfo();
+
+	auto p_rect_transform = m_p_owner_game_object->GetComponent<RectTransform>();
+	if(p_rect_transform != nullptr)
+		p_rect_transform->UpdateConstantBuffer();
 
 	m_p_material->BindPipeline();
 
@@ -96,8 +100,8 @@ void ImageRenderer::SetImageRendererInfo()
 		//Set Has Texture
 		m_p_material->SetConstantBufferData(Material_Parameter::INT_0, &has_texture);
 
-	//Set Texture Color
-	m_p_material->SetConstantBufferData(Material_Parameter::VEC4_0, &m_texture_color);
+	//Set Image Color
+	m_p_material->SetConstantBufferData(Material_Parameter::VEC4_0, &m_image_color);
 }
 
 void ImageRenderer::SetTexture(const std::shared_ptr<Texture>& p_texture)
@@ -132,9 +136,9 @@ void ImageRenderer::SaveToScene(FILE* p_file)
 	fprintf(p_file, "[Texture]\n");
 	RESOURCE_MANAGER->SaveResource<Texture>(m_p_texture, p_file);
 
-	//Color
-	fprintf(p_file, "[Color]\n");
-	FILE_MANAGER->FPrintf_Vector4<Vector4>(m_texture_color, p_file);
+	//Image Color
+	fprintf(p_file, "[Image Color]\n");
+	FILE_MANAGER->FPrintf_Vector4<Vector4>(m_image_color, p_file);
 
 	//Material
 	fprintf(p_file, "[Material]\n");
@@ -184,9 +188,9 @@ void ImageRenderer::LoadFromScene(FILE* p_file)
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	RESOURCE_MANAGER->LoadResource<Texture>(m_p_texture, p_file);
 
-	//Color
+	//Image Color
 	FILE_MANAGER->FScanf(char_buffer, p_file);
-	FILE_MANAGER->FScanf_Vector4<Vector4>(m_texture_color, p_file);
+	FILE_MANAGER->FScanf_Vector4<Vector4>(m_image_color, p_file);
 
 	//Material
 	FILE_MANAGER->FScanf(char_buffer, p_file);

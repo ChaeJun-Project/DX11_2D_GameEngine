@@ -141,6 +141,24 @@ void DataInputVector4(const std::string& data_name, Vector4* p_data, const float
 	ShowFloat4(data_name.c_str(), *p_data, size, indent, flags);
 }
 
+void DataInputString(const std::string& data_name, std::string* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags)
+{
+	ImGui::Text(data_name.c_str());
+	ImGui::SameLine(indent);
+
+	auto label_str = data_name;
+	label_str = "##" + label_str;
+
+	auto str_data = *p_data;
+
+	ImGui::PushItemWidth(size);
+	if (ImGui::InputText(label_str.c_str(), &str_data, flags))
+	{
+	    *p_data = str_data;
+	}
+	ImGui::PopItemWidth();
+}
+
 void DataInputResource(const std::string& data_name, const IResource* p_resource, const float& size, const float& indent)
 {
 	ImGui::Text(data_name.c_str());

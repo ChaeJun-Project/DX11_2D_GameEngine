@@ -6,9 +6,10 @@
 #include "Material.h"
 #include "Mesh.h"
 
+#include "Scene.h"
+
 #include "GameObject.h"
 #include "Transform.h"
-#include "Camera.h"
 
 Canvas::Canvas()
 	:IComponent(ComponentType::Canvas)
@@ -34,13 +35,30 @@ Canvas::Canvas(const Canvas& origin)
 	m_canvas_resolution = origin.m_canvas_resolution;
 }
 
+Canvas::~Canvas()
+{
+	m_p_ui_camera_object = nullptr;
+}
+
+void Canvas::Start()
+{
+    //Set UI Camera Object
+	auto p_ui_camera_object = SCENE_MANAGER->GetCurrentScene()->FindGameObjectWithTag(m_ui_camera_object_name);
+	if (p_ui_camera_object != nullptr)
+		m_p_ui_camera_object = p_ui_camera_object;
+
+	else
+		return;
+
+	//Set Canvas Local Position
+	auto ui_camera_position = m_p_ui_camera_object->GetComponent<Transform>()->GetLocalTranslation();
+	m_p_owner_game_object->GetComponent<Transform>()->SetLocalTranslation(ui_camera_position);
+
+	m_canvas_resolution = RENDER_MANAGER->GetResolution();
+}
+
 void Canvas::FinalUpdate()
 {
-	if (((SCENE_MANAGER->GetEditorState() & EditorState::EditorState_Play) && !(SCENE_MANAGER->GetEditorState() & EditorState::EditorState_Pause))
-		|| SCENE_MANAGER->GetClientState() == 1)
-		p_ui_camara = RENDER_MANAGER->GetCamera(1); //UI Camera
-
-
 	UpdateCanvasWorldMatrix();
 }
 
@@ -62,12 +80,6 @@ void Canvas::Render()
 
 void Canvas::UpdateConstantBuffer()
 {
-	if (p_ui_camara != nullptr)
-	{
-		g_cbuffer_wvpmatrix.view = p_ui_camara->GetViewMatrix();
-		g_cbuffer_wvpmatrix.projection = p_ui_camara->GetProjectionMatrix();
-	}
-
 	g_cbuffer_wvpmatrix.world = m_canvas_world_matrix;
 
 	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);
@@ -81,6 +93,7 @@ void Canvas::UpdateCanvasWorldMatrix()
 	auto p_transform = m_p_owner_game_object->GetComponent<Transform>();
 	auto world_matrix = p_transform->GetWorldMatrix();
 
+	m_canvas_resolution = RENDER_MANAGER->GetResolution();
 	auto scale = Matrix::Scaling(Vector3(m_canvas_resolution.x, m_canvas_resolution.y, 1.0f));
 
 	m_canvas_world_matrix = scale * world_matrix;
@@ -90,9 +103,9 @@ void Canvas::SaveToScene(FILE* p_file)
 {
 	__super::SaveToScene(p_file); //IComponent
 
-	//Canvas Resolution
-	fprintf(p_file, "[Canvas Resolution]\n");
-	FILE_MANAGER->FPrintf_Vector2(m_canvas_resolution, p_file);
+	//UI Camera
+	fprintf(p_file, "[UI Camera]\n");
+	fprintf(p_file, "%s\n", m_ui_camera_object_name.c_str());
 }
 
 void Canvas::LoadFromScene(FILE* p_file)
@@ -101,7 +114,8 @@ void Canvas::LoadFromScene(FILE* p_file)
 
 	char char_buffer[256] = { 0 };
 
-	//Canvas Resolution
+	//UI Camera
 	FILE_MANAGER->FScanf(char_buffer, p_file);
-	FILE_MANAGER->FScanf_Vector2(m_canvas_resolution, p_file);
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	m_ui_camera_object_name = std::string(char_buffer);
 }

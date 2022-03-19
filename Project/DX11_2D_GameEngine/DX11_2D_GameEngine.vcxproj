@@ -179,7 +179,7 @@
     <ClInclude Include="Editor\GUI\5. Inspector\Component\1. Transform\GUI_Transform.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\2. Camera\GUI_Camera.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\3. Sprite Renderer\GUI_SpriteRenderer.h" />
-    <ClInclude Include="Editor\GUI\5. Inspector\Component\16. Script\GUI_Script.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\15. Script\GUI_Script.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\4. Animator2D\GUI_Animator2D.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\6. Collider2D\GUI_Collider2D.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\7. Light2D\GUI_Light2D.h" />
@@ -208,8 +208,7 @@
     <ClInclude Include="Editor\GUI\1. MenuBar\Scene Rename\GUI_SceneRename.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\10. RigidBody2D\GUI_RigidBody2D.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\13. Canvas\GUI_Canvas.h" />
-    <ClInclude Include="Editor\GUI\5. Inspector\Component\14. Rect Transform\GUI_RectTransform.h" />
-    <ClInclude Include="Editor\GUI\5. Inspector\Component\15. Image Renderer\GUI_ImageRenderer.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\14. Image Renderer\GUI_ImageRenderer.h" />
     <ClInclude Include="Imgui\DirectX11\imgui_impl_dx11.h" />
     <ClInclude Include="Imgui\Editor\ImGuizmo.h" />
     <ClInclude Include="Imgui\imconfig.h" />
@@ -244,7 +243,7 @@
     <ClCompile Include="Editor\GUI\5. Inspector\Component\1. Transform\GUI_Transform.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\2. Camera\GUI_Camera.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\3. Sprite Renderer\GUI_SpriteRenderer.cpp" />
-    <ClCompile Include="Editor\GUI\5. Inspector\Component\16. Script\GUI_Script.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\15. Script\GUI_Script.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\4. Animator2D\GUI_Animator2D.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\6. Collider2D\GUI_Collider2D.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\7. Light2D\GUI_Light2D.cpp" />
@@ -270,8 +269,7 @@
     <ClCompile Include="Editor\GUI\1. MenuBar\Scene Rename\GUI_SceneRename.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\10. RigidBody2D\GUI_RigidBody2D.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\13. Canvas\GUI_Canvas.cpp" />
-    <ClCompile Include="Editor\GUI\5. Inspector\Component\14. Rect Transform\GUI_RectTransform.cpp" />
-    <ClCompile Include="Editor\GUI\5. Inspector\Component\15. Image Renderer\GUI_ImageRenderer.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\14. Image Renderer\GUI_ImageRenderer.cpp" />
     <ClCompile Include="Imgui\DirectX11\imgui_impl_dx11.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>

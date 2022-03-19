@@ -64,11 +64,11 @@ void IconProvider::LoadComponentIcons()
 	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_particle_system.png", IconType::Component_ParticleSystem);
 	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_tile_map.png", IconType::Component_TileMapRenderer);
 	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_rigid_body2D.png", IconType::Component_RigidBody2D);
-	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_audio_listener.png", IconType::Component_Audio_Listener);
-	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_audio_source.png", IconType::Component_Audio_Source);
+	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_audio_listener.png", IconType::Component_AudioListener);
+	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_audio_source.png", IconType::Component_AudioSource);
 	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_canvas.png", IconType::Component_Canvas);
-	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_rect_transform.png", IconType::Component_Rect_Transform);
-	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_image_renderer.png", IconType::Component_Image_Renderer);
+	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_rect_transform.png", IconType::Component_RectTransform);
+	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_image_renderer.png", IconType::Component_ImageRenderer);
 					
 	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_script.png", IconType::Component_Script);
 }

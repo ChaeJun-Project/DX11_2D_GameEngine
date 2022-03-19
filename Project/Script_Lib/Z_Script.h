@@ -73,7 +73,6 @@ private:
     Transform* m_p_transform = nullptr;
 	RigidBody2D* m_p_rigidbody2D = nullptr;
 
-	GameObject* m_p_attack_hit = nullptr;
 	Collider2D* m_p_attack_hit_box = nullptr;
 
 	UINT m_current_state = PlayerState::Ready;
@@ -107,5 +106,5 @@ private:
 
 	//Hit
 	bool is_hit = false;
-	float hit_delay = 2.0f;
+	float hit_delay = 1.0f;
 };

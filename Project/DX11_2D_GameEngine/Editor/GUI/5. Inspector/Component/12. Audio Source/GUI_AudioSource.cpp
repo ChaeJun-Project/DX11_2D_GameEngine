@@ -19,7 +19,7 @@ void GUI_AudioSource::Render()
 		return;
 
 	auto is_active = audio_source->GetIsActive();
-	if (BeginComponent(m_component_gui_name, ComponentType::AudioSource, is_active, IconType::Component_Audio_Source))
+	if (BeginComponent(m_component_gui_name, ComponentType::AudioSource, is_active, IconType::Component_AudioSource))
 	{
 		auto audio_source = m_p_selected_game_object->GetComponent<AudioSource>();
 		if (audio_source == nullptr)

@@ -16,7 +16,7 @@ void GUI_AudioListener::Render()
 		return;
 
 	auto is_active = audio_listener->GetIsActive();
-	if (BeginComponent(m_component_gui_name, ComponentType::AudioListener, is_active, IconType::Component_Audio_Listener))
+	if (BeginComponent(m_component_gui_name, ComponentType::AudioListener, is_active, IconType::Component_AudioListener))
 	{
 		auto audio_listener = m_p_selected_game_object->GetComponent<AudioListener>();
 		if (audio_listener == nullptr)

@@ -187,6 +187,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Ground_Script.h" />
     <ClInclude Include="GameObjectController.h" />
+    <ClInclude Include="Hp_Script.h" />
     <ClInclude Include="IState.h" />
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="PlayerState_Enum.h" />
@@ -207,6 +208,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Ground_Script.cpp" />
     <ClCompile Include="GameObjectController.cpp" />
+    <ClCompile Include="Hp_Script.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="Wall_Script.cpp" />
     <ClCompile Include="X_Script.cpp" />

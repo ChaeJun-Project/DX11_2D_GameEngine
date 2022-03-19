@@ -6,15 +6,16 @@
 //UI를 다루기 위한 컴포넌트
 //</summary>
 
-class Camera;
+class GameObject;
 
 class Canvas final : public IComponent
 {
 public:
 	Canvas();
 	explicit Canvas(const Canvas& origin); //=> 복사 생성자 호출 시 얕은 복사 사용
-	~Canvas() = default;
+	~Canvas();
 
+	void Start() override;
 	void FinalUpdate() override;
 	void Render();
 
@@ -27,7 +28,10 @@ private:
 	void UpdateCanvasWorldMatrix();
 
 public:
-    const Vector2 GetCanvasResolution() const { return m_canvas_resolution; }
+	std::string GetUICameraObjectName() const { return m_ui_camera_object_name; }
+	void SetUICameraObjectName(const std::string& ui_camera_object_name) { m_ui_camera_object_name = ui_camera_object_name; }
+
+	const Vector2 GetCanvasResolution() const { return m_canvas_resolution; }
 	void SetCanvasResolution(const Vector2& canvas_resolution) { m_canvas_resolution = canvas_resolution; }
 
 private:
@@ -38,13 +42,14 @@ private:
 	CLONE(Canvas);
 
 private:
-	Camera* p_ui_camara = nullptr;
+	std::string m_ui_camera_object_name;
+	GameObject* m_p_ui_camera_object = nullptr;
 
 	Matrix m_canvas_world_matrix = Matrix::Identity;
 
 	std::shared_ptr<Material> m_p_material;
 	std::shared_ptr<Mesh> m_p_mesh;
 
-    Vector2 m_canvas_resolution = Vector2::Zero;
+	Vector2 m_canvas_resolution = Vector2::Zero;
 };
 

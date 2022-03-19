@@ -38,6 +38,7 @@ void GUI_Camera::Render()
 
 		p_camera->SetIsActive(is_active);
 		
+		//Camera Property
 		auto projection_type = p_camera->GetProjectionType();
 		auto size = p_camera->GetSize();
 		auto fov = Math::ToDegree(p_camera->GetFov());

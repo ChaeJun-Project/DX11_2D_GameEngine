@@ -6,6 +6,7 @@
 #include "Colonel_Script.h"
 #include "GameManager.h"
 #include "Ground_Script.h"
+#include "Hp_Script.h"
 #include "WalkCannon_Bullet_Script.h"
 #include "WalkCannon_Script.h"
 #include "Wall_Script.h"
@@ -19,6 +20,7 @@ void ScriptManager::GetScriptInfo(std::vector<std::string>& script_vector)
 	script_vector.emplace_back("Colonel_Script");
 	script_vector.emplace_back("GameManager");
 	script_vector.emplace_back("Ground_Script");
+	script_vector.emplace_back("Hp_Script");
 	script_vector.emplace_back("resource");
 	script_vector.emplace_back("WalkCannon_Bullet_Script");
 	script_vector.emplace_back("WalkCannon_Script");
@@ -39,6 +41,8 @@ Script* ScriptManager::GetScript(const std::string& script_name)
 		return new GameManager;
 	if(script_name._Equal("Ground_Script"))
 		return new Ground_Script;
+	if(script_name._Equal("Hp_Script"))
+		return new Hp_Script;
 	if(script_name._Equal("WalkCannon_Bullet_Script"))
 		return new WalkCannon_Bullet_Script;
 	if(script_name._Equal("WalkCannon_Script"))
@@ -67,6 +71,8 @@ Script* ScriptManager::GetScript(const UINT& script_type)
 		return new GameManager;
 	case (UINT)Script_Type::Ground_Script:
 		return new Ground_Script;
+	case (UINT)Script_Type::Hp_Script:
+		return new Hp_Script;
 	case (UINT)Script_Type::WalkCannon_Bullet_Script:
 		return new WalkCannon_Bullet_Script;
 	case (UINT)Script_Type::WalkCannon_Script:

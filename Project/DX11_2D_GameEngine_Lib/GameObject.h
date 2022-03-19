@@ -3,6 +3,7 @@
 #include "stdafx.h"
 
 class IComponent;
+class RectTransform;
 class Script;
 
 class GameObject : public DX11Obejct
@@ -137,12 +138,27 @@ T* GameObject::GetComponent()
 	if ((!std::is_base_of<IComponent, T>::value) || std::is_same<Script, T>::value)
 		return nullptr;
 
-	//타입 T에 해당하는 Shader Type 반환
-	auto component_type = GetComponentType<T>();
+	ComponentType component_type = ComponentType::None;
+
+	if(std::is_same<RectTransform, T>::value)
+		component_type = ComponentType::Transform;
+
+	else
+		component_type = GetComponentType<T>(); //타입 T에 해당하는 Component Type 반환
+
 	auto component = GetComponent(component_type);
 
 	if (component != nullptr)
 	{
+		if (std::is_same<RectTransform, T>::value)
+		{
+			if(component->GetComponentType() == ComponentType::RectTransform)
+				return dynamic_cast<T*>(component);
+
+			else
+			    return nullptr;
+		}
+		
 		return dynamic_cast<T*>(component);
 	}
 

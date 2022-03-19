@@ -42,7 +42,7 @@ REGISTER_COMPONENT_TYPE(RigidBody2D, ComponentType::RigidBody2D);
 REGISTER_COMPONENT_TYPE(AudioListener, ComponentType::AudioListener);
 REGISTER_COMPONENT_TYPE(AudioSource, ComponentType::AudioSource);
 REGISTER_COMPONENT_TYPE(Canvas, ComponentType::Canvas);
-REGISTER_COMPONENT_TYPE(RectTransform, ComponentType::RectTransform);
+//Rect Transform은 Transform을 상속받아 m_p_component_map에서 ComponentType::Transform의 위치에 저장 및 사용
 REGISTER_COMPONENT_TYPE(ImageRenderer, ComponentType::ImageRenderer);
 
 GameObject::GameObject(const GameObject& origin)
@@ -266,16 +266,20 @@ void GameObject::AddComponent(IComponent* p_component)
 
 	//그 외의 경우
 	else
-		m_p_component_map.insert(std::make_pair(p_component->GetComponentType(), p_component));
+	{
+		if (p_component->GetComponentType() == ComponentType::RectTransform)
+			m_p_component_map.insert(std::make_pair(ComponentType::Transform, p_component));
+
+		else
+			m_p_component_map.insert(std::make_pair(p_component->GetComponentType(), p_component));
+	}
 }
 
 void GameObject::AddRectTransform()
 {
 	auto p_transform = GetComponent<Transform>();
 
-	auto p_rect_transform = new RectTransform();
-
-	*p_rect_transform = *p_transform; //Transform의 Property를 복사
+	auto p_rect_transform = new RectTransform(*p_transform);
 
 	RemoveAllComponent(); //현재 GameObject가 포함하고 있는 모든 Component 삭제 => 해당 GameObject를 UI로 사용
 
@@ -297,17 +301,39 @@ void GameObject::AddImageRendererComponent()
 
 IComponent* GameObject::GetComponent(const ComponentType& component_type) const
 {
-	auto component_iter = m_p_component_map.find(component_type);
+	ComponentType type = ComponentType::None;
+
+	if (component_type == ComponentType::RectTransform)
+		type = ComponentType::Transform;
+
+	else
+		type = component_type;
+
+	auto component_iter = m_p_component_map.find(type);
 
 	if (component_iter == m_p_component_map.end())
 		return nullptr;
 
+	if (component_type == ComponentType::RectTransform)
+	{
+		if (component_iter->second->GetComponentType() != ComponentType::RectTransform)
+			return nullptr;
+	}
+	
 	return component_iter->second;
 }
 
 void GameObject::RemoveComponent(const ComponentType& component_type)
 {
-	auto component_iter = m_p_component_map.find(component_type);
+	ComponentType type = ComponentType::None;
+
+	if (component_type == ComponentType::RectTransform)
+		type = ComponentType::Transform;
+
+	else
+		type = component_type;
+
+	auto component_iter = m_p_component_map.find(type);
 
 	if (component_iter == m_p_component_map.end())
 		return;
@@ -315,20 +341,18 @@ void GameObject::RemoveComponent(const ComponentType& component_type)
 	//삭제하려는 Component가 RectTransform인 경우
 	if (component_type == ComponentType::RectTransform)
 	{
-	    auto p_transform = new Transform(); //새로운 Transform Component 생성
+		if (component_iter->second->GetComponentType() != ComponentType::RectTransform)
+			return;
 
 		auto p_rect_transform = dynamic_cast<RectTransform*>(component_iter->second); //업 캐스팅
 
-		*p_transform = *p_rect_transform;
+		auto p_transform = new Transform(*p_rect_transform); //새로운 Transform Component 생성
+
+		//모든 Component 삭제
+		RemoveAllComponent();
 
 		//새로 생성한 Transform Component 추가
 		AddComponent(p_transform);
-
-		//해당 Component 메모리 해제
-		SAFE_DELETE(p_rect_transform);
-
-		//해당 Component 삭제
-		m_p_component_map.erase(component_type);
 	}
 
 	else

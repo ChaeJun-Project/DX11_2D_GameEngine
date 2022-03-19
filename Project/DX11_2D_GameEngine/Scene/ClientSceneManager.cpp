@@ -139,7 +139,7 @@ bool ClientSceneManager::SaveScene(const std::string& file_path)
 	}
 
 	else
-	   return false;
+		return false;
 }
 
 void ClientSceneManager::SaveGameObject(GameObject* p_game_object, FILE* p_file)
@@ -161,8 +161,11 @@ void ClientSceneManager::SaveGameObject(GameObject* p_game_object, FILE* p_file)
 	fprintf(p_file, "%d\n", component_count);
 
 	//Save Component
-	for (UINT i = static_cast<UINT>(ComponentType::None); i < static_cast<UINT>(ComponentType::Script); ++i)
+	for (UINT i = static_cast<UINT>(ComponentType::Transform); i < static_cast<UINT>(ComponentType::Script); ++i)
 	{
+		if (static_cast<ComponentType>(i) == ComponentType::RectTransform)
+			continue; //Rect Transform은 이미 ComponentType::Transform에서 Save했기 때문에 스킵
+
 		IComponent* p_component = p_game_object->GetComponent(static_cast<ComponentType>(i));
 
 		if (p_component != nullptr)
@@ -275,6 +278,9 @@ GameObject* ClientSceneManager::LoadGameObject(FILE* p_file)
 		//Component Type
 		UINT component_type = 0;
 		fscanf_s(p_file, "%d\n", &component_type);
+
+		if(static_cast<ComponentType>(component_type) == ComponentType::RectTransform)
+			p_new_game_object->AddComponent(ComponentType::Transform); //미리 Transform 생성
 
 		p_new_game_object->AddComponent(static_cast<ComponentType>(component_type));
 

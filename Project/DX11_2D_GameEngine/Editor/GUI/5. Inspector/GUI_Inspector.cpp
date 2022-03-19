@@ -23,9 +23,8 @@
 #include "Component/11. Audio Listener/GUI_AudioListener.h"
 #include "Component/12. Audio Source/GUI_AudioSource.h"
 #include "Component/13. Canvas/GUI_Canvas.h"
-#include "Component/14. Rect Transform/GUI_RectTransform.h"
-#include "Component/15. Image Renderer/GUI_ImageRenderer.h"
-#include "Component/16. Script/GUI_Script.h"
+#include "Component/14. Image Renderer/GUI_ImageRenderer.h"
+#include "Component/15. Script/GUI_Script.h"
 
 //Resource
 #include <DX11_2D_GameEngine_Lib/Prefab.h>
@@ -46,8 +45,6 @@
 #define INPUT_TEXT_WIDTH            150.0f
 
 #define ADD_COMPONENT_BUTTON_WIDTH	120.0f
-
-//RigidBody2D는 구현 후 추가
 
 GUI_Inspector::GUI_Inspector(const std::string& inspector_title)
 	:IGUI(inspector_title)
@@ -129,8 +126,6 @@ void GUI_Inspector::Initialize()
 	m_component_gui_map.insert(std::make_pair(ComponentType::AudioSource, std::make_unique<GUI_AudioSource>("Audio Source")));
 	//Canvas
 	m_component_gui_map.insert(std::make_pair(ComponentType::Canvas, std::make_unique<GUI_Canvas>("Canvas")));
-	//Rect Transform
-	m_component_gui_map.insert(std::make_pair(ComponentType::RectTransform, std::make_unique<GUI_RectTransform>("Rect Transform")));
 	//Image Renderer
 	m_component_gui_map.insert(std::make_pair(ComponentType::ImageRenderer, std::make_unique<GUI_ImageRenderer>("Image Renderer")));
 }
@@ -211,7 +206,7 @@ void GUI_Inspector::ShowGameObjectInfo()
 	//Component GUI
 	for (UINT i = static_cast<UINT>(ComponentType::Transform); i < static_cast<UINT>(ComponentType::Script); ++i)
 	{
-		if (!m_p_selected_game_object->GetComponent(static_cast<ComponentType>(i)))
+		if (!m_p_selected_game_object->GetComponent(static_cast<ComponentType>(i)) || static_cast<ComponentType>(i) == ComponentType::RectTransform)
 		{
 			continue;
 		}
@@ -487,7 +482,7 @@ void GUI_Inspector::ShowPrefabInfo()
 	//Component GUI
 	for (UINT i = static_cast<UINT>(ComponentType::Transform); i < static_cast<UINT>(ComponentType::Script); ++i)
 	{
-		if (!p_game_object->GetComponent(static_cast<ComponentType>(i)))
+		if (!p_game_object->GetComponent(static_cast<ComponentType>(i)) || static_cast<ComponentType>(i) == ComponentType::RectTransform)
 		{
 			continue;
 		}

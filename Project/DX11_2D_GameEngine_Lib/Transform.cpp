@@ -11,20 +11,26 @@ Transform::Transform()
 {
 }
 
+Transform::Transform(RectTransform& rect_transform)
+	: IComponent(ComponentType::Transform)
+{
+	m_local_translation = rect_transform.m_local_translation;
+	m_local_rotation = rect_transform.m_local_rotation;
+	m_local_scale = rect_transform.m_local_scale;
+
+	m_parent_origin_world_matrix = rect_transform.m_parent_origin_world_matrix;
+	m_origin_world_matrix = rect_transform.m_origin_world_matrix;
+	m_world_matrix = rect_transform.m_world_matrix;
+}
+
+Transform::Transform(const ComponentType& component_type)
+    :IComponent(component_type)
+{
+}
+
 void Transform::FinalUpdate()
 {
 	UpdateWorldMatrix();
-}
-
-void Transform::operator=(const RectTransform& rect_transform)
-{
-	m_local_translation = rect_transform.GetLocalTranslation();
-	m_local_rotation = rect_transform.GetLocalRotation();
-	m_local_scale = rect_transform.GetLocalScale();
-
-	m_parent_origin_world_matrix = rect_transform.GetParentOriginWorldMatrix();
-	m_origin_world_matrix = rect_transform.GetOriginWorldMatrix();
-	m_world_matrix = rect_transform.GetWorldMatrix();
 }
 
 void Transform::UpdateConstantBuffer()

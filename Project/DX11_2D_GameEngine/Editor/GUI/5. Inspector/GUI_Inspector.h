@@ -61,6 +61,9 @@ private:
 	std::map<UINT, std::string> m_layer_map;
 
 	//Component GUI Map
+	//<summary>
+	//Rect Transform은 Transform GUI에서 수행하기 때문에 따로 추가하지 않음
+	//</summary>
 	std::map<ComponentType, std::unique_ptr<GUI_Component>> m_component_gui_map;
 
 	//Script

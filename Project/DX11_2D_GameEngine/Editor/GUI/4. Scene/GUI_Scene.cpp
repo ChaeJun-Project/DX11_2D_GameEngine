@@ -150,7 +150,7 @@ void GUI_Scene::ShowGizmo()
 	if (p_editor_camera == nullptr || p_game_object == nullptr)
 		return;
 
-	auto p_transform = p_game_object->GetComponent<Transform>();
+	auto p_transform = dynamic_cast<Transform*>(p_game_object->GetComponent(ComponentType::Transform));
 
 	static ImGuizmo::OPERATION operation(ImGuizmo::TRANSLATE);
 	static ImGuizmo::MODE mode(ImGuizmo::WORLD);
@@ -199,7 +199,7 @@ void GUI_Scene::ShowGizmo()
 	//순수하게 자식 GameObject의 Local 변환량을 구할 수 있음
 	if (p_game_object->HasParent())
 	{
-		auto parent_world = p_game_object->GetParent()->GetComponent<Transform>()->GetOriginWorldMatrix();
+		auto parent_world = p_transform->GetParentOriginWorldMatrix();
 		world = world * parent_world.Inverse();
 	}
 

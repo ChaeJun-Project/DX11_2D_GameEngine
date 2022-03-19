@@ -5,14 +5,13 @@
 
 bool FillHorizontal(int fill_direction, float fill_amount, float2 image_uv)
 {
-    if (fill_direction == 1) //왼쪽부터 채움
+    if (fill_direction == 0) //왼쪽부터 채움
     {
         if (image_uv.x <= fill_amount)
             return true;
         
         return false;
     }
-    
     else //오른쪽부터 채움
     {
         float relative_fill_amount = 1.0f - fill_amount;
@@ -26,7 +25,7 @@ bool FillHorizontal(int fill_direction, float fill_amount, float2 image_uv)
 
 bool FillVertical(int fill_direction, float fill_amount, float2 image_uv)
 {
-    if (fill_direction == 1) //바닥부터 채움
+    if (fill_direction == 0) //바닥부터 채움
     {
         float relative_fill_amount = 1.0f - fill_amount;
         
@@ -48,15 +47,15 @@ bool FillImage(int fill_method, int fill_direction, float fill_amount, float2 im
 {
     switch (fill_method)
     {
-        case 1: //Horizontal(수평)
+        case 0: //Horizontal(수평)
         {
                 return FillHorizontal(fill_direction, fill_amount, image_uv);
 
             }
             break;
-        case 2: //2:Vertical(수직)
+        case 1: //2:Vertical(수직)
         {
-                FillVertical(fill_direction, fill_amount, image_uv);
+                return FillVertical(fill_direction, fill_amount, image_uv);
 
             }
             break;

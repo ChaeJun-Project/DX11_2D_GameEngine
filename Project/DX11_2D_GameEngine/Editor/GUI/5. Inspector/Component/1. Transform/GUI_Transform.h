@@ -2,6 +2,8 @@
 
 #include "../GUI_Component.h"
 
+class IComponent;
+
 class GUI_Transform final : public GUI_Component
 {
 public:
@@ -9,4 +11,8 @@ public:
 	~GUI_Transform() = default;
 
 	void Render() override;
+
+private:
+    void RenderTransform(IComponent* p_component);
+	void RenderRectTransform(IComponent* p_component);
 };

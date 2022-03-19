@@ -15,6 +15,9 @@ protected:
 
 	void SetCurrentAnimation(std::string animation_name, const bool& is_loop = false, const bool& is_reverse = false);
 
+public:
+    int GetHp() const { return m_hp; }
+
 protected:
 	void SaveToScene(FILE* p_file);
 	void LoadFromScene(FILE* p_file);

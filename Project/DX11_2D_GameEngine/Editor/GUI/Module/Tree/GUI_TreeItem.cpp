@@ -90,6 +90,7 @@ void GUI_TreeItem::Update()
 		m_p_owner_tree->ExcuteClickedCallBack(this);
 		m_press_mouse_left_button = false;
 	}
+
 }
 
 void GUI_TreeItem::CheckOpenTreeNode()

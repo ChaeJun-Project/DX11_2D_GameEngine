@@ -25,5 +25,6 @@ void DataInputVector2(const std::string& data_name, Vector2* p_data, const float
 void DataInputVector3(const std::string& data_name, Vector3* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags = 0);
 void DataInputVector4(const std::string& data_name, Vector4* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags = 0);
 void DataInputResource(const std::string& data_name, const IResource* p_resource, const float& size, const float& indent);
+void DataInputString(const std::string& data_name, std::string* p_data, const float& size, const float& indent, ImGuiInputTextFlags flags = 0);
 void DataInputTexture(const std::string& data_name, Texture** pp_texture, const float& size, const float& indent);
 void DataInputPrefab(const std::string& data_name, Prefab** pp_prefab, const float& size, const float& indent);

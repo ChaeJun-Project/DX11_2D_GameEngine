@@ -167,6 +167,7 @@ enum class ScriptParamType : UINT
 	Vector2 = 2,
 	Vector3 = 3,
 	Vector4 = 4,
-	Texture = 5,
-	Prefab = 6,
+	String = 5,
+	Texture = 6,
+	Prefab = 7,
 };

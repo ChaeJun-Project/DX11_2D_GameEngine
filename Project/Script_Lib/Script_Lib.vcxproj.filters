@@ -49,6 +49,12 @@
     <Filter Include="Scripts\Enemy\Behaviour Tree">
       <UniqueIdentifier>{5edce94d-a9d3-4776-9f5f-77b8a07c5f0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\UI">
+      <UniqueIdentifier>{b5a51d8e-d17d-4f76-94eb-a95479b2a262}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\UI\Hp">
+      <UniqueIdentifier>{d1280f58-7613-45ea-a170-804191887216}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WalkCannon_Bullet_Script.cpp">
@@ -98,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="Colonel_Behaviour_Node.cpp">
       <Filter>Scripts\Enemy\Colonel</Filter>
+    </ClCompile>
+    <ClCompile Include="Hp_Script.cpp">
+      <Filter>Scripts\UI\Hp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="Colonel_Behaviour_Node.h">
       <Filter>Scripts\Enemy\Colonel</Filter>
+    </ClInclude>
+    <ClInclude Include="Hp_Script.h">
+      <Filter>Scripts\UI\Hp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

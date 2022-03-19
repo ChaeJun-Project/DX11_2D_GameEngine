@@ -50,5 +50,9 @@ private:
 
 	UINT m_current_state = static_cast<UINT>(ColonelState::Start);
 	UINT m_pre_state;
+
+	//Hit
+	bool is_hit = false;
+	float hit_delay = 1.0f;
 };
 

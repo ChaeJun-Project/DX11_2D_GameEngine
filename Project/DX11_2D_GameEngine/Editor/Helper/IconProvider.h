@@ -25,11 +25,11 @@ enum class IconType : UINT
    Component_ParticleSystem,
    Component_TileMapRenderer,
    Component_RigidBody2D,
-   Component_Audio_Listener,
-   Component_Audio_Source,
+   Component_AudioListener,
+   Component_AudioSource,
    Component_Canvas,
-   Component_Rect_Transform,
-   Component_Image_Renderer,
+   Component_RectTransform,
+   Component_ImageRenderer,
 
    Component_Script,
 

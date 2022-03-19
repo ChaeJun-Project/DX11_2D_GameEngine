@@ -38,6 +38,15 @@ void Colonel_Script::Start()
 
 void Colonel_Script::Update()
 {
+	if (is_hit)
+	{
+		hit_delay -= DELTA_TIME_F;
+		if (hit_delay <= 0.0f)
+		{
+			hit_delay = 2.0f;
+			is_hit = false;
+		}
+	}
 }
 
 void Colonel_Script::Update_Move()
@@ -74,6 +83,16 @@ void Colonel_Script::TriggerIdleState()
 
 void Colonel_Script::OnCollisionEnter(GameObject* other_game_object)
 {
+	if (other_game_object->GetGameObjectTag() == "PlayerAttack")
+	{
+		if (!is_hit)
+		{
+			is_hit = true;
+			m_hp -= 20;
+			if (m_hp <= 0)
+				m_hp = 0;
+		}
+	}
 }
 
 void Colonel_Script::OnCollisionStay(GameObject* other_game_object)
