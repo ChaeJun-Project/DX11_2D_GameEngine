@@ -50,15 +50,15 @@ public:
 	// [World]
 	//=====================================================================
 	//Translation
-	const Vector3 GetTranslation() { return m_world_matrix.GetTranslation(); }
+	const Vector3 GetTranslation() { return m_origin_world_matrix.GetTranslation(); }
 	void SetTranslation(const Vector3& translation);
 
 	//Rotation
-	const Quaternion GetRotation() { return m_world_matrix.GetRotation(); }
+	const Quaternion GetRotation() { return m_origin_world_matrix.GetRotation(); }
 	void SetRotation(const Quaternion& rotation);
 
 	//Scale
-	const Vector3 GetScale() { return m_world_matrix.GetScale(); }
+	const Vector3 GetScale() { return m_origin_world_matrix.GetScale(); }
 	void SetScale(const Vector3& scale);
 
 	//Direction

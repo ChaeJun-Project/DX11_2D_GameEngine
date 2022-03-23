@@ -4,6 +4,7 @@
 #include "ConstantBuffer.h"
 
 #include "GameObject.h"
+#include "Canvas.h"
 
 RectTransform::RectTransform()
 	:Transform(ComponentType::RectTransform)
@@ -50,6 +51,12 @@ void RectTransform::UpdateConstantBuffer()
 
 void RectTransform::UpdateWorldMatrix()
 {
+	if (m_pre_anchor != m_anchor)
+	{
+		UpdateAnchorPosition();
+		m_pre_anchor = m_anchor;
+	}
+
 	auto scale_matrix = Matrix::Scaling(m_local_scale);
 	auto rotation_matrix = Matrix::RotationQuaternion(m_local_rotation);
 	auto translation_matrix = Matrix::Translation(m_local_translation);
@@ -64,6 +71,12 @@ void RectTransform::UpdateWorldMatrix()
 	scale_matrix = Matrix::Scaling(scale);
 	m_world_matrix = scale_matrix * rotation_matrix * translation_matrix;
 
+	//Anchor Matrix
+	UpdateAnchorMatrix();
+
+	m_origin_world_matrix = m_origin_world_matrix * m_anchor_matrix;
+	m_world_matrix = m_world_matrix * m_anchor_matrix;
+	
 	//부모 오브젝트에 Rect Transform이 있다면
 	if (m_p_owner_game_object->HasParent())
 	{
@@ -78,6 +91,29 @@ void RectTransform::UpdateWorldMatrix()
 	}
 }
 
+void RectTransform::UpdateAnchorPosition()
+{
+	Vector3 anchor_translation = Vector3::Zero;
+	auto canvas_resolution = SETTINGS->GetGameResolution();
+
+	anchor_translation.x = (m_pre_anchor.x - m_anchor.x) * canvas_resolution.x;
+	anchor_translation.y = (m_anchor.y - m_pre_anchor.y) * canvas_resolution.y;
+
+	m_local_translation += anchor_translation;
+}
+
+void RectTransform::UpdateAnchorMatrix()
+{
+	Vector3 anchor_translation = Vector3::Zero;
+	auto canvas_resolution = SETTINGS->GetGameResolution();
+
+	//Anchor Matrix
+	anchor_translation.x = (m_anchor.x - 0.5f) * canvas_resolution.x;
+	anchor_translation.y = (0.5f - m_anchor.y) * canvas_resolution.y;
+
+	m_anchor_matrix = Matrix::Translation(anchor_translation);
+}
+
 void RectTransform::SaveToScene(FILE* p_file)
 {
 	__super::SaveToScene(p_file); //Transform
@@ -85,6 +121,10 @@ void RectTransform::SaveToScene(FILE* p_file)
 	//Widget Size
 	fprintf(p_file, "[Widget Size]\n");
 	FILE_MANAGER->FPrintf_Vector2(m_widget_size, p_file);
+
+	//Anchor
+	fprintf(p_file, "[Anchor]\n");
+	FILE_MANAGER->FPrintf_Vector2(m_anchor, p_file);
 }
 
 void RectTransform::LoadFromScene(FILE* p_file)
@@ -96,4 +136,10 @@ void RectTransform::LoadFromScene(FILE* p_file)
 	//Widget Size
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	FILE_MANAGER->FScanf_Vector2(m_widget_size, p_file);
+
+	//Anchor
+	FILE_MANAGER->FScanf(char_buffer, p_file);
+	FILE_MANAGER->FScanf_Vector2(m_anchor, p_file);
+
+	m_pre_anchor = m_anchor;
 }

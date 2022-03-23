@@ -88,10 +88,11 @@ void RenderManager::Render()
 
 void RenderManager::RenderPlay()
 {
-	auto settings = Core::GetInstance()->GetSettings();
-	m_resolution_size.x = static_cast<float>(settings->GetWindowWidth());
-	m_resolution_size.y = static_cast<float>(settings->GetWindowHeight());
-
+	if (m_resolution_size != SETTINGS->GetGameResolution())
+	{ 
+	    m_resolution_size = SETTINGS->GetGameResolution();
+	}
+	
 	//Graphics Clear Target
 	GRAPHICS_MANAGER->SetRenderTarget();
 
@@ -142,6 +143,14 @@ void RenderManager::RenderEditor()
 
 	else
 	{
+		if (m_resolution_size != SETTINGS->GetGameResolution())
+		{
+			auto game_resolution = SETTINGS->GetGameResolution();
+			SetResolution(static_cast<UINT>(game_resolution.x), static_cast<UINT>(game_resolution.y));
+			m_resolution_size = SETTINGS->GetGameResolution();
+			SetRenderTexture();
+		}
+		
 		//메인 카메라(index 0) 기준으로 화면 그리기
 		if (m_camera_vector[0] != nullptr)
 		{

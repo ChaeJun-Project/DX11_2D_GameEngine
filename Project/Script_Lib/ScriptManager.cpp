@@ -4,7 +4,7 @@
 #include "Camera_Script.h"
 #include "Ceiling_Script.h"
 #include "Colonel_Script.h"
-#include "GameManager.h"
+#include "GameManager_Script.h"
 #include "Ground_Script.h"
 #include "Hp_Script.h"
 #include "WalkCannon_Bullet_Script.h"
@@ -18,10 +18,9 @@ void ScriptManager::GetScriptInfo(std::vector<std::string>& script_vector)
 	script_vector.emplace_back("Camera_Script");
 	script_vector.emplace_back("Ceiling_Script");
 	script_vector.emplace_back("Colonel_Script");
-	script_vector.emplace_back("GameManager");
+	script_vector.emplace_back("GameManager_Script");
 	script_vector.emplace_back("Ground_Script");
 	script_vector.emplace_back("Hp_Script");
-	script_vector.emplace_back("resource");
 	script_vector.emplace_back("WalkCannon_Bullet_Script");
 	script_vector.emplace_back("WalkCannon_Script");
 	script_vector.emplace_back("Wall_Script");
@@ -37,8 +36,8 @@ Script* ScriptManager::GetScript(const std::string& script_name)
 		return new Ceiling_Script;
 	if(script_name._Equal("Colonel_Script"))
 		return new Colonel_Script;
-	if(script_name._Equal("GameManager"))
-		return new GameManager;
+	if(script_name._Equal("GameManager_Script"))
+		return new GameManager_Script;
 	if(script_name._Equal("Ground_Script"))
 		return new Ground_Script;
 	if(script_name._Equal("Hp_Script"))
@@ -55,35 +54,5 @@ Script* ScriptManager::GetScript(const std::string& script_name)
 		return new Z_Script;
 
 	return nullptr;
-}
-
-Script* ScriptManager::GetScript(const UINT& script_type)
-{
-	switch (script_type)
-	{
-	case (UINT)Script_Type::Camera_Script:
-		return new Camera_Script;
-	case (UINT)Script_Type::Ceiling_Script:
-		return new Ceiling_Script;
-	case (UINT)Script_Type::Colonel_Script:
-		return new Colonel_Script;
-	case (UINT)Script_Type::GameManager:
-		return new GameManager;
-	case (UINT)Script_Type::Ground_Script:
-		return new Ground_Script;
-	case (UINT)Script_Type::Hp_Script:
-		return new Hp_Script;
-	case (UINT)Script_Type::WalkCannon_Bullet_Script:
-		return new WalkCannon_Bullet_Script;
-	case (UINT)Script_Type::WalkCannon_Script:
-		return new WalkCannon_Script;
-	case (UINT)Script_Type::Wall_Script:
-		return new Wall_Script;
-	case (UINT)Script_Type::X_Script:
-		return new X_Script;
-	case (UINT)Script_Type::Z_Script:
-		return new Z_Script;
-	}
-	return nullptr; 
 }
 

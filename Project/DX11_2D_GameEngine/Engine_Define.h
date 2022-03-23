@@ -9,4 +9,5 @@ typedef std::function<void(DWORD_PTR, DWORD_PTR)> DragDrop_CallBack;
 
 #define EDITOR_MANAGER EditorManager::GetInstance()
 #define EDITOR_HELPER EditorHelper::GetInstance()
+#define EDITOR_OBJECT_MANAGER EditorObjectManager::GetInstance()
 #define ICON_PROVIDER IconProvider::GetInstance()

@@ -141,15 +141,3 @@ struct CBuffer_SpriteAnimation
 };
 
 extern CBuffer_SpriteAnimation g_cbuffer_sprite_animation;
-
-//======================================
-//Widget WVPMatrix[5]
-//======================================
-struct CBuffer_Widget_WVPMatrix
-{
-	Matrix widget_world;		//Widget 월드 행렬
-	Matrix widget_view;			//Widget 뷰 행렬
-	Matrix widget_projection;   //Widget 투영 행렬
-};
-
-extern CBuffer_Widget_WVPMatrix g_cbuffer_widget_wvpmatrix;

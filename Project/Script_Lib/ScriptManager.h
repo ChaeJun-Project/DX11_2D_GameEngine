@@ -8,10 +8,9 @@ enum class Script_Type : UINT
 	Camera_Script,
 	Ceiling_Script,
 	Colonel_Script,
-	GameManager,
+	GameManager_Script,
 	Ground_Script,
 	Hp_Script,
-	resource,
 	WalkCannon_Bullet_Script,
 	WalkCannon_Script,
 	Wall_Script,
@@ -26,5 +25,4 @@ class ScriptManager final
 public:
 	static void GetScriptInfo(std::vector<std::string>& script_vector);
 	static Script* GetScript(const std::string& script_name);
-	static Script* GetScript(const UINT& script_type);
 };

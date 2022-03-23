@@ -151,8 +151,6 @@ void main()
 		fprintf(p_script_manager_header_file, "public:\n");
 		fprintf(p_script_manager_header_file, "\tstatic void GetScriptInfo(std::vector<std::string>& script_vector);\n");
 		fprintf(p_script_manager_header_file, "\tstatic Script* GetScript(const std::string& script_name);\n");
-		fprintf(p_script_manager_header_file, "\tstatic Script* GetScript(const UINT& script_type);\n");
-		//fprintf(p_script_manager_header_file, "\tstatic std::string GetScriptName(Script* p_script);\n");
 		fprintf(p_script_manager_header_file, "};\n");
 
 		fclose(p_script_manager_header_file);
@@ -201,39 +199,6 @@ void main()
 		}
 		fprintf(p_script_manager_cpp_file, "\n");
 		fprintf(p_script_manager_cpp_file, "\treturn nullptr;\n}\n\n");
-
-		//GetScript(Script Type)
-		fprintf(p_script_manager_cpp_file, "Script* ScriptManager::GetScript(const UINT& script_type)\n{\n");
-		fprintf(p_script_manager_cpp_file, "\tswitch (script_type)\n\t{\n");
-		for (UINT i = 0; i < script_name_vector.size(); ++i)
-		{
-			fprintf(p_script_manager_cpp_file, "\tcase (UINT)Script_Type::");
-			fprintf(p_script_manager_cpp_file, script_name_vector[i].c_str());
-			fprintf(p_script_manager_cpp_file, ":\n");
-
-			fprintf(p_script_manager_cpp_file, "\t\treturn new ");
-			fprintf(p_script_manager_cpp_file, script_name_vector[i].c_str());
-			fprintf(p_script_manager_cpp_file, ";\n");
-		}
-		fprintf(p_script_manager_cpp_file, "\t}\n");
-		fprintf(p_script_manager_cpp_file, "\treturn nullptr; \n}\n\n");
-
-		//GetScriptName
-		/*fprintf(p_script_manager_cpp_file, "std::string ScriptManager::GetScriptName(Script* p_script)\n{\n");
-		fprintf(p_script_manager_cpp_file, "\tswitch ((Script_Type)p_script->GetScriptType())\n\t{\n");
-		for (UINT i = 0; i < script_name_vector.size(); ++i)
-		{
-			fprintf(p_script_manager_cpp_file, "\tcase Script_Type::");
-			fprintf(p_script_manager_cpp_file, script_name_vector[i].c_str());
-			fprintf(p_script_manager_cpp_file, ":\n");
-
-			fprintf(p_script_manager_cpp_file, "\t\treturn ");
-			fprintf(p_script_manager_cpp_file, "\"");
-			fprintf(p_script_manager_cpp_file, script_name_vector[i].c_str());
-			fprintf(p_script_manager_cpp_file, "\";\n");
-		}
-		fprintf(p_script_manager_cpp_file, "\t}\n");
-		fprintf(p_script_manager_cpp_file, "\treturn std::string();\n}");*/
 
 		fclose(p_script_manager_cpp_file);
 	}

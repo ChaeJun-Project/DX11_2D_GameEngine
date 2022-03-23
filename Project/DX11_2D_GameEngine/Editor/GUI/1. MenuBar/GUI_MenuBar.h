@@ -5,6 +5,7 @@ class GUI_SceneRename;
 class GUI_StyleSelector;
 class GUI_SpriteEditor;
 class GUI_Physics;
+class GUI_SetResolution;
 
 class GUI_MenuBar : public IGUI
 {
@@ -41,5 +42,8 @@ private:
 
 	//Physics
 	GUI_Physics* m_p_gui_physics = nullptr;
+
+	//Set Resolution
+	GUI_SetResolution* m_p_gui_set_resolution = nullptr;
 };
 

@@ -2,6 +2,9 @@
 
 class Scene;
 class GameObject;
+class Script;
+
+typedef std::function<Script*(const std::string&)> GetScriptFunc;
 
 class SceneManager final : public Singleton<SceneManager>
 {
@@ -24,7 +27,33 @@ public:
 	const UINT& GetEditorState() const { return m_editor_state; }
 	void SetEditorState(const UINT& editor_state);
 
+public:
+    void InitializeCurrentScene();
+	void CreateNewScene();
+
+	//Save Scene
+public:
+	bool SaveScene(const std::string& file_path);
+
 private:
+	void SaveGameObject(GameObject* p_game_object, FILE* p_file);
+	void SaveScript(GameObject* p_game_object, FILE* p_file);
+
+	//Load Scene
+public:
+	std::shared_ptr<Scene> LoadScene(const std::string& file_path);
+	void SetGetScriptFunc(GetScriptFunc p_get_script_func) { m_p_get_script_func = p_get_script_func; }
+
+private:
+	GameObject* LoadGameObject(FILE* p_file);
+	void LoadScript(GameObject* p_game_object, FILE* p_file);
+
+public:
+    void UpdateScene();
+    
+private:
+	GetScriptFunc m_p_get_script_func = nullptr;
+
 	std::shared_ptr<Scene> m_p_current_scene;
 
 	//<summary>

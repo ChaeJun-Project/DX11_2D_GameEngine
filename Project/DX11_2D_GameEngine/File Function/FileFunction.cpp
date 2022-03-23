@@ -146,7 +146,9 @@ const std::string FileFunction::LoadFile(const std::string& load_resource_folder
 	// Modal
 	if (GetOpenFileName(&ofn))
 	{
-		return FILE_MANAGER->ConvertWStringToString(szName);
+	    auto origin_str = FILE_MANAGER->ConvertWStringToString(szName);
+		FILE_MANAGER->ReplaceAll(origin_str, "\\", "/");
+		return origin_str;
 	}
 
 	return std::string();
@@ -196,4 +198,67 @@ void FileFunction::CreatePrefabGameObject(const std::string& prefab_resource_pat
 	event_struct.object_address_1 = p_prefab->Instantiate(); //Prefab의 GameObject 정보를 복사하여 새로운 GameObject 메모리 할당
 
 	EVENT_MANAGER->AddEvent(event_struct);
+}
+
+void FileFunction::LoadPhysics(const std::string& physics_path)
+{
+	FILE* p_file = nullptr;
+
+	fopen_s(&p_file, physics_path.c_str(), "rb");
+	if (p_file != nullptr)
+	{
+		char char_buffer[256] = { 0 };
+
+		//Collision Check List
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+
+		std::map<UINT, std::vector<bool>> collision_check_map;
+		for (UINT i = 0; i < MAX_LAYER; ++i)
+		{
+			//Index
+			UINT index = 0;
+			fscanf_s(p_file, "%d", &index);
+
+			//Add Collision Check Vector
+			std::vector<bool> collision_check_vector;
+			collision_check_vector.resize((MAX_LAYER - index), false);
+			collision_check_map.insert(std::make_pair(index, collision_check_vector));
+
+			//Collision Check Value
+			UINT collision_check_value = 0;
+			fscanf_s(p_file, "%d", &collision_check_value);
+
+			for (UINT j = i; j < MAX_LAYER; ++j)
+			{
+				if (collision_check_value & (1 << j))
+				{
+					collision_check_map[index][j - index] = true;
+					COLLISION_MANAGER->CheckLayer(index, j);
+				}
+			}
+		}
+
+		fclose(p_file);
+	}
+}
+
+void FileFunction::LoadGameResolution(const std::string& resolution_path)
+{
+	FILE* p_file = nullptr;
+
+	fopen_s(&p_file, resolution_path.c_str(), "rb");
+	if (p_file != nullptr)
+	{
+		char char_buffer[256] = { 0 };
+
+		//Resolution
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+
+		auto resolution = Vector2::Zero;
+		FILE_MANAGER->FScanf_Vector2(resolution, p_file);
+
+		SETTINGS->SetGameResolution(resolution);
+
+		fclose(p_file);
+	}
 }

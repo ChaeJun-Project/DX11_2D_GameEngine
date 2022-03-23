@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "GUI_SceneRename.h"
 
-#include <DX11_2D_GameEngine_Lib/SceneManager.h>
 #include <DX11_2D_GameEngine_Lib/Scene.h>
 
 void GUI_SceneRename::Render()
@@ -21,7 +20,7 @@ void GUI_SceneRename::Render()
 			FILE_MANAGER->RenameFile(SCENE_PATH, ".scene", current_scene->GetSceneName(), scene_name);
 			current_scene->SetSceneName(scene_name);
 
-			UpdateScene();
+			SCENE_MANAGER->UpdateScene();
 
 			EDITOR_LOG_INFO_F("Success to Rename Current Scene '%s'", scene_name.c_str());
 		}

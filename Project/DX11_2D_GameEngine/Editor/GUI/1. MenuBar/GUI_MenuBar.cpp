@@ -5,6 +5,7 @@
 #include "Style Selector/GUI_StyleSelector.h"
 #include "Sprite Editor/GUI_SpriteEditor.h"
 #include "Physics/GUI_Physics.h"
+#include "Set Resolution/GUI_SetResolution.h"
 
 #include "Scene/ClientSceneManager.h"
 
@@ -21,6 +22,7 @@ GUI_MenuBar::GUI_MenuBar(const std::string& menubar_title)
 	m_p_gui_style_selector = new GUI_StyleSelector();
 	m_p_gui_sprite_editor = new GUI_SpriteEditor();
 	m_p_gui_physics = new GUI_Physics();
+	m_p_gui_set_resolution = new GUI_SetResolution();
 }
 
 GUI_MenuBar::~GUI_MenuBar()
@@ -29,6 +31,7 @@ GUI_MenuBar::~GUI_MenuBar()
 	SAFE_DELETE(m_p_gui_style_selector);
 	SAFE_DELETE(m_p_gui_sprite_editor);
 	SAFE_DELETE(m_p_gui_physics);
+	SAFE_DELETE(m_p_gui_set_resolution);
 }
 
 void GUI_MenuBar::Update()
@@ -154,6 +157,14 @@ void GUI_MenuBar::Render()
 				}
 			}
 
+			if (ImGui::MenuItem("Set Resolutuion"))
+			{
+				if (!m_p_gui_set_resolution->m_is_active)
+				{
+					m_p_gui_set_resolution->m_is_active = true;
+				}
+			}
+
 			ImGui::EndMenu();
 		}
 
@@ -171,6 +182,9 @@ void GUI_MenuBar::Render()
 
 	//Physics Editor
 	if (m_p_gui_physics->m_is_active) m_p_gui_physics->Render();
+
+	//Set Resolution Editor
+	if (m_p_gui_set_resolution->m_is_active) m_p_gui_set_resolution->Render();
 }
 
 #include "Helper/EditorHelper.h"

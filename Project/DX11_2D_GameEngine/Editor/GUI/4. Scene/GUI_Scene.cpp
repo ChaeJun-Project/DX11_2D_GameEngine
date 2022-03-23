@@ -115,7 +115,9 @@ void GUI_Scene::ShowScene()
 	scene_window_height -= scene_window_height % 2 != 0 ? 1 : 0;
 
 	//현재 윈도우 사이즈가 변경된 경우
-	RENDER_MANAGER->SetResolution(scene_window_width, scene_window_height); //RTV, SRV, DSV 재생성
+	if (CAN_EDIT)
+		RENDER_MANAGER->SetResolution(scene_window_width, scene_window_height); //RTV, SRV, DSV 재생성
+
 
 	auto render_texture = RENDER_MANAGER->GetRenderTexture();
 
@@ -203,7 +205,14 @@ void GUI_Scene::ShowGizmo()
 		world = world * parent_world.Inverse();
 	}
 
-	p_transform->SetTranslation(world.GetTranslation());
-	p_transform->SetRotation(world.GetRotation());
-	p_transform->SetScale(world.GetScale());
+	if (p_transform->GetComponentType() == ComponentType::RectTransform)
+	{
+		auto p_rect_transform = dynamic_cast<RectTransform*>(p_transform);
+		auto anchor_matrix = p_rect_transform->GetAnchorMatrix();
+		world = world * anchor_matrix.Inverse();
+	}
+
+	p_transform->SetLocalTranslation(world.GetTranslation());
+	p_transform->SetLocalRotation(world.GetRotation());
+	p_transform->SetLocalScale(world.GetScale());
 }

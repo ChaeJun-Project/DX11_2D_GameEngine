@@ -57,6 +57,12 @@ using namespace DirectX::PackedVector;
 #include "Inline.h"
 #pragma endregion
 
+#pragma region Core
+#include "Core.h"
+#include "Settings.h"
+#pragma endregion
+
+
 #pragma region D3D11BufferStruct
 #include "VertexStruct.h"
 #include "ConstantStruct.h"

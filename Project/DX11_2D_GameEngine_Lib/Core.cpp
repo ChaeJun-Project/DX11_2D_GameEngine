@@ -26,10 +26,10 @@ void Core::Initialize()
 	GRAPHICS_MANAGER->Initialize();
 	//Initialize Audio Manager
 	AUDIO_MANAGER->Initialize();
-	//Initialize Resource Manager
-	RESOURCE_MANAGER->Initialize();
 	//Initialize Scene Manager
 	SCENE_MANAGER->Initialize();
+	//Initialize Resource Manager
+	RESOURCE_MANAGER->Initialize();
 	//Initialize Render Manager
 	RENDER_MANAGER->Initialize();
 	//Initialize Font Manager

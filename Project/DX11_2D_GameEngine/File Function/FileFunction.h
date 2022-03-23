@@ -21,6 +21,10 @@ public:
 	//Prefab
 	static void CreatePrefabResource(DWORD_PTR p_game_object);
 	static void CreatePrefabGameObject(const std::string& prefab_resource_path);
+
+	//Engine Data
+	static void LoadPhysics(const std::string& physics_path);
+	static void LoadGameResolution(const std::string& resolution_path);
 };
 
 template<typename T>

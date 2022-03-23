@@ -15,6 +15,10 @@
 //자원 메모리 해제 매크로 정의
 #define SAFE_RELEASE(p)         { if(p) { p->Release(); p = nullptr; } }
 
+//Core & Settings
+#define CORE		Core::GetInstance()
+#define SETTINGS    Core::GetInstance()->GetSettings()
+
 //Manager
 #define AUDIO_MANAGER		AudioManager::GetInstance()
 #define COLLISION_MANAGER   CollisionManager::GetInstance()

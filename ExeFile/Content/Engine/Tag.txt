@@ -7,7 +7,7 @@ Main Camera
 UI Camera
 Player
 Colonel
-Stage1
+Stage
 PlayerAttack
 Enemy
 Light

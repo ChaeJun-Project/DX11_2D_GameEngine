@@ -1,9 +1,5 @@
 ﻿#include "stdafx.h"
 #include "Window/Window.h"
-#include <DX11_2D_GameEngine_Lib/Core.h>
-#include <DX11_2D_GameEngine_Lib/Settings.h>
-#include <DX11_2D_GameEngine_Lib/InputManager.h>
-#include <DX11_2D_GameEngine_Lib/GraphicsManager.h>
 
 #include "Scene/ClientSceneManager.h"
 #include "Editor/Manager/EditorManager.h"
@@ -27,65 +23,70 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//메모리 누수 체크
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	//Core
-	auto core = Core::GetInstance();
-
 	Window::Create(hInstance, 1600, 900, g_class_name, IDI_ZERO, false);
 	Window::Show(nCmdShow);
 
 	ClientSceneManager::Initialize();
-	core->Initialize();
 
-	//Settings
-	auto settings = core->GetSettings();
+	//Core
+	CORE->Initialize();
 
 	//Scene Manager
 	SCENE_MANAGER->SetClientState(static_cast<UINT>(client_state));
 
-	//Game Test
-	//auto next_scene = ClientSceneManager::LoadScene((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Scene/Script Test.scene"));
-	//SCENE_MANAGER->SetCurrentScene(next_scene);
+	if (SCENE_MANAGER->GetClientState() == static_cast<UINT>(ClientState::Game))
+	{
+	    //Load Engine Data(Content/Engine)
+		FileFunction::LoadPhysics((FILE_MANAGER->GetAbsoluteContentPath() + "Engine/Physics.txt"));
+		FileFunction::LoadGameResolution((FILE_MANAGER->GetAbsoluteContentPath() + "Engine/Resolution.txt"));
 
-	//Editor
-	ClientSceneManager::CreateNewScene();
+		//Game Test
+		auto next_scene = SCENE_MANAGER->LoadScene((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Scene/Game Stage.scene"));
+		SCENE_MANAGER->SetCurrentScene(next_scene);
+	}
 
-	//Editor Manager
-	//Initialize Editor Manager
-	EDITOR_MANAGER->Initialize(settings->GetWindowHandle(), GRAPHICS_MANAGER->GetDevice(), GRAPHICS_MANAGER->GetDeviceContext());
+	else
+	{
+		//Editor
+		ClientSceneManager::CreateNewScene();
 
-	//EditorObject Manager
-	auto editor_object_manager = EditorObjectManager::GetInstance();
-	//Initialize EditorObject Manager
-	editor_object_manager->Initialize();
+		//Editor Manager
+		//Initialize Editor Manager
+		EDITOR_MANAGER->Initialize(SETTINGS->GetWindowHandle(), GRAPHICS_MANAGER->GetDevice(), GRAPHICS_MANAGER->GetDeviceContext());
 
-	//Window Event 등록
+		//EditorObject Manager
+		EDITOR_OBJECT_MANAGER->Initialize();
+
+		//Window Event 등록	
+		//Editor Event
+		Window::editor_input_event = ImGui_ImplWin32_WndProcHandler;
+		//Window Resize Event
+		auto editor_manager = EDITOR_MANAGER;
+		Window::resize_event = [&editor_manager](const UINT& width, const UINT& height)
+		{
+			editor_manager->ResizeEditor(width, height);
+		};
+	}
+
 	//Mouse Event
 	Window::user_input_event = INPUT_MANAGER->MouseProc;
-	//Editor Event
-	Window::editor_input_event = ImGui_ImplWin32_WndProcHandler;
-	//Window Resize Event
-	auto editor_manager = EDITOR_MANAGER;
-	Window::resize_event = [&editor_manager](const UINT& width, const UINT& height)
-	{
-		editor_manager->ResizeEditor(width, height);
-	};
 
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDI_ZERO));
 
 	while (Window::Update(hAccelTable))
 	{
-		core->Progress();
+		CORE->Progress();
 
 		switch (client_state)
 		{
 		case ClientState::Game:
 			break;
 		case ClientState::Editor:
-			editor_object_manager->Update();
-			editor_object_manager->Render();
+			EDITOR_OBJECT_MANAGER->Update();
+			EDITOR_OBJECT_MANAGER->Render();
 
-			editor_manager->Update();
-		    editor_manager->Render();
+			EDITOR_MANAGER->Update();
+			EDITOR_MANAGER->Render();
 			break;
 		}
 

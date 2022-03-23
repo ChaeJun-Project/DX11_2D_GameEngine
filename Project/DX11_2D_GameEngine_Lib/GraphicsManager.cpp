@@ -206,10 +206,9 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 	//Viewport Àç¼³Á¤
 	SetViewport(width, height);
 
-	auto settings = Core::GetInstance()->GetSettings();
-	std::cout << "Resolution: " << settings->GetWindowWidth() << "X" << settings->GetWindowHeight() << std::endl;
+	std::cout << "Resolution: " << width << "X" << height << std::endl;
 
-	g_cbuffer_program.resolution = Vector2(static_cast<float>(settings->GetWindowWidth()), static_cast<float>(settings->GetWindowHeight()));
+	g_cbuffer_program.resolution = Vector2(static_cast<float>(width), static_cast<float>(height));
 }
 
 void GraphicsManager::SetFullScreen(const bool& is_full_screen)
@@ -502,15 +501,6 @@ void GraphicsManager::CreateConstantBuffers()
 	if (result)
 	{
 		pair_iter.first->second->Create<CBuffer_SpriteAnimation>(static_cast<UINT>(CBuffer_BindSlot::SpriteAnimation));
-	}
-
-	//Widget WVPMatrix
-	pair_iter = m_p_constant_buffer_map.insert(std::make_pair(CBuffer_BindSlot::WidgetWVPMatrix, std::make_shared<ConstantBuffer>()));
-	result = pair_iter.second;
-	assert(result);
-	if (result)
-	{
-		pair_iter.first->second->Create<CBuffer_Widget_WVPMatrix>(static_cast<UINT>(CBuffer_BindSlot::WidgetWVPMatrix));
 	}
 }
 

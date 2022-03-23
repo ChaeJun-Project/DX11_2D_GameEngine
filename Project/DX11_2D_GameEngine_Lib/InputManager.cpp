@@ -149,7 +149,6 @@ void InputManager::Update()
 				//이전 프레임에 마우스 버튼이 눌려져 있었을 경우
 				else if (m_button_vector[i].m_click_count == 1)
 					m_button_vector[i].m_button_state = ButtonState::BUTTON_INPUT_STATE_PRESS;
-
 			}
 
 			//현재 마우스 버튼이 안 눌려있을 경우
@@ -168,8 +167,9 @@ void InputManager::Update()
 			}
 		}
 
+		//오류 있음 수정해야 함
 		//Check Mouse Double Click
-		DWORD button_state = GetTickCount();
+		/*DWORD button_state = GetTickCount();
 		for (UINT i = 0; i < static_cast<UINT>(Button::END); ++i)
 		{
 			if (m_button_vector[i].m_button_state == ButtonState::BUTTON_INPUT_STATE_DOWN)
@@ -200,7 +200,7 @@ void InputManager::Update()
 					m_button_vector[i].m_click_count = 0;
 				}
 			}
-		}
+		}*/
 
 		//Mouse Wheel
 		POINT point = { 0, 0 };

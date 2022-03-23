@@ -43,7 +43,7 @@ void Camera_Script::Start()
 	auto target_position = m_p_target_transform->GetTranslation();
 	m_p_transform->SetTranslation(target_position);
 
-	m_view_resolution = RENDER_MANAGER->GetResolution();
+	m_view_resolution = SETTINGS->GetGameResolution();
 }
 
 void Camera_Script::Update()

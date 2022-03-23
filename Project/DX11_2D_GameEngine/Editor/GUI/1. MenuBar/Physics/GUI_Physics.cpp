@@ -16,11 +16,8 @@ GUI_Physics::~GUI_Physics()
 void GUI_Physics::Render()
 {
 	if (ImGui::Begin("Physics", &m_is_active, ImGuiWindowFlags_AlwaysAutoResize))
-	{
-
 		ShowLayerCollisionMatrix();
 
-	}
 	ImGui::End();
 }
 
@@ -51,7 +48,7 @@ void GUI_Physics::ShowLayerCollisionMatrix()
 			{
 				bool is_collision_check = m_collision_check_map[row][column - row];
 				std::string label_str = "##" + std::to_string(row) + std::to_string(column);
-				if(ImGui::Checkbox(label_str.c_str(), &is_collision_check))
+				if (ImGui::Checkbox(label_str.c_str(), &is_collision_check))
 				{
 					is_collision_check != is_collision_check;
 					m_collision_check_map[row][column - row] = is_collision_check;
@@ -74,7 +71,7 @@ void GUI_Physics::InitializePhysics()
 		LoadPhysics();
 
 	else
-	{ 
+	{
 		SavePhysics();
 		LoadPhysics();
 	}
@@ -134,7 +131,7 @@ void GUI_Physics::LoadPhysics()
 			for (UINT j = i; j < MAX_LAYER; ++j)
 			{
 				if (collision_check_value & (1 << j))
-				{ 
+				{
 					m_collision_check_map[index][j - index] = true;
 					COLLISION_MANAGER->CheckLayer(index, j);
 				}

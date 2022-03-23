@@ -68,11 +68,13 @@ void GUI_Transform::RenderRectTransform(IComponent* p_component)
 	if (BeginComponent("Rect Transform", ComponentType::RectTransform, is_active, IconType::Component_RectTransform))
 	{
 		auto position = p_rect_transform->GetLocalTranslation();
+		auto anchor = p_rect_transform->GetAnchor();
 		auto widget_size = p_rect_transform->GetWidgetSize();
 		auto rotation = p_rect_transform->GetLocalRotation().ToEulerAngle();
 		auto scale = p_rect_transform->GetLocalScale();
 
 		ShowFloat3("Position", position, 70.0f, 80.0f);
+		ShowFloat2("Anchor", anchor, 70.0f, 80.0f);
 		ShowFloat2("Size", widget_size, 70.0f, 80.0f);
 		ShowFloat3("Rotation", rotation, 70.0f, 80.0f);
 		ShowFloat3("Scale", scale, 70.0f, 80.0f);
@@ -80,6 +82,7 @@ void GUI_Transform::RenderRectTransform(IComponent* p_component)
 		if (CAN_EDIT)
 		{
 			p_rect_transform->SetLocalTranslation(position);
+			p_rect_transform->SetAnchor(anchor);
 			p_rect_transform->SetWidgetSize(widget_size);
 			p_rect_transform->SetLocalRotation(Quaternion::QuaternionFromEulerAngle(rotation));
 			p_rect_transform->SetLocalScale(scale);

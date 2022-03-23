@@ -70,10 +70,10 @@
     <ClInclude Include="Editor\GUI\1. MenuBar\Physics\GUI_Physics.h" />
     <ClInclude Include="Editor\GUI\IGUI_Popup.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\Scene Rename\GUI_SceneRename.h" />
-    <ClInclude Include="Engine_Func.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\10. RigidBody2D\GUI_RigidBody2D.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\13. Canvas\GUI_Canvas.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\14. Image Renderer\GUI_ImageRenderer.h" />
+    <ClInclude Include="Editor\GUI\1. MenuBar\Set Resolution\GUI_SetResolution.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowSettings\DX11_2D_GameEngine.rc">
@@ -145,6 +145,7 @@
     <ClCompile Include="Editor\GUI\5. Inspector\Component\10. RigidBody2D\GUI_RigidBody2D.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\13. Canvas\GUI_Canvas.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\14. Image Renderer\GUI_ImageRenderer.cpp" />
+    <ClCompile Include="Editor\GUI\1. MenuBar\Set Resolution\GUI_SetResolution.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WindowSettings\DX11_2D_GameEngine.aps" />

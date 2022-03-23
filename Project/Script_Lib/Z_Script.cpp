@@ -79,8 +79,10 @@ void Z_Script::Update()
 		m_next_attck_time_limit = NEXT_ATTACK_TIME_LIMIT;
 	}
 
-	if (!(m_current_state & PlayerState::Attack))
+	if (!(m_pre_state & PlayerState::Attack))
+	{
 		m_p_attack_hit_box->SetIsActive(false);
+	}
 
 	if (is_hit)
 	{

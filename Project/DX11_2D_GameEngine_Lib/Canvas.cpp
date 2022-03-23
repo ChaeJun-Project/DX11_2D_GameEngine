@@ -93,7 +93,7 @@ void Canvas::UpdateCanvasWorldMatrix()
 	auto p_transform = m_p_owner_game_object->GetComponent<Transform>();
 	auto world_matrix = p_transform->GetWorldMatrix();
 
-	m_canvas_resolution = RENDER_MANAGER->GetResolution();
+	m_canvas_resolution = SETTINGS->GetGameResolution();
 	auto scale = Matrix::Scaling(Vector3(m_canvas_resolution.x, m_canvas_resolution.y, 1.0f));
 
 	m_canvas_world_matrix = scale * world_matrix;

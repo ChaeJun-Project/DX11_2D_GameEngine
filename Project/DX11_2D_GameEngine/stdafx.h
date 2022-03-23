@@ -50,9 +50,6 @@
 #include "Engine_Define.h"
 
 //Func
-#include "Engine_Func.h"
-
-//Func
 #include "GUI/GUI_Function.h"
 
 //Drag&Drop
