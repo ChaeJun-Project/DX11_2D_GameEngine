@@ -38,6 +38,8 @@ private:
 	void ShowMenuPopup();
 	void SelectedGameObject(GameObject* p_game_object);
 	void CreateGameObject();
+	GameObject* CreateCanvas();
+	void CreateImage();
 	void RemoveInheritance(GameObject* p_game_object); //상속관계 제거(상속관게에 있던 자식 GameObject를 최상위 부모 GameObject로 변경)
 
 private:

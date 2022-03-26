@@ -27,7 +27,7 @@ AudioClip::~AudioClip()
 
 void AudioClip::Play()
 {
-	AUDIO_SYSTEM->playSound(m_p_sound, nullptr, false, &m_p_channel);
+	auto result = AUDIO_SYSTEM->playSound(m_p_sound, nullptr, false, &m_p_channel);
 }
 
 void AudioClip::Pause()

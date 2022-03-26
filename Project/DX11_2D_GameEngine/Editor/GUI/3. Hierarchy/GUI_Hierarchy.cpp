@@ -213,6 +213,21 @@ void GUI_Hierarchy::ShowMenuPopup()
 			CreateGameObject();
 		}
 
+		if (ImGui::BeginMenu("UI"))
+		{
+			if (ImGui::MenuItem("Canvas"))
+			{
+				CreateCanvas();
+			}
+
+			if (ImGui::MenuItem("Image"))
+			{
+				CreateImage();
+			}
+
+			ImGui::EndMenu();
+		}
+
 		ImGui::EndMenu();
 	}
 
@@ -263,6 +278,69 @@ void GUI_Hierarchy::CreateGameObject()
 		event_struct.event_type = EventType::Add_Child_Object;
 		event_struct.object_address_1 = p_parent_game_object;
 		event_struct.object_address_2 = p_new_game_object;
+
+		EVENT_MANAGER->AddEvent(event_struct);
+	}
+}
+
+GameObject* GUI_Hierarchy::CreateCanvas()
+{
+	//Create New Canvas GameObject
+	auto p_new_canvas_game_object = new GameObject();
+	p_new_canvas_game_object->SetGameObjectName("Canvas");
+	p_new_canvas_game_object->AddComponent(ComponentType::Transform);
+	p_new_canvas_game_object->AddComponent(ComponentType::RectTransform);
+	p_new_canvas_game_object->AddComponent(ComponentType::Canvas);
+
+	EventStruct event_struct;
+	ZeroMemory(&event_struct, sizeof(EventStruct));
+
+	event_struct.event_type = EventType::Create_Object;
+	event_struct.object_address_1 = p_new_canvas_game_object;
+
+	EVENT_MANAGER->AddEvent(event_struct);
+
+	return p_new_canvas_game_object;
+}
+
+void GUI_Hierarchy::CreateImage()
+{
+	//Create New Image GameObject
+	auto p_new_image_game_object = new GameObject();
+	p_new_image_game_object->SetGameObjectName("Image");
+	p_new_image_game_object->AddComponent(ComponentType::Transform);
+	p_new_image_game_object->AddComponent(ComponentType::ImageRenderer);
+
+	EventStruct event_struct;
+	ZeroMemory(&event_struct, sizeof(EventStruct));
+
+	event_struct.event_type = EventType::Create_Object;
+	event_struct.object_address_1 = p_new_image_game_object;
+
+	EVENT_MANAGER->AddEvent(event_struct);
+
+	auto p_canvas_game_object = SCENE_MANAGER->GetCurrentScene()->FindGameObjectWithName("Canvas");
+	//현재 Scene에 Canvas GameObject가 존재하는 경우
+	if (p_canvas_game_object != nullptr)
+	{
+		ZeroMemory(&event_struct, sizeof(EventStruct));
+
+		event_struct.event_type = EventType::Add_Child_Object;
+		event_struct.object_address_1 = p_canvas_game_object;
+		event_struct.object_address_2 = p_new_image_game_object;
+
+		EVENT_MANAGER->AddEvent(event_struct);
+	}
+	//현재 Scene에 Canvas GameObject가 존재하지 않은 경우
+	else
+	{
+		auto p_new_canvas_game_object = CreateCanvas();
+
+		ZeroMemory(&event_struct, sizeof(EventStruct));
+
+		event_struct.event_type = EventType::Add_Child_Object;
+		event_struct.object_address_1 = p_new_canvas_game_object;
+		event_struct.object_address_2 = p_new_image_game_object;
 
 		EVENT_MANAGER->AddEvent(event_struct);
 	}

@@ -26,13 +26,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Window::Create(hInstance, 1600, 900, g_class_name, IDI_ZERO, false);
 	Window::Show(nCmdShow);
 
-	ClientSceneManager::Initialize();
-
 	//Core
 	CORE->Initialize();
 
+	ClientSceneManager::Initialize();
+
+	CORE->PostInitialize();
+
 	//Scene Manager
 	SCENE_MANAGER->SetClientState(static_cast<UINT>(client_state));
+
 
 	if (SCENE_MANAGER->GetClientState() == static_cast<UINT>(ClientState::Game))
 	{

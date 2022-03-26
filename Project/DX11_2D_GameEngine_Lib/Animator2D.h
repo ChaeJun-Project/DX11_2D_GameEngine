@@ -11,7 +11,6 @@ public:
 	explicit Animator2D(const Animator2D& origin);
 	~Animator2D();
 
-	virtual void Start() override;
 	virtual void Update() override;
 	virtual void FinalUpdate() override;
 
@@ -37,6 +36,7 @@ public:
 
 	//Animation Playing
 	const bool& GetIsPlaying() const { return m_is_playing; }
+	void SetIsPlaying(const bool& is_playing) { m_is_playing = is_playing; }
 
 	//Animation Play Reverse
 	bool& GetIsPlayReverse() { return m_is_play_reverse; }

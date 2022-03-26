@@ -8,7 +8,7 @@ GameObjectController::~GameObjectController()
 	m_p_animator2D = nullptr;
 }
 
-void GameObjectController::SetCurrentAnimation(std::string animation_name, const bool& is_loop, const bool& is_reverse)
+void GameObjectController::SetCurrentAnimation(const std::string& animation_name, const bool& is_loop, const bool& is_reverse)
 {
 	if (m_p_animator2D == nullptr)
 		return;

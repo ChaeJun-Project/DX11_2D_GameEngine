@@ -79,10 +79,10 @@ void Collider2D::UpdateColliderWorldMatrix()
 	//world_matrix에서 Mesh의 크기만큼 먼저 곱했기 때문에 이를 나눠주어야 함
 	auto ratio_scale = Vector3(m_default_size.x / mesh_scale.x, m_default_size.y / mesh_scale.y, 1.0f);
 
-	auto translation = Matrix::Translation(Vector3(m_offset_position.x, m_offset_position.y, 0.0f) * ratio_scale);
-	auto scale = Matrix::Scaling(Vector3(m_offset_scale.x, m_offset_scale.y, 1.0f) * ratio_scale);
+	auto scale_matrix = Matrix::Scaling(Vector3(m_offset_scale.x, m_offset_scale.y, 1.0f) * ratio_scale);
+	auto translation_matrix = Matrix::Translation(Vector3(m_offset_position.x, m_offset_position.y, 0.0f) * ratio_scale);
 
-	m_collider_world_matrix = scale * translation * world_matrix;
+	m_collider_world_matrix = scale_matrix * translation_matrix * world_matrix;
 }
 
 void Collider2D::ChangeColliderBoxColorGreen()

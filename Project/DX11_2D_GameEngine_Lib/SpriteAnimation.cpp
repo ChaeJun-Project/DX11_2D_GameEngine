@@ -140,7 +140,13 @@ void SpriteAnimation::Stop()
 	m_is_finished = false;
 
 	m_accumulate_time = 0.0f;
-	m_current_frame_id = 0;
+	//정방향 재생인 경우
+	if (!m_p_owner_animator2D->GetIsPlayReverse())
+		m_current_frame_id = 0;
+
+	//역방향 재생인 경우
+	else
+		m_current_frame_id = (static_cast<int>(m_animation_frame_vector.size()) - 1);
 
 	ResetAnimationEventFlag();
 }

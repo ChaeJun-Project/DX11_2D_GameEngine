@@ -207,8 +207,7 @@ void ResourceManager::LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file)
 	if (resource_path._Equal("None"))
 		return;
 
-	if (std::is_same<T, Material>::value || std::is_same<T, AudioClip>::value ||
-		std::is_same<T, SpriteAnimation>::value)
+	if (std::is_same<T, Material>::value || std::is_same<T, SpriteAnimation>::value)
 	{
 		auto clone_resource = LoadFromFile<T>(resource_path)->Clone();
 		p_resource = std::shared_ptr<T>(clone_resource);
@@ -253,7 +252,7 @@ const std::shared_ptr<T> ResourceManager::LoadFromFile(const std::string& resour
 
 	//resource_path가 절대경로로 들어왔을 경우
 	else
-		p_resource->SetResourcePath(FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath_2(resource_path));
+		p_resource->SetResourcePath(FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath(resource_path));
 
 	//LoadFromFile
 	if (!p_resource->LoadFromFile(absolute_resource_path))

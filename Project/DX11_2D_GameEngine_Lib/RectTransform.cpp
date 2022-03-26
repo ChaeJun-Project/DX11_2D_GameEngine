@@ -51,6 +51,7 @@ void RectTransform::UpdateConstantBuffer()
 
 void RectTransform::UpdateWorldMatrix()
 {
+	//Anchor 값이 변경된 경우
 	if (m_pre_anchor != m_anchor)
 	{
 		UpdateAnchorPosition();
@@ -71,12 +72,6 @@ void RectTransform::UpdateWorldMatrix()
 	scale_matrix = Matrix::Scaling(scale);
 	m_world_matrix = scale_matrix * rotation_matrix * translation_matrix;
 
-	//Anchor Matrix
-	UpdateAnchorMatrix();
-
-	m_origin_world_matrix = m_origin_world_matrix * m_anchor_matrix;
-	m_world_matrix = m_world_matrix * m_anchor_matrix;
-	
 	//부모 오브젝트에 Rect Transform이 있다면
 	if (m_p_owner_game_object->HasParent())
 	{
@@ -84,8 +79,13 @@ void RectTransform::UpdateWorldMatrix()
 		if (p_parent_transform == nullptr)
 			return;
 
-		m_parent_origin_world_matrix = dynamic_cast<Transform*>(p_parent_transform)->GetOriginWorldMatrix();
+		auto p_parent_rect_trasnform = dynamic_cast<RectTransform*>(p_parent_transform);
 
+		//Anchor Matrix
+		UpdateAnchorMatrix(p_parent_rect_trasnform->GetWidgetSize());
+
+		//Inheritance Matrix
+		m_parent_origin_world_matrix = p_parent_rect_trasnform->GetOriginWorldMatrix();
 		m_origin_world_matrix = m_origin_world_matrix * m_parent_origin_world_matrix;
 		m_world_matrix = m_world_matrix * m_parent_origin_world_matrix;
 	}
@@ -93,25 +93,34 @@ void RectTransform::UpdateWorldMatrix()
 
 void RectTransform::UpdateAnchorPosition()
 {
-	Vector3 anchor_translation = Vector3::Zero;
-	auto canvas_resolution = SETTINGS->GetGameResolution();
+	auto p_parent_rect_transform = m_p_owner_game_object->GetParent()->GetComponent(ComponentType::Transform);
+	if (p_parent_rect_transform == nullptr)
+		return;
 
-	anchor_translation.x = (m_pre_anchor.x - m_anchor.x) * canvas_resolution.x;
-	anchor_translation.y = (m_anchor.y - m_pre_anchor.y) * canvas_resolution.y;
+	Vector3 anchor_translation = Vector3::Zero;
+	auto parent_widget_size = dynamic_cast<RectTransform*>(p_parent_rect_transform)->GetWidgetSize();
+
+	//이전 Anchor 값과의 차이만큼 Local Translation에 값을 더함
+	anchor_translation.x = (m_pre_anchor.x - m_anchor.x) * parent_widget_size.x;
+	anchor_translation.y = (m_anchor.y - m_pre_anchor.y) * parent_widget_size.y;
 
 	m_local_translation += anchor_translation;
 }
 
-void RectTransform::UpdateAnchorMatrix()
+void RectTransform::UpdateAnchorMatrix(const Vector2& widget_size)
 {
 	Vector3 anchor_translation = Vector3::Zero;
-	auto canvas_resolution = SETTINGS->GetGameResolution();
 
 	//Anchor Matrix
-	anchor_translation.x = (m_anchor.x - 0.5f) * canvas_resolution.x;
-	anchor_translation.y = (0.5f - m_anchor.y) * canvas_resolution.y;
+	//Parent GameObject의 Rect Transform의 Widget Size를 기준으로 
+	//현재 GameObject의 Rect Transform의 Anchor 값을 바탕으로 상대적인 변환을 위한 Matrix 생성
+	anchor_translation.x = (m_anchor.x - 0.5f) * widget_size.x;
+	anchor_translation.y = (0.5f - m_anchor.y) * widget_size.y;
 
 	m_anchor_matrix = Matrix::Translation(anchor_translation);
+
+	m_origin_world_matrix = m_origin_world_matrix * m_anchor_matrix;
+	m_world_matrix = m_world_matrix * m_anchor_matrix;
 }
 
 void RectTransform::SaveToScene(FILE* p_file)

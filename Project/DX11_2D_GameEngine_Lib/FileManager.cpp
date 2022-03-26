@@ -317,16 +317,7 @@ const std::string FileManager::GetPathWithoutExtension(const std::string& path)
 	return directory + origin_file_name;
 }
 
-const std::string FileManager::GetRelativeResourcePathFromAbsolutePath_1(const std::string& absolute_path)
-{
-	std::string content_str = "Content\\";
-	auto last_index = absolute_path.find(content_str.c_str());
-	auto relative_resource_path = absolute_path.substr((last_index + content_str.length()), absolute_path.length());
-
-	return relative_resource_path;
-}
-
-const std::string FileManager::GetRelativeResourcePathFromAbsolutePath_2(const std::string& absolute_path)
+const std::string FileManager::GetRelativeResourcePathFromAbsolutePath(const std::string& absolute_path)
 {
 	std::string content_str = "Content/";
 	auto last_index = absolute_path.find(content_str.c_str());

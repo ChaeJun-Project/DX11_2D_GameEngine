@@ -26,13 +26,14 @@ Animator2D::Animator2D(const Animator2D& origin)
 		auto p_clone_sprite_animation = std::shared_ptr<SpriteAnimation>(p_clone_sprite_animation_raw);
 		p_clone_sprite_animation->m_p_owner_animator2D = this;
 
-		auto copy_animation_iter = m_p_sprite_animation_map.insert(std::make_pair(p_clone_sprite_animation->m_object_name, p_clone_sprite_animation));
+		auto copy_animation_iter = m_p_sprite_animation_map.insert(std::make_pair(p_clone_sprite_animation->GetResourceName(), p_clone_sprite_animation));
 		auto result = copy_animation_iter.second;
 		assert(result);
 	}
 
 	//Current Animation
-	m_p_current_animation = m_p_sprite_animation_map[origin.m_p_current_animation->m_object_name];
+	if (origin.m_p_current_animation != nullptr)
+		m_p_current_animation = m_p_sprite_animation_map[origin.m_p_current_animation->GetResourceName()];
 
 	//Animation Speed
 	m_animation_speed = origin.m_animation_speed;
@@ -50,24 +51,13 @@ Animator2D::~Animator2D()
 	m_p_current_animation.reset();
 }
 
-void Animator2D::Start()
-{
-	if (m_p_current_animation == nullptr)
-		return;
-
-	m_p_current_animation->m_current_frame_id = 0;
-
-	m_is_playing = true;
-
-	m_p_current_animation->Play();
-}
-
 void Animator2D::Update()
 {
 	if (m_p_current_animation == nullptr)
 		return;
 
-	m_p_current_animation->Update();
+	if (m_is_playing)
+		m_p_current_animation->Update();
 }
 
 void Animator2D::FinalUpdate()
@@ -157,7 +147,7 @@ void Animator2D::SetCurrentAnimation(const std::string& animation_name)
 {
 	if (m_p_current_animation != nullptr)
 	{
-		if (m_p_current_animation->m_object_name == animation_name)
+		if (m_p_current_animation->GetResourceName()._Equal(animation_name))
 			return;
 
 		else
@@ -192,7 +182,7 @@ void Animator2D::SetMeshScale()
 
 	auto frame_size = m_p_current_animation->GetCurrentFrame().frame_size;
 	transform->SetMeshScale(static_cast<UINT>(frame_size.x), static_cast<UINT>(frame_size.y));
-	
+
 	transform->UpdateConstantBuffer();
 }
 
@@ -202,9 +192,11 @@ void Animator2D::SaveToScene(FILE* p_file)
 
 	//Animation2D Map
 	fprintf(p_file, "[Animation2D Map]\n");
+
 	//Count
 	fprintf(p_file, "[Count]\n");
 	fprintf(p_file, "%d\n", m_p_sprite_animation_map.size());
+
 	//Data
 	fprintf(p_file, "[Data]\n");
 	for (const auto& animation2D : m_p_sprite_animation_map)
@@ -218,7 +210,10 @@ void Animator2D::SaveToScene(FILE* p_file)
 
 	//Current Animation
 	fprintf(p_file, "[Current Animation]\n");
-	fprintf(p_file, "%s\n", m_p_current_animation->m_object_name.c_str());
+	if (m_p_current_animation != nullptr)
+		fprintf(p_file, "%s\n", m_p_current_animation->GetResourceName().c_str());
+	else
+		fprintf(p_file, "%s\n", "None");
 
 	//Animation Speed
 	fprintf(p_file, "[Animation Speed]\n");
@@ -233,10 +228,12 @@ void Animator2D::LoadFromScene(FILE* p_file)
 
 	//Animation2D Map
 	FILE_MANAGER->FScanf(char_buffer, p_file);
+
 	//Count
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	UINT animation_count = 0;
 	fscanf_s(p_file, "%d\n", &animation_count);
+
 	//Data
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	for (UINT i = 0; i < animation_count; ++i)
@@ -244,7 +241,7 @@ void Animator2D::LoadFromScene(FILE* p_file)
 		//Key
 		FILE_MANAGER->FScanf(char_buffer, p_file);
 		FILE_MANAGER->FScanf(char_buffer, p_file);
-		std::string animation_key = std::string(char_buffer);
+		auto animation_key = std::string(char_buffer);
 
 		//Load Sprite Animation Resource
 		std::shared_ptr<SpriteAnimation> p_animation2D = nullptr;
@@ -256,8 +253,9 @@ void Animator2D::LoadFromScene(FILE* p_file)
 	//Current Animation
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	FILE_MANAGER->FScanf(char_buffer, p_file);
-	std::string current_animation_key = std::string(char_buffer);
-	m_p_current_animation = m_p_sprite_animation_map[current_animation_key];
+	auto current_animation_key = std::string(char_buffer);
+	if (!current_animation_key._Equal("None"))
+		m_p_current_animation = m_p_sprite_animation_map[current_animation_key];
 
 	//Animation Speed
 	FILE_MANAGER->FScanf(char_buffer, p_file);

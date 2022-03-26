@@ -9,7 +9,7 @@
 #include "Scene.h"
 
 #include "GameObject.h"
-#include "Transform.h"
+#include "RectTransform.h"
 
 Canvas::Canvas()
 	:IComponent(ComponentType::Canvas)
@@ -31,18 +31,17 @@ Canvas::Canvas(const Canvas& origin)
 	m_p_material = std::shared_ptr<Material>(p_clone_material_raw);
 	//Mesh
 	m_p_mesh = origin.m_p_mesh;
-
-	m_canvas_resolution = origin.m_canvas_resolution;
 }
 
 Canvas::~Canvas()
 {
 	m_p_ui_camera_object = nullptr;
+	m_p_rect_transform = nullptr;
 }
 
 void Canvas::Start()
 {
-    //Set UI Camera Object
+	//Set UI Camera Object
 	auto p_ui_camera_object = SCENE_MANAGER->GetCurrentScene()->FindGameObjectWithTag(m_ui_camera_object_name);
 	if (p_ui_camera_object != nullptr)
 		m_p_ui_camera_object = p_ui_camera_object;
@@ -54,11 +53,15 @@ void Canvas::Start()
 	auto ui_camera_position = m_p_ui_camera_object->GetComponent<Transform>()->GetLocalTranslation();
 	m_p_owner_game_object->GetComponent<Transform>()->SetLocalTranslation(ui_camera_position);
 
-	m_canvas_resolution = RENDER_MANAGER->GetResolution();
+	if (m_p_rect_transform == nullptr)
+		m_p_rect_transform = m_p_owner_game_object->GetComponent<RectTransform>();
 }
 
 void Canvas::FinalUpdate()
 {
+	if (m_p_rect_transform == nullptr)
+		m_p_rect_transform = m_p_owner_game_object->GetComponent<RectTransform>();
+
 	UpdateCanvasWorldMatrix();
 }
 
@@ -90,13 +93,12 @@ void Canvas::UpdateConstantBuffer()
 
 void Canvas::UpdateCanvasWorldMatrix()
 {
-	auto p_transform = m_p_owner_game_object->GetComponent<Transform>();
-	auto world_matrix = p_transform->GetWorldMatrix();
+	auto origin_world_matrix = m_p_rect_transform->GetOriginWorldMatrix();
+	m_p_rect_transform->SetWidgetSize(SETTINGS->GetGameResolution());
 
-	m_canvas_resolution = SETTINGS->GetGameResolution();
-	auto scale = Matrix::Scaling(Vector3(m_canvas_resolution.x, m_canvas_resolution.y, 1.0f));
+	auto scale = Matrix::Scaling(Vector3(m_p_rect_transform->GetWidgetSize().x, m_p_rect_transform->GetWidgetSize().y, 1.0f));
 
-	m_canvas_world_matrix = scale * world_matrix;
+	m_canvas_world_matrix = scale * origin_world_matrix;
 }
 
 void Canvas::SaveToScene(FILE* p_file)

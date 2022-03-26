@@ -43,8 +43,7 @@ public:
 	const std::string GetExtensionFromPath(const std::string& path); //특정 경로에 있는 파일의 확장자를 반환(string)
 	const std::wstring GetExtensionFromPath(const std::wstring& path); //특정 경로에 있는 파일의 확장자를 반환(wstring)
 	const std::string GetPathWithoutExtension(const std::string& path); //특정 경로에서 특정 파일의 확장자만 제외한 나머지 경로를 반환
-	const std::string GetRelativeResourcePathFromAbsolutePath_1(const std::string& absolute_path); //절대 경로를 현재 작업 디렉토리 경로에 상대적인 경로를 구함 (Content 폴더의 하위 폴더부터) (wstring -> string 변환을 한 문자열에 대해서 처리)
-	const std::string GetRelativeResourcePathFromAbsolutePath_2(const std::string& absolute_path); //절대 경로를 현재 작업 디렉토리 경로에 상대적인 경로를 구함 (Content 폴더의 하위 폴더부터)
+	const std::string GetRelativeResourcePathFromAbsolutePath(const std::string& absolute_path); //절대 경로를 현재 작업 디렉토리 경로에 상대적인 경로를 구함 (Content 폴더의 하위 폴더부터)
 	const std::string GetRelativeFromPath(const std::string& absolute_path); //경로->상대경로로 변환
 	const std::string GetParentDirectory(const std::string& path); //특정 경로의 부모폴더(가장 최상단에 있는 폴더)의 경로를 구함
 	const std::string GetWorkingDirectory(); //현재 실행중인 경로를 반환

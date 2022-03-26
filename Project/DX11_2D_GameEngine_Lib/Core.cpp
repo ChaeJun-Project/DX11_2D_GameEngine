@@ -22,12 +22,16 @@ void Core::Initialize()
 	TIME_MANAGER->Initialize();
 	//Initialize Input Manager
 	INPUT_MANAGER->Initialize();
-	//Initialize Graphics Manager
-	GRAPHICS_MANAGER->Initialize();
 	//Initialize Audio Manager
 	AUDIO_MANAGER->Initialize();
+	//Initialize Graphics Manager
+	GRAPHICS_MANAGER->Initialize();
 	//Initialize Scene Manager
 	SCENE_MANAGER->Initialize();
+}
+
+void Core::PostInitialize()
+{
 	//Initialize Resource Manager
 	RESOURCE_MANAGER->Initialize();
 	//Initialize Render Manager

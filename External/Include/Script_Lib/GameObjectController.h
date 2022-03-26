@@ -13,7 +13,7 @@ protected:
 	virtual void Update_State() = 0;
 	virtual void Update_Animation() = 0;
 
-	void SetCurrentAnimation(std::string animation_name, const bool& is_loop = false, const bool& is_reverse = false);
+	void SetCurrentAnimation(const std::string& animation_name, const bool& is_loop = false, const bool& is_reverse = false);
 
 public:
     int GetHp() const { return m_hp; }

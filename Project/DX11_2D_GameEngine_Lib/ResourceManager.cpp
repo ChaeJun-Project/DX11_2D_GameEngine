@@ -469,13 +469,19 @@ const std::shared_ptr<Prefab> ResourceManager::CreatePrefab(GameObject* p_game_o
 	auto p_prefab = std::make_shared<Prefab>(p_game_object);
 	std::string resource_path = FILE_MANAGER->GetAbsolutePrefabPath();
 	resource_path += (p_game_object->GetGameObjectName() + ".prefab");
-	resource_path = FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath_2(resource_path);
+	resource_path = FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath(resource_path);
 	p_prefab->SetResourcePath(resource_path);
 
 	auto prefab_iter = prefab_map.insert(std::make_pair(p_game_object->GetGameObjectName(), p_prefab));
 	auto result = prefab_iter.second;
-	if (!result)
-		return std::dynamic_pointer_cast<Prefab>(prefab_map.find(p_game_object->GetGameObjectName())->second);
+	//같은 이름으로 기존 프리팹이 존재하는 경우
+	//삭제 후 재생성
+	if (!result) 
+	{
+		auto& p_update_prefab = prefab_map[p_game_object->GetGameObjectName()];
+		p_update_prefab.reset();
+		p_update_prefab = p_prefab;
+	}
 
 	return std::dynamic_pointer_cast<Prefab>(prefab_iter.first->second);
 }

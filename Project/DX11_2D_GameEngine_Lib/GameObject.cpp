@@ -115,7 +115,10 @@ void GameObject::Start()
 
 	//자식 오브젝트 업데이트
 	for (auto& child : m_p_child_vector)
-		child->Start();
+	{
+		if (child->m_is_active)
+			child->Start();
+	}
 }
 
 void GameObject::Update()
@@ -319,7 +322,7 @@ IComponent* GameObject::GetComponent(const ComponentType& component_type) const
 		if (component_iter->second->GetComponentType() != ComponentType::RectTransform)
 			return nullptr;
 	}
-	
+
 	return component_iter->second;
 }
 

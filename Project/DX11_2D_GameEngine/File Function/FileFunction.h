@@ -35,7 +35,7 @@ void FileFunction::SaveResource(const std::string& resource_path)
 	auto& p_resource = RESOURCE_MANAGER->GetResource<T>(file_name_without_extension);
 
 	//Content 폴더(프로젝트의 작업 디렉토리 경로)의 하위 폴더부터 리소스 파일이 있는 폴더까지의 경로(상대 경로)
-	auto relative_file_path = FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath_1(resource_path);
+	auto relative_file_path = FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath(resource_path);
 	p_resource->SetResourcePath(relative_file_path);
 
 	if (p_resource != nullptr)

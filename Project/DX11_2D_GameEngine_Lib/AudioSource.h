@@ -11,7 +11,7 @@ public:
 	~AudioSource();
 
 public:
-	void Start() override;
+    void Start() override;
 	void FinalUpdate() override; //최종 업데이트 => 오브젝트가 움직이면 안됨
 
 public:
@@ -21,8 +21,13 @@ public:
 	void Stop();
 
 public:
-	void SetAudioClip(const std::shared_ptr<AudioClip>& p_audio_clip);
-	const std::shared_ptr<AudioClip>& GetAudioClip() { SAFE_GET_POINTER(m_p_audio_clip); }
+    //Audio Clip
+	void AddAudioClip(const std::string& audio_clip_name);
+	void DeleteAudioClip(const std::string& audio_clip_name);
+	const std::map<std::string, std::shared_ptr<AudioClip>>& GetAudioClipMap() const { return m_p_audio_clip_map; }
+	void SetCurrentAudioClip(const std::string& audio_clip_name);
+	void SetCurrentAudioClip(const std::string& audio_clip_name, const float& volume, const bool& is_loop = false);
+	const std::shared_ptr<AudioClip>& GetCurrentAudioClip() const { SAFE_GET_POINTER(m_p_current_audio_clip); }
 
 	void SetIsLoop(const bool& is_loop);
 	const bool& GetIsLoop() { return m_is_loop; }
@@ -41,8 +46,9 @@ private:
 	CLONE(AudioSource);
 
 private:
-	std::shared_ptr<AudioClip> m_p_audio_clip = nullptr;
-
+	std::map<std::string, std::shared_ptr<AudioClip>> m_p_audio_clip_map;
+	std::shared_ptr<AudioClip> m_p_current_audio_clip = nullptr;
+	
 	bool m_is_playing = false;
 	bool m_is_loop = false;
 	float m_volume = 1.0f;

@@ -5,7 +5,6 @@
 
 #include "File/GUI_FileDialog.h"
 
-#include <DX11_2D_GameEngine_Lib/FileManager.h>
 #include <DX11_2D_GameEngine_Lib/SceneManager.h>
 #include <DX11_2D_GameEngine_Lib/EventManager.h>
 
@@ -145,7 +144,7 @@ void GUI_Project::ShowFilesInDirectory()
 	ImGui::BeginGroup();
 	//Current Path
 	ImGui::PushItemWidth(300.0f);
-	std::string relative_current_path = FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath_2(m_current_path);
+	std::string relative_current_path = FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath(m_current_path);
 	ImGui::InputText("##Current Path", &relative_current_path, ImGuiInputTextFlags_ReadOnly);
 	ImGui::PopItemWidth();
 	ImGui::Separator();

@@ -7,6 +7,7 @@
 //</summary>
 
 class GameObject;
+class RectTransform;
 
 class Canvas final : public IComponent
 {
@@ -31,9 +32,6 @@ public:
 	std::string GetUICameraObjectName() const { return m_ui_camera_object_name; }
 	void SetUICameraObjectName(const std::string& ui_camera_object_name) { m_ui_camera_object_name = ui_camera_object_name; }
 
-	const Vector2 GetCanvasResolution() const { return m_canvas_resolution; }
-	void SetCanvasResolution(const Vector2& canvas_resolution) { m_canvas_resolution = canvas_resolution; }
-
 private:
 	void SaveToScene(FILE* p_file) override;
 	void LoadFromScene(FILE* p_file) override;
@@ -50,6 +48,6 @@ private:
 	std::shared_ptr<Material> m_p_material;
 	std::shared_ptr<Mesh> m_p_mesh;
 
-	Vector2 m_canvas_resolution = Vector2::Zero;
+	RectTransform* m_p_rect_transform = nullptr;
 };
 

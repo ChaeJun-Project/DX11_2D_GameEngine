@@ -22,6 +22,9 @@ Hp_Script::Hp_Script(const Hp_Script& origin)
 	RegisterScriptParamData();
 
 	m_is_active = origin.m_is_active;
+
+	m_game_object_name = origin.m_game_object_name;
+	m_script_name = origin.m_script_name;
 }
 
 Hp_Script::~Hp_Script()

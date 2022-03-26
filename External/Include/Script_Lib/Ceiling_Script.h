@@ -9,9 +9,13 @@ public:
 	explicit Ceiling_Script(const Ceiling_Script& origin);
 	virtual ~Ceiling_Script();
 
+private:
+	void PlayerCollisionEnter(GameObject* p_player_game_object);
+	void PlayerCollisionStay(GameObject* p_player_game_object);
+
 public:
-	void OnCollisionEnter(GameObject* other_game_object) override;
-	void OnCollisionStay(GameObject* other_game_object) override;
+	void OnCollisionEnter(GameObject* p_other_game_object) override;
+	void OnCollisionStay(GameObject* p_other_game_object) override;
 
 private:
 	void SaveToScene(FILE* p_file) override;

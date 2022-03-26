@@ -1,11 +1,9 @@
 stdafx.h
 Enum.h
-PlayerState_Enum.h
 ScriptManager.h
+UIAnimationController.h
+PlayerState_Enum.h
 GameObjectController.h
-StateMachine.h
-IState.h
-Z_State_Collection.h
 ColonelState_Enum.h
 BehaviourTree.h
 Colonel_Behaviour_Node.h

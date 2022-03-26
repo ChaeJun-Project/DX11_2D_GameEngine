@@ -23,7 +23,7 @@ public:
 private:
 	void UpdateWorldMatrix();
 	void UpdateAnchorPosition();
-	void UpdateAnchorMatrix();
+	void UpdateAnchorMatrix(const Vector2& widget_size);
 
 public:
 	//Widget Size

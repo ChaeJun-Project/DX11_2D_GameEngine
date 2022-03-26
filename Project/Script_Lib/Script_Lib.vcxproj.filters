@@ -55,6 +55,15 @@
     <Filter Include="Scripts\UI\Hp">
       <UniqueIdentifier>{d1280f58-7613-45ea-a170-804191887216}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Geometry\Door">
+      <UniqueIdentifier>{fa16d3d1-f73d-4d57-b31b-dea1067c42ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\UI\Ready">
+      <UniqueIdentifier>{fa8e7ba7-6e09-421e-9a2c-65e5e483f8df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\UI\Warning">
+      <UniqueIdentifier>{f30e026a-0482-474d-8e50-474b83da5535}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WalkCannon_Bullet_Script.cpp">
@@ -93,12 +102,6 @@
     <ClCompile Include="GameObjectController.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="StateMachine.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="Z_State_Collection.cpp">
-      <Filter>Scripts\Player\Z</Filter>
-    </ClCompile>
     <ClCompile Include="Colonel_Script.cpp">
       <Filter>Scripts\Enemy\Colonel</Filter>
     </ClCompile>
@@ -107,6 +110,18 @@
     </ClCompile>
     <ClCompile Include="Hp_Script.cpp">
       <Filter>Scripts\UI\Hp</Filter>
+    </ClCompile>
+    <ClCompile Include="Door_Script.cpp">
+      <Filter>Scripts\Geometry\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="Ready_Script.cpp">
+      <Filter>Scripts\UI\Ready</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAnimationController.cpp">
+      <Filter>Scripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Warning_Script.cpp">
+      <Filter>Scripts\UI\Warning</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,15 +167,6 @@
     <ClInclude Include="Enum.h">
       <Filter>Enum</Filter>
     </ClInclude>
-    <ClInclude Include="IState.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="StateMachine.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="Z_State_Collection.h">
-      <Filter>Scripts\Player\Z</Filter>
-    </ClInclude>
     <ClInclude Include="Colonel_Script.h">
       <Filter>Scripts\Enemy\Colonel</Filter>
     </ClInclude>
@@ -175,6 +181,18 @@
     </ClInclude>
     <ClInclude Include="Hp_Script.h">
       <Filter>Scripts\UI\Hp</Filter>
+    </ClInclude>
+    <ClInclude Include="Door_Script.h">
+      <Filter>Scripts\Geometry\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="Ready_Script.h">
+      <Filter>Scripts\UI\Ready</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAnimationController.h">
+      <Filter>Scripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Warning_Script.h">
+      <Filter>Scripts\UI\Warning</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

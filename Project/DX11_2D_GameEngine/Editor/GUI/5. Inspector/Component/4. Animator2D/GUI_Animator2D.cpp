@@ -43,15 +43,6 @@ void GUI_Animator2D::Render()
 		auto is_loop = animator2D->GetIsLoop();
 		auto animation_play_speed = animator2D->GetAnimationSpeed();
 
-		//TODO: Script까지 구현되었을 때 풀어줘야 함
-		//Current Sprtie Animation
-		//ImGui::Text("Current SpriteAnimation");
-		//ImGui::SameLine();
-		//auto current_sprite_animation = animator2D->GetCurrentAnimation();
-		//auto current_sprite_animation_name = current_sprite_animation->GetResourceName();
-		//ImGui::InputText("##Current Sprtie Animation", &current_sprite_animation_name, ImGuiInputTextFlags_ReadOnly);
-
-
 		//Sprite Animation List
 		//현재 참조하고 있는 Animator2D에 추가된 Sprite Animation 리스트
 		//Current Animator2D Sprite Animation List
@@ -59,7 +50,7 @@ void GUI_Animator2D::Render()
 		ImGui::SameLine();
 
 		//현재 참조하고 있는 Animator2D의 Sprite Animation Map을 참조
-		auto& animator2D_sprite_animation_map = animator2D->GetAnimationMap();
+		const auto& animator2D_sprite_animation_map = animator2D->GetAnimationMap();
 
 		auto current_animation = animator2D->GetCurrentAnimation();
 		std::string current_animation_name;
