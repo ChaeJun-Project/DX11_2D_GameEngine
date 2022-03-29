@@ -20,6 +20,9 @@ Material::Material(const std::string& material_resource_name)
 Material::Material(const Material& origin)
 	:IResource(origin.m_resource_type, origin.m_object_name)
 {
+	//Resource Path
+	m_resource_path = origin.m_resource_path;
+	
 	//Material Data 복사
 	m_material_data = origin.m_material_data;
 
@@ -125,10 +128,57 @@ void Material::SetConstantBufferData(const Material_Parameter& material_paramete
 
 bool Material::SaveToFile(const std::string& material_path)
 {
-	return false;
+	FILE* p_file = nullptr;
+	fopen_s(&p_file, material_path.c_str(), "wb"); //파일 쓰기
+
+	if (p_file != nullptr)
+	{
+		//Material Name
+		fprintf(p_file, "[Material Name]\n");
+		fprintf(p_file, "%s\n", m_object_name.c_str());
+
+		//Shader
+		fprintf(p_file, "[Shader]\n");
+		if(m_p_shader != nullptr)
+			fprintf(p_file, "%s\n", m_p_shader->GetResourceName().c_str());
+
+		else
+			fprintf(p_file, "%s\n", "None");
+
+		fclose(p_file);
+
+		return true;
+	}
+
+	else
+		return false;
 }
 
 bool Material::LoadFromFile(const std::string& material_path)
 {
-	return false;
+	FILE* p_file = nullptr;
+	fopen_s(&p_file, material_path.c_str(), "rb"); //파일 읽기
+
+	if (p_file != nullptr)
+	{
+		char char_buffer[256] = { 0 };
+
+		//Material Name
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+		m_object_name = std::string(char_buffer);
+
+		//Shader
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+		auto shader_name = std::string(char_buffer);
+		m_p_shader = RESOURCE_MANAGER->GetResource<Shader>(shader_name);
+	
+		fclose(p_file);
+
+		return true;
+	}
+
+	else
+		return false;
 }

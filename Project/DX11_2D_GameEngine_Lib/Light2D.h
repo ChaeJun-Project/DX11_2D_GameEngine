@@ -10,19 +10,15 @@ public:
 
 	virtual void FinalUpdate();
 public:
-    //Light Color
-    void SetLightColor(Vector4 light_color) { m_light2D_data.ligth_color.color = light_color; }
-    void SetLightSpecular(Vector4 specular) { m_light2D_data.ligth_color.specular = specular; }
-    void SetLightAmbient(Vector4 ambient) { m_light2D_data.ligth_color.ambient = ambient; }
+	//Light Color
+	void SetLightColor(Vector4 light_color) { m_light2D_data.color = light_color; }
 
 	//Light Property
-	void SetLightType(LightType light_type) { m_light2D_data.light_type = light_type; }
-	void SetLightDir(Vector3 light_direction) { m_light2D_data.light_direction = light_direction; }
-	void SetLightRange(float light_range) {  m_light2D_data.light_range = light_range; }
-	void SetLightAngle(float light_angle) {  m_light2D_data.light_angle = light_angle; }
+	void SetLightType(Light2DType light2D_type) { m_light2D_data.type = light2D_type; }
+	void SetLightRange(float light_range) { m_light2D_data.range = light_range; }
 
 public:
-    const LightInfo& GetLight2DInfo() const { return m_light2D_data; }
+	const Light2D_Info& GetLight2DInfo() const { return m_light2D_data; }
 
 private:
 	void SaveToScene(FILE* p_file) override;
@@ -32,8 +28,7 @@ private:
 	CLONE(Light2D);
 
 private:
-    int m_light2D_index = -1;
+	int m_light2D_index = -1;
 
-	LightInfo m_light2D_data;
+	Light2D_Info m_light2D_data;
 };
-

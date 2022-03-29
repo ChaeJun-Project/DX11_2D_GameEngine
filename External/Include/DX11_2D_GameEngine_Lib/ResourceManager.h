@@ -62,7 +62,7 @@ public:
 	const std::shared_ptr<ComputeShader>& GetComputeShader(const std::string& compute_shader_name);
 
 	//Material
-	void CreateDefaultMaterial();
+	void CreateAddedMaterial();
 	const std::shared_ptr<Material> CreateMaterial(const std::string& material_name, const std::string& shader_name);
 
 	//Texture
@@ -73,7 +73,7 @@ public:
 	const std::shared_ptr<Texture> CreateTexture(const std::string& texture_name, const ComPtr<ID3D11Texture2D>& texture2D);
 
 	//Mesh
-	void CreateDefaultMesh();
+	void CreateAddedMesh();
 	const std::shared_ptr<Mesh> CreateMesh(const std::string& mesh_name, const MeshType& mesh_type);
 
 	//Prefab
@@ -141,7 +141,7 @@ void ResourceManager::SaveResource(const std::shared_ptr<T>& p_resource, FILE* p
 	else
 		fprintf(p_file, "%s\n", p_resource->GetResourcePath().c_str());
 
-	//해당 리소스가 SpriteAnimation 또는 TileMap인 경우
+	//해당 리소스가 SpriteAnimation, TileMap인 경우
 	if (std::is_same<T, SpriteAnimation>::value || std::is_same<T, TileMap>::value)
 	{
 		std::string resource_path = p_resource->GetResourcePath(); // Asset/...

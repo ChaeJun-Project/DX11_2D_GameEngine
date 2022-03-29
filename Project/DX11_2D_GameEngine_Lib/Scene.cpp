@@ -8,7 +8,7 @@
 
 #include "Camera.h"
 #include "Light2D.h"
-#include "AudioSource.h"
+#include "SpriteRenderer.h"
 
 Scene::Scene(const std::string& scene_name)
 {
@@ -55,14 +55,14 @@ void Scene::SetStartScene()
 
 	//Light2D
 	auto point_light2D = new GameObject();
-	point_light2D->SetGameObjectName("Light2D_Point");
+	point_light2D->SetGameObjectName("Light2D_Ambient");
 	point_light2D->SetGameObjectTag("Light");
 	point_light2D->AddComponent(ComponentType::Transform);
 	point_light2D->AddComponent(ComponentType::Light2D);
 
 	auto point_light = point_light2D->GetComponent<Light2D>();
-	point_light->SetLightType(LightType::Point);
-	point_light->SetLightRange(5000.0f);
+	point_light->SetLightType(Light2DType::Ambient);
+	point_light->SetLightRange(0.0f);
 
 	RegisterGameObject(point_light2D);
 }

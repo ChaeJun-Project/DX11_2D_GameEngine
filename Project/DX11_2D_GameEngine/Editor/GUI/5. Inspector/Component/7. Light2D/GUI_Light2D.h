@@ -14,7 +14,7 @@ public:
 	void Render() override;
 
 private:
-    void ShowComboLightType(Light2D* p_light2D, LightType& light_type);
+    void ShowComboLightType(Light2D* p_light2D, Light2DType& light2D_type);
 
 private:
 	ImGuiColorEditFlags m_color_edit_flag = 0;

@@ -63,9 +63,9 @@ private:
 
 	D3D11_PRIMITIVE_TOPOLOGY m_primitive_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
-	RasterizerType m_rasterizer_type;
-	BlendType m_blend_type;
-	DepthStencilType m_depth_stencil_type;
+	RasterizerType m_rasterizer_type = RasterizerType::Cull_None_Solid;
+	BlendType m_blend_type = BlendType::Default;
+	DepthStencilType m_depth_stencil_type = DepthStencilType::Less;
 };
 
 template<typename T>

@@ -24,7 +24,8 @@ RenderManager::RenderManager()
 RenderManager::~RenderManager()
 {
 	//Render Texture 
-	m_p_render_texture.reset();
+	m_p_render_target_texture.reset();
+	m_p_depth_stencil_texture.reset();
 
 	//Camera
 	m_camera_vector.clear();
@@ -35,21 +36,13 @@ RenderManager::~RenderManager()
 	m_light2D_vector.shrink_to_fit();
 
 	//Post Effect Texture
-	m_p_post_effect_target_texture.reset();
+	m_p_post_effect_render_target_texture.reset();
 }
 
 void RenderManager::Initialize()
 {
-	auto settings = Core::GetInstance()->GetSettings();
-	m_resolution_size.x = static_cast<float>(settings->GetWindowWidth());
-	m_resolution_size.y = static_cast<float>(settings->GetWindowHeight());
-
-	//Post Effect Material에 Texture 연결
-	//auto post_effect_material = RESOURCE_MANAGER->GetMaterial("PostEffect");
-	//post_effect_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);
-
 	/*auto water_material = RESOURCE_MANAGER->GetMaterial("Water");
-	water_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_target_texture);*/
+	water_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_render_target_texture);*/
 }
 
 void RenderManager::Render()
@@ -59,9 +52,6 @@ void RenderManager::Render()
 	{
 		m_is_debug_mode = !m_is_debug_mode;
 	}
-
-	//Program, Light2D 데이터 업데이트
-	UpdateConstantBuffer();
 
 	GRAPHICS_MANAGER->ClearRenderTarget();
 
@@ -89,12 +79,20 @@ void RenderManager::Render()
 void RenderManager::RenderPlay()
 {
 	if (m_resolution_size != SETTINGS->GetGameResolution())
-	{ 
-	    m_resolution_size = SETTINGS->GetGameResolution();
+	{
+		m_resolution_size = SETTINGS->GetGameResolution();
 	}
-	
+
 	//Graphics Clear Target
 	GRAPHICS_MANAGER->SetRenderTarget();
+
+	m_p_render_target_texture = GRAPHICS_MANAGER->GetRenderTexture();
+	m_p_depth_stencil_texture = GRAPHICS_MANAGER->GetDepthStencilTexture();
+
+	//Program 데이터 업데이트
+	UpdateConstantBuffer();
+
+	ResizePostEffectTexture(m_p_render_target_texture->GetWidth(), m_p_render_target_texture->GetHeight());
 
 	//메인 카메라(index 0) 기준으로 화면 그리기
 	if (m_camera_vector[0] != nullptr)
@@ -124,8 +122,16 @@ void RenderManager::RenderPlay()
 
 void RenderManager::RenderEditor()
 {
+	if (m_p_render_target_texture == nullptr)
+		return;
+
 	ClearRenderTexture();
 	SetRenderTexture();
+
+	//Program 데이터 업데이트
+	UpdateConstantBuffer();
+
+	ResizePostEffectTexture(m_p_render_target_texture->GetWidth(), m_p_render_target_texture->GetHeight());
 
 	if (SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Stop)
 	{
@@ -150,7 +156,7 @@ void RenderManager::RenderEditor()
 			m_resolution_size = SETTINGS->GetGameResolution();
 			SetRenderTexture();
 		}
-		
+
 		//메인 카메라(index 0) 기준으로 화면 그리기
 		if (m_camera_vector[0] != nullptr)
 		{
@@ -159,7 +165,6 @@ void RenderManager::RenderEditor()
 			m_camera_vector[0]->SortObjects();
 			m_camera_vector[0]->RenderForwardObjects();
 			m_camera_vector[0]->RenderParticleObjects();
-			m_camera_vector[0]->RenderPostEffectObjects();
 		}
 
 		//서브 카메라 화면 그리기(index 1부터)
@@ -172,9 +177,10 @@ void RenderManager::RenderEditor()
 
 			m_camera_vector[i]->SortObjects();
 			m_camera_vector[i]->RenderForwardObjects();
+			m_camera_vector[i]->RenderPostEffectObjects();
 		}
 	}
-		
+
 	RenderDebugMode();
 }
 
@@ -200,11 +206,8 @@ void RenderManager::CalcClientSceneRect()
 
 void RenderManager::ClearRenderTexture()
 {
-	if (m_p_render_texture == nullptr)
-		return;
-
-	auto p_render_target_view = m_p_render_texture->GetRenderTargetView();
-	auto p_depth_stencil_view = m_p_render_texture->GetDepthStencilView();
+	auto p_render_target_view = m_p_render_target_texture->GetRenderTargetView();
+	auto p_depth_stencil_view = m_p_depth_stencil_texture->GetDepthStencilView();
 
 	//render_target_view에 그려진 내용 지우기
 	DEVICE_CONTEXT->ClearRenderTargetView(p_render_target_view, Vector4::Black);
@@ -214,12 +217,9 @@ void RenderManager::ClearRenderTexture()
 
 void RenderManager::SetRenderTexture()
 {
-	if (m_p_render_texture == nullptr)
-		return;
-
-	auto p_render_target_view = m_p_render_texture->GetRenderTargetView();
-	auto p_depth_stencil_view = m_p_render_texture->GetDepthStencilView();
-	auto view_port = m_p_render_texture->GetViewPort();
+	auto p_render_target_view = m_p_render_target_texture->GetRenderTargetView();
+	auto p_depth_stencil_view = m_p_depth_stencil_texture->GetDepthStencilView();
+	auto view_port = m_p_render_target_texture->GetViewPort();
 
 	//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
 	DEVICE_CONTEXT->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
@@ -263,50 +263,6 @@ const bool RenderManager::CheckClickedEditorSceneRect(const Vector2& mouse_posit
 	}
 
 	return false;
-}
-
-//Camera Component의 RenderPostEffectObjects에서 호출
-void RenderManager::CopyPostEffect()
-{
-	//Render Target Texture
-	auto render_target_textre = RESOURCE_MANAGER->GetResource<Texture>("RenderTargetView");
-
-	//Render Target Texture의 이미지를 카피
-	DEVICE_CONTEXT->CopyResource(m_p_post_effect_target_texture->GetTexture(), render_target_textre->GetTexture());
-}
-
-void RenderManager::ResizePostEffectTexture()
-{
-	auto settings = Core::GetInstance()->GetSettings();
-
-	//최초 생성    
-	if (m_p_post_effect_target_texture == nullptr)
-	{
-		//현재 해상도에 맞게 Post Effect Target텍스처 생성
-		m_p_post_effect_target_texture = RESOURCE_MANAGER->CreateTexture
-		(
-			"PostEffectTarget",
-			settings->GetWindowWidth(),
-			settings->GetWindowHeight(),
-			DXGI_FORMAT_R8G8B8A8_UNORM,
-			D3D11_BIND_SHADER_RESOURCE
-		);
-	}
-	//현재 생성된 Post Effect Target Texture가 있다면
-	else
-	{
-		//Post Effect Target Texture 해제
-		m_p_post_effect_target_texture->ReleaseTexture();
-
-		//새로 생성
-		m_p_post_effect_target_texture->Create
-		(
-			settings->GetWindowWidth(),
-			settings->GetWindowHeight(),
-			DXGI_FORMAT_R8G8B8A8_UNORM,
-			D3D11_BIND_SHADER_RESOURCE
-		);
-	}
 }
 
 void RenderManager::RegisterCamera(Camera* p_camera, int& camera_index)
@@ -383,6 +339,8 @@ void RenderManager::UpdateConstantBuffer()
 	//=============================================
 	//Program
 	//=============================================
+	g_cbuffer_program.resolution = Vector2(static_cast<float>(m_p_render_target_texture->GetWidth()), static_cast<float>(m_p_render_target_texture->GetHeight()));
+
 	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::Program);
 	constant_buffer->SetConstantBufferData(&g_cbuffer_program, sizeof(CBuffer_Program));
 	constant_buffer->SetBufferBindStage(PipelineStage::Graphics_ALL | PipelineStage::CS);
@@ -404,7 +362,7 @@ void RenderManager::UpdateConstantBuffer()
 
 	constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::Light2D);
 	constant_buffer->SetConstantBufferData(&m_light2Ds_data, sizeof(CBuffer_Light2D));
-	constant_buffer->SetBufferBindStage(PipelineStage::Graphics_ALL);
+	constant_buffer->SetBufferBindStage(PipelineStage::PS);
 	constant_buffer->BindPipeline();
 }
 
@@ -431,12 +389,12 @@ void RenderManager::SetResolution(const UINT& width, const UINT& height)
 void RenderManager::CreateRenderTexture(const UINT& width, const UINT& height)
 {
 	//추가가 안 되어있는 경우
-	if (m_p_render_texture == nullptr)
+	if (m_p_render_target_texture == nullptr)
 	{
 		//Create Render Target View
-		m_p_render_texture = std::make_shared<Texture>("Render Texture");
+		m_p_render_target_texture = std::make_shared<Texture>("Render Texture");
 
-		m_p_render_texture->Create
+		m_p_render_target_texture->Create
 		(
 			width,
 			height,
@@ -445,7 +403,10 @@ void RenderManager::CreateRenderTexture(const UINT& width, const UINT& height)
 		);
 
 		//Create Depth Stencil View
-		m_p_render_texture->Create
+		m_p_depth_stencil_texture = std::make_shared<Texture>("Depth Stencil Texture");
+
+		//Create Depth Stencil View
+		m_p_depth_stencil_texture->Create
 		(
 			width,
 			height,
@@ -461,7 +422,7 @@ void RenderManager::CreateRenderTexture(const UINT& width, const UINT& height)
 			return;
 
 		//Create Render Target View
-		m_p_render_texture->Create
+		m_p_render_target_texture->Create
 		(
 			width,
 			height,
@@ -470,7 +431,7 @@ void RenderManager::CreateRenderTexture(const UINT& width, const UINT& height)
 		);
 
 		//Create Depth Stencil View
-		m_p_render_texture->Create
+		m_p_depth_stencil_texture->Create
 		(
 			width,
 			height,
@@ -478,4 +439,50 @@ void RenderManager::CreateRenderTexture(const UINT& width, const UINT& height)
 			D3D11_BIND_DEPTH_STENCIL
 		);
 	}
+}
+
+void RenderManager::ResizePostEffectTexture(const UINT& width, const UINT& height)
+{
+	//최초 생성    
+	if (m_p_post_effect_render_target_texture == nullptr)
+	{
+		//현재 해상도에 맞게 Post Effect Target텍스처 생성
+		m_p_post_effect_render_target_texture = RESOURCE_MANAGER->CreateTexture
+		(
+			"PostEffectTarget",
+			width,
+			height,
+			DXGI_FORMAT_R8G8B8A8_UNORM,
+			D3D11_BIND_SHADER_RESOURCE
+		);
+	}
+	//현재 생성된 Post Effect Target Texture가 있다면
+	else
+	{
+		if (m_p_post_effect_render_target_texture->GetWidth() == width && m_p_post_effect_render_target_texture->GetHeight() == height)
+			return;
+
+		//Post Effect Target Texture 해제
+		m_p_post_effect_render_target_texture->ReleaseTexture();
+
+		//새로 생성
+		m_p_post_effect_render_target_texture->Create
+		(
+			width,
+			height,
+			DXGI_FORMAT_R8G8B8A8_UNORM,
+			D3D11_BIND_SHADER_RESOURCE
+		);
+	}
+
+	//Post Effect Material에 Texture 연결
+	auto post_effect_material = RESOURCE_MANAGER->GetResource<Material>("Light2D_Material");
+	post_effect_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_render_target_texture);
+}
+
+//Camera Component의 RenderPostEffectObjects에서 호출
+void RenderManager::CopyPostEffect()
+{
+	//Render Target Texture의 이미지를 카피
+	DEVICE_CONTEXT->CopyResource(m_p_post_effect_render_target_texture->GetTexture(), m_p_render_target_texture->GetTexture());
 }

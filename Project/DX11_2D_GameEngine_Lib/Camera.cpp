@@ -13,6 +13,7 @@
 #include "GameObject.h"
 
 #include "SpriteRenderer.h"
+#include "Light2D.h"
 #include "ParticleSystem.h"
 
 Camera::Camera()
@@ -94,9 +95,9 @@ void Camera::SortObjects()
 			for (UINT i = 0; i < object_vector.size(); ++i)
 			{
 				//SpriteRenderer Component
-				SpriteRenderer* sprtie_renderer = object_vector[i]->GetComponent<SpriteRenderer>();
+				auto sprtie_renderer = object_vector[i]->GetComponent<SpriteRenderer>();
 				//ParticleSystem Component
-				ParticleSystem* particle_system = object_vector[i]->GetComponent<ParticleSystem>();
+				auto particle_system = object_vector[i]->GetComponent<ParticleSystem>();
 
 				//해당 오브젝트가 SpriteRenderer 컴포넌트를 포함하고 있다면
 				if (sprtie_renderer != nullptr)
@@ -113,7 +114,7 @@ void Camera::SortObjects()
 
 					render_time_point = sprtie_renderer->GetMaterial()->GetShader()->GetRenderTimePointType();
 				}
-
+			  
 				//해당 오브젝트가 ParticleSystem 컴포넌트를 포함하고 있다면
 				else if (particle_system != nullptr)
 				{
@@ -205,8 +206,22 @@ void Camera::RenderPostEffectObjects()
 	{
 		//Post Effect가 적용된 텍스처를 누적으로 복사하는 부분
 		RENDER_MANAGER->CopyPostEffect();
-		if (m_post_effect_object_vector[i]->GetIsActive())
-			m_post_effect_object_vector[i]->Render();
+		//최상위 부모 GameObject인 경우
+		if (!m_post_effect_object_vector[i]->HasParent())
+		{
+			//활성화가 되어있다면 렌더링
+			if (m_post_effect_object_vector[i]->GetIsActive())
+				m_post_effect_object_vector[i]->Render();
+		}
+
+		//부모 GameObject를 가지고 있는 경우
+		else
+		{
+			//부모 GameObject가 활성화 되어있고 
+			//자신도 활성화가 되어있다면 렌더링
+			if (m_post_effect_object_vector[i]->GetParent()->GetIsActive() && m_post_effect_object_vector[i]->GetIsActive())
+				m_post_effect_object_vector[i]->Render();
+		}
 	}
 }
 

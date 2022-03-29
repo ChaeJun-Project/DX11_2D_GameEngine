@@ -16,7 +16,7 @@ cbuffer WVPMatrix : register(b0)
     row_major matrix view;
     row_major matrix projection;
     
-    row_major matrix reflection;
+    row_major matrix identity;
 }
 
 cbuffer Material : register(b1)
@@ -63,11 +63,11 @@ cbuffer Program : register(b2)
     float3 g_program_padding;
 }
 
-#include "LightStruct.fx"
+#include "Light2DStruct.fx"
 
 cbuffer Light2D : register(b3)
 {
-    LightInfo g_light2D_array[50];
+    Light2D_Info g_light2D_array[50];
     uint g_light2D_count;
     float3 g_light2D_padding;
 }

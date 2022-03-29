@@ -172,20 +172,23 @@ void GameObject::Render()
 	if (p_sprite_renderer != nullptr && p_sprite_renderer->GetIsActive())
 		p_sprite_renderer->Render();
 
-	//Particle System
-	auto p_particle_system = GetComponent<ParticleSystem>();
-	if (p_particle_system != nullptr && p_particle_system->GetIsActive())
-		p_particle_system->Render();
-
 	//Collider
-	auto p_collider2D = GetComponent<Collider2D>();
-	if (p_collider2D != nullptr && p_collider2D->GetIsActive())
-		p_collider2D->Render();
+	if (RENDER_MANAGER->GetDebugMode())
+	{
+		auto p_collider2D = GetComponent<Collider2D>();
+		if (p_collider2D != nullptr && p_collider2D->GetIsActive())
+			p_collider2D->Render();
+	}
 
 	//TileMap Renderer
 	auto p_tile_map_renderer = GetComponent<TileMapRenderer>();
 	if (p_tile_map_renderer != nullptr && p_tile_map_renderer->GetIsActive())
 		p_tile_map_renderer->Render();
+
+	//Particle System
+	auto p_particle_system = GetComponent<ParticleSystem>();
+	if (p_particle_system != nullptr && p_particle_system->GetIsActive())
+		p_particle_system->Render();
 
 	//Canvas
 	auto p_canvas = GetComponent<Canvas>();

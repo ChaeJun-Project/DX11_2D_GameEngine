@@ -682,13 +682,10 @@
     <FxCompile Include="ShaderFiles\DrawLineShader.fx">
       <Filter>ShaderFiles\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="ShaderFiles\LightTextureShader.fx">
-      <Filter>ShaderFiles\Shader</Filter>
-    </FxCompile>
     <FxCompile Include="ShaderFiles\TextureShader.fx">
       <Filter>ShaderFiles\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="ShaderFiles\LightStruct.fx">
+    <FxCompile Include="ShaderFiles\Light2DStruct.fx">
       <Filter>ShaderFiles\Struct</Filter>
     </FxCompile>
     <FxCompile Include="ShaderFiles\VertexStruct.fx">
@@ -706,7 +703,7 @@
     <FxCompile Include="ShaderFiles\RainShader.fx">
       <Filter>ShaderFiles\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="ShaderFiles\PostEffectShader.fx">
+    <FxCompile Include="ShaderFiles\DistortionShader.fx">
       <Filter>ShaderFiles\Shader\Post Effect</Filter>
     </FxCompile>
     <FxCompile Include="ShaderFiles\WaterShader.fx">
@@ -726,6 +723,9 @@
     </FxCompile>
     <FxCompile Include="ShaderFiles\ImageFunc.fx">
       <Filter>ShaderFiles\Shader\Widget\Func</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\Light2DShader.fx">
+      <Filter>ShaderFiles\Shader\Post Effect</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

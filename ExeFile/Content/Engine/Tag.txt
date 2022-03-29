@@ -1,9 +1,10 @@
 [Tag Count]
-9
+10
 
 [Tag List]
 Default
 Main Camera
+Post Effect Camera
 UI Camera
 Player
 Colonel

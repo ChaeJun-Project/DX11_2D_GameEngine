@@ -76,10 +76,11 @@ void ResourceManager::Initialize()
 {
 	CreateResourceMap();
 
-	CreateDefaultShader();
-	CreateDefaultMaterial();
-	CreateDefaultMesh();
 	CreateDefaultTexture();
+	CreateDefaultShader();
+
+	CreateAddedMaterial();
+	CreateAddedMesh();
 	CreateAddedPrefab();
 }
 
@@ -150,10 +151,10 @@ void ResourceManager::CreateDefaultShader()
 	if (!result)
 		return;
 
-	//Create Light2D Shader
-	p_shader = std::make_shared<Shader>("Light2D");
-	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/LightTextureShader.fx", "VS", "vs_5_0");
-	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/LightTextureShader.fx", "PS", "ps_5_0");
+	//Create Tile Shader
+	p_shader = std::make_shared<Shader>("TileMapRenderer");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/TileMapShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/TileMapShader.fx", "PS", "ps_5_0");
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
@@ -188,10 +189,27 @@ void ResourceManager::CreateDefaultShader()
 	if (!result)
 		return;
 
-	//Create Post Effect Shader
-	p_shader = std::make_shared<Shader>("Post_Effect");
-	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/PostEffectShader.fx", "VS", "vs_5_0");
-	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/PostEffectShader.fx", "PS", "ps_5_0");
+	//Create Light2D Shader
+	p_shader = std::make_shared<Shader>("Light2D");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/Light2DShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/Light2DShader.fx", "PS", "ps_5_0");
+	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
+
+	p_shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
+	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
+	p_shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
+	p_shader->SetBlendType(BlendType::Alpha_Blend);
+
+	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
+	result = shader_iter.second;
+
+	if (!result)
+		return;
+
+	//Create Distortion Shader
+	p_shader = std::make_shared<Shader>("Distortion");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/DistortionShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/DistortionShader.fx", "PS", "ps_5_0");
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
 
 	p_shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
@@ -215,23 +233,6 @@ void ResourceManager::CreateDefaultShader()
 	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
 	p_shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
 	p_shader->SetBlendType(BlendType::Default);
-
-	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
-	result = shader_iter.second;
-
-	if (!result)
-		return;
-
-	//Create Tile Shader
-	p_shader = std::make_shared<Shader>("TileMapRenderer");
-	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/TileMapShader.fx", "VS", "vs_5_0");
-	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/TileMapShader.fx", "PS", "ps_5_0");
-	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
-
-	p_shader->SetRenderTimePointType(RenderTimePointType::Forward);
-	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
-	p_shader->SetDepthStencilType(DepthStencilType::Less_Equal);
-	p_shader->SetBlendType(BlendType::Alpha_Blend);
 
 	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
 	result = shader_iter.second;
@@ -272,47 +273,12 @@ const std::shared_ptr<ComputeShader>& ResourceManager::GetComputeShader(const st
 	return compute_shader_iter->second;
 }
 
-void ResourceManager::CreateDefaultMaterial()
+void ResourceManager::CreateAddedMaterial()
 {
-	//=============================================
-	//Default
-	//=============================================
-	CreateMaterial("Default_Material", "Light2D");
-
-	//=============================================
-	//Collider2D
-	//=============================================
-	CreateMaterial("Collider2D_Material", "Line");
-
-	//=============================================
-	//Canvas Resolution
-	//=============================================
-	CreateMaterial("Canvas_Material", "Line");
-
-	//=============================================
-	//Grid
-	//=============================================
-	CreateMaterial("Grid_Material", "Grid");
-
-	//=============================================
-	//Rain
-	//=============================================
-	CreateMaterial("Rain_Material", "Rain");
-
-	//=============================================
-	//Water
-	//=============================================
-	CreateMaterial("Water_Material", "Water");
-
-	//=============================================
-	//Tile
-	//=============================================
-	CreateMaterial("TileMapRenderer_Material", "TileMapRenderer");
-
-	//=============================================
-	//Image Renderer
-	//=============================================
-	CreateMaterial("ImageRenderer_Material", "ImageRenderer");
+	auto material_directory_path = FILE_MANAGER->GetAbsoluteMaterialPath();
+	auto material_directory_file_path_vector = FILE_MANAGER->GetFilesInDirectory(material_directory_path);
+	for (const auto& material_file_path : material_directory_file_path_vector)
+		LoadFromFile<Material>(material_file_path);
 }
 
 const std::shared_ptr<Material> ResourceManager::CreateMaterial(const std::string& material_name, const std::string& shader_name)
@@ -424,16 +390,12 @@ const std::shared_ptr<Texture> ResourceManager::CreateTexture(const std::string&
 	return std::dynamic_pointer_cast<Texture>(texture_iter.first->second);
 }
 
-void ResourceManager::CreateDefaultMesh()
+void ResourceManager::CreateAddedMesh()
 {
-	//Point
-	CreateMesh("Point_Mesh", MeshType::Point);
-	//Triangle
-	CreateMesh("Triangle_Mesh", MeshType::Triangle);
-	//Rectangle
-	CreateMesh("Rectangle_Mesh", MeshType::Rectangle);
-	//Circle
-	CreateMesh("Circle_Mesh", MeshType::Circle);
+	auto mesh_directory_path = FILE_MANAGER->GetAbsoluteMeshPath();
+	auto mesh_directory_file_path_vector = FILE_MANAGER->GetFilesInDirectory(mesh_directory_path);
+	for (const auto& mesh_file_path : mesh_directory_file_path_vector)
+		LoadFromFile<Mesh>(mesh_file_path);
 }
 
 const std::shared_ptr<Mesh> ResourceManager::CreateMesh(const std::string& mesh_name, const MeshType& mesh_type)

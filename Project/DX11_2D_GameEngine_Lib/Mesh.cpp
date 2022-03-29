@@ -414,7 +414,15 @@ bool Mesh::SaveToFile(const std::string& mesh_path)
 
 	if (p_file != nullptr)
 	{
-		
+		//Mesh Name
+		fprintf(p_file, "[Mesh Name]\n");
+		fprintf(p_file, "%s\n", m_object_name.c_str());
+
+		//Mesh Type
+		fprintf(p_file, "[Mesh Type]\n");
+		auto mesh_type = static_cast<UINT>(m_mesh_type);
+		fprintf(p_file, "%d\n", mesh_type);
+
 		fclose(p_file);
 
 		return true;
@@ -431,7 +439,26 @@ bool Mesh::LoadFromFile(const std::string& mesh_path)
 
 	if (p_file != nullptr)
 	{
-		
+		char char_buffer[256] = { 0 };
+
+		//Mesh Name
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+		m_object_name = std::string(char_buffer);
+
+		//Mesh Type
+		FILE_MANAGER->FScanf(char_buffer, p_file);
+		auto mesh_type = -1;
+		fscanf_s(p_file, "%d\n", &mesh_type);
+		m_mesh_type = static_cast<MeshType>(mesh_type);
+
+		//Create Mesh
+		if (m_mesh_type == MeshType::Grid)
+			Create(m_mesh_type, 1, 1);
+
+		else
+			Create(m_mesh_type);
+
 		fclose(p_file);
 
 		return true;

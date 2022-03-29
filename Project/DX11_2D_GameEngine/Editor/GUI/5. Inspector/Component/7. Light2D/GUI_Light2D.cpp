@@ -38,44 +38,29 @@ void GUI_Light2D::Render()
 
 		auto light2D_info = light2D->GetLight2DInfo();
 
-		//Light Type
-		ShowComboLightType(light2D, light2D_info.light_type);
+		//Light2D Type
+		ShowComboLightType(light2D, light2D_info.type);
 
-		//Light Color
+		//Light2D
 		//Color
-		ShowColorPicker3("Color", (float*)(&(light2D_info.ligth_color.color)), m_color_edit_flag);
-		//Specular
-		ShowColorPicker3("Specular", (float*)(&(light2D_info.ligth_color.specular)), m_color_edit_flag);
-		//Ambient
-		ShowColorPicker3("Ambient", (float*)(&(light2D_info.ligth_color.ambient)), m_color_edit_flag);
+		ShowColorPicker3("Color", (float*)(&(light2D_info.color)), m_color_edit_flag);
 		
-		//Light Direction
-		ShowFloat3("Direction", light2D_info.light_direction, 50.0f, 100.0f);
-
 		//Light Ragne
-		ShowFloat("Light2D", "Range", light2D_info.light_range, 70.0f, 100.0f);
-
-		//Light Angle
-		ShowFloat("Light2D", "Angle", light2D_info.light_angle, 70.0f, 100.0f);
+		ShowFloat("Light2D", "Range", light2D_info.range, 70.0f, 100.0f);
 
 		//Set Data
 		//Light Color
 		if (CAN_EDIT)
 		{
-			light2D->SetLightColor(light2D_info.ligth_color.color);
-			light2D->SetLightSpecular(light2D_info.ligth_color.specular);
-			light2D->SetLightAmbient(light2D_info.ligth_color.ambient);
-
-			light2D->SetLightDir(light2D_info.light_direction);
-			light2D->SetLightRange(light2D_info.light_range);
-			light2D->SetLightAngle(light2D_info.light_angle);
+			light2D->SetLightColor(light2D_info.color);
+			light2D->SetLightRange(light2D_info.range);
 		}
 
 		DrawComponentEnd();
 	}
 }
 
-void GUI_Light2D::ShowComboLightType(Light2D* p_light2D, LightType& light_type)
+void GUI_Light2D::ShowComboLightType(Light2D* p_light2D, Light2DType& light2D_type)
 {
 	ImGui::BeginGroup();
 	ImGui::Text("Type");
@@ -88,23 +73,18 @@ void GUI_Light2D::ShowComboLightType(Light2D* p_light2D, LightType& light_type)
 
 		std::string current_type_name;
 
-		switch (light_type)
+		switch (light2D_type)
 		{
-		case LightType::Directional:
-			current_type_name = "Directional";
+		case Light2DType::Ambient:
+			current_type_name = "Ambient";
 			break;
-		case LightType::Point:
+		case Light2DType::Point:
 			current_type_name = "Point";
 			break;
-		case LightType::Spot:
-			current_type_name = "Spot";
-			break;
-
 		}
 
-		m_p_light_type_list->AddItem("Directional");
+		m_p_light_type_list->AddItem("Ambient");
 		m_p_light_type_list->AddItem("Point");
-		m_p_light_type_list->AddItem("Spot");
 
 		const auto& light_type_list_vector = m_p_light_type_list->GetItemList();
 
@@ -125,7 +105,7 @@ void GUI_Light2D::ShowComboLightType(Light2D* p_light2D, LightType& light_type)
 				if (ImGui::Selectable(light_type_list_vector[i].c_str(), is_selected))
 				{
 					if (SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Stop)
-						p_light2D->SetLightType(static_cast<LightType>(i));
+						p_light2D->SetLightType(static_cast<Light2DType>(i));
 				}
 
 				if (is_selected)

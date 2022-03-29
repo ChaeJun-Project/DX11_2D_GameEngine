@@ -52,8 +52,8 @@ void SpriteRenderer::Render()
 	if (m_p_mesh == nullptr || m_p_material == nullptr || m_p_material->GetShader() == nullptr)
 		return;
 
-	/*if (m_p_owner_game_object->GetGameObjectTag() != "Water")
-		m_p_sprite_texture = m_p_material->GetTexture();*/
+	if(m_p_owner_game_object->GetGameObjectName()._Equal("Distortion"))
+		m_p_sprite_texture = RENDER_MANAGER->GetPostEffectRenderTargetTexture();
 
 	SetMeshScale();
 

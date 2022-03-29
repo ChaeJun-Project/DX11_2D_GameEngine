@@ -19,7 +19,7 @@ struct CBuffer_WVPMatrix
 	Matrix view;		//뷰 행렬
 	Matrix projection;  //투영 행렬
 
-	Matrix reflection;  //반사 행렬
+	Matrix identity;  //항등 행렬
 };
 
 extern CBuffer_WVPMatrix g_cbuffer_wvpmatrix;
@@ -97,29 +97,20 @@ extern CBuffer_Program g_cbuffer_program;
 //======================================
 //Light2D[3]
 //======================================
-struct LightColor
+struct Light2D_Info
 {
 	Vector4 color;
-	Vector4 specular;
-	Vector4 ambient;
-};
 
-struct LightInfo
-{
-	LightColor ligth_color;
+	Light2DType type;
+	Vector3 position;
 
-	LightType light_type;
-	Vector3 light_direction;
-	Vector3 light_position;
-
-	float light_range;
-	float light_angle;
+	float range;
 	Vector3 padding;
 };
 
 struct CBuffer_Light2D
 {
-	LightInfo light2D_array[50];
+	Light2D_Info light2D_array[50];
 	UINT light_count;
 	Vector3 padding;
 };

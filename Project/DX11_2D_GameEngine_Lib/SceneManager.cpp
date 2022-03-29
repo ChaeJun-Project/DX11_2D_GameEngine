@@ -187,8 +187,6 @@ bool SceneManager::SaveScene(const std::string& file_path)
 			SaveGameObject(parent_game_object, p_file);
 		}
 
-		fprintf(p_file, "\n");
-
 		fclose(p_file);
 
 		return true;

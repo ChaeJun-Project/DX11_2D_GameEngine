@@ -30,8 +30,6 @@ public:
 	const bool CheckMouseWorldPositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom);
 	const bool CheckMouseClientPositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom);
     const bool CheckClickedEditorSceneRect(const Vector2& mouse_position);
-	void CopyPostEffect();
-	void ResizePostEffectTexture();
 
 public:
 	//Camera
@@ -53,7 +51,9 @@ public:
 public:
     void ClearCameraAndLight();
 
-	const std::shared_ptr<Texture>& GetRenderTexture() { SAFE_GET_POINTER(m_p_render_texture); };
+	const std::shared_ptr<Texture>& GetRenderTargetTexture() { SAFE_GET_POINTER(m_p_render_target_texture); };
+
+	const std::shared_ptr<Texture>& GetPostEffectRenderTargetTexture() { SAFE_GET_POINTER(m_p_post_effect_render_target_texture); };
 
 	void SetResolution(const UINT& width, const UINT& height);
 	const Vector2& GetResolution() { return m_resolution_size; }
@@ -61,12 +61,25 @@ public:
 	void SetScreenOffset(const float& x, const float& y) { m_screen_offset.x = x; m_screen_offset.y = y;}
 	const Vector2& GetScreenOffset() { return m_screen_offset; }
 
+public:
+    bool GetDebugMode() const { return m_is_debug_mode; }
+	
 private:
 	void CreateRenderTexture(const UINT& width, const UINT& height);
+	void ResizePostEffectTexture(const UINT& width, const UINT& height);
+
+public:
+	void CopyPostEffect();
 
 private:
-	//RenderTargetTexture
-	std::shared_ptr<Texture> m_p_render_texture = nullptr;
+	//Render Target Texture
+	std::shared_ptr<Texture> m_p_render_target_texture = nullptr;
+	//Depth Stencil Texture
+	std::shared_ptr<Texture> m_p_depth_stencil_texture = nullptr;
+
+	//Post Effect 전용 Texture
+	std::shared_ptr<Texture> m_p_post_effect_render_target_texture = nullptr;
+
 	Vector2 m_resolution_size = Vector2::Zero;
 	Vector2 m_screen_offset = Vector2::Zero;
 	Vector2 m_client_rect_left_top = Vector2::Zero;
@@ -78,9 +91,6 @@ private:
 	std::vector<Camera*> m_camera_vector;
 	//Scene에 있는 Light2D
 	std::vector<Light2D*> m_light2D_vector;
-
-	//Post Effect 전용 Texture
-	std::shared_ptr<Texture> m_p_post_effect_target_texture;
 
 	bool m_is_debug_mode = true;
 };

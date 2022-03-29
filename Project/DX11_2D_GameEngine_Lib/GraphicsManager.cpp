@@ -198,17 +198,13 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 	CreateRenderTargetView();
 
 	//Post Effect Target Texture 생성
-	RENDER_MANAGER->ResizePostEffectTexture();
+	//RENDER_MANAGER->ResizePostEffectTexture();
 
 	//DepthStencil 관련 자원 생성
 	CreateDepthStencilView();
 
 	//Viewport 재설정
 	SetViewport(width, height);
-
-	std::cout << "Resolution: " << width << "X" << height << std::endl;
-
-	g_cbuffer_program.resolution = Vector2(static_cast<float>(width), static_cast<float>(height));
 }
 
 void GraphicsManager::SetFullScreen(const bool& is_full_screen)

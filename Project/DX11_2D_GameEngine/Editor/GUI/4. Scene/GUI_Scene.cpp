@@ -119,11 +119,11 @@ void GUI_Scene::ShowScene()
 		RENDER_MANAGER->SetResolution(scene_window_width, scene_window_height); //RTV, SRV, DSV Àç»ý¼º
 
 
-	auto render_texture = RENDER_MANAGER->GetRenderTexture();
+	auto p_render_target_texture = RENDER_MANAGER->GetRenderTargetTexture();
 
 	ImGui::Image
 	(
-		render_texture ? render_texture->GetShaderResourceView() : nullptr,
+		p_render_target_texture ? p_render_target_texture->GetShaderResourceView() : nullptr,
 		ImVec2(static_cast<float>(scene_window_width), static_cast<float>(scene_window_height)),
 		ImVec2(0.0f, 0.0f),
 		ImVec2(1.0f, 1.0f)

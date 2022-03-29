@@ -151,12 +151,11 @@ enum class ProjectionType : UINT
 	Perspective = 1, //원근투영
 };
 
-//Light Type(Light2D, Light3D 사용)
-enum class LightType : UINT
+//Light2D Type(Light2D 사용)
+enum class Light2DType : UINT
 {
-	Directional = 0,
+	Ambient = 0,
 	Point = 1,
-	Spot = 2,
 };
 
 //Script Param Type(Script을 상속받는 자식 클래스 사용)
