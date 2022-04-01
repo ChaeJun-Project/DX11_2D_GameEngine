@@ -14,7 +14,7 @@
 
 #include "SpriteRenderer.h"
 #include "Light2D.h"
-#include "ParticleSystem.h"
+#include "ParticleRenderer.h"
 
 Camera::Camera()
 	:IComponent(ComponentType::Camera)
@@ -95,40 +95,40 @@ void Camera::SortObjects()
 			for (UINT i = 0; i < object_vector.size(); ++i)
 			{
 				//SpriteRenderer Component
-				auto sprtie_renderer = object_vector[i]->GetComponent<SpriteRenderer>();
-				//ParticleSystem Component
-				auto particle_system = object_vector[i]->GetComponent<ParticleSystem>();
+				auto p_sprtie_renderer = object_vector[i]->GetComponent<SpriteRenderer>();
+				//ParticleRenderer Component
+				auto p_particle_renderer = object_vector[i]->GetComponent<ParticleRenderer>();
 
 				//해당 오브젝트가 SpriteRenderer 컴포넌트를 포함하고 있다면
-				if (sprtie_renderer != nullptr)
+				if (p_sprtie_renderer != nullptr)
 				{
 					//Mesh, Material, Shader 중 하나라도 설정이 되어있지 않다면
 					//그리지 않음
-					if (sprtie_renderer->GetMesh() == nullptr ||
-						sprtie_renderer->GetMaterial() == nullptr ||
-						sprtie_renderer->GetMaterial()->GetShader() == nullptr)
+					if (p_sprtie_renderer->GetMesh() == nullptr ||
+						p_sprtie_renderer->GetMaterial() == nullptr ||
+						p_sprtie_renderer->GetMaterial()->GetShader() == nullptr)
 
 					{
 						continue;
 					}
 
-					render_time_point = sprtie_renderer->GetMaterial()->GetShader()->GetRenderTimePointType();
+					render_time_point = p_sprtie_renderer->GetMaterial()->GetShader()->GetRenderTimePointType();
 				}
 			  
-				//해당 오브젝트가 ParticleSystem 컴포넌트를 포함하고 있다면
-				else if (particle_system != nullptr)
+				//해당 오브젝트가 ParticleRenderer 컴포넌트를 포함하고 있다면
+				else if (p_particle_renderer != nullptr)
 				{
 					//Mesh, Material, Shader 중 하나라도 설정이 되어있지 않다면
 					//그리지 않음
-					if (particle_system->GetMesh() == nullptr ||
-						particle_system->GetMaterial() == nullptr ||
-						particle_system->GetMaterial()->GetShader() == nullptr)
+					if (p_particle_renderer->GetMesh() == nullptr ||
+						p_particle_renderer->GetMaterial() == nullptr ||
+						p_particle_renderer->GetMaterial()->GetShader() == nullptr)
 
 					{
 						continue;
 					}
 
-					render_time_point = particle_system->GetMaterial()->GetShader()->GetRenderTimePointType();
+					render_time_point = p_particle_renderer->GetMaterial()->GetShader()->GetRenderTimePointType();
 				}
 
 				else
@@ -251,7 +251,17 @@ void Camera::UpdateViewMatrix()
 
 void Camera::UpdateProjectionMatrix()
 {
-	auto resolution = RENDER_MANAGER->GetResolution();
+	Vector2 resolution = Vector2::Zero;
+
+	switch (SCENE_MANAGER->GetClientState())
+	{
+	case 1: //Game
+		resolution = SETTINGS->GetGameResolution();
+		break;
+	case 2: //Editor
+		resolution = RENDER_MANAGER->GetClientResolution();
+		break;
+	}
 
 	switch (m_projection_type)
 	{
@@ -281,7 +291,7 @@ const Vector3 Camera::Picking()
 
 const Vector3 Camera::ScreenToWorld(const Vector2& mouse_position)
 {
-	auto screen_resolution = RENDER_MANAGER->GetResolution();
+	auto screen_resolution = RENDER_MANAGER->GetClientResolution();
 	auto screen_offset = RENDER_MANAGER->GetScreenOffset();
 	auto mouse_relative_position = mouse_position - screen_offset;
 

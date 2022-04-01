@@ -180,7 +180,7 @@ void GUI_Scene::ShowGizmo()
 	else
 		mode = ImGuizmo::WORLD;
 
-	auto size = RENDER_MANAGER->GetResolution();
+	auto size = RENDER_MANAGER->GetClientResolution();
 	auto view = p_editor_camera->GetViewMatrix();
 	auto proj = p_editor_camera->GetProjectionMatrix();
 	auto world = p_transform->GetOriginWorldMatrix(); //자식 GameObject의 경우 부모 GameObject의 World Matrix를 곱한 상태

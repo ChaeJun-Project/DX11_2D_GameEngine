@@ -10,10 +10,11 @@ enum class PayLoadType : UINT
 	Audio = 4,
 	Material = 5,
 	Mesh = 6,
-	Prefab = 7,
-	Scene = 8,
+	Scene = 7,
+	Texture = 8,
 	TileMap = 9,
-	Texture = 10
+	Prefab = 10,
+	Particle = 11,
 };
 
 struct PayLoad final

@@ -9,7 +9,6 @@ void D3D11Debug();
 
 LPCWSTR g_class_name = L"DX11_2D_GameEngine";
 
-//TODO
 ClientState client_state = ClientState::Editor;
 
 //Win32를 사용하므로 프로시저 핸들러를 선언해줘야 함.
@@ -36,13 +35,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//Scene Manager
 	SCENE_MANAGER->SetClientState(static_cast<UINT>(client_state));
 
-
 	if (SCENE_MANAGER->GetClientState() == static_cast<UINT>(ClientState::Game))
 	{
-	    //Load Engine Data(Content/Engine)
+		//Load Engine Data(Content/Engine)
 		FileFunction::LoadPhysics((FILE_MANAGER->GetAbsoluteContentPath() + "Engine/Physics.txt"));
 		FileFunction::LoadGameResolution((FILE_MANAGER->GetAbsoluteContentPath() + "Engine/Resolution.txt"));
-
+	
 		//Game Test
 		auto next_scene = SCENE_MANAGER->LoadScene((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Scene/Game Stage.scene"));
 		SCENE_MANAGER->SetCurrentScene(next_scene);

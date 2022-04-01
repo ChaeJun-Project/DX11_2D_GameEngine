@@ -83,7 +83,7 @@ void StructuredBuffer::Create(const UINT& element_size, const UINT& element_coun
 
 		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
-		desc.Usage = D3D11_USAGE_DEFAULT; 
+		desc.Usage = D3D11_USAGE_DEFAULT;
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ; //CPU 읽기만 허용
 
 		desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
@@ -174,7 +174,7 @@ void StructuredBuffer::GetStructuredBufferData(void* buffer_data, const UINT& bu
 
 	//MAPPED_SUBRESOURCE 데이터를 매개변수로 들어온 buffer_data에 복사
 	memcpy(buffer_data, mapped_sub_data.pData, static_cast<size_t>(buffer_size));
-	
+
 	device_context->Unmap(m_p_cpu_read_buffer.Get(), 0);
 }
 
@@ -201,7 +201,7 @@ void StructuredBuffer::CreateUAV()
 	D3D11_UNORDERED_ACCESS_VIEW_DESC uav_desc;
 	ZeroMemory(&uav_desc, sizeof(D3D11_UNORDERED_ACCESS_VIEW_DESC));
 
-	//구조적 버퍼로 SRV를 사용하는 경우에 Format은 DXGI_FORMAT_UNKNOWN으로 설정해야 함
+	//구조적 버퍼로 UAV를 사용하는 경우에 Format은 DXGI_FORMAT_UNKNOWN으로 설정해야 함
 	//이는 구조적 버퍼의 원소가 사용자 정의 구조체이므로 DXGI가 모든 가능한 형식을 미리 정희해서 두는 것이 불가능하기 때문
 	uav_desc.Format = DXGI_FORMAT_UNKNOWN;
 	uav_desc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
@@ -265,9 +265,8 @@ void StructuredBuffer::BindPipelineRW(const UINT& unordered_bind_slot)
 
 	m_unordered_bind_slot = unordered_bind_slot;
 
-	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 	UINT i = -1;
-	device_context->CSSetUnorderedAccessViews(m_unordered_bind_slot, 1, m_p_unordered_access_view.GetAddressOf(), &i);
+	DEVICE_CONTEXT->CSSetUnorderedAccessViews(m_unordered_bind_slot, 1, m_p_unordered_access_view.GetAddressOf(), &i);
 }
 
 void StructuredBuffer::Clear()
@@ -312,10 +311,13 @@ void StructuredBuffer::Clear()
 	{
 		device_context->PSSetShaderResources(m_buffer_bind_slot, 1, &p_shader_resource_view);
 	}
+}
 
+void StructuredBuffer::ClearRW()
+{
 	//Clear Unordered Access View
 	ID3D11UnorderedAccessView* p_unordered_access_view = nullptr;
 
 	UINT i = -1;
-	device_context->CSSetUnorderedAccessViews(m_unordered_bind_slot, 1, &p_unordered_access_view, &i);
+	DEVICE_CONTEXT->CSSetUnorderedAccessViews(m_unordered_bind_slot, 1, &p_unordered_access_view, &i);
 }

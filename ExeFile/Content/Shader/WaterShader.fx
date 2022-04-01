@@ -33,10 +33,10 @@ float4 PS_Water(VertexColorTextureOutputType ps_input) : SV_Target
     float4 ps_output_color = (float4) 0.0f;
    
     //그려질 픽셀의 높이
-    float uv_offset_y = (float) WATER_HEIGHT / g_resolution.y;
+    float uv_offset_y = (float) WATER_HEIGHT / g_client_resolution.y;
   
     //화면에서 해당 효과가 그려질 UV 좌표 구하기 => 픽셀 좌표/해상도
-    float2 screen_uv = ps_input.position.xy / g_resolution;
+    float2 screen_uv = ps_input.position.xy / g_client_resolution;
   
     //v좌표 반전
     screen_uv.y = 1.0f - screen_uv.y;

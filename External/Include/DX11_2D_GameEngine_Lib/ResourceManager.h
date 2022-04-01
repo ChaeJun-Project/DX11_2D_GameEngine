@@ -12,6 +12,7 @@ class Mesh;
 class AudioClip;
 class Prefab;
 class SpriteAnimation;
+class Particle;
 class TileMap;
 
 class GameObject;
@@ -83,6 +84,10 @@ public:
 	//SpriteAnimation
 	const std::shared_ptr<SpriteAnimation> CreateSpriteAnimation(const std::string& animation2D_name);
 
+	//Particle
+	void CreateAddedParticle();
+	const std::shared_ptr<Particle> CreateParticle(const std::string& particle_name);
+
 	//TileMap
 	const std::shared_ptr<TileMap> CreateTileMap(const std::string& tile_map_name);
 
@@ -141,8 +146,8 @@ void ResourceManager::SaveResource(const std::shared_ptr<T>& p_resource, FILE* p
 	else
 		fprintf(p_file, "%s\n", p_resource->GetResourcePath().c_str());
 
-	//해당 리소스가 SpriteAnimation, TileMap인 경우
-	if (std::is_same<T, SpriteAnimation>::value || std::is_same<T, TileMap>::value)
+	//해당 리소스가 SpriteAnimation, TileMap, Particle인 경우
+	if (std::is_same<T, SpriteAnimation>::value || std::is_same<T, TileMap>::value || std::is_same<T, Particle>::value)
 	{
 		std::string resource_path = p_resource->GetResourcePath(); // Asset/...
 		auto absolute_content_path = ABSOLUTE_CONTENT_PATH;

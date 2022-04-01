@@ -22,6 +22,7 @@ public:
 	void BindPipelineRW(const UINT& unordered_bind_slot);
 
 	void Clear();
+	void ClearRW();
 
 private:
 	void CreateSRV();

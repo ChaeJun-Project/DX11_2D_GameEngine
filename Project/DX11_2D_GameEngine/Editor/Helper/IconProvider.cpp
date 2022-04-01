@@ -61,7 +61,7 @@ void IconProvider::LoadComponentIcons()
 	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_animator.png", IconType::Component_Animator);
 	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_collider2d.png", IconType::Component_Collider2D);
 	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_light2D.png", IconType::Component_Light2D);
-	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_particle_system.png", IconType::Component_ParticleSystem);
+	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_particle_renderer.png", IconType::Component_ParticleRenderer);
 	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_tile_map.png", IconType::Component_TileMapRenderer);
 	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_rigid_body2D.png", IconType::Component_RigidBody2D);
 	LoadIconTexture(absolute_content_path + "Icon/Inspector/component_audio_listener.png", IconType::Component_AudioListener);
@@ -92,9 +92,10 @@ void IconProvider::LoadFileThumbnails()
 	LoadFileThumbnailTexture(absolute_content_path + "Icon/FileDialog/filedialog_audio.png", FileThumbnailType::Audio);
 	LoadFileThumbnailTexture(absolute_content_path + "Icon/FileDialog/filedialog_material.png", FileThumbnailType::Material);
 	LoadFileThumbnailTexture(absolute_content_path + "Icon/FileDialog/filedialog_mesh.png", FileThumbnailType::Mesh);
-	LoadFileThumbnailTexture(absolute_content_path + "Icon/FileDialog/filedialog_prefab.png", FileThumbnailType::Prefab);
 	LoadFileThumbnailTexture(absolute_content_path + "Icon/FileDialog/filedialog_scene.png", FileThumbnailType::Scene);
 	LoadFileThumbnailTexture(absolute_content_path + "Icon/FileDialog/filedialog_tilemap.png", FileThumbnailType::TileMap);
+	LoadFileThumbnailTexture(absolute_content_path + "Icon/FileDialog/filedialog_prefab.png", FileThumbnailType::Prefab);
+	LoadFileThumbnailTexture(absolute_content_path + "Icon/FileDialog/filedialog_particle.png", FileThumbnailType::Particle);
 }
 
 void IconProvider::LoadIconTexture(const std::string& texture_path, const IconType& icon_type)

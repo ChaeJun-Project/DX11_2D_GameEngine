@@ -16,7 +16,7 @@ struct VS_IN
 
 struct VS_OUT // = GS_IN
 {
-    float3 position : POSITION;
+    float3 position : SV_POSITION;
     uint instanceID : SV_InstanceID; //인스턴스 인덱스
 };
 
@@ -50,7 +50,7 @@ void GS_Rain(point VS_OUT gs_input[1], inout TriangleStream<VertexColorTextureOu
    
     float3 particle_scale = g_rain_particle[gs_input[0].instanceID].view_scale;
     
-     //Rotation은 추후 처리
+    //Rotation은 추후 처리
     float3 particle_rotation = g_rain_particle[gs_input[0].instanceID].view_rotation;
   
     //View 좌표계에서의 파티클 위치

@@ -17,7 +17,7 @@
 //Animator
 #include "Component/6. Collider2D/GUI_Collider2D.h"
 #include "Component/7. Light2D/GUI_Light2D.h"
-#include "Component/8. Particle System/GUI_ParticleSystem.h"
+#include "Component/8. Particle Renderer/GUI_ParticleRenderer.h"
 #include "Component/9. TileMap Renderer/GUI_TileMapRenderer.h"
 #include "Component/10. RigidBody2D/GUI_RigidBody2D.h"
 #include "Component/11. Audio Listener/GUI_AudioListener.h"
@@ -114,10 +114,10 @@ void GUI_Inspector::Initialize()
 	m_component_gui_map.insert(std::make_pair(ComponentType::Collider2D, std::make_unique<GUI_Collider2D>("Collider2D")));
 	//Light2D
 	m_component_gui_map.insert(std::make_pair(ComponentType::Light2D, std::make_unique<GUI_Light2D>("Light2D")));
-	//Particle System
-	m_component_gui_map.insert(std::make_pair(ComponentType::ParticleSystem, std::make_unique<GUI_ParticleSystem>("ParticleSystem")));
+	//Particle Renderer
+	m_component_gui_map.insert(std::make_pair(ComponentType::ParticleRenderer, std::make_unique<GUI_ParticleRenderer>("Particle Renderer")));
 	//TileMap Renderer
-	m_component_gui_map.insert(std::make_pair(ComponentType::TileMapRenderer, std::make_unique<GUI_TileMapRenderer>("TileMapRenderer")));
+	m_component_gui_map.insert(std::make_pair(ComponentType::TileMapRenderer, std::make_unique<GUI_TileMapRenderer>("TileMap Renderer")));
 	//RigidBody2D
 	m_component_gui_map.insert(std::make_pair(ComponentType::RigidBody2D, std::make_unique<GUI_RigidBody2D>("RigidBody2D")));
 	//Audio Listener
@@ -571,10 +571,10 @@ void GUI_Inspector::ShowAddComponentPopup(GameObject* p_game_object)
 			ImGui::EndMenu();
 		}
 
-		//ParticleSystem
-		if (ImGui::MenuItem("ParticleSystem"))
+		//ParticleRenderer
+		if (ImGui::MenuItem("ParticleRenderer"))
 		{
-			p_game_object->AddComponent(ComponentType::ParticleSystem);
+			p_game_object->AddComponent(ComponentType::ParticleRenderer);
 		}
 
 		//TileMapRenderer

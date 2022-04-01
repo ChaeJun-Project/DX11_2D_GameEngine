@@ -81,20 +81,20 @@ void GUI_FileDialog::Update(const std::string& folder_path)
 			p_file_item = new GUI_FileItem(FileThumbnailType::Mesh, pay_load);
 		}
 
-		//Prefab
-		else if (FILE_MANAGER->IsSupportedPrefabFile(file_path))
-		{
-			pay_load.type = PayLoadType::Prefab;
-
-			p_file_item = new GUI_FileItem(FileThumbnailType::Prefab, pay_load);
-		}
-
 		//Scene
 		else if (FILE_MANAGER->IsSupportedSceneFile(file_path))
 		{
 			pay_load.type = PayLoadType::Scene;
 
 			p_file_item = new GUI_FileItem(FileThumbnailType::Scene, pay_load);
+		}
+
+		//Texture
+		else if (FILE_MANAGER->IsSupportedTextureFile(file_path))
+		{
+			pay_load.type = PayLoadType::Texture;
+
+			p_file_item = new GUI_FileItem(FileThumbnailType::Texture, pay_load);
 		}
 
 		//TileMap
@@ -105,12 +105,20 @@ void GUI_FileDialog::Update(const std::string& folder_path)
 			p_file_item = new GUI_FileItem(FileThumbnailType::TileMap, pay_load);
 		}
 
-		//Texture
-		else if (FILE_MANAGER->IsSupportedTextureFile(file_path))
+		//Prefab
+		else if (FILE_MANAGER->IsSupportedPrefabFile(file_path))
 		{
-			pay_load.type = PayLoadType::Texture;
+			pay_load.type = PayLoadType::Prefab;
 
-			p_file_item = new GUI_FileItem(FileThumbnailType::Texture, pay_load);
+			p_file_item = new GUI_FileItem(FileThumbnailType::Prefab, pay_load);
+		}
+
+		//Particle
+		else if (FILE_MANAGER->IsSupportedParticleFile(file_path))
+		{
+			pay_load.type = PayLoadType::Particle;
+
+			p_file_item = new GUI_FileItem(FileThumbnailType::Particle, pay_load);
 		}
 
 		//None

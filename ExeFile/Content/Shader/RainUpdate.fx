@@ -21,8 +21,8 @@
 #define RAIN_PARTICLE_MIN_SPEED      g_float_0
 #define RAIN_PARTICLE_MAX_SPEED      g_float_1
 
-RWStructuredBuffer<ParticleInfo> g_rain_particle : register(u0);
-RWStructuredBuffer<ParticleShared> g_particle_shared : register(u1);
+RWStructuredBuffer<ParticleShared> g_particle_shared : register(u0);
+RWStructuredBuffer<ParticleInfo> g_rain_particle : register(u1);
 
 //Compute Shader는 여러 개의 스레드가 동시에 해당 함수를 처리하는 구조(병렬처리 구조)
 //따라서 동기화 문제가 발생할 수 있기에 InterlockedCompareExchange 함수를 사용

@@ -47,7 +47,7 @@ void GUI_Tree::Clear()
 	std::queue<GUI_TreeItem*> p_tree_item_queue;
 	p_tree_item_queue.push(m_p_root_item);
 
-	//자식 Tree Item 너비 탐색
+	//자식 Tree Item 너비 탐색()
 	while (!p_tree_item_queue.empty())
 	{
 		auto p_current_tree_item = p_tree_item_queue.front();

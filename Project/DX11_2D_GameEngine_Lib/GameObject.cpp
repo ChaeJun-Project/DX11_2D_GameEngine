@@ -11,7 +11,7 @@
 #include "Animator.h"
 #include "Collider2D.h"
 #include "Light2D.h"
-#include "ParticleSystem.h"
+#include "ParticleRenderer.h"
 #include "TileMapRenderer.h"
 #include "RigidBody2D.h"
 #include "AudioListener.h"
@@ -36,7 +36,7 @@ REGISTER_COMPONENT_TYPE(Animator2D, ComponentType::Animator2D);
 REGISTER_COMPONENT_TYPE(Animator, ComponentType::Animator);
 REGISTER_COMPONENT_TYPE(Collider2D, ComponentType::Collider2D);
 REGISTER_COMPONENT_TYPE(Light2D, ComponentType::Light2D);
-REGISTER_COMPONENT_TYPE(ParticleSystem, ComponentType::ParticleSystem);
+REGISTER_COMPONENT_TYPE(ParticleRenderer, ComponentType::ParticleRenderer);
 REGISTER_COMPONENT_TYPE(TileMapRenderer, ComponentType::TileMapRenderer);
 REGISTER_COMPONENT_TYPE(RigidBody2D, ComponentType::RigidBody2D);
 REGISTER_COMPONENT_TYPE(AudioListener, ComponentType::AudioListener);
@@ -185,8 +185,8 @@ void GameObject::Render()
 	if (p_tile_map_renderer != nullptr && p_tile_map_renderer->GetIsActive())
 		p_tile_map_renderer->Render();
 
-	//Particle System
-	auto p_particle_system = GetComponent<ParticleSystem>();
+	//Particle Renderer
+	auto p_particle_system = GetComponent<ParticleRenderer>();
 	if (p_particle_system != nullptr && p_particle_system->GetIsActive())
 		p_particle_system->Render();
 
@@ -226,8 +226,8 @@ void GameObject::AddComponent(const ComponentType& component_type)
 	case ComponentType::Light2D:
 		AddComponent(new Light2D());
 		break;
-	case ComponentType::ParticleSystem:
-		AddComponent(new ParticleSystem());
+	case ComponentType::ParticleRenderer:
+		AddComponent(new ParticleRenderer());
 		break;
 	case ComponentType::TileMapRenderer:
 		AddComponent(new TileMapRenderer());

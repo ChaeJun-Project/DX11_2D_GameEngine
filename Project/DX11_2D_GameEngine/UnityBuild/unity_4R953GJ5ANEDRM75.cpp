@@ -57,7 +57,7 @@
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\7. Light2D\GUI_Light2D.cpp"
 
 
-#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\8. Particle System\GUI_ParticleSystem.cpp"
+#include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\5. Inspector\Component\8. Particle System\GUI_ParticleRenderer.cpp"
 
 
 #include "C:\Users\User\Documents\GitHub\DX11_2D_GameEngine\Project\DX11_2D_GameEngine\Editor\GUI\Module\ItemList\GUI_ItemList.cpp"

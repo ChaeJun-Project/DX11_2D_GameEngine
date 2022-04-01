@@ -86,3 +86,4 @@
 #define TEXTURE_PATH		   FILE_MANAGER->GetAbsoluteTexturePath()
 #define TILEMAP_PATH		   FILE_MANAGER->GetAbsoluteTileMapPath()
 #define PREFAB_PATH			   FILE_MANAGER->GetAbsolutePrefabPath()
+#define PARTICLE_PATH		   FILE_MANAGER->GetAbsoluteParticlePath()

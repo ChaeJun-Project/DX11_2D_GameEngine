@@ -41,14 +41,13 @@ RenderManager::~RenderManager()
 
 void RenderManager::Initialize()
 {
-	/*auto water_material = RESOURCE_MANAGER->GetMaterial("Water");
-	water_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_render_target_texture);*/
+	
 }
 
 void RenderManager::Render()
 {
 	//Render Debug Mode 
-	if (KEY_PRESS(Key::KEY_CONTROL) && KEY_DOWN(Key::KEY_T))
+	if (KEY_DOWN(Key::KEY_G))
 	{
 		m_is_debug_mode = !m_is_debug_mode;
 	}
@@ -78,21 +77,17 @@ void RenderManager::Render()
 
 void RenderManager::RenderPlay()
 {
-	if (m_resolution_size != SETTINGS->GetGameResolution())
-	{
-		m_resolution_size = SETTINGS->GetGameResolution();
-	}
-
 	//Graphics Clear Target
 	GRAPHICS_MANAGER->SetRenderTarget();
 
 	m_p_render_target_texture = GRAPHICS_MANAGER->GetRenderTexture();
 	m_p_depth_stencil_texture = GRAPHICS_MANAGER->GetDepthStencilTexture();
+	m_client_resolution_size = Vector2(m_p_render_target_texture->GetWidth(), m_p_render_target_texture->GetHeight());
 
 	//Program 데이터 업데이트
 	UpdateConstantBuffer();
 
-	ResizePostEffectTexture(m_p_render_target_texture->GetWidth(), m_p_render_target_texture->GetHeight());
+	ResizePostEffectTexture(static_cast<UINT>(m_client_resolution_size.x), static_cast<UINT>(m_client_resolution_size.y));
 
 	//메인 카메라(index 0) 기준으로 화면 그리기
 	if (m_camera_vector[0] != nullptr)
@@ -115,6 +110,7 @@ void RenderManager::RenderPlay()
 
 		m_camera_vector[i]->SortObjects();
 		m_camera_vector[i]->RenderForwardObjects();
+		m_camera_vector[i]->RenderPostEffectObjects();
 	}
 
 	RenderDebugMode();
@@ -131,7 +127,7 @@ void RenderManager::RenderEditor()
 	//Program 데이터 업데이트
 	UpdateConstantBuffer();
 
-	ResizePostEffectTexture(m_p_render_target_texture->GetWidth(), m_p_render_target_texture->GetHeight());
+	ResizePostEffectTexture(static_cast<UINT>(m_client_resolution_size.x), static_cast<UINT>(m_client_resolution_size.y));
 
 	if (SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Stop)
 	{
@@ -149,11 +145,11 @@ void RenderManager::RenderEditor()
 
 	else
 	{
-		if (m_resolution_size != SETTINGS->GetGameResolution())
+		if (m_client_resolution_size != SETTINGS->GetGameResolution())
 		{
 			auto game_resolution = SETTINGS->GetGameResolution();
 			SetResolution(static_cast<UINT>(game_resolution.x), static_cast<UINT>(game_resolution.y));
-			m_resolution_size = SETTINGS->GetGameResolution();
+			m_client_resolution_size = SETTINGS->GetGameResolution();
 			SetRenderTexture();
 		}
 
@@ -201,7 +197,7 @@ void RenderManager::CalcClientSceneRect()
 	m_client_rect_left_top = m_screen_offset;
 
 	//Right Bottom
-	m_client_rect_right_bottom = m_client_rect_left_top + m_resolution_size;
+	m_client_rect_right_bottom = m_client_rect_left_top + m_client_resolution_size;
 }
 
 void RenderManager::ClearRenderTexture()
@@ -227,7 +223,7 @@ void RenderManager::SetRenderTexture()
 	//설정한 뷰포트 등록
 	DEVICE_CONTEXT->RSSetViewports(1, &view_port);
 
-	m_resolution_size = Vector2(view_port.Width, view_port.Height);
+	m_client_resolution_size = Vector2(view_port.Width, view_port.Height);
 }
 
 const bool RenderManager::CheckMouseWorldPositionInRect(const Vector2& mouse_position, const Vector2& rect_left_top, const Vector2& rect_right_bottom)
@@ -339,7 +335,8 @@ void RenderManager::UpdateConstantBuffer()
 	//=============================================
 	//Program
 	//=============================================
-	g_cbuffer_program.resolution = Vector2(static_cast<float>(m_p_render_target_texture->GetWidth()), static_cast<float>(m_p_render_target_texture->GetHeight()));
+	g_cbuffer_program.client_resolution = m_client_resolution_size;
+	g_cbuffer_program.game_resolution = SETTINGS->GetGameResolution();
 
 	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::Program);
 	constant_buffer->SetConstantBufferData(&g_cbuffer_program, sizeof(CBuffer_Program));
@@ -418,7 +415,7 @@ void RenderManager::CreateRenderTexture(const UINT& width, const UINT& height)
 	//이미 추가가 된 경우 -> 이미 만들어진 View 자원을 해제하고 새로운 해상도의 View 자원을 생성
 	else
 	{
-		if (static_cast<UINT>(m_resolution_size.x) == width && static_cast<UINT>(m_resolution_size.y) == height)
+		if (static_cast<UINT>(m_client_resolution_size.x) == width && static_cast<UINT>(m_client_resolution_size.y) == height)
 			return;
 
 		//Create Render Target View

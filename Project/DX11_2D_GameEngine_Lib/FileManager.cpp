@@ -57,18 +57,25 @@ void FileManager::Initialize()
 	}
 
 	m_absolute_animation_path = m_absolute_content_path + "Asset/Animation/";	//Animation폴더 절대경로
-	m_absolute_audio_path	  = m_absolute_content_path + "Asset/Audio/";	//Audio폴더 절대경로
-	m_absolute_material_path  = m_absolute_content_path + "Asset/Material/";	//Material폴더 절대경로
-	m_absolute_mesh_path	  = m_absolute_content_path + "Asset/Mesh/";	//Mesh폴더 절대경로
-	m_absolute_scene_path	  = m_absolute_content_path + "Asset/Scene/";	//Scene폴더 절대경로
-	m_absolute_texture_path	  = m_absolute_content_path + "Asset/Texture/";	//Texture폴더 절대경로
-	m_absolute_tilemap_path	  = m_absolute_content_path + "Asset/TileMap/";	//TileMap폴더 절대경로
-	m_absolute_prefab_path	  = m_absolute_content_path + "Asset/Prefab/";	//Prefab폴더 절대경로
+	m_absolute_audio_path = m_absolute_content_path + "Asset/Audio/";			//Audio폴더 절대경로
+	m_absolute_material_path = m_absolute_content_path + "Asset/Material/";		//Material폴더 절대경로
+	m_absolute_mesh_path = m_absolute_content_path + "Asset/Mesh/";				//Mesh폴더 절대경로
+	m_absolute_scene_path = m_absolute_content_path + "Asset/Scene/";			//Scene폴더 절대경로
+	m_absolute_texture_path = m_absolute_content_path + "Asset/Texture/";		//Texture폴더 절대경로
+	m_absolute_tilemap_path = m_absolute_content_path + "Asset/TileMap/";		//TileMap폴더 절대경로
+	m_absolute_prefab_path = m_absolute_content_path + "Asset/Prefab/";			//Prefab폴더 절대경로
+	m_absolute_particle_path = m_absolute_content_path + "Asset/Particle/";		//Particle폴더 절대경로
 
 	//Animation에 지원되는 확장자들
 	m_supported_animation_formats =
 	{
 		".anim"
+	};
+
+	//Audio에 지원되는 확장자들
+	m_supported_audio_formats =
+	{
+		".mod", ".mp3", ".wav"
 	};
 
 	//Material에 지원되는 확장자들
@@ -83,28 +90,10 @@ void FileManager::Initialize()
 		".mesh"
 	};
 
-	//Prefab에 지원되는 확장자들
-	m_supported_prefab_formats =
-	{
-		".prefab"
-	};
-
 	//Scene에 지원되는 확장자들
 	m_supported_scene_formats =
 	{
 		".scene"
-	};
-
-	//TileMap에 지원되는 확장자들
-	m_supported_tilemap_formats =
-	{
-		".tile"
-	};
-
-	//Audio에 지원되는 확장자들
-	m_supported_audio_formats =
-	{
-		".mod", ".mp3", ".wav"
 	};
 
 	//Texture에 지원되는 확장자들
@@ -113,6 +102,24 @@ void FileManager::Initialize()
 		".jpg", ".png", ".bmp", ".tga",
 		".dds", ".exr", ".raw", ".gif",
 		".hdr", ".ico", ".jng", ".jpeg"
+	};
+
+	//TileMap에 지원되는 확장자들
+	m_supported_tilemap_formats =
+	{
+		".tile"
+	};
+
+	//Prefab에 지원되는 확장자들
+	m_supported_prefab_formats =
+	{
+		".prefab"
+	};
+
+	//Particle에 지원되는 확장자들
+	m_supported_particle_formats =
+	{
+		".particle"
 	};
 }
 
@@ -523,39 +530,11 @@ const bool FileManager::IsSupportedMeshFile(const std::string& path)
 	return false;
 }
 
-const bool FileManager::IsSupportedPrefabFile(const std::string& path)
-{
-	auto file_extension = GetExtensionFromPath(path);
-
-	for (const auto& format : m_supported_prefab_formats)
-	{
-		//대소문자 비교포함
-		if (file_extension == format || file_extension == ToUppercase(format))
-			return true;
-	}
-
-	return false;
-}
-
 const bool FileManager::IsSupportedSceneFile(const std::string& path)
 {
 	auto file_extension = GetExtensionFromPath(path);
 
 	for (const auto& format : m_supported_scene_formats)
-	{
-		//대소문자 비교포함
-		if (file_extension == format || file_extension == ToUppercase(format))
-			return true;
-	}
-
-	return false;
-}
-
-const bool FileManager::IsSupportedTileMapFile(const std::string& path)
-{
-	auto file_extension = GetExtensionFromPath(path);
-
-	for (const auto& format : m_supported_tilemap_formats)
 	{
 		//대소문자 비교포함
 		if (file_extension == format || file_extension == ToUppercase(format))
@@ -579,6 +558,47 @@ const bool FileManager::IsSupportedTextureFile(const std::string& path)
 	return false;
 }
 
+const bool FileManager::IsSupportedTileMapFile(const std::string& path)
+{
+	auto file_extension = GetExtensionFromPath(path);
+
+	for (const auto& format : m_supported_tilemap_formats)
+	{
+		//대소문자 비교포함
+		if (file_extension == format || file_extension == ToUppercase(format))
+			return true;
+	}
+
+	return false;
+}
+
+const bool FileManager::IsSupportedPrefabFile(const std::string& path)
+{
+	auto file_extension = GetExtensionFromPath(path);
+
+	for (const auto& format : m_supported_prefab_formats)
+	{
+		//대소문자 비교포함
+		if (file_extension == format || file_extension == ToUppercase(format))
+			return true;
+	}
+
+	return false;
+}
+
+const bool FileManager::IsSupportedParticleFile(const std::string& path)
+{
+	auto file_extension = GetExtensionFromPath(path);
+
+	for (const auto& format : m_supported_particle_formats)
+	{
+		//대소문자 비교포함
+		if (file_extension == format || file_extension == ToUppercase(format))
+			return true;
+	}
+
+	return false;
+}
 
 const std::string FileManager::ToUppercase(const std::string& lower)
 {

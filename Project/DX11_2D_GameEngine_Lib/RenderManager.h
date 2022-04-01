@@ -56,7 +56,7 @@ public:
 	const std::shared_ptr<Texture>& GetPostEffectRenderTargetTexture() { SAFE_GET_POINTER(m_p_post_effect_render_target_texture); };
 
 	void SetResolution(const UINT& width, const UINT& height);
-	const Vector2& GetResolution() { return m_resolution_size; }
+	const Vector2& GetClientResolution() { return m_client_resolution_size; }
 	
 	void SetScreenOffset(const float& x, const float& y) { m_screen_offset.x = x; m_screen_offset.y = y;}
 	const Vector2& GetScreenOffset() { return m_screen_offset; }
@@ -74,13 +74,13 @@ public:
 private:
 	//Render Target Texture
 	std::shared_ptr<Texture> m_p_render_target_texture = nullptr;
+	Vector2 m_client_resolution_size = Vector2::Zero;
 	//Depth Stencil Texture
 	std::shared_ptr<Texture> m_p_depth_stencil_texture = nullptr;
 
 	//Post Effect Àü¿ë Texture
 	std::shared_ptr<Texture> m_p_post_effect_render_target_texture = nullptr;
 
-	Vector2 m_resolution_size = Vector2::Zero;
 	Vector2 m_screen_offset = Vector2::Zero;
 	Vector2 m_client_rect_left_top = Vector2::Zero;
 	Vector2 m_client_rect_right_bottom = Vector2::Zero;

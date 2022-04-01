@@ -97,8 +97,6 @@ void TileMap::CreateTileMapBuffer()
 
 bool TileMap::SaveToFile(const std::string& tile_map_path)
 {
-	auto resource_manager = RESOURCE_MANAGER;
-
 	FILE* p_file = nullptr;
 	fopen_s(&p_file, tile_map_path.c_str(), "wb"); //파일 쓰기
 
@@ -115,7 +113,7 @@ bool TileMap::SaveToFile(const std::string& tile_map_path)
 		for (UINT i = 0; i < m_used_tile_atlas_texture_vector.size(); ++i)
 		{
 			auto used_tile_atlas_texture = m_used_tile_atlas_texture_vector[i];
-			resource_manager->SaveResource<Texture>(used_tile_atlas_texture, p_file);
+			RESOURCE_MANAGER->SaveResource<Texture>(used_tile_atlas_texture, p_file);
 		}
 
 		//TileMap Info

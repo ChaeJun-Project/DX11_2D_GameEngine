@@ -22,6 +22,7 @@ public:
 	const std::string& GetAbsoluteTexturePath()	  { return m_absolute_texture_path; }
 	const std::string& GetAbsoluteTileMapPath()	  { return m_absolute_tilemap_path; }
 	const std::string& GetAbsolutePrefabPath()	  { return m_absolute_prefab_path; }
+	const std::string& GetAbsoluteParticlePath()  { return m_absolute_particle_path; }
 	
 public:
 	void OpenDirectoryWindow(const std::string& directory);
@@ -57,10 +58,11 @@ public:
 	const bool IsSupportedAudioFile(const std::string& path);     //Audio
 	const bool IsSupportedMaterialFile(const std::string& path);  //Material
 	const bool IsSupportedMeshFile(const std::string& path);      //Mesh
-	const bool IsSupportedPrefabFile(const std::string& path);    //Prefab
 	const bool IsSupportedSceneFile(const std::string& path);     //Scene
-	const bool IsSupportedTileMapFile(const std::string& path);   //TileMap
 	const bool IsSupportedTextureFile(const std::string& path);   //Texture
+	const bool IsSupportedTileMapFile(const std::string& path);   //TileMap
+	const bool IsSupportedPrefabFile(const std::string& path);    //Prefab
+	const bool IsSupportedParticleFile(const std::string& path);   //Particle
 
 	const std::string ToUppercase(const std::string& lower); //소문자 -> 대문자
 	const std::string ToLowercase(const std::string& upper); //대문자 -> 소문자
@@ -118,13 +120,15 @@ private:
 	std::string m_absolute_texture_path;		//Texture폴더 절대경로
 	std::string m_absolute_tilemap_path;		//TileMap폴더 절대경로
 	std::string m_absolute_prefab_path;			//Prefab폴더 절대경로
+	std::string m_absolute_particle_path;		//Particle폴더 절대경로
 
 	std::vector<std::string> m_supported_animation_formats;	//Animation에 지원되는 확장자들
 	std::vector<std::string> m_supported_audio_formats;		//Audio에 지원되는 확장자들
 	std::vector<std::string> m_supported_material_formats;	//Material에 지원되는 확장자들
 	std::vector<std::string> m_supported_mesh_formats;		//Mesh에 지원되는 확장자들
-	std::vector<std::string> m_supported_prefab_formats;	//Prefab에 지원되는 확장자들
 	std::vector<std::string> m_supported_scene_formats;		//Scene에 지원되는 확장자들
-	std::vector<std::string> m_supported_tilemap_formats;	//TileMap에 지원되는 확장자들
 	std::vector<std::string> m_supported_texture_formats;	//Texture에 지원되는 확장자들
+	std::vector<std::string> m_supported_tilemap_formats;	//TileMap에 지원되는 확장자들
+	std::vector<std::string> m_supported_prefab_formats;	//Prefab에 지원되는 확장자들
+	std::vector<std::string> m_supported_particle_formats;	//Particle에 지원되는 확장자들
 };

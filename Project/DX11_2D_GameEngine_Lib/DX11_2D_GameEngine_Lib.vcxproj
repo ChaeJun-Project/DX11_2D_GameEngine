@@ -245,8 +245,8 @@ call GameEngineCopy.bat</Command>
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="ParticleUpdateShader.h" />
+    <ClInclude Include="ParticleRenderer.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Prefab.h" />
     <ClInclude Include="RasterizerState.h" />
@@ -315,8 +315,8 @@ call GameEngineCopy.bat</Command>
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="ParticleUpdateShader.cpp" />
+    <ClCompile Include="ParticleRenderer.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="RasterizerState.cpp" />
@@ -359,6 +359,20 @@ call GameEngineCopy.bat</Command>
       </ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\SnowShader.fx">
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\SnowUpdate.fx">
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
     </FxCompile>
     <FxCompile Include="ShaderFiles\SpriteAnimationStruct.fx">
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -409,20 +423,6 @@ call GameEngineCopy.bat</Command>
       </ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="ShaderFiles\DistortionShader.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </ObjectFileOutput>
-    </FxCompile>
-    <FxCompile Include="ShaderFiles\RainShader.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </ObjectFileOutput>
-    </FxCompile>
-    <FxCompile Include="ShaderFiles\RainUpdate.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ObjectFileOutput>

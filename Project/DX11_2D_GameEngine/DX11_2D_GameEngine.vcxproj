@@ -183,7 +183,7 @@
     <ClInclude Include="Editor\GUI\5. Inspector\Component\4. Animator2D\GUI_Animator2D.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\6. Collider2D\GUI_Collider2D.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\7. Light2D\GUI_Light2D.h" />
-    <ClInclude Include="Editor\GUI\5. Inspector\Component\8. Particle System\GUI_ParticleSystem.h" />
+    <ClInclude Include="Editor\GUI\5. Inspector\Component\8. Particle Renderer\GUI_ParticleRenderer.h" />
     <ClInclude Include="Editor\GUI\Module\ItemList\GUI_ItemList.h" />
     <ClInclude Include="Editor\GUI\3. Hierarchy\GUI_Hierarchy.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\Sprite Editor\GUI_SpriteEditor.h" />
@@ -247,7 +247,7 @@
     <ClCompile Include="Editor\GUI\5. Inspector\Component\4. Animator2D\GUI_Animator2D.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\6. Collider2D\GUI_Collider2D.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\7. Light2D\GUI_Light2D.cpp" />
-    <ClCompile Include="Editor\GUI\5. Inspector\Component\8. Particle System\GUI_ParticleSystem.cpp" />
+    <ClCompile Include="Editor\GUI\5. Inspector\Component\8. Particle Renderer\GUI_ParticleRenderer.cpp" />
     <ClCompile Include="Editor\GUI\Module\ItemList\GUI_ItemList.cpp" />
     <ClCompile Include="Editor\GUI\3. Hierarchy\GUI_Hierarchy.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Sprite Editor\GUI_SpriteEditor.cpp" />

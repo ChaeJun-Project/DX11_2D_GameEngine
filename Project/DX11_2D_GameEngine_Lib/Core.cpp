@@ -28,6 +28,8 @@ void Core::Initialize()
 	GRAPHICS_MANAGER->Initialize();
 	//Initialize Scene Manager
 	SCENE_MANAGER->Initialize();
+	//Initialize Font Manager
+	FONT_MANAGER->Initialize();
 }
 
 void Core::PostInitialize()
@@ -36,8 +38,6 @@ void Core::PostInitialize()
 	RESOURCE_MANAGER->Initialize();
 	//Initialize Render Manager
 	RENDER_MANAGER->Initialize();
-	//Initialize Font Manager
-	FONT_MANAGER->Initialize();
 }
 
 void Core::Progress()

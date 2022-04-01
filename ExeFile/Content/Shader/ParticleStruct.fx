@@ -21,7 +21,7 @@ struct ParticleShared
 {
     int activable_count;      //활성화 할 수 있는 파티클 개수
     int current_active_count; //현재 활성화 되어있는 파티클 개수
-    float3 create_range;     //파티클 생성 범위
+    float3 create_range;      //파티클 생성 범위
 };
 
 #endif

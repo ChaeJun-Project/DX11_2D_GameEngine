@@ -19,6 +19,8 @@
 #include "Prefab.h"
 //SpriteAnimation
 #include "SpriteAnimation.h"
+//Particle
+#include "Particle.h"
 //TileMap
 #include "TileMap.h"
 
@@ -61,6 +63,7 @@ REGISTER_RESOURCE_TYPE(Texture, ResourceType::Texture);
 REGISTER_RESOURCE_TYPE(AudioClip, ResourceType::AudioClip);
 REGISTER_RESOURCE_TYPE(Prefab, ResourceType::Prefab);
 REGISTER_RESOURCE_TYPE(SpriteAnimation, ResourceType::SpriteAnimation);
+REGISTER_RESOURCE_TYPE(Particle, ResourceType::Particle);
 REGISTER_RESOURCE_TYPE(TileMap, ResourceType::TileMap);
 
 const ResourceMap ResourceManager::GetResourceMap(const ResourceType& resource_type)
@@ -82,6 +85,7 @@ void ResourceManager::Initialize()
 	CreateAddedMaterial();
 	CreateAddedMesh();
 	CreateAddedPrefab();
+	CreateAddedParticle();
 }
 
 void ResourceManager::CreateResourceMap()
@@ -168,15 +172,16 @@ void ResourceManager::CreateDefaultShader()
 	if (!result)
 		return;
 
-	//Create Particle Shader
-	p_shader = std::make_shared<Shader>("Rain");
-	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/RainShader.fx", "VS_Rain", "vs_5_0");
-	p_shader->AddShader<GeometryShader>(absolute_content_path + "Shader/RainShader.fx", "GS_Rain", "gs_5_0");
-	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/RainShader.fx", "PS_Rain", "ps_5_0");
-	p_shader->AddShader<ComputeShader>(absolute_content_path + "Shader/RainUpdate.fx", "CS_Rain", "cs_5_0");
-	AddComputeShader("Rain", p_shader->GetShader<ComputeShader>());
+	//Create Snow Particle Shader
+	p_shader = std::make_shared<Shader>("Snow");
+	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/SnowShader.fx", "VS", "vs_5_0");
+	p_shader->AddShader<GeometryShader>(absolute_content_path + "Shader/SnowShader.fx", "GS", "gs_5_0");
+	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/SnowShader.fx", "PS", "ps_5_0");
 	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::GS | PipelineStage::PS);
 
+	p_shader->AddShader<ComputeShader>(absolute_content_path + "Shader/SnowUpdate.fx", "CS", "cs_5_0");
+	AddComputeShader("Snow", p_shader->GetShader<ComputeShader>());
+	
 	p_shader->SetRenderTimePointType(RenderTimePointType::Particle);
 	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
 	p_shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
@@ -460,6 +465,35 @@ const std::shared_ptr<SpriteAnimation> ResourceManager::CreateSpriteAnimation(co
 		return std::dynamic_pointer_cast<SpriteAnimation>(animation2D_map.find(animation2D_name)->second);
 
 	return std::dynamic_pointer_cast<SpriteAnimation>(animation2D_iter.first->second);
+}
+
+void ResourceManager::CreateAddedParticle()
+{
+	auto particle_directory_path = FILE_MANAGER->GetAbsoluteParticlePath();
+	auto particle_directory_file_path_vector = FILE_MANAGER->GetFilesInDirectory(particle_directory_path);
+	for (const auto& particle_file_path : particle_directory_file_path_vector)
+		LoadFromFile<Particle>(particle_file_path);
+}
+
+const std::shared_ptr<Particle> ResourceManager::CreateParticle(const std::string& particle_name)
+{
+	auto& particle_map = m_resources_map[ResourceType::Particle];
+
+	auto p_particle = std::make_shared<Particle>(particle_name);
+
+	/*auto particle_directory_path = FILE_MANAGER->GetAbsoluteParticlePath();
+	particle_directory_path += particle_name;
+	particle_directory_path += ".particle";
+	p_particle->SetResourcePath(particle_directory_path);
+
+	p_particle->SaveToFile(particle_directory_path);*/
+
+	auto particle_iter = particle_map.insert(std::make_pair(particle_name, p_particle));
+	auto result = particle_iter.second;
+	if (!result)
+		return std::dynamic_pointer_cast<Particle>(particle_map.find(particle_name)->second);
+
+	return std::dynamic_pointer_cast<Particle>(particle_iter.first->second);
 }
 
 const std::shared_ptr<TileMap> ResourceManager::CreateTileMap(const std::string& tile_map_name)

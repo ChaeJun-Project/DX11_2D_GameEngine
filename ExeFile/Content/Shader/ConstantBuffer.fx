@@ -53,14 +53,15 @@ cbuffer Material : register(b1)
 
 cbuffer Program : register(b2)
 {
-    float2 g_resolution;      //렌더타겟 해상도
-    float2 g_noise_resolution;//노이즈 텍스처 해상도 크기
+    float2 g_client_resolution; //클라이언트 해상도
+    float2 g_game_resolution;   //게임 해상도
+    
+    float2 g_noise_resolution; //노이즈 텍스처 해상도 크기
+    float g_delta_time;       //프레임 당 시간
+    float g_accumulate_time;  //누적시간     
     
     float3 g_view_position; //카메라 위치
-    float g_delta_time;       //프레임 당 시간
-    
-    float g_accumulate_time;  //누적시간     
-    float3 g_program_padding;
+    float g_program_padding;
 }
 
 #include "Light2DStruct.fx"

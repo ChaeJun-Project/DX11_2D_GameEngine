@@ -22,7 +22,7 @@ enum class IconType : UINT
    Component_Animator,
    Component_Collider2D,
    Component_Light2D,
-   Component_ParticleSystem,
+   Component_ParticleRenderer,
    Component_TileMapRenderer,
    Component_RigidBody2D,
    Component_AudioListener,
@@ -47,10 +47,11 @@ enum class FileThumbnailType : UINT
 	Audio = 3,
 	Material = 4,
 	Mesh = 5,
-	Prefab = 6,
-	Scene = 7,
+	Scene = 6,
+	Texture = 7, //텍스처인 경우 자기 자신의 SRV로 설정
 	TileMap = 8,
-	Texture = 9, //텍스처인 경우 자기 자신의 SRV로 설정
+	Prefab = 9,
+	Particle = 10,
 };
 
 #include <DX11_2D_GameEngine_Lib/Singleton.h>

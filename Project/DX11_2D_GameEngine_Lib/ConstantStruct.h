@@ -82,14 +82,15 @@ struct CBuffer_Material
 //======================================
 struct CBuffer_Program
 {
-	Vector2 resolution;
+	Vector2 client_resolution;
+	Vector2 game_resolution;
+
 	Vector2 noise_resolution; //Shader에서 랜덤값으로 사용
+	float delta_time;
+	float accumulate_time;
 
 	Vector3 view_position; //Main Camera Position
-	float delta_time;
-
-	float accumulate_time;
-	Vector3 padding;
+	float padding;
 };
 
 extern CBuffer_Program g_cbuffer_program;

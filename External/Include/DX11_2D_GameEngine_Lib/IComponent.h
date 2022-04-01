@@ -48,7 +48,7 @@ public:
 		case ComponentType::Light2D:
 			fprintf(p_file, "¡Ü Light2D\n");
 			break;
-		case ComponentType::ParticleSystem:
+		case ComponentType::ParticleRenderer:
 			fprintf(p_file, "¡Ü Particle System\n");
 			break;
 		case ComponentType::TileMapRenderer:

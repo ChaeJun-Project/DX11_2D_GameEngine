@@ -160,11 +160,8 @@
     <ClInclude Include="StructuredStruct.h">
       <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
-      <Filter>Scene\Components\8. Particle System</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleUpdateShader.h">
-      <Filter>Scene\Components\8. Particle System\ParticleUpdateShader</Filter>
+    <ClInclude Include="ParticleRenderer.h">
+      <Filter>Scene\Components\8. Particle Renderer</Filter>
     </ClInclude>
     <ClInclude Include="GeometryShader.h">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader</Filter>
@@ -228,6 +225,9 @@
     </ClInclude>
     <ClInclude Include="ImageRenderer.h">
       <Filter>Scene\Components\15. Image Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Resource\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -363,11 +363,8 @@
     <ClCompile Include="StructuredStruct.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleSystem.cpp">
-      <Filter>Scene\Components\8. Particle System</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleUpdateShader.cpp">
-      <Filter>Scene\Components\8. Particle System\ParticleUpdateShader</Filter>
+    <ClCompile Include="ParticleRenderer.cpp">
+      <Filter>Scene\Components\8. Particle Renderer</Filter>
     </ClCompile>
     <ClCompile Include="GeometryShader.cpp">
       <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader</Filter>
@@ -425,6 +422,9 @@
     </ClCompile>
     <ClCompile Include="ImageRenderer.cpp">
       <Filter>Scene\Components\15. Image Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Resource\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -644,12 +644,6 @@
     <Filter Include="Resource\SpriteAnimation">
       <UniqueIdentifier>{53a4b151-9b6e-4737-83e4-6bb384577495}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Components\8. Particle System">
-      <UniqueIdentifier>{40af64c4-72d9-41b2-910c-26d40443fc6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Components\8. Particle System\ParticleUpdateShader">
-      <UniqueIdentifier>{57283146-6d7c-4513-9fde-3df2dd509368}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Components\10. Rigid Body2D">
       <UniqueIdentifier>{d2d07f09-99cb-4b37-87e9-883f49dd265f}</UniqueIdentifier>
     </Filter>
@@ -674,6 +668,12 @@
     <Filter Include="ShaderFiles\Shader\Widget\Func">
       <UniqueIdentifier>{b97ecf24-c6d3-4c13-bb64-a43ca105e385}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\Components\8. Particle Renderer">
+      <UniqueIdentifier>{40af64c4-72d9-41b2-910c-26d40443fc6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Particle">
+      <UniqueIdentifier>{bf1fea25-23b9-40ba-a38e-b7f5c6645445}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ShaderFiles\ConstantBuffer.fx">
@@ -696,12 +696,6 @@
     </FxCompile>
     <FxCompile Include="ShaderFiles\ParticleStruct.fx">
       <Filter>ShaderFiles\Struct</Filter>
-    </FxCompile>
-    <FxCompile Include="ShaderFiles\RainUpdate.fx">
-      <Filter>ShaderFiles\Shader\Compute\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="ShaderFiles\RainShader.fx">
-      <Filter>ShaderFiles\Shader</Filter>
     </FxCompile>
     <FxCompile Include="ShaderFiles\DistortionShader.fx">
       <Filter>ShaderFiles\Shader\Post Effect</Filter>
@@ -726,6 +720,12 @@
     </FxCompile>
     <FxCompile Include="ShaderFiles\Light2DShader.fx">
       <Filter>ShaderFiles\Shader\Post Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\SnowUpdate.fx">
+      <Filter>ShaderFiles\Shader\Compute\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderFiles\SnowShader.fx">
+      <Filter>ShaderFiles\Shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
