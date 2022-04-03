@@ -154,12 +154,12 @@ void DataInputString(const std::string& data_name, std::string* p_data, const fl
 	ImGui::PushItemWidth(size);
 	if (ImGui::InputText(label_str.c_str(), &str_data, flags))
 	{
-	    *p_data = str_data;
+		*p_data = str_data;
 	}
 	ImGui::PopItemWidth();
 }
 
-void DataInputResource(const std::string& data_name, const IResource* p_resource, const float& size, const float& indent)
+void DataInputResource(const std::string& data_name, const std::shared_ptr<IResource>& p_resource, const float& size, const float& indent)
 {
 	ImGui::Text(data_name.c_str());
 	ImGui::SameLine(indent);
@@ -177,25 +177,23 @@ void DataInputResource(const std::string& data_name, const IResource* p_resource
 }
 
 #include <DX11_2D_GameEngine_Lib/Texture.h>
-void DataInputTexture(const std::string& data_name, Texture** pp_texture, const float& size, const float& indent)
+void DataInputTexture(const std::string& data_name, std::shared_ptr<Texture>& p_texture, const float& size, const float& indent)
 {
-	DataInputResource(data_name, *pp_texture, size, indent);
+	DataInputResource(data_name, p_texture, size, indent);
 
 	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Texture))
 	{
-		auto p_texture = RESOURCE_MANAGER->LoadFromFile<Texture>(std::get<std::string>(pay_load->data));
-		(*pp_texture) = p_texture.get();
+		p_texture = RESOURCE_MANAGER->LoadFromFile<Texture>(std::get<std::string>(pay_load->data));
 	}
 }
 
 #include <DX11_2D_GameEngine_Lib/Prefab.h>
-void DataInputPrefab(const std::string& data_name, Prefab** pp_prefab, const float& size, const float& indent)
+void DataInputPrefab(const std::string& data_name, std::shared_ptr<Prefab>& p_prefab, const float& size, const float& indent)
 {
-	DataInputResource(data_name, *pp_prefab, size, indent);
+	DataInputResource(data_name, p_prefab, size, indent);
 
 	if (auto pay_load = DragDropEvent::ReceiveDragDropPayLoad(PayLoadType::Prefab))
 	{
-		auto p_prefab = RESOURCE_MANAGER->LoadFromFile<Prefab>(std::get<std::string>(pay_load->data));
-		(*pp_prefab) = p_prefab.get();
+		p_prefab = RESOURCE_MANAGER->LoadFromFile<Prefab>(std::get<std::string>(pay_load->data));
 	}
 }

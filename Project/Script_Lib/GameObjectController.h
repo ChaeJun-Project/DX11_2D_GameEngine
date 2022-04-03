@@ -9,14 +9,18 @@ public:
 	virtual ~GameObjectController();
 
 protected:
-	virtual void Update_Move() = 0;
-	virtual void Update_State() = 0;
-	virtual void Update_Animation() = 0;
+	virtual void Update_Move() {};
+	virtual void Update_State() {};
+	virtual void Update_Animation() {};
 
 	void SetCurrentAnimation(const std::string& animation_name, const bool& is_loop = false, const bool& is_reverse = false);
 
 public:
-    int GetHp() const { return m_hp; }
+    const int GetHp() const { return m_hp; }
+	const bool GetCurrentAnimationIsFinished();
+
+	const Vector3 GetPosition();
+	void SetPosition(const Vector3 position);
 
 protected:
 	void SaveToScene(FILE* p_file);
@@ -33,5 +37,6 @@ protected:
 
 	SideState m_side_state = SideState::Right;
 
+	Transform* m_p_transform = nullptr;
 	Animator2D* m_p_animator2D = nullptr;
 };

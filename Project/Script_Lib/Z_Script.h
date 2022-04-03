@@ -70,7 +70,6 @@ public:
 	CLONE(Z_Script);
 
 private: 
-    Transform* m_p_transform = nullptr;
 	RigidBody2D* m_p_rigidbody2D = nullptr;
 
 	Collider2D* m_p_attack_hit_box = nullptr;

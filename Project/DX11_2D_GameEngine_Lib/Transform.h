@@ -67,9 +67,9 @@ public:
 	const Vector3 GetForwardVector() const { return Vector3::Forward * m_local_rotation; }
 
 	//World Matrix
-	const Matrix& GetParentOriginWorldMatrix() const { return m_parent_origin_world_matrix; }
-	const Matrix& GetOriginWorldMatrix() const { return m_origin_world_matrix; }
-	const Matrix& GetWorldMatrix() const { return m_world_matrix; }
+	const Matrix GetParentOriginWorldMatrix() const { return m_parent_origin_world_matrix; }
+	const Matrix GetOriginWorldMatrix() const { return m_origin_world_matrix; }
+	const Matrix GetWorldMatrix() const { return m_world_matrix; }
 	
 public:
 	//자식 GameObject에서 상속관계가 해제되었을 경우 호출

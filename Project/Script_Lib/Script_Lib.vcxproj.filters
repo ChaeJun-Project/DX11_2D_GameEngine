@@ -64,6 +64,9 @@
     <Filter Include="Scripts\UI\Warning">
       <UniqueIdentifier>{f30e026a-0482-474d-8e50-474b83da5535}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Enemy\Colonel\Attack Effect">
+      <UniqueIdentifier>{2ef58453-e690-45f8-b15f-67dba28e1527}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WalkCannon_Bullet_Script.cpp">
@@ -105,7 +108,7 @@
     <ClCompile Include="Colonel_Script.cpp">
       <Filter>Scripts\Enemy\Colonel</Filter>
     </ClCompile>
-    <ClCompile Include="Colonel_Behaviour_Node.cpp">
+    <ClCompile Include="Colonel_Behavior_Node.cpp">
       <Filter>Scripts\Enemy\Colonel</Filter>
     </ClCompile>
     <ClCompile Include="Hp_Script.cpp">
@@ -122,6 +125,15 @@
     </ClCompile>
     <ClCompile Include="Warning_Script.cpp">
       <Filter>Scripts\UI\Warning</Filter>
+    </ClCompile>
+    <ClCompile Include="Colonel_Attack1_Effect_Script.cpp">
+      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Colonel_Attack2_Effect_Script.cpp">
+      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Colonel_Attack3_Effect_Script.cpp">
+      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,7 +188,7 @@
     <ClInclude Include="BehaviourTree.h">
       <Filter>Scripts\Enemy\Behaviour Tree</Filter>
     </ClInclude>
-    <ClInclude Include="Colonel_Behaviour_Node.h">
+    <ClInclude Include="Colonel_Behavior_Node.h">
       <Filter>Scripts\Enemy\Colonel</Filter>
     </ClInclude>
     <ClInclude Include="Hp_Script.h">
@@ -193,6 +205,15 @@
     </ClInclude>
     <ClInclude Include="Warning_Script.h">
       <Filter>Scripts\UI\Warning</Filter>
+    </ClInclude>
+    <ClInclude Include="Colonel_Attack1_Effect_Script.h">
+      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Colonel_Attack2_Effect_Script.h">
+      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Colonel_Attack3_Effect_Script.h">
+      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

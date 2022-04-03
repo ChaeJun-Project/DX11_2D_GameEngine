@@ -1,7 +1,7 @@
 #pragma once
 #include "IComponent.h"
 
-typedef std::variant<void*> ScriptParamData;
+typedef std::variant<void*, std::shared_ptr<Texture>*, std::shared_ptr<Prefab>*> ScriptParamData;
 struct ScriptParamStruct
 {
 	ScriptParamStruct(const std::string& param_name, const ScriptParamType& param_type, ScriptParamData p_param_data, const float& indent)
@@ -49,7 +49,7 @@ public:
 
 public:
 	const std::string& GetScriptName() { return m_script_name; }
-	const std::vector<ScriptParamStruct>& GetScriptParamVector() { return m_script_param_vector; }
+	const std::vector<ScriptParamStruct>& GetScriptParamVector() const { return m_script_param_vector; }
 
 public:
 	virtual void SaveToScene(FILE* p_file) override;

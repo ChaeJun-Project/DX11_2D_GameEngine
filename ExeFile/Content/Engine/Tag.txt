@@ -1,5 +1,5 @@
 [Tag Count]
-10
+11
 
 [Tag List]
 Default
@@ -12,3 +12,4 @@ Stage
 PlayerAttack
 Enemy
 Light
+EnemyAttack

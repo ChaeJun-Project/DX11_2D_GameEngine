@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "GameObjectController.h"
 
+#include <DX11_2D_GameEngine_Lib/Transform.h>
 #include <DX11_2D_GameEngine_Lib/Animator2D.h>
 
 GameObjectController::~GameObjectController()
 {
+	m_p_transform = nullptr;
 	m_p_animator2D = nullptr;
 }
 
@@ -18,9 +20,24 @@ void GameObjectController::SetCurrentAnimation(const std::string& animation_name
 	m_p_animator2D->SetIsPlayReverse(is_reverse);
 }
 
+const bool GameObjectController::GetCurrentAnimationIsFinished()
+{
+	return m_p_animator2D->GetCurrentAnimationIsFinished();
+}
+
+const Vector3 GameObjectController::GetPosition()
+{
+	return m_p_transform->GetLocalTranslation();
+}
+
+void GameObjectController::SetPosition(const Vector3 position)
+{ 
+	m_p_transform->SetLocalTranslation(position);
+}
+
 void GameObjectController::SaveToScene(FILE* p_file)
 {
-    //Hp
+	//Hp
 	fprintf_s(p_file, "[Hp]\n");
 	fprintf_s(p_file, "%d\n", m_hp);
 

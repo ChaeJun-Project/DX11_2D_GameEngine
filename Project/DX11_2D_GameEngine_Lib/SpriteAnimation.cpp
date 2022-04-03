@@ -45,7 +45,7 @@ SpriteAnimation::~SpriteAnimation()
 
 	m_p_atlas_texture.reset();
 
-	m_animation_event_func_map.clear();
+	m_animation_event_func_multimap.clear();
 }
 
 void SpriteAnimation::Update()
@@ -153,18 +153,14 @@ void SpriteAnimation::Stop()
 
 void SpriteAnimation::SetAnimationEvent(const UINT& clip_index, std::function<void(void)> event_func)
 {
-	auto map_iter = m_animation_event_func_map.insert(std::make_pair(clip_index, std::make_pair(false, event_func)));
-	auto result = map_iter.second;
-	if (!result)
-		return;
+	m_animation_event_func_multimap.insert(std::make_pair(clip_index, std::make_pair(false, event_func)));
 }
 
 void SpriteAnimation::DoAnimationEvent(const UINT& clip_index)
 {
-	auto animation_event_iter = m_animation_event_func_map.find(clip_index);
-	if (animation_event_iter != m_animation_event_func_map.end())
+	for (auto iter = m_animation_event_func_multimap.lower_bound(clip_index); iter != m_animation_event_func_multimap.upper_bound(clip_index); ++iter)
 	{
-		auto animation_event = animation_event_iter->second;
+		auto animation_event = iter->second;
 		//이미 수행한 경우
 		if (animation_event.first)
 			return;
@@ -176,7 +172,7 @@ void SpriteAnimation::DoAnimationEvent(const UINT& clip_index)
 
 void SpriteAnimation::ResetAnimationEventFlag()
 {
-	for (auto& animation_event : m_animation_event_func_map)
+	for (auto& animation_event : m_animation_event_func_multimap)
 	{
 		animation_event.second.first = false;
 	}

@@ -6,4 +6,4 @@ PlayerState_Enum.h
 GameObjectController.h
 ColonelState_Enum.h
 BehaviourTree.h
-Colonel_Behaviour_Node.h
+Colonel_Behavior_Node.h

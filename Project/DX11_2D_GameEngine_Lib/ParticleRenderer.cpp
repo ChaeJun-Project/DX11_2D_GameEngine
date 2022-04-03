@@ -82,6 +82,8 @@ void ParticleRenderer::Render()
 
 	//인스턴싱을 사용하여 한 번에 렌더링
 	m_p_mesh->RenderInstance(m_p_current_particle->m_particle_property.max_count);
+
+	m_p_current_particle->m_p_particle_buffer->Clear();
 }
 
 void ParticleRenderer::UpdateParticleShared()

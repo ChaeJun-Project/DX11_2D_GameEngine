@@ -181,7 +181,10 @@ call CodeGen.exe</Command>
     <ClInclude Include="Camera_Script.h" />
     <ClInclude Include="Ceiling_Script.h" />
     <ClInclude Include="ColonelState_Enum.h" />
-    <ClInclude Include="Colonel_Behaviour_Node.h" />
+    <ClInclude Include="Colonel_Attack1_Effect_Script.h" />
+    <ClInclude Include="Colonel_Attack2_Effect_Script.h" />
+    <ClInclude Include="Colonel_Attack3_Effect_Script.h" />
+    <ClInclude Include="Colonel_Behavior_Node.h" />
     <ClInclude Include="Colonel_Script.h" />
     <ClInclude Include="Door_Script.h" />
     <ClInclude Include="Enum.h" />
@@ -204,7 +207,10 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClCompile Include="Camera_Script.cpp" />
     <ClCompile Include="Ceiling_Script.cpp" />
-    <ClCompile Include="Colonel_Behaviour_Node.cpp" />
+    <ClCompile Include="Colonel_Attack1_Effect_Script.cpp" />
+    <ClCompile Include="Colonel_Attack2_Effect_Script.cpp" />
+    <ClCompile Include="Colonel_Attack3_Effect_Script.cpp" />
+    <ClCompile Include="Colonel_Behavior_Node.cpp" />
     <ClCompile Include="Colonel_Script.cpp" />
     <ClCompile Include="Door_Script.cpp" />
     <ClCompile Include="GameManager_Script.cpp" />

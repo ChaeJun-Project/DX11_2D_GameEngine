@@ -34,6 +34,8 @@ public:
 	const std::shared_ptr<SpriteAnimation>& GetCurrentAnimation() { SAFE_GET_POINTER(m_p_current_animation); }
 	void SetCurrentAnimation(const std::string& animation_name);
 
+	const bool GetCurrentAnimationIsFinished();
+
 	//Animation Playing
 	const bool& GetIsPlaying() const { return m_is_playing; }
 	void SetIsPlaying(const bool& is_playing) { m_is_playing = is_playing; }

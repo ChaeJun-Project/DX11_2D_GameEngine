@@ -79,7 +79,7 @@ private:
 	std::vector<SpriteAnimation_Frame> m_animation_frame_vector;
 	std::shared_ptr<Texture> m_p_atlas_texture;
 
-	std::map<UINT, std::pair<bool, std::function<void(void)>>> m_animation_event_func_map;
+	std::multimap<UINT, std::pair<bool, std::function<void(void)>>> m_animation_event_func_multimap;
 
 	bool m_is_finished = false;
 	bool m_is_paused = false;

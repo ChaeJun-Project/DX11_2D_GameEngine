@@ -165,6 +165,14 @@ void Animator2D::SetCurrentAnimation(const std::string& animation_name)
 	Play();
 }
 
+const bool Animator2D::GetCurrentAnimationIsFinished()
+{
+	if (m_p_current_animation == nullptr)
+		return false;
+
+	return m_p_current_animation->m_is_finished;
+}
+
 void Animator2D::SetAnimationEvent(const std::string& animation_name, const UINT& clip_index, std::function<void(void)> event_func)
 {
 	auto animation_iter = m_p_sprite_animation_map.find(animation_name);

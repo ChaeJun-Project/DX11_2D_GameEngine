@@ -36,13 +36,12 @@ Z_Script::Z_Script(const Z_Script& origin)
 
 Z_Script::~Z_Script()
 {
-	m_p_transform = nullptr;
 	m_p_rigidbody2D = nullptr;
 }
 
 void Z_Script::Start()
 {
-	m_p_transform = m_p_owner_game_object->GetComponent<Transform>();
+	GameObjectController::m_p_transform = m_p_owner_game_object->GetComponent<Transform>();
 	GameObjectController::m_p_animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
 	m_p_rigidbody2D = m_p_owner_game_object->GetComponent<RigidBody2D>();
 
@@ -567,31 +566,28 @@ void Z_Script::OnCollisionEnter(GameObject* other_game_object)
 {
 	if (other_game_object->GetGameObjectTag() == "Enemy")
 	{
-		if (!is_hit)
+		if (other_game_object->GetComponent<Collider2D>()->GetIsActive())
 		{
-			is_hit = true;
-			m_hp -= 20;
-			if (m_hp <= 0)
-				m_hp = 0;
+			if (!is_hit)
+			{
+				is_hit = true;
+				m_hp -= 20;
+				if (m_hp <= 0)
+					m_hp = 0;
+			}
+			m_current_state = PlayerState::Damaged;
 		}
-		m_current_state = PlayerState::Damaged;
 	}
 }
 
 void Z_Script::OnCollisionStay(GameObject* other_game_object)
 {
-	if (other_game_object->GetGameObjectTag() == "Enemy")
-	{
-		m_current_state = PlayerState::Damaged;
-	}
+	
 }
 
 void Z_Script::OnCollisionExit(GameObject* other_game_object)
 {
-	if (other_game_object->GetGameObjectTag() == "Enemy")
-	{
-		m_current_state = PlayerState::Idle;
-	}
+	
 }
 
 void Z_Script::SaveToScene(FILE* p_file)

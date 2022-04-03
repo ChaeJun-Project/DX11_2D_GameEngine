@@ -27,7 +27,7 @@ void GUI_Script::Render()
 		script->SetIsActive(is_active);
 
 		const auto& script_param_vector = script->GetScriptParamVector();
-		
+
 		for (UINT i = 0; i < static_cast<UINT>(script_param_vector.size()); ++i)
 		{
 			switch (script_param_vector[i].m_param_type)
@@ -46,16 +46,22 @@ void GUI_Script::Render()
 				break;
 			case ScriptParamType::Vector4:
 				DataInputVector4(script_param_vector[i].m_param_name, reinterpret_cast<Vector4*>(std::get<void*>(script_param_vector[i].m_p_param_data)), 60.0f, script_param_vector[i].m_indent);
-			    break;
+				break;
 			case ScriptParamType::String:
 				DataInputString(script_param_vector[i].m_param_name, reinterpret_cast<std::string*>(std::get<void*>(script_param_vector[i].m_p_param_data)), 100.0f, script_param_vector[i].m_indent);
 				break;
 			case ScriptParamType::Texture:
-				DataInputTexture(script_param_vector[i].m_param_name, reinterpret_cast<Texture**>(std::get<void*>(script_param_vector[i].m_p_param_data)), 100.0f, script_param_vector[i].m_indent);
-				break;
+			{
+				auto pp_texture = std::get<std::shared_ptr<Texture>*>(script_param_vector[i].m_p_param_data);
+				DataInputTexture(script_param_vector[i].m_param_name, *pp_texture, 100.0f, script_param_vector[i].m_indent);
+			}
+			break;
 			case ScriptParamType::Prefab:
-				DataInputPrefab(script_param_vector[i].m_param_name, reinterpret_cast<Prefab**>(std::get<void*>(script_param_vector[i].m_p_param_data)), 100.0f, script_param_vector[i].m_indent);
-				break;
+			{
+				auto pp_prefab = std::get<std::shared_ptr<Prefab>*>(script_param_vector[i].m_p_param_data);
+				DataInputPrefab(script_param_vector[i].m_param_name, *pp_prefab, 100.0f, script_param_vector[i].m_indent);
+			}
+			break;
 			}
 		}
 
