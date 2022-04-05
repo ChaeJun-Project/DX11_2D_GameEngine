@@ -69,12 +69,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WalkCannon_Bullet_Script.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="WalkCannon_Script.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="ScriptManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
@@ -135,14 +129,11 @@
     <ClCompile Include="Colonel_Attack3_Effect_Script.cpp">
       <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
     </ClCompile>
+    <ClCompile Include="ProjectileController.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WalkCannon_Bullet_Script.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="WalkCannon_Script.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="ScriptManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
@@ -214,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="Colonel_Attack3_Effect_Script.h">
       <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileController.h">
+      <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

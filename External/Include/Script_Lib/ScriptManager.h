@@ -7,6 +7,9 @@ enum class Script_Type : UINT
 {
 	Camera_Script,
 	Ceiling_Script,
+	Colonel_Attack1_Effect_Script,
+	Colonel_Attack2_Effect_Script,
+	Colonel_Attack3_Effect_Script,
 	Colonel_Script,
 	Door_Script,
 	GameManager_Script,

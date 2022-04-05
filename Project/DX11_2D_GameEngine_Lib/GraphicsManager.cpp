@@ -20,9 +20,8 @@ GraphicsManager::GraphicsManager()
 
 GraphicsManager::~GraphicsManager()
 {
-	auto p_settings = Core::GetInstance()->GetSettings();
 	//전체모드인 경우
-	if (m_p_swap_chain && p_settings->IsFullScreen())
+	if (m_p_swap_chain && SETTINGS->IsFullScreen())
 	{
 		//스왑체인 메모리 해제 전에 윈도우 모드로 변경해야 예외가 발생하지 않음
 		m_p_swap_chain->SetFullscreenState(false, nullptr);
@@ -55,75 +54,6 @@ GraphicsManager::~GraphicsManager()
 
 void GraphicsManager::Initialize()
 {
-	//지원하는 해상도 찾기(참고: https://copynull.tistory.com/240)
-	//========================================================================================================
-	ComPtr<IDXGIFactory> p_DXGI_factory = nullptr;
-	auto hResult = CreateDXGIFactory
-	(
-		__uuidof(IDXGIFactory),
-		reinterpret_cast<void**>(p_DXGI_factory.GetAddressOf())
-	);
-	assert(SUCCEEDED(hResult));
-
-	ComPtr<IDXGIAdapter> p_DXGI_adapter = nullptr;
-	hResult = p_DXGI_factory->EnumAdapters(0, p_DXGI_adapter.GetAddressOf());
-	assert(SUCCEEDED(hResult));
-
-	ComPtr<IDXGIOutput> p_DXGI_adapter_output = nullptr;
-	hResult = p_DXGI_adapter->EnumOutputs(0, p_DXGI_adapter_output.GetAddressOf());
-	assert(SUCCEEDED(hResult));
-
-	UINT display_mode_count = 0;
-	hResult = p_DXGI_adapter_output->GetDisplayModeList
-	(
-		DXGI_FORMAT_R8G8B8A8_UNORM,
-		DXGI_ENUM_MODES_INTERLACED,
-		&display_mode_count,
-		nullptr
-	);
-	assert(SUCCEEDED(hResult));
-
-	auto display_mode_list = new DXGI_MODE_DESC[display_mode_count];
-	hResult = p_DXGI_adapter_output->GetDisplayModeList
-	(
-		DXGI_FORMAT_R8G8B8A8_UNORM,
-		DXGI_ENUM_MODES_INTERLACED,
-		&display_mode_count,
-		display_mode_list
-	);
-	assert(SUCCEEDED(hResult));
-
-	auto settings = Core::GetInstance()->GetSettings();
-	auto current_window_width = settings->GetWindowWidth();
-	auto current_window_height = settings->GetWindowHeight();
-
-	for (UINT i = 0; i < display_mode_count; i++)
-	{
-		bool is_check = true;
-		is_check &= display_mode_list[i].Width == static_cast<UINT>(current_window_width);
-		is_check &= display_mode_list[i].Height == static_cast<UINT>(current_window_height);
-
-		if (is_check)
-		{
-			m_numerator = display_mode_list[i].RefreshRate.Numerator;
-			m_denominator = display_mode_list[i].RefreshRate.Denominator;
-		}
-	}
-
-	DXGI_ADAPTER_DESC adapter_desc;
-	hResult = p_DXGI_adapter->GetDesc(&adapter_desc);
-
-	m_gpu_memory_size = static_cast<UINT>(adapter_desc.DedicatedVideoMemory / 1024 / 1024);
-	m_gpu_description = adapter_desc.Description;
-
-	//콘솔창에 GPU정보 출력
-	std::wcout << "GPU Name: " << m_gpu_description << std::endl;
-	std::cout << "GPU Memory Size: " << m_gpu_memory_size << std::endl;
-	std::cout << "Screen Rate: " << m_numerator / m_denominator << std::endl;
-
-	SATE_DELETE_ARRAY(display_mode_list);
-	//========================================================================================================
-
 	//Device와 DeviceContext 생성
 	CreateDeviceAndDeviceContext();
 	//Swap Chain 생성
@@ -139,15 +69,13 @@ void GraphicsManager::Initialize()
 	//Blender 생성
 	CreateBlender();
 
-	ResizeWindowByUser(settings->GetWindowWidth(), settings->GetWindowHeight());
+	ResizeWindowByUser(SETTINGS->GetWindowWidth(), SETTINGS->GetWindowHeight());
 }
 
 void GraphicsManager::ResizeWindowByProgram(const UINT& width, const UINT& height)
 {
 	if (m_p_swap_chain)
 	{
-		auto settings = Core::GetInstance()->GetSettings();
-
 		DXGI_MODE_DESC desc;
 
 		//해상도 설정
@@ -155,8 +83,8 @@ void GraphicsManager::ResizeWindowByProgram(const UINT& width, const UINT& heigh
 		desc.Height = height;
 
 		//주사율 설정
-		desc.RefreshRate.Numerator = settings->IsVsync() ? m_numerator : 0;
-		desc.RefreshRate.Denominator = settings->IsVsync() ? m_denominator : 0;
+		desc.RefreshRate.Numerator = SETTINGS->IsVsync() ? SETTINGS->GetSreenRateNumerator() : 0;
+		desc.RefreshRate.Denominator = SETTINGS->IsVsync() ? SETTINGS->GetSreenRateDenominator() : 0;
 
 		//픽셀 포멧 설정
 		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -261,10 +189,8 @@ void GraphicsManager::Present()
 {
 	if (m_p_swap_chain)
 	{
-		auto settings = Core::GetInstance()->GetSettings();
-
 		//백 버퍼에 그린 내용을 전면 버퍼로 스왑
-		auto hResult = m_p_swap_chain->Present(settings->IsVsync() ? 1 : 0, 0);
+		auto hResult = m_p_swap_chain->Present(SETTINGS->IsVsync() ? 1 : 0, 0);
 		assert(SUCCEEDED(hResult));
 	}
 }
@@ -315,8 +241,6 @@ void GraphicsManager::CreateDeviceAndDeviceContext()
 
 void GraphicsManager::CreateSwapChain()
 {
-	auto settings = Core::GetInstance()->GetSettings();
-
 	//Swap Chain 구조체 설정
 	//========================================================================================================
 	DXGI_SWAP_CHAIN_DESC desc;
@@ -327,11 +251,11 @@ void GraphicsManager::CreateSwapChain()
 	desc.BufferDesc.Width = 0;
 	desc.BufferDesc.Height = 0;
 
-	//주사율(프레임) 설정
+	//주사율 설정
 	//분자
-	desc.BufferDesc.RefreshRate.Numerator = settings->IsVsync() ? m_numerator : 0;
+	desc.BufferDesc.RefreshRate.Numerator = SETTINGS->IsVsync() ? SETTINGS->GetSreenRateNumerator() : 0;
 	//분모
-	desc.BufferDesc.RefreshRate.Denominator = settings->IsVsync() ? m_denominator : 1;
+	desc.BufferDesc.RefreshRate.Denominator = SETTINGS->IsVsync() ? SETTINGS->GetSreenRateDenominator() : 0;
 
 	//버퍼의 픽셀 포멧
 	desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -350,11 +274,11 @@ void GraphicsManager::CreateSwapChain()
 	desc.SampleDesc.Quality = 0;
 
 	//렌더링 출력 대상 윈도우 설정
-	desc.OutputWindow = settings->GetWindowHandle();
+	desc.OutputWindow = SETTINGS->GetWindowHandle();
 
 	//창모드 On/Off
 	//창모드를 원하면 TRUE, 전체화면을 원하면 FALSE
-	desc.Windowed = !settings->IsFullScreen();
+	desc.Windowed = !SETTINGS->IsFullScreen();
 
 	//Swap 할 때 방식 설정
 	//DXGI_SWAP_EFFECT_DISCARD: Swap 할 때 완료한 데이터를 저장하지 않고 삭제
@@ -427,15 +351,13 @@ void GraphicsManager::CreateDepthStencilView()
 {
 	if (m_p_device != nullptr)
 	{
-		auto settings = Core::GetInstance()->GetSettings();
-
 		if (m_p_depth_stencil_view == nullptr)
 		{
 			m_p_depth_stencil_view = ResourceManager::GetInstance()->CreateTexture
 			(
 				"DepthStencilView",
-				settings->GetWindowWidth(),
-				settings->GetWindowHeight(),
+				SETTINGS->GetWindowWidth(),
+				SETTINGS->GetWindowHeight(),
 				DXGI_FORMAT_D24_UNORM_S8_UINT,
 				D3D11_BIND_DEPTH_STENCIL
 			);
@@ -444,8 +366,8 @@ void GraphicsManager::CreateDepthStencilView()
 		else
 			m_p_depth_stencil_view->Create
 			(
-				settings->GetWindowWidth(),
-				settings->GetWindowHeight(),
+				SETTINGS->GetWindowWidth(),
+				SETTINGS->GetWindowHeight(),
 				DXGI_FORMAT_D24_UNORM_S8_UINT,
 				D3D11_BIND_DEPTH_STENCIL
 			);

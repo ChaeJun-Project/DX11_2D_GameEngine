@@ -26,7 +26,7 @@ ParticleRenderer::ParticleRenderer()
 ParticleRenderer::ParticleRenderer(const ParticleRenderer& origin)
 	: IComponent(origin.m_component_type)
 {
-
+   //TODO
 }
 
 ParticleRenderer::~ParticleRenderer()

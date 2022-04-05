@@ -74,6 +74,7 @@
     <ClInclude Include="Editor\GUI\5. Inspector\Component\13. Canvas\GUI_Canvas.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\14. Image Renderer\GUI_ImageRenderer.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\Set Resolution\GUI_SetResolution.h" />
+    <ClInclude Include="Editor\GUI\8. Device\GUI_Device.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowSettings\DX11_2D_GameEngine.rc">
@@ -146,6 +147,7 @@
     <ClCompile Include="Editor\GUI\5. Inspector\Component\13. Canvas\GUI_Canvas.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\14. Image Renderer\GUI_ImageRenderer.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Set Resolution\GUI_SetResolution.cpp" />
+    <ClCompile Include="Editor\GUI\8. Device\GUI_Device.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WindowSettings\DX11_2D_GameEngine.aps" />

@@ -34,19 +34,7 @@ TileMapRenderer::TileMapRenderer(const TileMapRenderer& origin)
 	//Tile Atlas Texture의 Tile Index
 	m_current_tile_atlas_texture_index = origin.m_current_tile_atlas_texture_index;
 
-	//TileMap
-	std::shared_ptr<TileMap> m_p_tile_map = nullptr;
-
-	//현재 선택된 타일 아틀라스 텍스처의 타일의 인덱스
-	int m_current_tile_index = -1;
-	std::shared_ptr<Material> m_p_material = nullptr;
-	std::shared_ptr<Mesh> m_p_mesh = nullptr;
-
-	//Grid
-	bool m_is_draw_grid = true;
-	std::shared_ptr<Material> m_p_grid_material = nullptr;
-	std::shared_ptr<Mesh> m_p_grid_mesh = nullptr;
-	std::vector<Vector2> m_grid_left_top_vector;
+	//TODO
 }
 
 TileMapRenderer::~TileMapRenderer()

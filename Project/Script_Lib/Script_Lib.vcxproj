@@ -193,6 +193,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="GameObjectController.h" />
     <ClInclude Include="Hp_Script.h" />
     <ClInclude Include="PlayerState_Enum.h" />
+    <ClInclude Include="ProjectileController.h" />
     <ClInclude Include="Ready_Script.h" />
     <ClInclude Include="UIAnimationController.h" />
     <ClInclude Include="Wall_Script.h" />
@@ -201,8 +202,6 @@ call CodeGen.exe</Command>
     <ClInclude Include="Z_Script.h" />
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="WalkCannon_Bullet_Script.h" />
-    <ClInclude Include="WalkCannon_Script.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera_Script.cpp" />
@@ -217,6 +216,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="Ground_Script.cpp" />
     <ClCompile Include="GameObjectController.cpp" />
     <ClCompile Include="Hp_Script.cpp" />
+    <ClCompile Include="ProjectileController.cpp" />
     <ClCompile Include="Ready_Script.cpp" />
     <ClCompile Include="UIAnimationController.cpp" />
     <ClCompile Include="Wall_Script.cpp" />
@@ -231,8 +231,6 @@ call CodeGen.exe</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="WalkCannon_Bullet_Script.cpp" />
-    <ClCompile Include="WalkCannon_Script.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

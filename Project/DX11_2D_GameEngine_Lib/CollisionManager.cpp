@@ -18,7 +18,7 @@ CollisionManager::~CollisionManager()
 	m_collision_check_vector.clear();
 	m_collision_check_vector.shrink_to_fit();
 
-	m_collision_check_map.clear();
+	m_collision_check_unmap.clear();
 }
 
 void CollisionManager::Update()
@@ -43,7 +43,7 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 	const auto& left_layer_game_objects = current_scene->GetLayer(left_layer)->GetGameObjects();
 	const auto& right_layer_game_objects = current_scene->GetLayer(right_layer)->GetGameObjects();
 
-	std::map<ULONGLONG, bool>::iterator iter;
+	std::unordered_map<ULONGLONG, bool>::iterator iter;
 
 	for (UINT i = 0; i < static_cast<UINT>(left_layer_game_objects.size()); ++i)
 	{
@@ -66,13 +66,13 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 			colider_id.left_id = left_collider->GetObjectID();
 			colider_id.right_id = right_collider->GetObjectID();
 
-			iter = m_collision_check_map.find(colider_id.ID);
+			iter = m_collision_check_unmap.find(colider_id.ID);
 
 			//해당하는 Colider ID를 찾지 못했다면
-			if (iter == m_collision_check_map.end())
+			if (iter == m_collision_check_unmap.end())
 			{
-				m_collision_check_map.insert(std::make_pair(colider_id.ID, false));
-				iter = m_collision_check_map.find(colider_id.ID);
+				m_collision_check_unmap.insert(std::make_pair(colider_id.ID, false));
+				iter = m_collision_check_unmap.find(colider_id.ID);
 			}
 
 			//현재 충돌한 경우
@@ -81,16 +81,20 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 				//이전에도 충돌하고 있었던 경우
 				if (iter->second)
 				{
-					//둘중 하나 또는 모두 삭제 예정인 경우
-					if (left_layer_game_objects[i]->IsDead() || right_layer_game_objects[j]->IsDead())
+					//둘 중 하나 또는 모두 삭제 예정인 경우 or 둘 중 하나라도 Collider2D Box가 비활성화 상태인 경우 
+					if (left_layer_game_objects[i]->IsDead() || right_layer_game_objects[j]->IsDead()
+						|| !left_collider->GetIsActive() || !right_collider->GetIsActive())
 					{
 						//충돌처리 해제
 						left_collider->OnCollisionExit(right_collider);
 						right_collider->OnCollisionExit(left_collider);
 						iter->second = false;
+
+						if (left_layer_game_objects[i]->IsDead() || right_layer_game_objects[j]->IsDead())
+							m_collision_check_unmap.erase(iter->first);
 					}
 
-					//둘중 하나 또는 모두 삭제 예정이 아닌 경우
+					//둘 중 하나 또는 모두 삭제 예정이 아닌 경우
 					//계속 충돌하고 있음
 					else
 					{
@@ -102,12 +106,17 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 				//이전에는 충돌하지 않았던 경우(처음 충돌하는 경우)
 				else
 				{
+					//둘 중 하나라도 Collider2D Box가 비활성화 상태인 경우 
+					if (!left_collider->GetIsActive() || !right_collider->GetIsActive())
+						continue;
+
 					//둘 다 삭제 예정이 아닌 경우
 					if (!left_layer_game_objects[i]->IsDead() && !right_layer_game_objects[j]->IsDead())
 					{
 						//충돌처리
 						left_collider->OnCollisionEnter(right_collider);
 						right_collider->OnCollisionEnter(left_collider);
+
 						iter->second = true;
 					}
 				}
@@ -123,6 +132,12 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 					left_collider->OnCollisionExit(right_collider);
 					right_collider->OnCollisionExit(left_collider);
 					iter->second = false;
+				}
+
+				//과거에도 충돌하지 않았던 경우
+				else
+				{
+					m_collision_check_unmap.erase(iter->first);
 				}
 			}
 		}

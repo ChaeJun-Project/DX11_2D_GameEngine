@@ -164,8 +164,8 @@ void GameObject::FinalUpdate()
 
 void GameObject::Render()
 {
-	if (m_dead_check)
-		return;
+	/*if (m_dead_check)
+		return;*/
 
 	//Sprite Renderer
 	auto p_sprite_renderer = GetComponent<SpriteRenderer>();

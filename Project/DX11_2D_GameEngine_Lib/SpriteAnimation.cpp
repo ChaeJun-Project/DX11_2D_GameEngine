@@ -63,6 +63,8 @@ void SpriteAnimation::Update()
 	{
 		m_accumulate_time = 0.0f;
 
+		DoAnimationEvent(static_cast<UINT>(m_current_frame_id));
+
 		//애니메이션 역재생인 경우
 		if (m_p_owner_animator2D->GetIsPlayReverse())
 		{
@@ -90,8 +92,6 @@ void SpriteAnimation::Update()
 				m_is_finished = true;
 			}
 		}
-
-		DoAnimationEvent(static_cast<UINT>(m_current_frame_id));
 	}
 }
 

@@ -43,17 +43,6 @@ void Layer::FinalUpdate()
 	{
 		if (p_parent_game_object->m_is_active)
 			p_parent_game_object->FinalUpdate();
-
-		if (p_parent_game_object->m_dead_check)
-		{
-			//해당 Layer에 속한 자식 GameObject들 제거
-			const auto& child_game_object_vector = p_parent_game_object->m_p_child_vector;
-			for (const auto& p_child_game_object : child_game_object_vector)
-				DeregisterGameObject(p_child_game_object);
-
-			//해당 GameObject를 Parent GameObject Vector & GameObject Vector에서 제거
-			DeregisterGameObject(p_parent_game_object);
-		}
 	}
 }
 

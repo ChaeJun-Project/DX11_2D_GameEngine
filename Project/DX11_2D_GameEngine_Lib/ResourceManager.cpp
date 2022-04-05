@@ -438,6 +438,7 @@ const std::shared_ptr<Prefab> ResourceManager::CreatePrefab(GameObject* p_game_o
 	resource_path += (p_game_object->GetGameObjectName() + ".prefab");
 	resource_path = FILE_MANAGER->GetRelativeResourcePathFromAbsolutePath(resource_path);
 	p_prefab->SetResourcePath(resource_path);
+	SaveToFile<Prefab>(p_prefab, resource_path);
 
 	auto prefab_iter = prefab_map.insert(std::make_pair(p_game_object->GetGameObjectName(), p_prefab));
 	auto result = prefab_iter.second;

@@ -186,8 +186,6 @@ void RenderManager::RenderDebugMode()
 	{
 		//Render Time Manager
 		TIME_MANAGER->Render();
-		//Render Input Manager
-		INPUT_MANAGER->Render();
 	}
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 
+class Transform;
 class Animator2D;
 
 class GameObjectController

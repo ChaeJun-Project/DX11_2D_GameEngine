@@ -22,14 +22,14 @@ void EventManager::Update()
 	while (!m_p_dead_game_object_queue.empty())
 	{
 		auto p_dead_game_object = m_p_dead_game_object_queue.front();
+		m_p_dead_game_object_queue.pop();
+
 		p_dead_game_object->DetachFromParent(); //부모 오브젝트가 있다면 연결 해제
 
 		auto p_current_scene = SCENE_MANAGER->GetCurrentScene();
 		p_current_scene->DeregisterGameObject(p_dead_game_object, true); //현재 Scene에서 등록 해제(Layer 포함)
 
 		SAFE_DELETE(p_dead_game_object);
-
-		m_p_dead_game_object_queue.pop();
 
 		m_is_update = true;
 	}

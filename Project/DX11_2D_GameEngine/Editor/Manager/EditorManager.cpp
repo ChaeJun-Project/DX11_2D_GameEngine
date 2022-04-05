@@ -14,6 +14,7 @@
 #include "GUI/5. Inspector/GUI_Inspector.h"
 #include "GUI/6. Project/GUI_Project.h"
 #include "GUI/7. Console/GUI_Console.h"
+#include "GUI/8. Device/GUI_Device.h"
 
 #include <DX11_2D_GameEngine_Lib/FileManager.h>
 
@@ -150,6 +151,7 @@ void EditorManager::InitializeGUI()
 	m_gui_map.insert(std::make_pair(GUIType::Inspector, std::make_unique<GUI_Inspector>("Inspector")));		//Inspector
 	m_gui_map.insert(std::make_pair(GUIType::Project, std::make_unique<GUI_Project>("Project")));			//Project
 	m_gui_map.insert(std::make_pair(GUIType::Console, std::make_unique<GUI_Console>("Console")));			//Console(Log)
+	m_gui_map.insert(std::make_pair(GUIType::Device, std::make_unique<GUI_Device>("Device")));				//Device Info
 
 	//Initialize Each GUI
 	for (auto& gui : m_gui_map)
@@ -238,6 +240,7 @@ void EditorManager::BeginDockWindow()
 		ImGuiID main = dock_window_id;
 		ImGuiID down = ImGui::DockBuilderSplitNode(main, ImGuiDir_Down, 0.2f, nullptr, &main);
 		ImGuiID down_right = ImGui::DockBuilderSplitNode(down, ImGuiDir_Right, 0.2f, nullptr, &down);
+		ImGuiID down_right2 = ImGui::DockBuilderSplitNode(down_right, ImGuiDir_Right, 0.2f, nullptr, &down_right);
 		ImGuiID right = ImGui::DockBuilderSplitNode(main, ImGuiDir_Right, 0.2f, nullptr, &main);
 		ImGuiID right2 = ImGui::DockBuilderSplitNode(right, ImGuiDir_Right, 0.2f, nullptr, &right);
 
@@ -246,6 +249,7 @@ void EditorManager::BeginDockWindow()
 		ImGui::DockBuilderDockWindow(m_gui_map[GUIType::Inspector]->m_gui_title.c_str(), right2);
 		ImGui::DockBuilderDockWindow(m_gui_map[GUIType::Project]->m_gui_title.c_str(), down);
 		ImGui::DockBuilderDockWindow(m_gui_map[GUIType::Console]->m_gui_title.c_str(), down_right);
+		ImGui::DockBuilderDockWindow(m_gui_map[GUIType::Device]->m_gui_title.c_str(), down_right2);
 		ImGui::DockBuilderFinish(dock_window_id);
 	}
 	ImGui::DockSpace(dock_window_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);

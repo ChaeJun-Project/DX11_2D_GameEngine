@@ -19,6 +19,11 @@ public:
 
 	void Progress();
 
+private:
+    void InitializeDeviceInfo();
+	void GetCPUAndRamInfo();
+	void GetGPUInfo();
+
 public:
 	std::shared_ptr<Settings>& GetSettings() { return m_p_settings; }
 

@@ -22,11 +22,9 @@ void TimeManager::Update()
 
 	m_previous_count = m_current_count;
 
-	//Debug 모드에서는 Delta Time을 고정
-#ifdef _DEBUG
+	//Delta Time을 60프레임으로 고정
 	if (m_delta_time > (1.0 / 60.0))
 		m_delta_time = 1.0 / 60.0;
-#endif
 
 	CalcCurrentTime();
 	CalcFps();

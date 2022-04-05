@@ -1,15 +1,17 @@
 [Tag Count]
-11
+13
 
 [Tag List]
 Default
 Main Camera
 Post Effect Camera
 UI Camera
-Player
-Colonel
 Stage
+Ceiling
+Wall
+Ground
+Door
+Player
 PlayerAttack
 Enemy
-Light
 EnemyAttack

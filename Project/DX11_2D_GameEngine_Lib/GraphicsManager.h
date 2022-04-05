@@ -96,10 +96,4 @@ private:
 
 	//Blender를 저장할 map
 	std::map<BlendType, std::shared_ptr<BlendState>> m_p_blender_map;
-
-	//GPU 관련 정보
-	UINT m_gpu_memory_size = 0;
-	UINT m_numerator = 0;
-	UINT m_denominator = 0;
-	std::wstring m_gpu_description = L"";
 };

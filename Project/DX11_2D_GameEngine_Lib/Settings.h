@@ -29,6 +29,22 @@ public:
 	const Vector2 GetGameResolution() const { return m_game_resolution; }
 	void SetGameResolution(const Vector2 game_resolution) { m_game_resolution = game_resolution; }
 
+	//CPU
+	const std::string GetCPUName() const { return m_cpu_name; }
+	const UINT GetCoreCount() const { return m_core_count; }
+	
+	//Ram(GB)
+	const UINT GetRamMemory() const { return m_ram_memory; }
+
+	//GPU
+	const std::string GetGPUName() const { return m_gpu_name; }
+	const UINT GetVRamMemory() const { return m_video_ram_memory; }
+
+	//Screen Rate(스크린 주사율)
+	const UINT GetSreenRateNumerator() const { return m_numerator; }
+	const UINT GetSreenRateDenominator() const { return m_denominator; }
+	const UINT GetSreenRate() const { return m_screen_rate; }
+	
 	//전체화면 Setting
 	const bool IsFullScreen() const { return m_is_full_screen; }
 	void SetFullScreen(const bool& is_full_screen) { m_is_full_screen = is_full_screen; }
@@ -52,6 +68,25 @@ private:
 
 	Vector2 m_game_resolution = Vector2::Zero; //게임 해상도
 
+	//CPU
+	std::string m_cpu_name;
+	UINT m_core_count = 0;
+
+	//Ram(GB)
+	UINT m_ram_memory = 0;
+
+	//GPU
+	std::string m_gpu_name;
+	//VRam(GB)
+	UINT m_video_ram_memory = 0;
+
+	//Screen Rate(스크린 주사율)
+	UINT m_numerator = 0;
+	UINT m_denominator = 0;
+	UINT m_screen_rate = 0;
+
 	bool m_is_full_screen = false; //전체화면 여부
 	bool m_is_vsync = false; //수직 동기화 여부
+
+	friend class Core;
 };

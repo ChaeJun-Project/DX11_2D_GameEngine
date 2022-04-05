@@ -12,6 +12,7 @@
 
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/Transform.h>
+#include <DX11_2D_GameEngine_Lib/SpriteRenderer.h>
 #include <DX11_2D_GameEngine_Lib/Animator2D.h>
 #include <DX11_2D_GameEngine_Lib/Collider2D.h>
 
@@ -33,6 +34,12 @@ Colonel_Script::Colonel_Script(const Colonel_Script& origin)
 	RegisterScriptParamData();
 
 	MakeBehaviorTree();
+
+	m_hp = origin.m_hp;
+	
+	m_p_attack1_effect = origin.m_p_attack1_effect;
+	m_p_attack2_effect = origin.m_p_attack2_effect;
+	m_p_attack3_effect = origin.m_p_attack3_effect;
 }
 
 Colonel_Script::~Colonel_Script()
@@ -40,23 +47,30 @@ Colonel_Script::~Colonel_Script()
 	m_p_player_script = nullptr;
 	m_p_collider2D = nullptr;
 
-	p_attack1_effect.reset();
-	p_attack2_effect.reset();
-	p_attack3_effect.reset();
+	m_p_attack_1_fire_transform = nullptr;
+	m_p_attack_2_fire_transform = nullptr;
+
+	for (auto& p_attack_3_fire_transform : m_p_attack_3_fire_transform_vector)
+	{
+		p_attack_3_fire_transform = nullptr;
+	}
+	m_p_attack_3_fire_transform_vector.clear();
+	m_p_attack_3_fire_transform_vector.shrink_to_fit();
+
+	//Prefab
+	m_p_attack1_effect.reset();
+	m_p_attack2_effect.reset();
+	m_p_attack3_effect.reset();
 
 	SAFE_DELETE(m_p_behavior_tree_root);
 }
 
 void Colonel_Script::Start()
 {
-	//Set Script Data
-	/*p_attack1_effect = std::get<std::shared_ptr<Prefab>>(m_script_param_vector[2].m_p_param_data);
-	p_attack2_effect = std::get<std::shared_ptr<Prefab>>(m_script_param_vector[3].m_p_param_data);
-	p_attack3_effect = std::get<std::shared_ptr<Prefab>>(m_script_param_vector[4].m_p_param_data);*/
-	
 	GameObjectController::m_p_transform = m_p_owner_game_object->GetComponent<Transform>();
 	GameObjectController::m_p_animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
 
+	m_p_sprite_renderer = m_p_owner_game_object->GetComponent<SpriteRenderer>();
 	m_p_collider2D = m_p_owner_game_object->GetComponent<Collider2D>();
 
 	auto p_player_game_object = SCENE_MANAGER->GetCurrentScene()->FindGameObjectWithTag("Player");
@@ -71,6 +85,10 @@ void Colonel_Script::Start()
 	{
 		//TODO
 	}
+
+	AddAttackFireTransform();
+
+	m_p_attack_3_prepare_effect = m_p_owner_game_object->GetChildFromIndex(3);
 
 	AddAnimationEvent();
 
@@ -101,7 +119,7 @@ void Colonel_Script::Update()
 		hit_delay -= DELTA_TIME_F;
 		if (hit_delay <= 0.0f)
 		{
-			hit_delay = 2.0f;
+			hit_delay = 1.0f;
 			is_hit = false;
 		}
 	}
@@ -112,9 +130,9 @@ void Colonel_Script::RegisterScriptParamData()
 	AddScriptParamData(ScriptParamStruct("Hp", ScriptParamType::Int, reinterpret_cast<void*>(&m_hp), 100.0f));
 	AddScriptParamData(ScriptParamStruct("Current State", ScriptParamType::Int, reinterpret_cast<void*>(&m_current_state), 100.f));
 	
-	AddScriptParamData(ScriptParamStruct("Attack1 Effect", ScriptParamType::Prefab, &p_attack1_effect, 100.f));
-	AddScriptParamData(ScriptParamStruct("Attack2 Effect", ScriptParamType::Prefab, &p_attack2_effect, 100.f));
-	AddScriptParamData(ScriptParamStruct("Attack3 Effect", ScriptParamType::Prefab, &p_attack3_effect, 100.f));
+	AddScriptParamData(ScriptParamStruct("Attack1 Effect", ScriptParamType::Prefab, &m_p_attack1_effect, 100.f));
+	AddScriptParamData(ScriptParamStruct("Attack2 Effect", ScriptParamType::Prefab, &m_p_attack2_effect, 100.f));
+	AddScriptParamData(ScriptParamStruct("Attack3 Effect", ScriptParamType::Prefab, &m_p_attack3_effect, 100.f));
 }
 
 void Colonel_Script::MakeBehaviorTree()
@@ -162,6 +180,23 @@ void Colonel_Script::MakeBehaviorTree()
 	p_state_selector_node->AddChild(p_idle_node);
 }
 
+void Colonel_Script::AddAttackFireTransform()
+{
+    //Attack_1
+	m_p_attack_1_fire_transform = m_p_owner_game_object->GetChildFromIndex(0)->GetComponent<Transform>();
+
+	//Attack_2
+	m_p_attack_2_fire_transform = m_p_owner_game_object->GetChildFromIndex(1)->GetComponent<Transform>();
+
+	//Attack_3
+	auto p_attack_3_fire_position_game_objects = m_p_owner_game_object->GetChildFromIndex(2)->GetChilds();
+
+	for (const auto& p_attack_3_fire_position_game_object : p_attack_3_fire_position_game_objects)
+	{
+		m_p_attack_3_fire_transform_vector.emplace_back(p_attack_3_fire_position_game_object->GetComponent<Transform>());
+	}
+}
+
 void Colonel_Script::AddAnimationEvent()
 {
 	auto animation_map = m_p_animator2D->GetAnimationMap();
@@ -170,8 +205,15 @@ void Colonel_Script::AddAnimationEvent()
 	animation_map["Colonel_Start"]->SetAnimationEvent(9, std::bind(&Colonel_Script::TriggerStartToIdleState, this));
 
 	//Attack
+	animation_map["Colonel_Attack_1"]->SetAnimationEvent(2, std::bind(&Colonel_Script::CreateAttack1Effect, this));
 	animation_map["Colonel_Attack_1"]->SetAnimationEvent(4, std::bind(&Colonel_Script::TriggerIdleState, this));
+
+	animation_map["Colonel_Attack_2"]->SetAnimationEvent(3, std::bind(&Colonel_Script::CreateAttack2Effect, this));
 	animation_map["Colonel_Attack_2"]->SetAnimationEvent(5, std::bind(&Colonel_Script::TriggerIdleState, this));
+
+	animation_map["Colonel_Attack_3"]->SetAnimationEvent(0, std::bind(&Colonel_Script::ActiveAttack3PrepareEffect, this));
+	animation_map["Colonel_Attack_3"]->SetAnimationEvent(4, std::bind(&Colonel_Script::DisactiveAttack3PrepareEffect, this));
+	animation_map["Colonel_Attack_3"]->SetAnimationEvent(17, std::bind(&Colonel_Script::CreateAttack3Effect, this));
 	animation_map["Colonel_Attack_3"]->SetAnimationEvent(17, std::bind(&Colonel_Script::TriggerIdleState, this));
 
 	//Stealth
@@ -207,16 +249,101 @@ void Colonel_Script::EnableCollider2D()
 	m_p_collider2D->UpdateConstantBuffer();
 }
 
-void Colonel_Script::OnCollisionEnter(GameObject* other_game_object)
+#include "Colonel_Attack1_Effect_Script.h"
+void Colonel_Script::CreateAttack1Effect()
 {
-	if (other_game_object->GetGameObjectTag() == "PlayerAttack")
+    auto attack1_start_position = Vector3::Zero;
+	attack1_start_position.x = m_p_attack_1_fire_transform->GetTranslation().x;
+	attack1_start_position.y = m_p_attack_1_fire_transform->GetLocalTranslation().y;
+	
+	auto attack1_effect = Instantiate(m_p_attack1_effect.get(), attack1_start_position);
+	auto p_attack1_effect_script = dynamic_cast<Colonel_Attack1_Effect_Script*>(attack1_effect->GetScript("Colonel_Attack1_Effect_Script"));
+	
+	auto fire_direction = Vector3::Zero;
+	switch (m_side_state)
 	{
-		if (m_pre_state == ColonelState::Guard)
+	case SideState::Left:
+		fire_direction = Vector3::Left;
+		p_attack1_effect_script->SetSideState(SideState::Left);
+		break;
+	case SideState::Right:
+		fire_direction = Vector3::Right;
+		p_attack1_effect_script->SetSideState(SideState::Right);
+		break;
+	}
+
+	p_attack1_effect_script->SetFireDirection(fire_direction);
+}
+
+#include "Colonel_Attack2_Effect_Script.h"
+void Colonel_Script::CreateAttack2Effect()
+{
+	auto attack2_start_position = Vector3::Zero;
+	attack2_start_position.x = m_p_attack_2_fire_transform->GetTranslation().x;
+	attack2_start_position.y = m_p_attack_2_fire_transform->GetLocalTranslation().y;
+
+	auto attack2_effect = Instantiate(m_p_attack2_effect.get(), attack2_start_position);
+	auto p_attack2_effect_script = dynamic_cast<Colonel_Attack2_Effect_Script*>(attack2_effect->GetScript("Colonel_Attack2_Effect_Script"));
+
+	auto fire_direction = Vector3::Zero;
+	switch (m_side_state)
+	{
+	case SideState::Left:
+		fire_direction = Vector3::Left;
+		p_attack2_effect_script->SetSideState(SideState::Left);
+		break;
+	case SideState::Right:
+		fire_direction = Vector3::Right;
+		p_attack2_effect_script->SetSideState(SideState::Right);
+		break;
+	}
+
+	p_attack2_effect_script->SetFireDirection(fire_direction);
+}
+
+void Colonel_Script::ActiveAttack3PrepareEffect()
+{
+	m_p_attack_3_prepare_effect->SetIsActive(true);
+	auto p_animator2D = m_p_attack_3_prepare_effect->GetComponent<Animator2D>();
+	p_animator2D->Play();
+}
+
+void Colonel_Script::DisactiveAttack3PrepareEffect()
+{
+	m_p_attack_3_prepare_effect->SetIsActive(false);
+	auto p_animator2D = m_p_attack_3_prepare_effect->GetComponent<Animator2D>();
+	p_animator2D->Stop();
+}
+
+#include "Colonel_Attack3_Effect_Script.h"
+void Colonel_Script::CreateAttack3Effect()
+{
+	for (const auto& p_attack_3_fire_transform : m_p_attack_3_fire_transform_vector)
+	{
+		auto attack3_start_position = Vector3::Zero;
+		attack3_start_position.x = p_attack_3_fire_transform->GetTranslation().x;
+		attack3_start_position.y = p_attack_3_fire_transform->GetLocalTranslation().y;
+
+		auto attack3_effect = Instantiate(m_p_attack3_effect.get(), attack3_start_position);
+		auto p_attack3_effect_script = dynamic_cast<Colonel_Attack3_Effect_Script*>(attack3_effect->GetScript("Colonel_Attack3_Effect_Script"));
+
+		auto fire_direction = Vector3::Up;
+		
+		p_attack3_effect_script->SetFireDirection(fire_direction);
+	}
+}
+
+void Colonel_Script::OnCollisionEnter(GameObject* p_other_game_object)
+{
+	if (p_other_game_object->GetGameObjectTag() == "PlayerAttack")
+	{
+		if (m_pre_state == ColonelState::Guard || m_pre_state== ColonelState::Die)
 			return;
 
 		if (!is_hit)
 		{
 			is_hit = true;
+			m_p_sprite_renderer->SetSpriteTextureColor(Vector4::Red);
 			m_hp -= 20;
 			if (m_hp <= 0)
 				m_hp = 0;
@@ -224,12 +351,12 @@ void Colonel_Script::OnCollisionEnter(GameObject* other_game_object)
 	}
 }
 
-void Colonel_Script::OnCollisionStay(GameObject* other_game_object)
+void Colonel_Script::OnCollisionExit(GameObject* p_other_game_object)
 {
-}
-
-void Colonel_Script::OnCollisionExit(GameObject* other_game_object)
-{
+	if (p_other_game_object->GetGameObjectTag() == "PlayerAttack")
+	{
+		m_p_sprite_renderer->SetSpriteTextureColor(Vector4::White);
+	}
 }
 
 void Colonel_Script::SaveToScene(FILE* p_file)
@@ -240,13 +367,13 @@ void Colonel_Script::SaveToScene(FILE* p_file)
 
 	//Attack Effect
 	fprintf_s(p_file, "[Attack1 Effect]\n");
-	RESOURCE_MANAGER->SaveResource<Prefab>(p_attack1_effect, p_file);
+	RESOURCE_MANAGER->SaveResource<Prefab>(m_p_attack1_effect, p_file);
 
 	fprintf_s(p_file, "[Attack2 Effect]\n");
-	RESOURCE_MANAGER->SaveResource<Prefab>(p_attack2_effect, p_file);
+	RESOURCE_MANAGER->SaveResource<Prefab>(m_p_attack2_effect, p_file);
 
 	fprintf_s(p_file, "[Attack3 Effect]\n");
-	RESOURCE_MANAGER->SaveResource<Prefab>(p_attack3_effect, p_file);
+	RESOURCE_MANAGER->SaveResource<Prefab>(m_p_attack3_effect, p_file);
 
 }
 
@@ -258,11 +385,11 @@ void Colonel_Script::LoadFromScene(FILE* p_file)
 
 	//Attack Effect
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Attack1 Effect]
-	RESOURCE_MANAGER->LoadResource<Prefab>(p_attack1_effect, p_file);
+	RESOURCE_MANAGER->LoadResource<Prefab>(m_p_attack1_effect, p_file);
 
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Attack2 Effect]
-	RESOURCE_MANAGER->LoadResource<Prefab>(p_attack2_effect, p_file);
+	RESOURCE_MANAGER->LoadResource<Prefab>(m_p_attack2_effect, p_file);
 
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Attack3 Effect]
-	RESOURCE_MANAGER->LoadResource<Prefab>(p_attack3_effect, p_file);
+	RESOURCE_MANAGER->LoadResource<Prefab>(m_p_attack3_effect, p_file);
 }

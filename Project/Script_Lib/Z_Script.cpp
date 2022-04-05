@@ -25,13 +25,14 @@ Z_Script::Z_Script(const Z_Script& origin)
 {
 	RegisterScriptParamData();
 
+	InitializePlayerStateDetailMap();
+
 	m_is_active = origin.m_is_active;
 
+	m_hp = origin.m_hp;
 	m_run_speed = origin.m_run_speed;
 	m_jump_speed = origin.m_jump_speed;
-
 	m_dash_speed = origin.m_dash_speed;
-
 }
 
 Z_Script::~Z_Script()
@@ -564,7 +565,22 @@ void Z_Script::TriggerFallRunState()
 
 void Z_Script::OnCollisionEnter(GameObject* other_game_object)
 {
-	if (other_game_object->GetGameObjectTag() == "Enemy")
+	/*if (other_game_object->GetGameObjectTag() == "Enemy")
+	{
+		if (other_game_object->GetComponent<Collider2D>()->GetIsActive())
+		{
+			if (!is_hit)
+			{
+				is_hit = true;
+				m_hp -= 10;
+				if (m_hp <= 0)
+					m_hp = 0;
+			}
+			m_current_state = PlayerState::Damaged;
+		}
+	}*/
+
+	/*if (other_game_object->GetGameObjectTag() == "EnemyAttack")
 	{
 		if (other_game_object->GetComponent<Collider2D>()->GetIsActive())
 		{
@@ -577,7 +593,7 @@ void Z_Script::OnCollisionEnter(GameObject* other_game_object)
 			}
 			m_current_state = PlayerState::Damaged;
 		}
-	}
+	}*/
 }
 
 void Z_Script::OnCollisionStay(GameObject* other_game_object)

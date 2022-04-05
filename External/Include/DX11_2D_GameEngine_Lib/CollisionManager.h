@@ -34,6 +34,6 @@ public:
 private:
     std::vector<UINT> m_collision_check_vector; //Layer 간의 충돌 체크 매트릭스
 
-	std::map<ULONGLONG, bool> m_collision_check_map; //충돌체 간의 이전 프레임 충돌 정보 
+	std::unordered_map<ULONGLONG, bool> m_collision_check_unmap; //충돌체 간의 이전 프레임 충돌 정보 
 };
 

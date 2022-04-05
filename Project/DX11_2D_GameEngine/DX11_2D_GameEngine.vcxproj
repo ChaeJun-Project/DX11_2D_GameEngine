@@ -209,6 +209,7 @@
     <ClInclude Include="Editor\GUI\5. Inspector\Component\13. Canvas\GUI_Canvas.h" />
     <ClInclude Include="Editor\GUI\5. Inspector\Component\14. Image Renderer\GUI_ImageRenderer.h" />
     <ClInclude Include="Editor\GUI\1. MenuBar\Set Resolution\GUI_SetResolution.h" />
+    <ClInclude Include="Editor\GUI\8. Device\GUI_Device.h" />
     <ClInclude Include="Imgui\DirectX11\imgui_impl_dx11.h" />
     <ClInclude Include="Imgui\Editor\ImGuizmo.h" />
     <ClInclude Include="Imgui\imconfig.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="Editor\GUI\5. Inspector\Component\13. Canvas\GUI_Canvas.cpp" />
     <ClCompile Include="Editor\GUI\5. Inspector\Component\14. Image Renderer\GUI_ImageRenderer.cpp" />
     <ClCompile Include="Editor\GUI\1. MenuBar\Set Resolution\GUI_SetResolution.cpp" />
+    <ClCompile Include="Editor\GUI\8. Device\GUI_Device.cpp" />
     <ClCompile Include="Imgui\DirectX11\imgui_impl_dx11.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>

@@ -9,6 +9,7 @@ enum class GUIType : UINT
 	Inspector,
 	Project,
 	Console,
+	Device,
 };
 
 class IGUI
