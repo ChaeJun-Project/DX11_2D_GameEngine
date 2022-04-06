@@ -14,7 +14,7 @@ public:
 	explicit Door_Script(const Door_Script& origin);
 	virtual ~Door_Script();
 
-	void Start() override;
+	void Awake() override;
 	void Update() override;
 
 private:

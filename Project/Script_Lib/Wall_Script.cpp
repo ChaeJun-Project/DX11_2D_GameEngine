@@ -22,7 +22,7 @@ Wall_Script::~Wall_Script()
 	m_p_collider2D = nullptr;
 }
 
-void Wall_Script::Start()
+void Wall_Script::Awake()
 {
 	m_p_transform = m_p_owner_game_object->GetComponent<Transform>();
 	m_p_collider2D = m_p_owner_game_object->GetComponent<Collider2D>();

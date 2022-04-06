@@ -73,7 +73,7 @@ public:
 	
 public:
 	//자식 GameObject에서 상속관계가 해제되었을 경우 호출
-	void InitialzieProperty();
+	virtual void InitialzieProperty();
 
 public:
 	//Mesh Scale

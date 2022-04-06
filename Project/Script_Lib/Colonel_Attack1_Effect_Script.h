@@ -11,6 +11,7 @@ public:
 	virtual ~Colonel_Attack1_Effect_Script() = default;
 
 public:
+    void Awake() override;
 	void Start() override;
 	void Update() override;
 

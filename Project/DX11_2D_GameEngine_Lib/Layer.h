@@ -9,6 +9,7 @@ public:
 	~Layer();
 
 public:
+    void Awake();
 	void Start();
 	void Update();
 	void FinalUpdate();
@@ -22,6 +23,8 @@ public:
 
 	const std::vector<GameObject*>& GetParentGameObjects() { return m_p_parent_game_object_vector; }
 	const std::vector<GameObject*>& GetGameObjects() { return m_p_game_object_vector; }
+
+	const bool GetLayerEmpty();
 
 public:
 	void SaveToScene(FILE* p_file) override {}

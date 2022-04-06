@@ -31,11 +31,17 @@ void SceneManager::Initialize()
 	);
 }
 
+void SceneManager::Awake()
+{
+	if (m_client_state == 1)
+		m_p_current_scene->Awake();
+}
+
 void SceneManager::Start()
 {
-    if(m_client_state == 1)
+	if (m_client_state == 1)
 		m_p_current_scene->Start();
-} 
+}
 
 void SceneManager::Update()
 {
@@ -68,6 +74,7 @@ void SceneManager::SetCurrentScene(const std::shared_ptr<Scene>& p_current_scene
 
 	m_p_current_scene = p_current_scene;
 
+	Awake();
 	Start();
 }
 
@@ -99,6 +106,7 @@ void SceneManager::SetEditorState(const UINT& editor_state)
 			if (m_editor_state == EditorState::EditorState_Stop &&
 				editor_state == EditorState::EditorState_Play)
 			{
+				m_p_current_scene->Awake();
 				m_p_current_scene->Start();
 			}
 

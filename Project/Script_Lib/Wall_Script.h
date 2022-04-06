@@ -9,8 +9,8 @@ public:
 	explicit Wall_Script(const Wall_Script& origin);
 	virtual ~Wall_Script();
 
-	void Start() override;
-
+	void Awake() override;
+	
 private:
 	void PlayerCollisionEnter(GameObject* p_player_game_object);
 	void PlayerCollisionStay(GameObject* p_player_game_object);

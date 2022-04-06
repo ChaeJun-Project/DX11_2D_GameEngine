@@ -97,6 +97,37 @@ GameObject::~GameObject()
 	m_p_child_vector.shrink_to_fit();
 }
 
+void GameObject::Awake()
+{
+	//Script
+	for (auto& script : m_p_script_un_map)
+		script.second->Awake();
+
+	//자식 오브젝트 업데이트
+	for (auto& child : m_p_child_vector)
+		child->Awake();
+}
+
+void GameObject::OnEnable()
+{
+	//Script
+	for (auto& script : m_p_script_un_map)
+	{
+		if (script.second->GetIsActive())
+			script.second->OnEnable();
+	}
+}
+
+void GameObject::OnDisable()
+{
+	//Script
+	for (auto& script : m_p_script_un_map)
+	{
+		if (script.second->GetIsActive())
+			script.second->OnDisable();
+	}
+}
+
 void GameObject::Start()
 {
 	//Component 시작
@@ -110,7 +141,10 @@ void GameObject::Start()
 	for (auto& script : m_p_script_un_map)
 	{
 		if (script.second->GetIsActive())
+		{
 			script.second->Start();
+			script.second->AddStartFuncCallCount();
+		}	
 	}
 
 	//자식 오브젝트 업데이트
@@ -167,7 +201,7 @@ void GameObject::Render()
 	/*if (m_dead_check)
 		return;*/
 
-	//Sprite Renderer
+		//Sprite Renderer
 	auto p_sprite_renderer = GetComponent<SpriteRenderer>();
 	if (p_sprite_renderer != nullptr && p_sprite_renderer->GetIsActive())
 		p_sprite_renderer->Render();
@@ -401,6 +435,23 @@ void GameObject::RemoveScript(const std::string& script_name)
 
 	//해당 Script 삭제
 	m_p_script_un_map.erase(script_name);
+}
+
+void GameObject::SetIsActive(const bool& is_active)
+{
+	if (SCENE_MANAGER->GetClientState() == 1 || SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Play)
+	{
+		if (m_is_active != is_active)
+		{
+			if (is_active)
+				OnEnable();
+
+			else
+				OnDisable();
+		}
+	}
+
+	m_is_active = is_active;
 }
 
 void GameObject::SetGameObjectLayer(const UINT& layer_index)

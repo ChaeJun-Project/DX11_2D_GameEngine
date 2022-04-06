@@ -105,7 +105,7 @@ public:
 	void SetGameObject(GameObject* p_game_object) { m_p_owner_game_object = p_game_object; }
 
 	const bool& GetIsActive() { return m_is_active; }
-	void SetIsActive(const bool& is_active) { m_is_active = is_active; }
+	virtual void SetIsActive(const bool& is_active) { m_is_active = is_active; }
 
 protected:
 	const ComponentType m_component_type;

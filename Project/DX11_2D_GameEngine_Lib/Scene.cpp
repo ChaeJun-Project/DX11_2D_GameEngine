@@ -67,22 +67,40 @@ void Scene::SetStartScene()
 	RegisterGameObject(point_light2D);
 }
 
+void Scene::Awake()
+{
+	for (auto& layer : m_layer_map)
+	{
+		if(!layer.second->GetLayerEmpty())
+			layer.second->Awake();
+	}	
+}
+
 void Scene::Start()
 {
 	for (auto& layer : m_layer_map)
-		layer.second->Start();
+	{
+		if (!layer.second->GetLayerEmpty())
+			layer.second->Start();
+	}
 }
 
 void Scene::Update()
 {
 	for (auto& layer : m_layer_map)
-		layer.second->Update();
+	{
+		if (!layer.second->GetLayerEmpty())
+			layer.second->Update();
+	}
 }
 
 void Scene::FinalUpdate()
 {
 	for (auto& layer : m_layer_map)
-		layer.second->FinalUpdate();
+	{
+		if (!layer.second->GetLayerEmpty())
+			layer.second->FinalUpdate();
+	}
 }
 
 void Scene::RegisterGameObject(GameObject* p_game_object)

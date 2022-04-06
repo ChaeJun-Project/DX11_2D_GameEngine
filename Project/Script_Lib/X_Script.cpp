@@ -27,6 +27,10 @@ X_Script::~X_Script()
 	m_p_rigidbody2D = nullptr;
 }
 
+void X_Script::Awake()
+{
+}
+
 void X_Script::Start()
 {
 	m_p_transform = m_p_owner_game_object->GetComponent<Transform>();

@@ -27,18 +27,21 @@ public:
 	Script(const std::string& script_name);
 	virtual ~Script();
 
+	virtual void Awake() {}
+	virtual void OnEnable() {}
+	virtual void OnDisable() {}
 	virtual void Start() override {}
 	virtual void Update() override {}
 	virtual void FinalUpdate() final {} //Script를 상속받는 자식 클래스는 사용하지 않음
 
 protected:
-    virtual void RegisterScriptParamData() {}
+	virtual void RegisterScriptParamData() {}
 	//Script Param
 	void AddScriptParamData(const ScriptParamStruct& script_param_data) { m_script_param_vector.emplace_back(script_param_data); }
 
 	//GameObject
-	GameObject* Instantiate(Prefab* p_game_object_prefab, const Vector3& position);
-	void Destroy(GameObject* p_delete_game_object);
+	GameObject* Instantiate(const std::shared_ptr<Prefab>& p_game_object_prefab, const Vector3& position = Vector3::Zero);
+	void OnDestroy(GameObject* p_delete_game_object);
 	void CreateGameObject(GameObject* p_new_game_object);
 
 public:
@@ -48,7 +51,12 @@ public:
 	virtual void OnCollisionExit(GameObject* other_game_object) {}
 
 public:
-	const std::string& GetScriptName() { return m_script_name; }
+	void SetIsActive(const bool& is_active) override;
+
+	void AddStartFuncCallCount() { if (m_start_func_call_count == 0) ++m_start_func_call_count; }
+	const UINT GetStartFuncCallCount() const { return m_start_func_call_count; }
+
+	const std::string GetScriptName() const { return m_script_name; }
 	const std::vector<ScriptParamStruct>& GetScriptParamVector() const { return m_script_param_vector; }
 
 public:
@@ -59,6 +67,8 @@ public:
 	virtual Script* Clone() const = 0;
 
 protected:
+	UINT m_start_func_call_count = 0;
+
 	const std::string m_script_name;
 	std::vector<ScriptParamStruct> m_script_param_vector;
 };

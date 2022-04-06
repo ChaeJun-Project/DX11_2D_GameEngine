@@ -52,7 +52,7 @@ void RectTransform::UpdateConstantBuffer()
 void RectTransform::UpdateWorldMatrix()
 {
 	//Anchor 값이 변경된 경우
-	if (m_pre_anchor != m_anchor)
+	if (m_p_owner_game_object->HasParent() && (m_pre_anchor != m_anchor))
 	{
 		UpdateAnchorPosition();
 		m_pre_anchor = m_anchor;
@@ -121,6 +121,13 @@ void RectTransform::UpdateAnchorMatrix(const Vector2& widget_size)
 
 	m_origin_world_matrix = m_origin_world_matrix * m_anchor_matrix;
 	m_world_matrix = m_world_matrix * m_anchor_matrix;
+}
+
+void RectTransform::InitialzieProperty()
+{
+	__super::InitialzieProperty();
+
+	m_anchor_matrix = Matrix::Identity;
 }
 
 void RectTransform::SaveToScene(FILE* p_file)

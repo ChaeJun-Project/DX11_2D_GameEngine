@@ -188,6 +188,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="Colonel_Script.h" />
     <ClInclude Include="Door_Script.h" />
     <ClInclude Include="Enum.h" />
+    <ClInclude Include="Event_Script.h" />
     <ClInclude Include="GameManager_Script.h" />
     <ClInclude Include="Ground_Script.h" />
     <ClInclude Include="GameObjectController.h" />
@@ -212,6 +213,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="Colonel_Behavior_Node.cpp" />
     <ClCompile Include="Colonel_Script.cpp" />
     <ClCompile Include="Door_Script.cpp" />
+    <ClCompile Include="Event_Script.cpp" />
     <ClCompile Include="GameManager_Script.cpp" />
     <ClCompile Include="Ground_Script.cpp" />
     <ClCompile Include="GameObjectController.cpp" />

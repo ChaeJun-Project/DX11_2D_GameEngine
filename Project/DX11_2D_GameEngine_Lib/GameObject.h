@@ -13,6 +13,9 @@ public:
 	explicit GameObject(const GameObject& origin); //복사생성자, 형변환 허용X
 	~GameObject();
 
+	void Awake();
+	void OnEnable();
+	void OnDisable();
 	void Start();
 	void Update();
 	void FinalUpdate();
@@ -38,7 +41,7 @@ public:
 
 	void RemoveComponent(const ComponentType& component_type);
 	void RemoveAllComponent();
-	
+
 	const UINT& GetComponentCount() const { return static_cast<UINT>(m_p_component_map.size()); }
 
 	//==============
@@ -47,7 +50,7 @@ public:
 public:
 	const std::unordered_map<std::string, Script*>& GetScriptUnMap() { return m_p_script_un_map; }
 
-    Script* GetScript(const std::string& script_name);
+	Script* GetScript(const std::string& script_name);
 
 	void RemoveScript(const std::string& script_name);
 
@@ -56,7 +59,7 @@ public:
 public:
 	//GameObject IsActive
 	const bool& GetIsActive() { return m_is_active; }
-	void SetIsActive(const bool& is_active) { m_is_active = is_active; }
+	void SetIsActive(const bool& is_active);
 
 	//Dead Check
 	const bool IsDead() { return m_dead_check; }
@@ -140,7 +143,7 @@ T* GameObject::GetComponent()
 
 	ComponentType component_type = ComponentType::None;
 
-	if(std::is_same<RectTransform, T>::value)
+	if (std::is_same<RectTransform, T>::value)
 		component_type = ComponentType::Transform;
 
 	else
@@ -152,13 +155,13 @@ T* GameObject::GetComponent()
 	{
 		if (std::is_same<RectTransform, T>::value)
 		{
-			if(component->GetComponentType() == ComponentType::RectTransform)
+			if (component->GetComponentType() == ComponentType::RectTransform)
 				return dynamic_cast<T*>(component);
 
 			else
-			    return nullptr;
+				return nullptr;
 		}
-		
+
 		return dynamic_cast<T*>(component);
 	}
 

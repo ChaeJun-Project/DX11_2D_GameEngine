@@ -19,6 +19,12 @@ Layer::~Layer()
 	m_p_game_object_vector.shrink_to_fit();
 }
 
+void Layer::Awake()
+{
+	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
+		p_parent_game_object->Awake();
+}
+
 void Layer::Start()
 {
 	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
@@ -126,4 +132,12 @@ void Layer::DeregisterFromParentGameObject(GameObject* p_game_object)
 		else
 			++iter;
 	}
+}
+
+const bool Layer::GetLayerEmpty()
+{
+	if (m_p_parent_game_object_vector.empty() && m_p_game_object_vector.empty())
+		return true;
+
+	return false;
 }

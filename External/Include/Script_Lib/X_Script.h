@@ -13,6 +13,8 @@ public:
 	explicit X_Script(const X_Script& origin);
 	virtual ~X_Script();
 
+public:
+	void Awake() override;
 	void Start() override;
 	void Update() override;
 

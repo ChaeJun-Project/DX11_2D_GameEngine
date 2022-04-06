@@ -12,11 +12,14 @@ public:
 	explicit Camera_Script(const Camera_Script& origin);
 	virtual ~Camera_Script();
 
-	void Start() override;
+	void Awake() override;
 	void Update() override;
 
 private:
 	void RegisterScriptParamData() override;
+
+public:
+    void SetTarget(GameObject* p_player_game_object);
 
 private:
 	void SaveToScene(FILE* p_file) override;

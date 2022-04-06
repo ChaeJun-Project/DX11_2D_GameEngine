@@ -16,6 +16,8 @@ public:
 	explicit Z_Script(const Z_Script& origin);
 	virtual ~Z_Script();
 
+public:
+    void Awake() override;
 	void Start() override;
 	void Update() override;
 
@@ -58,9 +60,9 @@ private:
 	void TriggerFallRunState();
 
 public:
-	void OnCollisionEnter(GameObject* other_game_object) override;
-	void OnCollisionStay(GameObject* other_game_object) override;
-	void OnCollisionExit(GameObject* other_game_object) override;
+	void OnCollisionEnter(GameObject* p_other_game_object) override;
+	void OnCollisionStay(GameObject* p_other_game_object) override;
+	void OnCollisionExit(GameObject* p_other_game_object) override;
 
 private:
 	void SaveToScene(FILE* p_file) override;
@@ -71,8 +73,18 @@ public:
 
 private: 
 	RigidBody2D* m_p_rigidbody2D = nullptr;
-
 	Collider2D* m_p_attack_hit_box = nullptr;
+
+	//Debuffs
+	GameObject* p_dark_game_object = nullptr;
+#define DEBUFF_DARK_DURATION 5.0f
+    bool m_is_dark = false;
+	float m_debuff_dark_duration = DEBUFF_DARK_DURATION;
+	
+	GameObject* p_distortion_game_object = nullptr;
+#define DEBUFF_DISTORTION_DURATION 10.0f
+    bool m_is_distortion = false;
+	float m_debuff_distortion_duration = DEBUFF_DISTORTION_DURATION;
 
 	UINT m_current_state = PlayerState::Ready;
 	UINT m_pre_state;

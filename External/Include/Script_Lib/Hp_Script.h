@@ -14,6 +14,8 @@ public:
 	explicit Hp_Script(const Hp_Script& origin);
 	virtual ~Hp_Script();
 
+	void Awake() override;
+	void OnEnable() override;
 	void Start() override;
 	void Update() override;
 
@@ -28,7 +30,7 @@ public:
 	CLONE(Hp_Script);
 
 private:
-	ImageRenderer* p_image_renderer = nullptr;
+	ImageRenderer* p_hp_gage_image_renderer = nullptr;
 
     std::string m_game_object_name;
 	std::string m_script_name;

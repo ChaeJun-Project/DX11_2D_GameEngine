@@ -90,7 +90,12 @@ void EventManager::CreateGameObject(const EventStruct& event_struct)
 
 	//Game Play 중이라면
 	if (SCENE_MANAGER->GetClientState() == 1 || SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Play)
-		p_new_game_object->Start();
+	{
+		p_new_game_object->Awake();
+
+		if (p_new_game_object->GetIsActive())
+			p_new_game_object->Start();
+	}
 
 	m_is_update = true;
 }

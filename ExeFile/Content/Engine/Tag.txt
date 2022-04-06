@@ -1,5 +1,5 @@
 [Tag Count]
-13
+15
 
 [Tag List]
 Default
@@ -12,6 +12,8 @@ Wall
 Ground
 Door
 Player
-PlayerAttack
+Player Attack
 Enemy
-EnemyAttack
+Colonel Attack1
+Colonel Attack2
+Colonel Attack3

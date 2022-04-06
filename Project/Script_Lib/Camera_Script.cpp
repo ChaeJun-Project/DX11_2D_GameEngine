@@ -30,18 +30,10 @@ Camera_Script::~Camera_Script()
 	m_p_target_transform = nullptr;
 }
 
-void Camera_Script::Start()
+void Camera_Script::Awake()
 {
 	m_p_transform = m_p_owner_game_object->GetComponent<Transform>();
 	m_p_camera = m_p_owner_game_object->GetComponent<Camera>();
-
-	auto p_current_scene = SCENE_MANAGER->GetCurrentScene();
-	auto p_player_object = p_current_scene->FindGameObjectWithTag("Player");
-
-	m_p_target_transform = p_player_object->GetComponent<Transform>();
-
-	auto target_position = m_p_target_transform->GetTranslation();
-	m_p_transform->SetTranslation(target_position);
 
 	m_view_resolution = SETTINGS->GetGameResolution();
 }
@@ -86,6 +78,14 @@ void Camera_Script::Update()
 void Camera_Script::RegisterScriptParamData()
 {
 	AddScriptParamData(ScriptParamStruct("Map Resolution", ScriptParamType::Vector2, reinterpret_cast<void*>(&m_map_resolution), 100.f));
+}
+
+void Camera_Script::SetTarget(GameObject* p_player_game_object)
+{
+	m_p_target_transform = p_player_game_object->GetComponent<Transform>();
+
+	auto target_position = m_p_target_transform->GetTranslation();
+	m_p_transform->SetTranslation(target_position);
 }
 
 void Camera_Script::SaveToScene(FILE* p_file)

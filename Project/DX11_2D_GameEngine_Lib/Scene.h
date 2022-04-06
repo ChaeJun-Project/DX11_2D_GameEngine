@@ -10,6 +10,7 @@ public:
 
    void SetStartScene();
 
+   void Awake();
    void Start();
    void Update();
    void FinalUpdate();

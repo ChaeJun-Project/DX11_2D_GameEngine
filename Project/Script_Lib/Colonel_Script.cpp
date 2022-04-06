@@ -65,7 +65,7 @@ Colonel_Script::~Colonel_Script()
 	SAFE_DELETE(m_p_behavior_tree_root);
 }
 
-void Colonel_Script::Start()
+void Colonel_Script::Awake()
 {
 	GameObjectController::m_p_transform = m_p_owner_game_object->GetComponent<Transform>();
 	GameObjectController::m_p_animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
@@ -73,6 +73,15 @@ void Colonel_Script::Start()
 	m_p_sprite_renderer = m_p_owner_game_object->GetComponent<SpriteRenderer>();
 	m_p_collider2D = m_p_owner_game_object->GetComponent<Collider2D>();
 
+	AddAttackFireTransform();
+
+	m_p_attack_3_prepare_effect = m_p_owner_game_object->GetChildFromIndex(3);
+
+	AddAnimationEvent();
+}
+
+void Colonel_Script::Start()
+{
 	auto p_player_game_object = SCENE_MANAGER->GetCurrentScene()->FindGameObjectWithTag("Player");
 
 	if (p_player_game_object->GetGameObjectName()._Equal("Z"))
@@ -85,12 +94,6 @@ void Colonel_Script::Start()
 	{
 		//TODO
 	}
-
-	AddAttackFireTransform();
-
-	m_p_attack_3_prepare_effect = m_p_owner_game_object->GetChildFromIndex(3);
-
-	AddAnimationEvent();
 
 	SetCurrentAnimation("Colonel_Start");
 }
@@ -256,7 +259,7 @@ void Colonel_Script::CreateAttack1Effect()
 	attack1_start_position.x = m_p_attack_1_fire_transform->GetTranslation().x;
 	attack1_start_position.y = m_p_attack_1_fire_transform->GetLocalTranslation().y;
 	
-	auto attack1_effect = Instantiate(m_p_attack1_effect.get(), attack1_start_position);
+	auto attack1_effect = Instantiate(m_p_attack1_effect, attack1_start_position);
 	auto p_attack1_effect_script = dynamic_cast<Colonel_Attack1_Effect_Script*>(attack1_effect->GetScript("Colonel_Attack1_Effect_Script"));
 	
 	auto fire_direction = Vector3::Zero;
@@ -282,7 +285,7 @@ void Colonel_Script::CreateAttack2Effect()
 	attack2_start_position.x = m_p_attack_2_fire_transform->GetTranslation().x;
 	attack2_start_position.y = m_p_attack_2_fire_transform->GetLocalTranslation().y;
 
-	auto attack2_effect = Instantiate(m_p_attack2_effect.get(), attack2_start_position);
+	auto attack2_effect = Instantiate(m_p_attack2_effect, attack2_start_position);
 	auto p_attack2_effect_script = dynamic_cast<Colonel_Attack2_Effect_Script*>(attack2_effect->GetScript("Colonel_Attack2_Effect_Script"));
 
 	auto fire_direction = Vector3::Zero;
@@ -324,7 +327,7 @@ void Colonel_Script::CreateAttack3Effect()
 		attack3_start_position.x = p_attack_3_fire_transform->GetTranslation().x;
 		attack3_start_position.y = p_attack_3_fire_transform->GetLocalTranslation().y;
 
-		auto attack3_effect = Instantiate(m_p_attack3_effect.get(), attack3_start_position);
+		auto attack3_effect = Instantiate(m_p_attack3_effect, attack3_start_position);
 		auto p_attack3_effect_script = dynamic_cast<Colonel_Attack3_Effect_Script*>(attack3_effect->GetScript("Colonel_Attack3_Effect_Script"));
 
 		auto fire_direction = Vector3::Up;
@@ -374,7 +377,6 @@ void Colonel_Script::SaveToScene(FILE* p_file)
 
 	fprintf_s(p_file, "[Attack3 Effect]\n");
 	RESOURCE_MANAGER->SaveResource<Prefab>(m_p_attack3_effect, p_file);
-
 }
 
 void Colonel_Script::LoadFromScene(FILE* p_file)

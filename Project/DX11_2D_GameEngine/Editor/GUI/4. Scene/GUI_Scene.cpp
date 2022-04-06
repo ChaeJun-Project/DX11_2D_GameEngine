@@ -212,7 +212,7 @@ void GUI_Scene::ShowGizmo()
 		world = world * anchor_matrix.Inverse();
 	}
 
-	p_transform->SetLocalTranslation(world.GetTranslation());
-	p_transform->SetLocalRotation(world.GetRotation());
-	p_transform->SetLocalScale(world.GetScale());
+	p_transform->SetTranslation(world.GetTranslation());
+	p_transform->SetRotation(world.GetRotation());
+	p_transform->SetScale(world.GetScale());
 }

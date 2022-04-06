@@ -22,7 +22,7 @@ Ground_Script::~Ground_Script()
 	m_p_collider2D = nullptr;
 }
 
-void Ground_Script::Start()
+void Ground_Script::Awake()
 {
 	m_p_transform = m_p_owner_game_object->GetComponent<Transform>();
 	m_p_collider2D = m_p_owner_game_object->GetComponent<Collider2D>();

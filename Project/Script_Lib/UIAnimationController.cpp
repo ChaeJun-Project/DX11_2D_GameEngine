@@ -2,6 +2,7 @@
 #include "UIAnimationController.h"
 
 #include <DX11_2D_GameEngine_Lib/Texture.h>
+#include <DX11_2D_GameEngine_Lib/AudioClip.h>
 
 #include <DX11_2D_GameEngine_Lib/GameObject.h>
 #include <DX11_2D_GameEngine_Lib/AudioSource.h>
@@ -36,7 +37,7 @@ void UIAnimationController::PlayUIAnimation()
 {
 	m_is_playing = true;
 	m_is_finished = false;
-
+	
 	m_current_frame_id = 0;
 
 	p_image_renderer->SetTexture(m_p_textrue_vector[m_current_frame_id]);
@@ -44,8 +45,7 @@ void UIAnimationController::PlayUIAnimation()
 
 void UIAnimationController::StopUIAnimation()
 {
-	m_is_playing = true;
-	m_is_finished = false;
+	m_is_playing = false;
 
 	m_current_frame_id = 0;
 
@@ -56,7 +56,7 @@ void UIAnimationController::StopUIAnimation()
 
 void UIAnimationController::UpdateUIAnimation()
 {
-	if (m_p_textrue_vector.empty() || !m_is_playing || m_is_finished)
+	if (m_p_textrue_vector.empty() || !m_is_playing)
 		return;
 
 	//시간 누적
@@ -77,8 +77,8 @@ void UIAnimationController::UpdateUIAnimation()
 		{
 			p_image_renderer->SetTexture(nullptr);
 
-			m_is_playing = false;
-			//해당 애니메이션이 끝까지 1회 재생되었음을 알려줌
+			StopUIAnimation();
+
 			m_is_finished = true;
 		}
 	}
@@ -86,6 +86,13 @@ void UIAnimationController::UpdateUIAnimation()
 
 void UIAnimationController::SetCurrentAudioClip(const std::string& audio_clip_name, const float& volume, const bool& is_loop)
 {
+	auto p_current_audio_clip = m_p_audio_source->GetCurrentAudioClip();
+	if (p_current_audio_clip != nullptr)
+	{
+		if (p_current_audio_clip->GetResourceName()._Equal(audio_clip_name))
+			m_p_audio_source->Play();
+	}
+
 	m_p_audio_source->SetCurrentAudioClip(audio_clip_name, volume, is_loop);
 }
 

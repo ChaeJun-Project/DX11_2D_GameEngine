@@ -14,6 +14,8 @@ public:
 	explicit Ready_Script(const Ready_Script& origin);
 	~Ready_Script() = default;
 
+	void Awake() override;
+	void OnDisable() override;
 	void Start() override;
 	void Update() override;
 

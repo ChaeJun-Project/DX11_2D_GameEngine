@@ -27,7 +27,7 @@ Door_Script::~Door_Script()
 	m_p_collider2D = nullptr;
 }
 
-void Door_Script::Start()
+void Door_Script::Awake()
 {
 	m_p_transform = m_p_owner_game_object->GetComponent<Transform>();
 	m_p_animator2D = m_p_owner_game_object->GetComponent<Animator2D>();

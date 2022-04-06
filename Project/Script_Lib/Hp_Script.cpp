@@ -29,15 +29,50 @@ Hp_Script::Hp_Script(const Hp_Script& origin)
 
 Hp_Script::~Hp_Script()
 {
-	p_image_renderer = nullptr;
+	p_hp_gage_image_renderer = nullptr;
 
 	m_p_game_object_contorller = nullptr;
 }
 
+void Hp_Script::Awake()
+{
+	p_hp_gage_image_renderer = m_p_owner_game_object->GetChildFromIndex(0)->GetComponent<ImageRenderer>();
+}
+
+void Hp_Script::OnEnable()
+{
+	auto p_game_object = SCENE_MANAGER->GetCurrentScene()->FindGameObjectWithName(m_game_object_name);
+
+	if (p_game_object == nullptr)
+		return;
+
+	if (p_game_object->GetGameObjectName()._Equal("Z"))
+	{
+		auto p_script = p_game_object->GetScript("Z_Script");
+		m_p_game_object_contorller = dynamic_cast<Z_Script*>(p_script); //다운 캐스팅 후 업 캐스팅
+	}
+
+	else if (p_game_object->GetGameObjectName()._Equal("X"))
+	{
+		//TODO
+	}
+
+	else if (p_game_object->GetGameObjectName()._Equal("Colonel"))
+	{
+		auto p_script = p_game_object->GetScript("Colonel_Script");
+		m_p_game_object_contorller = dynamic_cast<Colonel_Script*>(p_script); //다운 캐스팅 후 업 캐스팅
+	}
+
+	//Hp 설정
+	if (m_p_game_object_contorller != nullptr)
+	{
+		m_game_object_total_hp = static_cast<UINT>(m_p_game_object_contorller->GetHp());
+		m_game_object_current_hp = m_game_object_total_hp;
+	}
+}
+
 void Hp_Script::Start()
 {
-	p_image_renderer = m_p_owner_game_object->GetComponent<ImageRenderer>();
-
 	auto p_game_object = SCENE_MANAGER->GetCurrentScene()->FindGameObjectWithName(m_game_object_name);
 
 	if (p_game_object == nullptr)
@@ -79,7 +114,7 @@ void Hp_Script::Update()
 	float total_hp = static_cast<float>(m_game_object_total_hp);
 
 	auto ratio = static_cast<float>(current_hp / total_hp);
-	p_image_renderer->SetFillAmount(ratio);
+	p_hp_gage_image_renderer->SetFillAmount(ratio);
 }
 
 void Hp_Script::RegisterScriptParamData()

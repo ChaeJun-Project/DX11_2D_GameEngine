@@ -67,6 +67,9 @@
     <Filter Include="Scripts\Enemy\Colonel\Attack Effect">
       <UniqueIdentifier>{2ef58453-e690-45f8-b15f-67dba28e1527}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Event">
+      <UniqueIdentifier>{0ca88db0-526f-4ab5-b4a2-ddd1cfc5805f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptManager.cpp">
@@ -132,6 +135,7 @@
     <ClCompile Include="ProjectileController.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="Event_Script.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptManager.h">
@@ -209,5 +213,6 @@
     <ClInclude Include="ProjectileController.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="Event_Script.h" />
   </ItemGroup>
 </Project>

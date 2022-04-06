@@ -47,15 +47,13 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 
 	for (UINT i = 0; i < static_cast<UINT>(left_layer_game_objects.size()); ++i)
 	{
-		if (left_layer_game_objects[i]->GetComponent<Collider2D>() == nullptr
-			|| !left_layer_game_objects[i]->GetIsActive())
+		if (left_layer_game_objects[i]->GetComponent<Collider2D>() == nullptr)
 			continue;
 
 		for (UINT j = 0; j < static_cast<UINT>(right_layer_game_objects.size()); ++j)
 		{
 			if (right_layer_game_objects[j]->GetComponent<Collider2D>() == nullptr
-				|| left_layer_game_objects[i] == right_layer_game_objects[j]
-				|| !right_layer_game_objects[j]->GetIsActive())
+				|| left_layer_game_objects[i] == right_layer_game_objects[j])
 				continue;
 
 			auto left_collider = left_layer_game_objects[i]->GetComponent<Collider2D>();
@@ -81,8 +79,11 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 				//이전에도 충돌하고 있었던 경우
 				if (iter->second)
 				{
-					//둘 중 하나 또는 모두 삭제 예정인 경우 or 둘 중 하나라도 Collider2D Box가 비활성화 상태인 경우 
-					if (left_layer_game_objects[i]->IsDead() || right_layer_game_objects[j]->IsDead()
+					//둘 중 하나라도 GameObject가 비활성화 상태인 경우
+					//둘 중 하나라도 GameObject가 삭제예정 상태인 경우
+					//둘 중 하나라도 Collider2D Box가 비활성화 상태인 경우 
+					if (!left_layer_game_objects[i]->GetIsActive() || !right_layer_game_objects[j]->GetIsActive()
+						|| left_layer_game_objects[i]->IsDead() || right_layer_game_objects[j]->IsDead()
 						|| !left_collider->GetIsActive() || !right_collider->GetIsActive())
 					{
 						//충돌처리 해제
@@ -106,11 +107,13 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 				//이전에는 충돌하지 않았던 경우(처음 충돌하는 경우)
 				else
 				{
+					//둘 중 하나라도 GameObject가 비활성화 상태인 경우
 					//둘 중 하나라도 Collider2D Box가 비활성화 상태인 경우 
-					if (!left_collider->GetIsActive() || !right_collider->GetIsActive())
+					if (!left_layer_game_objects[i]->GetIsActive() || !right_layer_game_objects[j]->GetIsActive()
+						|| !left_collider->GetIsActive() || !right_collider->GetIsActive())
 						continue;
 
-					//둘 다 삭제 예정이 아닌 경우
+					//두 개의 GameObject가 모두 삭제예정 상태가 아닌 경우
 					if (!left_layer_game_objects[i]->IsDead() && !right_layer_game_objects[j]->IsDead())
 					{
 						//충돌처리

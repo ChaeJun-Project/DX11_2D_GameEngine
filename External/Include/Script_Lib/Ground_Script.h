@@ -12,7 +12,7 @@ public:
 	explicit Ground_Script(const Ground_Script& origin);
 	virtual ~Ground_Script();
 
-	void Start() override;
+	void Awake() override;
 
 private:
     void PlayerCollisionEnter(GameObject* p_player_game_object);

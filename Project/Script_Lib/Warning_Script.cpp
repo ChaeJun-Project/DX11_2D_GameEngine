@@ -19,6 +19,8 @@ Warning_Script::Warning_Script(const Warning_Script& origin)
 {
 	RegisterScriptParamData();
 
+	m_is_active = origin.m_is_active;
+
 	m_textrue_path = origin.m_textrue_path;
 
 	for (const auto& p_texture : origin.m_p_textrue_vector)
@@ -29,11 +31,19 @@ Warning_Script::Warning_Script(const Warning_Script& origin)
 	m_duration = origin.m_duration;
 }
 
-void Warning_Script::Start()
+void Warning_Script::Awake()
 {
 	UIAnimationController::p_image_renderer = m_p_owner_game_object->GetComponent<ImageRenderer>();
 	UIAnimationController::m_p_audio_source = m_p_owner_game_object->GetComponent<AudioSource>();
+}
 
+void Warning_Script::OnEnable()
+{
+	Play();
+}
+
+void Warning_Script::Start()
+{
 	Play();
 }
 
@@ -41,11 +51,16 @@ void Warning_Script::Update()
 {
 	UpdateUIAnimation();
 
-	if (m_is_finished && m_p_owner_game_object->GetIsActive())
+	if (!m_is_playing && m_p_owner_game_object->GetIsActive())
 	{
-		StopUIAnimation();
 		m_p_owner_game_object->SetIsActive(false);
 	}
+}
+
+void Warning_Script::OnDisable()
+{
+	StopUIAnimation();
+	m_is_finished = false;
 }
 
 void Warning_Script::Play()

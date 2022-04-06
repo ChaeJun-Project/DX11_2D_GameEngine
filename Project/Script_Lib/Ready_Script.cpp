@@ -19,6 +19,8 @@ Ready_Script::Ready_Script(const Ready_Script& origin)
 {
 	RegisterScriptParamData();
 
+	m_is_active = origin.m_is_active;
+
 	m_textrue_path = origin.m_textrue_path;
 
 	for (const auto& p_texture : origin.m_p_textrue_vector)
@@ -29,23 +31,25 @@ Ready_Script::Ready_Script(const Ready_Script& origin)
 	m_duration = origin.m_duration;
 }
 
-void Ready_Script::Start()
+void Ready_Script::Awake()
 {
 	UIAnimationController::p_image_renderer = m_p_owner_game_object->GetComponent<ImageRenderer>();
 	UIAnimationController::m_p_audio_source = m_p_owner_game_object->GetComponent<AudioSource>();
+}
 
+void Ready_Script::OnDisable()
+{
+	m_is_finished = false;
+}
+
+void Ready_Script::Start()
+{
 	Play();
 }
 
 void Ready_Script::Update()
 {
 	UpdateUIAnimation();
-
-	if (m_is_finished && m_p_owner_game_object->GetIsActive())
-	{ 
-		StopUIAnimation();
-		m_p_owner_game_object->SetIsActive(false);
-	}
 }
 
 void Ready_Script::Play()

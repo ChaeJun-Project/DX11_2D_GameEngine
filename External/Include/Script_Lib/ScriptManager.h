@@ -16,8 +16,6 @@ enum class Script_Type : UINT
 	Ground_Script,
 	Hp_Script,
 	Ready_Script,
-	WalkCannon_Bullet_Script,
-	WalkCannon_Script,
 	Wall_Script,
 	Warning_Script,
 	X_Script,

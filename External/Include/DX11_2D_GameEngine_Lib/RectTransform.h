@@ -22,6 +22,8 @@ public:
 
 private:
 	void UpdateWorldMatrix();
+
+private:
 	void UpdateAnchorPosition();
 	void UpdateAnchorMatrix(const Vector2& widget_size);
 
@@ -36,6 +38,9 @@ public:
 
 	//Anchor Matrix
 	const Matrix GetAnchorMatrix() const { return m_anchor_matrix; }
+
+public:
+	void InitialzieProperty() override;
 
 private:
 	void SaveToScene(FILE* p_file);

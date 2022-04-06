@@ -38,19 +38,30 @@ Z_Script::Z_Script(const Z_Script& origin)
 Z_Script::~Z_Script()
 {
 	m_p_rigidbody2D = nullptr;
+	m_p_attack_hit_box = nullptr;
+
+	p_dark_game_object = nullptr;
+	p_distortion_game_object = nullptr;
 }
 
-void Z_Script::Start()
+void Z_Script::Awake()
 {
 	GameObjectController::m_p_transform = m_p_owner_game_object->GetComponent<Transform>();
 	GameObjectController::m_p_animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
 	m_p_rigidbody2D = m_p_owner_game_object->GetComponent<RigidBody2D>();
 
-	auto p_attack_hit = m_p_owner_game_object->GetChildFromObjectName("Z_Attack_Hit_Box");
+	auto p_attack_hit = m_p_owner_game_object->GetChildFromIndex(0);
 	m_p_attack_hit_box = p_attack_hit->GetComponent<Collider2D>();
 
-	AddAnimationEvent();
+	auto p_debuffs = m_p_owner_game_object->GetChildFromIndex(1);
+	p_dark_game_object = p_debuffs->GetChildFromIndex(0);
+	p_distortion_game_object = p_debuffs->GetChildFromIndex(1);
 
+	AddAnimationEvent();
+}
+
+void Z_Script::Start()
+{
 	SetCurrentAnimation("Z_Ready");
 }
 
@@ -91,6 +102,28 @@ void Z_Script::Update()
 		{
 			hit_delay = 2.0f;
 			is_hit = false;
+		}
+	}
+
+	if (m_is_dark)
+	{
+		m_debuff_dark_duration -= DELTA_TIME_F;
+		if (m_debuff_dark_duration <= 0.0f)
+		{
+			m_debuff_dark_duration = DEBUFF_DARK_DURATION;
+			m_is_dark = false;
+			p_dark_game_object->SetIsActive(false);
+		}
+	}
+
+	if (m_is_distortion)
+	{
+		m_debuff_distortion_duration -= DELTA_TIME_F;
+		if (m_debuff_distortion_duration <= 0.0f)
+		{
+			m_debuff_distortion_duration = DEBUFF_DISTORTION_DURATION;
+			m_is_distortion = false;
+			p_distortion_game_object->SetIsActive(false);
 		}
 	}
 
@@ -563,47 +596,75 @@ void Z_Script::TriggerFallRunState()
 	SetCurrentAnimation("Z_Fall_Run", true);
 }
 
-void Z_Script::OnCollisionEnter(GameObject* other_game_object)
+void Z_Script::OnCollisionEnter(GameObject* p_other_game_object)
 {
-	/*if (other_game_object->GetGameObjectTag() == "Enemy")
+	if (p_other_game_object->GetGameObjectTag()._Equal("Enemy"))
 	{
-		if (other_game_object->GetComponent<Collider2D>()->GetIsActive())
+		if (!is_hit)
 		{
-			if (!is_hit)
-			{
-				is_hit = true;
-				m_hp -= 10;
-				if (m_hp <= 0)
-					m_hp = 0;
-			}
-			m_current_state = PlayerState::Damaged;
+			is_hit = true;
+			m_hp -= 5;
+			if (m_hp <= 0)
+				m_hp = 0;
 		}
-	}*/
+		m_current_state = PlayerState::Damaged;
+	}
 
-	/*if (other_game_object->GetGameObjectTag() == "EnemyAttack")
+	if (p_other_game_object->GetGameObjectTag() == "Colonel Attack1")
 	{
-		if (other_game_object->GetComponent<Collider2D>()->GetIsActive())
+		if (!is_hit)
 		{
-			if (!is_hit)
-			{
-				is_hit = true;
-				m_hp -= 20;
-				if (m_hp <= 0)
-					m_hp = 0;
-			}
-			m_current_state = PlayerState::Damaged;
+			is_hit = true;
+			m_hp -= 10;
+			if (m_hp <= 0)
+				m_hp = 0;
 		}
-	}*/
+		m_current_state = PlayerState::Damaged;
+	}
+
+	if (p_other_game_object->GetGameObjectTag() == "Colonel Attack2")
+	{
+		if (!is_hit)
+		{
+			is_hit = true;
+			m_hp -= 20;
+			if (m_hp <= 0)
+				m_hp = 0;
+		}
+		if (!m_is_dark)
+		{
+			m_is_dark = true;
+			p_dark_game_object->SetIsActive(true);
+		}
+		m_current_state = PlayerState::Damaged;
+	}
+
+	if (p_other_game_object->GetGameObjectTag() == "Colonel Attack3")
+	{
+		if (!is_hit)
+		{
+			is_hit = true;
+			m_hp -= 20;
+			if (m_hp <= 0)
+				m_hp = 0;
+		}
+		if (!m_is_distortion)
+		{
+			m_is_distortion = true;
+			p_distortion_game_object->SetIsActive(true);
+		}
+		m_current_state = PlayerState::Damaged;
+	}
 }
 
-void Z_Script::OnCollisionStay(GameObject* other_game_object)
+void Z_Script::OnCollisionStay(GameObject* p_other_game_object)
 {
-	
+
 }
 
-void Z_Script::OnCollisionExit(GameObject* other_game_object)
+void Z_Script::OnCollisionExit(GameObject* p_other_game_object)
 {
-	
+
 }
 
 void Z_Script::SaveToScene(FILE* p_file)

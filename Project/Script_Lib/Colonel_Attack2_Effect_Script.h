@@ -13,6 +13,7 @@ public:
 	virtual ~Colonel_Attack2_Effect_Script();
 
 public:
+	void Awake() override;
 	void Start() override;
 	void Update() override;
 

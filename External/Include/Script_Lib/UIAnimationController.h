@@ -19,6 +19,10 @@ protected:
 
 	void SetCurrentAudioClip(const std::string& audio_clip_name, const float& volume, const bool& is_loop = false);
 
+public:
+    const bool GetIsPlaying() const { return m_is_playing; }
+	const bool GetIsFinished() const { return m_is_finished; }
+	
 protected:
 	void SaveToScene(FILE* p_file);
 	void LoadFromScene(FILE* p_file);
@@ -32,7 +36,7 @@ protected:
 	AudioSource* m_p_audio_source = nullptr;
 
 	bool m_is_playing = false;
-	bool m_is_finished = false;
+	bool m_is_finished = true;
 
 	float m_duration = 0.0f;
 	float m_accumulate_time = 0.0f;
