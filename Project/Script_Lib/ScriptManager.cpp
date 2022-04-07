@@ -12,6 +12,7 @@
 #include "Ground_Script.h"
 #include "Hp_Script.h"
 #include "Ready_Script.h"
+#include "StageEvent_Script.h"
 #include "Wall_Script.h"
 #include "Warning_Script.h"
 #include "X_Script.h"
@@ -30,6 +31,7 @@ void ScriptManager::GetScriptInfo(std::vector<std::string>& script_vector)
 	script_vector.emplace_back("Ground_Script");
 	script_vector.emplace_back("Hp_Script");
 	script_vector.emplace_back("Ready_Script");
+	script_vector.emplace_back("StageEvent_Script");
 	script_vector.emplace_back("Wall_Script");
 	script_vector.emplace_back("Warning_Script");
 	script_vector.emplace_back("X_Script");
@@ -60,6 +62,8 @@ Script* ScriptManager::GetScript(const std::string& script_name)
 		return new Hp_Script;
 	if(script_name._Equal("Ready_Script"))
 		return new Ready_Script;
+	if(script_name._Equal("StageEvent_Script"))
+		return new StageEvent_Script;
 	if(script_name._Equal("Wall_Script"))
 		return new Wall_Script;
 	if(script_name._Equal("Warning_Script"))

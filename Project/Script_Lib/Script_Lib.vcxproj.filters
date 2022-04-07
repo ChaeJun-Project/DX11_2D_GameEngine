@@ -135,7 +135,9 @@
     <ClCompile Include="ProjectileController.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="Event_Script.cpp" />
+    <ClCompile Include="StageEvent_Script.cpp">
+      <Filter>Scripts\Event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptManager.h">
@@ -213,6 +215,8 @@
     <ClInclude Include="ProjectileController.h">
       <Filter>Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="Event_Script.h" />
+    <ClInclude Include="StageEvent_Script.h">
+      <Filter>Scripts\Event</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

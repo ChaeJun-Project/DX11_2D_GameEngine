@@ -8,6 +8,8 @@ GameObjectController::~GameObjectController()
 {
 	m_p_transform = nullptr;
 	m_p_animator2D = nullptr;
+
+	m_p_dead_event_func = nullptr;
 }
 
 void GameObjectController::SetCurrentAnimation(const std::string& animation_name, const bool& is_loop, const bool& is_reverse)

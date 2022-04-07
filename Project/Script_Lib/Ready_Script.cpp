@@ -37,11 +37,6 @@ void Ready_Script::Awake()
 	UIAnimationController::m_p_audio_source = m_p_owner_game_object->GetComponent<AudioSource>();
 }
 
-void Ready_Script::OnDisable()
-{
-	m_is_finished = false;
-}
-
 void Ready_Script::Start()
 {
 	Play();
@@ -50,6 +45,9 @@ void Ready_Script::Start()
 void Ready_Script::Update()
 {
 	UpdateUIAnimation();
+
+	if(!m_is_playing)
+	  m_p_owner_game_object->SetIsActive(false);
 }
 
 void Ready_Script::Play()

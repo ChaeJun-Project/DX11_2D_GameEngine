@@ -21,7 +21,7 @@ protected:
 
 public:
     const bool GetIsPlaying() const { return m_is_playing; }
-	const bool GetIsFinished() const { return m_is_finished; }
+	void SetEndEventFunc(std::function<void(void)> p_end_event_func) { m_p_end_event_func = p_end_event_func; }
 	
 protected:
 	void SaveToScene(FILE* p_file);
@@ -36,9 +36,11 @@ protected:
 	AudioSource* m_p_audio_source = nullptr;
 
 	bool m_is_playing = false;
-	bool m_is_finished = true;
 
 	float m_duration = 0.0f;
 	float m_accumulate_time = 0.0f;
 	int m_current_frame_id = 0;
+
+private:
+	std::function<void(void)> m_p_end_event_func = nullptr;
 };

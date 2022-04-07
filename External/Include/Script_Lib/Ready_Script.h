@@ -15,7 +15,6 @@ public:
 	~Ready_Script() = default;
 
 	void Awake() override;
-	void OnDisable() override;
 	void Start() override;
 	void Update() override;
 

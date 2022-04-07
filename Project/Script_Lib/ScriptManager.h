@@ -16,6 +16,7 @@ enum class Script_Type : UINT
 	Ground_Script,
 	Hp_Script,
 	Ready_Script,
+	StageEvent_Script,
 	Wall_Script,
 	Warning_Script,
 	X_Script,

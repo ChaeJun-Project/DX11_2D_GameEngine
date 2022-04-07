@@ -9,6 +9,7 @@ GameManager_Script
 Ground_Script
 Hp_Script
 Ready_Script
+StageEvent_Script
 Wall_Script
 Warning_Script
 X_Script

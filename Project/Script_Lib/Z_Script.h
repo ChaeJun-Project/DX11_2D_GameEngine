@@ -48,6 +48,8 @@ private:
 	void SetEndAttackHitBox();
 
 	//Trigger
+	void TriggerReadyToIdleState();
+
 	void TriggerIdleState();
 
 	void TriggerWalkRunState();
@@ -90,6 +92,8 @@ private:
 	UINT m_pre_state;
 
 	std::map<UINT, std::vector<std::string>> m_player_state_detail_map;
+
+	bool m_is_ready = false;
 
 //Attack
 #define NEXT_ATTACK_TIME_LIMIT 0.5f

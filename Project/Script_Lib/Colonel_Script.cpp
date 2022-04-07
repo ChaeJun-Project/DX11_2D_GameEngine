@@ -105,26 +105,32 @@ void Colonel_Script::Update()
 		m_p_behavior_tree_root->Tick();
 		if (m_p_behavior_tree_root->Update())
 			m_pre_state = m_current_state;
+
+		//바라보는 방향에 따라 회전
+		//왼쪽
+		if (m_side_state == SideState::Left)
+			m_p_transform->SetRotation(Quaternion::Identity);
+
+		//오른쪽
+		else
+			m_p_transform->SetRotation(Quaternion::QuaternionFromEulerAngle(Vector3(0.0f, 180.0f, 0.0f)));
+
+		if (is_hit)
+		{
+			hit_delay -= DELTA_TIME_F;
+			if (hit_delay <= 0.0f)
+			{
+				hit_delay = 1.0f;
+				is_hit = false;
+			}
+		}
 	}
 
-
-	//바라보는 방향에 따라 회전
-	//왼쪽
-	if (m_side_state == SideState::Left)
-		m_p_transform->SetRotation(Quaternion::Identity);
-
-	//오른쪽
-	else
-		m_p_transform->SetRotation(Quaternion::QuaternionFromEulerAngle(Vector3(0.0f, 180.0f, 0.0f)));
-
-	if (is_hit)
+	if (m_is_dead)
 	{
-		hit_delay -= DELTA_TIME_F;
-		if (hit_delay <= 0.0f)
-		{
-			hit_delay = 1.0f;
-			is_hit = false;
-		}
+		m_dead_event_call_wait -= DELTA_TIME_F;
+		if (m_dead_event_call_wait <= 0.0f)
+			m_p_dead_event_func();
 	}
 }
 
@@ -223,6 +229,9 @@ void Colonel_Script::AddAnimationEvent()
 	animation_map["Colonel_Stealth_Begin"]->SetAnimationEvent(4, std::bind(&Colonel_Script::DisableCollider2D, this));
 	animation_map["Colonel_Stealth_End"]->SetAnimationEvent(4, std::bind(&Colonel_Script::TriggerIdleState, this));
 	animation_map["Colonel_Stealth_End"]->SetAnimationEvent(4, std::bind(&Colonel_Script::EnableCollider2D, this));
+
+	//Die
+	animation_map["Colonel_Die"]->SetAnimationEvent(0, std::bind(&Colonel_Script::DisableCollider2D, this));
 }
 
 void Colonel_Script::TriggerStartToIdleState()
@@ -348,10 +357,11 @@ void Colonel_Script::OnCollisionEnter(GameObject* p_other_game_object)
 			is_hit = true;
 			m_p_sprite_renderer->SetSpriteTextureColor(Vector4::Red);
 			m_hp -= 20;
-			if (m_hp <= 0)
-				m_hp = 0;
 		}
 	}
+
+	if (m_hp <= 0)
+		m_hp = 0;
 }
 
 void Colonel_Script::OnCollisionExit(GameObject* p_other_game_object)

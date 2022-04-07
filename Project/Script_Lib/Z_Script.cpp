@@ -67,67 +67,86 @@ void Z_Script::Start()
 
 void Z_Script::Update()
 {
-	Update_Move();
-	Update_State();
-	Update_Animation();
-
-	if (is_jump)
+	if (m_is_ready)
 	{
-		if (m_p_rigidbody2D->GetIsGround())
+		Update_Move();
+		Update_State();
+		Update_Animation();
+
+		if (is_jump)
 		{
-			is_jump = false;
-			m_jump_count = 0;
-			SetCurrentAnimation("Z_Fall_End");
+			if (m_p_rigidbody2D->GetIsGround())
+			{
+				is_jump = false;
+				m_jump_count = 0;
+				SetCurrentAnimation("Z_Fall_End");
+			}
+
+			if (is_jump_run && m_p_rigidbody2D->GetVelocity().y <= 0.0f)
+				is_jump_run = false;
 		}
 
-		if (is_jump_run && m_p_rigidbody2D->GetVelocity().y <= 0.0f)
-			is_jump_run = false;
-	}
-
-	if ((m_pre_state & PlayerState::Attack) && !(m_current_state & PlayerState::Attack))
-	{
-		m_attack_count = 0;
-		m_next_attck_time_limit = NEXT_ATTACK_TIME_LIMIT;
-	}
-
-	if (!(m_pre_state & PlayerState::Attack))
-	{
-		m_p_attack_hit_box->SetIsActive(false);
-	}
-
-	if (is_hit)
-	{
-		hit_delay -= DELTA_TIME_F;
-		if (hit_delay <= 0.0f)
+		if ((m_pre_state & PlayerState::Attack) && !(m_current_state & PlayerState::Attack))
 		{
-			hit_delay = 2.0f;
-			is_hit = false;
+			m_attack_count = 0;
+			m_next_attck_time_limit = NEXT_ATTACK_TIME_LIMIT;
 		}
-	}
 
-	if (m_is_dark)
-	{
-		m_debuff_dark_duration -= DELTA_TIME_F;
-		if (m_debuff_dark_duration <= 0.0f)
+		if (!(m_pre_state & PlayerState::Attack))
 		{
-			m_debuff_dark_duration = DEBUFF_DARK_DURATION;
-			m_is_dark = false;
+			m_p_attack_hit_box->SetIsActive(false);
+		}
+
+		if (is_hit)
+		{
+			hit_delay -= DELTA_TIME_F;
+			if (hit_delay <= 0.0f)
+			{
+				hit_delay = 2.0f;
+				is_hit = false;
+			}
+		}
+
+		if (m_is_dark)
+		{
+			m_debuff_dark_duration -= DELTA_TIME_F;
+			if (m_debuff_dark_duration <= 0.0f)
+			{
+				m_debuff_dark_duration = DEBUFF_DARK_DURATION;
+				m_is_dark = false;
+				p_dark_game_object->SetIsActive(false);
+			}
+		}
+
+		if (m_is_distortion)
+		{
+			m_debuff_distortion_duration -= DELTA_TIME_F;
+			if (m_debuff_distortion_duration <= 0.0f)
+			{
+				m_debuff_distortion_duration = DEBUFF_DISTORTION_DURATION;
+				m_is_distortion = false;
+				p_distortion_game_object->SetIsActive(false);
+			}
+		}
+
+		m_pre_state = m_current_state;
+
+		if (m_hp == 0)
+		{
+			m_is_dead = true;
+			m_is_ready = false;
+			SetCurrentAnimation("Z_Damaged");
 			p_dark_game_object->SetIsActive(false);
-		}
-	}
-
-	if (m_is_distortion)
-	{
-		m_debuff_distortion_duration -= DELTA_TIME_F;
-		if (m_debuff_distortion_duration <= 0.0f)
-		{
-			m_debuff_distortion_duration = DEBUFF_DISTORTION_DURATION;
-			m_is_distortion = false;
 			p_distortion_game_object->SetIsActive(false);
 		}
 	}
 
-	m_pre_state = m_current_state;
+	if (m_is_dead)
+	{
+		m_dead_event_call_wait -= DELTA_TIME_F;
+		if (m_dead_event_call_wait <= 0.0f)
+			m_p_dead_event_func();
+	}
 }
 
 void Z_Script::Update_Move()
@@ -473,7 +492,7 @@ void Z_Script::AddAnimationEvent()
 	auto animation_map = m_p_animator2D->GetAnimationMap();
 
 	//Ready
-	animation_map["Z_Ready"]->SetAnimationEvent(21, std::bind(&Z_Script::TriggerIdleState, this));
+	animation_map["Z_Ready"]->SetAnimationEvent(21, std::bind(&Z_Script::TriggerReadyToIdleState, this));
 
 	//Attack
 	animation_map["Z_Attack_1"]->SetAnimationEvent(3, std::bind(&Z_Script::SetAttack1HitBox, this));
@@ -560,6 +579,13 @@ void Z_Script::SetEndAttackHitBox()
 	m_p_attack_hit_box->SetOffsetScale(Vector2::Zero);
 }
 
+void Z_Script::TriggerReadyToIdleState()
+{
+	m_is_ready = true;
+	SetCurrentAnimation("Z_Idle", true);
+	m_current_state = PlayerState::Idle;
+}
+
 void Z_Script::TriggerIdleState()
 {
 	SetCurrentAnimation("Z_Idle", true);
@@ -604,8 +630,6 @@ void Z_Script::OnCollisionEnter(GameObject* p_other_game_object)
 		{
 			is_hit = true;
 			m_hp -= 5;
-			if (m_hp <= 0)
-				m_hp = 0;
 		}
 		m_current_state = PlayerState::Damaged;
 	}
@@ -616,8 +640,6 @@ void Z_Script::OnCollisionEnter(GameObject* p_other_game_object)
 		{
 			is_hit = true;
 			m_hp -= 10;
-			if (m_hp <= 0)
-				m_hp = 0;
 		}
 		m_current_state = PlayerState::Damaged;
 	}
@@ -628,9 +650,8 @@ void Z_Script::OnCollisionEnter(GameObject* p_other_game_object)
 		{
 			is_hit = true;
 			m_hp -= 20;
-			if (m_hp <= 0)
-				m_hp = 0;
 		}
+
 		if (!m_is_dark)
 		{
 			m_is_dark = true;
@@ -645,15 +666,19 @@ void Z_Script::OnCollisionEnter(GameObject* p_other_game_object)
 		{
 			is_hit = true;
 			m_hp -= 20;
-			if (m_hp <= 0)
-				m_hp = 0;
 		}
+
 		if (!m_is_distortion)
 		{
 			m_is_distortion = true;
 			p_distortion_game_object->SetIsActive(true);
 		}
 		m_current_state = PlayerState::Damaged;
+	}
+
+	if (m_hp <= 0)
+	{
+		m_hp = 0;
 	}
 }
 

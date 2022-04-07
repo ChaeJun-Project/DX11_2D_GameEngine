@@ -47,6 +47,8 @@ const bool DieNode::Update()
 	{
 		m_p_colonel_script->SetCurrentAnimation("Colonel_Die");
 		m_p_colonel_script->m_current_state = ColonelState::Die;
+		m_p_colonel_script->m_is_dead = true;
+		m_p_colonel_script->m_is_ready = false;
 		return true;
 	}
 

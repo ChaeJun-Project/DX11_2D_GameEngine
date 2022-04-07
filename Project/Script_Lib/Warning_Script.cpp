@@ -60,7 +60,6 @@ void Warning_Script::Update()
 void Warning_Script::OnDisable()
 {
 	StopUIAnimation();
-	m_is_finished = false;
 }
 
 void Warning_Script::Play()

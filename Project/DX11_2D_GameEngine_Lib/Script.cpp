@@ -65,7 +65,7 @@ void Script::SetIsActive(const bool& is_active)
 			if (is_active)
 			{
 				OnEnable();
-				if (m_start_func_call_count == 1)
+				if (m_start_func_call_count == 0)
 				{
 					Start();
 					++m_start_func_call_count;

@@ -22,6 +22,8 @@ UIAnimationController::~UIAnimationController()
 
 	p_image_renderer = nullptr;
 	m_p_audio_source = nullptr;
+
+	m_p_end_event_func = nullptr;
 }
 
 void UIAnimationController::LoadTextures()
@@ -36,7 +38,6 @@ void UIAnimationController::LoadTextures()
 void UIAnimationController::PlayUIAnimation()
 {
 	m_is_playing = true;
-	m_is_finished = false;
 	
 	m_current_frame_id = 0;
 
@@ -79,7 +80,7 @@ void UIAnimationController::UpdateUIAnimation()
 
 			StopUIAnimation();
 
-			m_is_finished = true;
+			m_p_end_event_func();
 		}
 	}
 }

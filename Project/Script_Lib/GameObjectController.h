@@ -23,6 +23,9 @@ public:
 	const Vector3 GetPosition();
 	void SetPosition(const Vector3 position);
 
+	void SetDeadEventFunc(std::function<void(void)> p_dead_event_func) { m_p_dead_event_func = p_dead_event_func; }
+	void SetDeadEventCallWait(const float& wait) { m_dead_event_call_wait = wait; }
+
 protected:
 	void SaveToScene(FILE* p_file);
 	void LoadFromScene(FILE* p_file);
@@ -32,6 +35,7 @@ protected:
 	//사용하지 않는 GameObject가 존재할 수 있음
 	//</summary>
 	int m_hp = 0;
+	bool m_is_dead = false;
 	float m_run_speed = 0.0f;
 	float m_jump_speed = 0.0f;
 	float m_dash_speed = 0.0f;
@@ -40,4 +44,7 @@ protected:
 
 	Transform* m_p_transform = nullptr;
 	Animator2D* m_p_animator2D = nullptr;
+
+    std::function<void(void)> m_p_dead_event_func = nullptr;
+	float m_dead_event_call_wait = 0.0f;
 };

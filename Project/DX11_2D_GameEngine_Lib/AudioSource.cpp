@@ -40,6 +40,7 @@ AudioSource::~AudioSource()
 	//Audio Clip Map
 	for (auto& p_audio_clip : m_p_audio_clip_map)
 	{
+		p_audio_clip.second->Stop();
 		p_audio_clip.second.reset();
 	}
 	m_p_audio_clip_map.clear();
