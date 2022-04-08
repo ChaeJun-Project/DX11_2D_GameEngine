@@ -8,6 +8,8 @@
 #include "Colonel_Attack3_Effect_Script.h"
 #include "Colonel_Script.h"
 #include "Door_Script.h"
+#include "ExplosionEffectManager_Script.h"
+#include "ExplosionEffect_Script.h"
 #include "GameManager_Script.h"
 #include "Ground_Script.h"
 #include "Hp_Script.h"
@@ -27,6 +29,8 @@ void ScriptManager::GetScriptInfo(std::vector<std::string>& script_vector)
 	script_vector.emplace_back("Colonel_Attack3_Effect_Script");
 	script_vector.emplace_back("Colonel_Script");
 	script_vector.emplace_back("Door_Script");
+	script_vector.emplace_back("ExplosionEffectManager_Script");
+	script_vector.emplace_back("ExplosionEffect_Script");
 	script_vector.emplace_back("GameManager_Script");
 	script_vector.emplace_back("Ground_Script");
 	script_vector.emplace_back("Hp_Script");
@@ -54,6 +58,10 @@ Script* ScriptManager::GetScript(const std::string& script_name)
 		return new Colonel_Script;
 	if(script_name._Equal("Door_Script"))
 		return new Door_Script;
+	if(script_name._Equal("ExplosionEffectManager_Script"))
+		return new ExplosionEffectManager_Script;
+	if(script_name._Equal("ExplosionEffect_Script"))
+		return new ExplosionEffect_Script;
 	if(script_name._Equal("GameManager_Script"))
 		return new GameManager_Script;
 	if(script_name._Equal("Ground_Script"))

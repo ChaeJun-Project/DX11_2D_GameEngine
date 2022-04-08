@@ -34,9 +34,15 @@ GameManager_Script::GameManager_Script()
 GameManager_Script::GameManager_Script(const GameManager_Script& origin)
 	: Script(origin.m_script_name)
 {
+	RegisterScriptParamData();
+
 	m_is_active = origin.m_is_active;
 
-	RegisterScriptParamData();
+	m_p_z_prefab = origin.m_p_z_prefab;
+	m_p_colonel_prefab = origin.m_p_colonel_prefab;
+
+	m_stage1_boss_spawn = origin.m_stage1_boss_spawn;
+	m_stage2_boss_spawn = origin.m_stage2_boss_spawn;
 }
 
 GameManager_Script::~GameManager_Script()
@@ -59,6 +65,11 @@ GameManager_Script::~GameManager_Script()
 	m_p_locked_wall_1 = nullptr;
 	m_p_locked_wall_2 = nullptr;
 	m_p_locked_wall_3 = nullptr;
+
+	//Stage Normal Walls
+	m_p_normal_wall_1 = nullptr;
+	m_p_normal_wall_2 = nullptr;
+	m_p_normal_wall_3 = nullptr;
 
 	//Prefab
 	m_p_z_prefab = nullptr;
@@ -83,6 +94,9 @@ void GameManager_Script::Start()
 	//Stage Locked Walls
 	SetStageLockedWall();
 
+	//Stage Normal Walls
+	SetStageNormalWall();
+
 	//Camera Script
 	auto p_current_scene = SCENE_MANAGER->GetCurrentScene();
 	p_camera_script = dynamic_cast<Camera_Script*>(p_current_scene->FindGameObjectWithName("Main Camera")->GetScript("Camera_Script"));
@@ -92,6 +106,9 @@ void GameManager_Script::RegisterScriptParamData()
 {
 	AddScriptParamData(ScriptParamStruct("Z", ScriptParamType::Prefab, &m_p_z_prefab, 100.f));
 	AddScriptParamData(ScriptParamStruct("Colonel", ScriptParamType::Prefab, &m_p_colonel_prefab, 100.f));
+
+	AddScriptParamData(ScriptParamStruct("Stage1 Boss Spawn", ScriptParamType::Vector3, reinterpret_cast<void*>(&m_stage1_boss_spawn), 130.f));
+	AddScriptParamData(ScriptParamStruct("Stage2 Boss Spawn", ScriptParamType::Vector3, reinterpret_cast<void*>(&m_stage2_boss_spawn), 130.f));
 }
 
 void GameManager_Script::SetUI()
@@ -110,7 +127,7 @@ void GameManager_Script::SetUI()
 	m_p_warning_ui = p_canvas->GetChildFromIndex(1);
 	m_p_warning_script = dynamic_cast<Warning_Script*>(m_p_warning_ui->GetScript("Warning_Script"));
 	m_p_warning_script->SetEndEventFunc(std::bind(&GameManager_Script::CreateBoss, this));
-	
+
 	//Player Hp Game
 	m_p_player_hp_gage = p_canvas->GetChildFromIndex(2);
 	m_p_player_hp_script = dynamic_cast<Hp_Script*>(m_p_player_hp_gage->GetScript("Hp_Script"));
@@ -127,11 +144,11 @@ void GameManager_Script::SetStageEvent()
 	//Stage Events
 	m_p_stage_event_1 = p_stage_events->GetChildFromIndex(0);
 	auto p_stage_event_script = dynamic_cast<StageEvent_Script*>(m_p_stage_event_1->GetScript("StageEvent_Script"));
-	p_stage_event_script->SetEventFunc(std::bind(&GameManager_Script::StartStage1, this));
+	p_stage_event_script->SetEventFunc(std::bind(&GameManager_Script::ReadyStage1, this));
 
 	m_p_stage_event_2 = p_stage_events->GetChildFromIndex(1);
 	p_stage_event_script = dynamic_cast<StageEvent_Script*>(m_p_stage_event_2->GetScript("StageEvent_Script"));
-	p_stage_event_script->SetEventFunc(std::bind(&GameManager_Script::StartStage2, this));
+	p_stage_event_script->SetEventFunc(std::bind(&GameManager_Script::ReadyStage2, this));
 }
 
 void GameManager_Script::SetStageLockedWall()
@@ -139,10 +156,25 @@ void GameManager_Script::SetStageLockedWall()
 	auto p_current_scene = SCENE_MANAGER->GetCurrentScene();
 
 	auto p_stage_locked_walls = p_current_scene->FindGameObjectWithName("Stage Locked Walls");
-	//Stage Locked Walls
+	//Stage1 Locked Walls
 	m_p_locked_wall_1 = p_stage_locked_walls->GetChildFromIndex(0);
 	m_p_locked_wall_2 = p_stage_locked_walls->GetChildFromIndex(1);
+	//Stage2 Locked Walls
 	m_p_locked_wall_3 = p_stage_locked_walls->GetChildFromIndex(2);
+}
+
+void GameManager_Script::SetStageNormalWall()
+{
+	auto p_current_scene = SCENE_MANAGER->GetCurrentScene();
+
+	auto p_walls = p_current_scene->FindGameObjectWithName("Walls");
+
+	//Stage1 Normal Walls
+	m_p_normal_wall_1 = p_walls->GetChildFromIndex(1);
+	m_p_normal_wall_2 = p_walls->GetChildFromIndex(2);
+
+	//Stage2 Normal Wall
+	m_p_normal_wall_3 = p_walls->GetChildFromIndex(3);
 }
 
 void GameManager_Script::ReadyToPlay()
@@ -155,35 +187,54 @@ void GameManager_Script::CreatePlayer()
 {
 	m_p_z_game_object = Instantiate(m_p_z_prefab, Vector3::Zero);
 	m_p_z_script = dynamic_cast<Z_Script*>(m_p_z_game_object->GetScript("Z_Script"));
+	m_p_z_script->SetWinEventFunc(std::bind(&GameManager_Script::EndStage, this));
 	m_p_z_script->SetDeadEventFunc(std::bind(&GameManager_Script::EndStage, this));
 	m_p_z_script->SetDeadEventCallWait(3.0f);
-	
+
 	//Set Player Hp Gage
 	m_p_player_hp_script->SetTargetGameObject(m_p_z_game_object);
 	m_p_player_hp_gage->SetIsActive(true);
 
-	//Set Scene Camera
+	//Scene Camera Target을 Player로 설정
 	p_camera_script->SetTarget(m_p_z_game_object);
 }
 
 void GameManager_Script::CreateBoss()
 {
-	m_p_z_script->SetIsActive(true);
-	
-	m_p_colonel_game_object = Instantiate(m_p_colonel_prefab, Vector3::Zero);
-	m_p_colonel_script = dynamic_cast<Colonel_Script*>(m_p_colonel_game_object->GetScript("Colonel_Script"));
-	m_p_colonel_script->SetDeadEventFunc(std::bind(&GameManager_Script::EndStage1, this));
-	m_p_colonel_script->SetDeadEventCallWait(2.0f);
+	switch (m_current_stage)
+	{
+	case 1:
+		m_p_colonel_game_object = Instantiate(m_p_colonel_prefab, m_stage1_boss_spawn);
+		m_p_colonel_script = dynamic_cast<Colonel_Script*>(m_p_colonel_game_object->GetScript("Colonel_Script"));
+		m_p_colonel_script->SetDeadEventFunc(std::bind(&GameManager_Script::EndStage1, this));
+		break;
+	case 2:
+		m_p_colonel_game_object = Instantiate(m_p_colonel_prefab, m_stage2_boss_spawn);
+		m_p_colonel_script = dynamic_cast<Colonel_Script*>(m_p_colonel_game_object->GetScript("Colonel_Script"));
+		m_p_colonel_script->SetDeadEventFunc(std::bind(&GameManager_Script::PlayerWin, this));
+		break;
+	}
+
+	m_p_colonel_script->SetReadyEventFunc(std::bind(&GameManager_Script::StartStage, this));
+	m_p_colonel_script->SetDeadEventCallWait(8.0f);
 
 	//Set Boss Hp Gage
 	m_p_boss_hp_script->SetTargetGameObject(m_p_colonel_game_object);
 	m_p_boss_hp_gage->SetIsActive(true);
+
+	//Scene Camera Target을 Boss로 설정
+	p_camera_script->SetTarget(m_p_colonel_game_object);
 }
 
-void GameManager_Script::StartStage1()
+void GameManager_Script::ReadyStage1()
 {
+	++m_current_stage;
+
 	m_p_locked_wall_1->SetIsActive(true);
 	m_p_locked_wall_2->SetIsActive(true);
+
+	m_p_normal_wall_1->SetIsActive(false);
+	m_p_normal_wall_2->SetIsActive(false);
 
 	m_p_warning_ui->SetIsActive(true);
 
@@ -195,18 +246,39 @@ void GameManager_Script::EndStage1()
 	m_p_locked_wall_1->SetIsActive(false);
 	m_p_locked_wall_2->SetIsActive(false);
 
+	m_p_normal_wall_1->SetIsActive(true);
+	m_p_normal_wall_2->SetIsActive(true);
+
 	OnDestroy(m_p_colonel_game_object);
 
 	m_p_boss_hp_gage->SetIsActive(false);
 }
 
-void GameManager_Script::StartStage2()
+void GameManager_Script::ReadyStage2()
 {
+	++m_current_stage;
+
 	m_p_locked_wall_3->SetIsActive(true);
+	m_p_normal_wall_3->SetIsActive(false);
 
 	m_p_warning_ui->SetIsActive(true);
 
 	m_p_z_script->SetIsActive(false);
+}
+
+void GameManager_Script::StartStage()
+{
+	m_p_z_script->SetIsActive(true);
+
+	//Scene Camera Target을 Player로 설정
+	p_camera_script->SetTarget(m_p_z_game_object);
+}
+
+void GameManager_Script::PlayerWin()
+{
+	OnDestroy(m_p_colonel_game_object);
+
+	m_p_z_script->SetPlayerWin(true);
 }
 
 void GameManager_Script::EndStage()
@@ -233,6 +305,13 @@ void GameManager_Script::SaveToScene(FILE* p_file)
 
 	fprintf_s(p_file, "[Colonel]\n");
 	RESOURCE_MANAGER->SaveResource<Prefab>(m_p_colonel_prefab, p_file);
+
+	//Boss Spawn
+	fprintf_s(p_file, "[Stage1 Boss Spawn Position]\n");
+	FILE_MANAGER->FPrintf_Vector3(m_stage1_boss_spawn, p_file);
+
+	fprintf_s(p_file, "[Stage2 Boss Spawn Position]\n");
+	FILE_MANAGER->FPrintf_Vector3(m_stage2_boss_spawn, p_file);
 }
 
 void GameManager_Script::LoadFromScene(FILE* p_file)
@@ -245,4 +324,11 @@ void GameManager_Script::LoadFromScene(FILE* p_file)
 
 	FILE_MANAGER->FScanf(char_buffer, p_file); //[Colonel]
 	RESOURCE_MANAGER->LoadResource<Prefab>(m_p_colonel_prefab, p_file);
+
+	//Boss Spawn
+	FILE_MANAGER->FScanf(char_buffer, p_file); //[Stage1 Boss Spawn Position]
+	FILE_MANAGER->FScanf_Vector3(m_stage1_boss_spawn, p_file);
+
+	FILE_MANAGER->FScanf(char_buffer, p_file); //[Stage2 Boss Spawn Position]
+	FILE_MANAGER->FScanf_Vector3(m_stage2_boss_spawn, p_file);
 }

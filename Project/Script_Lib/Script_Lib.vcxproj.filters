@@ -70,6 +70,9 @@
     <Filter Include="Scripts\Event">
       <UniqueIdentifier>{0ca88db0-526f-4ab5-b4a2-ddd1cfc5805f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Enemy\Colonel\Explosion Effect">
+      <UniqueIdentifier>{711c4ccf-1d2c-4787-acae-6e4303819f1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScriptManager.cpp">
@@ -137,6 +140,12 @@
     </ClCompile>
     <ClCompile Include="StageEvent_Script.cpp">
       <Filter>Scripts\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionEffectManager_Script.cpp">
+      <Filter>Scripts\Enemy\Colonel\Explosion Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionEffect_Script.cpp">
+      <Filter>Scripts\Enemy\Colonel\Explosion Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +226,12 @@
     </ClInclude>
     <ClInclude Include="StageEvent_Script.h">
       <Filter>Scripts\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionEffectManager_Script.h">
+      <Filter>Scripts\Enemy\Colonel\Explosion Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionEffect_Script.h">
+      <Filter>Scripts\Enemy\Colonel\Explosion Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

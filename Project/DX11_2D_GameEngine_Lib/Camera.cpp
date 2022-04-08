@@ -114,7 +114,7 @@ void Camera::SortObjects()
 
 					render_time_point = p_sprtie_renderer->GetMaterial()->GetShader()->GetRenderTimePointType();
 				}
-			  
+
 				//해당 오브젝트가 ParticleRenderer 컴포넌트를 포함하고 있다면
 				else if (p_particle_renderer != nullptr)
 				{
@@ -169,9 +169,26 @@ void Camera::RenderForwardObjects()
 		//부모 GameObject를 가지고 있는 경우
 		else
 		{
-			//부모 GameObject가 활성화 되어있고 
-			//자신도 활성화가 되어있다면 렌더링
-			if (m_forward_object_vector[i]->GetParent()->GetIsActive() && m_forward_object_vector[i]->GetIsActive())
+			GameObject* p_parent_game_object = m_forward_object_vector[i];
+			auto is_render = true;
+			//현재 GameObject의 부모 GameObject를 시작으로 탐색하여
+			//부모 GameObject가 하나라도 비활성화 상태라면
+			//현재 GameObject를 그리지 않음
+			while (p_parent_game_object != nullptr)
+			{
+				p_parent_game_object = p_parent_game_object->GetParent();
+
+				if (p_parent_game_object != nullptr && !p_parent_game_object->GetIsActive())
+				{ 
+					is_render = false;
+					break;
+				}
+			}
+
+			if (!is_render)
+				continue;
+
+			if (m_forward_object_vector[i]->GetIsActive())
 				m_forward_object_vector[i]->Render();
 		}
 	}
@@ -192,9 +209,26 @@ void Camera::RenderParticleObjects()
 		//부모 GameObject를 가지고 있는 경우
 		else
 		{
-			//부모 GameObject가 활성화 되어있고 
-			//자신도 활성화가 되어있다면 렌더링
-			if (m_particle_object_vector[i]->GetParent()->GetIsActive() && m_particle_object_vector[i]->GetIsActive())
+			GameObject* p_parent_game_object = m_particle_object_vector[i];
+			auto is_render = true;
+			//현재 GameObject의 부모 GameObject를 시작으로 탐색하여
+			//부모 GameObject가 하나라도 비활성화 상태라면
+			//현재 GameObject를 그리지 않음
+			while (p_parent_game_object != nullptr)
+			{
+				p_parent_game_object = p_parent_game_object->GetParent();
+
+				if (p_parent_game_object != nullptr && !p_parent_game_object->GetIsActive())
+				{
+					is_render = false;
+					break;
+				}
+			}
+
+			if (!is_render)
+				continue;
+
+			if (m_particle_object_vector[i]->GetIsActive())
 				m_particle_object_vector[i]->Render();
 		}
 	}
@@ -217,9 +251,26 @@ void Camera::RenderPostEffectObjects()
 		//부모 GameObject를 가지고 있는 경우
 		else
 		{
-			//부모 GameObject가 활성화 되어있고 
-			//자신도 활성화가 되어있다면 렌더링
-			if (m_post_effect_object_vector[i]->GetParent()->GetIsActive() && m_post_effect_object_vector[i]->GetIsActive())
+			GameObject* p_parent_game_object = m_post_effect_object_vector[i];
+			auto is_render = true;
+			//현재 GameObject의 부모 GameObject를 시작으로 탐색하여
+			//부모 GameObject가 하나라도 비활성화 상태라면
+			//현재 GameObject를 그리지 않음
+			while (p_parent_game_object != nullptr)
+			{
+				p_parent_game_object = p_parent_game_object->GetParent();
+
+				if (p_parent_game_object != nullptr && !p_parent_game_object->GetIsActive())
+				{
+					is_render = false;
+					break;
+				}
+			}
+
+			if (!is_render)
+				continue;
+
+			if (m_post_effect_object_vector[i]->GetIsActive())
 				m_post_effect_object_vector[i]->Render();
 		}
 	}

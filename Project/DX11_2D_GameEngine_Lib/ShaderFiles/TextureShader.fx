@@ -55,7 +55,7 @@ float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
         ps_output_color = g_texture_0.Sample(g_sampler1, ps_input.uv);
     }
     
-    ps_output_color *= SPRITE_TEXTURE_COLOR;
+    ps_output_color.rgb *= SPRITE_TEXTURE_COLOR.rgb;
       
     //Light
     float4 light_color = (float4) 0.0f;

@@ -61,10 +61,10 @@ private:
 
 	void TriggerFallRunState();
 
+	void TriggerWinToReturn();
+
 public:
 	void OnCollisionEnter(GameObject* p_other_game_object) override;
-	void OnCollisionStay(GameObject* p_other_game_object) override;
-	void OnCollisionExit(GameObject* p_other_game_object) override;
 
 private:
 	void SaveToScene(FILE* p_file) override;
@@ -92,8 +92,6 @@ private:
 	UINT m_pre_state;
 
 	std::map<UINT, std::vector<std::string>> m_player_state_detail_map;
-
-	bool m_is_ready = false;
 
 //Attack
 #define NEXT_ATTACK_TIME_LIMIT 0.5f

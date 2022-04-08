@@ -141,6 +141,8 @@ void Z_Script::Update()
 		}
 	}
 
+	if(m_is_win)
+
 	if (m_is_dead)
 	{
 		m_dead_event_call_wait -= DELTA_TIME_F;
@@ -305,6 +307,12 @@ void Z_Script::Update_State()
 
 void Z_Script::Update_Animation()
 {
+	if (m_is_win)
+	{
+		m_is_ready = false;
+		m_current_state = PlayerState::Win;
+	}
+
 	//Return
 	if (m_current_state == PlayerState::Return)
 	{
@@ -523,6 +531,12 @@ void Z_Script::AddAnimationEvent()
 
 	//Walk
 	animation_map["Z_Walk_Begin"]->SetAnimationEvent(6, std::bind(&Z_Script::TriggerWalkRunState, this));
+
+	//Win
+	animation_map["Z_Win"]->SetAnimationEvent(32, std::bind(&Z_Script::TriggerWinToReturn, this));
+	
+	//Return
+	animation_map["Z_Return"]->SetAnimationEvent(11, m_p_win_event_func);
 }
 
 void Z_Script::SetAttack1HitBox()
@@ -622,6 +636,12 @@ void Z_Script::TriggerFallRunState()
 	SetCurrentAnimation("Z_Fall_Run", true);
 }
 
+void Z_Script::TriggerWinToReturn()
+{
+	SetCurrentAnimation("Z_Return", true);
+	m_current_state = PlayerState::Return;
+}
+
 void Z_Script::OnCollisionEnter(GameObject* p_other_game_object)
 {
 	if (p_other_game_object->GetGameObjectTag()._Equal("Enemy"))
@@ -680,16 +700,6 @@ void Z_Script::OnCollisionEnter(GameObject* p_other_game_object)
 	{
 		m_hp = 0;
 	}
-}
-
-void Z_Script::OnCollisionStay(GameObject* p_other_game_object)
-{
-
-}
-
-void Z_Script::OnCollisionExit(GameObject* p_other_game_object)
-{
-
 }
 
 void Z_Script::SaveToScene(FILE* p_file)

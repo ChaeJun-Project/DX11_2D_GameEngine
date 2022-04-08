@@ -9,6 +9,8 @@ GameObjectController::~GameObjectController()
 	m_p_transform = nullptr;
 	m_p_animator2D = nullptr;
 
+	m_p_ready_event_func = nullptr;
+	m_p_win_event_func = nullptr;
 	m_p_dead_event_func = nullptr;
 }
 

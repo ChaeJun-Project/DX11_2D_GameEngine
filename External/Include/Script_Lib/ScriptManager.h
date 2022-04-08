@@ -12,6 +12,8 @@ enum class Script_Type : UINT
 	Colonel_Attack3_Effect_Script,
 	Colonel_Script,
 	Door_Script,
+	ExplosionEffectManager_Script,
+	ExplosionEffect_Script,
 	GameManager_Script,
 	Ground_Script,
 	Hp_Script,

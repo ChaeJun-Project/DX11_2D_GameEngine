@@ -50,7 +50,6 @@ private:
 
 public:
 	void OnCollisionEnter(GameObject* p_other_game_object) override;
-	void OnCollisionExit(GameObject* p_other_game_object) override;
 
 private:
 	void SaveToScene(FILE* p_file) override;
@@ -69,8 +68,11 @@ private:
 
 	bool m_is_ready = false;
 
+	//Attack
+	//Fire Position
 	Transform* m_p_attack_1_fire_transform = nullptr;
 	Transform* m_p_attack_2_fire_transform = nullptr;
+	GameObject* m_p_attack_3_prepare_effect = nullptr;
 	std::vector<Transform*> m_p_attack_3_fire_transform_vector;
 
 	//Prefab
@@ -78,7 +80,8 @@ private:
 	std::shared_ptr<Prefab> m_p_attack2_effect = nullptr;
 	std::shared_ptr<Prefab> m_p_attack3_effect = nullptr;
 
-	GameObject* m_p_attack_3_prepare_effect = nullptr;
+	//Explosions
+	GameObject* m_p_explosions_game_object = nullptr;
 
 	//Hit
 	bool is_hit = false;

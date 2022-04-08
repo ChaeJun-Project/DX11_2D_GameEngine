@@ -36,7 +36,7 @@ Colonel_Script::Colonel_Script(const Colonel_Script& origin)
 	MakeBehaviorTree();
 
 	m_hp = origin.m_hp;
-	
+
 	m_p_attack1_effect = origin.m_p_attack1_effect;
 	m_p_attack2_effect = origin.m_p_attack2_effect;
 	m_p_attack3_effect = origin.m_p_attack3_effect;
@@ -45,6 +45,7 @@ Colonel_Script::Colonel_Script(const Colonel_Script& origin)
 Colonel_Script::~Colonel_Script()
 {
 	m_p_player_script = nullptr;
+	m_p_sprite_renderer = nullptr;
 	m_p_collider2D = nullptr;
 
 	m_p_attack_1_fire_transform = nullptr;
@@ -62,6 +63,8 @@ Colonel_Script::~Colonel_Script()
 	m_p_attack2_effect.reset();
 	m_p_attack3_effect.reset();
 
+	m_p_explosions_game_object = nullptr;
+
 	SAFE_DELETE(m_p_behavior_tree_root);
 }
 
@@ -76,6 +79,8 @@ void Colonel_Script::Awake()
 	AddAttackFireTransform();
 
 	m_p_attack_3_prepare_effect = m_p_owner_game_object->GetChildFromIndex(3);
+
+	m_p_explosions_game_object = m_p_owner_game_object->GetChildFromIndex(4);
 
 	AddAnimationEvent();
 }
@@ -122,12 +127,19 @@ void Colonel_Script::Update()
 			{
 				hit_delay = 1.0f;
 				is_hit = false;
+				m_p_sprite_renderer->SetSpriteTextureColor(Vector4::White);
 			}
 		}
 	}
 
 	if (m_is_dead)
 	{
+	    if(m_p_collider2D->GetIsActive())
+			m_p_collider2D->SetIsActive(false);
+
+		if (!m_p_explosions_game_object->GetIsActive())
+			m_p_explosions_game_object->SetIsActive(true);
+
 		m_dead_event_call_wait -= DELTA_TIME_F;
 		if (m_dead_event_call_wait <= 0.0f)
 			m_p_dead_event_func();
@@ -138,7 +150,7 @@ void Colonel_Script::RegisterScriptParamData()
 {
 	AddScriptParamData(ScriptParamStruct("Hp", ScriptParamType::Int, reinterpret_cast<void*>(&m_hp), 100.0f));
 	AddScriptParamData(ScriptParamStruct("Current State", ScriptParamType::Int, reinterpret_cast<void*>(&m_current_state), 100.f));
-	
+
 	AddScriptParamData(ScriptParamStruct("Attack1 Effect", ScriptParamType::Prefab, &m_p_attack1_effect, 100.f));
 	AddScriptParamData(ScriptParamStruct("Attack2 Effect", ScriptParamType::Prefab, &m_p_attack2_effect, 100.f));
 	AddScriptParamData(ScriptParamStruct("Attack3 Effect", ScriptParamType::Prefab, &m_p_attack3_effect, 100.f));
@@ -191,7 +203,7 @@ void Colonel_Script::MakeBehaviorTree()
 
 void Colonel_Script::AddAttackFireTransform()
 {
-    //Attack_1
+	//Attack_1
 	m_p_attack_1_fire_transform = m_p_owner_game_object->GetChildFromIndex(0)->GetComponent<Transform>();
 
 	//Attack_2
@@ -237,6 +249,8 @@ void Colonel_Script::AddAnimationEvent()
 void Colonel_Script::TriggerStartToIdleState()
 {
 	m_is_ready = true;
+	m_p_ready_event_func();
+
 	SetCurrentAnimation("Colonel_Idle", true);
 	m_current_state = ColonelState::Idle;
 	m_pre_state = m_current_state;
@@ -264,13 +278,13 @@ void Colonel_Script::EnableCollider2D()
 #include "Colonel_Attack1_Effect_Script.h"
 void Colonel_Script::CreateAttack1Effect()
 {
-    auto attack1_start_position = Vector3::Zero;
+	auto attack1_start_position = Vector3::Zero;
 	attack1_start_position.x = m_p_attack_1_fire_transform->GetTranslation().x;
 	attack1_start_position.y = m_p_attack_1_fire_transform->GetLocalTranslation().y;
-	
+
 	auto attack1_effect = Instantiate(m_p_attack1_effect, attack1_start_position);
 	auto p_attack1_effect_script = dynamic_cast<Colonel_Attack1_Effect_Script*>(attack1_effect->GetScript("Colonel_Attack1_Effect_Script"));
-	
+
 	auto fire_direction = Vector3::Zero;
 	switch (m_side_state)
 	{
@@ -340,7 +354,7 @@ void Colonel_Script::CreateAttack3Effect()
 		auto p_attack3_effect_script = dynamic_cast<Colonel_Attack3_Effect_Script*>(attack3_effect->GetScript("Colonel_Attack3_Effect_Script"));
 
 		auto fire_direction = Vector3::Up;
-		
+
 		p_attack3_effect_script->SetFireDirection(fire_direction);
 	}
 }
@@ -349,7 +363,7 @@ void Colonel_Script::OnCollisionEnter(GameObject* p_other_game_object)
 {
 	if (p_other_game_object->GetGameObjectTag() == "PlayerAttack")
 	{
-		if (m_pre_state == ColonelState::Guard || m_pre_state== ColonelState::Die)
+		if (m_pre_state == ColonelState::Guard || m_pre_state == ColonelState::Die)
 			return;
 
 		if (!is_hit)
@@ -362,14 +376,6 @@ void Colonel_Script::OnCollisionEnter(GameObject* p_other_game_object)
 
 	if (m_hp <= 0)
 		m_hp = 0;
-}
-
-void Colonel_Script::OnCollisionExit(GameObject* p_other_game_object)
-{
-	if (p_other_game_object->GetGameObjectTag() == "PlayerAttack")
-	{
-		m_p_sprite_renderer->SetSpriteTextureColor(Vector4::White);
-	}
 }
 
 void Colonel_Script::SaveToScene(FILE* p_file)

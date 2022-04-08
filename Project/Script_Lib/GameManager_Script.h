@@ -26,16 +26,22 @@ private:
     void SetUI();
 	void SetStageEvent();
 	void SetStageLockedWall();
+	void SetStageNormalWall();
 
 	//UI
 	//Ready
 	void ReadyToPlay();
 
 	//Stage Event
-	void StartStage1();
-	void EndStage1();
-	void StartStage2();
+	void ReadyStage1();
+	void ReadyStage2();
 
+	void StartStage();
+
+	void PlayerWin();
+
+	//End Stage
+	void EndStage1();
 	void EndStage();
 
 	//GameObject
@@ -72,6 +78,11 @@ private:
 	GameObject* m_p_locked_wall_2 = nullptr;
 	GameObject* m_p_locked_wall_3 = nullptr;
 
+	//Stage Normal Walls
+	GameObject* m_p_normal_wall_1 = nullptr;
+	GameObject* m_p_normal_wall_2 = nullptr;
+	GameObject* m_p_normal_wall_3 = nullptr;
+
 	//Camera Script
 	Camera_Script* p_camera_script = nullptr;
 
@@ -86,6 +97,10 @@ private:
 	GameObject* m_p_colonel_game_object = nullptr;
 	Colonel_Script* m_p_colonel_script = nullptr;
 
+	Vector3 m_stage1_boss_spawn = Vector3::Zero;
+	Vector3 m_stage2_boss_spawn = Vector3::Zero;
+
 	bool m_ready_to_play = false;
+	UINT m_current_stage = 0;
 };
 
