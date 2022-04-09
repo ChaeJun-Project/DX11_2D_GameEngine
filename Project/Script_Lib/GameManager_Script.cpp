@@ -278,6 +278,8 @@ void GameManager_Script::PlayerWin()
 {
 	OnDestroy(m_p_colonel_game_object);
 
+	m_p_boss_hp_gage->SetIsActive(false);
+
 	m_p_z_script->SetPlayerWin(true);
 }
 

@@ -10,8 +10,7 @@ public:
     ~GUI_Console();
 
 public:
-    virtual void Initialize() override;
-    virtual void Render() override;
+    void Render() override;
 
 private:
     void DisplayButton(const IconType& type, const ImVec2& button_size, bool& is_show);

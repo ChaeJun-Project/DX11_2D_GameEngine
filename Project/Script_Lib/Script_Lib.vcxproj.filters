@@ -10,68 +10,89 @@
     <Filter Include="Stdafx">
       <UniqueIdentifier>{0b31d502-28cc-4edb-9113-f8772b9d29e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Player">
-      <UniqueIdentifier>{53991344-1f0e-4e39-98a5-43d19c3820fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Player\Z">
-      <UniqueIdentifier>{984ee7ac-60f3-47f6-be21-e892db6fd8f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Player\X">
-      <UniqueIdentifier>{32c0d190-1f48-4da8-99a0-a8df1f917110}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Enemy">
-      <UniqueIdentifier>{75173743-5a4e-46b4-bccb-75afde7ed7e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Enemy\Colonel">
-      <UniqueIdentifier>{09998413-8681-4021-ac14-f77bfa1e81c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Manager">
-      <UniqueIdentifier>{b8b8d87a-73b0-4698-8eac-a765a64a69d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Geometry">
-      <UniqueIdentifier>{e82a5119-20b4-4923-b94c-6fbb0090a818}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Geometry\Wall">
-      <UniqueIdentifier>{26872b85-0d53-43ae-b288-6be90207864b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Geometry\Ground">
-      <UniqueIdentifier>{87b47d06-9063-4690-ab73-5bb84d282a99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Geometry\Ceiling">
-      <UniqueIdentifier>{27771bc1-086e-4f38-bee4-81cc07806fc9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Camera">
-      <UniqueIdentifier>{4b43394c-8131-495f-a807-f46f039c05c4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Enum">
       <UniqueIdentifier>{0d7dd277-7810-43d9-8853-1a044f14ceff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Enemy\Behaviour Tree">
-      <UniqueIdentifier>{5edce94d-a9d3-4776-9f5f-77b8a07c5f0f}</UniqueIdentifier>
+    <Filter Include="Scripts\Game Stage">
+      <UniqueIdentifier>{05b2955f-f732-4338-ab5f-5c690b5022d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\UI">
-      <UniqueIdentifier>{b5a51d8e-d17d-4f76-94eb-a95479b2a262}</UniqueIdentifier>
+    <Filter Include="Scripts\Game Stage\Camera">
+      <UniqueIdentifier>{4b43394c-8131-495f-a807-f46f039c05c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\UI\Hp">
-      <UniqueIdentifier>{d1280f58-7613-45ea-a170-804191887216}</UniqueIdentifier>
+    <Filter Include="Scripts\Game Stage\Enemy">
+      <UniqueIdentifier>{75173743-5a4e-46b4-bccb-75afde7ed7e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Geometry\Door">
-      <UniqueIdentifier>{fa16d3d1-f73d-4d57-b31b-dea1067c42ab}</UniqueIdentifier>
+    <Filter Include="Scripts\Game Stage\Enemy\Colonel">
+      <UniqueIdentifier>{09998413-8681-4021-ac14-f77bfa1e81c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\UI\Ready">
-      <UniqueIdentifier>{fa8e7ba7-6e09-421e-9a2c-65e5e483f8df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\UI\Warning">
-      <UniqueIdentifier>{f30e026a-0482-474d-8e50-474b83da5535}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Enemy\Colonel\Attack Effect">
+    <Filter Include="Scripts\Game Stage\Enemy\Colonel\Attack Effect">
       <UniqueIdentifier>{2ef58453-e690-45f8-b15f-67dba28e1527}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Event">
+    <Filter Include="Scripts\Game Stage\Enemy\Colonel\Explosion Effect">
+      <UniqueIdentifier>{711c4ccf-1d2c-4787-acae-6e4303819f1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\Enemy\Behaviour Tree">
+      <UniqueIdentifier>{5edce94d-a9d3-4776-9f5f-77b8a07c5f0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\Event">
       <UniqueIdentifier>{0ca88db0-526f-4ab5-b4a2-ddd1cfc5805f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Enemy\Colonel\Explosion Effect">
-      <UniqueIdentifier>{711c4ccf-1d2c-4787-acae-6e4303819f1d}</UniqueIdentifier>
+    <Filter Include="Scripts\Game Stage\Geometry">
+      <UniqueIdentifier>{e82a5119-20b4-4923-b94c-6fbb0090a818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\Geometry\Wall">
+      <UniqueIdentifier>{26872b85-0d53-43ae-b288-6be90207864b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\Geometry\Ground">
+      <UniqueIdentifier>{87b47d06-9063-4690-ab73-5bb84d282a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\Geometry\Ceiling">
+      <UniqueIdentifier>{27771bc1-086e-4f38-bee4-81cc07806fc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\Geometry\Door">
+      <UniqueIdentifier>{fa16d3d1-f73d-4d57-b31b-dea1067c42ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\Manager">
+      <UniqueIdentifier>{b8b8d87a-73b0-4698-8eac-a765a64a69d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\Player">
+      <UniqueIdentifier>{53991344-1f0e-4e39-98a5-43d19c3820fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\Player\Z">
+      <UniqueIdentifier>{984ee7ac-60f3-47f6-be21-e892db6fd8f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\Player\X">
+      <UniqueIdentifier>{32c0d190-1f48-4da8-99a0-a8df1f917110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\UI">
+      <UniqueIdentifier>{b5a51d8e-d17d-4f76-94eb-a95479b2a262}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\UI\Hp">
+      <UniqueIdentifier>{d1280f58-7613-45ea-a170-804191887216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\UI\Ready">
+      <UniqueIdentifier>{fa8e7ba7-6e09-421e-9a2c-65e5e483f8df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\UI\Warning">
+      <UniqueIdentifier>{f30e026a-0482-474d-8e50-474b83da5535}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Title">
+      <UniqueIdentifier>{6e509852-2b62-4716-837d-2a87ddbc90d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Title\Manager">
+      <UniqueIdentifier>{030fad05-5a01-407d-a44e-ffe265f6b65e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Title\Page">
+      <UniqueIdentifier>{e9b225b2-cf09-4ef4-988f-7cdc6cc3bd5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Title\Page\Loading">
+      <UniqueIdentifier>{ff7eaedd-a583-4fe2-b24e-eb812c6ff745}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Title\Page\Player Select">
+      <UniqueIdentifier>{7acdb092-672a-4082-8fa4-6e97a2a54509}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Title\Page\Menu">
+      <UniqueIdentifier>{fd597f91-e92b-45b3-ace0-3a91223da749}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -82,70 +103,85 @@
       <Filter>Stdafx</Filter>
     </ClCompile>
     <ClCompile Include="Z_Script.cpp">
-      <Filter>Scripts\Player\Z</Filter>
+      <Filter>Scripts\Game Stage\Player\Z</Filter>
     </ClCompile>
     <ClCompile Include="X_Script.cpp">
-      <Filter>Scripts\Player\X</Filter>
+      <Filter>Scripts\Game Stage\Player\X</Filter>
     </ClCompile>
     <ClCompile Include="GameManager_Script.cpp">
-      <Filter>Scripts\Manager</Filter>
+      <Filter>Scripts\Game Stage\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Ground_Script.cpp">
-      <Filter>Scripts\Geometry\Ground</Filter>
+      <Filter>Scripts\Game Stage\Geometry\Ground</Filter>
     </ClCompile>
     <ClCompile Include="Camera_Script.cpp">
-      <Filter>Scripts\Camera</Filter>
+      <Filter>Scripts\Game Stage\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Wall_Script.cpp">
-      <Filter>Scripts\Geometry\Wall</Filter>
+      <Filter>Scripts\Game Stage\Geometry\Wall</Filter>
     </ClCompile>
     <ClCompile Include="Ceiling_Script.cpp">
-      <Filter>Scripts\Geometry\Ceiling</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjectController.cpp">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\Game Stage\Geometry\Ceiling</Filter>
     </ClCompile>
     <ClCompile Include="Colonel_Script.cpp">
-      <Filter>Scripts\Enemy\Colonel</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel</Filter>
     </ClCompile>
     <ClCompile Include="Colonel_Behavior_Node.cpp">
-      <Filter>Scripts\Enemy\Colonel</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel</Filter>
     </ClCompile>
     <ClCompile Include="Hp_Script.cpp">
-      <Filter>Scripts\UI\Hp</Filter>
+      <Filter>Scripts\Game Stage\UI\Hp</Filter>
     </ClCompile>
     <ClCompile Include="Door_Script.cpp">
-      <Filter>Scripts\Geometry\Door</Filter>
+      <Filter>Scripts\Game Stage\Geometry\Door</Filter>
     </ClCompile>
     <ClCompile Include="Ready_Script.cpp">
-      <Filter>Scripts\UI\Ready</Filter>
+      <Filter>Scripts\Game Stage\UI\Ready</Filter>
     </ClCompile>
     <ClCompile Include="UIAnimationController.cpp">
-      <Filter>Scripts\UI</Filter>
+      <Filter>Scripts\Game Stage\UI</Filter>
     </ClCompile>
     <ClCompile Include="Warning_Script.cpp">
-      <Filter>Scripts\UI\Warning</Filter>
+      <Filter>Scripts\Game Stage\UI\Warning</Filter>
     </ClCompile>
     <ClCompile Include="Colonel_Attack1_Effect_Script.cpp">
-      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel\Attack Effect</Filter>
     </ClCompile>
     <ClCompile Include="Colonel_Attack2_Effect_Script.cpp">
-      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel\Attack Effect</Filter>
     </ClCompile>
     <ClCompile Include="Colonel_Attack3_Effect_Script.cpp">
-      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjectileController.cpp">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel\Attack Effect</Filter>
     </ClCompile>
     <ClCompile Include="StageEvent_Script.cpp">
-      <Filter>Scripts\Event</Filter>
+      <Filter>Scripts\Game Stage\Event</Filter>
     </ClCompile>
     <ClCompile Include="ExplosionEffectManager_Script.cpp">
-      <Filter>Scripts\Enemy\Colonel\Explosion Effect</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel\Explosion Effect</Filter>
     </ClCompile>
     <ClCompile Include="ExplosionEffect_Script.cpp">
-      <Filter>Scripts\Enemy\Colonel\Explosion Effect</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel\Explosion Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectController.cpp">
+      <Filter>Scripts\Game Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileController.cpp">
+      <Filter>Scripts\Game Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTitleManager_Script.cpp">
+      <Filter>Scripts\Game Title\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_Script.cpp">
+      <Filter>Scripts\Game Title\Page\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSelect_Script.cpp">
+      <Filter>Scripts\Game Title\Page\Player Select</Filter>
+    </ClCompile>
+    <ClCompile Include="Loading_Script.cpp">
+      <Filter>Scripts\Game Title\Page\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="PageController.cpp">
+      <Filter>Scripts\Game Title\Page</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,82 +192,97 @@
       <Filter>Stdafx</Filter>
     </ClInclude>
     <ClInclude Include="Z_Script.h">
-      <Filter>Scripts\Player\Z</Filter>
+      <Filter>Scripts\Game Stage\Player\Z</Filter>
     </ClInclude>
     <ClInclude Include="X_Script.h">
-      <Filter>Scripts\Player\X</Filter>
+      <Filter>Scripts\Game Stage\Player\X</Filter>
     </ClInclude>
     <ClInclude Include="GameManager_Script.h">
-      <Filter>Scripts\Manager</Filter>
+      <Filter>Scripts\Game Stage\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Ground_Script.h">
-      <Filter>Scripts\Geometry\Ground</Filter>
+      <Filter>Scripts\Game Stage\Geometry\Ground</Filter>
     </ClInclude>
     <ClInclude Include="Camera_Script.h">
-      <Filter>Scripts\Camera</Filter>
+      <Filter>Scripts\Game Stage\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Wall_Script.h">
-      <Filter>Scripts\Geometry\Wall</Filter>
+      <Filter>Scripts\Game Stage\Geometry\Wall</Filter>
     </ClInclude>
     <ClInclude Include="Ceiling_Script.h">
-      <Filter>Scripts\Geometry\Ceiling</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjectController.h">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\Game Stage\Geometry\Ceiling</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState_Enum.h">
-      <Filter>Scripts\Player</Filter>
+      <Filter>Scripts\Game Stage\Player</Filter>
     </ClInclude>
     <ClInclude Include="Enum.h">
       <Filter>Enum</Filter>
     </ClInclude>
     <ClInclude Include="Colonel_Script.h">
-      <Filter>Scripts\Enemy\Colonel</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel</Filter>
     </ClInclude>
     <ClInclude Include="ColonelState_Enum.h">
-      <Filter>Scripts\Enemy\Colonel</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel</Filter>
     </ClInclude>
     <ClInclude Include="BehaviourTree.h">
-      <Filter>Scripts\Enemy\Behaviour Tree</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Behaviour Tree</Filter>
     </ClInclude>
     <ClInclude Include="Colonel_Behavior_Node.h">
-      <Filter>Scripts\Enemy\Colonel</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel</Filter>
     </ClInclude>
     <ClInclude Include="Hp_Script.h">
-      <Filter>Scripts\UI\Hp</Filter>
+      <Filter>Scripts\Game Stage\UI\Hp</Filter>
     </ClInclude>
     <ClInclude Include="Door_Script.h">
-      <Filter>Scripts\Geometry\Door</Filter>
+      <Filter>Scripts\Game Stage\Geometry\Door</Filter>
     </ClInclude>
     <ClInclude Include="Ready_Script.h">
-      <Filter>Scripts\UI\Ready</Filter>
+      <Filter>Scripts\Game Stage\UI\Ready</Filter>
     </ClInclude>
     <ClInclude Include="UIAnimationController.h">
-      <Filter>Scripts\UI</Filter>
+      <Filter>Scripts\Game Stage\UI</Filter>
     </ClInclude>
     <ClInclude Include="Warning_Script.h">
-      <Filter>Scripts\UI\Warning</Filter>
+      <Filter>Scripts\Game Stage\UI\Warning</Filter>
     </ClInclude>
     <ClInclude Include="Colonel_Attack1_Effect_Script.h">
-      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel\Attack Effect</Filter>
     </ClInclude>
     <ClInclude Include="Colonel_Attack2_Effect_Script.h">
-      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel\Attack Effect</Filter>
     </ClInclude>
     <ClInclude Include="Colonel_Attack3_Effect_Script.h">
-      <Filter>Scripts\Enemy\Colonel\Attack Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectileController.h">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel\Attack Effect</Filter>
     </ClInclude>
     <ClInclude Include="StageEvent_Script.h">
-      <Filter>Scripts\Event</Filter>
+      <Filter>Scripts\Game Stage\Event</Filter>
     </ClInclude>
     <ClInclude Include="ExplosionEffectManager_Script.h">
-      <Filter>Scripts\Enemy\Colonel\Explosion Effect</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel\Explosion Effect</Filter>
     </ClInclude>
     <ClInclude Include="ExplosionEffect_Script.h">
-      <Filter>Scripts\Enemy\Colonel\Explosion Effect</Filter>
+      <Filter>Scripts\Game Stage\Enemy\Colonel\Explosion Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectController.h">
+      <Filter>Scripts\Game Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileController.h">
+      <Filter>Scripts\Game Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTitleManager_Script.h">
+      <Filter>Scripts\Game Title\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu_Script.h">
+      <Filter>Scripts\Game Title\Page\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSelect_Script.h">
+      <Filter>Scripts\Game Title\Page\Player Select</Filter>
+    </ClInclude>
+    <ClInclude Include="Loading_Script.h">
+      <Filter>Scripts\Game Title\Page\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="PageController.h">
+      <Filter>Scripts\Game Title\Page</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

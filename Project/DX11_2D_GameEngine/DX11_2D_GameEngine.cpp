@@ -40,7 +40,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		//Load Engine Data(Content/Engine)
 		FileFunction::LoadPhysics((FILE_MANAGER->GetAbsoluteContentPath() + "Engine/Physics.txt"));
 		FileFunction::LoadGameResolution((FILE_MANAGER->GetAbsoluteContentPath() + "Engine/Resolution.txt"));
-	
+
 		//Game Test
 		auto next_scene = SCENE_MANAGER->LoadScene((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Scene/Game Stage.scene"));
 		SCENE_MANAGER->SetCurrentScene(next_scene);
@@ -78,17 +78,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	{
 		CORE->Progress();
 
-		switch (client_state)
+		//현재 Client가 Editor 상태인 경우 
+		if (client_state == ClientState::Editor)
 		{
-		case ClientState::Game:
-			break;
-		case ClientState::Editor:
 			EDITOR_OBJECT_MANAGER->Update();
 			EDITOR_OBJECT_MANAGER->Render();
 
 			EDITOR_MANAGER->Update();
 			EDITOR_MANAGER->Render();
-			break;
 		}
 
 		//Graphics Swap Chain Present

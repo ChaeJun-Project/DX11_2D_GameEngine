@@ -141,8 +141,6 @@ void Z_Script::Update()
 		}
 	}
 
-	if(m_is_win)
-
 	if (m_is_dead)
 	{
 		m_dead_event_call_wait -= DELTA_TIME_F;

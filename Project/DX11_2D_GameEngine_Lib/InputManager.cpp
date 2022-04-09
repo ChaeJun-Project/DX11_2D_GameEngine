@@ -28,6 +28,9 @@ void InputManager::Initialize()
 		 VK_RIGHT,	//Arrow Right,
 		 VK_DOWN,	//Arrow Down,
 
+		 VK_F1,
+		 VK_F2,
+
 		 0x30, //0
 		 0x31, //1
 		 0x32, //2

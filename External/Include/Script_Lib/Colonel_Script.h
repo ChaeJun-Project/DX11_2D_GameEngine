@@ -40,13 +40,17 @@ private:
 
 	void DisableCollider2D();
 	void EnableCollider2D();
+	void SetStealthSound();
 
 	void CreateAttack1Effect();
+	void SetAttack1Sound();
 	void CreateAttack2Effect();
+	void SetAttack2Sound();
 
 	void ActiveAttack3PrepareEffect();
 	void DisactiveAttack3PrepareEffect();
 	void CreateAttack3Effect();
+	void SetAttack3Sound();
 
 public:
 	void OnCollisionEnter(GameObject* p_other_game_object) override;

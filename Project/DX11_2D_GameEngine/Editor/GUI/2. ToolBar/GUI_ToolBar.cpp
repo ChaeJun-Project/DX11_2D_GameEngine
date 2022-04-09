@@ -55,7 +55,7 @@ void GUI_ToolBar::Render()
 	{
 		EDITOR_MANAGER->ExcuteEventCallBack(); //로그 삭제
 		if (SCENE_MANAGER->GetEditorState() & EditorState::EditorState_Play) //Play 중인데 다시 Play 버튼을 누른 경우 => Play -> Stop
-			ClientSceneManager::InitializeCurrentScene(); //현재 Scene 초기화(다시 로드)
+			ClientSceneManager::InitializeScene(); //Scene 초기화(다시 로드)
 
 		SCENE_MANAGER->SetEditorState(EditorState::EditorState_Play);
 		ImGui::SetWindowFocus(nullptr);
@@ -88,7 +88,7 @@ void GUI_ToolBar::Render()
 	if (ICON_PROVIDER->CreateImageButton(IconType::ToolBar_Stop, ImVec2(22.0f, 22.0f)))
 	{
 		EDITOR_MANAGER->ExcuteEventCallBack(); //로그 삭제
-		ClientSceneManager::InitializeCurrentScene(); //현재 Scene 초기화(다시 로드)
+		ClientSceneManager::InitializeScene(); //Scene 초기화(다시 로드)
 
 		SCENE_MANAGER->SetEditorState(EditorState::EditorState_Stop);
 		ImGui::SetWindowFocus(nullptr);

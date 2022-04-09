@@ -31,10 +31,7 @@ void GUI_SetResolution::InitializeResolution()
 		LoadResolution();
 
 	else
-	{
 		SaveResolution();
-		LoadResolution();
-	}
 }
 
 void GUI_SetResolution::SaveResolution()

@@ -6,20 +6,6 @@
 GUI_Console::GUI_Console(const std::string& console_title)
 	:IGUI(console_title)
 {
-}
-
-GUI_Console::~GUI_Console()
-{
-	m_p_console_logger.reset();
-
-	ClearLog();
-
-	m_log_color_vector.clear();
-	m_log_color_vector.shrink_to_fit();
-}
-
-void GUI_Console::Initialize()
-{
 	m_p_console_logger = std::make_shared<Logger>("Editor_Log.txt");
 	m_p_console_logger->SetCallBack
 	(
@@ -32,6 +18,16 @@ void GUI_Console::Initialize()
 	);
 
 	LOG_MANAGER->SetLogger(m_p_console_logger);
+}
+
+GUI_Console::~GUI_Console()
+{
+	m_p_console_logger.reset();
+
+	ClearLog();
+
+	m_log_color_vector.clear();
+	m_log_color_vector.shrink_to_fit();
 }
 
 void GUI_Console::Render()
@@ -100,7 +96,7 @@ void GUI_Console::ShowLog()
 		for (const auto& log : m_log_deque)
 		{
 			//Filter를 통해 검색했을 때 일치하지 않다면 보여주지 않음
-			if (!m_log_filter.PassFilter(log.text.c_str()))
+			if (!m_log_filter.PassFilter((FILE_MANAGER->ConvertStringToUTF8(log.text))))
 				continue;
 
 			if ((log.type == LogType::Info && is_show_info) ||

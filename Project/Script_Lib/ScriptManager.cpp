@@ -11,8 +11,12 @@
 #include "ExplosionEffectManager_Script.h"
 #include "ExplosionEffect_Script.h"
 #include "GameManager_Script.h"
+#include "GameTitleManager_Script.h"
 #include "Ground_Script.h"
 #include "Hp_Script.h"
+#include "Loading_Script.h"
+#include "Menu_Script.h"
+#include "PlayerSelect_Script.h"
 #include "Ready_Script.h"
 #include "StageEvent_Script.h"
 #include "Wall_Script.h"
@@ -32,8 +36,12 @@ void ScriptManager::GetScriptInfo(std::vector<std::string>& script_vector)
 	script_vector.emplace_back("ExplosionEffectManager_Script");
 	script_vector.emplace_back("ExplosionEffect_Script");
 	script_vector.emplace_back("GameManager_Script");
+	script_vector.emplace_back("GameTitleManager_Script");
 	script_vector.emplace_back("Ground_Script");
 	script_vector.emplace_back("Hp_Script");
+	script_vector.emplace_back("Loading_Script");
+	script_vector.emplace_back("Menu_Script");
+	script_vector.emplace_back("PlayerSelect_Script");
 	script_vector.emplace_back("Ready_Script");
 	script_vector.emplace_back("StageEvent_Script");
 	script_vector.emplace_back("Wall_Script");
@@ -64,10 +72,18 @@ Script* ScriptManager::GetScript(const std::string& script_name)
 		return new ExplosionEffect_Script;
 	if(script_name._Equal("GameManager_Script"))
 		return new GameManager_Script;
+	if(script_name._Equal("GameTitleManager_Script"))
+		return new GameTitleManager_Script;
 	if(script_name._Equal("Ground_Script"))
 		return new Ground_Script;
 	if(script_name._Equal("Hp_Script"))
 		return new Hp_Script;
+	if(script_name._Equal("Loading_Script"))
+		return new Loading_Script;
+	if(script_name._Equal("Menu_Script"))
+		return new Menu_Script;
+	if(script_name._Equal("PlayerSelect_Script"))
+		return new PlayerSelect_Script;
 	if(script_name._Equal("Ready_Script"))
 		return new Ready_Script;
 	if(script_name._Equal("StageEvent_Script"))

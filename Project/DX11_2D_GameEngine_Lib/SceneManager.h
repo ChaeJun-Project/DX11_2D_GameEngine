@@ -30,7 +30,7 @@ public:
 	void SetEditorState(const UINT& editor_state);
 
 public:
-    void InitializeCurrentScene();
+    void InitializeScene(const std::string& scene_name);
 	void CreateNewScene();
 
 	//Save Scene

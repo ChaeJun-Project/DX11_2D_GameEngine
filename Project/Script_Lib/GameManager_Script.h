@@ -17,6 +17,7 @@ public:
 	explicit GameManager_Script(const GameManager_Script& origin);
 	virtual ~GameManager_Script();
 
+public:
 	void Start() override;
 
 private:

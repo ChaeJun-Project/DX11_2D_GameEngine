@@ -115,14 +115,14 @@ void SceneManager::SetEditorState(const UINT& editor_state)
 	}
 }
 
-void SceneManager::InitializeCurrentScene()
+void SceneManager::InitializeScene(const std::string& scene_name)
 {
 	//Current Scene
 	std::string absolute_scene_path = SCENE_PATH;
-	absolute_scene_path += m_p_current_scene->GetSceneName();
+	absolute_scene_path += scene_name;
 	absolute_scene_path += ".scene";
 
-	//현재 Scene을 다시 Load하여 초기상태로 변경
+	//Scene을 다시 Load하여 초기상태로 변경
 	auto init_scene = LoadScene(absolute_scene_path);
 
 	//Scene Change

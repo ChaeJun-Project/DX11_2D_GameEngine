@@ -1,13 +1,17 @@
 #include "stdafx.h"
 #include "GameObjectController.h"
 
+#include <DX11_2D_GameEngine_Lib/AudioClip.h>
+
 #include <DX11_2D_GameEngine_Lib/Transform.h>
 #include <DX11_2D_GameEngine_Lib/Animator2D.h>
+#include <DX11_2D_GameEngine_Lib/AudioSource.h>
 
 GameObjectController::~GameObjectController()
 {
 	m_p_transform = nullptr;
 	m_p_animator2D = nullptr;
+	m_p_audio_source = nullptr;
 
 	m_p_ready_event_func = nullptr;
 	m_p_win_event_func = nullptr;
@@ -24,19 +28,41 @@ void GameObjectController::SetCurrentAnimation(const std::string& animation_name
 	m_p_animator2D->SetIsPlayReverse(is_reverse);
 }
 
-const bool GameObjectController::GetCurrentAnimationIsFinished()
+void GameObjectController::SetCurrentAudioClip(const std::string& audio_clip_name, const float& volume, const bool& is_loop)
 {
-	return m_p_animator2D->GetCurrentAnimationIsFinished();
+	if (m_p_audio_source == nullptr)
+		return;
+
+	auto p_current_audio_clip = m_p_audio_source->GetCurrentAudioClip();
+	if (p_current_audio_clip == nullptr || !p_current_audio_clip->GetResourceName()._Equal(audio_clip_name))
+		m_p_audio_source->SetCurrentAudioClip(audio_clip_name, volume, is_loop);
+
+	else
+		m_p_audio_source->Play();
 }
 
 const Vector3 GameObjectController::GetPosition()
 {
+	if (m_p_transform == nullptr)
+		return Vector3::Zero;
+
 	return m_p_transform->GetLocalTranslation();
 }
 
 void GameObjectController::SetPosition(const Vector3 position)
-{ 
+{
+	if (m_p_transform == nullptr)
+		return;
+
 	m_p_transform->SetLocalTranslation(position);
+}
+
+const bool GameObjectController::GetCurrentAnimationIsFinished()
+{
+	if (m_p_audio_source == nullptr)
+		return false;
+
+	return m_p_animator2D->GetCurrentAnimationIsFinished();
 }
 
 void GameObjectController::SaveToScene(FILE* p_file)

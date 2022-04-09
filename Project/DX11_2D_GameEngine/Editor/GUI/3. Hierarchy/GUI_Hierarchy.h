@@ -15,10 +15,10 @@ public:
 	~GUI_Hierarchy();
 
 public:
-	virtual void Initialize() override;
-	virtual void Update() override;
+	void Initialize() override;
+	void Update() override;
 
-	virtual void Render() override;
+	void Render() override;
 
 private:
     void UpdateTree();

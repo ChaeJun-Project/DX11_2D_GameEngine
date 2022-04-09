@@ -15,6 +15,7 @@
 #include <DX11_2D_GameEngine_Lib/SpriteRenderer.h>
 #include <DX11_2D_GameEngine_Lib/Animator2D.h>
 #include <DX11_2D_GameEngine_Lib/Collider2D.h>
+#include <DX11_2D_GameEngine_Lib/AudioSource.h>
 
 Colonel_Script::Colonel_Script()
 	:Script("Colonel_Script")
@@ -70,8 +71,9 @@ Colonel_Script::~Colonel_Script()
 
 void Colonel_Script::Awake()
 {
-	GameObjectController::m_p_transform = m_p_owner_game_object->GetComponent<Transform>();
-	GameObjectController::m_p_animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
+	m_p_transform = m_p_owner_game_object->GetComponent<Transform>();
+	m_p_animator2D = m_p_owner_game_object->GetComponent<Animator2D>();
+	m_p_audio_source = m_p_owner_game_object->GetComponent<AudioSource>();
 
 	m_p_sprite_renderer = m_p_owner_game_object->GetComponent<SpriteRenderer>();
 	m_p_collider2D = m_p_owner_game_object->GetComponent<Collider2D>();
@@ -226,19 +228,25 @@ void Colonel_Script::AddAnimationEvent()
 	animation_map["Colonel_Start"]->SetAnimationEvent(9, std::bind(&Colonel_Script::TriggerStartToIdleState, this));
 
 	//Attack
+	animation_map["Colonel_Attack_1"]->SetAnimationEvent(0, std::bind(&Colonel_Script::SetAttack1Sound, this));
 	animation_map["Colonel_Attack_1"]->SetAnimationEvent(2, std::bind(&Colonel_Script::CreateAttack1Effect, this));
 	animation_map["Colonel_Attack_1"]->SetAnimationEvent(4, std::bind(&Colonel_Script::TriggerIdleState, this));
 
+	animation_map["Colonel_Attack_2"]->SetAnimationEvent(0, std::bind(&Colonel_Script::SetAttack2Sound, this));
 	animation_map["Colonel_Attack_2"]->SetAnimationEvent(3, std::bind(&Colonel_Script::CreateAttack2Effect, this));
 	animation_map["Colonel_Attack_2"]->SetAnimationEvent(5, std::bind(&Colonel_Script::TriggerIdleState, this));
 
 	animation_map["Colonel_Attack_3"]->SetAnimationEvent(0, std::bind(&Colonel_Script::ActiveAttack3PrepareEffect, this));
+	animation_map["Colonel_Attack_3"]->SetAnimationEvent(0, std::bind(&Colonel_Script::SetAttack3Sound, this));
 	animation_map["Colonel_Attack_3"]->SetAnimationEvent(4, std::bind(&Colonel_Script::DisactiveAttack3PrepareEffect, this));
 	animation_map["Colonel_Attack_3"]->SetAnimationEvent(17, std::bind(&Colonel_Script::CreateAttack3Effect, this));
 	animation_map["Colonel_Attack_3"]->SetAnimationEvent(17, std::bind(&Colonel_Script::TriggerIdleState, this));
 
 	//Stealth
+	animation_map["Colonel_Stealth_Begin"]->SetAnimationEvent(0, std::bind(&Colonel_Script::SetStealthSound, this));
 	animation_map["Colonel_Stealth_Begin"]->SetAnimationEvent(4, std::bind(&Colonel_Script::DisableCollider2D, this));
+
+	animation_map["Colonel_Stealth_End"]->SetAnimationEvent(0, std::bind(&Colonel_Script::SetStealthSound, this));
 	animation_map["Colonel_Stealth_End"]->SetAnimationEvent(4, std::bind(&Colonel_Script::TriggerIdleState, this));
 	animation_map["Colonel_Stealth_End"]->SetAnimationEvent(4, std::bind(&Colonel_Script::EnableCollider2D, this));
 
@@ -275,6 +283,11 @@ void Colonel_Script::EnableCollider2D()
 	m_p_collider2D->UpdateConstantBuffer();
 }
 
+void Colonel_Script::SetStealthSound()
+{
+	SetCurrentAudioClip("Colonel_Stealth_Sound", 1.0f);
+}
+
 #include "Colonel_Attack1_Effect_Script.h"
 void Colonel_Script::CreateAttack1Effect()
 {
@@ -301,6 +314,11 @@ void Colonel_Script::CreateAttack1Effect()
 	p_attack1_effect_script->SetFireDirection(fire_direction);
 }
 
+void Colonel_Script::SetAttack1Sound()
+{
+   SetCurrentAudioClip("Colonel_Attack_1_Sound", 1.0f);
+}
+
 #include "Colonel_Attack2_Effect_Script.h"
 void Colonel_Script::CreateAttack2Effect()
 {
@@ -325,6 +343,11 @@ void Colonel_Script::CreateAttack2Effect()
 	}
 
 	p_attack2_effect_script->SetFireDirection(fire_direction);
+}
+
+void Colonel_Script::SetAttack2Sound()
+{
+	SetCurrentAudioClip("Colonel_Attack_2_Sound", 1.0f);
 }
 
 void Colonel_Script::ActiveAttack3PrepareEffect()
@@ -357,6 +380,11 @@ void Colonel_Script::CreateAttack3Effect()
 
 		p_attack3_effect_script->SetFireDirection(fire_direction);
 	}
+}
+
+void Colonel_Script::SetAttack3Sound()
+{
+	SetCurrentAudioClip("Colonel_Attack_3_Sound", 1.0f);
 }
 
 void Colonel_Script::OnCollisionEnter(GameObject* p_other_game_object)

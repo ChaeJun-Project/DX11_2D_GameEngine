@@ -9,6 +9,9 @@ enum class Key
 	KEY_ARROW_RIGHT,
 	KEY_ARROW_DOWN,
 
+	KEY_F1,
+	KEY_F2,
+
 	KEY_0,
 	KEY_1,
 	KEY_2,

@@ -28,12 +28,12 @@ void ClientSceneManager::Initialize()
 	);
 }
 
-void ClientSceneManager::InitializeCurrentScene()
+void ClientSceneManager::InitializeScene()
 {
 	EDITOR_HELPER->SetSelectedGameObject(nullptr);
 	EDITOR_HELPER->SetSelectedResource(nullptr);
 
-	SCENE_MANAGER->InitializeCurrentScene();
+	SCENE_MANAGER->InitializeScene(m_recent_scene_name);
 }
 
 void ClientSceneManager::CreateNewScene()

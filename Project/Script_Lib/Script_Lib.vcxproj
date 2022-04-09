@@ -161,6 +161,7 @@ call CodeGen.exe</Command>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -190,6 +191,9 @@ call CodeGen.exe</Command>
     <ClInclude Include="Enum.h" />
     <ClInclude Include="ExplosionEffectManager_Script.h" />
     <ClInclude Include="ExplosionEffect_Script.h" />
+    <ClInclude Include="Loading_Script.h" />
+    <ClInclude Include="PageController.h" />
+    <ClInclude Include="PlayerSelect_Script.h" />
     <ClInclude Include="StageEvent_Script.h" />
     <ClInclude Include="GameManager_Script.h" />
     <ClInclude Include="Ground_Script.h" />
@@ -198,6 +202,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="PlayerState_Enum.h" />
     <ClInclude Include="ProjectileController.h" />
     <ClInclude Include="Ready_Script.h" />
+    <ClInclude Include="GameTitleManager_Script.h" />
+    <ClInclude Include="Menu_Script.h" />
     <ClInclude Include="UIAnimationController.h" />
     <ClInclude Include="Wall_Script.h" />
     <ClInclude Include="Warning_Script.h" />
@@ -217,6 +223,9 @@ call CodeGen.exe</Command>
     <ClCompile Include="Door_Script.cpp" />
     <ClCompile Include="ExplosionEffectManager_Script.cpp" />
     <ClCompile Include="ExplosionEffect_Script.cpp" />
+    <ClCompile Include="Loading_Script.cpp" />
+    <ClCompile Include="PageController.cpp" />
+    <ClCompile Include="PlayerSelect_Script.cpp" />
     <ClCompile Include="StageEvent_Script.cpp" />
     <ClCompile Include="GameManager_Script.cpp" />
     <ClCompile Include="Ground_Script.cpp" />
@@ -224,6 +233,8 @@ call CodeGen.exe</Command>
     <ClCompile Include="Hp_Script.cpp" />
     <ClCompile Include="ProjectileController.cpp" />
     <ClCompile Include="Ready_Script.cpp" />
+    <ClCompile Include="GameTitleManager_Script.cpp" />
+    <ClCompile Include="Menu_Script.cpp" />
     <ClCompile Include="UIAnimationController.cpp" />
     <ClCompile Include="Wall_Script.cpp" />
     <ClCompile Include="Warning_Script.cpp" />

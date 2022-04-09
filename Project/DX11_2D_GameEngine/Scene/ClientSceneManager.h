@@ -6,7 +6,7 @@ class ClientSceneManager final
 {
 public:
     static void Initialize();
-	static void InitializeCurrentScene();
+	static void InitializeScene();
 
 public:
 	static void CreateNewScene();
@@ -21,5 +21,11 @@ public:
 private:
 	static GameObject* LoadGameObject(FILE* p_file);
 	static void LoadScript(GameObject* p_game_object, FILE* p_file);
+
+public:
+	//Recent Scene Name
+    static std::string m_recent_scene_name;
 };
+
+std::string ClientSceneManager::m_recent_scene_name;
 
