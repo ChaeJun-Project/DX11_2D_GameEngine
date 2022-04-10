@@ -1,0 +1,90 @@
+[Sprite Animation Name]
+Colonel_Start
+[Atlas Texture]
+[Resource Name]
+Colonel_Start_Sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Start/Colonel_Start_Sprite.png
+[Sprite Animation Frame Count]
+10
+[Sprite Animation Frame]
+[Index]
+0
+[Left Top]
+0.000000 0.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000
+[Index]
+1
+[Left Top]
+150.000000 0.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000
+[Index]
+2
+[Left Top]
+300.000000 0.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000
+[Index]
+3
+[Left Top]
+450.000000 0.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000
+[Index]
+4
+[Left Top]
+600.000000 0.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000
+[Index]
+5
+[Left Top]
+0.000000 162.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000
+[Index]
+6
+[Left Top]
+150.000000 162.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000
+[Index]
+7
+[Left Top]
+300.000000 162.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000
+[Index]
+8
+[Left Top]
+450.000000 162.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000
+[Index]
+9
+[Left Top]
+600.000000 162.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000

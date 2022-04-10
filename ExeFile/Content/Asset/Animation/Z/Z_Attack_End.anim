@@ -1,0 +1,58 @@
+[Sprite Animation Name]
+Z_Attack_End
+[Atlas Texture]
+[Resource Name]
+Z_Attack_End_Sprite
+[Resource Path]
+Asset/Texture/Player/RockManZ/Animation/Z04_Attack/Attack_End/Z_Attack_End_Sprite.png
+[Sprite Animation Frame Count]
+6
+[Sprite Animation Frame]
+[Index]
+0
+[Left Top]
+0.000000 0.000000
+[Frame Size]
+180.000000 144.000000
+[Duration]
+0.020000
+[Index]
+1
+[Left Top]
+180.000000 0.000000
+[Frame Size]
+180.000000 144.000000
+[Duration]
+0.020000
+[Index]
+2
+[Left Top]
+360.000000 0.000000
+[Frame Size]
+180.000000 144.000000
+[Duration]
+0.020000
+[Index]
+3
+[Left Top]
+0.000000 144.000000
+[Frame Size]
+180.000000 144.000000
+[Duration]
+0.020000
+[Index]
+4
+[Left Top]
+180.000000 144.000000
+[Frame Size]
+180.000000 144.000000
+[Duration]
+0.020000
+[Index]
+5
+[Left Top]
+360.000000 144.000000
+[Frame Size]
+180.000000 144.000000
+[Duration]
+0.020000

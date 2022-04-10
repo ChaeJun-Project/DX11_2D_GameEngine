@@ -285,6 +285,17 @@ void GameManager_Script::PlayerWin()
 
 void GameManager_Script::EndStage()
 {
+	std::thread loading_thread(&GameManager_Script::LoadScene, this);
+
+	//로딩 스레드가 종료될 때까지 기다리지 않음(메인 스레드는 계속 작동)
+	loading_thread.detach();
+}
+
+void GameManager_Script::LoadScene()
+{
+	std::cout << "[Game Title]" << std::endl;
+	std::cout << "Scene Load Thread Start" << std::endl;
+
 	auto next_scene = SCENE_MANAGER->LoadScene((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Scene/Game Title.scene"));
 
 	//Change Scene
@@ -295,6 +306,8 @@ void GameManager_Script::EndStage()
 	event_struct.object_address_1 = next_scene;
 
 	EVENT_MANAGER->AddEvent(event_struct);
+
+	std::cout << "Scene Load Thread End" << std::endl;
 }
 
 void GameManager_Script::SaveToScene(FILE* p_file)

@@ -47,7 +47,7 @@ void RenderManager::Initialize()
 void RenderManager::Render()
 {
 	//Render Debug Mode 
-	if (KEY_DOWN(Key::KEY_G))
+	if (KEY_DOWN(Key::KEY_F1))
 	{
 		m_is_debug_mode = !m_is_debug_mode;
 	}

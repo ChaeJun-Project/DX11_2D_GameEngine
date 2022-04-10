@@ -1,0 +1,1958 @@
+¡Ø Scene
+Game Stage
+[Parent GameObject Count]
+10
+=================================================================================
+¡ß GameObject
+Main Camera
+[Active]
+1
+[Tag]
+Main Camera
+[Layer]
+1
+[Component Count]
+3
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-960.000000 -32.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Camera
+2
+[Active]
+1
+[Index]
+0
+[Culling Layer]
+8
+[Projection]
+0
+[Size]
+1.000000 1.000000
+[Fov]
+0.820305
+[Near]
+0.300000
+[Far]
+1000.000000
+¡Ü Audio Listener
+11
+[Active]
+1
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Camera_Script
+[Map Resolution]
+2432.000000 512.000000
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Post Effect Camera
+[Active]
+1
+[Tag]
+Post Effect Camera
+[Layer]
+1
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Camera
+2
+[Active]
+1
+[Index]
+1
+[Culling Layer]
+-8193
+[Projection]
+0
+[Size]
+1.000000 1.000000
+[Fov]
+0.820305
+[Near]
+0.300000
+[Far]
+1000.000000
+[Script Count]
+0
+[Child GameObject Count]
+1
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Post Effect Light2D
+[Active]
+1
+[Tag]
+Post Effect
+[Layer]
+13
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+None
+[Resource Path]
+None
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Light2D_Material
+[Resource Path]
+Asset/Material/Light2D_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+UI Camera
+[Active]
+1
+[Tag]
+UI Camera
+[Layer]
+1
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Camera
+2
+[Active]
+1
+[Index]
+2
+[Culling Layer]
+-9
+[Projection]
+0
+[Size]
+1.000000 1.000000
+[Fov]
+0.820305
+[Near]
+0.300000
+[Far]
+1000.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Light2D_Ambient
+[Active]
+1
+[Tag]
+Light
+[Layer]
+0
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Light2D
+7
+[Active]
+1
+[Light Info]
+[Color]
+1.000000 1.000000 1.000000 1.000000
+[Type]
+0
+[Range]
+10000.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Game Manager
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+GameManager_Script
+[Z]
+[Resource Name]
+Z
+[Resource Path]
+Asset/Prefab/Z.prefab
+[Colonel]
+[Resource Name]
+Colonel
+[Resource Path]
+Asset/Prefab/Colonel.prefab
+[Stage1 Boss Spawn Position]
+-454.000000 -40.000000 0.000000
+[Stage2 Boss Spawn Position]
+1060.000000 -40.000000 0.000000
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Canvas
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+0.000000 800.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+512.000000 448.000000
+[Anchor]
+0.500000 0.500000
+¡Ü Canvas
+13
+[Active]
+1
+[UI Camera]
+UI Camera
+[Script Count]
+0
+[Child GameObject Count]
+4
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Ready
+[Active]
+0
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+3
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+512.000000 448.000000
+[Anchor]
+0.500000 0.500000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+1
+[Data]
+[Key]
+Ready_Sound
+[Resource Name]
+Ready_Sound
+[Resource Path]
+Asset/Audio/Stage/Ready_Sound.wav
+[Current Audio]
+None
+[Loop]
+0
+[Volume]
+1.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+None
+[Resource Path]
+None
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Ready_Script
+[Duarion]
+0.010000
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Warning
+[Active]
+0
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+3
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+0.000000 -100.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+369.000000 100.000000
+[Anchor]
+0.500000 0.000000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+1
+[Data]
+[Key]
+Warning_Sound
+[Resource Name]
+Warning_Sound
+[Resource Path]
+Asset/Audio/Stage/Warning_Sound.wav
+[Current Audio]
+None
+[Loop]
+0
+[Volume]
+1.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+None
+[Resource Path]
+None
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Warning_Script
+[Duarion]
+0.050000
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Player Hp
+[Active]
+0
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+50.000000 -100.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.500000 1.500000 1.000000
+[Widget Size]
+32.000000 52.000000
+[Anchor]
+0.000000 0.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Hp_Z
+[Resource Path]
+Asset/Texture/UI/Hp/Z/Hp_Z.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+1
+[Fill Direction]
+1
+[Fill Amount]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Hp_Script
+[Child GameObject Count]
+1
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Hp Gage
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+-5.480026 8.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+6.000000 31.500000
+[Anchor]
+0.500000 0.500000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Hp_Gage
+[Resource Path]
+Asset/Texture/UI/Hp/Hp_Gage.png
+[Image Color]
+1.000000 0.000000 0.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+1
+[Fill Method]
+1
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+Boss Hp
+[Active]
+0
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+-50.000000 -100.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.500000 1.500000 1.000000
+[Widget Size]
+26.000000 86.000000
+[Anchor]
+1.000000 0.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Hp_Boss
+[Resource Path]
+Asset/Texture/UI/Hp/Boss/Hp_Boss.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+1
+[Fill Direction]
+1
+[Fill Amount]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Hp_Script
+[Child GameObject Count]
+1
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Hp Gage
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+-0.399979 9.200073 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+7.000000 63.599998
+[Anchor]
+0.500000 0.500000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Hp_Gage
+[Resource Path]
+Asset/Texture/UI/Hp/Hp_Gage.png
+[Image Color]
+0.938053 1.000000 0.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+1
+[Fill Method]
+1
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+Snow Particle
+[Active]
+1
+[Tag]
+Default
+[Layer]
+12
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Particle System
+8
+[Active]
+1
+[Particle]
+[Resource Name]
+Snow
+[Resource Path]
+Asset/Particle/Snow.particle
+[Material]
+[Resource Name]
+Snow_Material
+[Resource Path]
+Asset/Material/Snow_Material.mat
+[Mesh]
+[Resource Name]
+Point_Mesh
+[Resource Path]
+Asset/Mesh/Point_Mesh.mesh
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Stage
+[Active]
+1
+[Tag]
+Stage
+[Layer]
+4
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+1
+[Data]
+[Key]
+Stage_Sound
+[Resource Name]
+Stage_Sound
+[Resource Path]
+Asset/Audio/Stage/Stage_Sound.mp3
+[Current Audio]
+Stage_Sound
+[Loop]
+1
+[Volume]
+0.245000
+[Script Count]
+0
+[Child GameObject Count]
+5
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+TileMap
+[Active]
+1
+[Tag]
+Default
+[Layer]
+4
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+2.000000 2.000000 1.000000
+¡Ü TileMapRenderer
+9
+[Active]
+1
+¡á TileMap
+[Resource Name]
+Stage
+[Resource Path]
+Asset/TileMap/Stage.tile
+[Material]
+[Resource Name]
+TileMapRenderer_Material
+[Resource Path]
+Asset/Material/TileMapRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡á Grid
+[Draw]
+0
+[Material]
+[Resource Name]
+Grid_Material
+[Resource Path]
+Asset/Material/Grid_Material.mat
+[Mesh]
+[Resource Name]
+Grid_Mesh
+[Resource Path]
+None
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Ceilings
+[Active]
+1
+[Tag]
+Default
+[Layer]
+4
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+4
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Ceiling1
+[Active]
+1
+[Tag]
+Ceiling
+[Layer]
+5
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-1031.697021 10.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+3.700000 0.200000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Ceiling_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Ceiling2
+[Active]
+1
+[Tag]
+Ceiling
+[Layer]
+5
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-624.399841 235.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+4.150000 0.200000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Ceiling_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Ceiling3
+[Active]
+1
+[Tag]
+Ceiling
+[Layer]
+5
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-97.199974 10.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+6.200000 0.200000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Ceiling_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Ceiling4
+[Active]
+1
+[Tag]
+Ceiling
+[Layer]
+5
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+703.500061 235.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+9.600000 0.200000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Ceiling_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+Walls
+[Active]
+1
+[Tag]
+Default
+[Layer]
+4
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+5
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Wall1
+[Active]
+1
+[Tag]
+Wall
+[Layer]
+6
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-1226.800049 -49.699978 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.200000 1.200000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Wall_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Wall2
+[Active]
+1
+[Tag]
+Wall
+[Layer]
+6
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-842.599976 127.799995 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.200000 2.560000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Wall_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Wall3
+[Active]
+1
+[Tag]
+Wall
+[Layer]
+6
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-405.900055 127.800003 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.200000 2.560000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Wall_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Wall4
+[Active]
+1
+[Tag]
+Wall
+[Layer]
+6
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+212.199982 127.800003 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.200000 2.560000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Wall_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Wall5
+[Active]
+1
+[Tag]
+Wall
+[Layer]
+6
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+1194.199951 76.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.200000 3.520000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Wall_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+Ground
+[Active]
+1
+[Tag]
+Ground
+[Layer]
+7
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 -110.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+24.320000 0.200000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Ground_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Doors
+[Active]
+1
+[Tag]
+Default
+[Layer]
+4
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+3
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Door1
+[Active]
+1
+[Tag]
+Door
+[Layer]
+6
+[Component Count]
+5
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-853.899902 -50.099991 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+2.000000 2.100000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+Open_Sprite
+[Resource Path]
+Asset/Texture/Map/Object/X3/Open/Open_Sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+2
+[Data]
+[Key]
+Door_Close
+[Resource Name]
+Door_Close
+[Resource Path]
+Asset/Animation/Door/Door_Close.anim
+[Key]
+Door_Open
+[Resource Name]
+Door_Open
+[Resource Path]
+Asset/Animation/Door/Door_Open.anim
+[Current Animation]
+Door_Open
+[Animation Speed]
+1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.160000 0.480000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+2
+[Data]
+[Key]
+Door_Close_Sound
+[Resource Name]
+Door_Close_Sound
+[Resource Path]
+Asset/Audio/Door/Door_Close_Sound.wav
+[Key]
+Door_Open_Sound
+[Resource Name]
+Door_Open_Sound
+[Resource Path]
+Asset/Audio/Door/Door_Open_Sound.wav
+[Current Audio]
+None
+[Loop]
+0
+[Volume]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Door_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Door2
+[Active]
+1
+[Tag]
+Door
+[Layer]
+6
+[Component Count]
+5
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-393.200012 -50.099998 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+2.000000 2.100000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+Open_Sprite
+[Resource Path]
+Asset/Texture/Map/Object/X3/Open/Open_Sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+2
+[Data]
+[Key]
+Door_Close
+[Resource Name]
+Door_Close
+[Resource Path]
+Asset/Animation/Door/Door_Close.anim
+[Key]
+Door_Open
+[Resource Name]
+Door_Open
+[Resource Path]
+Asset/Animation/Door/Door_Open.anim
+[Current Animation]
+Door_Open
+[Animation Speed]
+1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.160000 0.480000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+2
+[Data]
+[Key]
+Door_Close_Sound
+[Resource Name]
+Door_Close_Sound
+[Resource Path]
+Asset/Audio/Door/Door_Close_Sound.wav
+[Key]
+Door_Open_Sound
+[Resource Name]
+Door_Open_Sound
+[Resource Path]
+Asset/Audio/Door/Door_Open_Sound.wav
+[Current Audio]
+None
+[Loop]
+0
+[Volume]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Door_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Door3
+[Active]
+1
+[Tag]
+Door
+[Layer]
+6
+[Component Count]
+5
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+199.800125 -50.099998 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+2.000000 2.100000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+Open_Sprite
+[Resource Path]
+Asset/Texture/Map/Object/X3/Open/Open_Sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+2
+[Data]
+[Key]
+Door_Close
+[Resource Name]
+Door_Close
+[Resource Path]
+Asset/Animation/Door/Door_Close.anim
+[Key]
+Door_Open
+[Resource Name]
+Door_Open
+[Resource Path]
+Asset/Animation/Door/Door_Open.anim
+[Current Animation]
+Door_Open
+[Animation Speed]
+1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.160000 0.480000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+2
+[Data]
+[Key]
+Door_Close_Sound
+[Resource Name]
+Door_Close_Sound
+[Resource Path]
+Asset/Audio/Door/Door_Close_Sound.wav
+[Key]
+Door_Open_Sound
+[Resource Name]
+Door_Open_Sound
+[Resource Path]
+Asset/Audio/Door/Door_Open_Sound.wav
+[Current Audio]
+None
+[Loop]
+0
+[Volume]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Door_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+Stage Events
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+2
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Event1
+[Active]
+1
+[Tag]
+Default
+[Layer]
+4
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-827.344727 62.161999 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.100000 3.250000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+StageEvent_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Event2
+[Active]
+1
+[Tag]
+Default
+[Layer]
+4
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+226.935791 62.161999 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.100000 3.250000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+StageEvent_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+Stage Locked Walls
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+3
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Locked_Wall_1
+[Active]
+0
+[Tag]
+Wall
+[Layer]
+6
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-831.984009 62.162369 -0.000061
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.010000 3.250000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Wall_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Locked_Wall_2
+[Active]
+0
+[Tag]
+Wall
+[Layer]
+6
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-416.899628 62.161999 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.010000 3.250000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Wall_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Locked_Wall_3
+[Active]
+0
+[Tag]
+Default
+[Layer]
+6
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+222.700165 62.161999 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.010000 3.250000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Wall_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================

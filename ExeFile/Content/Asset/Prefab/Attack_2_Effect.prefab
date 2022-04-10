@@ -1,0 +1,81 @@
+=================================================================================
+¡ß GameObject
+Attack_2_Effect
+[Active]
+1
+[Tag]
+Colonel Attack2
+[Layer]
+9
+[Component Count]
+4
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+Attack_2_Effect_Sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Attack/Attack2/Effect/Attack_2_Effect_Sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+1
+[Data]
+[Key]
+Attack_2_Effect
+[Resource Name]
+Attack_2_Effect
+[Resource Path]
+Asset/Animation/Colonel/AttackEffect/Attack_2_Effect.anim
+[Current Animation]
+Attack_2_Effect
+[Animation Speed]
+1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.230000 -0.480000
+[Offset Scale]
+0.100000 0.150000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Colonel_Attack2_Effect_Script
+[Fire Speed]
+200.000000
+[Child GameObject Count]
+0
+=================================================================================

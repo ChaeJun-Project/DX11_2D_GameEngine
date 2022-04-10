@@ -33,14 +33,12 @@ void SceneManager::Initialize()
 
 void SceneManager::Awake()
 {
-	if (m_client_state == 1)
-		m_p_current_scene->Awake();
+	m_p_current_scene->Awake();
 }
 
 void SceneManager::Start()
 {
-	if (m_client_state == 1)
-		m_p_current_scene->Start();
+	m_p_current_scene->Start();
 }
 
 void SceneManager::Update()
@@ -74,8 +72,12 @@ void SceneManager::SetCurrentScene(const std::shared_ptr<Scene>& p_current_scene
 
 	m_p_current_scene = p_current_scene;
 
-	Awake();
-	Start();
+	//Game Play 중이라면
+	if (m_client_state == 1 || m_editor_state == EditorState::EditorState_Play)
+	{
+		Awake();
+		Start();
+	}
 }
 
 void SceneManager::SetEditorState(const UINT& editor_state)
@@ -84,6 +86,7 @@ void SceneManager::SetEditorState(const UINT& editor_state)
 	if (editor_state == EditorState::EditorState_Stop)
 	{
 		m_editor_state = editor_state;
+		system("cls");
 	}
 
 	else
@@ -95,6 +98,7 @@ void SceneManager::SetEditorState(const UINT& editor_state)
 				editor_state == EditorState::EditorState_Play)
 			{
 				m_editor_state = EditorState::EditorState_Stop;
+				system("cls");
 			}
 
 			m_editor_state &= ~editor_state; //해당 상태 제거

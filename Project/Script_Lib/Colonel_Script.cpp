@@ -37,6 +37,7 @@ Colonel_Script::Colonel_Script(const Colonel_Script& origin)
 	MakeBehaviorTree();
 
 	m_hp = origin.m_hp;
+	m_side_state = origin.m_side_state;
 
 	m_p_attack1_effect = origin.m_p_attack1_effect;
 	m_p_attack2_effect = origin.m_p_attack2_effect;
@@ -111,7 +112,14 @@ void Colonel_Script::Update()
 	{
 		m_p_behavior_tree_root->Tick();
 		if (m_p_behavior_tree_root->Update())
+		{ 
 			m_pre_state = m_current_state;
+
+			if (m_pre_state == ColonelState::Die && m_p_attack_3_prepare_effect->GetIsActive())
+			{
+				DisactiveAttack3PrepareEffect();
+			}
+		}
 
 		//바라보는 방향에 따라 회전
 		//왼쪽
@@ -144,7 +152,10 @@ void Colonel_Script::Update()
 
 		m_dead_event_call_wait -= DELTA_TIME_F;
 		if (m_dead_event_call_wait <= 0.0f)
+		{ 
 			m_p_dead_event_func();
+			m_is_dead = false;
+		}
 	}
 }
 

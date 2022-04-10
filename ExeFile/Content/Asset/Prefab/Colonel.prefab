@@ -1,0 +1,851 @@
+=================================================================================
+¡ß GameObject
+Colonel
+[Active]
+1
+[Tag]
+Enemy
+[Layer]
+8
+[Component Count]
+5
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+Colonel_Idle_Sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Idle/Colonel_Idle_Sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+9
+[Data]
+[Key]
+Colonel_Attack_1
+[Resource Name]
+Colonel_Attack_1
+[Resource Path]
+Asset/Animation/Colonel/Colonel_Attack_1.anim
+[Key]
+Colonel_Attack_2
+[Resource Name]
+Colonel_Attack_2
+[Resource Path]
+Asset/Animation/Colonel/Colonel_Attack_2.anim
+[Key]
+Colonel_Attack_3
+[Resource Name]
+Colonel_Attack_3
+[Resource Path]
+Asset\Animation\Colonel\Colonel_Attack_3.anim
+[Key]
+Colonel_Die
+[Resource Name]
+Colonel_Die
+[Resource Path]
+Asset/Animation/Colonel/Colonel_Die.anim
+[Key]
+Colonel_Guard
+[Resource Name]
+Colonel_Guard
+[Resource Path]
+Asset/Animation/Colonel/Colonel_Guard.anim
+[Key]
+Colonel_Idle
+[Resource Name]
+Colonel_Idle
+[Resource Path]
+Asset/Animation/Colonel/Colonel_Idle.anim
+[Key]
+Colonel_Start
+[Resource Name]
+Colonel_Start
+[Resource Path]
+Asset/Animation/Colonel/Colonel_Start.anim
+[Key]
+Colonel_Stealth_Begin
+[Resource Name]
+Colonel_Stealth_Begin
+[Resource Path]
+Asset/Animation/Colonel/Colonel_Stealth_Begin.anim
+[Key]
+Colonel_Stealth_End
+[Resource Name]
+Colonel_Stealth_End
+[Resource Path]
+Asset/Animation/Colonel/Colonel_Stealth_End.anim
+[Current Animation]
+Colonel_Idle
+[Animation Speed]
+1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 -0.250000
+[Offset Scale]
+0.300000 0.700000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+4
+[Data]
+[Key]
+Colonel_Attack_1_Sound
+[Resource Name]
+Colonel_Attack_1_Sound
+[Resource Path]
+Asset/Audio/Colonel/Colonel_Attack_1_Sound.wav
+[Key]
+Colonel_Attack_2_Sound
+[Resource Name]
+Colonel_Attack_2_Sound
+[Resource Path]
+Asset/Audio/Colonel/Colonel_Attack_2_Sound.wav
+[Key]
+Colonel_Attack_3_Sound
+[Resource Name]
+Colonel_Attack_3_Sound
+[Resource Path]
+Asset/Audio/Colonel/Colonel_Attack_3_Sound.wav
+[Key]
+Colonel_Stealth_Sound
+[Resource Name]
+Colonel_Stealth_Sound
+[Resource Path]
+Asset/Audio/Colonel/Colonel_Stealth_Sound.wav
+[Current Audio]
+None
+[Loop]
+0
+[Volume]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Colonel_Script
+[Hp]
+200
+[Run Speed]
+0.000000
+[Jump Speed]
+0.000000
+[Dash Speed]
+0.000000
+[Attack1 Effect]
+[Resource Name]
+Attack_1_Effect
+[Resource Path]
+Asset/Prefab/Attack_1_Effect.prefab
+[Attack2 Effect]
+[Resource Name]
+Attack_2_Effect
+[Resource Path]
+Asset/Prefab/Attack_2_Effect.prefab
+[Attack3 Effect]
+[Resource Name]
+Attack_3_Effect
+[Resource Path]
+Asset/Prefab/Attack_3_Effect.prefab
+[Child GameObject Count]
+5
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Attack_1_Fire_Position
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-45.000000 -64.400002 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Attack_2_Fire_Position
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-45.000000 -44.599998 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Attack_3_Fire_Positions
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+4
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Position_1
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-99.999969 -68.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Position_2
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-49.999969 -68.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Position_3
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+50.000000 -68.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Position_4
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+100.000000 -68.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+Attack_3_Prepare_Effect
+[Active]
+0
+[Tag]
+Default
+[Layer]
+8
+[Component Count]
+3
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-7.907959 125.315102 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+Attack_3_Prepare_Effect_Sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Attack/Attack3/Effect/Attack_3_Prepare_Effect_Sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+1
+[Data]
+[Key]
+Attack_3_Prepare_Effect
+[Resource Name]
+Attack_3_Prepare_Effect
+[Resource Path]
+Asset/Animation/Colonel/AttackEffect/Attack_3_Prepare_Effect.anim
+[Current Animation]
+Attack_3_Prepare_Effect
+[Animation Speed]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Explosions
+[Active]
+0
+[Tag]
+Default
+[Layer]
+8
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 -40.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+1
+[Data]
+[Key]
+Boss_Clear_Explosion_Sound
+[Resource Name]
+Boss_Clear_Explosion_Sound
+[Resource Path]
+Asset/Audio/Boss/Boss_Clear_Explosion_Sound.wav
+[Current Audio]
+Boss_Clear_Explosion_Sound
+[Loop]
+0
+[Volume]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+ExplosionEffectManager_Script
+[Min Spawn Position]
+-20.000000 -20.000000
+[Max Spawn Position]
+20.000000 20.000000
+[Explosion Active Cooltime]
+0.200000
+[Child GameObject Count]
+5
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Explosion
+[Active]
+0
+[Tag]
+Enemy
+[Layer]
+8
+[Component Count]
+3
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+0.400000 0.400000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+explosion_sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Die/Effect/explosion_sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+1
+[Data]
+[Key]
+Colonel_Explosion
+[Resource Name]
+Colonel_Explosion
+[Resource Path]
+Asset/Animation/Colonel/DieEffect/Colonel_Explosion.anim
+[Current Animation]
+Colonel_Explosion
+[Animation Speed]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+ExplosionEffect_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Explosion
+[Active]
+0
+[Tag]
+Enemy
+[Layer]
+8
+[Component Count]
+3
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+0.400000 0.400000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+explosion_sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Die/Effect/explosion_sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+1
+[Data]
+[Key]
+Colonel_Explosion
+[Resource Name]
+Colonel_Explosion
+[Resource Path]
+Asset/Animation/Colonel/DieEffect/Colonel_Explosion.anim
+[Current Animation]
+Colonel_Explosion
+[Animation Speed]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+ExplosionEffect_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Explosion
+[Active]
+0
+[Tag]
+Enemy
+[Layer]
+8
+[Component Count]
+3
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+0.400000 0.400000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+explosion_sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Die/Effect/explosion_sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+1
+[Data]
+[Key]
+Colonel_Explosion
+[Resource Name]
+Colonel_Explosion
+[Resource Path]
+Asset/Animation/Colonel/DieEffect/Colonel_Explosion.anim
+[Current Animation]
+Colonel_Explosion
+[Animation Speed]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+ExplosionEffect_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Explosion
+[Active]
+0
+[Tag]
+Enemy
+[Layer]
+8
+[Component Count]
+3
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+0.400000 0.400000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+explosion_sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Die/Effect/explosion_sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+1
+[Data]
+[Key]
+Colonel_Explosion
+[Resource Name]
+Colonel_Explosion
+[Resource Path]
+Asset/Animation/Colonel/DieEffect/Colonel_Explosion.anim
+[Current Animation]
+Colonel_Explosion
+[Animation Speed]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+ExplosionEffect_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Explosion
+[Active]
+0
+[Tag]
+Enemy
+[Layer]
+8
+[Component Count]
+3
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+0.400000 0.400000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+explosion_sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Die/Effect/explosion_sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+1
+[Data]
+[Key]
+Colonel_Explosion
+[Resource Name]
+Colonel_Explosion
+[Resource Path]
+Asset/Animation/Colonel/DieEffect/Colonel_Explosion.anim
+[Current Animation]
+Colonel_Explosion
+[Animation Speed]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+ExplosionEffect_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================

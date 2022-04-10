@@ -145,7 +145,10 @@ void Z_Script::Update()
 	{
 		m_dead_event_call_wait -= DELTA_TIME_F;
 		if (m_dead_event_call_wait <= 0.0f)
+		{ 
 			m_p_dead_event_func();
+			m_is_dead = false;
+		}
 	}
 }
 

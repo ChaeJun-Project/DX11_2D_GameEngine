@@ -1,0 +1,71 @@
+=================================================================================
+¡ß GameObject
+Explosion
+[Active]
+1
+[Tag]
+Enemy
+[Layer]
+8
+[Component Count]
+3
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+0.400000 0.400000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+explosion_sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Die/Effect/explosion_sprite.png
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+1
+[Data]
+[Key]
+Colonel_Explosion
+[Resource Name]
+Colonel_Explosion
+[Resource Path]
+Asset/Animation/Colonel/DieEffect/Colonel_Explosion.anim
+[Current Animation]
+Colonel_Explosion
+[Animation Speed]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+ExplosionEffect_Script
+[Child GameObject Count]
+0
+=================================================================================

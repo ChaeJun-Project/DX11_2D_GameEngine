@@ -44,6 +44,7 @@ private:
 	//End Stage
 	void EndStage1();
 	void EndStage();
+	void LoadScene();
 
 	//GameObject
 	void CreatePlayer();

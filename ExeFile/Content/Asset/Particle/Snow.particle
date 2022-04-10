@@ -1,0 +1,31 @@
+[Compute Shader]
+Snow
+[Particle Texture]
+[Resource Name]
+Snow
+[Resource Path]
+Asset/Texture/Particle/Snow.png
+[Particle Activable Count]
+20
+[Particle Max Count]
+1000
+[Particle Spawn Range]
+3000.000000 0.000000 0.000000
+[Particle Start Scale]
+5.000000 5.000000 0.000000
+[Particle End Scale]
+20.000000 20.000000 0.000000
+[Particle Start Color]
+1.000000 1.000000 1.000000 1.000000
+[Particle End Color]
+1.000000 1.000000 1.000000 1.000000
+[Particle Min Speed]
+50.000000
+[Particle Max Speed]
+300.000000
+[Particle Min Life]
+0.000000
+[Particle Max Life]
+0.000000
+[Particle Spawn Frequency]
+0.500000

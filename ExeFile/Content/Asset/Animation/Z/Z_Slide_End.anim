@@ -1,0 +1,50 @@
+[Sprite Animation Name]
+Z_Slide_End
+[Atlas Texture]
+[Resource Name]
+Z_Slide_End_Sprite
+[Resource Path]
+Asset/Texture/Player/RockManZ/Animation/Z08_Slide/Slide_End/Z_Slide_End_Sprite.png
+[Sprite Animation Frame Count]
+5
+[Sprite Animation Frame]
+[Index]
+0
+[Left Top]
+0.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000
+[Index]
+1
+[Left Top]
+72.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000
+[Index]
+2
+[Left Top]
+144.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000
+[Index]
+3
+[Left Top]
+216.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000
+[Index]
+4
+[Left Top]
+288.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000

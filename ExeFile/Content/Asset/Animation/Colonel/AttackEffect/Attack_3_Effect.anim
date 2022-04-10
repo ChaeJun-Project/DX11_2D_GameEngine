@@ -1,0 +1,42 @@
+[Sprite Animation Name]
+Attack_3_Effect
+[Atlas Texture]
+[Resource Name]
+Attack_3_Effect_Sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Attack/Attack3/Effect/Attack_3_Effect_Sprite.png
+[Sprite Animation Frame Count]
+4
+[Sprite Animation Frame]
+[Index]
+0
+[Left Top]
+0.000000 0.000000
+[Frame Size]
+27.000000 64.000000
+[Duration]
+0.300000
+[Index]
+1
+[Left Top]
+27.000000 0.000000
+[Frame Size]
+27.000000 64.000000
+[Duration]
+0.300000
+[Index]
+2
+[Left Top]
+54.000000 0.000000
+[Frame Size]
+27.000000 64.000000
+[Duration]
+0.300000
+[Index]
+3
+[Left Top]
+81.000000 0.000000
+[Frame Size]
+27.000000 64.000000
+[Duration]
+0.300000

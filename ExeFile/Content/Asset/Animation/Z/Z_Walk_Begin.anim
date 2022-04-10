@@ -1,0 +1,66 @@
+[Sprite Animation Name]
+Z_Walk_Begin
+[Atlas Texture]
+[Resource Name]
+Z_Walk_Begin_Sprite
+[Resource Path]
+Asset/Texture/Player/RockManZ/Animation/Z06_Walk/Walk_Begin/Z_Walk_Begin_Sprite.png
+[Sprite Animation Frame Count]
+7
+[Sprite Animation Frame]
+[Index]
+0
+[Left Top]
+0.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000
+[Index]
+1
+[Left Top]
+72.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000
+[Index]
+2
+[Left Top]
+144.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000
+[Index]
+3
+[Left Top]
+216.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000
+[Index]
+4
+[Left Top]
+288.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000
+[Index]
+5
+[Left Top]
+360.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000
+[Index]
+6
+[Left Top]
+432.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000

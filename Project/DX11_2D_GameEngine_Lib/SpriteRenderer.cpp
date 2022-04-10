@@ -52,8 +52,12 @@ void SpriteRenderer::Render()
 	if (m_p_mesh == nullptr || m_p_material == nullptr || m_p_material->GetShader() == nullptr)
 		return;
 
-	if(m_p_owner_game_object->GetGameObjectName()._Equal("Distortion"))
-		m_p_sprite_texture = RENDER_MANAGER->GetPostEffectRenderTargetTexture();
+	//Game Play 중이라면
+	if (SCENE_MANAGER->GetClientState() == 1 || SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Play)
+	{
+		if (m_p_owner_game_object->GetGameObjectTag()._Equal("Post Effect"))
+			m_p_sprite_texture = RENDER_MANAGER->GetPostEffectRenderTargetTexture();
+	}
 
 	SetMeshScale();
 

@@ -1,0 +1,82 @@
+[Sprite Animation Name]
+Z_Jump_Attack
+[Atlas Texture]
+[Resource Name]
+Z_Jump_Attack_Sprite
+[Resource Path]
+Asset/Texture/Player/RockManZ/Animation/Z05_Jump/Jump_Attack/Z_Jump_Attack_Sprite.png
+[Sprite Animation Frame Count]
+9
+[Sprite Animation Frame]
+[Index]
+0
+[Left Top]
+0.000000 0.000000
+[Frame Size]
+144.000000 144.000000
+[Duration]
+0.020000
+[Index]
+1
+[Left Top]
+144.000000 0.000000
+[Frame Size]
+144.000000 144.000000
+[Duration]
+0.020000
+[Index]
+2
+[Left Top]
+288.000000 0.000000
+[Frame Size]
+144.000000 144.000000
+[Duration]
+0.020000
+[Index]
+3
+[Left Top]
+0.000000 144.000000
+[Frame Size]
+144.000000 144.000000
+[Duration]
+0.020000
+[Index]
+4
+[Left Top]
+144.000000 144.000000
+[Frame Size]
+144.000000 144.000000
+[Duration]
+0.020000
+[Index]
+5
+[Left Top]
+288.000000 144.000000
+[Frame Size]
+144.000000 144.000000
+[Duration]
+0.020000
+[Index]
+6
+[Left Top]
+0.000000 288.000000
+[Frame Size]
+144.000000 144.000000
+[Duration]
+0.020000
+[Index]
+7
+[Left Top]
+144.000000 288.000000
+[Frame Size]
+144.000000 144.000000
+[Duration]
+0.020000
+[Index]
+8
+[Left Top]
+288.000000 288.000000
+[Frame Size]
+144.000000 144.000000
+[Duration]
+0.020000

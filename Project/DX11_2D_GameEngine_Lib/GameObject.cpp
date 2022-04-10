@@ -144,10 +144,10 @@ void GameObject::Start()
 		{
 			script.second->Start();
 			script.second->AddStartFuncCallCount();
-		}	
+		}
 	}
 
-	//자식 오브젝트 업데이트
+	//자식 오브젝트
 	for (auto& child : m_p_child_vector)
 	{
 		if (child->m_is_active)
@@ -174,9 +174,12 @@ void GameObject::Update()
 			script.second->Update();
 	}
 
-	//자식 오브젝트 업데이트
+	//자식 오브젝트
 	for (auto& child : m_p_child_vector)
-		child->Update();
+	{
+		if (child->m_is_active)
+			child->Update();
+	}
 }
 
 void GameObject::FinalUpdate()
@@ -191,17 +194,17 @@ void GameObject::FinalUpdate()
 			component.second->FinalUpdate();
 	}
 
-	//자식 오브젝트 최종 업데이트(transform)
+	//자식 오브젝트 최종 업데이트
 	for (auto& child : m_p_child_vector)
-		child->FinalUpdate();
+	{
+		if (child->m_is_active)
+			child->FinalUpdate();
+	}
 }
 
 void GameObject::Render()
 {
-	/*if (m_dead_check)
-		return;*/
-
-		//Sprite Renderer
+	//Sprite Renderer
 	auto p_sprite_renderer = GetComponent<SpriteRenderer>();
 	if (p_sprite_renderer != nullptr && p_sprite_renderer->GetIsActive())
 		p_sprite_renderer->Render();

@@ -1,0 +1,18 @@
+[Sprite Animation Name]
+Colonel_Die
+[Atlas Texture]
+[Resource Name]
+Colonel_Die_Sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Die/Colonel_Die_Sprite.png
+[Sprite Animation Frame Count]
+1
+[Sprite Animation Frame]
+[Index]
+0
+[Left Top]
+0.000000 0.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+5.000000

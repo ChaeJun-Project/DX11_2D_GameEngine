@@ -41,9 +41,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		FileFunction::LoadPhysics((FILE_MANAGER->GetAbsoluteContentPath() + "Engine/Physics.txt"));
 		FileFunction::LoadGameResolution((FILE_MANAGER->GetAbsoluteContentPath() + "Engine/Resolution.txt"));
 
-		//Game Test
-		auto next_scene = SCENE_MANAGER->LoadScene((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Scene/Game Stage.scene"));
-		SCENE_MANAGER->SetCurrentScene(next_scene);
+		//Game Title
+		auto game_title_scene = SCENE_MANAGER->LoadScene((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Scene/Game Title.scene"));
+		SCENE_MANAGER->SetCurrentScene(game_title_scene);
 	}
 
 	else

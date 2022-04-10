@@ -1,0 +1,90 @@
+[Sprite Animation Name]
+Z_Slide_Attack
+[Atlas Texture]
+[Resource Name]
+Z_Slide_Attack_Sprite
+[Resource Path]
+Asset/Texture/Player/RockManZ/Animation/Z08_Slide/Slide_Attack/Z_Slide_Attack_Sprite.png
+[Sprite Animation Frame Count]
+10
+[Sprite Animation Frame]
+[Index]
+0
+[Left Top]
+0.000000 0.000000
+[Frame Size]
+160.000000 144.000000
+[Duration]
+0.050000
+[Index]
+1
+[Left Top]
+160.000000 0.000000
+[Frame Size]
+160.000000 144.000000
+[Duration]
+0.050000
+[Index]
+2
+[Left Top]
+320.000000 0.000000
+[Frame Size]
+160.000000 144.000000
+[Duration]
+0.050000
+[Index]
+3
+[Left Top]
+480.000000 0.000000
+[Frame Size]
+160.000000 144.000000
+[Duration]
+0.050000
+[Index]
+4
+[Left Top]
+640.000000 0.000000
+[Frame Size]
+160.000000 144.000000
+[Duration]
+0.050000
+[Index]
+5
+[Left Top]
+0.000000 144.000000
+[Frame Size]
+160.000000 144.000000
+[Duration]
+0.050000
+[Index]
+6
+[Left Top]
+160.000000 144.000000
+[Frame Size]
+160.000000 144.000000
+[Duration]
+0.050000
+[Index]
+7
+[Left Top]
+320.000000 144.000000
+[Frame Size]
+160.000000 144.000000
+[Duration]
+0.050000
+[Index]
+8
+[Left Top]
+480.000000 144.000000
+[Frame Size]
+160.000000 144.000000
+[Duration]
+0.050000
+[Index]
+9
+[Left Top]
+640.000000 144.000000
+[Frame Size]
+160.000000 144.000000
+[Duration]
+0.050000

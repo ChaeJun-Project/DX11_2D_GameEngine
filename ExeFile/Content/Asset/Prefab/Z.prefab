@@ -1,0 +1,477 @@
+=================================================================================
+¡ß GameObject
+Z
+[Active]
+1
+[Tag]
+Player
+[Layer]
+10
+[Component Count]
+6
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+-1113.000000 -33.999996 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+Z_Idle_Sprite
+[Resource Path]
+Asset/Texture/Player/RockManZ/Animation/Z03_Idle/Z_Idle_Sprite.png
+[Sprite Color]
+0.996078 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+27
+[Data]
+[Key]
+Z_Attack_1
+[Resource Name]
+Z_Attack_1
+[Resource Path]
+Asset/Animation/Z/Z_Attack_1.anim
+[Key]
+Z_Attack_2
+[Resource Name]
+Z_Attack_2
+[Resource Path]
+Asset/Animation/Z/Z_Attack_2.anim
+[Key]
+Z_Attack_3
+[Resource Name]
+Z_Attack_3
+[Resource Path]
+Asset/Animation/Z/Z_Attack_3.anim
+[Key]
+Z_Attack_End
+[Resource Name]
+Z_Attack_End
+[Resource Path]
+Asset/Animation/Z/Z_Attack_End.anim
+[Key]
+Z_Attack_Special
+[Resource Name]
+Z_Attack_Special
+[Resource Path]
+Asset/Animation/Z/Z_Attack_Special.anim
+[Key]
+Z_Crouch
+[Resource Name]
+Z_Crouch
+[Resource Path]
+Asset/Animation/Z/Z_Crouch.anim
+[Key]
+Z_Crouch_Attack
+[Resource Name]
+Z_Crouch_Attack
+[Resource Path]
+Asset/Animation/Z/Z_Crouch_Attack.anim
+[Key]
+Z_Damaged
+[Resource Name]
+Z_Damaged
+[Resource Path]
+Asset/Animation/Z/Z_Damaged.anim
+[Key]
+Z_Dash_Begin
+[Resource Name]
+Z_Dash_Begin
+[Resource Path]
+Asset/Animation/Z/Z_Dash_Begin.anim
+[Key]
+Z_Dash_End
+[Resource Name]
+Z_Dash_End
+[Resource Path]
+Asset/Animation/Z/Z_Dash_End.anim
+[Key]
+Z_Dash_Run
+[Resource Name]
+Z_Dash_Run
+[Resource Path]
+Asset/Animation/Z/Z_Dash_Run.anim
+[Key]
+Z_Fall_Begin
+[Resource Name]
+Z_Fall_Begin
+[Resource Path]
+Asset/Animation/Z/Z_Fall_Begin.anim
+[Key]
+Z_Fall_End
+[Resource Name]
+Z_Fall_End
+[Resource Path]
+Asset/Animation/Z/Z_Fall_End.anim
+[Key]
+Z_Fall_Run
+[Resource Name]
+Z_Fall_Run
+[Resource Path]
+Asset/Animation/Z/Z_Fall_Run.anim
+[Key]
+Z_Idle
+[Resource Name]
+Z_Idle
+[Resource Path]
+Asset/Animation/Z/Z_Idle.anim
+[Key]
+Z_Jump_Attack
+[Resource Name]
+Z_Jump_Attack
+[Resource Path]
+Asset/Animation/Z/Z_Jump_Attack.anim
+[Key]
+Z_Jump_Begin
+[Resource Name]
+Z_Jump_Begin
+[Resource Path]
+Asset/Animation/Z/Z_Jump_Begin.anim
+[Key]
+Z_Jump_Run
+[Resource Name]
+Z_Jump_Run
+[Resource Path]
+Asset/Animation/Z/Z_Jump_Run.anim
+[Key]
+Z_Ready
+[Resource Name]
+Z_Ready
+[Resource Path]
+Asset/Animation/Z/Z_Ready.anim
+[Key]
+Z_Return
+[Resource Name]
+Z_Return
+[Resource Path]
+Asset/Animation/Z/Z_Return.anim
+[Key]
+Z_Slide_Attack
+[Resource Name]
+Z_Slide_Attack
+[Resource Path]
+Asset/Animation/Z/Z_Slide_Attack.anim
+[Key]
+Z_Slide_Begin
+[Resource Name]
+Z_Slide_Begin
+[Resource Path]
+Asset/Animation/Z/Z_Slide_Begin.anim
+[Key]
+Z_Slide_End
+[Resource Name]
+Z_Slide_End
+[Resource Path]
+Asset/Animation/Z/Z_Slide_End.anim
+[Key]
+Z_Slide_Run
+[Resource Name]
+Z_Slide_Run
+[Resource Path]
+Asset/Animation/Z/Z_Slide_Run.anim
+[Key]
+Z_Walk_Begin
+[Resource Name]
+Z_Walk_Begin
+[Resource Path]
+Asset/Animation/Z/Z_Walk_Begin.anim
+[Key]
+Z_Walk_Run
+[Resource Name]
+Z_Walk_Run
+[Resource Path]
+Asset/Animation/Z/Z_Walk_Run.anim
+[Key]
+Z_Win
+[Resource Name]
+Z_Win
+[Resource Path]
+Asset/Animation/Z/Z_Win.anim
+[Current Animation]
+Z_Idle
+[Animation Speed]
+1.000000
+¡Ü Collider2D
+6
+[Active]
+1
+[Offset Position]
+0.000000 -0.110000
+[Offset Scale]
+0.300000 0.450000
+¡Ü RigidBody2D
+10
+[Active]
+1
+[Gravity]
+1200.000000
+[Mass]
+1.000000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+11
+[Data]
+[Key]
+Z_Attack_1_Sound
+[Resource Name]
+Z_Attack_1_Sound
+[Resource Path]
+Asset/Audio/PlayerZ/Z_Attack_1_Sound.wav
+[Key]
+Z_Attack_2_Sound
+[Resource Name]
+Z_Attack_2_Sound
+[Resource Path]
+Asset/Audio/PlayerZ/Z_Attack_2_Sound.wav
+[Key]
+Z_Attack_3_Sound
+[Resource Name]
+Z_Attack_3_Sound
+[Resource Path]
+Asset/Audio/PlayerZ/Z_Attack_3_Sound.wav
+[Key]
+Z_Attecked_Sound
+[Resource Name]
+Z_Attecked_Sound
+[Resource Path]
+Asset/Audio/PlayerZ/Z_Attecked_Sound.wav
+[Key]
+Z_Damaged_Sound
+[Resource Name]
+Z_Damaged_Sound
+[Resource Path]
+Asset/Audio/PlayerZ/Z_Damaged_Sound.wav
+[Key]
+Z_Dash_Sound
+[Resource Name]
+Z_Dash_Sound
+[Resource Path]
+Asset/Audio/PlayerZ/Z_Dash_Sound.wav
+[Key]
+Z_Dead_Sound
+[Resource Name]
+Z_Dead_Sound
+[Resource Path]
+Asset/Audio/PlayerZ/Z_Dead_Sound.wav
+[Key]
+Z_Jump_Sound
+[Resource Name]
+Z_Jump_Sound
+[Resource Path]
+Asset/Audio/PlayerZ/Z_Jump_Sound.wav
+[Key]
+Z_Land_Sound
+[Resource Name]
+Z_Land_Sound
+[Resource Path]
+Asset/Audio/PlayerZ/Z_Land_Sound.wav
+[Key]
+Z_Wall_Jump_Sound
+[Resource Name]
+Z_Wall_Jump_Sound
+[Resource Path]
+Asset/Audio/PlayerZ/Z_Wall_Jump_Sound.wav
+[Key]
+Z_Win_Sound
+[Resource Name]
+Z_Win_Sound
+[Resource Path]
+Asset/Audio/PlayerZ/Z_Win_Sound.wav
+[Current Audio]
+None
+[Loop]
+0
+[Volume]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Z_Script
+[Hp]
+100
+[Run Speed]
+200.000000
+[Jump Speed]
+500.000000
+[Dash Speed]
+500.000000
+[Child GameObject Count]
+2
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Z_Attack_Hit_Box
+[Active]
+1
+[Tag]
+PlayerAttack
+[Layer]
+11
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Collider2D
+6
+[Active]
+0
+[Offset Position]
+0.000000 0.000000
+[Offset Scale]
+0.000000 0.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Debuffs
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+0
+[Child GameObject Count]
+2
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Dark
+[Active]
+0
+[Tag]
+Default
+[Layer]
+2
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Light2D
+7
+[Active]
+1
+[Light Info]
+[Color]
+1.000000 1.000000 1.000000 1.000000
+[Type]
+1
+[Range]
+100.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Distortion
+[Active]
+0
+[Tag]
+Post Effect
+[Layer]
+13
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+None
+[Resource Path]
+None
+[Sprite Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Distortion_Material
+[Resource Path]
+Asset/Material/Distortion_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================

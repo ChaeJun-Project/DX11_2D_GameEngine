@@ -1,5 +1,5 @@
 [Tag Count]
-15
+16
 
 [Tag List]
 Default
@@ -17,3 +17,4 @@ Enemy
 Colonel Attack1
 Colonel Attack2
 Colonel Attack3
+Post Effect

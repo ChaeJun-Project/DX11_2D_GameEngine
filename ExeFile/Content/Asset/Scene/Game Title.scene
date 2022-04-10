@@ -1,0 +1,1211 @@
+¡Ø Scene
+Game Title
+[Parent GameObject Count]
+4
+=================================================================================
+¡ß GameObject
+Main Camera
+[Active]
+1
+[Tag]
+UI Camera
+[Layer]
+1
+[Component Count]
+3
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Camera
+2
+[Active]
+1
+[Index]
+0
+[Culling Layer]
+0
+[Projection]
+0
+[Size]
+1.000000 1.000000
+[Fov]
+0.820305
+[Near]
+0.300000
+[Far]
+1000.000000
+¡Ü Audio Listener
+11
+[Active]
+1
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Light2D_Ambient
+[Active]
+1
+[Tag]
+Light
+[Layer]
+0
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Light2D
+7
+[Active]
+1
+[Light Info]
+[Color]
+1.000000 1.000000 1.000000 1.000000
+[Type]
+0
+[Range]
+0.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Title Manager
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+1
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+GameTitleManager_Script
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Canvas
+[Active]
+1
+[Tag]
+Default
+[Layer]
+0
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+512.000000 448.000000
+[Anchor]
+0.500000 0.500000
+¡Ü Canvas
+13
+[Active]
+1
+[UI Camera]
+Main Camera
+[Script Count]
+0
+[Child GameObject Count]
+3
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Menu
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+3
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+512.000000 448.000000
+[Anchor]
+0.500000 0.500000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+2
+[Data]
+[Key]
+Menu_Move_Sound
+[Resource Name]
+Menu_Move_Sound
+[Resource Path]
+Asset/Audio/Menu/Menu_Move_Sound.wav
+[Key]
+Menu_Select_Sound
+[Resource Name]
+Menu_Select_Sound
+[Resource Path]
+Asset/Audio/Menu/Menu_Select_Sound.wav
+[Current Audio]
+None
+[Loop]
+0
+[Volume]
+1.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Title_Background
+[Resource Path]
+Asset/Texture/UI/Menu/Title_Background.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Menu_Script
+[Child GameObject Count]
+2
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Continue
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+0.000000 -57.012314 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+2.000000 2.000000 1.000000
+[Widget Size]
+66.000000 10.000000
+[Anchor]
+0.500000 0.500000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Continue_Normal
+[Resource Path]
+Asset/Texture/UI/Menu/Continue/Continue_Normal.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Game Start
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+0.000000 -109.137878 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+2.000000 2.000000 1.000000
+[Widget Size]
+87.000000 10.000000
+[Anchor]
+0.500000 0.500000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+GameStart_Normal
+[Resource Path]
+Asset/Texture/UI/Menu/Game Start/GameStart_Normal.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+Player Select
+[Active]
+0
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+3
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+512.000000 448.000000
+[Anchor]
+0.500000 0.500000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+2
+[Data]
+[Key]
+PlayerSelect_Move_Sound
+[Resource Name]
+PlayerSelect_Move_Sound
+[Resource Path]
+Asset/Audio/PlayerSelect/PlayerSelect_Move_Sound.wav
+[Key]
+PlayerSelect_Select_Sound
+[Resource Name]
+PlayerSelect_Select_Sound
+[Resource Path]
+Asset/Audio/PlayerSelect/PlayerSelect_Select_Sound.wav
+[Current Audio]
+None
+[Loop]
+0
+[Volume]
+1.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+PlayerSelect_Background
+[Resource Path]
+Asset/Texture/UI/PlayerSelect/PlayerSelect_Background.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+PlayerSelect_Script
+[Child GameObject Count]
+3
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Player Select Text
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+0.000000 -62.851654 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.500000 1.500000 1.000000
+[Widget Size]
+198.000000 18.000000
+[Anchor]
+0.500000 0.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+PlayerSelect_Text
+[Resource Path]
+Asset/Texture/UI/PlayerSelect/PlayerSelect_Text.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+X Selet
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+150.000000 -50.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.500000 1.500000 1.000000
+[Widget Size]
+188.000000 156.000000
+[Anchor]
+0.000000 0.500000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+X_Texture
+[Resource Path]
+Asset/Texture/UI/PlayerSelect/X_Texture.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+2
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Focus
+[Active]
+0
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+-0.000053 -0.000011 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+188.000000 156.000000
+[Anchor]
+0.500000 0.500000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+X_Select_Texture
+[Resource Path]
+Asset/Texture/UI/PlayerSelect/X_Select_Texture.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+1
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Arrow
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+-25.000000 20.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+32.000000 16.000000
+[Anchor]
+0.500000 0.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Select_Arrow
+[Resource Path]
+Asset/Texture/UI/PlayerSelect/Select_Arrow.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+X Text
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+-0.000023 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+118.000000 19.000000
+[Anchor]
+0.500000 1.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+X_Text
+[Resource Path]
+Asset/Texture/UI/PlayerSelect/X_Text.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+Z Select
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+-150.000000 -50.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.500000 1.500000 1.000000
+[Widget Size]
+188.000000 156.000000
+[Anchor]
+1.000000 0.500000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Z_Texture
+[Resource Path]
+Asset/Texture/UI/PlayerSelect/Z_Texture.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+3
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Focus
+[Active]
+0
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+0.000053 -0.000011 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+188.000000 156.000000
+[Anchor]
+0.500000 0.500000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Z_Select_Texture
+[Resource Path]
+Asset/Texture/UI/PlayerSelect/Z_Select_Texture.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+1
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Arrow
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+25.000000 20.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+32.000000 16.000000
+[Anchor]
+0.500000 0.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Select_Arrow
+[Resource Path]
+Asset/Texture/UI/PlayerSelect/Select_Arrow.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+Z Text
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+32.666733 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+118.000000 19.000000
+[Anchor]
+0.500000 1.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Z_Text
+[Resource Path]
+Asset/Texture/UI/PlayerSelect/Z_Text.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+¡ß GameObject
+Z Preview
+[Active]
+1
+[Tag]
+Player
+[Layer]
+3
+[Component Count]
+3
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+73.733543 -57.400005 0.000057
+[Rotation]
+0.000000 -1.000000 0.000000 0.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Sprite Renderer
+3
+[Active]
+1
+[Texture]
+[Resource Name]
+Z_Idle_Sprite
+[Resource Path]
+Asset/Texture/Player/RockManZ/Animation/Z03_Idle/Z_Idle_Sprite.png
+[Sprite Color]
+0.996078 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+Default_Material
+[Resource Path]
+Asset/Material/Default_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+¡Ü Animator2D
+4
+[Active]
+1
+[Animation2D Map]
+[Count]
+3
+[Data]
+[Key]
+Z_Attack_1
+[Resource Name]
+Z_Attack_1
+[Resource Path]
+Asset/Animation/Z/Z_Attack_1.anim
+[Key]
+Z_Idle
+[Resource Name]
+Z_Idle
+[Resource Path]
+Asset/Animation/Z/Z_Idle.anim
+[Key]
+Z_Win
+[Resource Name]
+Z_Win
+[Resource Path]
+Asset/Animation/Z/Z_Win.anim
+[Current Animation]
+Z_Idle
+[Animation Speed]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================
+=================================================================================
+¡ß GameObject
+Loading
+[Active]
+0
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+3
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+[Widget Size]
+512.000000 448.000000
+[Anchor]
+0.500000 0.500000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+0
+[Data]
+[Current Audio]
+None
+[Loop]
+0
+[Volume]
+1.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+None
+[Resource Path]
+None
+[Image Color]
+0.000000 0.000000 0.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+1
+¡Ü Script
+16
+[Active]
+1
+[Name]
+Loading_Script
+[Child GameObject Count]
+1
+[Child GameObject]
+=================================================================================
+¡ß GameObject
+Loading Text
+[Active]
+1
+[Tag]
+Default
+[Layer]
+3
+[Component Count]
+2
+¡Ü Rect Transform
+14
+[Active]
+1
+[Position]
+-120.000000 50.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+2.000000 2.000000 1.000000
+[Widget Size]
+100.000000 25.000000
+[Anchor]
+1.000000 1.000000
+¡Ü Image Renderer
+15
+[Active]
+1
+[Texture]
+[Resource Name]
+Loading
+[Resource Path]
+Asset/Texture/UI/Loading/Loading.png
+[Image Color]
+1.000000 1.000000 1.000000 1.000000
+[Material]
+[Resource Name]
+ImageRenderer_Material
+[Resource Path]
+Asset/Material/ImageRenderer_Material.mat
+[Mesh]
+[Resource Name]
+Rectangle_Mesh
+[Resource Path]
+Asset/Mesh/Rectangle_Mesh.mesh
+[Image Type]
+0
+[Fill Method]
+0
+[Fill Direction]
+0
+[Fill Amount]
+1.000000
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================
+=================================================================================
+=================================================================================

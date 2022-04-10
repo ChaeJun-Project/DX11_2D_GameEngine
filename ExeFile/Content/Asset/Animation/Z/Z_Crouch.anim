@@ -1,0 +1,26 @@
+[Sprite Animation Name]
+Z_Crouch
+[Atlas Texture]
+[Resource Name]
+Z_Crouch_Sprite
+[Resource Path]
+Asset/Texture/Player/RockManZ/Animation/Z10_Crouch/Crouch/Z_Crouch_Sprite.png
+[Sprite Animation Frame Count]
+2
+[Sprite Animation Frame]
+[Index]
+0
+[Left Top]
+0.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000
+[Index]
+1
+[Left Top]
+72.000000 0.000000
+[Frame Size]
+72.000000 144.000000
+[Duration]
+0.050000

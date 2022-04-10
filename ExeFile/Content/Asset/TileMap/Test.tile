@@ -1,0 +1,108 @@
+[TileMap Name]
+Test
+[Used Atlas Texture List]
+[Count]
+2
+[Resource Name]
+Stage1
+[Resource Path]
+Asset/Texture/Map/Stage1/Stage1.png
+[Resource Name]
+Stage2_3
+[Resource Path]
+Asset/Texture/Map/Stage2/Stage2_3.png
+[Resource Name]
+None
+[Resource Path]
+None
+[Resource Name]
+None
+[Resource Path]
+None
+[Resource Name]
+None
+[Resource Path]
+None
+[Resource Name]
+None
+[Resource Path]
+None
+[Resource Name]
+None
+[Resource Path]
+None
+[Resource Name]
+None
+[Resource Path]
+None
+[Tile Count]
+60
+[Tile Size]
+32.000000 32.000000
+[Column Count]
+10
+[Row Count]
+6
+[Tile Data]
+[Count]
+60
+-1 -1
+1 0
+1 0
+0 3
+-1 -1
+1 0
+0 3
+1 0
+1 0
+-1 -1
+1 0
+0 3
+1 0
+1 0
+1 0
+0 3
+-1 -1
+1 0
+0 3
+0 36
+1 0
+1 0
+1 0
+0 3
+0 3
+0 3
+0 3
+0 3
+0 3
+0 36
+1 0
+1 0
+0 3
+1 0
+0 3
+0 3
+0 3
+1 0
+0 36
+-1 -1
+1 0
+0 3
+-1 -1
+0 3
+-1 -1
+-1 -1
+0 3
+0 36
+0 36
+0 36
+1 0
+1 0
+1 0
+-1 -1
+1 0
+0 36
+1 0
+1 0
+1 0
+1 0

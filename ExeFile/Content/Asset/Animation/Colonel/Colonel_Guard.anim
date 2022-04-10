@@ -1,0 +1,26 @@
+[Sprite Animation Name]
+Colonel_Guard
+[Atlas Texture]
+[Resource Name]
+Colonel_Guard_Sprite
+[Resource Path]
+Asset/Texture/Enemy/Colonel/Guard/Colonel_Guard_Sprite.png
+[Sprite Animation Frame Count]
+2
+[Sprite Animation Frame]
+[Index]
+0
+[Left Top]
+0.000000 0.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000
+[Index]
+1
+[Left Top]
+150.000000 0.000000
+[Frame Size]
+150.000000 162.000000
+[Duration]
+0.200000
