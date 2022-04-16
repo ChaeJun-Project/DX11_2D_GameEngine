@@ -16,6 +16,10 @@ cbuffer WVPMatrix : register(b0)
     row_major matrix view;
     row_major matrix projection;
     
+    row_major matrix world_inverse;
+    row_major matrix view_inverse;
+    row_major matrix projection_inverse;
+    
     row_major matrix identity;
 }
 

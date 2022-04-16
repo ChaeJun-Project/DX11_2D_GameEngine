@@ -6,7 +6,7 @@ Snow
 [Resource Path]
 Asset/Texture/Particle/Snow.png
 [Particle Activable Count]
-20
+10
 [Particle Max Count]
 1000
 [Particle Spawn Range]

@@ -56,6 +56,14 @@ float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
     }
     
     ps_output_color.rgb *= SPRITE_TEXTURE_COLOR.rgb;
+    
+    //Light
+    float4 light_color = (float4) 0.0f;
+    
+    for (uint i = 0; i < g_light2D_count; ++i)
+        GetLight2DColor(i, ps_input.world_position, light_color);
+
+    ps_output_color.rgb *= light_color.rgb;
   
     return ps_output_color;
 }

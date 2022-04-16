@@ -44,17 +44,15 @@ void GUI_Console::Render()
 
 void GUI_Console::DisplayButton(const IconType& type, const ImVec2& button_size, bool& is_show)
 {
-	auto icon_provider = IconProvider::GetInstance();
-
 	//현재 Editor 상태가 Play라면 Play Button의 색상을 Active 색상으로 유지
 	ImGui::PushStyleColor
 	(
 		ImGuiCol_Button,
-		ImGui::GetStyle().Colors[is_show ? ImGuiCol_ButtonActive : ImGuiCol_Button]
+		ImGui::GetStyle().Colors[is_show? ImGuiCol_ButtonActive : ImGuiCol_Button]
 	);
 
 	//Scene Play Button 그리기
-	if (icon_provider->CreateImageButton(type, button_size))
+	if (ICON_PROVIDER->CreateImageButton(type, button_size))
 	{
 		is_show = !is_show;
 	}

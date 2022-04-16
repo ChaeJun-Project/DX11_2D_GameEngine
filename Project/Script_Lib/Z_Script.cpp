@@ -115,6 +115,8 @@ void Z_Script::Update()
 				m_debuff_dark_duration = DEBUFF_DARK_DURATION;
 				m_is_dark = false;
 				p_dark_game_object->SetIsActive(false);
+
+				LOG_INFO_F("플레이어가 암흑 상태에서 빠져나옵니다.");
 			}
 		}
 
@@ -126,6 +128,8 @@ void Z_Script::Update()
 				m_debuff_distortion_duration = DEBUFF_DISTORTION_DURATION;
 				m_is_distortion = false;
 				p_distortion_game_object->SetIsActive(false);
+
+				LOG_INFO_F("플레이어가 혼란 상태에서 빠져나옵니다.");
 			}
 		}
 
@@ -138,6 +142,8 @@ void Z_Script::Update()
 			SetCurrentAnimation("Z_Damaged");
 			p_dark_game_object->SetIsActive(false);
 			p_distortion_game_object->SetIsActive(false);
+
+			LOG_INFO_F("플레이어의 체력이 0이 되었습니다.");
 		}
 	}
 
@@ -148,6 +154,8 @@ void Z_Script::Update()
 		{ 
 			m_p_dead_event_func();
 			m_is_dead = false;
+
+			LOG_INFO_F("플레이어의 체력이 0이 되어 미션에 실패하였습니다.");
 		}
 	}
 }
@@ -314,14 +322,8 @@ void Z_Script::Update_Animation()
 		m_current_state = PlayerState::Win;
 	}
 
-	//Return
-	if (m_current_state == PlayerState::Return)
-	{
-		SetCurrentAnimation("Z_Return");
-	}
-
 	//Win
-	else if (m_current_state == PlayerState::Win)
+	if (m_current_state == PlayerState::Win)
 	{
 		SetCurrentAnimation("Z_Win");
 	}
@@ -639,8 +641,10 @@ void Z_Script::TriggerFallRunState()
 
 void Z_Script::TriggerWinToReturn()
 {
-	SetCurrentAnimation("Z_Return", true);
+	SetCurrentAnimation("Z_Return");
 	m_current_state = PlayerState::Return;
+
+	LOG_INFO_F("플레이어가 미션을 종료하고 복귀합니다.");
 }
 
 void Z_Script::OnCollisionEnter(GameObject* p_other_game_object)
@@ -651,48 +655,60 @@ void Z_Script::OnCollisionEnter(GameObject* p_other_game_object)
 		{
 			is_hit = true;
 			m_hp -= 5;
+
+			LOG_INFO_F("플레이어가 %d의 데미지를 입었습니다.", 5);
 		}
 		m_current_state = PlayerState::Damaged;
 	}
 
-	if (p_other_game_object->GetGameObjectTag() == "Colonel Attack1")
+	if (p_other_game_object->GetGameObjectTag()._Equal("Colonel Attack1"))
 	{
 		if (!is_hit)
 		{
 			is_hit = true;
 			m_hp -= 10;
+
+			LOG_INFO_F("플레이어가 %d의 데미지를 입었습니다.", 10);
 		}
 		m_current_state = PlayerState::Damaged;
 	}
 
-	if (p_other_game_object->GetGameObjectTag() == "Colonel Attack2")
+	if (p_other_game_object->GetGameObjectTag()._Equal("Colonel Attack2"))
 	{
 		if (!is_hit)
 		{
 			is_hit = true;
 			m_hp -= 20;
+
+			LOG_INFO_F("플레이어가 %d의 데미지를 입었습니다.", 20);
 		}
 
 		if (!m_is_dark)
 		{
 			m_is_dark = true;
 			p_dark_game_object->SetIsActive(true);
+
+			LOG_INFO_F("플레이어가 %s 공격을 맞아 암흑 상태에 빠집니다.", p_other_game_object->GetGameObjectTag().c_str());
 		}
 		m_current_state = PlayerState::Damaged;
 	}
 
-	if (p_other_game_object->GetGameObjectTag() == "Colonel Attack3")
+	if (p_other_game_object->GetGameObjectTag()._Equal("Colonel Attack3"))
 	{
 		if (!is_hit)
 		{
 			is_hit = true;
 			m_hp -= 20;
+
+			LOG_INFO_F("플레이어가 %d의 데미지를 입었습니다.", 20);
 		}
 
 		if (!m_is_distortion)
 		{
 			m_is_distortion = true;
 			p_distortion_game_object->SetIsActive(true);
+
+			LOG_INFO_F("플레이어가 %s 공격을 맞아 혼란 상태에 빠집니다.", p_other_game_object->GetGameObjectTag().c_str());
 		}
 		m_current_state = PlayerState::Damaged;
 	}

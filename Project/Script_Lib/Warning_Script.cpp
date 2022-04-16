@@ -42,11 +42,6 @@ void Warning_Script::OnEnable()
 	Play();
 }
 
-void Warning_Script::Start()
-{
-	Play();
-}
-
 void Warning_Script::Update()
 {
 	UpdateUIAnimation();

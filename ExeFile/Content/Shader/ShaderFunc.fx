@@ -20,10 +20,10 @@ void GetLight2DColor(int light2D_index, float3 world_position, inout float4 ligh
                 float dis = 0.0f;
                 //빛을 받는 정도의 비율
                 float light_ratio = 0.0f;
-    
+           
                 //광원과 빛을 받을 정점과의 거리   
                 dis = distance(g_light2D_array[light2D_index].position, world_position);
-           
+            
                 //빛을 받는 정도의 비율
                 //삼각함수(cos) 보간(람베르트의 코사인법칙, 조명의 세기는 0 ~ 1 사이의 값)
                 //광원과 빛을 받을 정점과의 거리를 광원의 범위로 나눈 후 (PI(3.14...)/2 = 90도) 값을 곱함

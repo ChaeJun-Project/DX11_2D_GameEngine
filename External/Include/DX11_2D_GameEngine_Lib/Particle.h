@@ -64,12 +64,6 @@ public:
 		m_p_particle_shared_buffer = p_particle_shared_buffer;
 	}
 
-	//Set Particle Structured Buffer
-	void SetParticleStructuredBuffer(const std::shared_ptr<StructuredBuffer>& p_particle_buffer)
-	{
-		m_p_particle_buffer = p_particle_buffer;
-	}
-
 	//Particle Texture
 	std::shared_ptr<Texture> GetParticleTexture() { SAFE_GET_POINTER(m_p_particle_texture); }
 	void SetParticleTexture(const std::shared_ptr<Texture>& p_particle_texture)
@@ -175,7 +169,7 @@ private:
 	//Particle Shared
 	std::shared_ptr<StructuredBuffer> m_p_particle_shared_buffer = nullptr;
 
-	std::shared_ptr<StructuredBuffer> m_p_particle_buffer = nullptr; //각각의 파티클 오브젝트에 대한 정보
+	std::unique_ptr<StructuredBuffer> m_p_particle_buffer = nullptr; //각각의 파티클 오브젝트에 대한 정보
 	
 	std::shared_ptr<Texture> m_p_particle_texture = nullptr;
 	

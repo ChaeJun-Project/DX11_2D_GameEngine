@@ -20,10 +20,10 @@
       <Filter>Manager\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="IShader.h">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\1. Vertex Shader</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders\Graphics\1. Vertex Shader</Filter>
     </ClInclude>
     <ClInclude Include="FileManager.h">
       <Filter>Manager\File</Filter>
@@ -47,10 +47,7 @@
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\5. Pixel Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexStruct.h">
-      <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders\Graphics\5. Pixel Shader</Filter>
     </ClInclude>
     <ClInclude Include="IResource.h">
       <Filter>Resource</Filter>
@@ -59,19 +56,19 @@
       <Filter>Manager\Time</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
-      <Filter>Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\IndexBuffer</Filter>
+      <Filter>Core\DX11 Resource\2. IA%28Input Assembler%29\IndexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="InputLayout.h">
-      <Filter>Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\InputLayout</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders\Graphics\1. Vertex Shader\InputLayout</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
-      <Filter>Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\VertexBuffer</Filter>
+      <Filter>Core\DX11 Resource\2. IA%28Input Assembler%29\VertexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
-      <Filter>Core\DX11_Graphics_Pipeline\ConstantBuffer</Filter>
+      <Filter>Core\DX11 Resource\1. Buffer\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="ConstantStruct.h">
-      <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
+      <Filter>Core\DX11 Resource\1. Buffer\Struct</Filter>
     </ClInclude>
     <ClInclude Include="IComponent.h">
       <Filter>Scene\Components</Filter>
@@ -87,9 +84,6 @@
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Manager\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="SamplerState.h">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Scene\Components\2. Camera</Filter>
@@ -116,16 +110,16 @@
       <Filter>Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="DepthStencilState.h">
-      <Filter>Core\DX11_Graphics_Pipeline\OM%28Output Merger%29</Filter>
+      <Filter>Core\DX11 Resource\5. OM%28Output Merger%29</Filter>
     </ClInclude>
     <ClInclude Include="BlendState.h">
-      <Filter>Core\DX11_Graphics_Pipeline\OM%28Output Merger%29</Filter>
+      <Filter>Core\DX11 Resource\5. OM%28Output Merger%29</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Manager\Event</Filter>
     </ClInclude>
     <ClInclude Include="RasterizerState.h">
-      <Filter>Core\DX11_Graphics_Pipeline\RS%28Rasterizer%29</Filter>
+      <Filter>Core\DX11 Resource\4. RS%28Rasterizer%29</Filter>
     </ClInclude>
     <ClInclude Include="Collider2D.h">
       <Filter>Scene\Components\6. Collider2D</Filter>
@@ -152,19 +146,19 @@
       <Filter>Math\SimpleMath</Filter>
     </ClInclude>
     <ClInclude Include="ComputeShader.h">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Compute\Compute Shader</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders\Compute\Compute Shader</Filter>
     </ClInclude>
     <ClInclude Include="StructuredBuffer.h">
-      <Filter>Core\DX11_Graphics_Pipeline\StructuredBuffer</Filter>
+      <Filter>Core\DX11 Resource\1. Buffer\StructuredBuffer</Filter>
     </ClInclude>
     <ClInclude Include="StructuredStruct.h">
-      <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
+      <Filter>Core\DX11 Resource\1. Buffer\Struct</Filter>
     </ClInclude>
     <ClInclude Include="ParticleRenderer.h">
       <Filter>Scene\Components\8. Particle Renderer</Filter>
     </ClInclude>
     <ClInclude Include="GeometryShader.h">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders\Graphics\4. Geometry Shader</Filter>
     </ClInclude>
     <ClInclude Include="Animator2D.h">
       <Filter>Scene\Components\4. Animator2D</Filter>
@@ -229,6 +223,12 @@
     <ClInclude Include="Particle.h">
       <Filter>Resource\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="VertexStruct.h">
+      <Filter>Core\DX11 Resource\2. IA%28Input Assembler%29\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="SamplerState.h">
+      <Filter>Core\DX11 Resource\3. Shaders\Sampler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -238,10 +238,10 @@
       <Filter>Manager\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="IShader.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders</Filter>
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\1. Vertex Shader</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders\Graphics\1. Vertex Shader</Filter>
     </ClCompile>
     <ClCompile Include="FileManager.cpp">
       <Filter>Manager\File</Filter>
@@ -265,22 +265,19 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="PixelShader.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\5. Pixel Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexStruct.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders\Graphics\5. Pixel Shader</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
       <Filter>Manager\Time</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\IndexBuffer</Filter>
+      <Filter>Core\DX11 Resource\2. IA%28Input Assembler%29\IndexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="InputLayout.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\InputLayout</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders\Graphics\1. Vertex Shader\InputLayout</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\ConstantBuffer</Filter>
+      <Filter>Core\DX11 Resource\1. Buffer\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Resource\Texture</Filter>
@@ -290,9 +287,6 @@
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Manager\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="SamplerState.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Scene\Components\2. Camera</Filter>
@@ -319,22 +313,22 @@
       <Filter>Scene\Components\3. Sprite Renderer</Filter>
     </ClCompile>
     <ClCompile Include="ConstantStruct.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
+      <Filter>Core\DX11 Resource\1. Buffer\Struct</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Resource\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="DepthStencilState.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\OM%28Output Merger%29</Filter>
+      <Filter>Core\DX11 Resource\5. OM%28Output Merger%29</Filter>
     </ClCompile>
     <ClCompile Include="BlendState.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\OM%28Output Merger%29</Filter>
+      <Filter>Core\DX11 Resource\5. OM%28Output Merger%29</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Manager\Event</Filter>
     </ClCompile>
     <ClCompile Include="RasterizerState.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\RS%28Rasterizer%29</Filter>
+      <Filter>Core\DX11 Resource\4. RS%28Rasterizer%29</Filter>
     </ClCompile>
     <ClCompile Include="Collider2D.cpp">
       <Filter>Scene\Components\6. Collider2D</Filter>
@@ -355,19 +349,16 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="ComputeShader.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Compute\Compute Shader</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders\Compute\Compute Shader</Filter>
     </ClCompile>
     <ClCompile Include="StructuredBuffer.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\StructuredBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="StructuredStruct.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\D3D11BufferStruct</Filter>
+      <Filter>Core\DX11 Resource\1. Buffer\StructuredBuffer</Filter>
     </ClCompile>
     <ClCompile Include="ParticleRenderer.cpp">
       <Filter>Scene\Components\8. Particle Renderer</Filter>
     </ClCompile>
     <ClCompile Include="GeometryShader.cpp">
-      <Filter>Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader</Filter>
+      <Filter>Core\DX11 Resource\3. Shaders\Graphics\4. Geometry Shader</Filter>
     </ClCompile>
     <ClCompile Include="Animator2D.cpp">
       <Filter>Scene\Components\4. Animator2D</Filter>
@@ -425,6 +416,12 @@
     </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Resource\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexStruct.cpp">
+      <Filter>Core\DX11 Resource\2. IA%28Input Assembler%29\Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="SamplerState.cpp">
+      <Filter>Core\DX11 Resource\3. Shaders\Sampler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -488,36 +485,6 @@
     <Filter Include="Resource\Material">
       <UniqueIdentifier>{164e4f82-07b4-4037-a4c1-ced9cff22988}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline">
-      <UniqueIdentifier>{76594865-25b3-4a19-b6e2-73303cff7e14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29">
-      <UniqueIdentifier>{1fc8edc0-65ba-47a2-8dbe-c1896f9395d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\IndexBuffer">
-      <UniqueIdentifier>{f07021e9-740c-4f40-9813-ac8f3df8212d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\InputLayout">
-      <UniqueIdentifier>{dfb67a5f-2ac6-4ff8-9304-74fdf001970e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\IA%28Input Assembler%29\VertexBuffer">
-      <UniqueIdentifier>{fa61f8dd-df8a-4432-ad48-0030c9ee62e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\OM%28Output Merger%29">
-      <UniqueIdentifier>{48feea5b-daf6-43c1-ae45-e3d06dced7ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\RS%28Rasterizer%29">
-      <UniqueIdentifier>{5cec68bc-0889-4cb9-81c6-7d41d430a3db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders">
-      <UniqueIdentifier>{06e3b01d-6604-47cb-bbc9-13592898939b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\ConstantBuffer">
-      <UniqueIdentifier>{dace081f-04e0-48d0-b937-981aea3f8650}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\D3D11BufferStruct">
-      <UniqueIdentifier>{fc650ec0-27f3-4df1-ace3-14e3668f66de}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Manager\Event">
       <UniqueIdentifier>{012aebee-9273-4255-baa7-194d2932c15c}</UniqueIdentifier>
     </Filter>
@@ -572,35 +539,8 @@
     <Filter Include="Scene\Components\7. Light2D">
       <UniqueIdentifier>{770b0f97-b957-4c96-99c2-3917a381147d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\StructuredBuffer">
-      <UniqueIdentifier>{f87f1054-5c4d-400a-a634-c90e18d639f9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ShaderFiles\Shader\Compute">
       <UniqueIdentifier>{4d303201-7b81-4aaa-9cf2-fbe82126c340}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics">
-      <UniqueIdentifier>{5b137a67-6267-4e25-a16b-8d0bc48bf945}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Compute">
-      <UniqueIdentifier>{6ede576f-de4c-4160-89ea-e2a61fe6df60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics\1. Vertex Shader">
-      <UniqueIdentifier>{3776ec5c-d549-4832-a4a2-963566202d88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics\2. Hull Shader">
-      <UniqueIdentifier>{d3f98068-ca7f-4193-9d6f-b22c91222325}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics\3. Domain Shader">
-      <UniqueIdentifier>{98c06dad-662a-400a-b0b8-9515cdb354ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics\4. Geometry Shader">
-      <UniqueIdentifier>{e918a36f-63c6-4b10-904c-50d0a2e94e67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Graphics\5. Pixel Shader">
-      <UniqueIdentifier>{ea5dfcf6-6845-42bd-8c87-ed17208850fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\DX11_Graphics_Pipeline\Shaders\Compute\Compute Shader">
-      <UniqueIdentifier>{601a225d-b77c-4cb1-ba7e-ddf0efa8bc7e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scene\Components\3. Sprite Renderer">
       <UniqueIdentifier>{964d467a-c2ac-4b30-bade-9303fcfa8d86}</UniqueIdentifier>
@@ -638,9 +578,6 @@
     <Filter Include="Resource\TileMap">
       <UniqueIdentifier>{276321ba-4876-4ade-80d5-8414a5373202}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Thread">
-      <UniqueIdentifier>{35a1ea19-6375-4b30-bb15-f23977a245a9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource\SpriteAnimation">
       <UniqueIdentifier>{53a4b151-9b6e-4737-83e4-6bb384577495}</UniqueIdentifier>
     </Filter>
@@ -673,6 +610,75 @@
     </Filter>
     <Filter Include="Resource\Particle">
       <UniqueIdentifier>{bf1fea25-23b9-40ba-a38e-b7f5c6645445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource">
+      <UniqueIdentifier>{76594865-25b3-4a19-b6e2-73303cff7e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\1. Buffer">
+      <UniqueIdentifier>{a6dd2dd7-f0a3-4f16-8219-3ac2f3f4fb60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\1. Buffer\ConstantBuffer">
+      <UniqueIdentifier>{dace081f-04e0-48d0-b937-981aea3f8650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\1. Buffer\StructuredBuffer">
+      <UniqueIdentifier>{f87f1054-5c4d-400a-a634-c90e18d639f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\1. Buffer\Struct">
+      <UniqueIdentifier>{fc650ec0-27f3-4df1-ace3-14e3668f66de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\2. IA%28Input Assembler%29">
+      <UniqueIdentifier>{1fc8edc0-65ba-47a2-8dbe-c1896f9395d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\2. IA%28Input Assembler%29\IndexBuffer">
+      <UniqueIdentifier>{f07021e9-740c-4f40-9813-ac8f3df8212d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\2. IA%28Input Assembler%29\VertexBuffer">
+      <UniqueIdentifier>{fa61f8dd-df8a-4432-ad48-0030c9ee62e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\4. RS%28Rasterizer%29">
+      <UniqueIdentifier>{5cec68bc-0889-4cb9-81c6-7d41d430a3db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\5. OM%28Output Merger%29">
+      <UniqueIdentifier>{48feea5b-daf6-43c1-ae45-e3d06dced7ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\2. IA%28Input Assembler%29\Struct">
+      <UniqueIdentifier>{b0d288b6-4bef-448c-b01a-2d911d27317d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\3. Shaders">
+      <UniqueIdentifier>{06e3b01d-6604-47cb-bbc9-13592898939b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\3. Shaders\Graphics">
+      <UniqueIdentifier>{5b137a67-6267-4e25-a16b-8d0bc48bf945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\3. Shaders\Graphics\1. Vertex Shader">
+      <UniqueIdentifier>{3776ec5c-d549-4832-a4a2-963566202d88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\3. Shaders\Graphics\1. Vertex Shader\InputLayout">
+      <UniqueIdentifier>{dfb67a5f-2ac6-4ff8-9304-74fdf001970e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\3. Shaders\Graphics\2. Hull Shader">
+      <UniqueIdentifier>{d3f98068-ca7f-4193-9d6f-b22c91222325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\3. Shaders\Graphics\3. Domain Shader">
+      <UniqueIdentifier>{98c06dad-662a-400a-b0b8-9515cdb354ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\3. Shaders\Graphics\4. Geometry Shader">
+      <UniqueIdentifier>{e918a36f-63c6-4b10-904c-50d0a2e94e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\3. Shaders\Graphics\5. Pixel Shader">
+      <UniqueIdentifier>{ea5dfcf6-6845-42bd-8c87-ed17208850fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\3. Shaders\Compute">
+      <UniqueIdentifier>{6ede576f-de4c-4160-89ea-e2a61fe6df60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\3. Shaders\Compute\Compute Shader">
+      <UniqueIdentifier>{601a225d-b77c-4cb1-ba7e-ddf0efa8bc7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\DX11 Resource\3. Shaders\Sampler">
+      <UniqueIdentifier>{9d438ec8-d691-4408-89e0-471a706594e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Thread">
+      <UniqueIdentifier>{be04d75b-4dbd-4b0f-bd8c-81d14e02025c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -99,9 +99,9 @@ void FileFunction::SaveScene(const std::string& scene_path)
 	auto scene_name = FILE_MANAGER->GetOriginFileNameFromPath(scene_path);
 
 	if (ClientSceneManager::SaveScene(scene_path))
-		EDITOR_LOG_INFO_F("Scene 파일 저장에 성공했습니다: [%s]", scene_name.c_str())
+		LOG_INFO_F("Scene 파일 저장에 성공했습니다: [%s]", scene_name.c_str())
 	else
-		EDITOR_LOG_ERROR_F("Scene 파일 저장에 실패했습니다: [%s]", scene_name.c_str())
+		LOG_ERROR_F("Scene 파일 저장에 실패했습니다: [%s]", scene_name.c_str())
 }
 
 const std::string FileFunction::LoadFile(const std::string& load_resource_folder_path, const FileType& file_type)
@@ -163,9 +163,9 @@ void FileFunction::LoadScene(const std::string& scene_path)
 	auto next_scene = ClientSceneManager::LoadScene(scene_path);
 
 	if (next_scene != nullptr)
-		EDITOR_LOG_INFO_F("Scene 파일 로드에 성공했습니다: [%s]", scene_name.c_str())
+		LOG_INFO_F("Scene 파일 로드에 성공했습니다: [%s]", scene_name.c_str())
 	else
-		EDITOR_LOG_ERROR_F("Scene 파일 로드에 실패했습니다: [%s]", scene_name.c_str())
+		LOG_ERROR_F("Scene 파일 로드에 실패했습니다: [%s]", scene_name.c_str())
 
 	//Change Scene
 	EventStruct event_struct;

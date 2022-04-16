@@ -21,7 +21,6 @@ void RasterizerState::Create(const D3D11_CULL_MODE& cull_mode, const D3D11_FILL_
     desc.FrontCounterClockwise = is_front_counter_clockwise;
 
     //Rasterizer State »ý¼º
-    auto device = GRAPHICS_MANAGER->GetDevice();
-    auto hResult = device->CreateRasterizerState(&desc, m_p_rasterizer_state.GetAddressOf());
+    auto hResult = DEVICE->CreateRasterizerState(&desc, m_p_rasterizer_state.GetAddressOf());
     assert(SUCCEEDED(hResult));
 }

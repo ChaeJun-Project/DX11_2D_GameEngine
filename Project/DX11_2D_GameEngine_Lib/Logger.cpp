@@ -14,6 +14,8 @@ Logger::~Logger()
 {
 	m_log_vector.clear();
 	m_log_vector.shrink_to_fit();
+
+	m_p_log_func = nullptr;
 }
 
 void Logger::SetCallBack(const Log_CallBack& log_func)
@@ -29,7 +31,9 @@ void Logger::ExcuteCallBack(const LogType& type, const std::string& text)
 	log.text = text;
 
 	m_log_vector.emplace_back(log);
-	m_p_log_func(log);
+
+	if (m_p_log_func != nullptr)
+		m_p_log_func(log);
 }
 
 void Logger::SaveToFile()

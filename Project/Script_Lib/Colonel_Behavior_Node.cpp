@@ -49,6 +49,8 @@ const bool DieNode::Update()
 		m_p_colonel_script->m_current_state = ColonelState::Die;
 		m_p_colonel_script->m_is_dead = true;
 		m_p_colonel_script->m_is_ready = false;
+
+		LOG_INFO_F("보스의 체력이 0이 되었습니다.");
 		return true;
 	}
 
@@ -118,6 +120,8 @@ const bool AttackNode::Update()
 		auto random_index = CreateRandomIndex();
 		m_p_colonel_script->SetCurrentAnimation(m_attack_vector[random_index]);
 		m_p_colonel_script->m_current_state = ColonelState::Attack;
+
+		LOG_INFO_F("보스가 '%s' 공격을 시전합니다.", m_attack_vector[random_index].c_str());
 		return true;
 	}
 
@@ -201,6 +205,8 @@ void StealthNode::Tick()
 
 			m_p_colonel_script->SetCurrentAnimation(m_stealth_vector[1]);
 			m_is_stealth_end = false;
+
+			LOG_INFO_F("보스가 스텔스 스킬을 종료하여 나타났습니다.");
 		}
 	}
 }
@@ -217,6 +223,8 @@ const bool StealthNode::Update()
 
 		m_p_colonel_script->SetCurrentAnimation(m_stealth_vector[0]);
 		m_p_colonel_script->m_current_state = ColonelState::Stealth;
+
+		LOG_INFO_F("보스가 스텔스 스킬을 사용하여 사라졌습니다.");
 
 		return true;
 	}
@@ -293,6 +301,8 @@ void GuardNode::Tick()
 
 		if (m_is_guard_end)
 		{
+			LOG_INFO_F("보스가 공격 막기를 종료합니다.");
+
 			m_p_colonel_script->SetCurrentAnimation("Colonel_Idle", true);
 			m_p_colonel_script->m_current_state = ColonelState::Idle;
 			m_p_colonel_script->m_pre_state = m_p_colonel_script->m_current_state;
@@ -316,6 +326,8 @@ const bool GuardNode::Update()
 
 		m_p_colonel_script->SetCurrentAnimation("Colonel_Guard", true);
 		m_p_colonel_script->m_current_state = ColonelState::Guard;
+
+		LOG_INFO_F("보스가 공격 막기를 사용합니다.");
 
 		return true;
 	}

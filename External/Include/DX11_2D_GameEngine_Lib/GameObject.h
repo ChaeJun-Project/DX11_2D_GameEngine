@@ -1,7 +1,5 @@
 #pragma once
 
-#include "stdafx.h"
-
 class IComponent;
 class RectTransform;
 class Script;
@@ -15,9 +13,10 @@ public:
 
 	void Awake();
 	void OnEnable();
-	void OnDisable();
 	void Start();
 	void Update();
+	void OnDisable();
+
 	void FinalUpdate();
 
 	void Render();
@@ -61,6 +60,11 @@ public:
 	const bool& GetIsActive() { return m_is_active; }
 	void SetIsActive(const bool& is_active);
 
+	void SetIsChangeActive(const bool& is_change_active) { m_is_change_active = is_change_active; }
+
+	void SetIsFirstAwake(const bool& is_first_awake) { m_is_first_awake = is_first_awake; }
+	void SetIsFirstStart(const bool& is_first_start) { m_is_first_start = is_first_start; }
+		
 	//Dead Check
 	const bool IsDead() { return m_dead_check; }
 
@@ -111,6 +115,12 @@ public:
 protected:
 	//GameObject Active Check
 	bool m_is_active = true;
+	//GameObject Change Active Check
+	bool m_is_change_active = true;
+	//GameObject First Awake Check
+	bool m_is_first_awake = false;
+	//GameObject First Start Check
+	bool m_is_first_start = false;
 	//GameObject Dead Check
 	bool m_dead_check = false;
 	//GameObject Tag
@@ -134,6 +144,23 @@ protected:
 	friend class EventManager;
 };
 
+#include "IComponent.h"
+#include "Transform.h"
+#include "Camera.h"
+#include "SpriteRenderer.h"
+#include "Animator2D.h"
+#include "Animator.h"
+#include "Collider2D.h"
+#include "Light2D.h"
+#include "ParticleRenderer.h"
+#include "TileMapRenderer.h"
+#include "RigidBody2D.h"
+#include "AudioListener.h"
+#include "AudioSource.h"
+#include "Canvas.h"
+#include "RectTransform.h"
+#include "ImageRenderer.h"
+#include "Script.h"
 template<typename T>
 T* GameObject::GetComponent()
 {

@@ -14,7 +14,7 @@ Particle::Particle(const std::string& particle_resource_name)
 	ZeroMemory(&m_particle_property_data, sizeof(CBuffer_Material));
 
 	//Create Particle Structured Buffer
-	m_p_particle_buffer = std::make_shared<StructuredBuffer>();
+	m_p_particle_buffer = std::make_unique<StructuredBuffer>();
 }
 
 Particle::Particle(const Particle& origin)
@@ -25,7 +25,7 @@ Particle::Particle(const Particle& origin)
 
 	m_p_compute_shader = origin.m_p_compute_shader;
 
-	m_p_particle_buffer = std::make_shared<StructuredBuffer>();
+	m_p_particle_buffer = std::make_unique<StructuredBuffer>();
 
 	m_p_particle_texture = origin.m_p_particle_texture;
 
@@ -94,7 +94,7 @@ void Particle::Dispatch()
 
 void Particle::CreateParticleBuffer()
 {
-	m_p_particle_buffer->Create(sizeof(ParticleInfo), m_particle_property.max_count, SBufferType::Read_Write, false);
+	m_p_particle_buffer->Create<ParticleInfo>(m_particle_property.max_count, SBufferType::Read_Write, false);
 }
 
 void Particle::SetComputeShader(const std::shared_ptr<ComputeShader>& p_compute_shader)

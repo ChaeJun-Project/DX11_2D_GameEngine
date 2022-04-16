@@ -19,18 +19,24 @@ Layer::~Layer()
 	m_p_game_object_vector.shrink_to_fit();
 }
 
-void Layer::Awake()
+void Layer::Initialize()
 {
-	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
-		p_parent_game_object->Awake();
-}
-
-void Layer::Start()
-{
-	for (const auto& p_parent_game_object : m_p_parent_game_object_vector)
+	for (const auto& p_game_object : m_p_game_object_vector)
 	{
-		if (p_parent_game_object->m_is_active)
-			p_parent_game_object->Start();
+		if (p_game_object->m_is_active)
+			p_game_object->Awake();
+	}
+
+	for (const auto& p_game_object : m_p_game_object_vector)
+	{
+		if (p_game_object->m_is_active && p_game_object->m_is_change_active)
+			p_game_object->OnEnable();
+	}
+
+	for (const auto& p_game_object : m_p_game_object_vector)
+	{
+		if (p_game_object->m_is_active)
+			p_game_object->Start();
 	}
 }
 
@@ -49,6 +55,15 @@ void Layer::FinalUpdate()
 	{
 		if (p_parent_game_object->m_is_active)
 			p_parent_game_object->FinalUpdate();
+	}
+}
+
+void Layer::OnDisable()
+{
+	for (const auto& p_game_object : m_p_game_object_vector)
+	{
+		if (!p_game_object->m_is_active && p_game_object->m_is_change_active)
+			p_game_object->OnDisable();
 	}
 }
 

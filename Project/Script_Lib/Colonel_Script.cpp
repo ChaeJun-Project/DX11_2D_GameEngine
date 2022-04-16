@@ -148,7 +148,10 @@ void Colonel_Script::Update()
 			m_p_collider2D->SetIsActive(false);
 
 		if (!m_p_explosions_game_object->GetIsActive())
+		{ 
 			m_p_explosions_game_object->SetIsActive(true);
+			LOG_INFO_F("보스의 체력이 0이 되어 폭발합니다.");
+		}
 
 		m_dead_event_call_wait -= DELTA_TIME_F;
 		if (m_dead_event_call_wait <= 0.0f)

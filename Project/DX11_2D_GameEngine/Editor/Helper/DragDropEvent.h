@@ -17,10 +17,11 @@ enum class PayLoadType : UINT
 	Particle = 11,
 };
 
+//드래그된 아이템의 데이터
 struct PayLoad final
 {
 	PayLoadType type;
-	std::variant<DWORD_PTR, std::string> data;
+	std::variant<DWORD_PTR, std::string> data; //오브젝트의 주소 또는 리소스 경로를 데이터로 가질 수 있음
 };
 
 class DragDropEvent final

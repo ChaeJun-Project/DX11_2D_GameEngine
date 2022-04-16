@@ -41,6 +41,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		FileFunction::LoadPhysics((FILE_MANAGER->GetAbsoluteContentPath() + "Engine/Physics.txt"));
 		FileFunction::LoadGameResolution((FILE_MANAGER->GetAbsoluteContentPath() + "Engine/Resolution.txt"));
 
+		//Set Logger
+		auto p_console_logger = std::make_shared<Logger>("Play_Log.txt");
+		LOG_MANAGER->SetLogger(p_console_logger);
+
 		//Game Title
 		auto game_title_scene = SCENE_MANAGER->LoadScene((FILE_MANAGER->GetAbsoluteContentPath() + "Asset/Scene/Game Title.scene"));
 		SCENE_MANAGER->SetCurrentScene(game_title_scene);

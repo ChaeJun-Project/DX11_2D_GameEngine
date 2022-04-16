@@ -10,10 +10,14 @@ public:
 
    void SetStartScene();
 
+public:
+   void Initialize();
    void Awake();
+   void OnEnable();
    void Start();
    void Update();
    void FinalUpdate();
+   void OnDisable();
  
 public:
    void RegisterGameObject(GameObject* p_game_object);

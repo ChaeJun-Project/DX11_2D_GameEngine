@@ -16,7 +16,7 @@ ParticleRenderer::ParticleRenderer()
 	:IComponent(ComponentType::ParticleRenderer)
 {
 	m_p_particle_shared_buffer = std::make_shared<StructuredBuffer>();
-	m_p_particle_shared_buffer->Create(sizeof(ParticleShared), 1, SBufferType::Read_Write, true);
+	m_p_particle_shared_buffer->Create<ParticleShared>(1, SBufferType::Read_Write, true);
 
 	m_p_mesh = RESOURCE_MANAGER->GetResource<Mesh>("Point_Mesh");
 	auto clone_material = RESOURCE_MANAGER->GetResource<Material>("Default_Material")->Clone();
@@ -26,7 +26,16 @@ ParticleRenderer::ParticleRenderer()
 ParticleRenderer::ParticleRenderer(const ParticleRenderer& origin)
 	: IComponent(origin.m_component_type)
 {
-   //TODO
+	m_is_active = origin.m_is_active;
+
+	auto p_clone_particle_raw = origin.m_p_current_particle->Clone();
+	m_p_current_particle = std::shared_ptr<Particle>(p_clone_particle_raw);
+
+	//Material
+	auto p_clone_material_raw = origin.m_p_material->Clone();
+	m_p_material = std::shared_ptr<Material>(p_clone_material_raw);
+	//Mesh
+	m_p_mesh = origin.m_p_mesh;
 }
 
 ParticleRenderer::~ParticleRenderer()
@@ -374,8 +383,7 @@ void ParticleRenderer::LoadFromScene(FILE* p_file)
 	//Particle
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	RESOURCE_MANAGER->LoadResource<Particle>(m_p_current_particle, p_file);
-	//SetCurrentParticle(m_p_current_particle);
-
+	
 	//Material
 	FILE_MANAGER->FScanf(char_buffer, p_file);
 	RESOURCE_MANAGER->LoadResource<Material>(m_p_material, p_file);

@@ -12,12 +12,6 @@
 
 #include "Texture.h"
 
-GraphicsManager::GraphicsManager()
-{
-	//뷰 포트 구조체 0으로 초기화
-	ZeroMemory(&m_viewport, sizeof(D3D11_VIEWPORT));
-}
-
 GraphicsManager::~GraphicsManager()
 {
 	//전체모드인 경우
@@ -27,8 +21,8 @@ GraphicsManager::~GraphicsManager()
 		m_p_swap_chain->SetFullscreenState(false, nullptr);
 	}
 
-	m_p_render_target_view.reset();
-	m_p_depth_stencil_view.reset();
+	m_p_render_target_texture.reset();
+	m_p_render_target_texture.reset();
 
 	//Constant Buffer Map 초기화
 	for (auto& constant_buffer : m_p_constant_buffer_map)
@@ -100,13 +94,13 @@ void GraphicsManager::ResizeWindowByProgram(const UINT& width, const UINT& heigh
 
 void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 {
-	if (m_p_render_target_view && m_p_depth_stencil_view)
+	if (m_p_render_target_texture && m_p_render_target_texture)
 	{
-		m_p_render_target_view->ReleaseTexture();
-		m_p_render_target_view->ReleaseRenderTargetView();
+		m_p_render_target_texture->ReleaseTexture();
+		m_p_render_target_texture->ReleaseRenderTargetView();
 
-		m_p_depth_stencil_view->ReleaseTexture();
-		m_p_depth_stencil_view->ReleaseDepthStencilView();
+		m_p_render_target_texture->ReleaseTexture();
+		m_p_render_target_texture->ReleaseDepthStencilView();
 	}
 
 	if (m_p_swap_chain != nullptr)
@@ -125,14 +119,8 @@ void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 	//RenderTarget 관련 자원 생성
 	CreateRenderTargetView();
 
-	//Post Effect Target Texture 생성
-	//RENDER_MANAGER->ResizePostEffectTexture();
-
 	//DepthStencil 관련 자원 생성
 	CreateDepthStencilView();
-
-	//Viewport 재설정
-	SetViewport(width, height);
 }
 
 void GraphicsManager::SetFullScreen(const bool& is_full_screen)
@@ -141,26 +129,10 @@ void GraphicsManager::SetFullScreen(const bool& is_full_screen)
 		m_p_swap_chain->SetFullscreenState(is_full_screen, nullptr);
 }
 
-void GraphicsManager::SetViewport(const UINT& width, const UINT& height)
-{
-	//뷰포트의 시작점 설정
-	m_viewport.TopLeftX = 0.0f;
-	m_viewport.TopLeftY = 0.0f;
-
-	//뷰포트의 크기 설정
-	m_viewport.Width = static_cast<float>(width);
-	m_viewport.Height = static_cast<float>(height);
-
-	//뷰포트의 최대, 최소 깊이값 설정
-	m_viewport.MinDepth = 0.0f;
-	m_viewport.MaxDepth = 1.0f;
-}
-
-
 void GraphicsManager::ClearRenderTarget()
 {
-	auto p_render_target_view = m_p_render_target_view->GetRenderTargetView();
-	auto p_depth_stencil_view = m_p_depth_stencil_view->GetDepthStencilView();
+	auto p_render_target_view = m_p_render_target_texture->GetRenderTargetView();
+	auto p_depth_stencil_view = m_p_render_target_texture->GetDepthStencilView();
 
 	if (m_p_device_context && p_render_target_view && p_depth_stencil_view)
 	{
@@ -173,15 +145,16 @@ void GraphicsManager::ClearRenderTarget()
 
 void GraphicsManager::SetRenderTarget()
 {
-	auto p_render_target_view = m_p_render_target_view->GetRenderTargetView();
-	auto p_depth_stencil_view = m_p_depth_stencil_view->GetDepthStencilView();
+	auto p_render_target_view = m_p_render_target_texture->GetRenderTargetView();
+	const auto& view_port = m_p_render_target_texture->GetViewPort();
+	auto p_depth_stencil_view = m_p_render_target_texture->GetDepthStencilView();
 
 	if (m_p_device_context && p_render_target_view && p_depth_stencil_view)
 	{
 		//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
 		m_p_device_context->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
 		//설정한 뷰포트 등록
-		m_p_device_context->RSSetViewports(1, &m_viewport);
+		m_p_device_context->RSSetViewports(1, &view_port);
 	}
 }
 
@@ -332,10 +305,10 @@ void GraphicsManager::CreateRenderTargetView()
 			"CreateRenderTargetView!!!!!!!!!!!!!!!!!!!!"
 		);
 
-		if (m_p_render_target_view == nullptr)
+		if (m_p_render_target_texture == nullptr)
 		{
 			//백 버퍼를 바탕으로 렌더타겟 뷰를 생성
-			m_p_render_target_view = ResourceManager::GetInstance()->CreateTexture
+			m_p_render_target_texture = ResourceManager::GetInstance()->CreateTexture
 			(
 				"RenderTargetView",
 				p_back_buffer
@@ -343,7 +316,7 @@ void GraphicsManager::CreateRenderTargetView()
 		}
 
 		else
-			m_p_render_target_view->Create(p_back_buffer);
+			m_p_render_target_texture->Create(p_back_buffer);
 	}
 }
 
@@ -351,9 +324,9 @@ void GraphicsManager::CreateDepthStencilView()
 {
 	if (m_p_device != nullptr)
 	{
-		if (m_p_depth_stencil_view == nullptr)
+		if (m_p_render_target_texture == nullptr)
 		{
-			m_p_depth_stencil_view = ResourceManager::GetInstance()->CreateTexture
+			m_p_render_target_texture = ResourceManager::GetInstance()->CreateTexture
 			(
 				"DepthStencilView",
 				SETTINGS->GetWindowWidth(),
@@ -364,7 +337,7 @@ void GraphicsManager::CreateDepthStencilView()
 		}
 
 		else
-			m_p_depth_stencil_view->Create
+			m_p_render_target_texture->Create
 			(
 				SETTINGS->GetWindowWidth(),
 				SETTINGS->GetWindowHeight(),

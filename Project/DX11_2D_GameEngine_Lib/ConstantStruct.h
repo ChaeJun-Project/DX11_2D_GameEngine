@@ -19,6 +19,10 @@ struct CBuffer_WVPMatrix
 	Matrix view;		//뷰 행렬
 	Matrix projection;  //투영 행렬
 
+	Matrix world_inverse;		//월드 역행렬
+	Matrix view_inverse;		//뷰 역행렬
+	Matrix projection_inverse;  //투영 역행렬
+
 	Matrix identity;  //항등 행렬
 };
 

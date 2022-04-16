@@ -42,6 +42,7 @@ void RectTransform::operator=(const Transform& transform)
 void RectTransform::UpdateConstantBuffer()
 {
 	g_cbuffer_wvpmatrix.world = m_world_matrix;
+	g_cbuffer_wvpmatrix.world_inverse = m_world_matrix.Inverse();
 
 	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);
 	constant_buffer->SetConstantBufferData(&g_cbuffer_wvpmatrix, sizeof(CBuffer_WVPMatrix));

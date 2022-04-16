@@ -77,13 +77,12 @@ float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
     //타일의 행, 열 개수를 곱하여 uv 좌표값을 확장
     float2 expand_uv = ps_input.uv * float2(TILE_COUNT_X, TILE_COUNT_Y);
     //floor(float): float보다 같거나 작은 정수 반환
-    //buffet_index.x: 타일에서 행에 해당하는 인덱스(0부터 시작)
-    //buffet_index.y: 타일에서 열에 해당하는 인덱스(0부터 시작)
-    int2 buffet_index = floor(expand_uv);
+    //buffer_index.x: 타일에서 행에 해당하는 인덱스(0부터 시작)
+    //buffer_index.y: 타일에서 열에 해당하는 인덱스(0부터 시작)
+    int2 buffer_index = floor(expand_uv);
     
     //uv값과 을 통해 현재 타일의 인덱스를 구함
-    int current_tile_index = (TILE_COUNT_X * buffet_index.y + buffet_index.x);
-    
+    int current_tile_index = (TILE_COUNT_X * buffer_index.y + buffer_index.x); 
  
     //현재 타일의 출력 정보
     int tile_atlas_texture_index = g_tile_buffer[current_tile_index].tile_atlas_texture_index;
@@ -196,6 +195,14 @@ float4 PS(VertexColorTextureLightOutputType ps_input) : SV_Target
             }
             break;
     }
+    
+    //Light
+    float4 light_color = (float4) 0.0f;
+    
+    for (uint i = 0; i < g_light2D_count; ++i)
+        GetLight2DColor(i, ps_input.world_position, light_color);
+
+    ps_output_color.rgb *= light_color.rgb;
     
     return ps_output_color;
 }

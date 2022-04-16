@@ -17,6 +17,8 @@
 //Script
 #include <Script_Lib/ScriptManager.h>
 
+std::string ClientSceneManager::m_recent_scene_name;
+
 void ClientSceneManager::Initialize()
 {
 	SCENE_MANAGER->SetGetScriptFunc(

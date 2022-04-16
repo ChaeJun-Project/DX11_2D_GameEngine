@@ -20,8 +20,7 @@ void GeometryShader::Create(const std::string& path, const std::string& function
 
     //Geometry Shader Compile 성공한 경우
     //ID3DBlob의 데이터 값을 바탕으로 Geometry Shader 생성
-    auto device = GRAPHICS_MANAGER->GetDevice();
-    auto hResult = device->CreateGeometryShader
+    auto hResult = DEVICE->CreateGeometryShader
     (
         m_p_blob->GetBufferPointer(),
         m_p_blob->GetBufferSize(),

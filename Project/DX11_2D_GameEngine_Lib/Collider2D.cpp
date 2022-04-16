@@ -28,7 +28,7 @@ Collider2D::Collider2D(const Collider2D& origin)
 	m_offset_position = origin.m_offset_position;
 	m_offset_scale = origin.m_offset_scale; //유니티에서는 Size
 
-	m_collider_world_matrix = origin.m_collider_world_matrix;
+	m_collider2D_world_matrix = origin.m_collider2D_world_matrix;
 
 	m_collision_count = origin.m_collision_count;
 
@@ -61,7 +61,7 @@ void Collider2D::Render()
 
 void Collider2D::UpdateConstantBuffer()
 {
-	g_cbuffer_wvpmatrix.world = m_collider_world_matrix;
+	g_cbuffer_wvpmatrix.world = m_collider2D_world_matrix;
 
 	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);
 	constant_buffer->SetConstantBufferData(&g_cbuffer_wvpmatrix, sizeof(CBuffer_WVPMatrix));
@@ -82,7 +82,7 @@ void Collider2D::UpdateColliderWorldMatrix()
 	auto scale_matrix = Matrix::Scaling(Vector3(m_offset_scale.x, m_offset_scale.y, 1.0f) * ratio_scale);
 	auto translation_matrix = Matrix::Translation(Vector3(m_offset_position.x, m_offset_position.y, 0.0f) * ratio_scale);
 
-	m_collider_world_matrix = scale_matrix * translation_matrix * world_matrix;
+	m_collider2D_world_matrix = scale_matrix * translation_matrix * world_matrix;
 }
 
 void Collider2D::ChangeColliderBoxColorGreen()

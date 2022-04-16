@@ -99,6 +99,28 @@ private:
 	std::map<std::string, std::shared_ptr<ComputeShader>> m_p_compute_shader_map;
 };
 
+//Mesh
+#include "Mesh.h"
+//Material
+#include "Material.h"
+//Shader
+#include "VertexShader.h"
+#include "GeometryShader.h"
+#include "PixelShader.h"
+#include "ComputeShader.h"
+#include "Shader.h"
+//Texture
+#include "Texture.h"
+//AudioClip
+#include "AudioClip.h"
+//Prefab
+#include "Prefab.h"
+//SpriteAnimation
+#include "SpriteAnimation.h"
+//Particle
+#include "Particle.h"
+//TileMap
+#include "TileMap.h"
 template<typename T>
 const std::shared_ptr<T> ResourceManager::GetResource(const std::string& resource_name)
 {
@@ -180,11 +202,11 @@ void ResourceManager::SaveToFile(const std::shared_ptr<T>& p_resource, const std
 	//SaveToFile
 	if (!p_resource->SaveToFile(absolute_resource_path))
 	{
-		EDITOR_LOG_ERROR_F("리소스 파일 저장에 실패했습니다: [%s]", file_name.c_str());
+		LOG_ERROR_F("리소스 파일 저장에 실패했습니다: [%s]", file_name.c_str());
 		return;
 	}
 
-	EDITOR_LOG_INFO_F("리소스 파일 저장에 성공했습니다: [%s]", file_name.c_str());
+	LOG_INFO_F("리소스 파일 저장에 성공했습니다: [%s]", file_name.c_str());
 }
 
 template<typename T>
@@ -212,7 +234,7 @@ void ResourceManager::LoadResource(std::shared_ptr<T>& p_resource, FILE* p_file)
 	if (resource_path._Equal("None"))
 		return;
 
-	if (std::is_same<T, Material>::value || std::is_same<T, SpriteAnimation>::value)
+	if (std::is_same<T, Material>::value || std::is_same<T, SpriteAnimation>::value || std::is_same<T, Particle>::value)
 	{
 		auto clone_resource = LoadFromFile<T>(resource_path)->Clone();
 		p_resource = std::shared_ptr<T>(clone_resource);
@@ -262,11 +284,11 @@ const std::shared_ptr<T> ResourceManager::LoadFromFile(const std::string& resour
 	//LoadFromFile
 	if (!p_resource->LoadFromFile(absolute_resource_path))
 	{
-		EDITOR_LOG_ERROR_F("리소스 파일 로드에 실패했습니다: [%s]", file_name.c_str());
+		LOG_ERROR_F("리소스 파일 로드에 실패했습니다: [%s]", file_name.c_str());
 		return nullptr;
 	}
 
-	EDITOR_LOG_INFO_F("리소스 파일 로드에 성공했습니다: [%s] ", file_name.c_str());
+	LOG_INFO_F("리소스 파일 로드에 성공했습니다: [%s] ", file_name.c_str());
 
 	//해당 리소스 Map에 새로 생성한 리소스 추가
 	auto resource_pair_iter = resource_map.insert(std::make_pair(resource_name, p_resource));

@@ -43,6 +43,8 @@ void Loading_Script::LoadScene()
 	EVENT_MANAGER->AddEvent(event_struct);
 
 	std::cout << "Scene Load Thread End" << std::endl;
+
+	LOG_INFO_F("'%s' Scene이 성공적으로 로드되었습니다.", next_scene->GetSceneName().c_str());
 }
 
 void Loading_Script::SaveToScene(FILE* p_file)

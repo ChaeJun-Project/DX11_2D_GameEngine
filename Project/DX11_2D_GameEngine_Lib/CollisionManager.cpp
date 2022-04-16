@@ -150,6 +150,7 @@ void CollisionManager::CollisionLayerUpdate(const UINT& left_layer, const UINT& 
 
 const bool CollisionManager::IsCollision(Collider2D* p_left_collider2D, Collider2D* p_right_collider2D)
 {
+	//기본이 되는 정점 좌표값을 가지는 배열
 	static Vector3 local_pos_array[4]
 	{
 		Vector3(-0.5f, 0.5f, 0.0f),
@@ -158,44 +159,56 @@ const bool CollisionManager::IsCollision(Collider2D* p_left_collider2D, Collider
 		Vector3(-0.5f, -0.5f, 0.0f),
 	};
 
+	//각 정점을 Collider2D의 기본 사이즈(100.0f, 100.0f, 1.0f)을 곱하여 100x100 사이즈로 확대
 	for (UINT i = 0; i < 4; ++i)
 	{
 		local_pos_array[i] * p_left_collider2D->GetDefaultSize();
 	}
 
+	//충돌 검사를 할 두 GameObject의 Collider2D Box의 World Matrix
 	const auto& left_collider_world = p_left_collider2D->GetColliderWorldMatrix();
 	const auto& right_collider_world = p_right_collider2D->GetColliderWorldMatrix();
 
-	Vector3 projection_axis_array[4];
+	//두 GameObject의 중점을 이은 벡터 구하기
 	Vector3 center = Vector3::Zero * left_collider_world - Vector3::Zero * right_collider_world;
+	center.z = 0.0f;
 
+	//투영을 할 4개의 벡터(축) 구하기
+	Vector3 projection_axis_array[4];
+
+	//Left Collider2D Box의 벡터(축) 구하기
 	projection_axis_array[0] = local_pos_array[1] * left_collider_world - local_pos_array[0] * left_collider_world;
 	projection_axis_array[1] = local_pos_array[3] * left_collider_world - local_pos_array[0] * left_collider_world;
-
+	
+	//Right Collider2D Box의 벡터(축) 구하기
 	projection_axis_array[2] = local_pos_array[1] * right_collider_world - local_pos_array[0] * right_collider_world;
 	projection_axis_array[3] = local_pos_array[3] * right_collider_world - local_pos_array[0] * right_collider_world;
-
 	for (UINT i = 0; i < 4; ++i)
 	{
 		projection_axis_array[i].z = 0.0f;
 	}
-	center.z = 0.0f;
-
-	//각 축으로 4개의 벡터를 투영시킨 거리와 중점을 이은 벡터의 투영 길이를 비교해서 분리축이 존재하는지 확인
+	
+	//각 벡터(축)로 4개의 벡터를 투영시킨 거리와 중점을 이은 벡터의 투영 길이를 비교해서 분리축이 존재하는지 확인
 	//분리축이 1개라도 존재할 경우 두 오브젝트는 충돌하지 않았음을 의미
 	for (UINT i = 0; i < 4; ++i)
 	{
 		auto axis_vector = projection_axis_array[i];
 		axis_vector.Normalize();
 
+		//4개의 벡터(축)을 기준이되는 벡터(축)과 내적한 값을 누적
 		auto half = 0.0f;
 		for (UINT j = 0; j < 4; ++j)
 		{
-			half += Math::Abs(axis_vector.Dot(projection_axis_array[j])) * 0.5f; //두 벡터의 내적 결과는 무조건 양수가 나와야 함
+			half += Math::Abs(axis_vector.Dot(projection_axis_array[j])); //두 벡터의 내적 결과는 무조건 양수가 나와야 함
 		}
+		half *= 0.5f; //누적한 값을 절반으로 나눔
 
+		//두 GameObject의 중점을 모두 지나는 벡터를 기준 벡터(축)에 내적
 		auto center_dist = Math::Abs(axis_vector.Dot(center));
 
+		//4개의 벡터(축)을 기준이되는 벡터(축)과 내적한 값을 모두 더한 값의 절반이
+		//두 GameObject의 중점을 모두 지나는 벡터를 기준 벡터(축)에 내적한 값보다 작은 경우
+		//두 GameObject는 충돌하지 않았음을 의미
 		if (half < center_dist)
 		{
 			return false;

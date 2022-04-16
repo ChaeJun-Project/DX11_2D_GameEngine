@@ -53,7 +53,7 @@ public:
 	const UINT& GetWidth() const { return m_texture_desc.Width; }
 	const UINT& GetHeight() const { return m_texture_desc.Height; }
 
-    D3D11_VIEWPORT& GetViewPort() { return m_viewport; }
+    const D3D11_VIEWPORT& GetViewPort() const { return m_viewport; }
 	void SetViewport(const UINT& width, const UINT& height);
 
 public:
@@ -72,6 +72,7 @@ private:
 	ComPtr<ID3D11UnorderedAccessView> m_p_unordered_access_view = nullptr;
 
 	//텍스처가 그려질 영역
+	//렌더링된 렌더 타켓의 그림을 윈도우로 옮길 때 어떤 방식으로 가져올지 설정
 	D3D11_VIEWPORT m_viewport;
 
 	UINT m_texture_bind_stage = 0; //텍스처 바인드 단계

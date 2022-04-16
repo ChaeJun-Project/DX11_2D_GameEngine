@@ -34,7 +34,33 @@ TileMapRenderer::TileMapRenderer(const TileMapRenderer& origin)
 	//Tile Atlas TextureÀÇ Tile Index
 	m_current_tile_atlas_texture_index = origin.m_current_tile_atlas_texture_index;
 
-	//TODO
+	//TileMap
+	auto p_clone_tile_map_raw = origin.m_p_tile_map->Clone();
+	m_p_tile_map = std::shared_ptr<TileMap>(p_clone_tile_map_raw);
+
+	m_current_tile_index = origin.m_current_tile_index;
+
+	//Material
+	auto p_clone_material_raw = origin.m_p_material->Clone();
+	m_p_material = std::shared_ptr<Material>(p_clone_material_raw);
+	//Mesh
+	m_p_mesh = origin.m_p_mesh;
+
+	//Grid
+	m_is_draw_grid = origin.m_is_draw_grid;
+	p_clone_material_raw = origin.m_p_grid_material->Clone();
+	m_p_grid_material = std::shared_ptr<Material>(p_clone_material_raw);
+	m_p_grid_mesh = origin.m_p_grid_mesh;
+
+	m_grid_left_top_vector.resize(origin.m_grid_left_top_vector.size());
+	std::copy
+	(
+		origin.m_grid_left_top_vector.begin(),
+		origin.m_grid_left_top_vector.end(),
+		m_grid_left_top_vector.begin()
+	);
+
+	LoadSetTileCount(m_p_tile_map->m_tile_count_x, m_p_tile_map->m_tile_count_y);
 }
 
 TileMapRenderer::~TileMapRenderer()

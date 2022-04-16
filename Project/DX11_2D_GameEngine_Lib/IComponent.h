@@ -18,9 +18,14 @@ public:
 		m_p_owner_game_object = nullptr;
 	}
 
+	//라이프 사이클 함수
+	virtual void Awake() {}
+	virtual void OnEnable() {}
 	virtual void Start() {}
-	virtual void Update() {} //업데이트
-	virtual void FinalUpdate() = 0; //최종 업데이트 => 오브젝트가 움직이면 안됨
+	virtual void Update() {} 
+	virtual void OnDisable() {}
+
+	virtual void FinalUpdate() = 0; //최종 업데이트 => 오브젝트 이동 처리를 하면 안 됨
 
 public:
 	virtual void SaveToScene(FILE* p_file) override
@@ -82,7 +87,7 @@ public:
 
 		//Active
 		fprintf(p_file, "[Active]\n");
-	    fprintf(p_file, "%d\n", m_is_active);
+		fprintf(p_file, "%d\n", m_is_active);
 	}
 	virtual void LoadFromScene(FILE* p_file) override
 	{
@@ -105,7 +110,34 @@ public:
 	void SetGameObject(GameObject* p_game_object) { m_p_owner_game_object = p_game_object; }
 
 	const bool& GetIsActive() { return m_is_active; }
-	virtual void SetIsActive(const bool& is_active) { m_is_active = is_active; }
+	void SetIsActive(const bool& is_active)
+	{
+		if (SCENE_MANAGER->GetClientState() == 1 || SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Play)
+		{
+			if (m_is_active != is_active)
+			{
+				if (is_active)
+				{
+					OnEnable();
+
+					if (!m_is_first_start)
+					{
+						Start();
+						m_is_first_start = true;
+					}
+				}
+
+
+				else
+					OnDisable();
+			}
+		}
+
+		m_is_active = is_active;
+	}
+
+	const bool& GetIsFirstStart() { return m_is_first_start; }
+	void IsFirstStart() { m_is_first_start = true; }
 
 protected:
 	const ComponentType m_component_type;
@@ -114,4 +146,5 @@ protected:
 	GameObject* m_p_owner_game_object;
 
 	bool m_is_active = true;
+	bool m_is_first_start = false;
 };

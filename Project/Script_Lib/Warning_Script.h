@@ -14,11 +14,11 @@ public:
 	explicit Warning_Script(const Warning_Script& origin);
 	~Warning_Script() = default;
 
+public:
 	void Awake() override;
 	void OnEnable() override;
-	void OnDisable() override;
-	void Start() override;
 	void Update() override;
+	void OnDisable() override;
 
 public:
 	void Play();

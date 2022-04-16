@@ -137,6 +137,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MinFilesInUnityFile>8</MinFilesInUnityFile>
       <UnityFilesDirectory>$(ProjectDir)\UnityBuild\</UnityFilesDirectory>
+      <IncludeInUnityFile>true</IncludeInUnityFile>
     </ClCompile>
     <Link>
       <SubSystem>

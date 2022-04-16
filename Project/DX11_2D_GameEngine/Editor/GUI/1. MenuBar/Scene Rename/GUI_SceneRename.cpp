@@ -22,7 +22,7 @@ void GUI_SceneRename::Render()
 
 			SCENE_MANAGER->UpdateScene();
 
-			EDITOR_LOG_INFO_F("Success to Rename Current Scene '%s'", scene_name.c_str());
+			LOG_INFO_F("Success to Rename Current Scene '%s'", scene_name.c_str());
 		}
 		ImGui::PopItemWidth();
 	}

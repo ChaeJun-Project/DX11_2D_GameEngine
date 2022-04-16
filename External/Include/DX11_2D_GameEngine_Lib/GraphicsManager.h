@@ -11,7 +11,7 @@ class Texture;
 class GraphicsManager final : public Singleton<GraphicsManager>
 {
 	SINGLETON(GraphicsManager);
-	GraphicsManager();
+	GraphicsManager() = default;
 	~GraphicsManager();
 
 public:
@@ -42,8 +42,8 @@ public:
 	const std::shared_ptr<DepthStencilState> GetDepthStencilState(const DepthStencilType& depth_stencil_type);
 	const std::shared_ptr<BlendState> GetBlender(const BlendType& blend_type);
 
-	const std::shared_ptr<Texture>& GetRenderTexture() { return m_p_render_target_view; }
-	const std::shared_ptr<Texture>& GetDepthStencilTexture() { return m_p_depth_stencil_view; }
+	const std::shared_ptr<Texture>& GetRenderTexture() { return m_p_render_target_texture; }
+	const std::shared_ptr<Texture>& GetDepthStencilTexture() { return m_p_render_target_texture; }
 	
 private:
 	void CreateDeviceAndDeviceContext();
@@ -55,8 +55,6 @@ private:
 	void CreateSampler();
 	void CreateDepthStencil();
 	void CreateBlender();
-
-	void SetViewport(const UINT& width, const UINT& height);
 
 private:
 	//ID가 붙으면 com 인터페이스임
@@ -73,14 +71,10 @@ private:
 
 	//출력을 하는 도화지 역할
 	//Swap Chain의 백 버퍼를 렌더타겟 뷰로 만듦
-	std::shared_ptr<Texture> m_p_render_target_view;
+	std::shared_ptr<Texture> m_p_render_target_texture;
 
 	//깊이 값을 가지고 있음
-	std::shared_ptr<Texture> m_p_depth_stencil_view;
-
-	//보여지는 영역
-	//렌더링된 렌더 타켓의 그림을 윈도우로 옮길 때 어떤 방식으로 가져올지 설정
-	D3D11_VIEWPORT m_viewport;
+	std::shared_ptr<Texture> m_p_depth_stencil_texture;
 
 	//ConstantBuffer를 저장할 map
 	std::map<CBuffer_BindSlot, std::shared_ptr<ConstantBuffer>> m_p_constant_buffer_map;

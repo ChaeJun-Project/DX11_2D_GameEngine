@@ -16,6 +16,31 @@ TileMap::TileMap(const std::string& tile_map_resource_name)
 TileMap::TileMap(const TileMap& origin)
 	: IResource(origin.m_resource_type, origin.m_object_name)
 {
+	//Resource Path
+	m_resource_path = origin.m_resource_path;
+
+	m_used_tile_atlas_texture_vector.resize(origin.m_used_tile_atlas_texture_vector.size());
+	std::copy(
+		origin.m_used_tile_atlas_texture_vector.begin(),
+		origin.m_used_tile_atlas_texture_vector.end(),
+		m_used_tile_atlas_texture_vector.begin()
+	);
+
+	m_used_tile_atlas_texture_count = origin.m_used_tile_atlas_texture_count;
+
+	m_tile_count = origin.m_tile_count;
+	m_tile_size = origin.m_tile_size;
+	m_tile_count_x = origin.m_tile_count_x;
+	m_tile_count_y = origin.m_tile_count_y;
+
+	m_tile_data_vector.resize(origin.m_tile_data_vector.size());
+	std::copy(
+		origin.m_tile_data_vector.begin(),
+		origin.m_tile_data_vector.end(),
+		m_tile_data_vector.begin()
+	);
+
+	m_p_tile_map_buffer = std::make_unique<StructuredBuffer>();
 }
 
 TileMap::~TileMap()
@@ -57,9 +82,9 @@ void TileMap::BindPipeline()
 
 void TileMap::CreateTileData(const std::vector<Vector2>& grid_left_top_vector)
 {
-    //TileMap의 Tile Count가 설정되지 않은 경우
-    if(m_tile_count_x <= 0 || m_tile_count_y <= 0)
-	  return;
+	//TileMap의 Tile Count가 설정되지 않은 경우
+	if (m_tile_count_x <= 0 || m_tile_count_y <= 0)
+		return;
 
 	//각 타일의 정보가 이미 저장되어 있다면
 	if (!m_tile_data_vector.empty())
@@ -92,7 +117,7 @@ void TileMap::CreateTileMapBuffer()
 {
 	//각 타일의 정보가 이미 저장되어 있다면
 	if (!m_tile_data_vector.empty())
-		m_p_tile_map_buffer->Create(sizeof(TileData), m_tile_count, SBufferType::Read_Only, true, m_tile_data_vector.data());
+		m_p_tile_map_buffer->Create<TileData>(m_tile_count, SBufferType::Read_Only, true, m_tile_data_vector.data());
 }
 
 bool TileMap::SaveToFile(const std::string& tile_map_path)

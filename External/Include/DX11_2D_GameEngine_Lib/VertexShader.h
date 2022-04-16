@@ -2,6 +2,8 @@
 
 #include "IShader.h"
 
+class InputLayout;
+
 //VertexShader는 InputLayout 정보를 가지고 있음
 class VertexShader final : public IShader
 {

@@ -89,10 +89,10 @@ void LogManager::SaveLogToLogger(const LogType& type, const char* text)
 	if (text == nullptr)
 		return;
 
-	m_p_current_logger.lock()->ExcuteCallBack(type, std::string(text));
+	m_p_current_logger->ExcuteCallBack(type, std::string(text));
 }
 
 void LogManager::SaveLogToFile()
 {
-	m_p_current_logger.lock()->SaveToFile();
+	m_p_current_logger->SaveToFile();
 }

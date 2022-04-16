@@ -219,7 +219,7 @@ void GUI_MenuBar::NewScene()
 
 		EVENT_MANAGER->AddEvent(event_struct);
 
-		EDITOR_LOG_INFO_F("새로운 Scene을 성공적으로 만들었습니다.");
+		LOG_INFO_F("새로운 Scene을 성공적으로 만들었습니다.");
 	}
 
 	else

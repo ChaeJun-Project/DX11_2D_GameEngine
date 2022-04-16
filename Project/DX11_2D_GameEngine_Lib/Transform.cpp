@@ -36,6 +36,7 @@ void Transform::FinalUpdate()
 void Transform::UpdateConstantBuffer()
 {
 	g_cbuffer_wvpmatrix.world = m_world_matrix;
+	g_cbuffer_wvpmatrix.world_inverse = m_world_matrix.Inverse();
 	g_cbuffer_wvpmatrix.identity = Matrix::Identity;
 
 	auto constant_buffer = GRAPHICS_MANAGER->GetConstantBuffer(CBuffer_BindSlot::WVPMatrix);

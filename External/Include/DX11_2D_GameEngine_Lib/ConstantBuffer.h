@@ -1,5 +1,6 @@
 #pragma once
 
+//상수 버퍼
 class ConstantBuffer final
 {
 public:
@@ -73,8 +74,7 @@ inline void ConstantBuffer::Create(const UINT& buffer_bind_slot, const D3D11_USA
 	//Constant Buffer 생성
 	//Constant Buffer는 다른 buffer들과 다르게 D3D11_SUBRESOURCE_DATA가 필요하지않음
 	//고정되어 있는 실제 데이터가 아니고 계속 변경되는 값이기 때문
-	auto device = GRAPHICS_MANAGER->GetDevice();
-	auto hResult = device->CreateBuffer(&desc, nullptr, m_p_buffer.GetAddressOf());
+	auto hResult = DEVICE->CreateBuffer(&desc, nullptr, m_p_buffer.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return;

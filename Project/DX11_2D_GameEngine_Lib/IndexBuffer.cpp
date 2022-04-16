@@ -52,8 +52,7 @@ void IndexBuffer::Create(const std::vector<UINT>& index_vector, const D3D11_USAG
 	sub_data.pSysMem = index_vector.data();
 
 	//Index Buffer »ý¼º
-	auto device = GRAPHICS_MANAGER->GetDevice();
-	auto hResult = device->CreateBuffer(&desc, &sub_data, m_p_buffer.GetAddressOf());
+	auto hResult = DEVICE->CreateBuffer(&desc, &sub_data, m_p_buffer.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 	if (!SUCCEEDED(hResult))
 		return;

@@ -9,10 +9,10 @@ public:
 	~Layer();
 
 public:
-    void Awake();
-	void Start();
+	void Initialize();
 	void Update();
 	void FinalUpdate();
+	void OnDisable();
 	
 public:
     void AddGameObject(GameObject* p_game_object, bool is_move);

@@ -14,6 +14,7 @@ class SceneManager final : public Singleton<SceneManager>
 
 public:
 	void Initialize();
+	void InitializeScene();
 
 	void Awake();
 	void Start();

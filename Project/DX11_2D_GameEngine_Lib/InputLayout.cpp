@@ -97,8 +97,7 @@ const bool InputLayout::Create(ID3DBlob* blob)
 	}
 
 	//Create Input Layout
-	auto device = GRAPHICS_MANAGER->GetDevice();
-    hResult = device->CreateInputLayout
+    hResult = DEVICE->CreateInputLayout
 	(
 		input_layout_element_descs.data(),
 		static_cast<UINT>(input_layout_element_descs.size()),

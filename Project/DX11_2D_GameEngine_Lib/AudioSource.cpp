@@ -49,11 +49,6 @@ AudioSource::~AudioSource()
 	m_p_current_audio_clip.reset();
 }
 
-void AudioSource::Start()
-{
-	Play();
-}
-
 void AudioSource::FinalUpdate()
 {
 	if (m_p_current_audio_clip == nullptr || m_p_current_audio_clip->m_p_channel == nullptr)

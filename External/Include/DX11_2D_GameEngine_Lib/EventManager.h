@@ -7,7 +7,7 @@ typedef std::variant<GameObject*, std::shared_ptr<Scene>> EventData;
 
 struct EventStruct
 {
-	EventType event_type;
+	EventType event_type;		//이벤트 타입
 	EventData object_address_1; //이벤트 처리에 해당하는 GameObject의 주소
 	EventData object_address_2; //자식 GameObject를 연결할 때 필요한 자식 GameObject의 주소
 };

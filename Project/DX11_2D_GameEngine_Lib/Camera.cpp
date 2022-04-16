@@ -66,7 +66,9 @@ void Camera::FinalUpdate()
 void Camera::UpdateMatrix()
 {
 	g_cbuffer_wvpmatrix.view = m_view_matrix;
+	g_cbuffer_wvpmatrix.view_inverse = m_view_matrix.Inverse();
 	g_cbuffer_wvpmatrix.projection = m_projection_matrix;
+	g_cbuffer_wvpmatrix.projection_inverse = m_projection_matrix.Inverse();
 }
 
 void Camera::SortObjects()
@@ -342,10 +344,12 @@ const Vector3 Camera::Picking()
 
 const Vector3 Camera::ScreenToWorld(const Vector2& mouse_position)
 {
-	auto screen_resolution = RENDER_MANAGER->GetClientResolution();
-	auto screen_offset = RENDER_MANAGER->GetScreenOffset();
-	auto mouse_relative_position = mouse_position - screen_offset;
+	auto screen_resolution = RENDER_MANAGER->GetClientResolution(); //Screen의 해상도
+	auto screen_offset = RENDER_MANAGER->GetScreenOffset(); //기준점으로 부터 Screen이 떨어져있는 정도
+	//실제 마우스 위치로부터 상대적인 마우스 위치를 구함
+	auto mouse_relative_position = mouse_position - screen_offset; 
 
+	//투영 좌표계에서의 상대적인 마우스 위치 값을 구함
 	Vector3 pick_ray_view_space = Vector3
 	(
 		((2.0f * mouse_relative_position.x) / screen_resolution.x) - 1.0f,
@@ -353,12 +357,10 @@ const Vector3 Camera::ScreenToWorld(const Vector2& mouse_position)
 		1.0f //투영 윈도우 값
 	);
 
-	Vector3 world_position;
-
-	Matrix view_projection_inverse = (m_view_matrix * m_projection_matrix).Inverse();
-	world_position = pick_ray_view_space * view_projection_inverse;
-
-	return world_position;
+	//뷰 행렬과 투영 행렬이 모두 적용된 행렬의 역행렬
+	auto view_projection_inverse = (m_view_matrix * m_projection_matrix).Inverse();
+	
+	return pick_ray_view_space * view_projection_inverse;
 }
 
 void Camera::SetProjectionType(const ProjectionType& projection_type)

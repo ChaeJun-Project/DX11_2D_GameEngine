@@ -6,25 +6,24 @@
 void TimeManager::Initialize()
 {
 	//초당 카운트 횟수 받아오기
-	//시스템 부팅 시 고정되며 모든 프로세서에서 일관된 값
-	assert(QueryPerformanceFrequency(&m_frequency_count));
-
+	//LARGE_INTEGER: 크기가 큰 정수형 자료형 타입(= __int64)
+	//시스템 부팅 시 고정되며 모든 프로세서에서 일관된 값(1초당 진동수, 고정값)
+	QueryPerformanceFrequency((LARGE_INTEGER*)(&m_frequency_count));
 	//현재 성능 카운터 값 받아오기
-	assert(QueryPerformanceCounter(&m_previous_count));
+	QueryPerformanceCounter((LARGE_INTEGER*)(&m_previous_count));
+
+	CalcCurrentTime();
 }
 
 void TimeManager::Update()
 {
-	QueryPerformanceCounter(&m_current_count);
+	QueryPerformanceCounter((LARGE_INTEGER*)(&m_current_count));
 
 	//QuadPart: 실제 값이 저장되어 있는 구조체 필드
-	m_delta_time = static_cast<double>(m_current_count.QuadPart - m_previous_count.QuadPart) / static_cast<double>(m_frequency_count.QuadPart);
+	//Delta Time = (현재 프레임 진동수 카운트 - 이전 프레임 진동수 카운트) / 초당 진동수 카운트(고정)
+	m_delta_time = static_cast<double>(m_current_count - m_previous_count) / static_cast<double>(m_frequency_count);
 
 	m_previous_count = m_current_count;
-
-	//Delta Time을 60프레임으로 고정
-	if (m_delta_time > (1.0 / 60.0))
-		m_delta_time = 1.0 / 60.0;
 
 	CalcCurrentTime();
 	CalcFps();
@@ -57,6 +56,10 @@ void TimeManager::CalcCurrentTime()
 
 void TimeManager::CalcFps()
 {
+	//Delta Time을 고정 프레임으로 설정
+	/*if (m_fixed_fps != 0)
+		m_delta_time = static_cast<double>(1.0f / m_fixed_fps);*/
+
 	++m_func_call_count;
 	m_accumulate_time += m_delta_time; //시간 누적
 
@@ -65,6 +68,8 @@ void TimeManager::CalcFps()
 		m_fps = m_func_call_count;
 		m_func_call_count = 0;
 		m_accumulate_time = 0.0;
+
+		m_is_wait = true;
 
 		m_render_str = "FPS: " + std::to_string(m_fps) + " Delta Time: " + std::to_string(m_delta_time);
 	}

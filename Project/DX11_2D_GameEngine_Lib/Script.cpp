@@ -10,6 +10,7 @@ Script::Script(const std::string& script_name)
 	:IComponent(ComponentType::Script),
 	m_script_name(script_name)
 {
+	
 }
 
 Script::~Script()
@@ -54,30 +55,6 @@ void Script::CreateGameObject(GameObject* p_new_game_object)
 	event_struct.object_address_1 = p_new_game_object;
 
 	EVENT_MANAGER->AddEvent(event_struct);
-}
-
-void Script::SetIsActive(const bool& is_active)
-{
-	if (SCENE_MANAGER->GetClientState() == 1 || SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Play)
-	{
-		if (m_is_active != is_active)
-		{
-			if (is_active)
-			{
-				OnEnable();
-				if (m_start_func_call_count == 0)
-				{
-					Start();
-					++m_start_func_call_count;
-				}
-			}
-
-			else
-				OnDisable();
-		}
-	}
-
-	m_is_active = is_active;
 }
 
 void Script::SaveToScene(FILE* p_file)

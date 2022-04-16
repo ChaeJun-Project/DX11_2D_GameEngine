@@ -49,9 +49,6 @@ void CameraEx::Control3DViewMode()
 	auto up = transform->GetUpVector(); //카메라의 위쪽 방향 벡터
 	auto forward = transform->GetForwardVector(); //카메라의 정면 방향 벡터
 
-	//마우스 동작 값
-	auto delta = MOUSE_MOVE;
-
 	Vector3 movement_speed = Vector3::Zero;
 
 	//편집전용 카메라가 바라보는 방향으로 전진
@@ -77,6 +74,10 @@ void CameraEx::Control3DViewMode()
 	//편집전용 카메라가 바라보는 방향에서 아래쪽으로 이동
 	else if (KEY_PRESS(Key::KEY_Q))
 		movement_speed -= up * m_speed * DELTA_TIME_F;
+
+	//마우스 동작 값
+	//X, Y: 마우스 커서 이동, Z: 마우스 휠 변화
+	auto delta = MOUSE_MOVE;
 
 	//마우스로 카메라 회전
 	//마우스의 움직임이라 서로 반대 좌표가 들어가야 함.
@@ -129,7 +130,9 @@ void CameraEx::Control2DViewMode()
 		movement_speed -= right * m_speed * DELTA_TIME_F;
 
 	//마우스 동작 값
+	//X, Y: 마우스 커서 이동, Z: 마우스 휠 변화
 	auto delta = MOUSE_MOVE;
+
 	//마우스 휠로 카메라 줌인 또는 줌아웃
 	if (delta.z > 0) //줌인
 	{

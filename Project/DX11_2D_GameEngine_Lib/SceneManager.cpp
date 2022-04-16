@@ -31,14 +31,9 @@ void SceneManager::Initialize()
 	);
 }
 
-void SceneManager::Awake()
+void SceneManager::InitializeScene()
 {
-	m_p_current_scene->Awake();
-}
-
-void SceneManager::Start()
-{
-	m_p_current_scene->Start();
+	m_p_current_scene->Initialize();
 }
 
 void SceneManager::Update()
@@ -52,9 +47,8 @@ void SceneManager::Update()
 	//Editor State 비트값에 Play가 포함되어있고 Pause가 비포함되어있는 경우 또는 게임모드인 경우
 	if (((m_editor_state & EditorState::EditorState_Play) && !(m_editor_state & EditorState::EditorState_Pause))
 		|| m_client_state == 1)
-	{
 		m_p_current_scene->Update();
-	}
+	
 
 	m_p_current_scene->FinalUpdate();
 
@@ -75,8 +69,7 @@ void SceneManager::SetCurrentScene(const std::shared_ptr<Scene>& p_current_scene
 	//Game Play 중이라면
 	if (m_client_state == 1 || m_editor_state == EditorState::EditorState_Play)
 	{
-		Awake();
-		Start();
+		InitializeScene();
 	}
 }
 
@@ -110,8 +103,7 @@ void SceneManager::SetEditorState(const UINT& editor_state)
 			if (m_editor_state == EditorState::EditorState_Stop &&
 				editor_state == EditorState::EditorState_Play)
 			{
-				m_p_current_scene->Awake();
-				m_p_current_scene->Start();
+				InitializeScene();
 			}
 
 			m_editor_state |= editor_state;
@@ -161,7 +153,7 @@ void SceneManager::CreateNewScene()
 
 		EVENT_MANAGER->AddEvent(event_struct);
 
-		EDITOR_LOG_INFO_F("새로운 Scene을 성공적으로 만들었습니다.");
+		LOG_INFO_F("새로운 Scene을 성공적으로 만들었습니다.");
 	}
 }
 

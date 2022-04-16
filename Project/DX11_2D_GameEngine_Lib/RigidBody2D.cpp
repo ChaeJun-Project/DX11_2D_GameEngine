@@ -12,7 +12,9 @@ RigidBody2D::RigidBody2D()
 RigidBody2D::RigidBody2D(const RigidBody2D& origin)
 	: IComponent(origin.m_component_type)
 {
-     m_gravity = origin.m_gravity;
+	m_is_active = origin.m_is_active;
+	 
+	 m_gravity = origin.m_gravity;
 	 m_mass = origin.m_mass;
 }
 

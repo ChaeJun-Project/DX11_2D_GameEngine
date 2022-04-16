@@ -75,6 +75,8 @@ void GameTitleManager_Script::ActiveMenuPage()
 	//현재 페이지를 Menu 페이지로 설정
 	m_p_current_page = m_p_menu_page;
 	m_p_current_page->SetIsActive(true);
+
+	LOG_INFO_F("플레이어가 메뉴 페이지로 이동했습니다.");
 }
 
 void GameTitleManager_Script::ActivePlayerSelectPage()
@@ -86,6 +88,8 @@ void GameTitleManager_Script::ActivePlayerSelectPage()
 	//현재 페이지를 Player Select 페이지로 설정
 	m_p_current_page = m_p_player_select_page;
 	m_p_current_page->SetIsActive(true);
+
+	LOG_INFO_F("플레이어가 캐릭터 선택 페이지로 이동했습니다.");
 }
 
 void GameTitleManager_Script::ActiveLoadingPage()
@@ -97,6 +101,8 @@ void GameTitleManager_Script::ActiveLoadingPage()
 	//현재 페이지를 Loading 페이지로 설정
 	m_p_current_page = m_p_loading_page;
 	m_p_current_page->SetIsActive(true);
+
+	LOG_INFO_F("플레이어가 로딩 페이지로 이동했습니다.");
 }
 
 void GameTitleManager_Script::SaveToScene(FILE* p_file)

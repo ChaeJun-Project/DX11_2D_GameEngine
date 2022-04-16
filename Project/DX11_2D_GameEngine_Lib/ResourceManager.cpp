@@ -194,23 +194,6 @@ void ResourceManager::CreateDefaultShader()
 	if (!result)
 		return;
 
-	//Create Light2D Shader
-	p_shader = std::make_shared<Shader>("Light2D");
-	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/Light2DShader.fx", "VS", "vs_5_0");
-	p_shader->AddShader<PixelShader>(absolute_content_path + "Shader/Light2DShader.fx", "PS", "ps_5_0");
-	p_shader->SetShaderBindStage(PipelineStage::VS | PipelineStage::PS);
-
-	p_shader->SetRenderTimePointType(RenderTimePointType::PostEffect);
-	p_shader->SetRasterizerType(RasterizerType::Cull_None_Solid);
-	p_shader->SetDepthStencilType(DepthStencilType::No_Test_No_Write);
-	p_shader->SetBlendType(BlendType::Alpha_Blend);
-
-	shader_iter = shader_map.insert(std::make_pair(p_shader->GetResourceName(), p_shader));
-	result = shader_iter.second;
-
-	if (!result)
-		return;
-
 	//Create Distortion Shader
 	p_shader = std::make_shared<Shader>("Distortion");
 	p_shader->AddShader<VertexShader>(absolute_content_path + "Shader/DistortionShader.fx", "VS", "vs_5_0");
@@ -507,10 +490,10 @@ const std::shared_ptr<TileMap> ResourceManager::CreateTileMap(const std::string&
 	auto result = tile_map_iter.second;
 	if (!result)
 	{
-		EDITOR_LOG_ERROR_F("The [%s] TileMap Already Exists", tile_map_name.c_str());
+		LOG_ERROR_F("The [%s] TileMap Already Exists", tile_map_name.c_str());
 		return std::dynamic_pointer_cast<TileMap>(tile_map.find(tile_map_name)->second);
 	}
 
-	EDITOR_LOG_INFO_F("Succeeded in Creating TileMap: [%s]", tile_map_name.c_str());
+	LOG_INFO_F("Succeeded in Creating TileMap: [%s]", tile_map_name.c_str());
 	return std::dynamic_pointer_cast<TileMap>(tile_map_iter.first->second);
 }

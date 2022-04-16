@@ -22,7 +22,6 @@ void DepthStencilState::Create(const bool& is_depth_enable, const D3D11_COMPARIS
 	desc.StencilEnable  = false;
 	
 	//Depth Stencil State »ý¼º
-	auto device = GRAPHICS_MANAGER->GetDevice();
-	auto hResult = device->CreateDepthStencilState(&desc, m_p_depth_stencil_state.GetAddressOf());
+	auto hResult = DEVICE->CreateDepthStencilState(&desc, m_p_depth_stencil_state.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 }

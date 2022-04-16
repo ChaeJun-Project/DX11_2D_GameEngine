@@ -132,12 +132,16 @@ void PlayerSelect_Script::SetZFocus()
 void PlayerSelect_Script::SetXSeleted()
 {
 	//TODO
+
+	LOG_INFO_F("플레이어가 X를 선택했습니다.");
 }
 
 void PlayerSelect_Script::SetZSeleted()
 {
 	SetCurrentAnimation("Z_Win");
 	m_is_focus = false;
+
+	LOG_INFO_F("플레이어가 Z를 선택했습니다.");
 }
 
 void PlayerSelect_Script::AddAnimationEvent()

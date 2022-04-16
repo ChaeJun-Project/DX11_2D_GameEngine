@@ -43,6 +43,7 @@ REGISTER_COMPONENT_TYPE(AudioListener, ComponentType::AudioListener);
 REGISTER_COMPONENT_TYPE(AudioSource, ComponentType::AudioSource);
 REGISTER_COMPONENT_TYPE(Canvas, ComponentType::Canvas);
 //Rect Transform은 Transform을 상속받아 m_p_component_map에서 ComponentType::Transform의 위치에 저장 및 사용
+REGISTER_COMPONENT_TYPE(RectTransform, ComponentType::RectTransform);
 REGISTER_COMPONENT_TYPE(ImageRenderer, ComponentType::ImageRenderer);
 
 GameObject::GameObject(const GameObject& origin)
@@ -99,60 +100,89 @@ GameObject::~GameObject()
 
 void GameObject::Awake()
 {
-	//Script
-	for (auto& script : m_p_script_un_map)
-		script.second->Awake();
+	if (!m_is_first_awake)
+	{
+		//Component
+		for (auto& component : m_p_component_map)
+			component.second->Awake();
 
-	//자식 오브젝트 업데이트
-	for (auto& child : m_p_child_vector)
-		child->Awake();
+		//Script
+		for (auto& script : m_p_script_un_map)
+			script.second->Awake();
+
+		//자식 오브젝트
+		for (auto& child : m_p_child_vector)
+		{
+			if (child->m_is_active)
+				child->Awake();
+		}
+
+		m_is_first_awake = true;
+	}
 }
 
 void GameObject::OnEnable()
 {
+	//Component
+	for (auto& component : m_p_component_map)
+	{
+		if (component.second->GetIsActive())
+			component.second->OnEnable();
+	}
+
 	//Script
 	for (auto& script : m_p_script_un_map)
 	{
 		if (script.second->GetIsActive())
 			script.second->OnEnable();
 	}
-}
-
-void GameObject::OnDisable()
-{
-	//Script
-	for (auto& script : m_p_script_un_map)
-	{
-		if (script.second->GetIsActive())
-			script.second->OnDisable();
-	}
-}
-
-void GameObject::Start()
-{
-	//Component 시작
-	for (auto& component : m_p_component_map)
-	{
-		if (component.second->GetIsActive())
-			component.second->Start();
-	}
-
-	//Script 시작
-	for (auto& script : m_p_script_un_map)
-	{
-		if (script.second->GetIsActive())
-		{
-			script.second->Start();
-			script.second->AddStartFuncCallCount();
-		}
-	}
 
 	//자식 오브젝트
 	for (auto& child : m_p_child_vector)
 	{
 		if (child->m_is_active)
-			child->Start();
+			child->OnEnable();
 	}
+
+	m_is_change_active = false;
+}
+
+void GameObject::Start()
+{
+	if (!m_is_first_start)
+	{
+		//Component 시작
+		for (auto& component : m_p_component_map)
+		{
+			if (component.second->GetIsActive())
+			{
+				component.second->Start();
+				component.second->IsFirstStart();
+			}
+		}
+
+		//Script 시작
+		for (auto& script : m_p_script_un_map)
+		{
+			if (script.second->GetIsActive())
+			{
+				script.second->Start();
+				script.second->IsFirstStart();
+			}
+		}
+
+		//자식 오브젝트
+		for (auto& child : m_p_child_vector)
+		{
+			if (child->m_is_active)
+				child->Start();
+		}
+
+		m_is_first_start = true;
+	}
+
+	else
+		return;
 }
 
 void GameObject::Update()
@@ -180,6 +210,32 @@ void GameObject::Update()
 		if (child->m_is_active)
 			child->Update();
 	}
+}
+
+void GameObject::OnDisable()
+{
+	//Component
+	for (auto& component : m_p_component_map)
+	{
+		if (component.second->GetIsActive())
+			component.second->OnDisable();
+	}
+
+	//Script
+	for (auto& script : m_p_script_un_map)
+	{
+		if (script.second->GetIsActive())
+			script.second->OnDisable();
+	}
+
+	//자식 오브젝트
+	for (auto& child : m_p_child_vector)
+	{
+		if (child->m_is_active)
+			child->OnDisable();
+	}
+
+	m_is_change_active = false;
 }
 
 void GameObject::FinalUpdate()
@@ -447,11 +503,17 @@ void GameObject::SetIsActive(const bool& is_active)
 		if (m_is_active != is_active)
 		{
 			if (is_active)
+			{
+				Awake();
 				OnEnable();
+				Start();
+			}
 
 			else
 				OnDisable();
 		}
+
+		m_is_change_active = true;
 	}
 
 	m_is_active = is_active;

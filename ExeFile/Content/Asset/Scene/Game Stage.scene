@@ -30,7 +30,7 @@ Main Camera
 [Index]
 0
 [Culling Layer]
-8
+8200
 [Projection]
 0
 [Size]
@@ -100,55 +100,7 @@ Post Effect Camera
 [Script Count]
 0
 [Child GameObject Count]
-1
-[Child GameObject]
-=================================================================================
-¡ß GameObject
-Post Effect Light2D
-[Active]
-1
-[Tag]
-Post Effect
-[Layer]
-13
-[Component Count]
-2
-¡Ü Transform
-1
-[Active]
-1
-[Position]
-0.000000 0.000000 0.000000
-[Rotation]
-0.000000 0.000000 0.000000 1.000000
-[Scale]
-1.000000 1.000000 1.000000
-¡Ü Sprite Renderer
-3
-[Active]
-1
-[Texture]
-[Resource Name]
-None
-[Resource Path]
-None
-[Sprite Color]
-1.000000 1.000000 1.000000 1.000000
-[Material]
-[Resource Name]
-Light2D_Material
-[Resource Path]
-Asset/Material/Light2D_Material.mat
-[Mesh]
-[Resource Name]
-Rectangle_Mesh
-[Resource Path]
-Asset/Mesh/Rectangle_Mesh.mesh
-[Script Count]
 0
-[Child GameObject Count]
-0
-=================================================================================
 =================================================================================
 =================================================================================
 ¡ß GameObject
@@ -225,7 +177,7 @@ Light
 [Type]
 0
 [Range]
-10000.000000
+0.000000
 [Script Count]
 0
 [Child GameObject Count]
@@ -241,7 +193,7 @@ Default
 [Layer]
 0
 [Component Count]
-1
+2
 ¡Ü Transform
 1
 [Active]
@@ -252,6 +204,26 @@ Default
 0.000000 0.000000 0.000000 1.000000
 [Scale]
 1.000000 1.000000 1.000000
+¡Ü Audio Source
+12
+[Active]
+1
+[Audio Map]
+[Count]
+1
+[Data]
+[Key]
+Stage_Sound
+[Resource Name]
+Stage_Sound
+[Resource Path]
+Asset/Audio/Stage/Stage_Sound.mp3
+[Current Audio]
+Stage_Sound
+[Loop]
+1
+[Volume]
+0.245000
 [Script Count]
 1
 ¡Ü Script
@@ -793,7 +765,7 @@ Stage
 [Layer]
 4
 [Component Count]
-2
+1
 ¡Ü Transform
 1
 [Active]
@@ -804,26 +776,6 @@ Stage
 0.000000 0.000000 0.000000 1.000000
 [Scale]
 1.000000 1.000000 1.000000
-¡Ü Audio Source
-12
-[Active]
-1
-[Audio Map]
-[Count]
-1
-[Data]
-[Key]
-Stage_Sound
-[Resource Name]
-Stage_Sound
-[Resource Path]
-Asset/Audio/Stage/Stage_Sound.mp3
-[Current Audio]
-Stage_Sound
-[Loop]
-1
-[Volume]
-0.245000
 [Script Count]
 0
 [Child GameObject Count]

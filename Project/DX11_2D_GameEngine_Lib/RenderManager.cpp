@@ -84,7 +84,6 @@ void RenderManager::RenderPlay()
 	m_p_depth_stencil_texture = GRAPHICS_MANAGER->GetDepthStencilTexture();
 	m_client_resolution_size = Vector2(m_p_render_target_texture->GetWidth(), m_p_render_target_texture->GetHeight());
 
-	//Program 데이터 업데이트
 	UpdateConstantBuffer();
 
 	ResizePostEffectTexture(static_cast<UINT>(m_client_resolution_size.x), static_cast<UINT>(m_client_resolution_size.y));
@@ -124,7 +123,6 @@ void RenderManager::RenderEditor()
 	ClearRenderTexture();
 	SetRenderTexture();
 
-	//Program 데이터 업데이트
 	UpdateConstantBuffer();
 
 	ResizePostEffectTexture(static_cast<UINT>(m_client_resolution_size.x), static_cast<UINT>(m_client_resolution_size.y));
@@ -212,8 +210,8 @@ void RenderManager::ClearRenderTexture()
 void RenderManager::SetRenderTexture()
 {
 	auto p_render_target_view = m_p_render_target_texture->GetRenderTargetView();
+	const auto& view_port = m_p_render_target_texture->GetViewPort();
 	auto p_depth_stencil_view = m_p_depth_stencil_texture->GetDepthStencilView();
-	auto view_port = m_p_render_target_texture->GetViewPort();
 
 	//백 버퍼에 그려진 내용(render_target_view)을 Output_Merger의 렌더타겟으로 설정
 	DEVICE_CONTEXT->OMSetRenderTargets(1, &p_render_target_view, p_depth_stencil_view);
@@ -469,10 +467,6 @@ void RenderManager::ResizePostEffectTexture(const UINT& width, const UINT& heigh
 			D3D11_BIND_SHADER_RESOURCE
 		);
 	}
-
-	//Post Effect Material에 Texture 연결
-	auto post_effect_material = RESOURCE_MANAGER->GetResource<Material>("Light2D_Material");
-	post_effect_material->SetConstantBufferData(Material_Parameter::TEX_0, nullptr, m_p_post_effect_render_target_texture);
 }
 
 //Camera Component의 RenderPostEffectObjects에서 호출

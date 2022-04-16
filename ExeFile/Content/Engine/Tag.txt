@@ -4,8 +4,9 @@
 [Tag List]
 Default
 Main Camera
-Post Effect Camera
 UI Camera
+Post Effect Camera
+Light
 Stage
 Ceiling
 Wall

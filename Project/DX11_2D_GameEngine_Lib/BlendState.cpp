@@ -36,7 +36,6 @@ void BlendState::Create(const bool& is_blend_enable, const D3D11_BLEND_OP& blend
 	desc.RenderTarget[0].RenderTargetWriteMask = color_mask;
 
 	//Blend State »ý¼º
-	auto device = GRAPHICS_MANAGER->GetDevice();
-	auto hResult = device->CreateBlendState(&desc, m_p_blend_state.GetAddressOf());
+	auto hResult = DEVICE->CreateBlendState(&desc, m_p_blend_state.GetAddressOf());
 	assert(SUCCEEDED(hResult));
 }

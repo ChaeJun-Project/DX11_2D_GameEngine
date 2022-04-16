@@ -2,6 +2,7 @@
 #include <DX11_2D_GameEngine_Lib/Script.h>
 
 class GameObject;
+class AudioSource;
 
 class Ready_Script;
 class Warning_Script;
@@ -18,6 +19,7 @@ public:
 	virtual ~GameManager_Script();
 
 public:
+    void Awake() override;
 	void Start() override;
 
 private:
@@ -58,6 +60,9 @@ public:
 	CLONE(GameManager_Script);
 
 private:
+    //Audio
+	AudioSource* m_p_audio_source = nullptr;
+
     //UI
 	GameObject* m_p_ready_ui = nullptr;
 	Ready_Script* m_p_ready_script = nullptr;

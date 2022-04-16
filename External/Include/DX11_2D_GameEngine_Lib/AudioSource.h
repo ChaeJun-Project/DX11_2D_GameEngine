@@ -11,7 +11,6 @@ public:
 	~AudioSource();
 
 public:
-    void Start() override;
 	void FinalUpdate() override; //최종 업데이트 => 오브젝트가 움직이면 안됨
 
 public:

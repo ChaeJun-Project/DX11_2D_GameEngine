@@ -91,10 +91,12 @@ void EventManager::CreateGameObject(const EventStruct& event_struct)
 	//Game Play 중이라면
 	if (SCENE_MANAGER->GetClientState() == 1 || SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Play)
 	{
-		p_new_game_object->Awake();
-
 		if (p_new_game_object->GetIsActive())
+		{
+			p_new_game_object->Awake();
+			p_new_game_object->OnEnable();
 			p_new_game_object->Start();
+		}	
 	}
 
 	m_is_update = true;
@@ -103,7 +105,7 @@ void EventManager::CreateGameObject(const EventStruct& event_struct)
 void EventManager::DeleteGameObject(const EventStruct& event_struct)
 {
 	auto p_dead_game_object = std::get<GameObject*>(event_struct.object_address_1);
-	p_dead_game_object->SetDead(); //m_dead_check = true
+	p_dead_game_object->SetDead(); //해당 GameObject는 삭제 예정이라는 플래그를 걸어줌
 	m_p_dead_game_object_queue.push(p_dead_game_object); //Dead Game Object 큐에 등록
 }
 
@@ -127,12 +129,6 @@ void EventManager::AddChildGameObject(const EventStruct& event_struct)
 
 	//새로운 자식 GameObject를 부모 GameObject에 연결
 	p_parent_game_object->AddChild(p_child_game_object);
-
-	//필요없는 부분
-	////새로운 자식 GameObject 연결 후 현재 Scene에서 등록 해제(Layer 포함)
-	//current_scene->DeregisterGameObject(p_parent_game_object); 
-	////새로운 자식 GameObject 연결 후 현재 Scene에 다시 등록(Layer 포함)
-	//current_scene->RegisterGameObject(p_parent_game_object);
 
 	m_is_update = true;
 }

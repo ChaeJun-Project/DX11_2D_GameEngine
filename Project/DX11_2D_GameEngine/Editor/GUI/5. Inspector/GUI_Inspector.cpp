@@ -667,6 +667,7 @@ void GUI_Inspector::InitializeTag()
 	{
 		m_tag_deque.emplace_back(std::string("Default"));
 		m_tag_deque.emplace_back(std::string("Main Camera"));
+		m_tag_deque.emplace_back(std::string("UI Camera"));
 		m_tag_deque.emplace_back(std::string("Light"));
 
 		SaveTag();

@@ -25,8 +25,7 @@ void ComputeShader::Create(const std::string& path, const std::string& function_
 
 	//Compute Shader Compile 성공한 경우
 	//ID3DBlob의 데이터 값을 바탕으로 Compute Shader 생성
-	auto device = GRAPHICS_MANAGER->GetDevice();
-	auto hResult = device->CreateComputeShader
+	auto hResult = DEVICE->CreateComputeShader
 	(
 		m_p_blob->GetBufferPointer(),
 		m_p_blob->GetBufferSize(),
@@ -40,6 +39,7 @@ void ComputeShader::Dispatch(const UINT& thread_group_x_count, const UINT& threa
 {
 	auto device_context = GRAPHICS_MANAGER->GetDeviceContext();
 	device_context->CSSetShader(m_p_compute_shader.Get(), 0, 0);
+
 	m_thread_group_x = thread_group_x_count;
 	m_thread_group_y = thread_group_y_count;
 	m_thread_group_z = thread_group_z_count;

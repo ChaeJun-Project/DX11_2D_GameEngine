@@ -36,7 +36,7 @@ public:
 	void SetOffsetScale(const Vector2& offset_scale) { m_offset_scale = offset_scale; }
 
 	Vector3 GetDefaultSize() { return Vector3(m_default_size.x, m_default_size.y, 1.0f); }
-	const Matrix& GetColliderWorldMatrix() { return m_collider_world_matrix; }
+	const Matrix& GetColliderWorldMatrix() { return m_collider2D_world_matrix; }
 
 private:
 	void SaveToScene(FILE* p_file) override;
@@ -51,7 +51,7 @@ private:
     Vector2 m_offset_position = Vector2::Zero;
 	Vector2 m_offset_scale = Vector2::One; //유니티에서는 Size
 
-	Matrix m_collider_world_matrix = Matrix::Identity;
+	Matrix m_collider2D_world_matrix = Matrix::Identity;
 
 	UINT m_collision_count = 0;
 

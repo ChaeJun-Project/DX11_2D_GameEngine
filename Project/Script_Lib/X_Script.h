@@ -5,6 +5,7 @@
 #include "PlayerState_Enum.h"
 
 class Animator2D;
+class RigidBody2D;
 
 class X_Script final : public Script, public GameObjectController
 {

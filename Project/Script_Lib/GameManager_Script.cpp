@@ -47,6 +47,9 @@ GameManager_Script::GameManager_Script(const GameManager_Script& origin)
 
 GameManager_Script::~GameManager_Script()
 {
+    //Audio
+	m_p_audio_source = nullptr;
+
 	//UI
 	m_p_ready_ui = nullptr;
 	m_p_ready_script = nullptr;
@@ -83,6 +86,11 @@ GameManager_Script::~GameManager_Script()
 	m_p_colonel_script = nullptr;
 }
 
+void GameManager_Script::Awake()
+{
+	m_p_audio_source = m_p_owner_game_object->GetComponent<AudioSource>();
+}
+
 void GameManager_Script::Start()
 {
 	//UI
@@ -100,6 +108,9 @@ void GameManager_Script::Start()
 	//Camera Script
 	auto p_current_scene = SCENE_MANAGER->GetCurrentScene();
 	p_camera_script = dynamic_cast<Camera_Script*>(p_current_scene->FindGameObjectWithName("Main Camera")->GetScript("Camera_Script"));
+
+    //Stage BGM Play
+	m_p_audio_source->Play();
 }
 
 void GameManager_Script::RegisterScriptParamData()
@@ -181,6 +192,8 @@ void GameManager_Script::ReadyToPlay()
 {
 	CreatePlayer();
 	m_ready_to_play = true;
+
+	LOG_INFO_F("게임이 시작되었습니다.");
 }
 
 void GameManager_Script::CreatePlayer()
@@ -192,11 +205,13 @@ void GameManager_Script::CreatePlayer()
 	m_p_z_script->SetDeadEventCallWait(3.0f);
 
 	//Set Player Hp Gage
-	m_p_player_hp_script->SetTargetGameObject(m_p_z_game_object);
 	m_p_player_hp_gage->SetIsActive(true);
+	m_p_player_hp_script->SetTargetGameObject(m_p_z_game_object);
 
 	//Scene Camera Target을 Player로 설정
 	p_camera_script->SetTarget(m_p_z_game_object);
+
+	LOG_INFO_F("캐릭터 %s가 생성되었습니다.", m_p_z_game_object->GetGameObjectName().c_str());
 }
 
 void GameManager_Script::CreateBoss()
@@ -207,11 +222,13 @@ void GameManager_Script::CreateBoss()
 		m_p_colonel_game_object = Instantiate(m_p_colonel_prefab, m_stage1_boss_spawn);
 		m_p_colonel_script = dynamic_cast<Colonel_Script*>(m_p_colonel_game_object->GetScript("Colonel_Script"));
 		m_p_colonel_script->SetDeadEventFunc(std::bind(&GameManager_Script::EndStage1, this));
+		LOG_INFO_F("스테이지1의 보스가 생성되었습니다.");
 		break;
 	case 2:
 		m_p_colonel_game_object = Instantiate(m_p_colonel_prefab, m_stage2_boss_spawn);
 		m_p_colonel_script = dynamic_cast<Colonel_Script*>(m_p_colonel_game_object->GetScript("Colonel_Script"));
 		m_p_colonel_script->SetDeadEventFunc(std::bind(&GameManager_Script::PlayerWin, this));
+		LOG_INFO_F("스테이지2의 보스가 생성되었습니다.");
 		break;
 	}
 
@@ -219,8 +236,8 @@ void GameManager_Script::CreateBoss()
 	m_p_colonel_script->SetDeadEventCallWait(8.0f);
 
 	//Set Boss Hp Gage
-	m_p_boss_hp_script->SetTargetGameObject(m_p_colonel_game_object);
 	m_p_boss_hp_gage->SetIsActive(true);
+	m_p_boss_hp_script->SetTargetGameObject(m_p_colonel_game_object);
 
 	//Scene Camera Target을 Boss로 설정
 	p_camera_script->SetTarget(m_p_colonel_game_object);
@@ -239,6 +256,8 @@ void GameManager_Script::ReadyStage1()
 	m_p_warning_ui->SetIsActive(true);
 
 	m_p_z_script->SetIsActive(false);
+
+	LOG_INFO_F("플레이어가 스테이지1을 시작했습니다.");
 }
 
 void GameManager_Script::EndStage1()
@@ -252,6 +271,8 @@ void GameManager_Script::EndStage1()
 	OnDestroy(m_p_colonel_game_object);
 
 	m_p_boss_hp_gage->SetIsActive(false);
+
+	LOG_INFO_F("플레이어가 스테이지1을 클리어했습니다.");
 }
 
 void GameManager_Script::ReadyStage2()
@@ -264,6 +285,8 @@ void GameManager_Script::ReadyStage2()
 	m_p_warning_ui->SetIsActive(true);
 
 	m_p_z_script->SetIsActive(false);
+
+	LOG_INFO_F("플레이어가 스테이지2를 시작했습니다.");
 }
 
 void GameManager_Script::StartStage()
@@ -281,10 +304,14 @@ void GameManager_Script::PlayerWin()
 	m_p_boss_hp_gage->SetIsActive(false);
 
 	m_p_z_script->SetPlayerWin(true);
+
+	LOG_INFO_F("플레이어가 모든 스테이지를 클리어했습니다.");
 }
 
 void GameManager_Script::EndStage()
 {
+	LOG_INFO_F("메뉴 페이지로 이동합니다.");
+
 	std::thread loading_thread(&GameManager_Script::LoadScene, this);
 
 	//로딩 스레드가 종료될 때까지 기다리지 않음(메인 스레드는 계속 작동)
@@ -308,6 +335,8 @@ void GameManager_Script::LoadScene()
 	EVENT_MANAGER->AddEvent(event_struct);
 
 	std::cout << "Scene Load Thread End" << std::endl;
+
+	LOG_INFO_F("'%s' Scene이 성공적으로 로드되었습니다.", next_scene->GetSceneName().c_str());
 }
 
 void GameManager_Script::SaveToScene(FILE* p_file)

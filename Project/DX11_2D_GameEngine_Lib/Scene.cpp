@@ -42,16 +42,16 @@ Scene::~Scene()
 void Scene::SetStartScene()
 {
 	//Camera(0)
-	auto camera = new GameObject();
-	camera->SetGameObjectName("Main Camera");
-	camera->SetGameObjectTag("Main Camera");
-	camera->AddComponent(ComponentType::Transform);
-	camera->AddComponent(ComponentType::Camera);
-	camera->AddComponent(ComponentType::AudioListener);
+	auto main_camera = new GameObject();
+	main_camera->SetGameObjectName("Main Camera");
+	main_camera->SetGameObjectTag("Main Camera");
+	main_camera->AddComponent(ComponentType::Transform);
+	main_camera->AddComponent(ComponentType::Camera);
+	main_camera->AddComponent(ComponentType::AudioListener);
 
-	camera->GetComponent<Camera>()->SetMainCamera();
+	main_camera->GetComponent<Camera>()->SetMainCamera();
 
-	RegisterGameObject(camera);
+	RegisterGameObject(main_camera);
 
 	//Light2D
 	auto point_light2D = new GameObject();
@@ -67,21 +67,12 @@ void Scene::SetStartScene()
 	RegisterGameObject(point_light2D);
 }
 
-void Scene::Awake()
-{
-	for (auto& layer : m_layer_map)
-	{
-		if(!layer.second->GetLayerEmpty())
-			layer.second->Awake();
-	}	
-}
-
-void Scene::Start()
+void Scene::Initialize()
 {
 	for (auto& layer : m_layer_map)
 	{
 		if (!layer.second->GetLayerEmpty())
-			layer.second->Start();
+			layer.second->Initialize();
 	}
 }
 
@@ -100,6 +91,15 @@ void Scene::FinalUpdate()
 	{
 		if (!layer.second->GetLayerEmpty())
 			layer.second->FinalUpdate();
+	}
+}
+
+void Scene::OnDisable()
+{
+	for (auto& layer : m_layer_map)
+	{
+		if (!layer.second->GetLayerEmpty())
+			layer.second->OnDisable();
 	}
 }
 
