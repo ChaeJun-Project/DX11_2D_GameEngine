@@ -1,7 +1,6 @@
 # [프로젝트 개요]
 ![image](https://user-images.githubusercontent.com/39609369/163951562-80cdf569-d01b-4d16-a8d7-0a07e82071a9.png)
-<img src="https://user-images.githubusercontent.com/39609369/163952091-2049d9bc-af77-4ed9-8b72-6fbe80a5b2e7.png" width="50%">
-<img src="https://user-images.githubusercontent.com/39609369/163952660-12c6ffb6-328f-4eb7-8871-c090e082bef9.png" width="50%">
+<img src="https://user-images.githubusercontent.com/39609369/163952091-2049d9bc-af77-4ed9-8b72-6fbe80a5b2e7.png" width="40%"><img src="https://user-images.githubusercontent.com/39609369/163952660-12c6ffb6-328f-4eb7-8871-c090e082bef9.png" width="40%">
 
 ● Unity Engine을 모티브하여 개발한 Microsoft DirectX 11 기반 자체 게임 엔진 및 편집 툴
 
