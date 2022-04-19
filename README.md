@@ -8,31 +8,31 @@
 ● 게임 엔진으로 2D 플랫폼 게임 제작(Mega ManX3~4 리소스 사용)
 
 
-[개발 인원]
+# [개발 인원]
 
 ● 1명
 
 
-[개발 기간]
+# [개발 기간]
 
 ● 게임 엔진 및 편집 툴: 2021년 9월 10일 ~ 2022년 4월 11일(7개월)
 
 ●2D 플랫폼 게임: 2022년 3월 1일~ 2022년 4월 11일(1개월)
 
 
-[개발 환경 및 플랫폼]
+# [개발 환경 및 플랫폼]
 
 ● Windows 10, Visual Studio 2019
 
 ● PC
 
 
-[개발 언어]
+# [개발 언어]
 
 ● C/C++(Ver. 17), HLSL(Ver. 5.0)
 
 
-[개발 도구]
+# [개발 도구]
 
 ● Microsoft DirectX 11(Rendering)
 
@@ -45,16 +45,16 @@
 ● FW1FontWrapper(Font Rendering)
 
 
-[E-mail]
+# [E-mail]
 
 ● chaw109@naver.com
 
 
-[시연 동영상 URL]
+# [시연 동영상 URL]
 ●
 
 
-[리소스 출처]
+# [리소스 출처]
 
 ● https://www.spriters-resource.com/ (Rock ManX3)
 
