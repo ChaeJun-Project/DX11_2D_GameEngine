@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stdafx.h" 
-#include "BehaviourTree.h"
+#include "BehaviorTree.h"
 
 class Colonel_Script;
 

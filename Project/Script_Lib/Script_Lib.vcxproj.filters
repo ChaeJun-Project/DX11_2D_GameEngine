@@ -31,9 +31,6 @@
     <Filter Include="Scripts\Game Stage\Enemy\Colonel\Explosion Effect">
       <UniqueIdentifier>{711c4ccf-1d2c-4787-acae-6e4303819f1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Game Stage\Enemy\Behaviour Tree">
-      <UniqueIdentifier>{5edce94d-a9d3-4776-9f5f-77b8a07c5f0f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scripts\Game Stage\Event">
       <UniqueIdentifier>{0ca88db0-526f-4ab5-b4a2-ddd1cfc5805f}</UniqueIdentifier>
     </Filter>
@@ -93,6 +90,9 @@
     </Filter>
     <Filter Include="Scripts\Game Title\Page\Menu">
       <UniqueIdentifier>{fd597f91-e92b-45b3-ace0-3a91223da749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Game Stage\Enemy\Behavior Tree">
+      <UniqueIdentifier>{5edce94d-a9d3-4776-9f5f-77b8a07c5f0f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -224,8 +224,8 @@
     <ClInclude Include="ColonelState_Enum.h">
       <Filter>Scripts\Game Stage\Enemy\Colonel</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviourTree.h">
-      <Filter>Scripts\Game Stage\Enemy\Behaviour Tree</Filter>
+    <ClInclude Include="BehaviorTree.h">
+      <Filter>Scripts\Game Stage\Enemy\Behavior Tree</Filter>
     </ClInclude>
     <ClInclude Include="Colonel_Behavior_Node.h">
       <Filter>Scripts\Game Stage\Enemy\Colonel</Filter>

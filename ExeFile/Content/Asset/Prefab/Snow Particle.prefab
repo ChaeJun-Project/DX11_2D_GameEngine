@@ -1,0 +1,45 @@
+=================================================================================
+¡ß GameObject
+Snow Particle
+[Active]
+1
+[Tag]
+Default
+[Layer]
+12
+[Component Count]
+2
+¡Ü Transform
+1
+[Active]
+1
+[Position]
+0.000000 0.000000 0.000000
+[Rotation]
+0.000000 0.000000 0.000000 1.000000
+[Scale]
+1.000000 1.000000 1.000000
+¡Ü Particle System
+8
+[Active]
+1
+[Particle]
+[Resource Name]
+Snow
+[Resource Path]
+Asset/Particle/Snow.particle
+[Material]
+[Resource Name]
+Snow_Material
+[Resource Path]
+Asset/Material/Snow_Material.mat
+[Mesh]
+[Resource Name]
+Point_Mesh
+[Resource Path]
+Asset/Mesh/Point_Mesh.mesh
+[Script Count]
+0
+[Child GameObject Count]
+0
+=================================================================================

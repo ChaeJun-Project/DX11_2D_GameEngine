@@ -26,17 +26,7 @@ private:
 	void LoadScene();
 	void SaveScene();
 
-	void InitializeRecentScene();
-	void SaveRecentScene();
-	void LoadRecentScene();
-
 private:
-	//=========================
-	//Recent Scene
-	//=========================
-	std::string m_folder_path = "Engine/";
-	std::string m_recent_scene_file_path = "RecentScene.txt";
-	
 	//=========================
 	//File
 	//=========================

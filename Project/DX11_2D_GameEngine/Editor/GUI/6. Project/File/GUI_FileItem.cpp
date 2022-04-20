@@ -4,6 +4,8 @@
 #include "Helper/EditorHelper.h"
 #include "Helper/IconProvider.h"
 
+#include "Scene/ClientSceneManager.h"
+
 #include "GUI_FileDialog.h"
 
 #include <DX11_2D_GameEngine_Lib/Prefab.h>
@@ -134,7 +136,11 @@ void GUI_FileItem::CheckClickedFileItem()
 			{
 				m_is_clicked = false;
 
-				FileFunction::LoadScene(std::get<std::string>(m_pay_load.data));
+				auto load_scene_path = std::get<std::string>(m_pay_load.data);
+				FileFunction::LoadScene(load_scene_path);
+
+				ClientSceneManager::m_recent_scene_name = FILE_MANAGER->GetOriginFileNameFromPath(load_scene_path);
+				ClientSceneManager::SaveRecentScene();
 			}
 			break;
 			case PayLoadType::Prefab:

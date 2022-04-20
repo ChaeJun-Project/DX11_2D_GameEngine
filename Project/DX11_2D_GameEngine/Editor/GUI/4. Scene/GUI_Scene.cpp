@@ -186,32 +186,33 @@ void GUI_Scene::ShowGizmo()
 	auto world = p_transform->GetOriginWorldMatrix(); //자식 GameObject의 경우 부모 GameObject의 World Matrix를 곱한 상태
 
 	ImGuizmo::SetDrawlist();
-	ImGuizmo::SetRect(m_gizmo_offset.x, m_gizmo_offset.y, size.x, size.y);
+	ImGuizmo::SetRect(m_gizmo_offset.x, m_gizmo_offset.y, size.x, size.y); //기즈모를 렌더링할 Window의 offset 값 설정
 	ImGuizmo::Manipulate
 	(
-		view,
-		proj,
-		operation,
-		mode,
-		world
+		view,		//뷰 행렬
+		proj,		//투영 행렬
+		operation,  //기즈모 옵션
+		mode,		//오브젝트 변환 환경
+		world       //현재 선택된 오브젝트의 월드 행렬
 	);
 
 	//부모 GameObject가 존재하는 경우
 	//Gizmo에 의해 값이 변한 World에 부모 GameObject의 OriginWorldMatrix의 역행렬을 곱해주면
 	//순수하게 자식 GameObject의 Local 변환량을 구할 수 있음
-	if (p_game_object->HasParent())
+	if (p_game_object->HasParent()) //Transform
 	{
 		auto parent_world = p_transform->GetParentOriginWorldMatrix();
 		world = world * parent_world.Inverse();
 	}
 
-	if (p_transform->GetComponentType() == ComponentType::RectTransform)
+	if (p_transform->GetComponentType() == ComponentType::RectTransform) //Rect Transform
 	{
 		auto p_rect_transform = dynamic_cast<RectTransform*>(p_transform);
 		auto anchor_matrix = p_rect_transform->GetAnchorMatrix();
 		world = world * anchor_matrix.Inverse();
 	}
 
+	//선택된 오브젝트의 위치, 회전, 신축 변화량을 적용
 	p_transform->SetTranslation(world.GetTranslation());
 	p_transform->SetRotation(world.GetRotation());
 	p_transform->SetScale(world.GetScale());

@@ -18,4 +18,3 @@ Enemy
 Colonel Attack1
 Colonel Attack2
 Colonel Attack3
-Post Effect

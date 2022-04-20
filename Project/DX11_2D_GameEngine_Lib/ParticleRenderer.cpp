@@ -31,6 +31,9 @@ ParticleRenderer::ParticleRenderer(const ParticleRenderer& origin)
 	auto p_clone_particle_raw = origin.m_p_current_particle->Clone();
 	m_p_current_particle = std::shared_ptr<Particle>(p_clone_particle_raw);
 
+	m_p_particle_shared_buffer = std::make_shared<StructuredBuffer>();
+	m_p_particle_shared_buffer->Create<ParticleShared>(1, SBufferType::Read_Write, true);
+
 	//Material
 	auto p_clone_material_raw = origin.m_p_material->Clone();
 	m_p_material = std::shared_ptr<Material>(p_clone_material_raw);
@@ -59,7 +62,10 @@ void ParticleRenderer::Start()
 
 void ParticleRenderer::FinalUpdate()
 {
-	if (m_p_current_particle == nullptr)
+	//현재 선택된 파티클 정보가 없거나
+	//Editor가 중지 또는 정지 상태일 경우
+	if (m_p_current_particle == nullptr 
+	|| (SCENE_MANAGER->GetEditorState() & EditorState::EditorState_Pause) || SCENE_MANAGER->GetEditorState() == EditorState::EditorState_Stop)
 		return;
 
 	UpdateParticleShared();

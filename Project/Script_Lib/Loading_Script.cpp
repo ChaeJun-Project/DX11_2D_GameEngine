@@ -18,7 +18,7 @@ Loading_Script::Loading_Script(const Loading_Script& origin)
 }
 
 #include <thread>
-void Loading_Script::OnEnable()
+void Loading_Script::Start()
 {
 	std::thread loading_thread(&Loading_Script::LoadScene, this);
 

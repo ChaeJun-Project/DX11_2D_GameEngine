@@ -43,7 +43,7 @@ public:
 	const std::shared_ptr<BlendState> GetBlender(const BlendType& blend_type);
 
 	const std::shared_ptr<Texture>& GetRenderTexture() { return m_p_render_target_texture; }
-	const std::shared_ptr<Texture>& GetDepthStencilTexture() { return m_p_render_target_texture; }
+	const std::shared_ptr<Texture>& GetDepthStencilTexture() { return m_p_depth_stencil_texture; }
 	
 private:
 	void CreateDeviceAndDeviceContext();

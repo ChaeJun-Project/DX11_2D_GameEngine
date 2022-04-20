@@ -179,7 +179,7 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BehaviourTree.h" />
+    <ClInclude Include="BehaviorTree.h" />
     <ClInclude Include="Camera_Script.h" />
     <ClInclude Include="Ceiling_Script.h" />
     <ClInclude Include="ColonelState_Enum.h" />

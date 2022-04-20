@@ -10,7 +10,7 @@ public:
 	virtual ~Loading_Script() = default;
 
 public:
-    void OnEnable() override;
+    void Start() override;
 
 private:
     void LoadScene();

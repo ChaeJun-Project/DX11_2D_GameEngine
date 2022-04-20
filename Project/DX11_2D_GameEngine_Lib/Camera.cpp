@@ -96,6 +96,9 @@ void Camera::SortObjects()
 
 			for (UINT i = 0; i < object_vector.size(); ++i)
 			{
+				if (object_vector[i]->IsDead())
+					continue;
+
 				//SpriteRenderer Component
 				auto p_sprtie_renderer = object_vector[i]->GetComponent<SpriteRenderer>();
 				//ParticleRenderer Component
@@ -181,7 +184,7 @@ void Camera::RenderForwardObjects()
 				p_parent_game_object = p_parent_game_object->GetParent();
 
 				if (p_parent_game_object != nullptr && !p_parent_game_object->GetIsActive())
-				{ 
+				{
 					is_render = false;
 					break;
 				}
@@ -347,7 +350,7 @@ const Vector3 Camera::ScreenToWorld(const Vector2& mouse_position)
 	auto screen_resolution = RENDER_MANAGER->GetClientResolution(); //Screen의 해상도
 	auto screen_offset = RENDER_MANAGER->GetScreenOffset(); //기준점으로 부터 Screen이 떨어져있는 정도
 	//실제 마우스 위치로부터 상대적인 마우스 위치를 구함
-	auto mouse_relative_position = mouse_position - screen_offset; 
+	auto mouse_relative_position = mouse_position - screen_offset;
 
 	//투영 좌표계에서의 상대적인 마우스 위치 값을 구함
 	Vector3 pick_ray_view_space = Vector3
@@ -359,7 +362,7 @@ const Vector3 Camera::ScreenToWorld(const Vector2& mouse_position)
 
 	//뷰 행렬과 투영 행렬이 모두 적용된 행렬의 역행렬
 	auto view_projection_inverse = (m_view_matrix * m_projection_matrix).Inverse();
-	
+
 	return pick_ray_view_space * view_projection_inverse;
 }
 

@@ -5,7 +5,7 @@ UIAnimationController.h
 PlayerState_Enum.h
 GameObjectController.h
 ColonelState_Enum.h
-BehaviourTree.h
+BehaviorTree.h
 Colonel_Behavior_Node.h
 ProjectileController.h
 PageController.h

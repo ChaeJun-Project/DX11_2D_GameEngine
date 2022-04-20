@@ -446,7 +446,7 @@ void RenderManager::ResizePostEffectTexture(const UINT& width, const UINT& heigh
 			width,
 			height,
 			DXGI_FORMAT_R8G8B8A8_UNORM,
-			D3D11_BIND_SHADER_RESOURCE
+			D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE
 		);
 	}
 	//현재 생성된 Post Effect Target Texture가 있다면
@@ -464,7 +464,7 @@ void RenderManager::ResizePostEffectTexture(const UINT& width, const UINT& heigh
 			width,
 			height,
 			DXGI_FORMAT_R8G8B8A8_UNORM,
-			D3D11_BIND_SHADER_RESOURCE
+			D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE
 		);
 	}
 }
@@ -472,6 +472,7 @@ void RenderManager::ResizePostEffectTexture(const UINT& width, const UINT& heigh
 //Camera Component의 RenderPostEffectObjects에서 호출
 void RenderManager::CopyPostEffect()
 {
-	//Render Target Texture의 이미지를 카피
+	//Render Target Texture의 Texture2D 정보 복사
+	//Render Target Texture -> Post Effect Render Target Texture
 	DEVICE_CONTEXT->CopyResource(m_p_post_effect_render_target_texture->GetTexture(), m_p_render_target_texture->GetTexture());
 }

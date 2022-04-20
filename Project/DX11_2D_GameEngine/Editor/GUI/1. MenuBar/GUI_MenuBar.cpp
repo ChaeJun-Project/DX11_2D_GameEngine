@@ -36,7 +36,7 @@ GUI_MenuBar::~GUI_MenuBar()
 
 void GUI_MenuBar::Initialize()
 {
-	InitializeRecentScene();
+	ClientSceneManager::InitializeRecentScene();
 }
 
 void GUI_MenuBar::Update()
@@ -233,7 +233,7 @@ void GUI_MenuBar::LoadScene()
 	FileFunction::LoadScene(load_scene_path);
 
 	ClientSceneManager::m_recent_scene_name = FILE_MANAGER->GetOriginFileNameFromPath(load_scene_path);
-	SaveRecentScene();
+	ClientSceneManager::SaveRecentScene();
 }
 
 void GUI_MenuBar::SaveScene()
@@ -250,63 +250,4 @@ void GUI_MenuBar::SaveScene()
 
 	else
 		FileFunction::SaveFile(SCENE_PATH, current_scene->GetSceneName(), FileType::Scene);
-}
-
-void GUI_MenuBar::InitializeRecentScene()
-{
-	std::string path = FILE_MANAGER->GetAbsoluteContentPath();
-	path += (m_folder_path + m_recent_scene_file_path);
-
-	if (FILE_MANAGER->IsExistFile(path))
-		LoadRecentScene();
-
-	else
-		SaveRecentScene();
-
-	if (!ClientSceneManager::m_recent_scene_name.empty())
-	{
-		auto recent_scene_path = FILE_MANAGER->GetAbsoluteContentPath();
-		recent_scene_path += ("Asset/Scene/" + ClientSceneManager::m_recent_scene_name + ".scene");
-
-		FileFunction::LoadScene(recent_scene_path);
-	}
-}
-
-void GUI_MenuBar::SaveRecentScene()
-{
-	std::string path = FILE_MANAGER->GetAbsoluteContentPath();
-	path += (m_folder_path + m_recent_scene_file_path);
-
-	FILE* p_file = nullptr;
-	fopen_s(&p_file, path.c_str(), "wb");
-
-	if (p_file != nullptr)
-	{
-		//Recent Scene
-		fprintf(p_file, "[Recent Scene]\n");
-		fprintf(p_file, "%s\n", ClientSceneManager::m_recent_scene_name.c_str());
-
-		fclose(p_file);
-	}
-}
-
-void GUI_MenuBar::LoadRecentScene()
-{
-	std::string path = FILE_MANAGER->GetAbsoluteContentPath();
-	path += (m_folder_path + m_recent_scene_file_path);
-
-	FILE* p_file = nullptr;
-
-	fopen_s(&p_file, path.c_str(), "rb");
-	if (p_file != nullptr)
-	{
-		char char_buffer[256] = { 0 };
-
-		//Recent Scene
-		FILE_MANAGER->FScanf(char_buffer, p_file); //[Recent Scene]
-		FILE_MANAGER->FScanf(char_buffer, p_file); //Recent Scene Name
-		ClientSceneManager::m_recent_scene_name = std::string(char_buffer);
-
-		fclose(p_file);
-	}
 }

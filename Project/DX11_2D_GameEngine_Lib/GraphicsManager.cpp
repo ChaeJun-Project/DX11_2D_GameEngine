@@ -94,14 +94,14 @@ void GraphicsManager::ResizeWindowByProgram(const UINT& width, const UINT& heigh
 
 void GraphicsManager::ResizeWindowByUser(const UINT& width, const UINT& height)
 {
-	if (m_p_render_target_texture && m_p_render_target_texture)
+	if (m_p_render_target_texture&&m_p_depth_stencil_texture)
 	{
 		m_p_render_target_texture->ReleaseTexture();
 		m_p_render_target_texture->ReleaseRenderTargetView();
 
-		m_p_render_target_texture->ReleaseTexture();
-		m_p_render_target_texture->ReleaseDepthStencilView();
-	}
+		m_p_depth_stencil_texture->ReleaseTexture();
+		m_p_depth_stencil_texture->ReleaseDepthStencilView();
+	}							 
 
 	if (m_p_swap_chain != nullptr)
 	{
@@ -132,7 +132,7 @@ void GraphicsManager::SetFullScreen(const bool& is_full_screen)
 void GraphicsManager::ClearRenderTarget()
 {
 	auto p_render_target_view = m_p_render_target_texture->GetRenderTargetView();
-	auto p_depth_stencil_view = m_p_render_target_texture->GetDepthStencilView();
+	auto p_depth_stencil_view = m_p_depth_stencil_texture->GetDepthStencilView();
 
 	if (m_p_device_context && p_render_target_view && p_depth_stencil_view)
 	{
@@ -147,7 +147,7 @@ void GraphicsManager::SetRenderTarget()
 {
 	auto p_render_target_view = m_p_render_target_texture->GetRenderTargetView();
 	const auto& view_port = m_p_render_target_texture->GetViewPort();
-	auto p_depth_stencil_view = m_p_render_target_texture->GetDepthStencilView();
+	auto p_depth_stencil_view = m_p_depth_stencil_texture->GetDepthStencilView();
 
 	if (m_p_device_context && p_render_target_view && p_depth_stencil_view)
 	{
@@ -308,7 +308,7 @@ void GraphicsManager::CreateRenderTargetView()
 		if (m_p_render_target_texture == nullptr)
 		{
 			//¹é ¹öÆÛ¸¦ ¹ÙÅÁÀ¸·Î ·»´õÅ¸°Ù ºä¸¦ »ý¼º
-			m_p_render_target_texture = ResourceManager::GetInstance()->CreateTexture
+			m_p_render_target_texture = RESOURCE_MANAGER->CreateTexture
 			(
 				"RenderTargetView",
 				p_back_buffer
@@ -324,9 +324,9 @@ void GraphicsManager::CreateDepthStencilView()
 {
 	if (m_p_device != nullptr)
 	{
-		if (m_p_render_target_texture == nullptr)
+		if (m_p_depth_stencil_texture == nullptr)
 		{
-			m_p_render_target_texture = ResourceManager::GetInstance()->CreateTexture
+			m_p_depth_stencil_texture = RESOURCE_MANAGER->CreateTexture
 			(
 				"DepthStencilView",
 				SETTINGS->GetWindowWidth(),
@@ -337,7 +337,7 @@ void GraphicsManager::CreateDepthStencilView()
 		}
 
 		else
-			m_p_render_target_texture->Create
+			m_p_depth_stencil_texture->Create
 			(
 				SETTINGS->GetWindowWidth(),
 				SETTINGS->GetWindowHeight(),

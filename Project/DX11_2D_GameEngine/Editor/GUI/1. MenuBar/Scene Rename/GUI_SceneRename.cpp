@@ -22,7 +22,7 @@ void GUI_SceneRename::Render()
 
 			SCENE_MANAGER->UpdateScene();
 
-			LOG_INFO_F("Success to Rename Current Scene '%s'", scene_name.c_str());
+			LOG_INFO_F("현재 Scene의 이름이 [%s]으로 변경되었습니다.", scene_name.c_str());
 		}
 		ImGui::PopItemWidth();
 	}

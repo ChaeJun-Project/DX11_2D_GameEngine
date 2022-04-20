@@ -133,7 +133,7 @@ void GUI_ParticleRenderer::ShowParticleProperty(ParticleRenderer* p_particle_ren
 		//Particle Spawn Range
 		auto spawn_range = p_particle_renderer->GetParticleSpawnRange();
 		ShowFloat3("Spawn Range", spawn_range, 60.0f, 100.0f);
-		
+
 		//Particle Scale
 		auto start_scale = p_particle_renderer->GetParticleStartScale();
 		ShowFloat3("Start Scale", start_scale, 60.0f, 100.0f);
@@ -166,36 +166,32 @@ void GUI_ParticleRenderer::ShowParticleProperty(ParticleRenderer* p_particle_ren
 		auto spawn_frequency = p_particle_renderer->GetParticleSpawnFrequency();
 		ShowFloat("Particle", "Spawn Frequency", spawn_frequency, 80.0f, 110.0f);
 
+		//Particle Activable Count
+		p_particle_renderer->SetParticleActivableCount(static_cast<UINT>(activable_count));
+		//Particle Max Count
+		p_particle_renderer->SetParticleMaxCount(static_cast<UINT>(max_count));
 
-		if (CAN_EDIT)
-		{
-			//Particle Activable Count
-			p_particle_renderer->SetParticleActivableCount(static_cast<UINT>(activable_count));
-			//Particle Max Count
-			p_particle_renderer->SetParticleMaxCount(static_cast<UINT>(max_count));
-		
-			//Particle Spawn Range
-			p_particle_renderer->SetParticleSpawnRange(spawn_range);
+		//Particle Spawn Range
+		p_particle_renderer->SetParticleSpawnRange(spawn_range);
 
-			//Particle Scale
-			p_particle_renderer->SetParticleStartScale(start_scale);
-			p_particle_renderer->SetParticleEndScale(end_scale);
+		//Particle Scale
+		p_particle_renderer->SetParticleStartScale(start_scale);
+		p_particle_renderer->SetParticleEndScale(end_scale);
 
-			//Particle Color
-			p_particle_renderer->SetParticleStartColor(start_color);
-			p_particle_renderer->SetParticleEndColor(end_color);
-		
-			//Particle Speed
-			p_particle_renderer->SetParticleMinSpeed(min_speed);
-			p_particle_renderer->SetParticleMaxSpeed(max_speed);
+		//Particle Color
+		p_particle_renderer->SetParticleStartColor(start_color);
+		p_particle_renderer->SetParticleEndColor(end_color);
 
-			//Particle Life
-			p_particle_renderer->SetParticleMinLife(min_life);
-			p_particle_renderer->SetParticleMaxLife(max_life);
-		
-			//Particle Spawn Frequency
-			p_particle_renderer->SetParticleSpawnFrequency(spawn_frequency);
-		}
+		//Particle Speed
+		p_particle_renderer->SetParticleMinSpeed(min_speed);
+		p_particle_renderer->SetParticleMaxSpeed(max_speed);
+
+		//Particle Life
+		p_particle_renderer->SetParticleMinLife(min_life);
+		p_particle_renderer->SetParticleMaxLife(max_life);
+
+		//Particle Spawn Frequency
+		p_particle_renderer->SetParticleSpawnFrequency(spawn_frequency);
 	}
 }
 

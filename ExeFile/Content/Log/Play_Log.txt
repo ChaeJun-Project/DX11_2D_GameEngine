@@ -1,19 +1,264 @@
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Menu_Move_Sound.wav] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Menu_Select_Sound.wav] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Title_Background.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Continue_Normal.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [GameStart_Normal.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [PlayerSelect_Move_Sound.wav] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [PlayerSelect_Select_Sound.wav] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [PlayerSelect_Background.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [PlayerSelect_Text.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [X_Texture.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [X_Select_Texture.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Select_Arrow.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [X_Text.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Z_Texture.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Z_Select_Texture.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Z_Text.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Loading.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Continue_Selected.png] 
-[2022/4/13/9:44:51][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [GameStart_Selected.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Menu_Move_Sound.wav] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Menu_Select_Sound.wav] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Title_Background.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Continue_Normal.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [GameStart_Normal.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [PlayerSelect_Move_Sound.wav] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [PlayerSelect_Select_Sound.wav] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [PlayerSelect_Background.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [PlayerSelect_Text.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [X_Texture.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [X_Select_Texture.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Select_Arrow.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [X_Text.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Z_Texture.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Z_Select_Texture.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Z_Text.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Loading.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Continue_Selected.png] 
+[2022/4/19/22:26:47][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [GameStart_Selected.png] 
+[2022/4/19/22:26:57][Info] GameTitleManager_Script::ActivePlayerSelectPage : 플레이어가 캐릭터 선택 페이지로 이동했습니다.
+[2022/4/19/22:27:3][Info] PlayerSelect_Script::SetZSeleted : 플레이어가 Z를 선택했습니다.
+[2022/4/19/22:27:4][Info] GameTitleManager_Script::ActiveLoadingPage : 플레이어가 로딩 페이지로 이동했습니다.
+[2022/4/19/22:27:4][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Ready_Sound.wav] 
+[2022/4/19/22:27:4][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready001.gif] 
+[2022/4/19/22:27:4][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready002.gif] 
+[2022/4/19/22:27:4][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready003.gif] 
+[2022/4/19/22:27:4][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready004.gif] 
+[2022/4/19/22:27:4][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready005.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready006.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready007.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready008.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready009.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready010.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready011.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready012.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready013.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready014.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready015.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready016.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready017.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready018.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready019.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready020.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready021.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready022.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready023.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready024.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready025.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready026.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready027.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready028.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready029.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready030.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready031.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready032.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready033.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready034.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready035.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready036.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready037.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready038.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready039.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready040.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready041.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready042.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready043.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready044.gif] 
+[2022/4/19/22:27:5][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready045.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready046.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready047.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready048.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready049.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready050.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready051.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready052.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready053.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready054.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready055.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready056.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready057.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready058.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready059.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready060.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready061.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready062.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready063.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready064.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready065.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready066.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready067.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready068.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready069.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready070.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready071.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready072.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready073.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready074.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready075.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready076.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready077.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready078.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [ready079.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Warning_Sound.wav] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_001.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_002.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_003.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_004.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_005.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_006.gif] 
+[2022/4/19/22:27:6][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_007.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_008.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_009.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_010.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_011.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_012.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_013.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_014.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_015.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_016.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_017.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_018.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_019.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_020.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_021.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_022.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_023.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_024.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_025.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_026.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_027.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_028.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_029.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_030.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_031.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_032.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_033.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_034.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_035.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_036.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_037.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_038.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_039.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_040.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_041.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_042.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_043.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_044.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_045.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_046.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_047.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_048.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_049.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_050.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_051.gif] 
+[2022/4/19/22:27:7][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_052.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_053.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_054.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_055.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_056.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_057.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_058.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_059.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_060.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_061.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_062.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_063.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_064.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_065.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_066.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_067.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_068.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_069.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_070.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_071.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_072.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_073.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_074.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_075.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_076.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_077.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_078.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_079.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_080.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_081.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_082.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_083.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [warning_frames_084.gif] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Hp_Z.png] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Hp_Gage.png] 
+[2022/4/19/22:27:8][Info] ResourceManager::LoadFromFile : 리소스 파일 로드에 성공했습니다: [Hp_Boss.png] 
+[2022/4/19/22:27:8][Info] Loading_Script::LoadScene : 'Game Stage' Scene이 성공적으로 로드되었습니다.
+[2022/4/19/22:27:9][Info] GameManager_Script::CreatePlayer : 캐릭터 Z가 생성되었습니다.
+[2022/4/19/22:27:9][Info] GameManager_Script::ReadyToPlay : 게임이 시작되었습니다.
+[2022/4/19/22:27:22][Info] GameManager_Script::ReadyStage1 : 플레이어가 스테이지1을 시작했습니다.
+[2022/4/19/22:27:27][Info] GameManager_Script::CreateBoss : 스테이지1의 보스가 생성되었습니다.
+[2022/4/19/22:27:29][Info] AttackNode::Update : 보스가 'Colonel_Attack_3' 공격을 시전합니다.
+[2022/4/19/22:27:33][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:27:35][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:27:36][Info] AttackNode::Update : 보스가 'Colonel_Attack_1' 공격을 시전합니다.
+[2022/4/19/22:27:36][Info] Z_Script::OnCollisionEnter : 플레이어가 10의 데미지를 입었습니다.
+[2022/4/19/22:27:37][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:27:38][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:27:39][Info] GuardNode::Update : 보스가 공격 막기를 사용합니다.
+[2022/4/19/22:27:41][Info] GuardNode::Tick : 보스가 공격 막기를 종료합니다.
+[2022/4/19/22:27:41][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:27:42][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:27:43][Info] AttackNode::Update : 보스가 'Colonel_Attack_2' 공격을 시전합니다.
+[2022/4/19/22:27:44][Info] Z_Script::OnCollisionEnter : 플레이어가 20의 데미지를 입었습니다.
+[2022/4/19/22:27:44][Info] Z_Script::OnCollisionEnter : 플레이어가 Colonel Attack2 공격을 맞아 암흑 상태에 빠집니다.
+[2022/4/19/22:27:45][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:27:46][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:27:46][Info] Z_Script::OnCollisionEnter : 플레이어가 5의 데미지를 입었습니다.
+[2022/4/19/22:27:49][Info] Z_Script::Update : 플레이어가 암흑 상태에서 빠져나옵니다.
+[2022/4/19/22:27:49][Info] GuardNode::Update : 보스가 공격 막기를 사용합니다.
+[2022/4/19/22:27:51][Info] GuardNode::Tick : 보스가 공격 막기를 종료합니다.
+[2022/4/19/22:27:51][Info] AttackNode::Update : 보스가 'Colonel_Attack_1' 공격을 시전합니다.
+[2022/4/19/22:27:51][Info] DieNode::Update : 보스의 체력이 0이 되었습니다.
+[2022/4/19/22:27:51][Info] Colonel_Script::Update : 보스의 체력이 0이 되어 폭발합니다.
+[2022/4/19/22:27:59][Info] GameManager_Script::EndStage1 : 플레이어가 스테이지1을 클리어했습니다.
+[2022/4/19/22:28:12][Info] GameManager_Script::ReadyStage2 : 플레이어가 스테이지2를 시작했습니다.
+[2022/4/19/22:28:16][Info] GameManager_Script::CreateBoss : 스테이지2의 보스가 생성되었습니다.
+[2022/4/19/22:28:18][Info] AttackNode::Update : 보스가 'Colonel_Attack_3' 공격을 시전합니다.
+[2022/4/19/22:28:22][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:28:24][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:28:25][Info] AttackNode::Update : 보스가 'Colonel_Attack_3' 공격을 시전합니다.
+[2022/4/19/22:28:27][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:28:27][Info] Z_Script::OnCollisionEnter : 플레이어가 20의 데미지를 입었습니다.
+[2022/4/19/22:28:27][Info] Z_Script::OnCollisionEnter : 플레이어가 Colonel Attack3 공격을 맞아 혼란 상태에 빠집니다.
+[2022/4/19/22:28:28][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:28:29][Info] GuardNode::Update : 보스가 공격 막기를 사용합니다.
+[2022/4/19/22:28:31][Info] GuardNode::Tick : 보스가 공격 막기를 종료합니다.
+[2022/4/19/22:28:31][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:28:32][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:28:32][Info] Z_Script::OnCollisionEnter : 플레이어가 5의 데미지를 입었습니다.
+[2022/4/19/22:28:33][Info] AttackNode::Update : 보스가 'Colonel_Attack_3' 공격을 시전합니다.
+[2022/4/19/22:28:35][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:28:36][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:28:37][Info] Z_Script::Update : 플레이어가 혼란 상태에서 빠져나옵니다.
+[2022/4/19/22:28:39][Info] GuardNode::Update : 보스가 공격 막기를 사용합니다.
+[2022/4/19/22:28:41][Info] GuardNode::Tick : 보스가 공격 막기를 종료합니다.
+[2022/4/19/22:28:41][Info] AttackNode::Update : 보스가 'Colonel_Attack_3' 공격을 시전합니다.
+[2022/4/19/22:28:43][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:28:44][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:28:44][Info] Z_Script::OnCollisionEnter : 플레이어가 5의 데미지를 입었습니다.
+[2022/4/19/22:28:47][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:28:48][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:28:48][Info] Z_Script::OnCollisionEnter : 플레이어가 5의 데미지를 입었습니다.
+[2022/4/19/22:28:49][Info] AttackNode::Update : 보스가 'Colonel_Attack_3' 공격을 시전합니다.
+[2022/4/19/22:28:51][Info] GuardNode::Update : 보스가 공격 막기를 사용합니다.
+[2022/4/19/22:28:53][Info] GuardNode::Tick : 보스가 공격 막기를 종료합니다.
+[2022/4/19/22:28:53][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:28:54][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:28:55][Info] AttackNode::Update : 보스가 'Colonel_Attack_2' 공격을 시전합니다.
+[2022/4/19/22:28:57][Info] Z_Script::OnCollisionEnter : 플레이어가 20의 데미지를 입었습니다.
+[2022/4/19/22:28:57][Info] Z_Script::OnCollisionEnter : 플레이어가 Colonel Attack2 공격을 맞아 암흑 상태에 빠집니다.
+[2022/4/19/22:28:57][Info] StealthNode::Update : 보스가 스텔스 스킬을 사용하여 사라졌습니다.
+[2022/4/19/22:28:58][Info] StealthNode::Tick : 보스가 스텔스 스킬을 종료하여 나타났습니다.
+[2022/4/19/22:29:1][Info] DieNode::Update : 보스의 체력이 0이 되었습니다.
+[2022/4/19/22:29:1][Info] Colonel_Script::Update : 보스의 체력이 0이 되어 폭발합니다.
+[2022/4/19/22:29:2][Info] Z_Script::Update : 플레이어가 암흑 상태에서 빠져나옵니다.
+[2022/4/19/22:29:9][Info] GameManager_Script::PlayerWin : 플레이어가 모든 스테이지를 클리어했습니다.
+[2022/4/19/22:29:10][Info] Z_Script::TriggerWinToReturn : 플레이어가 미션을 종료하고 복귀합니다.
+[2022/4/19/22:29:11][Info] GameManager_Script::EndStage : 메뉴 페이지로 이동합니다.
+[2022/4/19/22:29:11][Info] GameManager_Script::LoadScene : 'Game Title' Scene이 성공적으로 로드되었습니다.
