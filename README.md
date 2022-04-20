@@ -51,7 +51,10 @@
 
 
 # [시연 동영상 URL]
-●
+
+● https://www.youtube.com/watch?v=_DgxpXsDXxE
+
+![image](https://user-images.githubusercontent.com/39609369/164155696-d78046be-b297-41d2-89f0-5e42cb7b7083.png)
 
 
 # [리소스 출처]
