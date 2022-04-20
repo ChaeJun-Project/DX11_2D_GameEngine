@@ -64,7 +64,7 @@
 
 ● https://www.flaticon.com/ (Editor Tool Icon)
 
-※Mega Man과 관련된 리소스의 저작권은 모두 CAPCOM에 있음을 알립니다※
+※ Mega Man과 관련된 리소스의 저작권은 모두 CAPCOM에 있음을 알립니다 ※
 
 
 
