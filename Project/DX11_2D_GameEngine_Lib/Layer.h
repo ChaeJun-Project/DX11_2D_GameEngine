@@ -21,8 +21,8 @@ public:
 	void DeregisterGameObject(GameObject* p_game_object);
 	void DeregisterFromParentGameObject(GameObject* p_game_object);
 
-	const std::vector<GameObject*>& GetParentGameObjects() { return m_p_parent_game_object_vector; }
-	const std::vector<GameObject*>& GetGameObjects() { return m_p_game_object_vector; }
+	const std::list<GameObject*>& GetParentGameObjects() { return m_p_parent_game_object_vector; }
+	const std::list<GameObject*>& GetGameObjects() { return m_p_game_object_vector; }
 
 	const bool GetLayerEmpty();
 
@@ -35,10 +35,10 @@ private:
 	UINT m_layer_index = 0;
 
     //해당 Layer에 속한 최상위 부모 GameObject들
-	std::vector<GameObject*> m_p_parent_game_object_vector;
+	std::list<GameObject*> m_p_parent_game_object_vector;
 
 	//부모 자식 관계없이 해당 Layer에 속한 모든 GameObject들
-	std::vector<GameObject*> m_p_game_object_vector;
+	std::list<GameObject*> m_p_game_object_vector;
 
 	friend class Scene;
 };

@@ -1,3 +1,4 @@
 ExeFile/Debug/*.{exe, pdb}
 
 ExeFile/Release/*.{exe, pdb}
+ExeFile/Content/Asset/Texture/

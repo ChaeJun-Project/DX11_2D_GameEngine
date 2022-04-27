@@ -97,8 +97,8 @@ protected:
     Matrix m_view_matrix = Matrix::Identity;
     Matrix m_projection_matrix = Matrix::Identity;
 
-    std::vector<GameObject*> m_forward_object_vector;
-    std::vector<GameObject*> m_particle_object_vector;
-    std::vector<GameObject*> m_post_effect_object_vector;
+    std::list<GameObject*> m_forward_object_list;
+    std::list<GameObject*> m_particle_object_list;
+    std::list<GameObject*> m_post_effect_object_list;
 };
 

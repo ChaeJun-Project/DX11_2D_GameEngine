@@ -10,13 +10,11 @@ Layer::Layer(const UINT& layer_index)
 
 Layer::~Layer()
 {
-	//Clear Parent GameObject Vector
+	//Clear Parent GameObject List
 	m_p_parent_game_object_vector.clear();
-	m_p_parent_game_object_vector.shrink_to_fit();
 
-	//Clear GameObject Vector
+	//Clear GameObject List
 	m_p_game_object_vector.clear();
-	m_p_game_object_vector.shrink_to_fit();
 }
 
 void Layer::Initialize()
@@ -117,7 +115,7 @@ void Layer::DeregisterGameObject(GameObject* p_game_object)
 	if (!p_game_object->HasParent())
 		DeregisterFromParentGameObject(p_game_object);
 
-	std::vector<GameObject*>::iterator iter = m_p_game_object_vector.begin();
+	std::list<GameObject*>::iterator iter = m_p_game_object_vector.begin();
 
 	for (; iter != m_p_game_object_vector.end();)
 	{
@@ -134,7 +132,7 @@ void Layer::DeregisterGameObject(GameObject* p_game_object)
 
 void Layer::DeregisterFromParentGameObject(GameObject* p_game_object)
 {
-	std::vector<GameObject*>::iterator iter = m_p_parent_game_object_vector.begin();
+	std::list<GameObject*>::iterator iter = m_p_parent_game_object_vector.begin();
 
 	for (; iter != m_p_parent_game_object_vector.end();)
 	{

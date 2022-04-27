@@ -23,9 +23,9 @@ Camera::Camera()
 
 Camera::~Camera()
 {
-	m_forward_object_vector.clear();
-	m_particle_object_vector.clear();
-	m_post_effect_object_vector.clear();
+	m_forward_object_list.clear();
+	m_particle_object_list.clear();
+	m_post_effect_object_list.clear();
 }
 
 Camera::Camera(const Camera& origin)
@@ -73,9 +73,9 @@ void Camera::UpdateMatrix()
 
 void Camera::SortObjects()
 {
-	m_forward_object_vector.clear();
-	m_particle_object_vector.clear();
-	m_post_effect_object_vector.clear();
+	m_forward_object_list.clear();
+	m_particle_object_list.clear();
+	m_post_effect_object_list.clear();
 
 	auto current_scene = SCENE_MANAGER->GetCurrentScene();
 	auto layer_map = current_scene->GetLayerMap();
@@ -90,19 +90,19 @@ void Camera::SortObjects()
 		//화면에 보여지는 경우
 		else
 		{
-			const std::vector<GameObject*>& object_vector = layer_iter.second->GetGameObjects();
+			const auto& object_list = layer_iter.second->GetGameObjects();
 
 			RenderTimePointType render_time_point = RenderTimePointType::None;
 
-			for (UINT i = 0; i < object_vector.size(); ++i)
+			for (const auto& object : object_list)
 			{
-				if (object_vector[i]->IsDead())
+				if (object->IsDead())
 					continue;
 
 				//SpriteRenderer Component
-				auto p_sprtie_renderer = object_vector[i]->GetComponent<SpriteRenderer>();
+				auto p_sprtie_renderer = object->GetComponent<SpriteRenderer>();
 				//ParticleRenderer Component
-				auto p_particle_renderer = object_vector[i]->GetComponent<ParticleRenderer>();
+				auto p_particle_renderer = object->GetComponent<ParticleRenderer>();
 
 				//해당 오브젝트가 SpriteRenderer 컴포넌트를 포함하고 있다면
 				if (p_sprtie_renderer != nullptr)
@@ -145,13 +145,13 @@ void Camera::SortObjects()
 				switch (render_time_point)
 				{
 				case RenderTimePointType::Forward:
-					m_forward_object_vector.emplace_back(object_vector[i]);
+					m_forward_object_list.emplace_back(object);
 					break;
 				case RenderTimePointType::Particle:
-					m_particle_object_vector.emplace_back(object_vector[i]);
+					m_particle_object_list.emplace_back(object);
 					break;
 				case RenderTimePointType::PostEffect:
-					m_post_effect_object_vector.emplace_back(object_vector[i]);
+					m_post_effect_object_list.emplace_back(object);
 					break;
 				}
 			}
@@ -161,20 +161,20 @@ void Camera::SortObjects()
 
 void Camera::RenderForwardObjects()
 {
-	for (UINT i = 0; i < m_forward_object_vector.size(); ++i)
+	for (const auto& p_forward_object : m_forward_object_list)
 	{
 		//최상위 부모 GameObject인 경우
-		if (!m_forward_object_vector[i]->HasParent())
+		if (!p_forward_object->HasParent())
 		{
 			//활성화가 되어있다면 렌더링
-			if (m_forward_object_vector[i]->GetIsActive())
-				m_forward_object_vector[i]->Render();
+			if (p_forward_object->GetIsActive())
+				p_forward_object->Render();
 		}
 
 		//부모 GameObject를 가지고 있는 경우
 		else
 		{
-			GameObject* p_parent_game_object = m_forward_object_vector[i];
+			GameObject* p_parent_game_object = p_forward_object;
 			auto is_render = true;
 			//현재 GameObject의 부모 GameObject를 시작으로 탐색하여
 			//부모 GameObject가 하나라도 비활성화 상태라면
@@ -193,28 +193,28 @@ void Camera::RenderForwardObjects()
 			if (!is_render)
 				continue;
 
-			if (m_forward_object_vector[i]->GetIsActive())
-				m_forward_object_vector[i]->Render();
+			if (p_forward_object->GetIsActive())
+				p_forward_object->Render();
 		}
 	}
 }
 
 void Camera::RenderParticleObjects()
 {
-	for (UINT i = 0; i < m_particle_object_vector.size(); ++i)
+	for (const auto& p_particle_object : m_particle_object_list)
 	{
 		//최상위 부모 GameObject인 경우
-		if (!m_particle_object_vector[i]->HasParent())
+		if (!p_particle_object->HasParent())
 		{
 			//활성화가 되어있다면 렌더링
-			if (m_particle_object_vector[i]->GetIsActive())
-				m_particle_object_vector[i]->Render();
+			if (p_particle_object->GetIsActive())
+				p_particle_object->Render();
 		}
 
 		//부모 GameObject를 가지고 있는 경우
 		else
 		{
-			GameObject* p_parent_game_object = m_particle_object_vector[i];
+			GameObject* p_parent_game_object = p_particle_object;
 			auto is_render = true;
 			//현재 GameObject의 부모 GameObject를 시작으로 탐색하여
 			//부모 GameObject가 하나라도 비활성화 상태라면
@@ -233,30 +233,30 @@ void Camera::RenderParticleObjects()
 			if (!is_render)
 				continue;
 
-			if (m_particle_object_vector[i]->GetIsActive())
-				m_particle_object_vector[i]->Render();
+			if (p_particle_object->GetIsActive())
+				p_particle_object->Render();
 		}
 	}
 }
 
 void Camera::RenderPostEffectObjects()
 {
-	for (UINT i = 0; i < m_post_effect_object_vector.size(); ++i)
+	for (const auto& p_post_effect_object : m_post_effect_object_list)
 	{
 		//Post Effect가 적용된 텍스처를 누적으로 복사하는 부분
 		RENDER_MANAGER->CopyPostEffect();
 		//최상위 부모 GameObject인 경우
-		if (!m_post_effect_object_vector[i]->HasParent())
+		if (!p_post_effect_object->HasParent())
 		{
 			//활성화가 되어있다면 렌더링
-			if (m_post_effect_object_vector[i]->GetIsActive())
-				m_post_effect_object_vector[i]->Render();
+			if (p_post_effect_object->GetIsActive())
+				p_post_effect_object->Render();
 		}
 
 		//부모 GameObject를 가지고 있는 경우
 		else
 		{
-			GameObject* p_parent_game_object = m_post_effect_object_vector[i];
+			GameObject* p_parent_game_object = p_post_effect_object;
 			auto is_render = true;
 			//현재 GameObject의 부모 GameObject를 시작으로 탐색하여
 			//부모 GameObject가 하나라도 비활성화 상태라면
@@ -275,8 +275,8 @@ void Camera::RenderPostEffectObjects()
 			if (!is_render)
 				continue;
 
-			if (m_post_effect_object_vector[i]->GetIsActive())
-				m_post_effect_object_vector[i]->Render();
+			if (p_post_effect_object->GetIsActive())
+				p_post_effect_object->Render();
 		}
 	}
 }
